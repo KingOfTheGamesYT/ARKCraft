@@ -22,7 +22,7 @@ public class ARKCraft
 	@Instance(ARKCraft.MODID)
 	public static ARKCraft instance;
 
-	@SidedProxy(clientSide = "com.uberverse.arkcraft.client.proxy.ClientProxy", serverSide = "com.uberverse.arkcraft.common.proxy.ServerProxy")
+	@SidedProxy(clientSide = "com.uberverse.arkcraft.client.proxy.ClientProxy", serverSide = "com.uberverse.arkcraft.server.proxy.ServerProxy")
 	public static CommonProxy proxy;
 
 	public static CreativeTabs tabARK;
