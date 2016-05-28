@@ -1,0 +1,290 @@
+{
+    "Raptor_Angry_1": {
+        "category": "hostile",
+        "sounds": [
+            {
+                "name": "Raptor_Angry_1",
+                "stream": false
+            }
+        ]
+    },
+    "Raptor_Angry_2": {
+        "category": "hostile",
+        "sounds": [
+            {
+                "name": "Raptor_Angry_2",
+                "stream": false
+            }
+        ]
+    },
+    "Raptor_Angry_3": {
+        "category": "hostile",
+        "sounds": [
+            {
+                "name": "Raptor_Angry_3",
+                "stream": false
+            }
+        ]
+    },
+    "Raptor_Death": {
+        "category": "hostile",
+        "sounds": [
+            {
+                "name": "Raptor_Death",
+                "stream": false
+            }
+        ]
+    },
+    "Raptor_Hurt_1": {
+        "category": "hostile",
+        "sounds": [
+            {
+                "name": "Raptor_Hurt_1",
+                "stream": false
+            }
+        ]
+    },
+    "Raptor_Hurt_2": {
+        "category": "hostile",
+        "sounds": [
+            {
+                "name": "Raptor_Hurt_2",
+                "stream": false
+            }
+        ]
+    },
+    "Raptor_Hurt_3": {
+        "category": "hostile",
+        "sounds": [
+            {
+                "name": "Raptor_Hurt_3",
+                "stream": false
+            }
+        ]
+    },
+    "Raptor_Idle_1": {
+        "category": "hostile",
+        "sounds": [
+            {
+                "name": "Raptor_Idle_1",
+                "stream": false
+            }
+        ]
+    },
+    "Raptor_Idle_2": {
+        "category": "hostile",
+        "sounds": [
+            {
+                "name": "Raptor_Idle_2",
+                "stream": false
+            }
+        ]
+    },
+    "Raptor_Idle_3": {
+        "category": "hostile",
+        "sounds": [
+            {
+                "name": "Raptor_Idle_3",
+                "stream": false
+            }
+        ]
+    },
+    "dodo_death": {
+        "category": "neutral",
+        "sounds": [
+            {
+                "name": "dodo_death",
+                "stream": false
+            }
+        ]
+    },
+    "dodo_hurt_1": {
+        "category": "neutral",
+        "sounds": [
+            {
+                "name": "dodo_hurt_1",
+                "stream": false
+            }
+        ]
+    },
+    "dodo_hurt_2": {
+        "category": "neutral",
+        "sounds": [
+            {
+                "name": "dodo_hurt_2",
+                "stream": false
+            }
+        ]
+    },
+    "dodo_hurt_3": {
+        "category": "neutral",
+        "sounds": [
+            {
+                "name": "dodo_hurt_3",
+                "stream": false
+            }
+        ]
+    },
+    "dodo_idle_1": {
+        "category": "neutral",
+        "sounds": [
+            {
+                "name": "dodo_idle_1",
+                "stream": false
+            }
+        ]
+    },
+    "dodo_idle_2": {
+        "category": "neutral",
+        "sounds": [
+            {
+                "name": "dodo_idle_2",
+                "stream": false
+            }
+        ]
+    },
+    "dodo_idle_3": {
+        "category": "neutral",
+        "sounds": [
+            {
+                "name": "dodo_idle_3",
+                "stream": false
+            }
+        ]
+    },
+     "fabricated_pistol_shoot": {
+        "category": "neutral",
+        "sounds": [
+            {
+                "name": "fabricated_pistol_shoot",
+                "stream": false
+            }
+        ]
+    },
+     "fabricated_pistol_shoot_silenced": {
+        "category": "neutral",
+        "sounds": [
+            {
+                "name": "fabricated_pistol_shoot_silenced",
+                "stream": false
+            }
+        ]
+    },
+     "fabricated_pistol_reload": {
+        "category": "neutral",
+        "sounds": [
+            {
+                "name": "fabricated_pistol_reload",
+                "stream": false
+            }
+        ]
+    },
+     "simple_pistol_shoot": {
+        "category": "neutral",
+        "sounds": [
+            {
+                "name": "simple_pistol_shoot",
+                "stream": false
+            }
+        ]
+    },
+     "simple_pistol_shoot_silenced": {
+        "category": "neutral",
+        "sounds": [
+            {
+                "name": "simple_pistol_shoot_silenced",
+                "stream": false
+            }
+        ]
+    },
+     "simple_pistol_reload": {
+        "category": "neutral",
+        "sounds": [
+            {
+                "name": "simple_pistol_reload",
+                "stream": false
+            }
+        ]
+    },
+    "shotgun_shoot": {
+        "category": "neutral",
+        "sounds": [
+            {
+                "name": "shotgun_shot",
+                "stream": false
+            }
+        ]
+    },
+    "shotgun_reload": {
+        "category": "neutral",
+        "sounds": [
+            {
+                "name": "shotgun_reload",
+                "stream": false
+            }
+        ]
+    },
+    "longneck_rifle_reload": {
+        "category": "neutral",
+        "sounds": [
+            {
+                "name": "longneck_rifle_reload",
+                "stream": false
+            }
+        ]
+    },
+     "longneck_rifle_shoot": {
+        "category": "neutral",
+        "sounds": [
+            {
+                "name": "longneck_rifle_shoot",
+                "stream": false
+            }
+        ]
+    },
+     "longneck_rifle_shoot_silenced": {
+        "category": "neutral",
+        "sounds": [
+            {
+                "name": "longneck_rifle_shoot_silenced",
+                "stream": false
+            }
+        ]
+    },
+	"reload_tranq_gun": {
+        "category": "neutral",
+        "sounds": [
+            {
+                "name": "reload_tranq_gun",
+                "stream": false
+            }
+        ]
+    },
+	"shoot_tranq_gun": {
+        "category": "neutral",
+        "sounds": [
+            {
+                "name": "shoot_tranq_gun",
+                "stream": false
+            }
+        ]
+    },
+    "dodo_defficating": {
+        "category": "neutral",
+        "sounds": [
+            {
+                "name": "dodo_defficating",
+                "stream": false
+            }
+        ]
+    },
+	"ark_theme": {
+        "category": "music",
+        "sounds": [
+            {
+                "name": "ark_theme",
+                "stream": false
+            }
+        ]
+    }
+}

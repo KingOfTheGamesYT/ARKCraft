@@ -1,0 +1,52 @@
+{
+	"entries": [
+		{
+			"type": "title",
+			"title": "ARKCraft Creature Dossier",
+			"text": "Your guide to creatures in the ARKCraft Universe.",
+			"image": "textures/gui/logo.png"
+		},
+		{
+			"type": "chapter",
+			"title": "Section 1: Dinos",
+			"icon": "dino",
+			"links": [
+				{
+				"linkText": "Carnivores",
+				"linkTo": "3",
+				"linkIcon": "textures/gui/icons/carnivore.png"
+				}
+			]
+		},
+		{
+			"type": "dino",
+			"title": "Utahraptor Prime",		
+			"temperance": "Aggresive",
+			"model": "dodo",
+			"diet": "Carnivourous"
+		},
+		{
+			"type": "dino",
+			"title": "Brontosaurus Lazurus",		
+			"temperance": "Passive",
+			"model": "dodo",
+			"diet": "Herbivore"
+		},
+		
+		{
+			"type": "dino",
+			"title": "Spinosaurus Aquareliga",		
+			"temperance": "Territorial",
+			"model": "dodo",
+			"diet": "Carnivourous"
+		},
+		
+		{
+			"type": "dino",
+			"title": "Dilophosaurus Sputatrix",		
+			"temperance": "Skittish",
+			"model": "dodo",
+			"diet": "Carnivorous"
+		}
+	]
+}

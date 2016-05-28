@@ -1,0 +1,178 @@
+# Tiles
+tile.berryBush.name=Berry Bush
+tile.smithy.name=Smithy
+tile.mortar_and_pestle.name=Mortar and Pestle
+tile.crop_plot.name=Crop Plot
+tile.wooden_spikes.name=Wooden Spikes
+tile.compost_bin.name=Compost Bin
+tile.oreSurface.name=Ore Surface
+tile.refining_forge.name=Refining Forge
+
+# Containers
+container.inventory_refining_forge.name=Refining Forge
+
+# World Types
+generator.island=ARK: The Island
+
+# Items
+item.narcoBerrySeed.name=Narcoberry Seed
+item.amarBerrySeed.name=Amarberry Seed
+item.mejoBerrySeed.name=Mejoberry Seed
+item.azulBerrySeed.name=Azulberry Seed
+item.tintoBerrySeed.name=Tintoberry Seed
+item.stimBerrySeed.name=Stimberry Seed
+item.narco.name=Narcoberry
+item.amar.name=Amarberry
+item.mejo.name=Mejoberry
+item.azul.name=Azulberry
+item.tinto.name=Tintoberry
+item.stim.name=Stimberry
+item.fiber.name=Fiber
+item.chitin.name=Chitin
+item.chitin_helm.name=Chitin Helmet
+item.chitin_chest.name=Chitin Chestplate
+item.chitin_legs.name=Chitin Leggings
+item.chitin_boots.name=Chitin Boots
+item.narcotics.name=Narcotics
+item.cloth_helm.name=Cloth Hat
+item.cloth_chest.name=Cloth Shirt
+item.cloth_legs.name=Cloth Pants
+item.cloth_boots.name=Cloth Shoes
+item.hide_helm.name=Hide Helmet
+item.hide_chest.name=Hide Chestplate
+item.hide_legs.name=Hide Leggings
+item.hide_boots.name=Hide Boots
+item.fur_helm.name=Fur Helmet
+item.fur_chest.name=Fur Chestplate
+item.fur_legs.name=Fur Leggings
+item.fur_boots.name=Fur Boots
+item.tranq_arrow.name=Tranquilizer Arrow
+item.slingshot.name=Slingshot
+item.ironPike.name=Iron Pike
+item.spear.name=Stone Spear
+item.saddle_small.name=Small Saddle
+item.saddle_medium.name=Medium Saddle
+item.saddle_large.name=Large Saddle
+item.rock.name=Rock
+item.explosive_ball.name=Explosive Cobblestone Ball
+item.mortar_and_pestle.name=Mortar and Pestle
+item.meat_cooked.name=Cooked Meat
+item.meat_raw.name=Raw Meat
+item.primemeat_cooked.name=Cooked Prime Meat
+item.primemeat_raw.name=Raw Prime Meat
+item.dodo_bag.name=Dodo Bag
+item.dodo_feather.name=Dodo Feather
+item.dodo_egg.name=Dodo Egg
+item.dossier.name=Dino Dossier
+item.small_feces.name=Small Feces
+item.medium_feces.name=Medium Feces
+item.large_feces.name=Large Feces
+item.player_feces.name=Player Feces
+item.fertilizer.name=Fertilizer
+item.tranq_gun.name=Tranquilizer Gun
+item.simple_pistol.name=Simple Pistol
+item.tranquilizer.name=Tranquilizer
+item.simple_bullet.name=Simple Bullet
+item.advanced_bullet.name=Advanced Bullet
+item.shotgun.name=Shotgun
+item.longneck_rifle.name=Longneck Rifle
+item.fabricated_pistol.name=Fabricated Pistol
+item.stone_arrow.name=Stone Arrow
+item.metal_arrow.name=Metal Arrow
+item.simple_rifle_ammo.name=Simple Rifle Ammo
+item.simple_shotgun_ammo.name=Simple Shotgun Ammo
+item.rocket_launcher.name=Rocket Launcher
+item.rocket_propelled_grenade.name=Rocket Propelled Grenade
+item.compound_bow.name=Compound Bow
+item.crossbow.name=Crossbow
+item.thatch.name=Thatch
+item.gun_powder.name=Gunpowder
+item.spark_powder.name=Spark Powder
+item.spy_glass.name=Spy Glass
+item.wood.name=Wood
+item.metal.name=Metal
+item.hide.name=Hide
+item.metal_ingot.name=Metal Ingot
+item.wooden_club.name=Wooden Club
+item.grenade.name=Grenade
+item.cementing_paste.name=Cementing Paste
+item.scope.name=Scope
+item.laser.name=Laser
+item.silencer.name=Silencer
+item.holo_scope.name=Holo-Scope
+item.flash_light.name=Flashlight
+item.item_crystal.name=Crystal
+item.metal_pick.name=Metal Pickaxe
+item.metal_hatchet.name=Metal Hatchet
+item.stone_pick.name=Stone Pickaxe
+item.stone_hatchet.name=Stone Hatchet
+item.item_refining_forge.name=Refining Forge
+
+
+# Miscellaneous
+itemGroup.tabARKCraftMisc=ARKCraft: Survival Evolved
+itemGroup.tabARKCraftWeapons=ARKCraft: Weapons
+
+# Configuration GUI
+category.arkcraft.mod1_balance=Entity & World Gen Balance Settings
+category.arkcraft.mod2_balance=Item, Block, and Player Balance Settings
+category.arkcraft.balance.tooltip=Balance settings
+
+# Entities
+entity.arkcraft.raptor.name=Raptor
+entity.arkcraft.dodo.name=Dodo
+entity.arkcraft.brontosaurus.name=Brontosaurus
+
+# Key Bindings
+key.playerPoop=Player Pooping Function
+key.playerScope=Player Scoping Function
+key.playerCraft=Open Player Crafting 
+
+# Chat Messages
+chat.canNotPoop=Can't poop right now
+
+# Book Descriptions
+ark.book.utahraptor.description=Utahraptor Prime is an incredibly aggressive sub-species of Utahraptor.\n It tends to travel in small hunting packs, attacking smaller prey with its sharp teeth or enlarged foreclaws.\n\nOne of the faster creatures around, Utahraptor Prime often uses hit-and-run tactics against larger opponents. The large curved talon on the second toe of this sub-species seems particularly suited for attacking while jumping.
+
+# Containers
+container.crop_plot.name=Crop Plot 
+
+#Chat Messages
+chat.ammo= ammo
+
+# Attributes
+attribute.name.arkcraft.reloadTime=Reload Time
+
+# Tooltips
+item.narcotics.tooltip=%12A Knockout of a Drink
+item.rock.tooltip=%6A Rocky Road to Victory
+item.explosive_ball.tooltip=%12A Rocky Road to Destruction
+item.dodo_bag.tooltip=Backpack for the Dodo
+item.gun_powder.tooltip=Recipe for Destruction
+
+item.fiber.tooltip=%6Material of the Ages
+item.chitin.tooltip=%6Material of the Ages
+item.dodo_feather.tooltip=%6Material of the Ages
+item.spark_powder.tooltip=%6Material of the Ages
+item.wood.tooltip=%6Material of the Ages
+item.metal.tooltip=%6Material of the Ages
+item.metal_ingot.tooltip=%6Material of the Ages
+
+item.leather_helm.tooltip=%4Armor of the Ancients
+item.leather_chest.tooltip=%4Armor of the Ancients
+item.leather_legs.tooltip=%4Armor of the Ancients
+item.leather_boots.tooltip=%4Armor of the Ancients
+
+item.chitin_helm.tooltip=%oArmor, Made to Fit
+item.chitin_chest.tooltip=%oArmor, Made to Fit
+item.chitin_legs.tooltip=%oArmor, Made to Fit
+item.chitin_boots.tooltip=%oArmor, Made to Fit
+
+item.cloth_helm.tooltip=%oArmor, Made to Fit
+item.cloth_chest.tooltip=%oArmor, Made to Fit
+item.cloth_legs.tooltip=%oArmor, Made to Fit
+item.cloth_boots.tooltip=%oArmor, Made to Fit
+
+item.saddle_small.tooltip=%oA Dino Rider's Dream
+item.saddle_medium.tooltip=%oA Dino Rider's Dream
+item.saddle_large.tooltip=%oA Dino Rider's Dream

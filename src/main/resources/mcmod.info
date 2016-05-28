@@ -1,16 +1,15 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
-  "url": "",
+  "modid": "arkcraft",
+  "name": "ARKCraft",
+  "description": "ARK: Survival Evolved - Minecraft Style!",
+  "version": "1.0.0",
+  "mcversion": "1.8",
+  "url": "https://github.com/BubbleTrouble14/ARKCraft",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["Vastatio,wildbill22,BubbleTrouble,LewisMcReu"],
+  "credits": "Whole ARKCraft Team",
   "logoFile": "",
   "screenshots": [],
-  "dependencies": []
 }
 ]
