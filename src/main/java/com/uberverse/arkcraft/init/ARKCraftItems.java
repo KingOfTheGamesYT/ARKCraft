@@ -1,12 +1,12 @@
 package com.uberverse.arkcraft.init;
 
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.item.ARKCraftItem;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.item.ARKCraftItem;
 
 public class ARKCraftItems
 {
@@ -35,5 +35,6 @@ public class ARKCraftItems
 				new ModelResourceLocation(
 						ARKCraft.MODID + ":" + item.getUnlocalizedName().substring(5),
 						"inventory"));
+		item.setCreativeTab(ARKCraft.tabARK);
 	}
 }

@@ -1,6 +1,7 @@
 package com.uberverse.arkcraft;
 
 import com.uberverse.arkcraft.common.proxy.CommonProxy;
+import com.uberverse.arkcraft.init.ARKCraftItems;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
@@ -37,7 +38,7 @@ public class ARKCraft
 			public Item getTabIconItem()
 			{
 				// TODO Assign proper item as icon
-				return Items.leather;
+				return ARKCraftItems.crystal;
 			}
 		};
 	}

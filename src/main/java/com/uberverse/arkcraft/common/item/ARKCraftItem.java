@@ -9,6 +9,6 @@ public class ARKCraftItem extends Item
 	public ARKCraftItem(String name)
 	{
 		this.setUnlocalizedName(name);
-		this.setCreativeTab(ARKCraft.tabARK);
+	//	this.setCreativeTab(ARKCraft.tabARK);
 	}
 }

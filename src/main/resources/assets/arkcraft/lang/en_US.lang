@@ -111,7 +111,7 @@ item.item_refining_forge.name=Refining Forge
 
 # Miscellaneous
 itemGroup.tabARKCraftMisc=ARKCraft: Survival Evolved
-itemGroup.tabARKCraftWeapons=ARKCraft: Weapons
+itemGroup.tabARK=ARKCraft
 
 # Configuration GUI
 category.arkcraft.mod1_balance=Entity & World Gen Balance Settings
