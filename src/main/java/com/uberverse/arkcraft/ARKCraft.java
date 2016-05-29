@@ -1,10 +1,6 @@
 package com.uberverse.arkcraft;
 
-import com.uberverse.arkcraft.common.proxy.CommonProxy;
-import com.uberverse.arkcraft.init.ARKCraftItems;
-
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -13,6 +9,9 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+
+import com.uberverse.arkcraft.common.proxy.CommonProxy;
+import com.uberverse.arkcraft.init.ARKCraftItems;
 
 @Mod(modid = ARKCraft.MODID, name = ARKCraft.NAME, version = ARKCraft.VERSION)
 public class ARKCraft
@@ -31,16 +30,16 @@ public class ARKCraft
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		proxy.preInit();
 		tabARK = new CreativeTabs(CreativeTabs.getNextID(), "tabARK")
 		{
 			@Override
 			public Item getTabIconItem()
 			{
 				// TODO Assign proper item as icon
-				return ARKCraftItems.crystal;
+				return ARKCraftItems.azul;
 			}
 		};
+		proxy.preInit();
 	}
 
 	@EventHandler

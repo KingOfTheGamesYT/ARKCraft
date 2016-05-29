@@ -1,40 +1,43 @@
 package com.uberverse.arkcraft.init;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.item.ARKCraftItem;
 
-public class ARKCraftItems
-{
-	public static ARKCraftItem crystal;
+import net.minecraft.item.Item;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+
+public class ARKCraftItems {
+	
+	public static ARKCraftItem azul;
+	
+	public static Map<String, Item> allItems = new HashMap<String, Item>();
+
+	public static Map<String, Item> getAllItems()
+	{
+		return allItems;
+	}
 
 	public static void init()
 	{
-		crystal = new ARKCraftItem("crystal");
-
-		register(crystal);
+		azul = addItem("azul");
 	}
-
-	private static void register(Item item)
+	
+	public static ARKCraftItem addItem(String name)
 	{
-		GameRegistry.registerItem(item, item.getUnlocalizedName().substring(5));
+		ARKCraftItem i = new ARKCraftItem();
+		registerItem(name, i);
+		return i;
 	}
-
-	public static void registerRenderers()
+	
+	public static void registerItem(String name, Item item)
 	{
-		registerItemRenderer(crystal);
-	}
-
-	public static void registerItemRenderer(Item item)
-	{
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0,
-				new ModelResourceLocation(
-						ARKCraft.MODID + ":" + item.getUnlocalizedName().substring(5),
-						"inventory"));
+		allItems.put(name, item);
+		item.setUnlocalizedName(name);
+		GameRegistry.registerItem(item, name);
 		item.setCreativeTab(ARKCraft.tabARK);
 	}
+
 }
