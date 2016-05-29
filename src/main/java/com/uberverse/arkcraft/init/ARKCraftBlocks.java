@@ -9,12 +9,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.item.ARKCraftItem;
+import com.uberverse.arkcraft.common.block.BlockFlashlight;
 
 public class ARKCraftBlocks {
 	
-	public static ARKCraftItem azul;
-	
+	public static BlockFlashlight block_flashlight;
+
 	public static Map<String, Block> allBlocks = new HashMap<String, Block>();
 
 	public static Map<String, Block> getAllBlocks()
@@ -24,9 +24,10 @@ public class ARKCraftBlocks {
 
 	public static void init()
 	{
-
+		block_flashlight = new BlockFlashlight();
+		GameRegistry.registerBlock(block_flashlight, "block_flashlight");
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static Block registerBlock(Block block, String name)
 	{

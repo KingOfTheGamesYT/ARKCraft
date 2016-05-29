@@ -69,7 +69,7 @@ public class ModuleItemConfig
      * @param cls Class to go through
      * @author Maxanier
      */
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({ "rawtypes", "unused" })
     private static void loadFields(ConfigCategory cat, Class cls)
     {
         for (Field f : cls.getDeclaredFields())

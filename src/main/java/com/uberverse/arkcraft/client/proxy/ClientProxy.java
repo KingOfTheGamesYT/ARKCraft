@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
@@ -62,8 +63,8 @@ public class ClientProxy extends CommonProxy{
 						meta,
 						new ModelResourceLocation(ARKCraft.MODID + ":" + name,
 								"inventory"));
-	//	ModelBakery.addVariantName(item, ARKCraft.MODID + ":" + name);
-		ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(ARKCraft.MODID + ":" + name,
-				"inventory"));;
+		ModelBakery.addVariantName(item, ARKCraft.MODID + ":" + name);
+	//	ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(ARKCraft.MODID + ":" + name,
+			//	"inventory"));;
 	}
 }
