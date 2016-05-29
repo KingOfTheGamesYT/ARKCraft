@@ -1,0 +1,10 @@
+/*
+!/src
+!/gradle
+!build.gradle
+!.gitignore
+!.gitattributes
+!*.md
+*.db
+*.DS_Store
+/gradle/*
