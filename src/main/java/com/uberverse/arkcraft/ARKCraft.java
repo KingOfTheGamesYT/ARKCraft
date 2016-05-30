@@ -1,5 +1,7 @@
 package com.uberverse.arkcraft;
 
+import org.apache.logging.log4j.Logger;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.Mod;
@@ -33,10 +35,16 @@ public class ARKCraft
 
 	public static CreativeTabs tabARK;
 	public static SimpleNetworkWrapper modChannel;
+	public static Logger modLog;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
+	//	CoreConfig.init(event.getModConfigurationDirectory());
+	//	FMLCommonHandler.instance().bus().register(new CoreConfig());
+	//	ModuleItemConfig.init(event.getModConfigurationDirectory());
+	//	FMLCommonHandler.instance().bus().register(new ModuleItemConfig());
+		
 		tabARK = new CreativeTabs(CreativeTabs.getNextID(), "tabARK")
 		{
 			@Override
@@ -48,6 +56,7 @@ public class ARKCraft
 		};
 		proxy.preInit();
 		setupNetwork();	
+		modLog = event.getModLog();
 	}
 
 	@EventHandler
