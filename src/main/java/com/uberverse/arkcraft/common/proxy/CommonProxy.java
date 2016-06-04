@@ -1,32 +1,28 @@
 package com.uberverse.arkcraft.common.proxy;
 
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraft.entity.player.EntityPlayer;
 
-import com.uberverse.arkcraft.common.event.CommonEventHandler;
-import com.uberverse.arkcraft.init.ARKCraftBlocks;
-import com.uberverse.arkcraft.init.ARKCraftEntities;
-import com.uberverse.arkcraft.init.ARKCraftItems;
-
-public abstract class CommonProxy
+public class CommonProxy
 {
-	public void preInit()
-	{
-		ARKCraftItems.init();
-		ARKCraftBlocks.init();
-		ARKCraftEntities.init();
-	}
+	 // @SidedProxy(clientSide = "com.arkcraft.module.core.client.gui.book.proxy.DClient", serverSide = "com.arkcraft.module.core.client.gui.book.proxy.DCommon")
+	//    public static DCommon dossierProxy;
 
-	public void init()
-	{
-		CommonEventHandler coreEventHandler = new CommonEventHandler();
-		MinecraftForge.EVENT_BUS.register(coreEventHandler);
-		FMLCommonHandler.instance().bus().register(coreEventHandler);
-	}
+	    public CommonProxy() {}
 
-	public void postInit()
-	{
+	    public void registerPreRenderers() {}
 
-	}
+	    public void registerRenderers() {}
 
+	    public void init() {}
+
+	    public void registerWeapons() {}
+
+	    public void registerEventHandlers()
+	    {
+	    }
+
+	    public EntityPlayer getPlayer()
+	    {
+	        return null;
+	    }
 }

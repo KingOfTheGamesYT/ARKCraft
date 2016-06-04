@@ -1,12 +1,12 @@
 package com.uberverse.arkcraft.client.proxy;
 
 import java.util.Map;
-import java.util.Map.Entry;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 
 import com.uberverse.arkcraft.ARKCraft;
@@ -18,42 +18,68 @@ import com.uberverse.lib.LogHelper;
 
 public class ClientProxy extends CommonProxy{
 	
+	boolean initDone = false;
+
 	@Override
 	public void init()
 	{
+		if (initDone) { return; }
+		super.init();
+
 		ClientEventHandler.init();
 
-	//	MinecraftForge.EVENT_BUS.register(new GuiOverlay());
+		//MinecraftForge.EVENT_BUS.register(new GuiOverlay());
 
-		//KeyBindings.preInit();
+	//	KeyBindings.preInit();
+	//	dossierProxy.init();
+	//	registerItemVariants();
 		LogHelper.info("CommonProxy: Init run finished.");
-		registerRenderers();
+		initDone = true;
 	}
-	
-	private void registerRenderers()
+
+	@Override
+	public void registerEventHandlers()
 	{
-		for (Entry<String, Item> i : ARKCraftItems.allItems.entrySet())
-		{
-			registerItemTexture(i.getValue(), 0, i.getKey());
-		}	
+		super.registerEventHandlers();
+
+		/*
+		CoreClientEventHandler mod1Eventhandler = new CoreClientEventHandler();
+		FMLCommonHandler.instance().bus().register(mod1Eventhandler);
+		MinecraftForge.EVENT_BUS.register(mod1Eventhandler);	*/
+
+	}
+
+	/* We register the block/item textures and models here */
+	@Override
+	public void registerRenderers()
+	{
 		for (Map.Entry<String, Block> e : ARKCraftBlocks.allBlocks.entrySet())
 		{
 			String name = e.getKey();
 			Block b = e.getValue();
 			registerBlockTexture(b, name);
 		}
+
+		for (Map.Entry<String, Item> e : ARKCraftItems.allItems.entrySet())
+		{
+			String name = e.getKey();
+			Item item = e.getValue();
+			registerItemTexture(item, name);
+		}
+		
+		// registerItemVariants();
 	}
-	
+
 	public void registerBlockTexture(final Block block, final String blockName)
 	{
 		registerBlockTexture(block, 0, blockName);
 	}
-	
+
 	public void registerBlockTexture(final Block block, int meta, final String blockName)
 	{
 		registerItemTexture(Item.getItemFromBlock(block), meta, blockName);
 	}
-	
+
 	public void registerItemTexture(final Item item, final String name)
 	{
 		registerItemTexture(item, 0, name);
@@ -71,9 +97,16 @@ public class ClientProxy extends CommonProxy{
 						new ModelResourceLocation(ARKCraft.MODID + ":" + name,
 								"inventory"));
 		ModelBakery.addVariantName(item, ARKCraft.MODID + ":" + name);
-	//	ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(ARKCraft.MODID + ":" + name,
-		//		"inventory"));;
 	}
+
+	public EntityPlayer getPlayer()
+	{
+		return Minecraft.getMinecraft().thePlayer;
+	}
+	// public void registerSound() {
+	// MinecraftForge.EVENT_BUS.register(new SoundHandler());
+	// }
+
 	
 	private static void registerItemVariants()
 	{

@@ -1,7 +1,5 @@
 package com.uberverse.arkcraft;
 
-import org.apache.logging.log4j.Logger;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.Mod;
@@ -15,10 +13,14 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
+import org.apache.logging.log4j.Logger;
+
+import com.uberverse.arkcraft.common.event.CommonEventHandler;
 import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
 import com.uberverse.arkcraft.common.network.ReloadFinished;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.common.proxy.CommonProxy;
+import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 
 @Mod(modid = ARKCraft.MODID, name = ARKCraft.NAME, version = ARKCraft.VERSION)
@@ -54,7 +56,10 @@ public class ARKCraft
 				return ARKCraftItems.simple_bullet;
 			}
 		};
-		proxy.preInit();
+	//	proxy.preInit();
+		ARKCraftBlocks.init();
+		ARKCraftItems.init();
+		
 		setupNetwork();	
 		modLog = event.getModLog();
 	}
@@ -62,13 +67,23 @@ public class ARKCraft
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
+		/*
+		CoreCommonEventHandler coreEventHandler = new CoreCommonEventHandler();
+		MinecraftForge.EVENT_BUS.register(coreEventHandler);
+		FMLCommonHandler.instance().bus().register(coreEventHandler); */
+
+		CommonEventHandler.init();
+
+		proxy.registerRenderers();
+		proxy.registerWeapons();
+		proxy.registerEventHandlers();
 		proxy.init();
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-		proxy.postInit();
+	
 	}
 	
 	public enum GUI
