@@ -1,19 +1,45 @@
 package com.uberverse.arkcraft.client.proxy;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.ModuleItemBalance;
 import com.uberverse.arkcraft.client.event.ClientEventHandler;
+import com.uberverse.arkcraft.client.render.RenderAdvancedBullet;
+import com.uberverse.arkcraft.client.render.RenderMetalArrow;
+import com.uberverse.arkcraft.client.render.RenderSimpleBullet;
+import com.uberverse.arkcraft.client.render.RenderSimpleRifleAmmo;
+import com.uberverse.arkcraft.client.render.RenderSimpleShotgunAmmo;
+import com.uberverse.arkcraft.client.render.RenderSpear;
+import com.uberverse.arkcraft.client.render.RenderStoneArrow;
+import com.uberverse.arkcraft.client.render.RenderTranqArrow;
+import com.uberverse.arkcraft.client.render.RenderTranquilizer;
+import com.uberverse.arkcraft.common.entity.EntityAdvancedBullet;
+import com.uberverse.arkcraft.common.entity.EntityGrenade;
+import com.uberverse.arkcraft.common.entity.EntityMetalArrow;
+import com.uberverse.arkcraft.common.entity.EntitySimpleBullet;
+import com.uberverse.arkcraft.common.entity.EntitySimpleRifleAmmo;
+import com.uberverse.arkcraft.common.entity.EntitySimpleShotgunAmmo;
+import com.uberverse.arkcraft.common.entity.EntitySpear;
+import com.uberverse.arkcraft.common.entity.EntityStone;
+import com.uberverse.arkcraft.common.entity.EntityStoneArrow;
+import com.uberverse.arkcraft.common.entity.EntityTranqArrow;
+import com.uberverse.arkcraft.common.entity.EntityTranquilizer;
+import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.proxy.CommonProxy;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
+import com.uberverse.arkcraft.init.ARKCraftWeapons;
 import com.uberverse.lib.LogHelper;
 
 public class ClientProxy extends CommonProxy{
@@ -67,7 +93,16 @@ public class ClientProxy extends CommonProxy{
 			registerItemTexture(item, name);
 		}
 		
-		// registerItemVariants();
+		for (Entry<String, Item> i : ARKCraftWeapons.allWeaponItems.entrySet())
+		{
+			registerItemTexture(i.getValue(), 0, i.getKey());
+		}
+
+		// Register models for entities
+		registerEntityModels();
+
+		// Register variant models for all weapon items
+		registerItemVariants();
 	}
 
 	public void registerBlockTexture(final Block block, final String blockName)
@@ -85,8 +120,9 @@ public class ClientProxy extends CommonProxy{
 		registerItemTexture(item, 0, name);
 	}
 
-	public void registerItemTexture(final Item item, int meta, final String name)
+	public void registerItemTexture(final Item item, int meta, String name)
 	{
+		if (item instanceof ItemRangedWeapon) name = "weapons/" + name;
 		Minecraft
 				.getMinecraft()
 				.getRenderItem()
@@ -103,18 +139,65 @@ public class ClientProxy extends CommonProxy{
 	{
 		return Minecraft.getMinecraft().thePlayer;
 	}
-	// public void registerSound() {
-	// MinecraftForge.EVENT_BUS.register(new SoundHandler());
-	// }
+	
+	private static void registerEntityModels()
+	{
+		RenderingRegistry.registerEntityRenderingHandler(EntityStone.class,
+				new RenderSnowball(Minecraft.getMinecraft().getRenderManager(),
+						ARKCraftItems.stone, Minecraft.getMinecraft()
+								.getRenderItem()));
+
+		RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class,
+				new RenderSnowball(Minecraft.getMinecraft().getRenderManager(),
+						ARKCraftItems.grenade, Minecraft.getMinecraft()
+								.getRenderItem()));
+
+		RenderingRegistry.registerEntityRenderingHandler(
+				EntityTranqArrow.class, new RenderTranqArrow());
+		RenderingRegistry.registerEntityRenderingHandler(
+				EntityStoneArrow.class, new RenderStoneArrow());
+		RenderingRegistry.registerEntityRenderingHandler(
+				EntityMetalArrow.class, new RenderMetalArrow());
+
+		if (ModuleItemBalance.WEAPONS.SIMPLE_PISTOL)
+		{
+			RenderingRegistry.registerEntityRenderingHandler(
+					EntitySimpleBullet.class, new RenderSimpleBullet());
+		}
+		if (ModuleItemBalance.WEAPONS.SHOTGUN)
+		{
+			RenderingRegistry.registerEntityRenderingHandler(
+					EntitySimpleShotgunAmmo.class,
+					new RenderSimpleShotgunAmmo());
+		}
+		if (ModuleItemBalance.WEAPONS.LONGNECK_RIFLE)
+		{
+			RenderingRegistry.registerEntityRenderingHandler(
+					EntitySimpleRifleAmmo.class, new RenderSimpleRifleAmmo());
+			RenderingRegistry.registerEntityRenderingHandler(
+					EntityTranquilizer.class, new RenderTranquilizer());
+		}
+		if (ModuleItemBalance.WEAPONS.SPEAR)
+		{
+			RenderingRegistry.registerEntityRenderingHandler(EntitySpear.class,
+					new RenderSpear());
+		}
+		if (ModuleItemBalance.WEAPONS.FABRICATED_PISTOL)
+		{
+			RenderingRegistry.registerEntityRenderingHandler(
+					EntityAdvancedBullet.class, new RenderAdvancedBullet());
+		}
+	}
+
 
 	
 	private static void registerItemVariants()
 	{
-		ModelBakery.addVariantName(ARKCraftItems.slingshot,
-				"arkcraft:slingshot", "arkcraft:slingshot_pulled");
-		ModelBakery.addVariantName(ARKCraftItems.shotgun,
+	//	ModelBakery.addVariantName(ARKCraftItems.slingshot,
+	//			"arkcraft:slingshot", "arkcraft:slingshot_pulled");
+		ModelBakery.addVariantName(ARKCraftWeapons.shotgun,
 				"arkcraft:weapons/shotgun", "arkcraft:weapons/shotgun_reload");
-		ModelBakery.addVariantName(ARKCraftItems.longneck_rifle,
+		ModelBakery.addVariantName(ARKCraftWeapons.longneck_rifle,
 				"arkcraft:weapons/longneck_rifle",
 				"arkcraft:weapons/longneck_rifle_scope",
 				"arkcraft:weapons/longneck_rifle_scope_reload",
@@ -125,7 +208,7 @@ public class ClientProxy extends CommonProxy{
 				"arkcraft:weapons/longneck_rifle_laser_reload",
 				"arkcraft:weapons/longneck_rifle_silencer",
 				"arkcraft:weapons/longneck_rifle_silencer_reload");
-		ModelBakery.addVariantName(ARKCraftItems.simple_pistol,
+		ModelBakery.addVariantName(ARKCraftWeapons.simple_pistol,
 				"arkcraft:weapons/simple_pistol",
 				"arkcraft:weapons/simple_pistol_scope",
 				"arkcraft:weapons/simple_pistol_reload",
@@ -136,7 +219,7 @@ public class ClientProxy extends CommonProxy{
 				"arkcraft:weapons/simple_pistol_laser_reload",
 				"arkcraft:weapons/simple_pistol_silencer",
 				"arkcraft:weapons/simple_pistol_silencer_reload");
-		ModelBakery.addVariantName(ARKCraftItems.fabricated_pistol,
+		ModelBakery.addVariantName(ARKCraftWeapons.fabricated_pistol,
 				"arkcraft:weapons/fabricated_pistol",
 				"arkcraft:weapons/fabricated_pistol_scope",
 				"arkcraft:weapons/fabricated_pistol_reload",
@@ -149,9 +232,5 @@ public class ClientProxy extends CommonProxy{
 				"arkcraft:weapons/fabricated_pistol_silencer_reload",
 				"arkcraft:weapons/fabricated_pistol_holo_scope",
 				"arkcraft:weapons/fabricated_pistol_holo_scope_reload");
-
-		ModelBakery.addVariantName(ARKCraftItems.bow, "arkcraft:bow",
-				"arkcraft:bow_pulling_0", "arkcraft:bow_pulling_1",
-				"arkcraft:bow_pulling_2");
 	}
 }
