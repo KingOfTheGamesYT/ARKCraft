@@ -8,18 +8,14 @@ public class CommonProxy
 	//    public static DCommon dossierProxy;
 
 	    public CommonProxy() {}
+	    
+	    public void init() {}
 
 	    public void registerPreRenderers() {}
 
 	    public void registerRenderers() {}
 
-	    public void init() {}
-
-	    public void registerWeapons() {}
-
-	    public void registerEventHandlers()
-	    {
-	    }
+	    public void registerEventHandlers(){}
 
 	    public EntityPlayer getPlayer()
 	    {

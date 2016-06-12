@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft;
+package com.uberverse.arkcraft.common.config;
 
 import com.uberverse.lib.DefaultBoolean;
 import com.uberverse.lib.DefaultDouble;

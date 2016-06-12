@@ -13,7 +13,6 @@ import net.minecraft.item.Item;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.ModuleItemBalance;
 import com.uberverse.arkcraft.client.event.ClientEventHandler;
 import com.uberverse.arkcraft.client.render.RenderAdvancedBullet;
 import com.uberverse.arkcraft.client.render.RenderMetalArrow;
@@ -24,6 +23,7 @@ import com.uberverse.arkcraft.client.render.RenderSpear;
 import com.uberverse.arkcraft.client.render.RenderStoneArrow;
 import com.uberverse.arkcraft.client.render.RenderTranqArrow;
 import com.uberverse.arkcraft.client.render.RenderTranquilizer;
+import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.entity.EntityAdvancedBullet;
 import com.uberverse.arkcraft.common.entity.EntityGrenade;
 import com.uberverse.arkcraft.common.entity.EntityMetalArrow;
@@ -72,7 +72,6 @@ public class ClientProxy extends CommonProxy{
 		CoreClientEventHandler mod1Eventhandler = new CoreClientEventHandler();
 		FMLCommonHandler.instance().bus().register(mod1Eventhandler);
 		MinecraftForge.EVENT_BUS.register(mod1Eventhandler);	*/
-
 	}
 
 	/* We register the block/item textures and models here */
@@ -189,9 +188,7 @@ public class ClientProxy extends CommonProxy{
 		}
 	}
 
-
-	
-	private static void registerItemVariants()
+	public static void registerItemVariants()
 	{
 	//	ModelBakery.addVariantName(ARKCraftItems.slingshot,
 	//			"arkcraft:slingshot", "arkcraft:slingshot_pulled");

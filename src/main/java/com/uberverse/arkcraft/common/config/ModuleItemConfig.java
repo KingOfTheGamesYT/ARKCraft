@@ -1,4 +1,4 @@
-package com.uberverse.lib;
+package com.uberverse.arkcraft.common.config;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -9,7 +9,14 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.lib.DefaultBoolean;
+import com.uberverse.lib.DefaultDouble;
+import com.uberverse.lib.DefaultInt;
+import com.uberverse.lib.LogHelper;
 
+/**
+ * @author wildbill22
+ */
 public class ModuleItemConfig
 {
     public static Configuration config;
@@ -37,14 +44,14 @@ public class ModuleItemConfig
     {
         ConfigCategory cat_balance = config.getCategory(CATEGORY_BALANCE);
         cat_balance.setComment("You can adjust these values to change the balancing of this mod");
- //       loadFields(cat_balance, ModuleItemBalance.PLANTS.class);
-     //   loadFields(cat_balance, ModuleItemBalance.PLAYER.class);
-     //   loadFields(cat_balance, ModuleItemBalance.WEAPONS.class);
-     //   loadFields(cat_balance, ModuleItemBalance.CROP_PLOT.class);
-    //    loadFields(cat_balance, ModuleItemBalance.MORTAR_AND_PESTLE.class);
-    //   loadFields(cat_balance, ModuleItemBalance.PLAYER_CRAFTING.class);
-    //    loadFields(cat_balance, ModuleItemBalance.COMPOST_BIN.class);
-    //    loadFields(cat_balance, ModuleItemBalance.EXPLOSIVE_DEVICE.class);
+        loadFields(cat_balance, ModuleItemBalance.PLANTS.class);
+        loadFields(cat_balance, ModuleItemBalance.PLAYER.class);
+        loadFields(cat_balance, ModuleItemBalance.WEAPONS.class);
+        loadFields(cat_balance, ModuleItemBalance.CROP_PLOT.class);
+        loadFields(cat_balance, ModuleItemBalance.MORTAR_AND_PESTLE.class);
+        loadFields(cat_balance, ModuleItemBalance.PLAYER_CRAFTING.class);
+        loadFields(cat_balance, ModuleItemBalance.COMPOST_BIN.class);
+        loadFields(cat_balance, ModuleItemBalance.EXPLOSIVE_DEVICE.class);
         // TODO: Add more classes from BALANCE here when available
     }
 
@@ -69,7 +76,7 @@ public class ModuleItemConfig
      * @param cls Class to go through
      * @author Maxanier
      */
-    @SuppressWarnings({ "rawtypes", "unused" })
+    @SuppressWarnings("rawtypes")
     private static void loadFields(ConfigCategory cat, Class cls)
     {
         for (Field f : cls.getDeclaredFields())

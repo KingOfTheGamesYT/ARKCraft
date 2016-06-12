@@ -10,15 +10,12 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.ModuleItemBalance;
+import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.entity.EntityAdvancedBullet;
-import com.uberverse.arkcraft.common.entity.EntityMetalArrow;
 import com.uberverse.arkcraft.common.entity.EntityRocketPropelledGrenade;
 import com.uberverse.arkcraft.common.entity.EntitySimpleBullet;
 import com.uberverse.arkcraft.common.entity.EntitySimpleRifleAmmo;
 import com.uberverse.arkcraft.common.entity.EntitySimpleShotgunAmmo;
-import com.uberverse.arkcraft.common.entity.EntityStoneArrow;
-import com.uberverse.arkcraft.common.entity.EntityTranqArrow;
 import com.uberverse.arkcraft.common.entity.EntityTranquilizer;
 import com.uberverse.arkcraft.common.entity.dispense.DispenseRocketPropelledGrenade;
 import com.uberverse.arkcraft.common.entity.dispense.DispenseSimpleBullet;
@@ -41,8 +38,7 @@ import com.uberverse.arkcraft.common.item.firearms.ItemSimplePistol;
 public class ARKCraftWeapons {
 	
 	public static ItemAttachment scope, flash_light, silencer, laser, holo_scope;
-	public static ItemProjectile tranquilizer, stone_arrow, tranq_arrow, metal_arrow,
-			ballista_bolt, simple_bullet, simple_rifle_ammo,
+	public static ItemProjectile tranquilizer, simple_bullet, simple_rifle_ammo,
 			simple_shotgun_ammo, rocket_propelled_grenade, advanced_bullet;
 	public static ItemRangedWeapon rocket_launcher, tranq_gun;
 	public static ItemRangedWeapon simple_pistol;
@@ -71,7 +67,8 @@ public class ARKCraftWeapons {
 		holo_scope = addItemAttachment("holo_scope", AttachmentType.HOLO_SCOPE);
 		laser = addItemAttachment("laser", AttachmentType.LASER);
 		silencer = addItemAttachment("silencer", AttachmentType.SILENCER);
-
+	//	shotgun =ARKCraftWeapons.shotgun
+		
 		registerDispenseBehavior();
 		registerWeaponEntities();
 		addRangedWeapons();
@@ -119,13 +116,6 @@ public class ARKCraftWeapons {
 							"rocket_propelled_grenade", ARKCraft.instance, 64,
 							10, true);
 		}
-
-		EntityHandler.registerModEntity(EntityTranqArrow.class, "tranq_arrow",
-				ARKCraft.instance, 64, 10, true);
-		EntityHandler.registerModEntity(EntityStoneArrow.class, "stone_arrow",
-				ARKCraft.instance, 64, 10, true);
-		EntityHandler.registerModEntity(EntityMetalArrow.class, "metal_arrow",
-				ARKCraft.instance, 64, 10, true);
 	}
 
 	public static void addRangedWeapons()
@@ -165,9 +155,6 @@ public class ARKCraftWeapons {
 		if (ModuleItemBalance.WEAPONS.CROSSBOW)
 		{
 			crossbow = addShooter(new ItemCrossbow());
-			crossbow.registerProjectile(metal_arrow);
-			crossbow.registerProjectile(tranq_arrow);
-			crossbow.registerProjectile(stone_arrow);
 		}
 	}
 

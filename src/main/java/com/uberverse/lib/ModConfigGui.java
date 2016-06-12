@@ -12,6 +12,8 @@ import net.minecraftforge.fml.client.config.GuiConfigEntries.CategoryEntry;
 import net.minecraftforge.fml.client.config.IConfigElement;
 
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.config.CoreConfig;
+import com.uberverse.arkcraft.common.config.ModuleItemConfig;
 
 /**
  * @author wildbill22

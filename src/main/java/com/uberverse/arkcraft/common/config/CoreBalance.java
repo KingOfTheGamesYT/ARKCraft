@@ -1,6 +1,17 @@
-package com.uberverse.lib;
+package com.uberverse.arkcraft.common.config;
 
+import com.uberverse.lib.DefaultBoolean;
+import com.uberverse.lib.DefaultInt;
 
+/**
+ * @author wildbill22
+ */
+
+/**
+ * All constants which could be used to balance the mod should be stored here
+ * Add more classes inside the BALANCE class as needed
+ *
+ */
 public final class CoreBalance
 {
     public static class GEN

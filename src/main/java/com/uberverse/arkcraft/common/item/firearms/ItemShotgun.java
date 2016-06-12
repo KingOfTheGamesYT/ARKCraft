@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-import com.uberverse.arkcraft.ModuleItemBalance;
+import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.entity.EntityProjectile;
 import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
 

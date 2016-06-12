@@ -1,4 +1,4 @@
-package com.uberverse.lib;
+package com.uberverse.arkcraft.common.config;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -9,7 +9,14 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.lib.DefaultBoolean;
+import com.uberverse.lib.DefaultDouble;
+import com.uberverse.lib.DefaultInt;
+import com.uberverse.lib.LogHelper;
 
+/**
+ * @author wildbill22
+ */
 public class CoreConfig
 {
     public static Configuration config;

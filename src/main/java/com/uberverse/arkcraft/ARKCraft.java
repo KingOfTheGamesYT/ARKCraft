@@ -2,6 +2,7 @@ package com.uberverse.arkcraft;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -15,6 +16,8 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import org.apache.logging.log4j.Logger;
 
+import com.uberverse.arkcraft.common.config.CoreConfig;
+import com.uberverse.arkcraft.common.config.ModuleItemConfig;
 import com.uberverse.arkcraft.common.event.CommonEventHandler;
 import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
 import com.uberverse.arkcraft.common.network.ReloadFinished;
@@ -43,10 +46,10 @@ public class ARKCraft
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
-	//	CoreConfig.init(event.getModConfigurationDirectory());
-	//	FMLCommonHandler.instance().bus().register(new CoreConfig());
-	//	ModuleItemConfig.init(event.getModConfigurationDirectory());
-	//	FMLCommonHandler.instance().bus().register(new ModuleItemConfig());
+		CoreConfig.init(event.getModConfigurationDirectory());
+		FMLCommonHandler.instance().bus().register(new CoreConfig());
+		ModuleItemConfig.init(event.getModConfigurationDirectory());
+		FMLCommonHandler.instance().bus().register(new ModuleItemConfig());
 		
 		tabARK = new CreativeTabs(CreativeTabs.getNextID(), "tabARK")
 		{
@@ -54,10 +57,10 @@ public class ARKCraft
 			public Item getTabIconItem()
 			{
 				// TODO Assign proper item as icon
-				return ARKCraftItems.azul;
+				return ARKCraftItems.spy_glass;
 			}
 		};
-	//	proxy.preInit();
+		
 		ARKCraftBlocks.init();
 		ARKCraftItems.init();
 		ARKCraftWeapons.init();
@@ -69,17 +72,12 @@ public class ARKCraft
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
-		/*
-		CoreCommonEventHandler coreEventHandler = new CoreCommonEventHandler();
-		MinecraftForge.EVENT_BUS.register(coreEventHandler);
-		FMLCommonHandler.instance().bus().register(coreEventHandler); */
 
 		CommonEventHandler.init();
-
+		
 		proxy.registerRenderers();
-		proxy.registerWeapons();
-		proxy.registerEventHandlers();
 		proxy.init();
+		proxy.registerEventHandlers();
 	}
 
 	@EventHandler

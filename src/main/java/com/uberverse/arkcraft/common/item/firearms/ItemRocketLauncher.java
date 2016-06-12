@@ -7,7 +7,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.ModuleItemBalance;
+import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 
 public class ItemRocketLauncher extends ItemRangedWeapon
 {
