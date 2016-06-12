@@ -19,6 +19,7 @@ import org.apache.logging.log4j.Logger;
 import com.uberverse.arkcraft.common.config.CoreConfig;
 import com.uberverse.arkcraft.common.config.ModuleItemConfig;
 import com.uberverse.arkcraft.common.event.CommonEventHandler;
+import com.uberverse.arkcraft.common.handlers.GuiHandler;
 import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
 import com.uberverse.arkcraft.common.network.ReloadFinished;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
@@ -50,7 +51,7 @@ public class ARKCraft
 		FMLCommonHandler.instance().bus().register(new CoreConfig());
 		ModuleItemConfig.init(event.getModConfigurationDirectory());
 		FMLCommonHandler.instance().bus().register(new ModuleItemConfig());
-		
+				
 		tabARK = new CreativeTabs(CreativeTabs.getNextID(), "tabARK")
 		{
 			@Override
@@ -64,6 +65,7 @@ public class ARKCraft
 		ARKCraftBlocks.init();
 		ARKCraftItems.init();
 		ARKCraftWeapons.init();
+		NetworkRegistry.INSTANCE.registerGuiHandler(ARKCraft.instance, new GuiHandler());
 		
 		setupNetwork();	
 		modLog = event.getModLog();
@@ -88,18 +90,7 @@ public class ARKCraft
 	
 	public enum GUI
 	{
-		SMITHY(0),
-		PESTLE_AND_MORTAR(1),
-		INV_DODO(2),
-		BOOK_GUI(3),
-		CROP_PLOT(4),
-		TAMING_GUI(5),
-		COMPOST_BIN(6),
-		SCOPE(7),
-		PLAYER(8),
-		TAMED_DINO(9),
-		FORGE_GUI(10),
-		ATTACHMENT_GUI(11);
+		ATTACHMENT_GUI(0);
 		int id;
 
 		GUI(int id)
