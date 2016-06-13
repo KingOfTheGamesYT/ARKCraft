@@ -10,30 +10,26 @@ import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.event.ClientEventHandler;
+import com.uberverse.arkcraft.client.gui.GuiOverlayReloading;
 import com.uberverse.arkcraft.client.render.RenderAdvancedBullet;
-import com.uberverse.arkcraft.client.render.RenderMetalArrow;
 import com.uberverse.arkcraft.client.render.RenderSimpleBullet;
 import com.uberverse.arkcraft.client.render.RenderSimpleRifleAmmo;
 import com.uberverse.arkcraft.client.render.RenderSimpleShotgunAmmo;
 import com.uberverse.arkcraft.client.render.RenderSpear;
-import com.uberverse.arkcraft.client.render.RenderStoneArrow;
-import com.uberverse.arkcraft.client.render.RenderTranqArrow;
 import com.uberverse.arkcraft.client.render.RenderTranquilizer;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.entity.EntityAdvancedBullet;
 import com.uberverse.arkcraft.common.entity.EntityGrenade;
-import com.uberverse.arkcraft.common.entity.EntityMetalArrow;
 import com.uberverse.arkcraft.common.entity.EntitySimpleBullet;
 import com.uberverse.arkcraft.common.entity.EntitySimpleRifleAmmo;
 import com.uberverse.arkcraft.common.entity.EntitySimpleShotgunAmmo;
 import com.uberverse.arkcraft.common.entity.EntitySpear;
 import com.uberverse.arkcraft.common.entity.EntityStone;
-import com.uberverse.arkcraft.common.entity.EntityStoneArrow;
-import com.uberverse.arkcraft.common.entity.EntityTranqArrow;
 import com.uberverse.arkcraft.common.entity.EntityTranquilizer;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.proxy.CommonProxy;
@@ -54,11 +50,11 @@ public class ClientProxy extends CommonProxy{
 
 		ClientEventHandler.init();
 
-		//MinecraftForge.EVENT_BUS.register(new GuiOverlay());
+	//1	MinecraftForge.EVENT_BUS.register(new GuiOverlay());
+		MinecraftForge.EVENT_BUS.register(new GuiOverlayReloading());
 
 	//	KeyBindings.preInit();
 	//	dossierProxy.init();
-	//	registerItemVariants();
 		LogHelper.info("CommonProxy: Init run finished.");
 		initDone = true;
 	}
@@ -150,13 +146,6 @@ public class ClientProxy extends CommonProxy{
 				new RenderSnowball(Minecraft.getMinecraft().getRenderManager(),
 						ARKCraftItems.grenade, Minecraft.getMinecraft()
 								.getRenderItem()));
-
-		RenderingRegistry.registerEntityRenderingHandler(
-				EntityTranqArrow.class, new RenderTranqArrow());
-		RenderingRegistry.registerEntityRenderingHandler(
-				EntityStoneArrow.class, new RenderStoneArrow());
-		RenderingRegistry.registerEntityRenderingHandler(
-				EntityMetalArrow.class, new RenderMetalArrow());
 
 		if (ModuleItemBalance.WEAPONS.SIMPLE_PISTOL)
 		{

@@ -9,9 +9,6 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.entity.EntityGrenade;
-import com.uberverse.arkcraft.common.entity.EntitySpear;
-import com.uberverse.arkcraft.common.handlers.EntityHandler;
 import com.uberverse.arkcraft.common.item.ARKCraftItem;
 import com.uberverse.arkcraft.common.item.explosives.ItemGrenade;
 import com.uberverse.arkcraft.common.item.firearms.ItemSlingshot;
@@ -62,10 +59,10 @@ public class ARKCraftItems {
 	//	spear = addSpearItem("spear", ToolMaterial.WOOD);
 	//	wooden_club = addWoodenClub("wooden_club", ToolMaterial.WOOD);
 
-		EntityHandler.registerModEntity(EntityGrenade.class, "grenade",
-				ARKCraft.instance, 64, 10, true);
-		EntityHandler.registerModEntity(EntitySpear.class, "spear",
-				ARKCraft.instance, 64, 10, true);
+	//	EntityHandler.registerModEntity(EntityGrenade.class, "grenade",
+	//			ARKCraft.instance, 64, 10, true);
+	//	EntityHandler.registerModEntity(EntitySpear.class, "spear",
+	//			ARKCraft.instance, 64, 10, true);
 
 	}
 

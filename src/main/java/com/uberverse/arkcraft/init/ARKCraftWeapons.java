@@ -111,10 +111,8 @@ public class ARKCraftWeapons {
 
 		if (ModuleItemBalance.WEAPONS.ROCKET_LAUNCHER)
 		{
-			EntityHandler
-					.registerModEntity(EntityRocketPropelledGrenade.class,
-							"rocket_propelled_grenade", ARKCraft.instance, 64,
-							10, true);
+			EntityHandler.registerModEntity(EntityRocketPropelledGrenade.class,
+					"rocket_propelled_grenade", ARKCraft.instance, 64, 10, true);
 		}
 	}
 

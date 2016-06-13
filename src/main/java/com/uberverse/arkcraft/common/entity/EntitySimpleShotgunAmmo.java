@@ -10,20 +10,20 @@ public class EntitySimpleShotgunAmmo extends EntityProjectile
 	public EntitySimpleShotgunAmmo(World world)
 	{
 		super(world);
-		this.setDamage(3);
+		this.setDamage(5);
 	}
 
 	public EntitySimpleShotgunAmmo(World world, double x, double y, double z)
 	{
 		this(world);
 		setPosition(x, y, z);
-		this.setDamage(3);
+		this.setDamage(5);
 	}
 
 	public EntitySimpleShotgunAmmo(World worldIn, EntityLivingBase shooter, float speed, float inaccuracy)
 	{
 		super(worldIn, shooter, speed, inaccuracy);
-		this.setDamage(3);
+		this.setDamage(5);
 	}
 
 	@Override
