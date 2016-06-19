@@ -5,29 +5,45 @@ import java.util.Map;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.item.ARKCraftFood;
 import com.uberverse.arkcraft.common.item.ARKCraftItem;
+import com.uberverse.arkcraft.common.item.ARKCraftSeed;
 import com.uberverse.arkcraft.common.item.explosives.ItemGrenade;
 import com.uberverse.arkcraft.common.item.firearms.ItemSlingshot;
 import com.uberverse.arkcraft.common.item.melee.ItemSpear;
 import com.uberverse.arkcraft.common.item.tools.ItemMetalHatchet;
 import com.uberverse.arkcraft.common.item.tools.ItemMetalPick;
+import com.uberverse.arkcraft.common.item.tools.ItemMetalSickle;
 import com.uberverse.arkcraft.common.item.tools.ItemStoneHatchet;
 import com.uberverse.arkcraft.common.item.tools.ItemStonePick;
 
 public class ARKCraftItems {
 	
-	public static ARKCraftItem azul, stone, spy_glass;
-	public static ItemGrenade grenade;
-	public static ItemSlingshot slingshot;
-	public static ItemSpear spear;
+	//Tools
 	public static ItemStonePick stone_pick;
 	public static ItemStoneHatchet stone_hatchet;
 	public static ItemMetalPick metal_pick;
 	public static ItemMetalHatchet metal_hatchet;
+	public static ItemMetalSickle metal_sickle;
+	
+	//Food
+	public static ARKCraftFood tintoBerry, amarBerry, azulBerry, mejoBerry,
+	narcoBerry, stimBerry, meat_raw, meat_cooked, primemeat_raw,
+	primemeat_cooked, spoiled_meat;
+	public static ARKCraftSeed tintoBerrySeed, amarBerrySeed, azulBerrySeed, mejoBerrySeed, narcoBerrySeed, stimBerrySeed;
+	
+	//Misc
+	public static ARKCraftItem stone, spy_glass, fiber;
+	
+	public static ItemGrenade grenade;
+	public static ItemSlingshot slingshot;
+	public static ItemSpear spear;
+
 	
 	public static ToolMaterial METAL = EnumHelper.addToolMaterial("METAL_MAT",
 			3, 1500, 6.0F, 0.8F, 8);
@@ -47,6 +63,7 @@ public class ARKCraftItems {
 	//	grenade = addGrenade("grenade");
 		stone = addItem("stone");
 		spy_glass = addItem("spy_glass");
+		fiber = addItem("fiber");
 		// stoneSpear = addWeaponThrowable("stoneSpear", ToolMaterial.STONE);
 		
 		//Tools
@@ -55,6 +72,26 @@ public class ARKCraftItems {
 		stone_hatchet = addStoneHatchet("stone_hatchet", STONE);
 		stone_pick = addStonePick("stone_pick", STONE);
 	
+		// Food
+		tintoBerry = addFood("tinto", 4, 0.3F, false, true);
+		amarBerry = addFood("amar", 4, 0.3F, false, true);
+		azulBerry = addFood("azul", 4, 0.3F, false, true);
+		mejoBerry = addFood("mejo", 4, 0.3F, false, true);
+		narcoBerry = addFood("narco", 4, 0.3F, true, true);
+		stimBerry = addFood("stim", 4, 0.3F, true, true);
+		meat_raw = addFood("meat_raw", 3, 0.3F, false, false);
+		meat_cooked = addFood("meat_cooked", 6, 0.9F, false, false);
+		primemeat_raw = addFood("primemeat_raw", 3, 0.3F, false, false);
+		primemeat_cooked = addFood("primemeat_cooked", 8, 1.2F, false, false);
+		spoiled_meat = addFood("spoiled_meat", 2, 0.1F, false, false);
+
+		// Seeds
+		tintoBerrySeed = addSeedItem("tintoBerrySeed");
+		amarBerrySeed = addSeedItem("amarBerrySeed");
+		azulBerrySeed = addSeedItem("azulBerrySeed");
+		mejoBerrySeed = addSeedItem("mejoBerrySeed");
+		narcoBerrySeed = addSeedItem("narcoBerrySeed");
+		stimBerrySeed = addSeedItem("stimBerrySeed");
 
 	//	spear = addSpearItem("spear", ToolMaterial.WOOD);
 	//	wooden_club = addWoodenClub("wooden_club", ToolMaterial.WOOD);
@@ -118,6 +155,27 @@ public class ARKCraftItems {
 	public static ARKCraftItem addItem(String name)
 	{
 		ARKCraftItem i = new ARKCraftItem();
+		registerItem(name, i);
+		return i;
+	}
+	
+	protected static ARKCraftFood addFood(String name, int heal, float sat, boolean fav, boolean alwaysEdible)
+	{
+		ARKCraftFood f = new ARKCraftFood(heal, sat, fav, alwaysEdible);
+		registerItem(name, f);
+		return f;
+	}
+	
+	public static ARKCraftFood addFood(String name, int heal, float sat, boolean fav, boolean alwaysEdible, PotionEffect... effect)
+	{
+		ARKCraftFood f = new ARKCraftFood(heal, sat, fav, alwaysEdible, effect);
+		registerItem(name, f);
+		return f;
+	}
+	
+	protected static ARKCraftSeed addSeedItem(String name)
+	{
+		ARKCraftSeed i = new ARKCraftSeed();
 		registerItem(name, i);
 		return i;
 	}

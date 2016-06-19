@@ -9,11 +9,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.block.ARKCraftBerryBush;
 import com.uberverse.arkcraft.common.block.BlockFlashlight;
+import com.uberverse.arkcraft.common.handlers.GenerationHandler;
 
 public class ARKCraftBlocks {
 	
 	public static BlockFlashlight block_flashlight;
+	public static ARKCraftBerryBush berryBush;
 
 	public static Map<String, Block> allBlocks = new HashMap<String, Block>();
 
@@ -26,6 +29,10 @@ public class ARKCraftBlocks {
 	{
 		block_flashlight = new BlockFlashlight();
 		GameRegistry.registerBlock(block_flashlight, "block_flashlight");
+		
+		berryBush = (ARKCraftBerryBush) registerBlock(new ARKCraftBerryBush(0.4F), "berryBush");
+//		GenerationHandler.addOreToGen(oreSurface, 0); // Sets to the values in
+														// BALENCE.GEN.class
 	}
 
 	@SuppressWarnings("unused")

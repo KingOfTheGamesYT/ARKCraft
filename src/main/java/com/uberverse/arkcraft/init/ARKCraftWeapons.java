@@ -27,13 +27,13 @@ import com.uberverse.arkcraft.common.item.ARKCraftItem;
 import com.uberverse.arkcraft.common.item.ammo.ItemProjectile;
 import com.uberverse.arkcraft.common.item.attachments.AttachmentType;
 import com.uberverse.arkcraft.common.item.attachments.ItemAttachment;
-import com.uberverse.arkcraft.common.item.firearms.ItemCrossbow;
+import com.uberverse.arkcraft.common.item.explosives.ItemRocketLauncher;
 import com.uberverse.arkcraft.common.item.firearms.ItemFabricatedPistol;
 import com.uberverse.arkcraft.common.item.firearms.ItemLongneckRifle;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
-import com.uberverse.arkcraft.common.item.firearms.ItemRocketLauncher;
 import com.uberverse.arkcraft.common.item.firearms.ItemShotgun;
 import com.uberverse.arkcraft.common.item.firearms.ItemSimplePistol;
+import com.uberverse.arkcraft.common.item.ranged.ItemCrossbow;
 
 public class ARKCraftWeapons {
 	

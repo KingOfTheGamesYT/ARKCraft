@@ -30,6 +30,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.client.gui.GuiOverlayGetResources;
 import com.uberverse.arkcraft.common.container.inventory.InventoryAttachment;
 import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
@@ -41,15 +42,17 @@ public class ClientEventHandler
 {
 	private static KeyBinding reload, attachment;
 
+	public static KeyBinding harvestOverlay;
+
 	private static Minecraft mc = Minecraft.getMinecraft();
 
 	private static Random random = new Random();
-
+	
 	private static int swayTicks;
 	private static final int maxTicks = 20;
 	private static float yawSway;
 	private static float pitchSway;
-
+	
 	private ItemStack selected;
 	private static final ResourceLocation OVERLAY_TEXTURE = new ResourceLocation(ARKCraft.MODID,
 			"textures/gui/scope.png");
@@ -66,6 +69,9 @@ public class ClientEventHandler
 
 		attachment = new KeyBinding("key.attachment", Keyboard.KEY_M, ARKCraft.NAME);
 		ClientRegistry.registerKeyBinding(attachment);
+		
+		harvestOverlay = new KeyBinding("key.harvestOverlay", Keyboard.KEY_P, ARKCraft.NAME);
+		ClientRegistry.registerKeyBinding(harvestOverlay);
 	}
 
 	@SubscribeEvent
@@ -214,6 +220,13 @@ public class ClientEventHandler
 			}
 		}
 	}
+	public static boolean openOverlay;
+	public int count = 0;
+	
+	public static boolean openOverlay()
+	{
+		return openOverlay;
+	}
 
 	@SubscribeEvent
 	public void onPlayerKeypressed(InputEvent.KeyInputEvent event)
@@ -233,6 +246,25 @@ public class ClientEventHandler
 						player.worldObj, 0, 0, 0);
 				ARKCraft.modChannel.sendToServer(new OpenAttachmentInventory());
 			}
+		}
+		else if (harvestOverlay.isPressed())
+		{
+			if (count == 1)
+			{
+				count = count - 1;
+			}
+			else
+			{
+				count ++;
+			}
+		}
+		if (count == 1)
+		{
+			openOverlay = true;
+		}
+		else
+		{
+			openOverlay = false;
 		}
 	}
 }

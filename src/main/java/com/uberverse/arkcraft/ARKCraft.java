@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
 import org.apache.logging.log4j.Logger;
@@ -19,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 import com.uberverse.arkcraft.common.config.CoreConfig;
 import com.uberverse.arkcraft.common.config.ModuleItemConfig;
 import com.uberverse.arkcraft.common.event.CommonEventHandler;
+import com.uberverse.arkcraft.common.gen.WorldGeneratorBushes;
 import com.uberverse.arkcraft.common.handlers.GuiHandler;
 import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
 import com.uberverse.arkcraft.common.network.ReloadFinished;
@@ -51,6 +53,8 @@ public class ARKCraft
 		FMLCommonHandler.instance().bus().register(new CoreConfig());
 		ModuleItemConfig.init(event.getModConfigurationDirectory());
 		FMLCommonHandler.instance().bus().register(new ModuleItemConfig());
+		
+		GameRegistry.registerWorldGenerator(new WorldGeneratorBushes(), 0);
 				
 		tabARK = new CreativeTabs(CreativeTabs.getNextID(), "tabARK")
 		{
