@@ -23,8 +23,14 @@ import com.uberverse.arkcraft.common.event.CommonEventHandler;
 import com.uberverse.arkcraft.common.gen.WorldGeneratorBushes;
 import com.uberverse.arkcraft.common.handlers.GuiHandler;
 import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
+import com.uberverse.arkcraft.common.network.OpenPlayerCrafting;
+import com.uberverse.arkcraft.common.network.PlayerPoop;
 import com.uberverse.arkcraft.common.network.ReloadFinished;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
+import com.uberverse.arkcraft.common.network.ScrollingMessage;
+import com.uberverse.arkcraft.common.network.UpdateMPToCraftItem;
+import com.uberverse.arkcraft.common.network.UpdatePlayerCrafting;
+import com.uberverse.arkcraft.common.network.UpdateSmithyToCraftItem;
 import com.uberverse.arkcraft.common.proxy.CommonProxy;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
@@ -92,9 +98,25 @@ public class ARKCraft
 	
 	}
 	
+	public static ARKCraft instance()
+	{
+		return instance;
+	}
+	
 	public enum GUI
 	{
-		ATTACHMENT_GUI(0);
+		SMITHY(0),
+		PESTLE_AND_MORTAR(1),
+		INV_DODO(2),
+		BOOK_GUI(3),
+		CROP_PLOT(4),
+		TAMING_GUI(5),
+		COMPOST_BIN(6),
+		SCOPE(7),
+		PLAYER(8),
+		TAMED_DINO(9),
+		FORGE_GUI(10),
+		ATTACHMENT_GUI(11);
 		int id;
 
 		GUI(int id)
@@ -114,13 +136,24 @@ public class ARKCraft
 
 		int id = 0;
 		// The handler (usually in the packet class), the packet class, unique
-		// id, side the packet is received on
+		modChannel.registerMessage(PlayerPoop.Handler.class, PlayerPoop.class,
+				id++, Side.SERVER);
+		modChannel.registerMessage(UpdateMPToCraftItem.Handler.class,
+				UpdateMPToCraftItem.class, id++, Side.SERVER);
+		modChannel.registerMessage(UpdateSmithyToCraftItem.Handler.class,
+				UpdateSmithyToCraftItem.class, id++, Side.SERVER);
+		modChannel.registerMessage(OpenPlayerCrafting.Handler.class,
+				OpenPlayerCrafting.class, id++, Side.SERVER);
+		modChannel.registerMessage(UpdatePlayerCrafting.Handler.class,
+				UpdatePlayerCrafting.class, id++, Side.SERVER);
 		modChannel.registerMessage(OpenAttachmentInventory.Handler.class,
 				OpenAttachmentInventory.class, id++, Side.SERVER);
 		modChannel.registerMessage(ReloadStarted.Handler.class,
 				ReloadStarted.class, id++, Side.SERVER);
 		modChannel.registerMessage(ReloadFinished.Handler.class,
 				ReloadFinished.class, id++, Side.CLIENT);
+		modChannel.registerMessage(ScrollingMessage.Handler.class,
+				ScrollingMessage.class, id++, Side.SERVER);
 	}
 	
 	public boolean isDebugger()

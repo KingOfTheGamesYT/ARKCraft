@@ -12,7 +12,9 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -24,25 +26,25 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.client.gui.GuiOverlayGetResources;
 import com.uberverse.arkcraft.common.container.inventory.InventoryAttachment;
+import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
 import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
+import com.uberverse.arkcraft.common.network.OpenPlayerCrafting;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 
 public class ClientEventHandler
 {
-	private static KeyBinding reload, attachment;
-
-	public static KeyBinding harvestOverlay;
+	private static KeyBinding reload, attachment, playerPooping, harvestOverlay, playerCrafting;
 
 	private static Minecraft mc = Minecraft.getMinecraft();
 
@@ -66,13 +68,55 @@ public class ClientEventHandler
 
 		reload = new KeyBinding("key.arkcraft.reload", Keyboard.KEY_R, ARKCraft.NAME);
 		ClientRegistry.registerKeyBinding(reload);
-
+		
+		playerPooping = new KeyBinding("key.arkcraft.playerPooping", Keyboard.KEY_Z, ARKCraft.NAME);
+		ClientRegistry.registerKeyBinding(playerPooping);
+		
+		playerCrafting = new KeyBinding("key.arkcraft.playerCrafting", Keyboard.KEY_I, ARKCraft.NAME);
+		ClientRegistry.registerKeyBinding(playerCrafting);
+		
 		attachment = new KeyBinding("key.attachment", Keyboard.KEY_M, ARKCraft.NAME);
 		ClientRegistry.registerKeyBinding(attachment);
 		
 		harvestOverlay = new KeyBinding("key.harvestOverlay", Keyboard.KEY_P, ARKCraft.NAME);
 		ClientRegistry.registerKeyBinding(harvestOverlay);
 	}
+	
+	@SubscribeEvent
+	public void onPlayerTickEvent(TickEvent.PlayerTickEvent event)
+	{
+		// Update CraftingInventory
+		if (ARKPlayer.get(event.player).getInventoryBlueprints().isCrafting())
+		{
+			ARKPlayer.get(event.player).getInventoryBlueprints().update();
+		}		
+	}
+
+	public Vec3 getPositionEyes(EntityPlayer player, float partialTick)
+	{
+		if (partialTick == 1.0F)
+		{
+			return new Vec3(player.posX, player.posY + (double) player.getEyeHeight(), player.posZ);
+		}
+		else
+		{
+			double d0 = player.prevPosX + (player.posX - player.prevPosX) * (double) partialTick;
+			double d1 = player.prevPosY + (player.posY - player.prevPosY) * (double) partialTick + (double) player
+					.getEyeHeight();
+			double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * (double) partialTick;
+			return new Vec3(d0, d1, d2);
+		}
+	}
+
+	public MovingObjectPosition rayTrace(EntityPlayer player, double distance, float partialTick)
+	{
+		Vec3 vec3 = getPositionEyes(player, partialTick);
+		Vec3 vec31 = player.getLook(partialTick);
+		Vec3 vec32 = vec3.addVector(vec31.xCoord * distance, vec31.yCoord * distance,
+				vec31.zCoord * distance);
+		return player.worldObj.rayTraceBlocks(vec3, vec32, false, false, true);
+	}
+
 
 	@SubscribeEvent
 	public void onMouseEvent(MouseEvent evt)
@@ -231,13 +275,23 @@ public class ClientEventHandler
 	@SubscribeEvent
 	public void onPlayerKeypressed(InputEvent.KeyInputEvent event)
 	{
-		if (reload.isPressed())
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		if (playerPooping.isPressed())
+		{
+			ARKPlayer.get(player).poop();
+		}
+		else if (playerCrafting.isPressed())
+		{
+			player.openGui(ARKCraft.instance(), ARKCraft.GUI.PLAYER.getID(),
+					player.worldObj, 0, 0, 0);
+			ARKCraft.modChannel.sendToServer(new OpenPlayerCrafting(true));
+		}
+		else if (reload.isPressed())
 		{
 			doReload();
 		}
 		else if (attachment.isPressed())
 		{
-			EntityPlayer player = mc.thePlayer;
 			if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem()
 					.getItem() instanceof ItemRangedWeapon && !(player.getCurrentEquippedItem()
 					.getItem() instanceof NonSupporting))

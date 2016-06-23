@@ -10,6 +10,8 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.config.ModuleItemBalance;
+import com.uberverse.arkcraft.common.item.ARKCraftFeces;
 import com.uberverse.arkcraft.common.item.ARKCraftFood;
 import com.uberverse.arkcraft.common.item.ARKCraftItem;
 import com.uberverse.arkcraft.common.item.ARKCraftSeed;
@@ -38,7 +40,8 @@ public class ARKCraftItems {
 	public static ARKCraftSeed tintoBerrySeed, amarBerrySeed, azulBerrySeed, mejoBerrySeed, narcoBerrySeed, stimBerrySeed;
 	
 	//Misc
-	public static ARKCraftItem stone, spy_glass, fiber;
+	public static ARKCraftItem stone, spy_glass, fiber, thatch;
+	public static ARKCraftFeces small_feces, medium_feces, large_feces, fertilizer, player_feces;
 	
 	public static ItemGrenade grenade;
 	public static ItemSlingshot slingshot;
@@ -59,12 +62,10 @@ public class ARKCraftItems {
 	
 	public static void init()
 	{
-	//	slingshot = addSlingshot("slingshot");
-	//	grenade = addGrenade("grenade");
 		stone = addItem("stone");
 		spy_glass = addItem("spy_glass");
 		fiber = addItem("fiber");
-		// stoneSpear = addWeaponThrowable("stoneSpear", ToolMaterial.STONE);
+		thatch = addItem("thatch");
 		
 		//Tools
 		metal_pick = addMetalPick("metal_pick", METAL);
@@ -92,14 +93,25 @@ public class ARKCraftItems {
 		mejoBerrySeed = addSeedItem("mejoBerrySeed");
 		narcoBerrySeed = addSeedItem("narcoBerrySeed");
 		stimBerrySeed = addSeedItem("stimBerrySeed");
+		
+		//feces
+		small_feces = addFecesItem(
+				"small_feces",
+				ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE);
+		medium_feces = addFecesItem(
+				"medium_feces",
+				ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE);
+		large_feces = addFecesItem(
+				"large_feces",
+				ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE);
+		player_feces = addFecesItem(
+				"player_feces",
+				ModuleItemBalance.CROP_PLOT.SECONDS_FOR_PLAYER_FECES_TO_DECOMPOSE);
 
-	//	spear = addSpearItem("spear", ToolMaterial.WOOD);
-	//	wooden_club = addWoodenClub("wooden_club", ToolMaterial.WOOD);
-
-	//	EntityHandler.registerModEntity(EntityGrenade.class, "grenade",
-	//			ARKCraft.instance, 64, 10, true);
-	//	EntityHandler.registerModEntity(EntitySpear.class, "spear",
-	//			ARKCraft.instance, 64, 10, true);
+		// Technically not feces, but used in all situations the same
+		// (currently)
+		fertilizer = addFecesItem("fertilizer",
+				ModuleItemBalance.CROP_PLOT.SECONDS_FOR_FERTILIZER_TO_DECOMPOSE);
 
 	}
 
@@ -134,6 +146,14 @@ public class ARKCraftItems {
 	public static ItemStonePick addStonePick(String name, ToolMaterial m)
 	{
 		ItemStonePick i = new ItemStonePick(m);
+		registerItem(name, i);
+		return i;
+	}
+	
+	public static ARKCraftFeces addFecesItem(String name, int maxDamageIn)
+	{
+		ARKCraftFeces i = new ARKCraftFeces();
+		i.setMaxDamage(maxDamageIn);
 		registerItem(name, i);
 		return i;
 	}

@@ -32,44 +32,22 @@ public class GuiOverlayGetResources extends Gui
 	public void renderGUIOverlay(RenderGameOverlayEvent.Post e)
 	{
 		
-		System.out.println(ClientEventHandler.openOverlay());
-		//ClientEventHandler evt = new ClientEventHandler();
 		if (allowGuiOpen != ClientEventHandler.openOverlay())
 		{
-			allowGuiOpen = true;
-			System.out.println(allowGuiOpen);
+			EntityPlayer p = mc.thePlayer;
+			ItemStack stack = p.getCurrentEquippedItem();
+			ClientEventHandler handler = new ClientEventHandler();
+		//	System.out.println("GuiOverlay" + handler.doOverlay());
+			
+				if (e.type.equals(ElementType.HELMET) )
+				{
+						String text = "ARK Enabled";
+
+						
+						int x = 2;
+						int y = 20;
+						drawString(mc.fontRendererObj, text, x, y - 16, 0xFFFFFFFF);
+				}
 		}
-		
-		EntityPlayer p = mc.thePlayer;
-		ItemStack stack = p.getCurrentEquippedItem();
-		ClientEventHandler handler = new ClientEventHandler();
-	//	System.out.println("GuiOverlay" + handler.doOverlay());
-		
-	
-			if (e.type.equals(ElementType.HELMET) )
-			{
-		//		System.out.println("ran code");
-			
-			/*
-			if (stack != null && handler.doOverlay())
-			{
-				String text = "";
-				if (!p.capabilities.isCreativeMode)
-				{
-					ItemRangedWeapon weapon = (ItemRangedWeapon) stack.getItem();
-					text = weapon.getAmmoQuantity(stack) + "/" + weapon.getAmmoQuantityInInventory(
-							stack, p);
-				}
-				else
-				{
-					text = '\u221e' + "";
-				}
-				int x = e.resolution.getScaledWidth() - 4 - mc.fontRendererObj.getStringWidth(text);
-				int y = 20;
-				drawString(mc.fontRendererObj, text, x, y - 16, 0xFFFFFFFF);
-			}*/
-		}	
-			
-		
-	}
+	}	
 }
