@@ -1,10 +1,6 @@
 package com.uberverse.arkcraft.common.handlers.recipes;
 
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-
 import com.uberverse.arkcraft.common.handlers.ARKCraftingManager;
-import com.uberverse.arkcraft.init.ARKCraftItems;
 
 /**
  * @author wildbill22 Notes about adding recipes: 1) If a block has meta data:

@@ -22,6 +22,11 @@ import com.uberverse.arkcraft.common.config.ModuleItemConfig;
 import com.uberverse.arkcraft.common.event.CommonEventHandler;
 import com.uberverse.arkcraft.common.gen.WorldGeneratorBushes;
 import com.uberverse.arkcraft.common.handlers.GuiHandler;
+import com.uberverse.arkcraft.common.handlers.recipes.ForgeCraftingHandler;
+import com.uberverse.arkcraft.common.handlers.recipes.PestleCraftingManager;
+import com.uberverse.arkcraft.common.handlers.recipes.PlayerCraftingManager;
+import com.uberverse.arkcraft.common.handlers.recipes.RecipeHandler;
+import com.uberverse.arkcraft.common.handlers.recipes.SmithyCraftingManager;
 import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
 import com.uberverse.arkcraft.common.network.OpenPlayerCrafting;
 import com.uberverse.arkcraft.common.network.PlayerPoop;
@@ -76,6 +81,12 @@ public class ARKCraft
 		ARKCraftItems.init();
 		ARKCraftWeapons.init();
 		NetworkRegistry.INSTANCE.registerGuiHandler(ARKCraft.instance, new GuiHandler());
+		
+		RecipeHandler.registerVanillaCraftingRecipes();
+		PestleCraftingManager.registerPestleCraftingRecipes();
+		SmithyCraftingManager.registerSmithyCraftingRecipes();
+		PlayerCraftingManager.registerPlayerCraftingRecipes();
+		ForgeCraftingHandler.registerForgeRecipes();
 		
 		setupNetwork();	
 		modLog = event.getModLog();
