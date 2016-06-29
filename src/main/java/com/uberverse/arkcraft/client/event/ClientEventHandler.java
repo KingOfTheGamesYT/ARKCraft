@@ -37,6 +37,7 @@ import com.uberverse.arkcraft.common.container.inventory.InventoryAttachment;
 import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
 import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
+import com.uberverse.arkcraft.common.item.tools.ARKCraftTool;
 import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
 import com.uberverse.arkcraft.common.network.OpenPlayerCrafting;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
@@ -121,6 +122,8 @@ public class ClientEventHandler
 	@SubscribeEvent
 	public void onMouseEvent(MouseEvent evt)
 	{
+		
+		int count = 0;
 		Minecraft mc = Minecraft.getMinecraft();
 		EntityPlayer thePlayer = mc.thePlayer;
 
@@ -138,6 +141,7 @@ public class ClientEventHandler
 		}
 	}
 
+	
 	@SubscribeEvent
 	public void onFOVUpdate(FOVUpdateEvent evt)
 	{

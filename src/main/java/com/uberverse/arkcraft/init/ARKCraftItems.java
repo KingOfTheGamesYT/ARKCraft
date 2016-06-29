@@ -40,7 +40,7 @@ public class ARKCraftItems {
 	public static ARKCraftSeed tintoBerrySeed, amarBerrySeed, azulBerrySeed, mejoBerrySeed, narcoBerrySeed, stimBerrySeed;
 	
 	//Misc
-	public static ARKCraftItem stone, spy_glass, fiber, thatch;
+	public static ARKCraftItem stone, spy_glass, fiber, thatch, wood;
 	public static ARKCraftFeces small_feces, medium_feces, large_feces, fertilizer, player_feces;
 	
 	public static ItemGrenade grenade;
@@ -66,6 +66,7 @@ public class ARKCraftItems {
 		spy_glass = addItem("spy_glass");
 		fiber = addItem("fiber");
 		thatch = addItem("thatch");
+		wood = addItem("wood");
 		
 		//Tools
 		metal_pick = addMetalPick("metal_pick", METAL);
