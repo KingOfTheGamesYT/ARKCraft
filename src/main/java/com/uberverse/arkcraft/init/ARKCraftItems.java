@@ -168,7 +168,7 @@ public class ARKCraftItems {
 
 	public static ItemMetalHatchet addMetalHatchet(String name, ToolMaterial m)
 	{
-		ItemMetalHatchet i = new ItemMetalHatchet(m);
+		ItemMetalHatchet i = new ItemMetalHatchet(m, name);
 		registerItem(name, i);
 		return i;
 	}
