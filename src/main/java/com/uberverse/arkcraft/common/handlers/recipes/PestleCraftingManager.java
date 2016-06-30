@@ -1,10 +1,10 @@
-	package com.uberverse.arkcraft.common.handlers.recipes;
-
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
+package com.uberverse.arkcraft.common.handlers.recipes;
 
 import com.uberverse.arkcraft.common.handlers.ARKCraftingManager;
 import com.uberverse.arkcraft.init.ARKCraftItems;
+
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 
 /**
  * @author wildbill22 Notes about adding recipes: 1) If a block has meta data:
@@ -14,44 +14,41 @@ import com.uberverse.arkcraft.init.ARKCraftItems;
  *         for the block will match 2) Do not have two recipes for the same
  *         ItemStack, only the first will be used
  */
-public class PestleCraftingManager extends ARKCraftingManager
-{
+public class PestleCraftingManager extends ARKCraftingManager {
 
 	private static PestleCraftingManager instance = null;
 
-	public PestleCraftingManager()
-	{
+	public PestleCraftingManager() {
 		super();
 		instance = this;
 	}
 
-	public static PestleCraftingManager getInstance()
-	{
-		if (instance == null)
-		{
+	public static PestleCraftingManager getInstance() {
+		if (instance == null) {
 			instance = new PestleCraftingManager();
 		}
 		return instance;
 	}
 
-	public static void registerPestleCraftingRecipes()
-	{
-
+	public static void registerPestleCraftingRecipes() {
+		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.grenade, 1), new ItemStack(Items.gunpowder, 15));
 		/*
-		// Narcotics
-		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.narcotics, 1),
-				new ItemStack(ARKCraftItems.narcoBerry, 5),
-				new ItemStack(ARKCraftItems.spoiled_meat, 1));
-		// Gun Powder
-		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.gun_powder, 1),
-				new ItemStack(ARKCraftItems.flint, 1), new ItemStack(Items.coal, 1));
-		// Spark Powder
-		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.spark_powder, 1),
-				new ItemStack(ARKCraftItems.flint, 2), new ItemStack(ARKCraftItems.rock, 1));
-
-		// Cementing Pastes
-		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.cementing_pastes, 1),
-				new ItemStack(ARKCraftItems.rock, 8), new ItemStack(ARKCraftItems.chitin, 4));
-				*/
+		 * // Narcotics getInstance().addShapelessRecipe(new
+		 * ItemStack(ARKCraftItems.narcotics, 1), new
+		 * ItemStack(ARKCraftItems.narcoBerry, 5), new
+		 * ItemStack(ARKCraftItems.spoiled_meat, 1)); // Gun Powder
+		 * getInstance().addShapelessRecipe(new
+		 * ItemStack(ARKCraftItems.gun_powder, 1), new
+		 * ItemStack(ARKCraftItems.flint, 1), new ItemStack(Items.coal, 1)); //
+		 * Spark Powder getInstance().addShapelessRecipe(new
+		 * ItemStack(ARKCraftItems.spark_powder, 1), new
+		 * ItemStack(ARKCraftItems.flint, 2), new ItemStack(ARKCraftItems.rock,
+		 * 1));
+		 * 
+		 * // Cementing Pastes getInstance().addShapelessRecipe(new
+		 * ItemStack(ARKCraftItems.cementing_pastes, 1), new
+		 * ItemStack(ARKCraftItems.rock, 8), new ItemStack(ARKCraftItems.chitin,
+		 * 4));
+		 */
 	}
 }

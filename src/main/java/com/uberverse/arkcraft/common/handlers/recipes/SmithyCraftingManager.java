@@ -1,6 +1,10 @@
 package com.uberverse.arkcraft.common.handlers.recipes;
 
 import com.uberverse.arkcraft.common.handlers.ARKCraftingManager;
+import com.uberverse.arkcraft.init.ARKCraftItems;
+
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 
 /**
  * @author wildbill22 Notes about adding recipes: 1) If a block has meta data:
@@ -10,28 +14,23 @@ import com.uberverse.arkcraft.common.handlers.ARKCraftingManager;
  *         for the block will match 2) Do not have two recipes for the same
  *         ItemStack, only the first will be used
  */
-public class SmithyCraftingManager extends ARKCraftingManager
-{
+public class SmithyCraftingManager extends ARKCraftingManager {
 
 	private static SmithyCraftingManager instance = null;
 
-	public SmithyCraftingManager()
-	{
+	public SmithyCraftingManager() {
 		super();
 		instance = this;
 	}
 
-	public static SmithyCraftingManager getInstance()
-	{
-		if (instance == null)
-		{
+	public static SmithyCraftingManager getInstance() {
+		if (instance == null) {
 			instance = new SmithyCraftingManager();
 		}
 		return instance;
 	}
 
-	public static void registerSmithyCraftingRecipes()
-	{
-		
+	public static void registerSmithyCraftingRecipes() {
+		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.grenade, 1), new ItemStack(Items.gunpowder, 15));
 	}
 }
