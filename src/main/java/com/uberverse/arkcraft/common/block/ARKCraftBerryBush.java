@@ -56,6 +56,7 @@ public class ARKCraftBerryBush extends Block {
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		ItemStack heldStack = player.getCurrentEquippedItem();
 
+		//TODO replace spyglass with sickle
 		if (heldStack != null && heldStack.getItem() == ARKCraftItems.spy_glass) {
 			if (rand.nextInt(30) <= 15) {
 				return ARKCraftItems.fiber;
