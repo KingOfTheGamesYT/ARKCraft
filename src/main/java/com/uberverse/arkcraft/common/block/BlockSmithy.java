@@ -2,6 +2,9 @@ package com.uberverse.arkcraft.common.block;
 
 import java.util.Random;
 
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.block.tile.TileInventorySmithy;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -22,80 +25,63 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.block.tile.TileInventorySmithy;
-
 /**
  * @author wildbill22
  */
-public class BlockSmithy extends BlockContainer
-{
+public class BlockSmithy extends BlockContainer {
 	private int renderType = 3; // default value
 	private boolean isOpaque = false;
 	private int ID;
 	private boolean render = false;
-	public static final PropertyEnum PART = PropertyEnum.create("part",
-			BlockSmithy.EnumPartType.class);
-	public static final PropertyDirection FACING = PropertyDirection.create("facing",
-			EnumFacing.Plane.HORIZONTAL);
+	public static final PropertyEnum PART = PropertyEnum.create("part", BlockSmithy.EnumPartType.class);
+	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
-	public BlockSmithy(Material mat, int ID)
-	{
+	public BlockSmithy(Material mat, int ID) {
 		super(mat);
 		this.setHardness(0.5F);
 		this.ID = ID;
 	}
 
-	public TileEntity createNewTileEntity(World worldIn, int meta)
-	{
+	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		return new TileInventorySmithy();
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos blockPos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
-	{
-		if (!playerIn.isSneaking())
-		{
-			playerIn.openGui(ARKCraft.instance(), ID, worldIn, blockPos.getX(), blockPos.getY(),
-					blockPos.getZ());
+	public boolean onBlockActivated(World worldIn, BlockPos blockPos, IBlockState state, EntityPlayer playerIn,
+			EnumFacing side, float hitX, float hitY, float hitZ) {
+		if (!playerIn.isSneaking()) {
+			playerIn.openGui(ARKCraft.instance(), ID, worldIn, blockPos.getX(), blockPos.getY(), blockPos.getZ());
 			return true;
 		}
 		return false;
 	}
 
-	public void setRenderType(int renderType)
-	{
+	public void setRenderType(int renderType) {
 		this.renderType = renderType;
 	}
 
-	public int getRenderType()
-	{
+	public int getRenderType() {
 		return renderType;
 	}
 
-	public void setOpaque(boolean opaque)
-	{
+	public void setOpaque(boolean opaque) {
 		opaque = isOpaque;
 	}
 
-	public boolean isOpaqueCube()
-	{
+	public boolean isOpaqueCube() {
 		return isOpaque;
 	}
 
-	public void setRenderAsNormalBlock(boolean b)
-	{
+	public void setRenderAsNormalBlock(boolean b) {
 		render = b;
 	}
 
-	public boolean renderAsNormalBlock()
-	{
+	public boolean renderAsNormalBlock() {
 		return render;
 	}
 
 	@Override
-	public boolean isFullCube()
-	{
+	public boolean isFullCube() {
 		return false;
 	}
 
@@ -103,18 +89,15 @@ public class BlockSmithy extends BlockContainer
 	 * Returns randomly, about 1/2 of the recipe items
 	 */
 	@Override
-	public java.util.List<ItemStack> getDrops(net.minecraft.world.IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
-	{
+	public java.util.List<ItemStack> getDrops(net.minecraft.world.IBlockAccess world, BlockPos pos, IBlockState state,
+			int fortune) {
 		java.util.List<ItemStack> ret = super.getDrops(world, pos, state, fortune);
 		Random rand = world instanceof World ? ((World) world).rand : new Random();
 		TileEntity tileEntity = world.getTileEntity(pos);
-		if (tileEntity instanceof TileInventorySmithy)
-		{
+		if (tileEntity instanceof TileInventorySmithy) {
 			TileInventorySmithy tiSmithy = (TileInventorySmithy) tileEntity;
-			for (int i = 0; i < TileInventorySmithy.INVENTORY_SLOTS_COUNT; ++i)
-			{
-				if (rand.nextInt(2) == 0)
-				{
+			for (int i = 0; i < TileInventorySmithy.INVENTORY_SLOTS_COUNT; ++i) {
+				if (rand.nextInt(2) == 0) {
 					ret.add(tiSmithy.getStackInSlot(TileInventorySmithy.FIRST_INVENTORY_SLOT + i));
 				}
 			}
@@ -123,28 +106,12 @@ public class BlockSmithy extends BlockContainer
 	}
 
 	// ---------------- Stuff for multiblock ------------------------
-
 	@Override
-	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player)
-	{
-		if (player.capabilities.isCreativeMode && state.getValue(PART) == BlockSmithy.EnumPartType.LEFT)
-		{
-			BlockPos blockpos1 = pos.offset(((EnumFacing) state.getValue(FACING)).getOpposite());
-			if (worldIn.getBlockState(blockpos1).getBlock() == this)
-			{
-				worldIn.setBlockToAir(blockpos1);
-			}
-		}
-	}
-
-	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
-	{
+	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
 		this.setSmithyBounds();
 	}
 
-	private void setSmithyBounds()
-	{
+	private void setSmithyBounds() {
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 	}
 
@@ -152,54 +119,22 @@ public class BlockSmithy extends BlockContainer
 	 * Called when a neighboring block changes.
 	 */
 	@Override
-	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
-	{
+	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
 		EnumFacing enumfacing = (EnumFacing) state.getValue(FACING);
 
-		if (state.getValue(PART) == BlockSmithy.EnumPartType.LEFT)
-		{
-			// if
-			// (worldIn.getBlockState(pos.offset(enumfacing.getOpposite())).getBlock()
-			// != this) { // Original, from bed
-			if (worldIn.getBlockState(pos.offset(enumfacing.rotateY())).getBlock() != this)
-			{
+		if (state.getValue(PART) == BlockSmithy.EnumPartType.LEFT) {
+			if (worldIn.getBlockState(pos.offset(enumfacing.rotateY())).getBlock() != this) {
 				worldIn.setBlockToAir(pos);
 			}
 		}
-		// else if (worldIn.getBlockState(pos.offset(enumfacing)).getBlock() !=
-		// this) { // Original, from bed
-		else if (worldIn.getBlockState(pos.offset(enumfacing.rotateYCCW())).getBlock() != this)
-		{
+		else if (worldIn.getBlockState(pos.offset(enumfacing.rotateYCCW())).getBlock() != this) {
 			worldIn.setBlockToAir(pos);
-			if (!worldIn.isRemote)
-			{
-				this.dropBlockAsItem(worldIn, pos, state, 0);
-			}
-		}
-	}
-
-	/**
-	 * Spawns this Block's drops into the World as EntityItems.
-	 *
-	 * @param chance
-	 *            The chance that each Item is actually spawned (1.0 = always,
-	 *            0.0 = never)
-	 * @param fortune
-	 *            The player's fortune level
-	 */
-	@Override
-	public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune)
-	{
-		if (state.getValue(PART) == BlockSmithy.EnumPartType.RIGHT)
-		{
-			super.dropBlockAsItemWithChance(worldIn, pos, state, chance, 0);
 		}
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public EnumWorldBlockLayer getBlockLayer()
-	{
+	public EnumWorldBlockLayer getBlockLayer() {
 		return EnumWorldBlockLayer.SOLID;
 	}
 
@@ -207,13 +142,13 @@ public class BlockSmithy extends BlockContainer
 	 * Convert the given metadata into a BlockState for this Block
 	 */
 	@Override
-	public IBlockState getStateFromMeta(int meta)
-	{
+	public IBlockState getStateFromMeta(int meta) {
 		EnumFacing enumfacing = EnumFacing.getHorizontal(meta);
-		return (meta & 8) > 0 ? this.getDefaultState()
-				.withProperty(PART, BlockSmithy.EnumPartType.LEFT).withProperty(FACING, enumfacing) : this
-				.getDefaultState().withProperty(PART, BlockSmithy.EnumPartType.RIGHT)
-				.withProperty(FACING, enumfacing);
+		return (meta & 8) > 0
+				? this.getDefaultState().withProperty(PART, BlockSmithy.EnumPartType.LEFT).withProperty(FACING,
+						enumfacing)
+				: this.getDefaultState().withProperty(PART, BlockSmithy.EnumPartType.RIGHT).withProperty(FACING,
+						enumfacing);
 	}
 
 	/**
@@ -222,8 +157,7 @@ public class BlockSmithy extends BlockContainer
 	 * connections.
 	 */
 	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
-	{
+	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		return state;
 	}
 
@@ -231,40 +165,33 @@ public class BlockSmithy extends BlockContainer
 	 * Convert the BlockState into the correct metadata value
 	 */
 	@Override
-	public int getMetaFromState(IBlockState state)
-	{
+	public int getMetaFromState(IBlockState state) {
 		byte b0 = 0;
 		int i = b0 | ((EnumFacing) state.getValue(FACING)).getHorizontalIndex();
-		if (state.getValue(PART) == BlockSmithy.EnumPartType.LEFT)
-		{
+		if (state.getValue(PART) == BlockSmithy.EnumPartType.LEFT) {
 			i |= 8;
 		}
 		return i;
 	}
 
 	@Override
-	protected BlockState createBlockState()
-	{
+	protected BlockState createBlockState() {
 		return new BlockState(this, new IProperty[] { FACING, PART });
 	}
 
-	public static enum EnumPartType implements IStringSerializable
-	{
+	public static enum EnumPartType implements IStringSerializable {
 		LEFT("left"), RIGHT("right");
 		private final String name;
 
-		private EnumPartType(String name)
-		{
+		private EnumPartType(String name) {
 			this.name = name;
 		}
 
-		public String toString()
-		{
+		public String toString() {
 			return this.name;
 		}
 
-		public String getName()
-		{
+		public String getName() {
 			return this.name;
 		}
 	}
