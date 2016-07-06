@@ -2,13 +2,17 @@ package com.uberverse.arkcraft.common.item.tools;
 
 import java.util.Set;
 
-public class ARKCraftHatchet extends ARKCraftTool{
+import net.minecraft.item.Item.ToolMaterial;
 
-	public ARKCraftHatchet(String name, float attackDamage,
-			ToolMaterial material, Set effectiveBlocks, int quantity) {
-		super(name, attackDamage, material, effectiveBlocks);
+public class ARKCraftHatchet extends ItemTool
+{
+
+	protected ARKCraftHatchet(String name, float attackDamage, Set effectiveBlocks, int durability, int efficiency)
+	{
+		super(name, attackDamage, effectiveBlocks,durability,efficiency);
 		// TODO Auto-generated constructor stub
 	}
 
-
 }
+
+

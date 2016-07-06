@@ -2,13 +2,17 @@ package com.uberverse.arkcraft.init;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+import com.google.common.collect.Sets;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.item.ARKCraftFeces;
@@ -33,6 +37,8 @@ public class ARKCraftItems {
 	public static ItemMetalHatchet metal_hatchet;
 	public static ItemMetalSickle metal_sickle;
 	
+    private static final Set EFFECTIVE_ON = Sets.newHashSet(new Block[] {Blocks.activator_rail, Blocks.coal_ore, Blocks.cobblestone, Blocks.detector_rail, Blocks.diamond_block, Blocks.diamond_ore, Blocks.double_stone_slab, Blocks.golden_rail, Blocks.gold_block, Blocks.gold_ore, Blocks.ice, Blocks.iron_block, Blocks.iron_ore, Blocks.lapis_block, Blocks.lapis_ore, Blocks.lit_redstone_ore, Blocks.mossy_cobblestone, Blocks.netherrack, Blocks.packed_ice, Blocks.rail, Blocks.redstone_ore, Blocks.sandstone, Blocks.red_sandstone, Blocks.stone, Blocks.stone_slab});
+	
 	//Food
 	public static ARKCraftFood tintoBerry, amarBerry, azulBerry, mejoBerry,
 	narcoBerry, stimBerry, meat_raw, meat_cooked, primemeat_raw,
@@ -40,7 +46,7 @@ public class ARKCraftItems {
 	public static ARKCraftSeed tintoBerrySeed, amarBerrySeed, azulBerrySeed, mejoBerrySeed, narcoBerrySeed, stimBerrySeed;
 	
 	//Misc
-	public static ARKCraftItem stone, spy_glass, fiber, thatch, wood;
+	public static ARKCraftItem stone, spy_glass, fiber, thatch, wood, flint, metal;
 	public static ARKCraftFeces small_feces, medium_feces, large_feces, fertilizer, player_feces;
 	
 	public static ItemGrenade grenade;
@@ -67,10 +73,12 @@ public class ARKCraftItems {
 		fiber = addItem("fiber");
 		thatch = addItem("thatch");
 		wood = addItem("wood");
+		flint = addItem("flint");
+		metal = addItem("metal");
 		
 		//Tools
 		metal_pick = addMetalPick("metal_pick", METAL);
-		metal_hatchet = addMetalHatchet("metal_hatchet", METAL);
+		metal_hatchet = addMetalHatchet("metal_hatchet", 1F, EFFECTIVE_ON, 10, 3);
 		stone_hatchet = addStoneHatchet("stone_hatchet", STONE);
 		stone_pick = addStonePick("stone_pick", STONE);
 	
@@ -130,13 +138,6 @@ public class ARKCraftItems {
 		return slingshot;
 	}
 
-	public static ItemSpear addSpearItem(String name, ToolMaterial mat)
-	{
-		ItemSpear weapon = new ItemSpear(mat);
-		registerItem(name, weapon);
-		return weapon;
-	}
-	
 	public static ItemMetalPick addMetalPick(String name, ToolMaterial m)
 	{
 		ItemMetalPick i = new ItemMetalPick(m);
@@ -166,12 +167,13 @@ public class ARKCraftItems {
 		return i;
 	}
 
-	public static ItemMetalHatchet addMetalHatchet(String name, ToolMaterial m)
+	
+	public static ItemMetalHatchet addMetalHatchet(String name, float attackDamage, Set effectiveBlocks, int durability, int efficiency)
 	{
-		ItemMetalHatchet i = new ItemMetalHatchet(m, name);
+		ItemMetalHatchet i = new ItemMetalHatchet(name, attackDamage, effectiveBlocks, durability, efficiency);
 		registerItem(name, i);
 		return i;
-	}
+	}	
 	
 	public static ARKCraftItem addItem(String name)
 	{
