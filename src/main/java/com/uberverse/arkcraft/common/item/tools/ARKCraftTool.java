@@ -12,12 +12,14 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import net.minecraftforge.fml.relauncher.Side;
@@ -27,6 +29,7 @@ import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.event.ClientEventHandler;
 import com.uberverse.arkcraft.client.proxy.ClientProxy;
 import com.uberverse.arkcraft.init.ARKCraftItems;
+import com.uberverse.lib.Utils;
 
 public abstract class ARKCraftTool extends ItemTool{
 	private static final String DAMAGE_NBT_NAME = "damage";
@@ -56,10 +59,10 @@ public abstract class ARKCraftTool extends ItemTool{
 	{
 		if (arkMode != ClientEventHandler.openOverlay())
 		{
-			IBlockState blockState = worldIn.getBlockState(pos);
-			if (blockState.getBlock() == Blocks.log || blockState.getBlock() == Blocks.log2)
+			if(playerIn instanceof EntityPlayer)
 			{
-				if(playerIn instanceof EntityPlayer)
+				IBlockState blockState = worldIn.getBlockState(pos);
+				if (blockState.getBlock() == Blocks.log || blockState.getBlock() == Blocks.log2)
 				{
 					EntityPlayer player = (EntityPlayer) playerIn;
 					this.destroyBlocks(worldIn, pos, player, stack);
@@ -82,6 +85,81 @@ public abstract class ARKCraftTool extends ItemTool{
 					//	player.inventory.addItemStackToInventory(new ItemStack(ARKCraftItems.thatch, thatch));
 					System.out.println(" Wood: " + wood + " Thatch: " + thatch);
 					count = 0;
+				}else if (blockState.getBlock() == Blocks.stone)
+				{
+					//EntityPlayer player = (EntityPlayer) playerIn;
+					damageTool(stack, playerIn);
+					int multiplier = 1;
+					{
+						IBlockState blockState2 = worldIn.getBlockState(pos.up());
+						if (blockState2.getBlock() == Blocks.stone){
+							multiplier++;
+							worldIn.destroyBlock(pos.up(), false);
+						}
+					}
+					{
+						IBlockState blockState2 = worldIn.getBlockState(pos.down());
+						if (blockState2.getBlock() == Blocks.stone){
+							multiplier++;
+							worldIn.destroyBlock(pos.down(), false);
+						}
+					}
+					EnumFacing f = Utils.getDirectionFacing(playerIn, false);
+					{
+						BlockPos pos2 = pos.offset(f.rotateY());
+						{
+							IBlockState blockState2 = worldIn.getBlockState(pos2.up());
+							if (blockState2.getBlock() == Blocks.stone){
+								multiplier++;
+								worldIn.destroyBlock(pos2.up(), false);
+							}
+						}
+						{
+							IBlockState blockState2 = worldIn.getBlockState(pos2);
+							if (blockState2.getBlock() == Blocks.stone){
+								multiplier++;
+								worldIn.destroyBlock(pos2, false);
+							}
+						}
+						{
+							IBlockState blockState2 = worldIn.getBlockState(pos2.down());
+							if (blockState2.getBlock() == Blocks.stone){
+								multiplier++;
+								worldIn.destroyBlock(pos2.down(), false);
+							}
+						}
+					}
+					{
+						BlockPos pos2 = pos.offset(f.rotateYCCW());
+						{
+							IBlockState blockState2 = worldIn.getBlockState(pos2.up());
+							if (blockState2.getBlock() == Blocks.stone){
+								multiplier++;
+								worldIn.destroyBlock(pos2.up(), false);
+							}
+						}
+						{
+							IBlockState blockState2 = worldIn.getBlockState(pos2);
+							if (blockState2.getBlock() == Blocks.stone){
+								multiplier++;
+								worldIn.destroyBlock(pos2, false);
+							}
+						}
+						{
+							IBlockState blockState2 = worldIn.getBlockState(pos2.down());
+							if (blockState2.getBlock() == Blocks.stone){
+								multiplier++;
+								worldIn.destroyBlock(pos2.down(), false);
+							}
+						}
+					}
+					Float offset = worldIn.rand.nextFloat();
+					EntityItem entityWood = new EntityItem(worldIn, pos.getX() + offset,
+							pos.getY(), pos.getZ() + offset, (new ItemStack(ARKCraftItems.stone, (int) (10 + itemRand.nextInt(100)/20.0*multiplier*toolType.getPrimaryModifier()))));
+					EntityItem entityThatch = new EntityItem(worldIn, pos.getX() + offset,
+							pos.getY() + blockIn.getBlockBoundsMaxY(), pos.getZ() + offset, (new ItemStack(Items.flint, (int) (10 + itemRand.nextInt(100)/20.0*multiplier*count*toolType.getSecondaryModifier()))));
+					worldIn.spawnEntityInWorld(entityThatch);
+					worldIn.spawnEntityInWorld(entityWood);
 				}
 			}
 		}else{
