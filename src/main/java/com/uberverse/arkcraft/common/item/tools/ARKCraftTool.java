@@ -88,6 +88,12 @@ public class ARKCraftTool extends Item{
 	        return super.getUnlocalizedName() + "." + toolQuality[metadata];
 	 }
 	 
+	 @Override
+	 public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) 
+	 {
+		 
+	 }
+	 
 	 
 //	 @Override
 //	    public void addInformation(ItemStack itemStack, EntityPlayer playerIn, List tooltip, boolean advanced)
