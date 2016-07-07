@@ -113,41 +113,39 @@ public class CommonEventHandler {
 //		for (int z = -checkSize; z <= checkSize; z++) {
 //			for (int y = 0; y <= checkSize; y++) {
 
-	public void destroyBlocks(World world, BlockPos pos) {
-		int checkSize = 1;
+	public void destroyBlocks(World world, BlockPos pos, boolean first) {
+		//int checkSize = 1;
 		int i = pos.getX();
 		int j = pos.getY();
 		int k = pos.getZ();
-
 		for (int x = i - 1; x <= i + 1; x++) {
 			for (int z = k - 1; z <= k + 1; z++) {
 				for (int y = j - 1; y <= j + 1; y++) {
-					if (x != i && y != j && k != z) {
+					if (first || (x != i && y != j && k != z)) {
 						IBlockState blockState = world
 								.getBlockState(new BlockPos(x, y, z));
-						if (blockState.getBlock() == Blocks.log) {
-							world.destroyBlock(new BlockPos(x, y, z), true);
-							this.destroyBlocks(world, new BlockPos(x, y, z));
+						if (blockState.getBlock() == Blocks.log || blockState.getBlock() == Blocks.log2) {
+							//world.destroyBlock(new BlockPos(x, y, z), true);
+							count++;
+							this.destroyBlocks(world, new BlockPos(x, y, z), false);
 						}
 					}
 				}
 			}
 		}
-
 	}
 
 	@SubscribeEvent
-	public void BreakingBlock(PlayerEvent.BreakSpeed event)
-	{
-		boolean arkMode = false;
-		World world = Minecraft.getMinecraft().theWorld;
-		ItemStack currentTool = event.entityPlayer.getCurrentEquippedItem();
-
-		/*
-		if (currentTool != null && currentTool.getItem() instanceof ARKCraftTool && arkMode != ClientEventHandler.openOverlay())
-		{
-			event.newSpeed = 0F;
-		}	*/
+	public void breakSpeed(BreakSpeed event){
+		if(ClientEventHandler.openOverlay() && event.entityPlayer.getHeldItem() != null && event.entityPlayer.getHeldItem().getItem() instanceof ARKCraftTool){
+			destroyBlocks(event.entityPlayer.worldObj, event.pos, true);
+			float f = count / 20F;
+			System.out.println(count +" " + f);
+			if(count > 0){
+				event.newSpeed = event.originalSpeed / f / 10;
+			}
+			count = 0;
+		}
 	}
 
 	@SubscribeEvent
