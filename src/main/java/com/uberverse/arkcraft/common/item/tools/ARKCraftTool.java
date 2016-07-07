@@ -191,4 +191,8 @@ public abstract class ARKCraftTool extends ItemTool{
 		damageTool(stack, target);
 		return true;
 	}
+	@Override
+	public boolean isDamaged(ItemStack stack) {
+		return false;
+	}
 }
