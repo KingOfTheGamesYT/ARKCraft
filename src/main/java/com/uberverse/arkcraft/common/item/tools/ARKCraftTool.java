@@ -1,320 +1,96 @@
 package com.uberverse.arkcraft.common.item.tools;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.Random;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import com.google.common.collect.Sets;
-import com.uberverse.arkcraft.client.event.ClientEventHandler;
-import com.uberverse.arkcraft.init.ARKCraftItems;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
-import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.stats.StatList;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.EnumHelper;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ARKCraftTool extends Item{
-	
-	boolean arkMode;
-	public static int count = 0;
-	public int min = 5;
-	public int max = 20;
-	
-	public String[] toolQuality = {"primitive", "ramshackle", "apprentice", "journeyman", "mastercraft", "ascendant"};
-	
-	public String toolType;
-	public int harvestLevel;
-	public int durablity;
-	public float eff;
-	public float dmg;
-	public int enchant;
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.client.event.ClientEventHandler;
+import com.uberverse.arkcraft.client.proxy.ClientProxy;
+import com.uberverse.arkcraft.init.ARKCraftItems;
 
-	public float qualityMultiplier;
+public abstract class ARKCraftTool extends ItemTool{
+	private static final String DAMAGE_NBT_NAME = "damage";
+	boolean arkMode;
+	public static  int count = 0;
+	public int wood;
+	public int thatch;
+	public final ToolType toolType;
 
 	@SuppressWarnings("rawtypes")
-	public ARKCraftTool(String name, float attackDamage, Set effectiveBlocks, int harvestLevel,  int durablity, float eff, float dmg, int enchant){
-		//super(attackDamage, material, effectiveBlocks);
-		EnumHelper.addToolMaterial(name, harvestLevel, durablity, eff, dmg, enchant);
-		this.setUnlocalizedName(name);
-        this.setHasSubtypes(true);
-        this.setMaxDamage(0); 
+	public ARKCraftTool(float attackDamage, ToolMaterial material, Set effectiveBlocks, ToolType toolType) {
+		super(attackDamage, material, effectiveBlocks);
+		setHasSubtypes(true);
 		this.toolType = toolType;
-		this.harvestLevel = harvestLevel;
-		this.durablity = durablity;
-		this.eff = eff;
-		this.dmg = dmg;
-		this.enchant = enchant;
 	}
-	
-	 public String getUnlocalizedName(ItemStack stack)
-	 {
-	        int metadata = stack.getMetadata();
-	        return super.getUnlocalizedName() + "." + toolQuality[metadata];
-	 }
-	 
-	 
-//	 @Override
-//	    public void addInformation(ItemStack itemStack, EntityPlayer playerIn, List tooltip, boolean advanced)
-//	    {
-//	        tooltip.add("");
-//	    }
-	/**
-     * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
-     *  
-     * @param subItems The List of sub-items. This is a List of ItemStacks.
-     */
-    @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tab, List subItems)
-    {
-        for (int i = 0; i < 6; ++i)
-        {
-            subItems.add(new ItemStack(item, 1, i));
-        }
-    }
-    
-    public int DropAmmounts()
-    {
-    	return (int)(Math.random() * (max - min) + min);
-    }
-    
-    public Item getHarvestItem(Random rand) {
-		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-		ItemStack heldStack = player.getCurrentEquippedItem();
 
-		//TODO replace spyglass with sickle
-		if (heldStack != null && heldStack.getItem() == ARKCraftItems.metal_hatchet) {
-			if (rand.nextInt(10) <= 3) {
-				return ARKCraftItems.wood;
-			} else if (rand.nextInt(15) <= 4) {
-				return ARKCraftItems.thatch;
-			} else {
-				return ARKCraftItems.wood;
-			}
-		}
-		return null;
+	@SuppressWarnings("rawtypes")
+	public ARKCraftTool(String name, float attackDamage, ToolMaterial material, Set effectiveBlocks, ToolType toolType){
+		super(attackDamage, material, effectiveBlocks);
+		this.setUnlocalizedName(name);
+		setHasSubtypes(true);
+		this.toolType = toolType;
+	}
 
-		/*
-		 * else if (rand.nextInt(10) <= 4) { return rand.nextInt(10) <= 5 ?
-		 * ARKCraftItems.amarBerry : ARKCraftItems.narcoBerry; } else if
-		 * (rand.nextInt(15) <= 4) { return ARKCraftItems.stimBerry; } else if
-		 * (rand.nextInt(10) >= 4 && rand.nextInt(10) <= 8) { return
-		 * rand.nextInt(10) <= 5 ? ARKCraftItems.mejoBerry :
-		 * ARKCraftItems.tintoBerry; } else { return ARKCraftItems.azulBerry; }
-		 */
-	}
-    @Override
-    public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) 
-    {
-    	int metadata = stack.getMetadata();
-		if (toolQuality[metadata] == "ramshackle") 
-		{
-		this.durablity = 1;
-		} 
-		else if (toolQuality[metadata] == "apprentice") 
-		{
-			this.durablity = 2;	
-		} 
-		else if (toolQuality[metadata] == "journeyman") 
-		{
-			this.durablity = 3;		
-		} 
-		else if (toolQuality[metadata] == "mastercraft") 
-		{
-			this.durablity = 5;		
-		} 
-		else if (toolQuality[metadata] == "ascendant") 
-		{
-			this.durablity = 1000;		
-		}
-		System.out.println(durablity);
-		
-    }
-	
-	public float qualityMultiplier(ItemStack stack)
-	{
-		int metadata = stack.getMetadata();
-		if (toolQuality[metadata] == "ramshackle") 
-		{
-			return qualityMultiplier = 1.2F;
-		} 
-		else if (toolQuality[metadata] == "apprentice") 
-		{
-			return qualityMultiplier = 1.4F;
-		} 
-		else if (toolQuality[metadata] == "journeyman") 
-		{
-			return	qualityMultiplier = 1.6F;
-		} 
-		else if (toolQuality[metadata] == "mastercraft") 
-		{
-			return	qualityMultiplier = 1.8F;
-		} 
-		else if (toolQuality[metadata] == "ascendant") 
-		{
-			return	qualityMultiplier = 2F;
-		}
-		return qualityMultiplier = 1F;
-	}
-	
-	public void entityDropItem(World worldIn, BlockPos pos, EntityPlayer playerIn, Block block, ItemStack itemStackIn) {
-		if (itemStackIn.stackSize != 0 && itemStackIn.getItem() != null) {
-			Float offset = worldIn.rand.nextFloat();
-			EntityItem entityitem = new EntityItem(worldIn, pos.getX() + offset, pos.getY() + block.getBlockBoundsMaxY(),
-					pos.getZ() + offset, itemStackIn);
-			entityitem.setDefaultPickupDelay();
-			if (playerIn.captureDrops) {
-				playerIn.capturedDrops.add(entityitem);
-			} else {
-				worldIn.spawnEntityInWorld(entityitem);
-			}
-		}
-	}
-	
+	@Override
 	public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn)
-	{ 
-		if (arkMode != ClientEventHandler.openOverlay()) 
+	{
+		if (arkMode != ClientEventHandler.openOverlay())
 		{
 			IBlockState blockState = worldIn.getBlockState(pos);
-			Float offset = worldIn.rand.nextFloat();
-			
-			if(playerIn instanceof EntityPlayer)
+			if (blockState.getBlock() == Blocks.log || blockState.getBlock() == Blocks.log2)
 			{
-				EntityPlayer player = (EntityPlayer) playerIn;
-				
-				if (blockState.getBlock() == Blocks.log || blockState.getBlock() == Blocks.log2) 
+				if(playerIn instanceof EntityPlayer)
 				{
-					this.destroyBlocks(worldIn, pos, player);
-					
-					if(toolType == "stonePickaxe")
-					{
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.thatch, DropAmmounts()));
-						System.out.println(DropAmmounts());
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.wood, 5));
+					EntityPlayer player = (EntityPlayer) playerIn;
+					this.destroyBlocks(worldIn, pos, player, stack);
+					System.out.println(count);
+					wood = (int) (10 + itemRand.nextInt(100)/20.0*count*toolType.getPrimaryModifier());
+					thatch = (int) (10 + itemRand.nextInt(100)/20.0*count*toolType.getSecondaryModifier());
+					Float offset = worldIn.rand.nextFloat();
+					EntityItem entityWood = new EntityItem(worldIn, pos.getX() + offset,
+							pos.getY(), pos.getZ() + offset, (new ItemStack(ARKCraftItems.wood, wood)));
+					EntityItem entityThatch = new EntityItem(worldIn, pos.getX() + offset,
+							pos.getY() + blockIn.getBlockBoundsMaxY(), pos.getZ() + offset, (new ItemStack(ARKCraftItems.thatch, thatch)));
+					worldIn.spawnEntityInWorld(entityThatch);
+					worldIn.spawnEntityInWorld(entityWood);
 
-					}
-					else if(toolType == "stoneHatchet")
-					{
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.thatch, 5));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.wood, 10));
-					}
-					else if(toolType == "metalPickaxe")
-					{
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.thatch, 5));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.wood, 10));
-					}
-					else if(toolType == "metalHatchet")
-					{
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.thatch, DropAmmounts()));
-						System.out.println(DropAmmounts());
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.wood, 10));
-					}
-					worldIn.destroyBlock(new BlockPos(pos), false);
-					count = 0;
-				}		
-				
-				else if(blockState.getBlock() == Blocks.stone)
-				{
-					if(toolType == "stonePickaxe")
-					{
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.stone, 5));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.flint, 10));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.metal, 1));
-					}
-					else if(toolType == "stoneHatchet")
-					{
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.stone, 5));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.flint, 10));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.metal, 1));
-					}
-					else if(toolType == "metalPickaxe")
-					{
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.stone, 5));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.flint, 10));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.metal, 1));
-					}
-					else if(toolType == "metalHatchet")
-					{
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.stone, 5));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.flint, 10));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.metal, 1));
-					}
-					worldIn.destroyBlock(new BlockPos(pos), false);
-					count = 0;
-				}
-				else if(blockState.getBlock() == Blocks.iron_ore)
-				{
-					if(toolType == "stonePickaxe")
-					{
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.stone, 5));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.metal, 10));
-					}
-					else if(toolType == "stoneHatchet")
-					{
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.stone, 10));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.metal, 10));
-					}
-					else if(toolType == "metalPickaxe")
-					{
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.stone, 5));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.metal, 10));
-					}
-					else if(toolType == "metalHatchet")
-					{
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.stone, 5));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.metal, 10));
-					}
-					worldIn.destroyBlock(new BlockPos(pos), false);
+
+
+					//	player.dropItem(ARKCraftItems.wood, wood);
+					//	player.dropItem(ARKCraftItems.thatch, thatch);
+					//	player.inventory.addItemStackToInventory(new ItemStack(ARKCraftItems.wood, wood));
+					//	player.inventory.addItemStackToInventory(new ItemStack(ARKCraftItems.thatch, thatch));
+					System.out.println(" Wood: " + wood + " Thatch: " + thatch);
 					count = 0;
 				}
 			}
+		}else{
+			damageTool(stack, playerIn);
 		}
 		return true;
 	}
-	
-	//@Override
-//	public boolean canHarvestBlock(Block blockIn)
-	//{
-	//    return blockIn == Blocks.obsidian ? this.toolMaterial.getHarvestLevel() == 3 : (blockIn != Blocks.diamond_block && blockIn != Blocks.diamond_ore ? (blockIn != Blocks.emerald_ore && blockIn != Blocks.emerald_block ? (blockIn != Blocks.gold_block && blockIn != Blocks.gold_ore ? (blockIn != Blocks.iron_block && blockIn != Blocks.iron_ore ? (blockIn != Blocks.lapis_block && blockIn != Blocks.lapis_ore ? (blockIn != Blocks.redstone_ore && blockIn != Blocks.lit_redstone_ore ? (blockIn.getMaterial() == Material.rock ? true : (blockIn.getMaterial() == Material.iron ? true : blockIn.getMaterial() == Material.anvil)) : this.toolMaterial.getHarvestLevel() >= 2) : this.toolMaterial.getHarvestLevel() >= 1) : this.toolMaterial.getHarvestLevel() >= 1) : this.toolMaterial.getHarvestLevel() >= 2) : this.toolMaterial.getHarvestLevel() >= 2) : this.toolMaterial.getHarvestLevel() >= 2);
-//	}
-	
-	//Works
-	public void destroyBlocks(World world, BlockPos pos, EntityPlayer player) {
+
+	public void destroyBlocks(World world, BlockPos pos, EntityPlayer player, ItemStack stack) {
 		int x = pos.getX();
 		int y = pos.getY();
 		int z = pos.getZ();
@@ -322,55 +98,97 @@ public class ARKCraftTool extends Item{
 		for (int i = x - 1; i <= x + 1; i++) {
 			for (int k = z - 1; k <= z + 1; k++) {
 				for (int j = y - 1; j <= y + 1; j++) {
-						IBlockState blockState = world.getBlockState(new BlockPos(i, j, k));
-						if (blockState.getBlock() == Blocks.log || blockState.getBlock() == Blocks.log2) 
-						{
-							world.destroyBlock(new BlockPos(i, j, k), false);
-							++count;
-							this.destroyBlocks(world, new BlockPos(i, j, k), player);
+					IBlockState blockState = world.getBlockState(new BlockPos(i, j, k));
+					if (blockState.getBlock() == Blocks.log || blockState.getBlock() == Blocks.log2)
+					{
+						world.destroyBlock(new BlockPos(i, j, k), false);
+						++count;
+						if(damageTool(stack, player)){
+							this.destroyBlocks(world, new BlockPos(i, j, k), player, stack);
+						}else{
+							return;
+						}
 					}
 				}
 			}
 		}
 
 	}
-	
-	//Works
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public String getItemStackDisplayName(ItemStack stack) 
+	@SideOnly(Side.CLIENT)
+	public void getSubItems(Item itemIn, CreativeTabs tab, List subItems)
 	{
-		int metadata = stack.getMetadata();
-		if (toolQuality[metadata] == "ramshackle") {
-			return (EnumChatFormatting.GREEN + "" + StatCollector
-					.translateToLocal(this
-							.getUnlocalizedNameInefficiently(stack) + ".name"))
-					.trim();
-		} else if (toolQuality[metadata] == "apprentice") {
-			return (EnumChatFormatting.BLUE + "" + StatCollector
-					.translateToLocal(this
-							.getUnlocalizedNameInefficiently(stack) + ".name"))
-					.trim();
-
-		} else if (toolQuality[metadata] == "journeyman") {
-			return (EnumChatFormatting.DARK_PURPLE + "" + StatCollector
-					.translateToLocal(this
-							.getUnlocalizedNameInefficiently(stack) + ".name"))
-					.trim();
-
-		} else if (toolQuality[metadata] == "mastercraft") {
-			return (EnumChatFormatting.YELLOW + "" + StatCollector
-					.translateToLocal(this
-							.getUnlocalizedNameInefficiently(stack) + ".name"))
-					.trim();
-
-		} else if (toolQuality[metadata] == "ascendant") {
-			return (EnumChatFormatting.RED + "" + StatCollector
-					.translateToLocal(this
-							.getUnlocalizedNameInefficiently(stack) + ".name"))
-					.trim();
-
+		for(ToolLevel level : ToolLevel.VALUES){
+			subItems.add(new ItemStack(itemIn, 1, level.ordinal()));
 		}
-		return ("" + StatCollector.translateToLocal(this
-				.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
+	}
+	@SideOnly(Side.CLIENT)
+	public void registerModels(){//TODO: Call this from the Client proxy for each tool item.
+		ClientProxy p = ((ClientProxy)ARKCraft.proxy);
+		List<ItemStack> list = new ArrayList<ItemStack>();
+		getSubItems(this, getCreativeTab(), list);
+		for(int i = 0;i<list.size();i++){
+			p.registerItemTexture(this, i, "tool_" + getUnlocalizedName().substring(5) + "_" + ToolLevel.VALUES[i].name);
+		}
+	}
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced) {
+		super.addInformation(stack, playerIn, tooltip, advanced);
+		tooltip.add(I18n.format("arkcraft.tooltip.toolLevel", ToolLevel.VALUES[stack.getMetadata()].getTranslatedName()));
+	}
+	public int getDurrability(ItemStack stack){
+		return ToolLevel.VALUES[stack.getMetadata()].getDurrability(toolMaterial.getMaxUses());
+	}
+	public int getToolDamage(ItemStack stack){
+		if(stack.hasTagCompound()){
+			return stack.getTagCompound().getInteger(DAMAGE_NBT_NAME);
+		}
+		return 0;
+	}
+	public void setToolDamage(ItemStack stack, int newValue){
+		if(!stack.hasTagCompound())stack.setTagCompound(new NBTTagCompound());
+		stack.getTagCompound().setInteger(DAMAGE_NBT_NAME, newValue);
+	}
+	public boolean damageTool(ItemStack toolStack, EntityLivingBase entityIn){
+		int newValue = getToolDamage(toolStack) + 1;
+		setToolDamage(toolStack, newValue);
+		if(newValue >= getDurrability(toolStack)){
+			entityIn.renderBrokenItemStack(toolStack);
+			--toolStack.stackSize;
+
+			if (entityIn instanceof EntityPlayer)
+			{
+				EntityPlayer entityplayer = (EntityPlayer)entityIn;
+				entityplayer.triggerAchievement(StatList.objectBreakStats[Item.getIdFromItem(toolStack.getItem())]);
+				if (toolStack.stackSize < 1)
+				{
+					entityplayer.destroyCurrentEquippedItem();
+				}
+			}
+			return false;
+		}
+		return true;
+	}
+	@Override
+	public boolean showDurabilityBar(ItemStack stack) {
+		return getToolDamage(stack) > 0;
+	}
+	@Override
+	public double getDurabilityForDisplay(ItemStack stack) {
+		return ((double)getToolDamage(stack)) / getDurrability(stack);
+	}
+	@Override
+	public String getUnlocalizedName(ItemStack stack) {
+		return super.getUnlocalizedName(stack) + "_" + ToolLevel.VALUES[stack.getMetadata()].name;
+	}
+	@Override
+	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
+	{
+		damageTool(stack, target);
+		damageTool(stack, target);
+		return true;
 	}
 }
