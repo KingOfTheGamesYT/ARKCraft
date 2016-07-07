@@ -37,9 +37,6 @@ public class ItemTool extends Item
 	boolean arkMode;
 	public float qualityMultiplier;
 	public int maxDamage;
-	public String myTag;
-	public String ID;
-	public int durability;
     
     protected ItemTool(String name, float attackDamage, Set effectiveBlocks, int durability, int efficiency)
     {
@@ -50,7 +47,6 @@ public class ItemTool extends Item
         this.damageVsEntity = attackDamage;
     	this.setUnlocalizedName(name);
         this.setHasSubtypes(true);
-        this.durability = durability;
      //   this.setMaxDamage(0); 
     }
 
@@ -58,54 +54,33 @@ public class ItemTool extends Item
     @Override
     public int getMaxDamage(ItemStack stack)
     {
-		return durability;
-    //	return getDurability(stack);
+    	NBTTagCompound itemData = stack.getTagCompound();
+    	int metadata = stack.getMetadata();
+    	if (stack.hasTagCompound())
+    	{
+    			 System.out.println(stack.getTagCompound().getInteger("toolTypeDur"));
+    			 return stack.getTagCompound().getInteger("toolTypeDur");
+    	}
+    	return 0;
     }
-    /*
-    public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) 
-    {
-    	getNBTTag(stack, myTag);
-    	System.out.println(getNBTTag(stack, myTag));
-    }	*/
 
     
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tab, List itemList)
     {
+    	
         for (int i = 0; i < toolQuality.length; i++)
         {
-        	ItemStack stack = new ItemStack(item);
-        	stack.setTagCompound(new NBTTagCompound());
+        	ItemStack toolStack = new ItemStack(item);
+        	toolStack.setTagCompound(new NBTTagCompound());
     		
-        	stack.getTagCompound().setString("toolType", toolQuality[i]);
-          	stack.getTagCompound().setInteger("toolDurability", i);
-          	
-           itemList.add(stack);	
-        }	
-    }
-    /*
-    public void setNBData(ItemStack stack)
-    {
-    	NBTTagCompound data = new NBTTagCompound();
-    	for (int i = 1; i < toolQuality.length +1; i++)
-        {
-    		data.setInteger("toolDurability", i);
-    	//	stack.setTagInfo(myTag, data);
+        	toolStack.getTagCompound().setString("toolType", toolQuality[i]);
+        	toolStack.getTagCompound().setInteger("toolTypeDur", 100);
+        	
+            itemList.add(toolStack);
         }
-    }		*/
-    /*
-    public int getDurability(ItemStack stack) {
-		if (stack.hasTagCompound())
-			return stack.getTagCompound().getInteger("toolDurability");
-		else
-			return 0;
-	}
-    /*
-	public void setDurability(ItemStack stack, int toolDurability) {
-		if (!stack.hasTagCompound())
-			stack.setTagCompound(new NBTTagCompound());
-		stack.getTagCompound().setInteger("toolDurability", toolDurability);
-	}	*/
+    }
+    
     
     
     @SideOnly(Side.CLIENT)
@@ -126,14 +101,11 @@ public class ItemTool extends Item
           tooltip.add(StatCollector.translateToLocal(
                   "tooltip.arkcraft.nullTool.desc"));
         }
-        if (stack.hasTagCompound())
-        {
-        	tooltip.add(Integer.toString(stack.getTagCompound().getInteger("toolDurability")));
-    	}
     }
     
     public String getUnlocalizedName(ItemStack stack)
 	 {
+    	 int metadata = stack.getMetadata();
     	 if (stack.hasTagCompound()) 
          {
              // This is the object holding all of the item data.
@@ -260,12 +232,6 @@ public class ItemTool extends Item
 					count = 0;
 				}
 			}
-		}
-		
-		else if(playerIn instanceof EntityPlayer)
-		{
-			EntityPlayer player = (EntityPlayer) playerIn;
-			stack.damageItem(1, player);
 		}
 		return true;
 	}
