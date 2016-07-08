@@ -83,8 +83,12 @@ public final class ModuleItemBalance
 		public static int SECONDS_FOR_FERTILIZER_TO_DECOMPOSE;
 		@DefaultInt(value = 1080, minValue = 60, maxValue = 3600, name = "Seconds of watering.", comment = "Time for one bucket to provide water in crop plot")
 		public static int SECONDS_OF_WATER_PER_BUCKET;
-		@DefaultInt(value = 45, minValue = 10, maxValue = 600, name = "Seconds to grow a berry.", comment = "Time for one berry to grow in crop plot")
-		public static int GROW_TIME_FOR_BERRY;
+		@DefaultInt(value = 45, minValue = 10, maxValue = 600, name = "Length of seedling state in seconds for a berry.", comment = "Time for one berry to grow in crop plot")
+		public static int SEEDLING_TIME_FOR_BERRY;
+		@DefaultInt(value = 20, minValue = 5, maxValue = 300, name = "Length of midling state in seconds for a berry.", comment = "Time for one berry to grow in crop plot")
+		public static int MIDLING_TIME_FOR_BERRY;
+		@DefaultInt(value = 20, minValue = 5, maxValue = 300, name = "Length of growthing state in seconds for a berry.", comment = "Time for one berry to grow in crop plot")
+		public static int GROWTHING_TIME_FOR_BERRY;
 	}
 
 	public static class MORTAR_AND_PESTLE

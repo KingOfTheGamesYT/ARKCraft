@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
+
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.uberverse.arkcraft.ARKCraft;
@@ -25,18 +26,18 @@ import com.uberverse.arkcraft.common.block.itemblock.ItemCropPlot;
 import com.uberverse.arkcraft.common.block.itemblock.ItemMortarAndPestle;
 import com.uberverse.arkcraft.common.block.itemblock.ItemRefiningForge;
 import com.uberverse.arkcraft.common.block.itemblock.ItemSmithy;
+import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew;
 import com.uberverse.arkcraft.common.block.tile.TileInventoryCompostBin;
-import com.uberverse.arkcraft.common.block.tile.TileInventoryCropPlot;
 import com.uberverse.arkcraft.common.block.tile.TileInventoryForge;
 import com.uberverse.arkcraft.common.block.tile.TileInventoryMP;
 import com.uberverse.arkcraft.common.block.tile.TileInventorySmithy;
 import com.uberverse.arkcraft.common.tileentity.TileFlashlight;
 
 public class ARKCraftBlocks {
-	
+
 	public static BlockFlashlight block_flashlight;
 	public static ARKCraftBerryBush berryBush;
-	
+
 	public static BlockARKBase oreSurface;
 	public static BlockSpikes wooden_spikes;
 	public static BlockCompostBin compost_bin;
@@ -61,14 +62,14 @@ public class ARKCraftBlocks {
 	{
 		//Misc
 		block_flashlight = new BlockFlashlight();
-		GameRegistry.registerBlock(block_flashlight, "block_flashlight");	
+		GameRegistry.registerBlock(block_flashlight, "block_flashlight");
 		berryBush = (ARKCraftBerryBush) registerBlock(new ARKCraftBerryBush(0.4F), "berryBush");
 
 		wooden_spikes = (BlockSpikes) registerBlock(new BlockSpikes(Material.wood, 3.0F),
 				"wooden_spikes");
 
 		// Containers
-		smithy = registerSmithy("smithy", Material.wood, 
+		smithy = registerSmithy("smithy", Material.wood,
 				ARKCraft.GUI.SMITHY.getID(), false, false, 3);
 		pestle = registerMortarAndPestle("mortar_and_pestle", Material.rock,
 				ARKCraft.GUI.PESTLE_AND_MORTAR.getID(), false, false, 3);
@@ -80,7 +81,7 @@ public class ARKCraftBlocks {
 				ARKCraft.GUI.FORGE_GUI.getID(), false, false, 3);
 
 		// Tile Entities
-		GameRegistry.registerTileEntity(TileInventoryCropPlot.class, "TileInventoryCropPlot");
+		GameRegistry.registerTileEntity(TileEntityCropPlotNew.class, ARKCraft.MODID + "cropPlot");
 		GameRegistry.registerTileEntity(TileInventoryMP.class, "TileInventoryMP");
 		GameRegistry.registerTileEntity(TileInventoryCompostBin.class, "TileEntityCompostBin");
 		GameRegistry.registerTileEntity(TileInventorySmithy.class, "TileInventorySmithy");
