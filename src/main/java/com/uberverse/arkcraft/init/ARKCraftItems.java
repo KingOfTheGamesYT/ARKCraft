@@ -27,6 +27,7 @@ import com.uberverse.arkcraft.common.item.tools.ItemMetalPick;
 import com.uberverse.arkcraft.common.item.tools.ItemMetalSickle;
 import com.uberverse.arkcraft.common.item.tools.ItemStoneHatchet;
 import com.uberverse.arkcraft.common.item.tools.ItemStonePick;
+import com.uberverse.arkcraft.common.item.tools.ToolType;
 
 public class ARKCraftItems {
 	
@@ -78,7 +79,7 @@ public class ARKCraftItems {
 		
 		//Tools
 		metal_pick = addMetalPick("metal_pick", METAL);
-		metal_hatchet = addMetalHatchet("metal_hatchet", 1F, EFFECTIVE_ON, 10, 3);
+		metal_hatchet = addMetalHatchet("metal_hatchet", 1, METAL, EFFECTIVE_ON, ToolType.HATCHET);
 		stone_hatchet = addStoneHatchet("stone_hatchet", STONE);
 		stone_pick = addStonePick("stone_pick", STONE);
 	
@@ -168,9 +169,9 @@ public class ARKCraftItems {
 	}
 
 	
-	public static ItemMetalHatchet addMetalHatchet(String name, float attackDamage, Set effectiveBlocks, int durability, int efficiency)
+	public static ItemMetalHatchet addMetalHatchet(String name, float attackDamage, ToolMaterial material, Set effectiveBlocks, ToolType toolType)
 	{
-		ItemMetalHatchet i = new ItemMetalHatchet(name, attackDamage, effectiveBlocks, durability, efficiency);
+		ItemMetalHatchet i = new ItemMetalHatchet(name, attackDamage, material, effectiveBlocks, toolType);
 		registerItem(name, i);
 		return i;
 	}	

@@ -2,6 +2,7 @@ package com.uberverse.arkcraft.common.item.tools;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import net.minecraft.block.Block;
@@ -21,7 +22,6 @@ import net.minecraft.stats.StatList;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -53,6 +53,26 @@ public abstract class ARKCraftTool extends ItemTool{
 		setHasSubtypes(true);
 		this.toolType = toolType;
 	}
+
+	
+	 @Override
+	 public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) 
+	 {
+		 
+	 }
+	 
+	 
+//	 @Override
+//	    public void addInformation(ItemStack itemStack, EntityPlayer playerIn, List tooltip, boolean advanced)
+//	    {
+//	        tooltip.add("");
+//	    }
+	/**
+     * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
+     *  
+     * @param subItems The List of sub-items. This is a List of ItemStacks.
+     */
+	 
 
 	@Override
 	public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn)
