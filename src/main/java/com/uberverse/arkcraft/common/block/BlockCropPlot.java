@@ -1,25 +1,29 @@
 package com.uberverse.arkcraft.common.block;
 
-import java.util.Random;
-
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.World;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.block.tile.TileInventoryCropPlot;
+import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew;
+import com.uberverse.arkcraft.common.item.ARKCraftSeed;
 
 /**
  * @author wildbill22
@@ -45,18 +49,30 @@ public class BlockCropPlot extends BlockContainer
 		this.disableStats();
 	}
 
+	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{
-		return new TileInventoryCropPlot();
+		return new TileEntityCropPlotNew();
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos blockPos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
 		if (!playerIn.isSneaking())
 		{
-			playerIn.openGui(ARKCraft.instance(), ID, worldIn, blockPos.getX(), blockPos.getY(),
-					blockPos.getZ());
+			if(playerIn.getHeldItem() != null && playerIn.getHeldItem().getItem() instanceof ARKCraftSeed && ((Integer)state.getValue(AGE)) == 0){
+				ItemStack s = playerIn.getHeldItem().splitStack(1);
+				s = TileEntityHopper.func_174918_a((IInventory) worldIn.getTileEntity(pos), s, null);
+				if(s != null){
+					if(!playerIn.inventory.addItemStackToInventory(s)){
+						EntityItem item = new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), s);
+						worldIn.spawnEntityInWorld(item);
+					}
+				}
+			}else{
+				playerIn.openGui(ARKCraft.instance(), ID, worldIn, pos.getX(), pos.getY(),
+						pos.getZ());
+			}
 			return true;
 		}
 		return false;
@@ -67,6 +83,7 @@ public class BlockCropPlot extends BlockContainer
 		this.renderType = renderType;
 	}
 
+	@Override
 	public int getRenderType()
 	{
 		return renderType;
@@ -77,16 +94,19 @@ public class BlockCropPlot extends BlockContainer
 		opaque = isOpaque;
 	}
 
+	@Override
 	public boolean isOpaqueCube()
 	{
 		return isOpaque;
 	}
 
+	@Override
 	public boolean isFullCube()
 	{
 		return false;
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public EnumWorldBlockLayer getBlockLayer()
 	{
@@ -96,6 +116,7 @@ public class BlockCropPlot extends BlockContainer
 	/**
 	 * Convert the given metadata into a BlockState for this Block
 	 */
+	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
 		return this.getDefaultState().withProperty(AGE, Integer.valueOf(meta));
@@ -104,11 +125,13 @@ public class BlockCropPlot extends BlockContainer
 	/**
 	 * Convert the BlockState into the correct metadata value
 	 */
+	@Override
 	public int getMetaFromState(IBlockState state)
 	{
 		return ((Integer) state.getValue(AGE)).intValue();
 	}
 
+	@Override
 	protected BlockState createBlockState()
 	{
 		return new BlockState(this, new IProperty[] { AGE });
@@ -117,7 +140,7 @@ public class BlockCropPlot extends BlockContainer
 	/**
 	 * Returns randomly, about 1/2 of the fertilizer and berries
 	 */
-	@Override
+	/*@Override
 	public java.util.List<ItemStack> getDrops(net.minecraft.world.IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
 	{
 		java.util.List<ItemStack> ret = super.getDrops(world, pos, state, fortune);
@@ -140,5 +163,10 @@ public class BlockCropPlot extends BlockContainer
 			}
 		}
 		return ret;
+	}*/
+	@Override
+	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+		super.breakBlock(worldIn, pos, state);
+		InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) worldIn.getTileEntity(pos));
 	}
 }
