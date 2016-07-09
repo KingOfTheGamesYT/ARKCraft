@@ -89,6 +89,8 @@ public final class ModuleItemBalance
 		public static int MIDLING_TIME_FOR_BERRY;
 		@DefaultInt(value = 20, minValue = 5, maxValue = 300, name = "Length of growthing state in seconds for a berry.", comment = "Time for one berry to grow in crop plot")
 		public static int GROWTHING_TIME_FOR_BERRY;
+		@DefaultInt(value = 60, minValue = 5, maxValue = 45, name = "Length in seconds for a berry.", comment = "Time for one berry to grow in crop plot")
+		public static int GROW_TIME_FOR_BERRY;
 	}
 
 	public static class MORTAR_AND_PESTLE
