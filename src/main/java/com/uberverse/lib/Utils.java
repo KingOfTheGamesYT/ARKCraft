@@ -1,5 +1,9 @@
 package com.uberverse.lib;
 
+import java.lang.reflect.Field;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -28,5 +32,23 @@ public class Utils {
 	public static boolean isUseable(BlockPos pos, EntityPlayer player, World worldObj,
 			TileEntity thisT) {
 		return worldObj.getTileEntity(pos) != thisT ? false : player.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D;
+	}
+	
+	static Field equippedProgress,prevEquippedProgress;
+	//Function that handles the hack for the Item Swap Animation
+	public static void setItemRendererEquippProgress(float From0To1,boolean isSmooth){
+		ItemRenderer IR=Minecraft.getMinecraft().entityRenderer.itemRenderer;
+		if(IR!=null)try{
+			if(!isSmooth){
+				if(prevEquippedProgress==null)prevEquippedProgress = ItemRenderer.class.getDeclaredField("prevEquippedProgress");
+				prevEquippedProgress.setAccessible(true);
+				prevEquippedProgress.setFloat(IR,From0To1);
+			}
+			if(equippedProgress==null)equippedProgress = ItemRenderer.class.getDeclaredField("equippedProgress");
+			equippedProgress.setAccessible(true);
+			equippedProgress.setFloat(IR,From0To1);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 }

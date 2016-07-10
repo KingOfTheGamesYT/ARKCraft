@@ -15,6 +15,7 @@ import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
 import com.uberverse.arkcraft.common.network.OpenPlayerCrafting;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.init.ARKCraftItems;
+import com.uberverse.lib.Utils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -34,6 +35,7 @@ import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -53,6 +55,7 @@ public class ClientEventHandler {
 	private static final int maxTicks = 20;
 	private static float yawSway;
 	private static float pitchSway;
+	public static int disabledEquippItemAnimationTime=0;
 
 	private ItemStack selected;
 	private static final ResourceLocation OVERLAY_TEXTURE = new ResourceLocation(ARKCraft.MODID,
@@ -78,6 +81,14 @@ public class ClientEventHandler {
 
 		harvestOverlay = new KeyBinding("key.harvestOverlay", Keyboard.KEY_P, ARKCraft.NAME);
 		ClientRegistry.registerKeyBinding(harvestOverlay);
+	}
+	
+	@SubscribeEvent
+	public void onClientTick(TickEvent.ClientTickEvent event)
+	{
+		//Reduces the disabledEquippItemAnimationTime value
+		if(disabledEquippItemAnimationTime>0)disabledEquippItemAnimationTime--;
+		else if(disabledEquippItemAnimationTime<0)disabledEquippItemAnimationTime=0;
 	}
 
 	@SubscribeEvent
@@ -136,6 +147,17 @@ public class ClientEventHandler {
 	public void onRenderHand(RenderHandEvent evt) {
 		if (showScopeOverlap) {
 			evt.setCanceled(true);
+		}
+	}
+	
+	@SubscribeEvent(priority=EventPriority.HIGHEST)
+	public void renderWorldLast(RenderWorldLastEvent e)
+	{
+		EntityPlayer player = mc.thePlayer;
+		//Calling the hack for the Item Swap animation
+		if(disabledEquippItemAnimationTime>0){
+			Utils.setItemRendererEquippProgress(1, false);
+			player.isSwingInProgress=false;
 		}
 	}
 
