@@ -11,6 +11,7 @@ import com.uberverse.lib.LogHelper;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -26,6 +27,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
@@ -84,24 +86,15 @@ public class CommonEventHandler {
 		boolean arkMode = false;
 		Action eventAction = event.action;
 		World world = Minecraft.getMinecraft().theWorld;
-		ItemStack currentTool = event.entityPlayer.getCurrentEquippedItem();
+		ItemStack item = event.entityPlayer.getCurrentEquippedItem();
 
-		/*
-		if (currentTool != null && currentTool.getItem() instanceof ARKCraftTool && arkMode != ClientEventHandler.openOverlay()) {
-			if (eventAction.LEFT_CLICK_BLOCK != null) {
-				IBlockState blockState = world.getBlockState(event.pos);
-				if (blockState.getBlock() == Blocks.log) {
-					count = count + 1;
-					System.out.println(count);
-					if(count == 4) 
-					{
-						this.destroyBlocks(world, event.pos);
-						count = 0;
-					}
-				}
+		
+		if (item != null && item.getItem() instanceof ItemRangedWeapon) {
+			if (eventAction.RIGHT_CLICK_BLOCK != null & eventAction.RIGHT_CLICK_AIR != null) 
+			{
+				ObfuscationReflectionHelper.setPrivateValue(ItemRenderer.class, Minecraft.getMinecraft().getItemRenderer(), 1F, "equippedProgress", "field_78454_c");
 			}
-		}*/
-
+		}
 	}	
 	
 //	for (int x = -checkSize; x <= checkSize; x++) {

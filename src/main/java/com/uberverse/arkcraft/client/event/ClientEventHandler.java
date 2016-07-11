@@ -87,8 +87,9 @@ public class ClientEventHandler {
 	public void onClientTick(TickEvent.ClientTickEvent event)
 	{
 		//Reduces the disabledEquippItemAnimationTime value
+		/*
 		if(disabledEquippItemAnimationTime>0)disabledEquippItemAnimationTime--;
-		else if(disabledEquippItemAnimationTime<0)disabledEquippItemAnimationTime=0;
+		else if(disabledEquippItemAnimationTime<0)disabledEquippItemAnimationTime=0;	*/
 	}
 
 	@SubscribeEvent
@@ -155,10 +156,11 @@ public class ClientEventHandler {
 	{
 		EntityPlayer player = mc.thePlayer;
 		//Calling the hack for the Item Swap animation
+		/*
 		if(disabledEquippItemAnimationTime>0){
 			Utils.setItemRendererEquippProgress(1, false);
 			player.isSwingInProgress=false;
-		}
+		}	*/
 	}
 
 	@SubscribeEvent(priority = EventPriority.NORMAL)
