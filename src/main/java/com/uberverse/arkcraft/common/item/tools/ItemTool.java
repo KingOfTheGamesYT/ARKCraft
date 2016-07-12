@@ -164,7 +164,7 @@ public class ItemTool extends Item
 
     public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn)
 	{ 
-		if (arkMode != ClientEventHandler.openOverlay()) 
+		if (arkMode != ClientEventHandler.arkMode()) 
 		{
 			IBlockState blockState = worldIn.getBlockState(pos);
 			Float offset = worldIn.rand.nextFloat();

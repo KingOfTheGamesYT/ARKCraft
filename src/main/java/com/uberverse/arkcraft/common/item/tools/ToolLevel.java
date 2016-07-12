@@ -8,9 +8,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public enum ToolLevel {//TODO: Fill the enum up with the appropriate values.
 	PRIMITIVE("primitive", 0.8D),
-	TIER2("tr2", 1),
-	TIER3("tr3", 1.3)
-	;
+	RAMSCHACKLE("ramshackle", 1),
+	APPRENTICE("apprentice", 1.3),
+	JOURNEYMAN("journeyman", 1.5),
+	MASTERCRAFT("astercraft", 1.7),
+	ASCENDANT("ascendant", 2.0);
+
 	private final double durrabilityModifier;
 	public static final ToolLevel[] VALUES = values();
 	public final String name;

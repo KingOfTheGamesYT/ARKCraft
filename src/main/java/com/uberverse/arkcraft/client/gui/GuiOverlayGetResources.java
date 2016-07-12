@@ -36,7 +36,7 @@ public class GuiOverlayGetResources extends Gui
 	public void renderGUIOverlay(RenderGameOverlayEvent.Post e)
 	{
 		
-		if (allowGuiOpen != ClientEventHandler.openOverlay())
+		if (allowGuiOpen != ClientEventHandler.arkMode())
 		{
 			EntityPlayer p = mc.thePlayer;
 			ItemStack stack = p.getCurrentEquippedItem();

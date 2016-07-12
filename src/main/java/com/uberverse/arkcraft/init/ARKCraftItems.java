@@ -82,7 +82,7 @@ public class ARKCraftItems {
 		
 		//Tools
 		metal_pick = addMetalPick("metal_pick", METAL);
-		metal_hatchet = addMetalHatchet("metal_hatchet", 1, METAL, EFFECTIVE_ON, ToolType.HATCHET);
+		metal_hatchet = addMetalHatchet("metal_hatchet", METAL);
 		stone_hatchet = addStoneHatchet("stone_hatchet", STONE);
 		stone_pick = addStonePick("stone_pick", STONE);
 	
@@ -175,12 +175,12 @@ public class ARKCraftItems {
 	}
 
 	
-	public static ItemMetalHatchet addMetalHatchet(String name, float attackDamage, ToolMaterial material, Set effectiveBlocks, ToolType toolType)
+	public static ItemMetalHatchet addMetalHatchet(String name, ToolMaterial m)
 	{
-		ItemMetalHatchet i = new ItemMetalHatchet(name, attackDamage, material, effectiveBlocks, toolType);
+		ItemMetalHatchet i = new ItemMetalHatchet(m);
 		registerItem(name, i);
 		return i;
-	}	
+	}
 	
 	public static ARKCraftItem addItem(String name)
 	{

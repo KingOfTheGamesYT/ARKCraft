@@ -4,10 +4,9 @@ import java.util.Set;
 
 public class ARKCraftPickaxe extends ARKCraftTool{
 
-	public ARKCraftPickaxe(float attackDamage, ToolMaterial material,
-			Set effectiveBlocks) {
+	public ARKCraftPickaxe(float attackDamage, ToolMaterial material, Set effectiveBlocks) 
+	{
 		super(attackDamage, material, effectiveBlocks, ToolType.PICKAXE);
-		// TODO Auto-generated constructor stub
 	}
 
 }

@@ -296,7 +296,7 @@ public class ClientEventHandler {
 	public static boolean openOverlay;
 	public int count = 0;
 
-	public static boolean openOverlay() {
+	public static boolean arkMode() {
 		return openOverlay;
 	}
 
