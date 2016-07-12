@@ -8,6 +8,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
+import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew.CropPlotType;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 
 public class ItemCropPlot extends ItemBlockARK
@@ -16,12 +17,14 @@ public class ItemCropPlot extends ItemBlockARK
 	{
 		super(block);
 		this.setMaxStackSize(16);
+		setHasSubtypes(true);
 	}
 
 	/**
 	 * Called whenever this item is equipped and the right mouse button is
 	 * pressed. Args: itemStack, world, entityPlayer
 	 */
+	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
 		boolean flag = worldIn.getBlockState(pos).getBlock().isReplaceable(worldIn, pos);
@@ -50,5 +53,9 @@ public class ItemCropPlot extends ItemBlockARK
 				return false;
 			}
 		}
+	}
+	@Override
+	public String getUnlocalizedName(ItemStack stack) {
+		return super.getUnlocalizedName(stack) + "." + CropPlotType.VALUES[stack.getMetadata() % CropPlotType.VALUES.length].name().toLowerCase();
 	}
 }

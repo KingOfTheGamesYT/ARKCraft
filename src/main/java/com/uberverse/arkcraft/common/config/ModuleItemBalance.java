@@ -87,8 +87,10 @@ public final class ModuleItemBalance
 		public static int SEEDLING_TIME_FOR_BERRY;
 		@DefaultInt(value = 20, minValue = 5, maxValue = 300, name = "Length of midling state in seconds for a berry.", comment = "Time for one berry to grow in crop plot")
 		public static int MIDLING_TIME_FOR_BERRY;
-		@DefaultInt(value = 20, minValue = 5, maxValue = 300, name = "Length of growthing state in seconds for a berry.", comment = "Time for one berry to grow in crop plot")
+		@DefaultInt(value = 60, minValue = 5, maxValue = 1000, name = "Length of growthing state in seconds for a berry.", comment = "Time for one berry to grow in crop plot")
 		public static int GROWTHING_TIME_FOR_BERRY;
+		@DefaultInt(value = 100, minValue = 5, maxValue = 1000, name = "Seconds between each fruit.", comment = "Time for one berry to grow in crop plot")
+		public static int FRUIT_OUTPUT_TIME_FOR_BERRY;
 		@DefaultInt(value = 60, minValue = 5, maxValue = 45, name = "Length in seconds for a berry.", comment = "Time for one berry to grow in crop plot")
 		public static int GROW_TIME_FOR_BERRY;
 	}
