@@ -10,6 +10,7 @@ tile.refining_forge.name=Refining Forge
 
 # Containers
 container.inventory_refining_forge.name=Refining Forge
+arkcraft.gui.fertilizer=Fertilizer: %d/%d
 
 # World Types
 generator.island=ARK: The Island
@@ -176,3 +177,5 @@ item.cloth_boots.tooltip=%oArmor, Made to Fit
 item.saddle_small.tooltip=%oA Dino Rider's Dream
 item.saddle_medium.tooltip=%oA Dino Rider's Dream
 item.saddle_large.tooltip=%oA Dino Rider's Dream
+
+arkcraft.tooltip.toolLevel=Tool Level: %d
