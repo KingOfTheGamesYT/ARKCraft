@@ -5,10 +5,12 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 
 import com.uberverse.arkcraft.common.block.container.ContainerCropPlotNew;
 import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew;
+import com.uberverse.arkcraft.common.item.ARKCraftFeces;
 
 public class GuiCropPlotNew extends GuiContainer {
 	private TileEntityCropPlotNew te;
@@ -29,7 +31,21 @@ public class GuiCropPlotNew extends GuiContainer {
 		String s = I18n.format("tile.crop_plot.name");
 		fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
 		fontRendererObj.drawString(I18n.format("container.inventory"), 8, ySize - 96 + 2, 4210752);
-		fontRendererObj.drawString(I18n.format("tile.water.name") + ": " + te.getField(0) + "/1000 mb", 8, 15, te.getField(0) < 1 ? 0xFF0000 : 4210752);
-		fontRendererObj.drawString(I18n.format("arkcraft.gui.fertilizer", te.getField(1), 120), 8, 63, te.getField(1) < 1 ? 0xFF0000 : 4210752);
+		fontRendererObj.drawString(I18n.format("arkcraft.water", I18n.format("tile.water.name"), (te.getField(0)/20), 1200, I18n.format("arkcraft.cropPlotWater.notIrrigated")), 8, 15, te.getField(0) < 1 ? 0xFF0000 : 4210752);
+		fontRendererObj.drawString(I18n.format("arkcraft.gui.fertilizer", te.getField(2)), 8, 63, te.getField(1) < 1 ? 0xFF0000 : 4210752);
+	}
+	@Override
+	public void updateScreen() {
+		super.updateScreen();
+		int f = te.getField(1) / 20;
+		for(int i = 0;i<10;i++){
+			if(te.getStack()[i] != null){
+				Item item = te.getStack()[i].getItem();
+				if(item instanceof ARKCraftFeces){
+					f += (te.getStack()[i].getMaxDamage() - te.getStack()[i].getItemDamage());
+				}
+			}
+		}
+		te.setField(2, f);
 	}
 }

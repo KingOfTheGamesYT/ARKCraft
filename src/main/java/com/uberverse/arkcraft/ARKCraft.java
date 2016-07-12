@@ -41,6 +41,9 @@ import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.init.ARKCraftWeapons;
 
+import com.uberverse.arkcraft.common.network.MessageHover;
+import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
+
 @Mod(modid = ARKCraft.MODID, name = ARKCraft.NAME, version = ARKCraft.VERSION)
 public class ARKCraft
 {
@@ -73,7 +76,7 @@ public class ARKCraft
 			public Item getTabIconItem()
 			{
 				// TODO Assign proper item as icon
-				return ARKCraftItems.spy_glass;
+				return ARKCraftItems.tabItem;
 			}
 		};
 		
@@ -165,6 +168,10 @@ public class ARKCraft
 				ReloadFinished.class, id++, Side.CLIENT);
 		modChannel.registerMessage(ScrollingMessage.Handler.class,
 				ScrollingMessage.class, id++, Side.SERVER);
+		modChannel.registerMessage(MessageHover.class,
+				MessageHover.class, id++, Side.CLIENT);
+		modChannel.registerMessage(MessageHoverReq.class,
+				MessageHoverReq.class, id++, Side.SERVER);
 	}
 	
 	public boolean isDebugger()

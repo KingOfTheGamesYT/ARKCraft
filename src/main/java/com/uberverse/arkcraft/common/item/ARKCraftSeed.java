@@ -10,11 +10,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.init.ARKCraftItems;
+import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew.CropPlotType;
 
 public class ARKCraftSeed extends Item
 {
 
-	public ARKCraftSeed()
+	private CropPlotType type;
+	public ARKCraftSeed(CropPlotType type)
 	{
 		this.setMaxStackSize(16);
 		this.setMaxDamage(ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SEED_TO_DECOMPOSE); // 5
@@ -66,5 +68,8 @@ public class ARKCraftSeed extends Item
 	public void addInformation(ItemStack itemStack, EntityPlayer playerIn, List tooltip, boolean advanced)
 	{
 		tooltip.add("Decomposes in " + (getMaxDamage() - itemStack.getItemDamage()) + " seconds");
+	}
+	public CropPlotType getType() {
+		return type;
 	}
 }

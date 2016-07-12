@@ -29,6 +29,8 @@ import com.uberverse.arkcraft.common.item.tools.ItemStoneHatchet;
 import com.uberverse.arkcraft.common.item.tools.ItemStonePick;
 import com.uberverse.arkcraft.common.item.tools.ToolType;
 
+import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew.CropPlotType;
+
 public class ARKCraftItems {
 	
 	//Tools
@@ -53,6 +55,7 @@ public class ARKCraftItems {
 	public static ItemGrenade grenade;
 	public static ItemSlingshot slingshot;
 	public static ItemSpear spear;
+	public static Item tabItem;
 
 	
 	public static ToolMaterial METAL = EnumHelper.addToolMaterial("METAL_MAT",
@@ -97,12 +100,12 @@ public class ARKCraftItems {
 		spoiled_meat = addFood("spoiled_meat", 2, 0.1F, false, false);
 
 		// Seeds
-		tintoBerrySeed = addSeedItem("tintoBerrySeed");
-		amarBerrySeed = addSeedItem("amarBerrySeed");
-		azulBerrySeed = addSeedItem("azulBerrySeed");
-		mejoBerrySeed = addSeedItem("mejoBerrySeed");
-		narcoBerrySeed = addSeedItem("narcoBerrySeed");
-		stimBerrySeed = addSeedItem("stimBerrySeed");
+		tintoBerrySeed = addSeedItem("tintoBerrySeed", CropPlotType.SMALL);
+		amarBerrySeed = addSeedItem("amarBerrySeed", CropPlotType.SMALL);
+		azulBerrySeed = addSeedItem("azulBerrySeed", CropPlotType.SMALL);
+		mejoBerrySeed = addSeedItem("mejoBerrySeed", CropPlotType.SMALL);
+		narcoBerrySeed = addSeedItem("narcoBerrySeed", CropPlotType.SMALL);
+		stimBerrySeed = addSeedItem("stimBerrySeed", CropPlotType.SMALL);
 		
 		//feces
 		small_feces = addFecesItem(
@@ -123,6 +126,9 @@ public class ARKCraftItems {
 		fertilizer = addFecesItem("fertilizer",
 				ModuleItemBalance.CROP_PLOT.SECONDS_FOR_FERTILIZER_TO_DECOMPOSE);
 
+		tabItem = new Item().setUnlocalizedName("tabItem");
+		registerItem("tabItem", tabItem);
+		tabItem.setCreativeTab(null);
 	}
 
 	protected static ItemSlingshot addSlingshot(String name)
@@ -197,9 +203,9 @@ public class ARKCraftItems {
 		return f;
 	}
 	
-	protected static ARKCraftSeed addSeedItem(String name)
+	protected static ARKCraftSeed addSeedItem(String name, CropPlotType type)
 	{
-		ARKCraftSeed i = new ARKCraftSeed();
+		ARKCraftSeed i = new ARKCraftSeed(type);
 		registerItem(name, i);
 		return i;
 	}

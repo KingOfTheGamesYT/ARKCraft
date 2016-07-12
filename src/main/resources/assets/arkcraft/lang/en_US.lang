@@ -7,6 +7,9 @@ tile.wooden_spikes.name=Wooden Spikes
 tile.compost_bin.name=Compost Bin
 tile.oreSurface.name=Ore Surface
 tile.refining_forge.name=Refining Forge
+tile.crop_plot.small.name=Small Crop Plot
+tile.crop_plot.medium.name=Medium Crop Plot
+tile.crop_plot.large.name=Large Crop Plot
 
 # Containers
 container.inventory_refining_forge.name=Refining Forge
@@ -179,3 +182,16 @@ item.saddle_medium.tooltip=%oA Dino Rider's Dream
 item.saddle_large.tooltip=%oA Dino Rider's Dream
 
 arkcraft.tooltip.toolLevel=Tool Level: %d
+arkcraft.gui.fertilizer=Fertilizer: %d sec remaining
+arkcraft.cropPlotState.head=%s (%s)
+arkcraft.growing=Crop
+arkcraft.empty=Empty
+arkcraft.cropPlotState.empty=Empty
+arkcraft.cropPlotState.seeded=Seeded
+arkcraft.cropPlotState.seedling=Seedling
+arkcraft.cropPlotState.midling=Midling
+arkcraft.cropPlotState.growthing=Growthing
+arkcraft.cropPlotState.fruiting=Fruiting
+arkcraft.water=%s: %d/%d (%s)
+arkcraft.cropPlotWater.irrigated=Irrigated
+arkcraft.cropPlotWater.notIrrigated=Not Irrigated

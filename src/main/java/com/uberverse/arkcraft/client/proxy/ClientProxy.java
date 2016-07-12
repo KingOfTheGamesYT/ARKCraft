@@ -100,6 +100,9 @@ public class ClientProxy extends CommonProxy{
 
 		// Register variant models for all weapon items
 		registerItemVariants();
+		
+		registerBlockTexture(ARKCraftBlocks.crop_plot, 1, "crop_plot");
+		registerBlockTexture(ARKCraftBlocks.crop_plot, 2, "crop_plot");
 	}
 
 	public void registerBlockTexture(final Block block, final String blockName)
