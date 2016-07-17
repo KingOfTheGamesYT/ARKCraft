@@ -20,7 +20,7 @@ public class ARKCraftSeed extends Item
 	{
 		this.setMaxStackSize(16);
 		this.setMaxDamage(ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SEED_TO_DECOMPOSE); // 5
-																						// minutes
+		this.type = type.SMALL;																				// minutes
 																						// of
 																						// damage
 																						// at

@@ -36,7 +36,7 @@ public class TileEntityCropPlotNew extends TileEntity implements IInventory, IUp
 	private int fertilizer = 0;
 	private int water = 0;
 	private ItemStack growing;
-	private CropPlotType type;
+	private CropPlotType type = CropPlotType.SMALL;
 	@Override
 	public String getName() {
 		return "cropPlot";

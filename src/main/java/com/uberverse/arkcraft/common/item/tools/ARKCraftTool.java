@@ -20,7 +20,9 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -199,6 +201,42 @@ public abstract class ARKCraftTool extends ItemTool{
 			subItems.add(new ItemStack(itemIn, 1, level.ordinal()));
 		}
 	}
+	
+	@Override
+	public String getItemStackDisplayName(ItemStack stack) 
+	{
+		ClientProxy p = ((ClientProxy)ARKCraft.proxy);
+		List<ItemStack> list = new ArrayList<ItemStack>();
+		getSubItems(this, getCreativeTab(), list);
+		for(int i = 0;i<list.size();i++){
+			if(i == 1)
+			{
+				 return ("" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
+			}
+			else if(i == 2)
+			{
+				return (EnumChatFormatting.GREEN + "" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
+			}
+			else if(i == 3)
+			{
+				return (EnumChatFormatting.BLUE + "" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();		
+			}
+			else if(i == 4)
+			{
+				return (EnumChatFormatting.DARK_PURPLE + "" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
+			}
+			else if(i == 5)
+			{
+				return (EnumChatFormatting.YELLOW + "" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
+			}
+			else if(i == 6)
+			{
+				return (EnumChatFormatting.RED + "" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
+			}
+		}
+		return null;
+	}
+
 	
 	@SideOnly(Side.CLIENT)
 	public void registerModels(){//TODO: Call this from the Client proxy for each tool item.
