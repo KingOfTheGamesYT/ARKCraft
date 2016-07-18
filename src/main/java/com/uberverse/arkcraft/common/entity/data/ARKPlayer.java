@@ -34,10 +34,14 @@ public class ARKPlayer implements IExtendedEntityProperties
 	// constructor and in NBT):
 	private boolean canPoop; // True if player can poop (timer sets this)
 	// actual stats
-	private int health, oxygen, food, water, damage, speed, stamina, torpor, xp, level, carryWeight, weight;
+	private int health, oxygen, food, water, damage, speed, stamina, torpor, xp, level;
 	// max stats
-	private int maxHealth, maxOxygen, maxFood, maxWater, maxDamage, maxSpeed, maxStamina, maxCarryWeight;
-
+	private int maxHealth, maxOxygen, maxFood, maxWater, maxDamage, maxSpeed, maxStamina;
+	//actual weights
+	private double carryWeight, weight;
+	//max weights
+	private double maxCarryWeight;
+	
 	public ARKPlayer(EntityPlayer player, World world)
 	{
 		// Initialize some stuff
@@ -47,7 +51,8 @@ public class ARKPlayer implements IExtendedEntityProperties
 		this.torpor = 0;
 		this.stamina = 20;
 		//For player carry weight
-		this.carryWeight = 0;
+		this.carryWeight = 0.0;
+		this.weight = 100.0;
 	}
 
 	/**
@@ -85,8 +90,8 @@ public class ARKPlayer implements IExtendedEntityProperties
 		properties.setInteger("torpor", torpor);
 		properties.setInteger("xp", xp);
 		properties.setInteger("level", level);
-		properties.setInteger("carryWeight", carryWeight);
-		properties.setInteger("weight", weight);
+		properties.setDouble("carryWeight", carryWeight);
+		properties.setDouble("weight", weight);
 
 		properties.setInteger("maxHealth", maxHealth);
 		properties.setInteger("maxOxygen", maxOxygen);
@@ -95,7 +100,7 @@ public class ARKPlayer implements IExtendedEntityProperties
 		properties.setInteger("maxDamage", maxDamage);
 		properties.setInteger("maxSpeed", maxSpeed);
 		properties.setInteger("maxStamina", maxStamina);
-		properties.setInteger("maxCarryWeight", maxCarryWeight);
+		properties.setDouble("maxCarryWeight", maxCarryWeight);
 
 		compound.setTag(EXT_PROP_NAME, properties);
 		inventoryPlayerCrafting.saveInventoryToNBT(compound);
@@ -120,7 +125,7 @@ public class ARKPlayer implements IExtendedEntityProperties
 		properties.setInteger("torpor", torpor);
 		properties.setInteger("xp", xp);
 		properties.setInteger("level", level);
-		properties.setInteger("carryWeight", carryWeight);
+		properties.setDouble("carryWeight", carryWeight);
 
 		properties.setInteger("maxHealth", maxHealth);
 		properties.setInteger("maxOxygen", maxOxygen);
@@ -129,7 +134,7 @@ public class ARKPlayer implements IExtendedEntityProperties
 		properties.setInteger("maxDamage", maxDamage);
 		properties.setInteger("maxSpeed", maxSpeed);
 		properties.setInteger("maxStamina", maxStamina);
-		properties.setInteger("maxCarryWeight", maxCarryWeight);
+		properties.setDouble("maxCarryWeight", maxCarryWeight);
 
 		inventoryPlayerCrafting.loadInventoryFromNBT(compound);
 	}
@@ -156,7 +161,7 @@ public class ARKPlayer implements IExtendedEntityProperties
 	 * Added by ERBF. Used to set the players carry weight
 	 * @param carryWeight
 	 */
-	public void setCarryWeight(int carryWeight)
+	public void setCarryWeight(double carryWeight)
 	{
 		this.carryWeight = carryWeight;
 		syncClient(player, false);
@@ -166,7 +171,7 @@ public class ARKPlayer implements IExtendedEntityProperties
 	 * Added by ERBF. Used to set the players weight
 	 * @param weight
 	 */
-	public void setWeight(int weight) 
+	public void setWeight(double weight) 
 	{
 		this.weight = weight;
 		syncClient(player, false);
@@ -187,12 +192,12 @@ public class ARKPlayer implements IExtendedEntityProperties
 		return stamina;
 	}
 	
-	public int getCarryWeight()
+	public double getCarryWeight()
 	{
 		return carryWeight;
 	}
 	
-	public int getWeight()
+	public double getWeight()
 	{
 		return weight;
 	}

@@ -17,7 +17,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
  * @author ERBF
- *
  */
 public class WeightsConfig 
 {
@@ -38,21 +37,20 @@ public class WeightsConfig
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	private static void loadConfig() 
 	{
 		config.load();
-		@SuppressWarnings("unchecked")
 		List<Item> itemList = ImmutableList.copyOf(Item.itemRegistry);
 		for(Item item : itemList)
 		{
-			config.getInt(item.getUnlocalizedName().substring(5, item.getUnlocalizedName().length()), GENERAL, (int) genNewWeight(item.getUnlocalizedName().charAt(6)), 0, Integer.MAX_VALUE, "Sets the carry weight of item " + item.getUnlocalizedName().substring(5, item.getUnlocalizedName().length()));
+			config.getFloat(item.getUnlocalizedName().substring(5, item.getUnlocalizedName().length()), GENERAL, (int) genNewWeight(item.getUnlocalizedName().charAt(6)), 0, Integer.MAX_VALUE, "Sets the carry weight of item " + item.getUnlocalizedName().substring(5, item.getUnlocalizedName().length()));
 		}
 		
-		@SuppressWarnings("unchecked")
 		List<Block> blockList = ImmutableList.copyOf(Block.blockRegistry);
 		for(Block block : blockList)
 		{
-			config.getInt(block.getUnlocalizedName().substring(5, block.getUnlocalizedName().length()), GENERAL, (int) genNewWeight(block.getUnlocalizedName().charAt(6)), 0, Integer.MAX_VALUE, "Sets the carry weight of block " + block.getUnlocalizedName().substring(5, block.getUnlocalizedName().length()));
+			config.getFloat(block.getUnlocalizedName().substring(5, block.getUnlocalizedName().length()), GENERAL, (int) genNewWeight(block.getUnlocalizedName().charAt(6)), 0, Integer.MAX_VALUE, "Sets the carry weight of block " + block.getUnlocalizedName().substring(5, block.getUnlocalizedName().length()));
 		}
 		config.save();
 	}

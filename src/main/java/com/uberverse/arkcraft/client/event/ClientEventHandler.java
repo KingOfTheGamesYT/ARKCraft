@@ -36,6 +36,7 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.ResourceLocation;
@@ -118,8 +119,8 @@ public class ClientEventHandler {
 			if(Minecraft.getMinecraft().currentScreen != null)
 			{
 				//So there isnt as many packet leaks...
-				if(ARKPlayer.get(event.player).getCarryWeight() != CalcPlayerWeight.getAsInt(event.player))
-					ARKPlayer.get(event.player).setCarryWeight(CalcPlayerWeight.getAsInt(event.player));
+				if(ARKPlayer.get(event.player).getCarryWeight() != CalcPlayerWeight.getAsDouble(event.player))
+					ARKPlayer.get(event.player).setCarryWeight(CalcPlayerWeight.getAsDouble(event.player));
 			}
 		}
 	}
@@ -130,8 +131,8 @@ public class ClientEventHandler {
 		if(ModuleItemBalance.WEIGHT_CONFIG.ITEM_WEIGHTS)
 		{
 			ItemStack stack = event.itemStack;
-			int weight = CalcPlayerWeight.getWeight(stack);
-			event.toolTip.add("Item Weight: " + weight);
+			double weight = CalcPlayerWeight.getWeight(stack);
+			event.toolTip.add(EnumChatFormatting.BOLD + "" + EnumChatFormatting.WHITE + "Weight: " + weight);
 			if(stack.stackSize > 1)
 			{
 				event.toolTip.add("Stack Weight: " + (weight * stack.stackSize));
