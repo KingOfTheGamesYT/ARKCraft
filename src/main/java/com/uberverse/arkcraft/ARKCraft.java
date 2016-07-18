@@ -28,6 +28,8 @@ import com.uberverse.arkcraft.common.handlers.recipes.PestleCraftingManager;
 import com.uberverse.arkcraft.common.handlers.recipes.PlayerCraftingManager;
 import com.uberverse.arkcraft.common.handlers.recipes.RecipeHandler;
 import com.uberverse.arkcraft.common.handlers.recipes.SmithyCraftingManager;
+import com.uberverse.arkcraft.common.network.MessageHover;
+import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
 import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
 import com.uberverse.arkcraft.common.network.OpenPlayerCrafting;
 import com.uberverse.arkcraft.common.network.PlayerPoop;
@@ -41,9 +43,6 @@ import com.uberverse.arkcraft.common.proxy.CommonProxy;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.init.ARKCraftWeapons;
-
-import com.uberverse.arkcraft.common.network.MessageHover;
-import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
 
 @Mod(modid = ARKCraft.MODID, name = ARKCraft.NAME, version = ARKCraft.VERSION)
 public class ARKCraft
