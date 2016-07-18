@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.tile.IHoverInfo;
+import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.container.inventory.InventoryAttachment;
 import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
 import com.uberverse.arkcraft.common.entity.data.CalcPlayerWeight;
@@ -111,21 +112,30 @@ public class ClientEventHandler {
 		}
 		
 		//Calculate item weight and update when the player updates
-		if(Minecraft.getMinecraft().currentScreen != null) //Removes the updating when the player is in a inventory
+		if(ModuleItemBalance.WEIGHT_CONFIG.ITEM_WEIGHTS)
 		{
-			ARKPlayer.get(event.player).setCarryWeight(CalcPlayerWeight.getAsInt(event.player));
+			//Removes the updating when the player is in a inventory
+			if(Minecraft.getMinecraft().currentScreen != null)
+			{
+				//So there isnt as many packet leaks...
+				if(ARKPlayer.get(event.player).getCarryWeight() != CalcPlayerWeight.getAsInt(event.player))
+					ARKPlayer.get(event.player).setCarryWeight(CalcPlayerWeight.getAsInt(event.player));
+			}
 		}
 	}
 	
 	@SubscribeEvent
 	public void mouseOverTooltip(ItemTooltipEvent event)
 	{
-		ItemStack stack = event.itemStack;
-		int weight = CalcPlayerWeight.getWeight(stack);
-		event.toolTip.add("Item Weight: " + weight);
-		if(stack.stackSize > 1)
+		if(ModuleItemBalance.WEIGHT_CONFIG.ITEM_WEIGHTS)
 		{
-			event.toolTip.add("Stack Weight: " + (weight * stack.stackSize));
+			ItemStack stack = event.itemStack;
+			int weight = CalcPlayerWeight.getWeight(stack);
+			event.toolTip.add("Item Weight: " + weight);
+			if(stack.stackSize > 1)
+			{
+				event.toolTip.add("Stack Weight: " + (weight * stack.stackSize));
+			}
 		}
 	}
 

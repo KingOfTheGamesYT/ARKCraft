@@ -27,12 +27,15 @@ public class WeightsConfig
 	
 	public static void init(File dir)
 	{
-		File configFile = new File(dir, ARKCraft.MODID + "_weights.cfg");
-        if (config == null)
-        {
-            config = new Configuration(configFile);
-        }
-        loadConfig();
+		if(ModuleItemBalance.WEIGHT_CONFIG.ITEM_WEIGHTS)
+		{
+			File configFile = new File(dir, ARKCraft.MODID + "_weights.cfg");
+	        if (config == null)
+	        {
+	            config = new Configuration(configFile);
+	        }
+	        loadConfig();
+		}
 	}
 	
 	private static void loadConfig() 
