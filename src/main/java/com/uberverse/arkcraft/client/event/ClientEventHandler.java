@@ -10,27 +10,33 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.block.tile.IHoverInfo;
 import com.uberverse.arkcraft.common.container.inventory.InventoryAttachment;
 import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
+import com.uberverse.arkcraft.common.entity.data.CalcPlayerWeight;
 import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
+import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
 import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
 import com.uberverse.arkcraft.common.network.OpenPlayerCrafting;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.init.ARKCraftItems;
-import com.uberverse.lib.Utils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.model.ModelPlayer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.FOVUpdateEvent;
@@ -40,19 +46,13 @@ import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-
-import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
-import com.uberverse.arkcraft.common.block.tile.IHoverInfo;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.client.gui.FontRenderer;
 
 public class ClientEventHandler {
 	private static KeyBinding reload, attachment, playerPooping, harvestOverlay, playerCrafting;
@@ -108,6 +108,24 @@ public class ClientEventHandler {
 		// Update CraftingInventory
 		if (ARKPlayer.get(event.player).getInventoryBlueprints().isCrafting()) {
 			ARKPlayer.get(event.player).getInventoryBlueprints().update();
+		}
+		
+		//Calculate item weight and update when the player updates
+		if(Minecraft.getMinecraft().currentScreen != null) //Removes the updating when the player is in a inventory
+		{
+			ARKPlayer.get(event.player).setCarryWeight(CalcPlayerWeight.getAsInt(event.player));
+		}
+	}
+	
+	@SubscribeEvent
+	public void mouseOverTooltip(ItemTooltipEvent event)
+	{
+		ItemStack stack = event.itemStack;
+		int weight = CalcPlayerWeight.getWeight(stack);
+		event.toolTip.add("Item Weight: " + weight);
+		if(stack.stackSize > 1)
+		{
+			event.toolTip.add("Stack Weight: " + (weight * stack.stackSize));
 		}
 	}
 

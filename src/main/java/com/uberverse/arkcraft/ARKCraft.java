@@ -19,6 +19,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.uberverse.arkcraft.common.config.CoreConfig;
 import com.uberverse.arkcraft.common.config.ModuleItemConfig;
+import com.uberverse.arkcraft.common.config.WeightsConfig;
 import com.uberverse.arkcraft.common.event.CommonEventHandler;
 import com.uberverse.arkcraft.common.gen.WorldGeneratorBushes;
 import com.uberverse.arkcraft.common.handlers.GuiHandler;
@@ -90,6 +91,9 @@ public class ARKCraft
 		SmithyCraftingManager.registerSmithyCraftingRecipes();
 		PlayerCraftingManager.registerPlayerCraftingRecipes();
 		ForgeCraftingHandler.registerForgeRecipes();
+		
+		//This has to be here so it can create weights for our items and blocks as well
+		WeightsConfig.init(event.getModConfigurationDirectory());
 		
 		setupNetwork();	
 		modLog = event.getModLog();
