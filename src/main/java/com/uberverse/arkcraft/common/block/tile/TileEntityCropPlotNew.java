@@ -331,7 +331,7 @@ public class TileEntityCropPlotNew extends TileEntity implements IInventory, IUp
 		if(name.equals(seedName))name = I18n.format(seedName + ".name");
 		text.add(EnumChatFormatting.YELLOW + I18n.format(stringType));
 		text.add(I18n.format("arkcraft.growing") + ": " + I18n.format("arkcraft.cropPlotState.head", name, I18n.format(stateName)));
-		text.add(EnumChatFormatting.BLUE + I18n.format("arkcraft.water", I18n.format("tile.water.name"), (getField(0)/20), 1200, I18n.format("arkcraft.cropPlotWater.notIrrigated")));
+		text.add(EnumChatFormatting.BLUE + I18n.format("arkcraft.water", I18n.format("tile.water.name"), (getField(0)/20), 1200, getField(0) > 0 ? I18n.format("arkcraft.cropPlotWater.irrigated") : I18n.format("arkcraft.cropPlotWater.notIrrigated")));
 		text.add("#8B4513" + I18n.format("arkcraft.gui.fertilizer", fertilizerClient));
 	}
 	private String seedName = "arkcraft.empty", stateName = "", stringType = "";
