@@ -20,7 +20,9 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -35,8 +37,6 @@ public abstract class ARKCraftTool extends ItemTool{
 	private static final String DAMAGE_NBT_NAME = "damage";
 	boolean arkMode;
 	public static  int count = 0;
-	public int wood;
-	public int thatch;
 	public final ToolType toolType;
 
 	@SuppressWarnings("rawtypes")
@@ -54,60 +54,43 @@ public abstract class ARKCraftTool extends ItemTool{
 		this.toolType = toolType;
 	}
 
-	
-	 @Override
-	 public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) 
-	 {
-		 
-	 }
-	 
-	 
-//	 @Override
-//	    public void addInformation(ItemStack itemStack, EntityPlayer playerIn, List tooltip, boolean advanced)
-//	    {
-//	        tooltip.add("");
-//	    }
-	/**
-     * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
-     *  
-     * @param subItems The List of sub-items. This is a List of ItemStacks.
-     */
-	 
+	 //For the ItemDrop
+	 private void entityDropItem(World worldIn, BlockPos pos, Block block, EntityPlayer playerIn, ItemStack itemStackIn) {
+			if (itemStackIn.stackSize != 0 && itemStackIn.getItem() != null) {
+				Float offset = worldIn.rand.nextFloat();
+				EntityItem entityitem = new EntityItem(worldIn, pos.getX() + offset, pos.getY() + block.getBlockBoundsMaxY(),
+						pos.getZ() + offset, itemStackIn);
+				entityitem.setDefaultPickupDelay();
+				if (playerIn.captureDrops) {
+					playerIn.capturedDrops.add(entityitem);
+				} else {
+					worldIn.spawnEntityInWorld(entityitem);
+				}
+			}
+		} 
 
 	@Override
 	public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn)
 	{
-		if (arkMode != ClientEventHandler.openOverlay())
+		if (arkMode != ClientEventHandler.arkMode())
 		{
 			if(playerIn instanceof EntityPlayer)
 			{
+				EntityPlayer player = (EntityPlayer) playerIn;
 				IBlockState blockState = worldIn.getBlockState(pos);
 				if (blockState.getBlock() == Blocks.log || blockState.getBlock() == Blocks.log2)
 				{
-					EntityPlayer player = (EntityPlayer) playerIn;
 					this.destroyBlocks(worldIn, pos, player, stack);
-					System.out.println(count);
-					wood = (int) (10 + itemRand.nextInt(100)/20.0*count*toolType.getPrimaryModifier());
-					thatch = (int) (10 + itemRand.nextInt(100)/20.0*count*toolType.getSecondaryModifier());
-					Float offset = worldIn.rand.nextFloat();
-					EntityItem entityWood = new EntityItem(worldIn, pos.getX() + offset,
-							pos.getY(), pos.getZ() + offset, (new ItemStack(ARKCraftItems.wood, wood)));
-					EntityItem entityThatch = new EntityItem(worldIn, pos.getX() + offset,
-							pos.getY() + blockIn.getBlockBoundsMaxY(), pos.getZ() + offset, (new ItemStack(ARKCraftItems.thatch, thatch)));
-					worldIn.spawnEntityInWorld(entityThatch);
-					worldIn.spawnEntityInWorld(entityWood);
-
-
-
-					//	player.dropItem(ARKCraftItems.wood, wood);
-					//	player.dropItem(ARKCraftItems.thatch, thatch);
-					//	player.inventory.addItemStackToInventory(new ItemStack(ARKCraftItems.wood, wood));
-					//	player.inventory.addItemStackToInventory(new ItemStack(ARKCraftItems.thatch, thatch));
-					System.out.println(" Wood: " + wood + " Thatch: " + thatch);
+					System.out.println("How many wood blocks ? " + count);
+					
+					entityDropItem(worldIn, pos, blockIn, player, new ItemStack(ARKCraftItems.wood, (int) (10 + itemRand.nextInt(100)/20.0*count*toolType.getPrimaryModifier())));	
+					entityDropItem(worldIn, pos, blockIn, player, new ItemStack(ARKCraftItems.thatch, (int) (10 + itemRand.nextInt(100)/20.0*count*toolType.getPrimaryModifier())));	
+					
+				//	System.out.println(" Wood: " + wood + " Thatch: " + thatch);
 					count = 0;
+					
 				}else if (blockState.getBlock() == Blocks.stone)
 				{
-					//EntityPlayer player = (EntityPlayer) playerIn;
 					damageTool(stack, playerIn);
 					int multiplier = 1;
 					{
@@ -173,13 +156,9 @@ public abstract class ARKCraftTool extends ItemTool{
 							}
 						}
 					}
-					Float offset = worldIn.rand.nextFloat();
-					EntityItem entityWood = new EntityItem(worldIn, pos.getX() + offset,
-							pos.getY(), pos.getZ() + offset, (new ItemStack(ARKCraftItems.stone, (int) (10 + itemRand.nextInt(100)/20.0*multiplier*toolType.getPrimaryModifier()))));
-					EntityItem entityThatch = new EntityItem(worldIn, pos.getX() + offset,
-							pos.getY() + blockIn.getBlockBoundsMaxY(), pos.getZ() + offset, (new ItemStack(Items.flint, (int) (10 + itemRand.nextInt(100)/20.0*multiplier*count*toolType.getSecondaryModifier()))));
-					worldIn.spawnEntityInWorld(entityThatch);
-					worldIn.spawnEntityInWorld(entityWood);
+					entityDropItem(worldIn, pos, blockIn, player, new ItemStack(ARKCraftItems.stone, (int) (10 + itemRand.nextInt(100)/20.0*multiplier*toolType.getPrimaryModifier())));		
+					entityDropItem(worldIn, pos, blockIn, player, new ItemStack(ARKCraftItems.flint, (int) (10 + itemRand.nextInt(100)/20.0*multiplier*toolType.getPrimaryModifier())));	
+					entityDropItem(worldIn, pos, blockIn, player, new ItemStack(ARKCraftItems.metal, (int) (1 + itemRand.nextInt(100)/20.0*multiplier*toolType.getPrimaryModifier())));	
 				}
 			}
 		}else{
@@ -212,6 +191,7 @@ public abstract class ARKCraftTool extends ItemTool{
 		}
 
 	}
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -221,6 +201,43 @@ public abstract class ARKCraftTool extends ItemTool{
 			subItems.add(new ItemStack(itemIn, 1, level.ordinal()));
 		}
 	}
+	
+	@Override
+	public String getItemStackDisplayName(ItemStack stack) 
+	{
+		ClientProxy p = ((ClientProxy)ARKCraft.proxy);
+		List<ItemStack> list = new ArrayList<ItemStack>();
+		getSubItems(this, getCreativeTab(), list);
+		for(int i = 0;i<list.size();i++){
+			if(i == 1)
+			{
+				 return ("" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
+			}
+			else if(i == 2)
+			{
+				return (EnumChatFormatting.GREEN + "" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
+			}
+			else if(i == 3)
+			{
+				return (EnumChatFormatting.BLUE + "" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();		
+			}
+			else if(i == 4)
+			{
+				return (EnumChatFormatting.DARK_PURPLE + "" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
+			}
+			else if(i == 5)
+			{
+				return (EnumChatFormatting.YELLOW + "" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
+			}
+			else if(i == 6)
+			{
+				return (EnumChatFormatting.RED + "" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
+			}
+		}
+		return null;
+	}
+
+	
 	@SideOnly(Side.CLIENT)
 	public void registerModels(){//TODO: Call this from the Client proxy for each tool item.
 		ClientProxy p = ((ClientProxy)ARKCraft.proxy);
@@ -230,6 +247,7 @@ public abstract class ARKCraftTool extends ItemTool{
 			p.registerItemTexture(this, i, "tool_" + getUnlocalizedName().substring(5) + "_" + ToolLevel.VALUES[i].name);
 		}
 	}
+	
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@SideOnly(Side.CLIENT)
@@ -237,6 +255,7 @@ public abstract class ARKCraftTool extends ItemTool{
 		super.addInformation(stack, playerIn, tooltip, advanced);
 		tooltip.add(I18n.format("arkcraft.tooltip.toolLevel", ToolLevel.VALUES[stack.getMetadata()].getTranslatedName()));
 	}
+	
 	public int getDurrability(ItemStack stack){
 		return ToolLevel.VALUES[stack.getMetadata()].getDurrability(toolMaterial.getMaxUses());
 	}

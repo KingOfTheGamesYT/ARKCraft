@@ -6,9 +6,9 @@ import net.minecraft.item.Item.ToolMaterial;
 
 public class ARKCraftHatchet extends ARKCraftTool{
 	
-	public ARKCraftHatchet(String name, float attackDamage, ToolMaterial material, Set effectiveBlocks, ToolType toolType)
+	public ARKCraftHatchet(float attackDamage, ToolMaterial material, Set effectiveBlocks)
 	{
-		super(name, attackDamage,material, effectiveBlocks, ToolType.HATCHET);
+		super(attackDamage, material, effectiveBlocks, ToolType.HATCHET);
 	}
 }
 

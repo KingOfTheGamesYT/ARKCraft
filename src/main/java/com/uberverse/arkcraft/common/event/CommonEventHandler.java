@@ -125,7 +125,7 @@ public class CommonEventHandler {
 
 	@SubscribeEvent
 	public void breakSpeed(BreakSpeed event){
-		if(ClientEventHandler.openOverlay() && event.entityPlayer.getHeldItem() != null && event.entityPlayer.getHeldItem().getItem() instanceof ARKCraftTool){
+		if(ClientEventHandler.arkMode() && event.entityPlayer.getHeldItem() != null && event.entityPlayer.getHeldItem().getItem() instanceof ARKCraftTool){
 			destroyBlocks(event.entityPlayer.worldObj, event.pos, true);
 			float f = count / 20F;
 			System.out.println(count +" " + f);
