@@ -3,6 +3,8 @@ package com.uberverse.arkcraft.client;
 import java.util.Iterator;
 import java.util.List;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -96,6 +98,7 @@ public class ClientUtils {
 			GlStateManager.enableDepth();
 			//RenderHelper.enableStandardItemLighting();
 			GlStateManager.enableRescaleNormal();
+			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		}
 	}
 	/**
