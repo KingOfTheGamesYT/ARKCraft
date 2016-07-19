@@ -8,10 +8,26 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.block.tile.IHoverInfo;
+import com.uberverse.arkcraft.common.config.ModuleItemBalance;
+import com.uberverse.arkcraft.common.container.inventory.InventoryAttachment;
+import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
+import com.uberverse.arkcraft.common.entity.data.CalcPlayerWeight;
+import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
+import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
+import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
+import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
+import com.uberverse.arkcraft.common.network.OpenPlayerCrafting;
+import com.uberverse.arkcraft.common.network.ReloadStarted;
+import com.uberverse.arkcraft.init.ARKCraftItems;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.model.ModelPlayer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -110,6 +126,7 @@ public class ClientEventHandler {
 			ARKPlayer.get(event.player).getInventoryBlueprints().update();
 		}
 
+		
 		//Calculate item weight and update when the player updates
 		if(ModuleItemBalance.WEIGHT_CONFIG.ITEM_WEIGHTS)
 		{
@@ -122,7 +139,7 @@ public class ClientEventHandler {
 			}
 		}
 	}
-
+	
 	@SubscribeEvent
 	public void mouseOverTooltip(ItemTooltipEvent event)
 	{
