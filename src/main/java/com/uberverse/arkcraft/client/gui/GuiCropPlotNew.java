@@ -31,7 +31,7 @@ public class GuiCropPlotNew extends GuiContainer {
 		String s = I18n.format("tile.crop_plot.name");
 		fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
 		fontRendererObj.drawString(I18n.format("container.inventory"), 8, ySize - 96 + 2, 4210752);
-		fontRendererObj.drawString(I18n.format("arkcraft.water", I18n.format("tile.water.name"), (te.getField(0)/20), 1200, I18n.format("arkcraft.cropPlotWater.notIrrigated")), 8, 15, te.getField(0) < 1 ? 0xFF0000 : 4210752);
+		fontRendererObj.drawString(I18n.format("arkcraft.water", I18n.format("tile.water.name"), (te.getField(0)/20), te.getType().getMaxWater() / 20, te.getField(0) > 0 ? I18n.format("arkcraft.cropPlotWater.irrigated") : I18n.format("arkcraft.cropPlotWater.notIrrigated")), 8, 15, te.getField(0) < 1 ? 0xFF0000 : 4210752);
 		fontRendererObj.drawString(I18n.format("arkcraft.gui.fertilizer", te.getField(2)), 8, 63, te.getField(1) < 1 ? 0xFF0000 : 4210752);
 	}
 	@Override

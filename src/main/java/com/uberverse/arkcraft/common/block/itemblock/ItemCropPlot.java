@@ -46,6 +46,7 @@ public class ItemCropPlot extends ItemBlockARK
 			{
 				--stack.stackSize;
 				worldIn.setBlockState(blockpos1, ARKCraftBlocks.crop_plot.getDefaultState());
+				ARKCraftBlocks.crop_plot.onBlockPlacedBy(worldIn, blockpos1, ARKCraftBlocks.crop_plot.getDefaultState(), playerIn, stack);
 				return true;
 			}
 			else

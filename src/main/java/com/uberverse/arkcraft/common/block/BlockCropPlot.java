@@ -172,7 +172,8 @@ public class BlockCropPlot extends BlockContainer
 	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
 		super.breakBlock(worldIn, pos, state);
-		InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) worldIn.getTileEntity(pos));
+		TileEntity tile = worldIn.getTileEntity(pos);
+		if(tile != null)InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) tile);
 	}
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer,
