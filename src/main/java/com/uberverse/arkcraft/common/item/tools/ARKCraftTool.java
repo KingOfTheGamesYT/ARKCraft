@@ -21,7 +21,10 @@ import net.minecraft.stats.StatList;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
+<<<<<<< HEAD
 import net.minecraft.util.MathHelper;
+=======
+>>>>>>> refs/remotes/BubbleTrouble14/master
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
@@ -94,6 +97,24 @@ public abstract class ARKCraftTool extends ItemTool{
 			}
 		}
 	}
+<<<<<<< HEAD
+=======
+
+	 //For the ItemDrop
+	 private void entityDropItem(World worldIn, BlockPos pos, Block block, EntityPlayer playerIn, ItemStack itemStackIn) {
+			if (itemStackIn.stackSize != 0 && itemStackIn.getItem() != null) {
+				Float offset = worldIn.rand.nextFloat();
+				EntityItem entityitem = new EntityItem(worldIn, pos.getX() + offset, pos.getY() + block.getBlockBoundsMaxY(),
+						pos.getZ() + offset, itemStackIn);
+				entityitem.setDefaultPickupDelay();
+				if (playerIn.captureDrops) {
+					playerIn.capturedDrops.add(entityitem);
+				} else {
+					worldIn.spawnEntityInWorld(entityitem);
+				}
+			}
+		} 
+>>>>>>> refs/remotes/BubbleTrouble14/master
 
 	@Override
 	public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn)
@@ -106,6 +127,7 @@ public abstract class ARKCraftTool extends ItemTool{
 				IBlockState blockState = worldIn.getBlockState(pos);
 				if (WOOD_PREDICATE.apply(blockState))
 				{
+<<<<<<< HEAD
 					this.destroyBlocks(worldIn, pos, player, stack, WOOD_PREDICATE);
 					System.out.println("How many wood blocks ? " + count);
 					int wood = calcOutput(count, toolType.getPickaxeModifier(), 1);
@@ -116,6 +138,17 @@ public abstract class ARKCraftTool extends ItemTool{
 					//	System.out.println(" Wood: " + wood + " Thatch: " + thatch);
 					count = 0;
 
+=======
+					this.destroyBlocks(worldIn, pos, player, stack);
+					System.out.println("How many wood blocks ? " + count);
+					
+					entityDropItem(worldIn, pos, blockIn, player, new ItemStack(ARKCraftItems.wood, (int) (10 + itemRand.nextInt(100)/20.0*count*toolType.getPrimaryModifier())));	
+					entityDropItem(worldIn, pos, blockIn, player, new ItemStack(ARKCraftItems.thatch, (int) (10 + itemRand.nextInt(100)/20.0*count*toolType.getPrimaryModifier())));	
+					
+				//	System.out.println(" Wood: " + wood + " Thatch: " + thatch);
+					count = 0;
+					
+>>>>>>> refs/remotes/BubbleTrouble14/master
 				}else if (blockState.getBlock() == Blocks.stone)
 				{
 					damageTool(stack, playerIn);
@@ -190,6 +223,7 @@ public abstract class ARKCraftTool extends ItemTool{
 							}
 						}
 					}
+<<<<<<< HEAD
 					int stone = calcOutput(multiplier, toolType.getPickaxeModifier(), 1);
 					int flint = calcOutput(multiplier, toolType.getHatchetModifier(), 1);
 					int metal = calcOutput(multiplier, toolType.getPickaxeModifier(), 0.1D);
@@ -206,6 +240,11 @@ public abstract class ARKCraftTool extends ItemTool{
 
 					//	System.out.println(" Wood: " + wood + " Thatch: " + thatch);
 					count = 0;
+=======
+					entityDropItem(worldIn, pos, blockIn, player, new ItemStack(ARKCraftItems.stone, (int) (10 + itemRand.nextInt(100)/20.0*multiplier*toolType.getPrimaryModifier())));		
+					entityDropItem(worldIn, pos, blockIn, player, new ItemStack(ARKCraftItems.flint, (int) (10 + itemRand.nextInt(100)/20.0*multiplier*toolType.getPrimaryModifier())));	
+					entityDropItem(worldIn, pos, blockIn, player, new ItemStack(ARKCraftItems.metal, (int) (1 + itemRand.nextInt(100)/20.0*multiplier*toolType.getPrimaryModifier())));	
+>>>>>>> refs/remotes/BubbleTrouble14/master
 				}
 			}
 		}else{
@@ -247,6 +286,7 @@ public abstract class ARKCraftTool extends ItemTool{
 		}
 		return MathHelper.floor_double(ret);
 	}
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -281,8 +321,48 @@ public abstract class ARKCraftTool extends ItemTool{
 		}
 		return super.getItemStackDisplayName(stack);
 	}
+<<<<<<< HEAD
 
 
+=======
+	
+	@Override
+	public String getItemStackDisplayName(ItemStack stack) 
+	{
+		ClientProxy p = ((ClientProxy)ARKCraft.proxy);
+		List<ItemStack> list = new ArrayList<ItemStack>();
+		getSubItems(this, getCreativeTab(), list);
+		for(int i = 0;i<list.size();i++){
+			if(i == 1)
+			{
+				 return ("" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
+			}
+			else if(i == 2)
+			{
+				return (EnumChatFormatting.GREEN + "" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
+			}
+			else if(i == 3)
+			{
+				return (EnumChatFormatting.BLUE + "" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();		
+			}
+			else if(i == 4)
+			{
+				return (EnumChatFormatting.DARK_PURPLE + "" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
+			}
+			else if(i == 5)
+			{
+				return (EnumChatFormatting.YELLOW + "" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
+			}
+			else if(i == 6)
+			{
+				return (EnumChatFormatting.RED + "" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
+			}
+		}
+		return null;
+	}
+
+	
+>>>>>>> refs/remotes/BubbleTrouble14/master
 	@SideOnly(Side.CLIENT)
 	public void registerModels(){//TODO: Call this from the Client proxy for each tool item.
 		ClientProxy p = ((ClientProxy)ARKCraft.proxy);
@@ -292,7 +372,11 @@ public abstract class ARKCraftTool extends ItemTool{
 			p.registerItemTexture(this, i, "tool_" + getUnlocalizedName().substring(5) + "_" + ToolLevel.VALUES[i].name);
 		}
 	}
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> refs/remotes/BubbleTrouble14/master
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@SideOnly(Side.CLIENT)
@@ -304,7 +388,11 @@ public abstract class ARKCraftTool extends ItemTool{
 			tooltip.add("Durability: " + max + "/" + (max - getToolDamage(stack)));
 		}
 	}
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> refs/remotes/BubbleTrouble14/master
 	public int getDurrability(ItemStack stack){
 		return ToolLevel.VALUES[stack.getMetadata() % ToolLevel.VALUES.length].getDurrability(toolMaterial.getMaxUses());
 	}
