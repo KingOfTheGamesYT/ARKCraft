@@ -9,7 +9,10 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> refs/remotes/BubbleTrouble14/master
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.tile.IHoverInfo;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
@@ -24,13 +27,14 @@ import com.uberverse.arkcraft.common.network.OpenPlayerCrafting;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 
+<<<<<<< HEAD
+>>>>>>> refs/remotes/BubbleTrouble14/master
+=======
 >>>>>>> refs/remotes/BubbleTrouble14/master
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.model.ModelPlayer;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -38,12 +42,12 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
-
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -51,6 +55,7 @@ import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -59,6 +64,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.tile.IHoverInfo;
@@ -74,6 +80,8 @@ import com.uberverse.arkcraft.common.network.OpenPlayerCrafting;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 
+=======
+>>>>>>> refs/remotes/BubbleTrouble14/master
 =======
 >>>>>>> refs/remotes/BubbleTrouble14/master
 public class ClientEventHandler {
@@ -125,12 +133,16 @@ public class ClientEventHandler {
 		else if(disabledEquippItemAnimationTime<0)disabledEquippItemAnimationTime=0;	*/
 	}
 
+	
+	int r0 = 0;
+	int r1 = 0;
 	@SubscribeEvent
 	public void onPlayerTickEvent(TickEvent.PlayerTickEvent event) {
 		// Update CraftingInventory
 		if (ARKPlayer.get(event.player).getInventoryBlueprints().isCrafting()) {
 			ARKPlayer.get(event.player).getInventoryBlueprints().update();
 		}
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 =======
@@ -144,13 +156,73 @@ public class ClientEventHandler {
 			{
 				//So there isnt as many packet leaks...
 				if(ARKPlayer.get(event.player).getCarryWeight() != CalcPlayerWeight.getAsDouble(event.player))
+=======
+
+		
+		// Calculate item weight and update when the player updates
+		if (ModuleItemBalance.WEIGHT_CONFIG.ITEM_WEIGHTS) {
+			// Removes the updating when the player is in a inventory
+			if (Minecraft.getMinecraft().currentScreen == null) {
+				// So there isnt as many packet leaks (if any)...
+				if (ARKPlayer.get(event.player).getCarryWeight() != CalcPlayerWeight.getAsDouble(event.player)) {
+>>>>>>> refs/remotes/BubbleTrouble14/master
 					ARKPlayer.get(event.player).setCarryWeight(CalcPlayerWeight.getAsDouble(event.player));
+				}
+
+			}
+			
+			// Weight rules
+			if ((double) ARKPlayer.get(event.player).getCarryWeightRatio() >= (double) 0.85) {
+				event.player.motionX *= 0;
+				event.player.motionY *= 0;
+				event.player.motionZ *= 0;
+				r0 = 0;
+				// new GUIFadeText("ark.splash.overEncumbered", "FF0000",
+				// Minecraft.getMinecraft());
+				r1++;
+				if (r1 % 1200 == 0 || r1 == 0) {
+					event.player.addChatComponentMessage(new ChatComponentTranslation("ark.splash.overEncumbered"));
+				}
+			} else if ((double) ARKPlayer.get(event.player).getCarryWeightRatio() >= (double) 0.75) {
+				event.player.motionX *= (double) 0.2D;
+				event.player.motionZ *= (double) 0.2D;
+				r1 = 0;
+				// new GUIFadeText("ark.splash.encumbered", "FFFF00",
+				// Minecraft.getMinecraft());
+
+				r0++;
+				if (r0 % 1200 == 0 || r0 == 0) {
+					event.player.addChatComponentMessage(new ChatComponentTranslation("ark.splash.encumbered"));
+				}
+
+			}
+		}
+		
+	}
+	
+	@SubscribeEvent
+	public void entityJumpEvent(LivingJumpEvent event)
+	{
+		if(event.entityLiving instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) event.entity;
+			if((double) ARKPlayer.get(player).getCarryWeightRatio() >= .85) {
+				event.setCanceled(true);
 			}
 		}
 	}
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
+	
+>>>>>>> refs/remotes/BubbleTrouble14/master
+=======
+	
+	/*@SubscribeEvent
+	public void playerJoinWorld(PlayerEvent.PlayerLoggedInEvent event)
+	{
+		ARKPlayer.get(event.player).setCarryWeight(CalcPlayerWeight.getAsDouble(event.player));
+	}*/
 	
 >>>>>>> refs/remotes/BubbleTrouble14/master
 	@SubscribeEvent
