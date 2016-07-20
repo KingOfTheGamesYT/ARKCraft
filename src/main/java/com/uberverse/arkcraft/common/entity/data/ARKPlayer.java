@@ -1,12 +1,6 @@
 package com.uberverse.arkcraft.common.entity.data;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.world.World;
-import net.minecraftforge.common.IExtendedEntityProperties;
+import java.util.ArrayList;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
@@ -16,6 +10,14 @@ import com.uberverse.arkcraft.common.inventory.InventoryPlayerCrafting;
 import com.uberverse.arkcraft.common.network.PlayerPoop;
 import com.uberverse.arkcraft.common.network.SyncPlayerData;
 import com.uberverse.lib.LogHelper;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.world.World;
+import net.minecraftforge.common.IExtendedEntityProperties;
 
 /**
  * @author wildbill22, Lewis_McReu, ERBF
@@ -41,6 +43,8 @@ public class ARKPlayer implements IExtendedEntityProperties
 	private double carryWeight, weight;
 	//max weights
 	private double maxCarryWeight;
+	//Unlocked Engrams
+	private ArrayList<Object> engrams;
 	
 	public ARKPlayer(EntityPlayer player, World world)
 	{
@@ -53,6 +57,7 @@ public class ARKPlayer implements IExtendedEntityProperties
 		//For player carry weight
 		this.carryWeight = 0.0;
 		this.weight = 100.0;
+		this.engrams = new ArrayList<Object>();
 	}
 
 	/**
@@ -201,6 +206,11 @@ public class ARKPlayer implements IExtendedEntityProperties
 	{
 		return weight;
 	}
+	
+	public double getCarryWeightRatio() 
+	{
+		return (double) carryWeight / weight;
+	}
 
 	/**
 	 * Copies additional player data from the given ExtendedPlayer instance
@@ -212,6 +222,8 @@ public class ARKPlayer implements IExtendedEntityProperties
 		this.torpor = props.torpor;
 		this.water = props.water;
 		this.stamina = props.stamina;
+		this.weight = props.weight;
+		this.carryWeight = props.carryWeight;
 	}
 
 	@Override
