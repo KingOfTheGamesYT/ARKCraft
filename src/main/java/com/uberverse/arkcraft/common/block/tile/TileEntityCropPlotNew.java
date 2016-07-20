@@ -164,10 +164,13 @@ public class TileEntityCropPlotNew extends TileEntity implements IInventory, IUp
 							growing = decrStackSize(i, 1);
 							state = CropPlotState.SEEDED;
 						}
-					}else if(item == Items.water_bucket){
-						if(water == 0){
-							stack[i] = new ItemStack(Items.bucket);
-							water = 24000;
+					}else{
+						int itemWater = getItemWaterValue(stack[i]);
+						if(itemWater > 0){
+							if(water + itemWater <= type.getMaxWater()){
+								stack[i] = getContainerItem(stack[i]);
+								water += itemWater;
+							}
 						}
 					}
 				}
@@ -209,6 +212,21 @@ public class TileEntityCropPlotNew extends TileEntity implements IInventory, IUp
 				setState(0);
 			}
 		}
+	}
+	public static int getItemWaterValue(ItemStack stack){
+		if(stack != null && stack.getItem() == Items.water_bucket){
+			return 24000;
+		}
+		return 0;
+	}
+	public static ItemStack getContainerItem(ItemStack stack){
+		if(stack != null){
+			if(stack.getItem() == Items.water_bucket){
+				return new ItemStack(Items.bucket);
+			}
+			return stack.getItem().getContainerItem(stack);
+		}
+		return null;
 	}
 	private void setState(int age){
 		IBlockState state = worldObj.getBlockState(pos);
@@ -331,10 +349,10 @@ public class TileEntityCropPlotNew extends TileEntity implements IInventory, IUp
 		if(name.equals(seedName))name = I18n.format(seedName + ".name");
 		text.add(EnumChatFormatting.YELLOW + I18n.format(stringType));
 		text.add(I18n.format("arkcraft.growing") + ": " + I18n.format("arkcraft.cropPlotState.head", name, I18n.format(stateName)));
-		text.add(EnumChatFormatting.BLUE + I18n.format("arkcraft.water", I18n.format("tile.water.name"), (getField(0)/20), 1200, getField(0) > 0 ? I18n.format("arkcraft.cropPlotWater.irrigated") : I18n.format("arkcraft.cropPlotWater.notIrrigated")));
+		text.add(EnumChatFormatting.BLUE + I18n.format("arkcraft.water", I18n.format("tile.water.name"), (getField(0)/20), type.getMaxWater() / 20, getField(0) > 0 ? I18n.format("arkcraft.cropPlotWater.irrigated") : I18n.format("arkcraft.cropPlotWater.notIrrigated")));
 		text.add("#8B4513" + I18n.format("arkcraft.gui.fertilizer", fertilizerClient));
 	}
-	private String seedName = "arkcraft.empty", stateName = "", stringType = "";
+	private String seedName = "arkcraft.empty", stateName = "...", stringType = "...";
 	@Override
 	public void writeToNBTPacket(NBTTagCompound tag) {
 		tag.setInteger("w", water);
@@ -371,12 +389,22 @@ public class TileEntityCropPlotNew extends TileEntity implements IInventory, IUp
 		this.stack = stack;
 	}
 	public static enum CropPlotType{
-		SMALL, MEDIUM, LARGE
+		SMALL(200), MEDIUM(400), LARGE(600)
 
 		;
 		public static final CropPlotType[] VALUES = values();
+		private final int maxWater;
+		private CropPlotType(int maxWater) {
+			this.maxWater = maxWater;
+		}
+		public int getMaxWater() {
+			return 120 * maxWater;
+		}
 	}
 	public void setType(int metadata) {
 		type = CropPlotType.VALUES[MathHelper.abs_int(metadata % CropPlotType.VALUES.length)];
+	}
+	public CropPlotType getType(){
+		return type;
 	}
 }
