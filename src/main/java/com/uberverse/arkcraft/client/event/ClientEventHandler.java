@@ -4,33 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> refs/remotes/BubbleTrouble14/master
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.block.tile.IHoverInfo;
-import com.uberverse.arkcraft.common.config.ModuleItemBalance;
-import com.uberverse.arkcraft.common.container.inventory.InventoryAttachment;
-import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
-import com.uberverse.arkcraft.common.entity.data.CalcPlayerWeight;
-import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
-import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
-import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
-import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
-import com.uberverse.arkcraft.common.network.OpenPlayerCrafting;
-import com.uberverse.arkcraft.common.network.ReloadStarted;
-import com.uberverse.arkcraft.init.ARKCraftItems;
-
-<<<<<<< HEAD
->>>>>>> refs/remotes/BubbleTrouble14/master
-=======
->>>>>>> refs/remotes/BubbleTrouble14/master
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
@@ -64,8 +37,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.tile.IHoverInfo;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
@@ -80,10 +55,7 @@ import com.uberverse.arkcraft.common.network.OpenPlayerCrafting;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 
-=======
->>>>>>> refs/remotes/BubbleTrouble14/master
-=======
->>>>>>> refs/remotes/BubbleTrouble14/master
+
 public class ClientEventHandler {
 	private static KeyBinding reload, attachment, playerPooping, harvestOverlay, playerCrafting;
 
@@ -142,12 +114,7 @@ public class ClientEventHandler {
 		if (ARKPlayer.get(event.player).getInventoryBlueprints().isCrafting()) {
 			ARKPlayer.get(event.player).getInventoryBlueprints().update();
 		}
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> refs/remotes/BubbleTrouble14/master
 		//Calculate item weight and update when the player updates
 		if(ModuleItemBalance.WEIGHT_CONFIG.ITEM_WEIGHTS)
 		{
@@ -156,7 +123,6 @@ public class ClientEventHandler {
 			{
 				//So there isnt as many packet leaks...
 				if(ARKPlayer.get(event.player).getCarryWeight() != CalcPlayerWeight.getAsDouble(event.player))
-=======
 
 		
 		// Calculate item weight and update when the player updates
@@ -165,7 +131,6 @@ public class ClientEventHandler {
 			if (Minecraft.getMinecraft().currentScreen == null) {
 				// So there isnt as many packet leaks (if any)...
 				if (ARKPlayer.get(event.player).getCarryWeight() != CalcPlayerWeight.getAsDouble(event.player)) {
->>>>>>> refs/remotes/BubbleTrouble14/master
 					ARKPlayer.get(event.player).setCarryWeight(CalcPlayerWeight.getAsDouble(event.player));
 				}
 
@@ -197,6 +162,9 @@ public class ClientEventHandler {
 
 			}
 		}
+			}
+	}
+		
 		
 	}
 	
@@ -210,21 +178,13 @@ public class ClientEventHandler {
 			}
 		}
 	}
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> refs/remotes/BubbleTrouble14/master
-=======
-	
 	/*@SubscribeEvent
 	public void playerJoinWorld(PlayerEvent.PlayerLoggedInEvent event)
 	{
 		ARKPlayer.get(event.player).setCarryWeight(CalcPlayerWeight.getAsDouble(event.player));
 	}*/
 	
->>>>>>> refs/remotes/BubbleTrouble14/master
 	@SubscribeEvent
 	public void mouseOverTooltip(ItemTooltipEvent event)
 	{
