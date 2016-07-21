@@ -33,9 +33,10 @@ import com.uberverse.arkcraft.common.item.firearms.ItemLongneckRifle;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.item.firearms.ItemShotgun;
 import com.uberverse.arkcraft.common.item.firearms.ItemSimplePistol;
+import com.uberverse.arkcraft.common.item.melee.ItemSpear;
 import com.uberverse.arkcraft.common.item.ranged.ItemCrossbow;
 
-public class ARKCraftWeapons {
+public class ARKCraftRangedWeapons {
 	
 	public static ItemAttachment scope, flash_light, silencer, laser, holo_scope;
 	public static ItemProjectile tranquilizer, simple_bullet, simple_rifle_ammo,

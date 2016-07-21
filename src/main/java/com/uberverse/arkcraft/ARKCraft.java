@@ -42,7 +42,7 @@ import com.uberverse.arkcraft.common.network.UpdateSmithyToCraftItem;
 import com.uberverse.arkcraft.common.proxy.CommonProxy;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
-import com.uberverse.arkcraft.init.ARKCraftWeapons;
+import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
 
 @Mod(modid = ARKCraft.MODID, name = ARKCraft.NAME, version = ARKCraft.VERSION)
 public class ARKCraft
@@ -82,7 +82,7 @@ public class ARKCraft
 		
 		ARKCraftBlocks.init();
 		ARKCraftItems.init();
-		ARKCraftWeapons.init();
+		ARKCraftRangedWeapons.init();
 		NetworkRegistry.INSTANCE.registerGuiHandler(ARKCraft.instance, new GuiHandler());
 		
 		RecipeHandler.registerVanillaCraftingRecipes();

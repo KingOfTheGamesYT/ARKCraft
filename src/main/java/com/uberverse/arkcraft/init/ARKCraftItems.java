@@ -15,6 +15,9 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import com.google.common.collect.Sets;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
+import com.uberverse.arkcraft.common.entity.EntitySimpleBullet;
+import com.uberverse.arkcraft.common.entity.EntitySpear;
+import com.uberverse.arkcraft.common.handlers.EntityHandler;
 import com.uberverse.arkcraft.common.item.ARKCraftFeces;
 import com.uberverse.arkcraft.common.item.ARKCraftFood;
 import com.uberverse.arkcraft.common.item.ARKCraftItem;
@@ -28,7 +31,6 @@ import com.uberverse.arkcraft.common.item.tools.ItemMetalSickle;
 import com.uberverse.arkcraft.common.item.tools.ItemStoneHatchet;
 import com.uberverse.arkcraft.common.item.tools.ItemStonePick;
 import com.uberverse.arkcraft.common.item.tools.ToolType;
-
 import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew.CropPlotType;
 
 public class ARKCraftItems {
@@ -85,6 +87,10 @@ public class ARKCraftItems {
 		metal_hatchet = addMetalHatchet("metal_hatchet", METAL);
 		stone_hatchet = addStoneHatchet("stone_hatchet", STONE);
 		stone_pick = addStonePick("stone_pick", STONE);
+		
+		//Weapons
+		spear = addSpear("spear", STONE);
+		EntityHandler.registerModEntity(EntitySpear.class, "spear", ARKCraft.instance, 16, 20, true);
 	
 		// Food
 		tintoBerry = addFood("tinto", 4, 0.3F, false, true);
@@ -170,6 +176,13 @@ public class ARKCraftItems {
 	public static ItemStoneHatchet addStoneHatchet(String name, ToolMaterial m)
 	{
 		ItemStoneHatchet i = new ItemStoneHatchet(m);
+		registerItem(name, i);
+		return i;
+	}
+	
+	public static ItemSpear addSpear(String name, ToolMaterial m)
+	{
+		ItemSpear i = new ItemSpear(m);
 		registerItem(name, i);
 		return i;
 	}

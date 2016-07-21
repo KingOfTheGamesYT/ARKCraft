@@ -36,7 +36,7 @@ import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.proxy.CommonProxy;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
-import com.uberverse.arkcraft.init.ARKCraftWeapons;
+import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
 import com.uberverse.lib.LogHelper;
 
 public class ClientProxy extends CommonProxy{
@@ -90,7 +90,7 @@ public class ClientProxy extends CommonProxy{
 			registerItemTexture(item, name);
 		}
 		
-		for (Entry<String, Item> i : ARKCraftWeapons.allWeaponItems.entrySet())
+		for (Entry<String, Item> i : ARKCraftRangedWeapons.allWeaponItems.entrySet())
 		{
 			registerItemTexture(i.getValue(), 0, i.getKey());
 		}
@@ -186,9 +186,9 @@ public class ClientProxy extends CommonProxy{
 	{
 	//	ModelBakery.addVariantName(ARKCraftItems.slingshot,
 	//			"arkcraft:slingshot", "arkcraft:slingshot_pulled");
-		ModelBakery.addVariantName(ARKCraftWeapons.shotgun,
+		ModelBakery.addVariantName(ARKCraftRangedWeapons.shotgun,
 				"arkcraft:weapons/shotgun", "arkcraft:weapons/shotgun_reload");
-		ModelBakery.addVariantName(ARKCraftWeapons.longneck_rifle,
+		ModelBakery.addVariantName(ARKCraftRangedWeapons.longneck_rifle,
 				"arkcraft:weapons/longneck_rifle",
 				"arkcraft:weapons/longneck_rifle_scope",
 				"arkcraft:weapons/longneck_rifle_scope_reload",
@@ -199,7 +199,7 @@ public class ClientProxy extends CommonProxy{
 				"arkcraft:weapons/longneck_rifle_laser_reload",
 				"arkcraft:weapons/longneck_rifle_silencer",
 				"arkcraft:weapons/longneck_rifle_silencer_reload");
-		ModelBakery.addVariantName(ARKCraftWeapons.simple_pistol,
+		ModelBakery.addVariantName(ARKCraftRangedWeapons.simple_pistol,
 				"arkcraft:weapons/simple_pistol",
 				"arkcraft:weapons/simple_pistol_scope",
 				"arkcraft:weapons/simple_pistol_reload",
@@ -210,7 +210,7 @@ public class ClientProxy extends CommonProxy{
 				"arkcraft:weapons/simple_pistol_laser_reload",
 				"arkcraft:weapons/simple_pistol_silencer",
 				"arkcraft:weapons/simple_pistol_silencer_reload");
-		ModelBakery.addVariantName(ARKCraftWeapons.fabricated_pistol,
+		ModelBakery.addVariantName(ARKCraftRangedWeapons.fabricated_pistol,
 				"arkcraft:weapons/fabricated_pistol",
 				"arkcraft:weapons/fabricated_pistol_scope",
 				"arkcraft:weapons/fabricated_pistol_reload",

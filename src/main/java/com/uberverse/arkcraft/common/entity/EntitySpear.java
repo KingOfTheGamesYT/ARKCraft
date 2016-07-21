@@ -6,9 +6,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 import com.uberverse.arkcraft.common.data.WeaponDamageSource;
+import com.uberverse.arkcraft.init.ARKCraftItems;
 
 public class EntitySpear extends EntityProjectile
 {
@@ -75,6 +77,12 @@ public class EntitySpear extends EntityProjectile
 			bounceBack();
 		}
 	}
+	
+	@Override
+	public void onGroundHit(MovingObjectPosition movingobjectposition)
+	{
+		applyGroundHitEffects(movingobjectposition);
+	}
 
 	@Override
 	public void playHitSound()
@@ -98,6 +106,6 @@ public class EntitySpear extends EntityProjectile
 	@Override
 	public ItemStack getPickupItem()
 	{
-		return null; // new ItemStack(WeaponModule.items.spear, 1);
+		return new ItemStack(ARKCraftItems.spear, 1);
 	}
 }
