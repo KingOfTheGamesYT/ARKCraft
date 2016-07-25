@@ -209,7 +209,7 @@ public class ARKPlayer implements IExtendedEntityProperties
 	
 	public double getCarryWeightRatio() 
 	{
-		return (double) carryWeight / weight;
+		return (double) carryWeight /  (double) weight;
 	}
 
 	/**
