@@ -12,27 +12,15 @@ import net.minecraft.client.resources.I18n;
  * @author ERBF
  *
  */
-public class GUIFadeText extends Gui 
-{
+public class GUIFadeText extends Gui {
 	
-	/*public GUIFadeText(String format, String color, Minecraft minecraft) 
-	{
-		
-	}*/
-	
-	public static boolean drawMovingText(String format, String color, Minecraft minecraft)
-	{
+	public GUIFadeText(String format, String color, Minecraft minecraft) {
 		ScaledResolution scaled = new ScaledResolution(minecraft, minecraft.displayWidth, minecraft.displayHeight);
 		int height = scaled.getScaledHeight();
-		
-		for(int i = height - 10; height >= (height / 2) + 10; height--)
-		{
-			minecraft.fontRendererObj.drawString(format(format), scaled.getScaledWidth() / 2 - minecraft.fontRendererObj.getStringWidth(format(format)) / 2, i, Integer.parseInt(color, 16), true);
-		}
-		return true;
+		minecraft.fontRendererObj.drawString(format(format), scaled.getScaledWidth() / 2 - minecraft.fontRendererObj.getStringWidth(format(format)) / 2, 10, /*Integer.parseInt(color, 16)*/ 255, true);
 	}
 	
-	private static String format(String format)
+	private String format(String format)
 	{
 		return I18n.format(format);
 	}

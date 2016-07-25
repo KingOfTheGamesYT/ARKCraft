@@ -4,24 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.block.tile.IHoverInfo;
-import com.uberverse.arkcraft.common.config.ModuleItemBalance;
-import com.uberverse.arkcraft.common.container.inventory.InventoryAttachment;
-import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
-import com.uberverse.arkcraft.common.entity.data.CalcPlayerWeight;
-import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
-import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
-import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
-import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
-import com.uberverse.arkcraft.common.network.OpenPlayerCrafting;
-import com.uberverse.arkcraft.common.network.ReloadStarted;
-import com.uberverse.arkcraft.init.ARKCraftItems;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
@@ -55,6 +37,24 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.block.tile.IHoverInfo;
+import com.uberverse.arkcraft.common.config.ModuleItemBalance;
+import com.uberverse.arkcraft.common.container.inventory.InventoryAttachment;
+import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
+import com.uberverse.arkcraft.common.entity.data.CalcPlayerWeight;
+import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
+import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
+import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
+import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
+import com.uberverse.arkcraft.common.network.OpenPlayerCrafting;
+import com.uberverse.arkcraft.common.network.ReloadStarted;
+import com.uberverse.arkcraft.init.ARKCraftItems;
+
 
 public class ClientEventHandler {
 	private static KeyBinding reload, attachment, playerPooping, harvestOverlay, playerCrafting;
@@ -74,9 +74,6 @@ public class ClientEventHandler {
 			"textures/gui/scope.png");
 	public boolean showScopeOverlap = false;
 	private int ticks = 0;
-	
-	private boolean hasDisplayedEncumbered;
-	private boolean hasDisplayedOverEncumbered;
 
 	public static void init() {
 		ClientEventHandler handler = new ClientEventHandler();
@@ -108,6 +105,9 @@ public class ClientEventHandler {
 		else if(disabledEquippItemAnimationTime<0)disabledEquippItemAnimationTime=0;	*/
 	}
 
+	
+	int r0 = 0;
+	int r1 = 0;
 	@SubscribeEvent
 	public void onPlayerTickEvent(TickEvent.PlayerTickEvent event) {
 		// Update CraftingInventory
@@ -115,30 +115,75 @@ public class ClientEventHandler {
 			ARKPlayer.get(event.player).getInventoryBlueprints().update();
 		}
 
+		//Calculate item weight and update when the player updates
+		if(ModuleItemBalance.WEIGHT_CONFIG.ITEM_WEIGHTS)
+		{
+			//Removes the updating when the player is in a inventory
+			if(Minecraft.getMinecraft().currentScreen != null)
+			{
+				//So there isnt as many packet leaks...
+				if(ARKPlayer.get(event.player).getCarryWeight() != CalcPlayerWeight.getAsDouble(event.player))
+
+		
 		// Calculate item weight and update when the player updates
 		if (ModuleItemBalance.WEIGHT_CONFIG.ITEM_WEIGHTS) {
 			// Removes the updating when the player is in a inventory
 			if (Minecraft.getMinecraft().currentScreen == null) {
-				// So there isnt as many packet leaks...
+				// So there isnt as many packet leaks (if any)...
 				if (ARKPlayer.get(event.player).getCarryWeight() != CalcPlayerWeight.getAsDouble(event.player)) {
 					ARKPlayer.get(event.player).setCarryWeight(CalcPlayerWeight.getAsDouble(event.player));
 				}
 
-				// Weight rules
-				if ((double) ARKPlayer.get(event.player).getCarryWeightRatio() >= (double) 0.85) {
-					event.player.motionX *= 0;
-					event.player.motionY *= 0;
-					event.player.motionZ *= 0;
-				} else if ((double) ARKPlayer.get(event.player).getCarryWeightRatio() >= (double) 0.75) {
-					event.player.motionX *= (double) 0.2D;
-					event.player.motionY *= (double) 0.2D;
-					event.player.motionZ *= (double) 0.2D;
-				} 
+			}
+			
+			// Weight rules
+			if ((double) ARKPlayer.get(event.player).getCarryWeightRatio() >= (double) 0.85) {
+				event.player.motionX *= 0;
+				event.player.motionY *= 0;
+				event.player.motionZ *= 0;
+				r0 = 0;
+				// new GUIFadeText("ark.splash.overEncumbered", "FF0000",
+				// Minecraft.getMinecraft());
+				r1++;
+				if (r1 % 1200 == 0 || r1 == 0) {
+					event.player.addChatComponentMessage(new ChatComponentTranslation("ark.splash.overEncumbered"));
+				}
+			} else if ((double) ARKPlayer.get(event.player).getCarryWeightRatio() >= (double) 0.75) {
+				event.player.motionX *= (double) 0.2D;
+				event.player.motionZ *= (double) 0.2D;
+				r1 = 0;
+				// new GUIFadeText("ark.splash.encumbered", "FFFF00",
+				// Minecraft.getMinecraft());
+
+				r0++;
+				if (r0 % 1200 == 0 || r0 == 0) {
+					event.player.addChatComponentMessage(new ChatComponentTranslation("ark.splash.encumbered"));
+				}
 
 			}
 		}
-
+			}
 	}
+		
+		
+	}
+	
+	@SubscribeEvent
+	public void entityJumpEvent(LivingJumpEvent event)
+	{
+		if(event.entityLiving instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) event.entity;
+			if((double) ARKPlayer.get(player).getCarryWeightRatio() >= .85) {
+				event.setCanceled(true);
+			}
+		}
+	}
+
+	/*@SubscribeEvent
+	public void playerJoinWorld(PlayerEvent.PlayerLoggedInEvent event)
+	{
+		ARKPlayer.get(event.player).setCarryWeight(CalcPlayerWeight.getAsDouble(event.player));
+	}*/
 	
 	@SubscribeEvent
 	public void mouseOverTooltip(ItemTooltipEvent event)
