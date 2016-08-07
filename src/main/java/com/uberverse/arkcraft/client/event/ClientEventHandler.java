@@ -47,6 +47,7 @@ import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.container.inventory.InventoryAttachment;
 import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
 import com.uberverse.arkcraft.common.entity.data.CalcPlayerWeight;
+import com.uberverse.arkcraft.common.event.CommonEventHandler;
 import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
@@ -382,13 +383,6 @@ public class ClientEventHandler {
 		}
 	}
 
-	public static boolean openOverlay;
-	public int count = 0;
-
-	public static boolean arkMode() {
-		return openOverlay;
-	}
-
 	@SubscribeEvent
 	public void onPlayerKeypressed(InputEvent.KeyInputEvent event) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
@@ -406,17 +400,17 @@ public class ClientEventHandler {
 				player.openGui(ARKCraft.instance, ARKCraft.GUI.ATTACHMENT_GUI.getID(), player.worldObj, 0, 0, 0);
 				ARKCraft.modChannel.sendToServer(new OpenAttachmentInventory());
 			}
-		} else if (harvestOverlay.isPressed()) {
-			if (count == 1) {
-				count = count - 1;
-			} else {
-				count++;
-			}
-		}
-		if (count == 1) {
-			openOverlay = true;
-		} else {
-			openOverlay = false;
+		} else if (harvestOverlay.isPressed()) 
+		{
+			CommonEventHandler handler = new CommonEventHandler();
+			if(handler.arkMode() == false)
+        	{
+				handler.arkMode = true;
+        	}
+        	else
+        	{
+        		handler.arkMode = false;	
+        	}
 		}
 	}
 }
