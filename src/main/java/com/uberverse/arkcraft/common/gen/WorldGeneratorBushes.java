@@ -12,6 +12,14 @@ import com.uberverse.arkcraft.init.ARKCraftBlocks;
 
 public class WorldGeneratorBushes implements IWorldGenerator
 {
+
+	@Override
+	public void generate(Random random, int chunkX, int chunkZ, World world,
+			IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
+		// TODO Auto-generated method stub
+		
+	}
+	/*
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider)
 	{
@@ -30,5 +38,5 @@ public class WorldGeneratorBushes implements IWorldGenerator
 				}
 			}
 		}
-	}
+	}	*/
 }

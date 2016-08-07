@@ -63,7 +63,7 @@ public class ARKCraftBlocks {
 		//Misc
 		block_flashlight = new BlockFlashlight();
 		GameRegistry.registerBlock(block_flashlight, "block_flashlight");
-		berryBush = (ARKCraftBerryBush) registerBlock(new ARKCraftBerryBush(0.4F), "berryBush");
+	//	berryBush = (ARKCraftBerryBush) registerBlock(new ARKCraftBerryBush(0.4F), "berryBush");
 
 		wooden_spikes = (BlockSpikes) registerBlock(new BlockSpikes(Material.wood, 3.0F),
 				"wooden_spikes");

@@ -1,14 +1,5 @@
 package com.uberverse.arkcraft.common.event;
 
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.client.event.ClientEventHandler;
-import com.uberverse.arkcraft.common.config.ModuleItemBalance;
-import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
-import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
-import com.uberverse.arkcraft.common.item.tools.ARKCraftTool;
-import com.uberverse.arkcraft.common.network.ReloadFinished;
-import com.uberverse.lib.LogHelper;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
@@ -25,17 +16,24 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
-import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.config.ModuleItemBalance;
+import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
+import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
+import com.uberverse.arkcraft.common.item.tools.ARKCraftTool;
+import com.uberverse.arkcraft.common.network.ReloadFinished;
+import com.uberverse.lib.LogHelper;
+
 public class CommonEventHandler {
 	public boolean destroy;
 	public boolean destroyBlocks;
 	public boolean startSwing;
-	
+
 	public static void init() {
 		CommonEventHandler handler = new CommonEventHandler();
 		FMLCommonHandler.instance().bus().register(handler);
@@ -77,32 +75,34 @@ public class CommonEventHandler {
 			}
 		}
 	}
+
 	public static int count;
-	
+
+
 	@SuppressWarnings("static-access")
 	@SubscribeEvent
 	public void playerInteract(PlayerInteractEvent event) {
 
-		boolean arkMode = false;
 		Action eventAction = event.action;
-		World world = Minecraft.getMinecraft().theWorld;
 		ItemStack item = event.entityPlayer.getCurrentEquippedItem();
 
-		
 		if (item != null && item.getItem() instanceof ItemRangedWeapon) {
-			if (eventAction.RIGHT_CLICK_BLOCK != null & eventAction.RIGHT_CLICK_AIR != null) 
-			{
-				ObfuscationReflectionHelper.setPrivateValue(ItemRenderer.class, Minecraft.getMinecraft().getItemRenderer(), 1F, "equippedProgress", "field_78454_c");
+			if (eventAction.RIGHT_CLICK_BLOCK != null
+					& eventAction.RIGHT_CLICK_AIR != null) {
+				ObfuscationReflectionHelper.setPrivateValue(ItemRenderer.class,
+						Minecraft.getMinecraft().getItemRenderer(), 1F,
+						"equippedProgress", "field_78454_c");
 			}
+
 		}
 	}	
-	
-//	for (int x = -checkSize; x <= checkSize; x++) {
-//		for (int z = -checkSize; z <= checkSize; z++) {
-//			for (int y = 0; y <= checkSize; y++) {
+
+	// for (int x = -checkSize; x <= checkSize; x++) {
+	// for (int z = -checkSize; z <= checkSize; z++) {
+	// for (int y = 0; y <= checkSize; y++) {
 
 	public void destroyBlocks(World world, BlockPos pos, boolean first) {
-		//int checkSize = 1;
+		// int checkSize = 1;
 		int i = pos.getX();
 		int j = pos.getY();
 		int k = pos.getZ();
@@ -112,34 +112,42 @@ public class CommonEventHandler {
 					if (first || (x != i && y != j && k != z)) {
 						IBlockState blockState = world
 								.getBlockState(new BlockPos(x, y, z));
-						if (blockState.getBlock() == Blocks.log || blockState.getBlock() == Blocks.log2) {
-							//world.destroyBlock(new BlockPos(x, y, z), true);
+						if (blockState.getBlock() == Blocks.log
+								|| blockState.getBlock() == Blocks.log2) {
+							// world.destroyBlock(new BlockPos(x, y, z), true);
 							count++;
-							this.destroyBlocks(world, new BlockPos(x, y, z), false);
+							this.destroyBlocks(world, new BlockPos(x, y, z),
+									false);
 						}
 					}
 				}
 			}
 		}
+	}	
+	//TODO fix the issues with client and server side, (ClientEventhanlder.arkMode()) is the issues
+	public static boolean arkMode;
+	
+	public boolean arkMode()
+	{
+		return arkMode;
 	}
 
 	@SubscribeEvent
-	public void breakSpeed(BreakSpeed event){
-		if(ClientEventHandler.arkMode() && event.entityPlayer.getHeldItem() != null && event.entityPlayer.getHeldItem().getItem() instanceof ARKCraftTool){
+	public void breakSpeed(BreakSpeed event) {
+		System.out.println(arkMode);
+		if (arkMode
+				&& event.entityPlayer.getHeldItem() != null
+				&& event.entityPlayer.getHeldItem().getItem() instanceof ARKCraftTool) {
 			destroyBlocks(event.entityPlayer.worldObj, event.pos, true);
 			float f = count / 20F;
-			System.out.println(count +" " + f);
-			if(count > 0){
+			System.out.println(count + " " + f);
+			if (count > 0) {
 				event.newSpeed = event.originalSpeed / f / 10;
 			}
 			count = 0;
 		}
 	}
 
-	@SubscribeEvent
-	public void onBreakEvent(BlockEvent.BreakEvent event) {
-
-	}
 
 	public static int reloadTicks = 0;
 	public static int ticksExsisted = 0;
@@ -147,12 +155,10 @@ public class CommonEventHandler {
 
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent evt) {
-		
+
 		EntityPlayer p = evt.player;
 		ItemStack stack = p.getCurrentEquippedItem();
-		boolean arkMode = false;
-		World world = Minecraft.getMinecraft().theWorld;
-		
+
 		if (stack != null && stack.getItem() instanceof ItemRangedWeapon) {
 			ItemRangedWeapon w = (ItemRangedWeapon) stack.getItem();
 			if (w.isReloading(stack)) {
@@ -167,49 +173,7 @@ public class CommonEventHandler {
 					}
 				}
 			}
-		}
-		/*
-		else if(stack != null ){
-			float x = p.swingProgress;
-			System.out.println(x);
-		}	*/
-//		else if(stack != null && stack.getItem() instanceof ARKCraftTool) 
-	//	{
-			
-			/*
-			if(p.isSwingInProgress = true)
-			{
-				ticksSwing = 200;
-				++ticksExsisted;
-				p.swingProgressInt = 1;
-				
-				if(ticksExsisted >= 100)
-				{
-					p.isSwingInProgress = false;
-					p.swingProgressInt = 0;
-					ticksExsisted = 0;
-				}
-				else
-	            {
-	                p.swingProgressInt = 0;
-	            }                		
-			} */	
-			/*
-			System.out.println(p.swingProgressInt + " Swing Progress Int");	
-			System.out.println(p.swingProgress + " Swing Progress");
-			System.out.println(p.isSwingInProgress + " is Swing");
-			
-			if(p.swingProgressInt == 0)
-			{
-				++ticksExsisted;
-				
-				if(ticksExsisted >= 100)
-				{
-					p.isSwingInProgress = true;
-					p.swingProgressInt = 1;
-					ticksExsisted = 0;
-				}  
-			}
-		} */
+		}	
+		
 	}
 }

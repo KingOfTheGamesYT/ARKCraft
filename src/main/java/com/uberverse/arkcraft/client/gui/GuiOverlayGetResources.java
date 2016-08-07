@@ -5,13 +5,13 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.event.ClientEventHandler;
+import com.uberverse.arkcraft.common.event.CommonEventHandler;
 
 public class GuiOverlayGetResources extends Gui
 {
@@ -36,7 +36,7 @@ public class GuiOverlayGetResources extends Gui
 	public void renderGUIOverlay(RenderGameOverlayEvent.Post e)
 	{
 		
-		if (allowGuiOpen != ClientEventHandler.arkMode())
+		if (allowGuiOpen != CommonEventHandler.arkMode)
 		{
 			EntityPlayer p = mc.thePlayer;
 			ItemStack stack = p.getCurrentEquippedItem();

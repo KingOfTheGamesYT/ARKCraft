@@ -16,14 +16,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.google.common.collect.Multimap;
-import com.uberverse.arkcraft.client.event.ClientEventHandler;
+import com.uberverse.arkcraft.common.event.CommonEventHandler;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 
 public class ItemTool extends Item
@@ -164,7 +163,7 @@ public class ItemTool extends Item
 
     public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn)
 	{ 
-		if (arkMode != ClientEventHandler.arkMode()) 
+		if (arkMode != CommonEventHandler.arkMode) 
 		{
 			IBlockState blockState = worldIn.getBlockState(pos);
 			Float offset = worldIn.rand.nextFloat();

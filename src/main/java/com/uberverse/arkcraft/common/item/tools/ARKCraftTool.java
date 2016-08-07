@@ -29,8 +29,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.google.common.base.Predicate;
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.client.event.ClientEventHandler;
 import com.uberverse.arkcraft.client.proxy.ClientProxy;
+import com.uberverse.arkcraft.common.event.CommonEventHandler;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.lib.Utils;
 
@@ -97,7 +97,7 @@ public abstract class ARKCraftTool extends ItemTool{
 	@Override
 	public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn)
 	{
-		if (arkMode != ClientEventHandler.arkMode())
+		if (arkMode != CommonEventHandler.arkMode)
 		{
 			if(playerIn instanceof EntityPlayer)
 			{
