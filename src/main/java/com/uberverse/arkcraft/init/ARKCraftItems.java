@@ -87,6 +87,7 @@ public class ARKCraftItems {
 		metal_hatchet = addMetalHatchet("metal_hatchet", METAL);
 		stone_hatchet = addStoneHatchet("stone_hatchet", STONE);
 		stone_pick = addStonePick("stone_pick", STONE);
+		metal_sickle = addMetalSickle("metal_sickle", STONE);
 		
 		//Weapons
 		spear = addSpear("spear", STONE);
@@ -161,6 +162,13 @@ public class ARKCraftItems {
 	public static ItemStonePick addStonePick(String name, ToolMaterial m)
 	{
 		ItemStonePick i = new ItemStonePick(m);
+		registerItem(name, i);
+		return i;
+	}
+	
+	public static ItemMetalSickle addMetalSickle(String name, ToolMaterial m)
+	{
+		ItemMetalSickle i = new ItemMetalSickle(m);
 		registerItem(name, i);
 		return i;
 	}
