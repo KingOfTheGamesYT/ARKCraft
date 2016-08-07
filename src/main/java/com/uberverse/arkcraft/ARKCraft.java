@@ -1,7 +1,10 @@
 package com.uberverse.arkcraft;
 
+import org.apache.logging.log4j.Logger;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -15,8 +18,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
-import org.apache.logging.log4j.Logger;
-
 import com.uberverse.arkcraft.common.config.CoreConfig;
 import com.uberverse.arkcraft.common.config.ModuleItemConfig;
 import com.uberverse.arkcraft.common.config.WeightsConfig;
@@ -28,6 +29,7 @@ import com.uberverse.arkcraft.common.handlers.recipes.PestleCraftingManager;
 import com.uberverse.arkcraft.common.handlers.recipes.PlayerCraftingManager;
 import com.uberverse.arkcraft.common.handlers.recipes.RecipeHandler;
 import com.uberverse.arkcraft.common.handlers.recipes.SmithyCraftingManager;
+import com.uberverse.arkcraft.common.network.DescriptionHandler;
 import com.uberverse.arkcraft.common.network.MessageHover;
 import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
 import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
@@ -49,7 +51,9 @@ public class ARKCraft
 {
 	public static final String MODID = "arkcraft", VERSION = "${version}",
 			NAME = "ARKCraft";
-	
+
+	public static final String descriptionPacketChannel = MODID + ":descPacket";
+
 	@Instance(ARKCraft.MODID)
 	public static ARKCraft instance;
 
@@ -67,9 +71,9 @@ public class ARKCraft
 		FMLCommonHandler.instance().bus().register(new CoreConfig());
 		ModuleItemConfig.init(event.getModConfigurationDirectory());
 		FMLCommonHandler.instance().bus().register(new ModuleItemConfig());
-		
+
 		GameRegistry.registerWorldGenerator(new WorldGeneratorBushes(), 0);
-				
+
 		tabARK = new CreativeTabs(CreativeTabs.getNextID(), "tabARK")
 		{
 			@Override
@@ -79,22 +83,22 @@ public class ARKCraft
 				return ARKCraftItems.tabItem;
 			}
 		};
-		
+
 		ARKCraftBlocks.init();
 		ARKCraftItems.init();
 		ARKCraftRangedWeapons.init();
 		NetworkRegistry.INSTANCE.registerGuiHandler(ARKCraft.instance, new GuiHandler());
-		
+
 		RecipeHandler.registerVanillaCraftingRecipes();
 		PestleCraftingManager.registerPestleCraftingRecipes();
 		SmithyCraftingManager.registerSmithyCraftingRecipes();
 		PlayerCraftingManager.registerPlayerCraftingRecipes();
 		ForgeCraftingHandler.registerForgeRecipes();
-		
+
 		//This has to be here so it can create weights for our items and blocks as well
 		WeightsConfig.init(event.getModConfigurationDirectory());
-		
-		setupNetwork();	
+
+		setupNetwork();
 		modLog = event.getModLog();
 	}
 
@@ -103,7 +107,7 @@ public class ARKCraft
 	{
 
 		CommonEventHandler.init();
-		
+
 		proxy.registerRenderers();
 		proxy.init();
 		proxy.registerEventHandlers();
@@ -112,14 +116,14 @@ public class ARKCraft
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-	
+
 	}
-	
+
 	public static ARKCraft instance()
 	{
 		return instance;
 	}
-	
+
 	public enum GUI
 	{
 		SMITHY(0),
@@ -146,7 +150,7 @@ public class ARKCraft
 			return id;
 		}
 	}
-	
+
 	private void setupNetwork()
 	{
 		modChannel = NetworkRegistry.INSTANCE.newSimpleChannel(ARKCraft.MODID);
@@ -175,8 +179,9 @@ public class ARKCraft
 				MessageHover.class, id++, Side.CLIENT);
 		modChannel.registerMessage(MessageHoverReq.class,
 				MessageHoverReq.class, id++, Side.SERVER);
+		DescriptionHandler.init();
 	}
-	
+
 	public boolean isDebugger()
 	{
 		return "${version}".equals("${" + "version" + "}");

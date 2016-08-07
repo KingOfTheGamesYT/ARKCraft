@@ -17,7 +17,7 @@ import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.IStringSerializable;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -29,14 +29,14 @@ import com.uberverse.arkcraft.common.item.ARKCraftSeed;
 import com.uberverse.lib.LogHelper;
 import com.uberverse.lib.Utils;
 
-public class TileEntityCropPlotNew extends TileEntity implements IInventory, IUpdatePlayerListBox, IHoverInfo{
+public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInventory, IUpdatePlayerListBox, IHoverInfo{
 	private ItemStack[] stack = new ItemStack[this.getSizeInventory()];
 	private int growth = 0;
 	private CropPlotState state = CropPlotState.EMPTY;
 	private int fertilizer = 0;
 	private int water = 0;
 	private ItemStack growing;
-	private CropPlotType type = CropPlotType.SMALL;
+	//private CropPlotType type = CropPlotType.SMALL;
 	@Override
 	public String getName() {
 		return "cropPlot";
@@ -158,7 +158,7 @@ public class TileEntityCropPlotNew extends TileEntity implements IInventory, IUp
 							}
 						}
 					}else if(item instanceof ARKCraftSeed){
-						if(growing == null && fertilizer > 0 && water > 0 && ((ARKCraftSeed)item).getType().ordinal() <= type.ordinal()){
+						if(growing == null && fertilizer > 0 && water > 0 && ((ARKCraftSeed)item).getType().ordinal() <= getType().ordinal()){
 							growth = CROP_PLOT.SEEDLING_TIME_FOR_BERRY * 20;
 							LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + "]: Started Growing: " + stack[i]);
 							growing = decrStackSize(i, 1);
@@ -167,7 +167,7 @@ public class TileEntityCropPlotNew extends TileEntity implements IInventory, IUp
 					}else{
 						int itemWater = getItemWaterValue(stack[i]);
 						if(itemWater > 0){
-							if(water + itemWater <= type.getMaxWater()){
+							if(water + itemWater <= getType().getMaxWater()){
 								stack[i] = getContainerItem(stack[i]);
 								water += itemWater;
 							}
@@ -265,7 +265,7 @@ public class TileEntityCropPlotNew extends TileEntity implements IInventory, IUp
 		fertilizer = compound.getInteger("fertilizer");
 		state = CropPlotState.VALUES[compound.getInteger("cropState")];
 		growing = ItemStack.loadItemStackFromNBT(compound.getCompoundTag("growing"));
-		type = CropPlotType.VALUES[compound.getInteger("plotType")];
+		//getType() = CropPlotType.VALUES[compound.getInteger("plotType")];
 	}
 	@Override
 	public void writeToNBT(NBTTagCompound compound) {
@@ -287,7 +287,7 @@ public class TileEntityCropPlotNew extends TileEntity implements IInventory, IUp
 		NBTTagCompound g = new NBTTagCompound();
 		if(growing != null)growing.writeToNBT(g);
 		compound.setTag("growing", g);
-		compound.setInteger("plotType", type.ordinal());
+		//compound.setInteger("plotType", getType().ordinal());
 		//return compound; //for mc 1.9
 	}
 	@Override
@@ -302,27 +302,27 @@ public class TileEntityCropPlotNew extends TileEntity implements IInventory, IUp
 				return 0;
 			}
 
-		}, SEEDED(1) {
+		}, SEEDED(0) {
 			@Override
 			public int getTime() {
 				return 0;
 			}
-		}, SEEDLING(2) {
+		}, SEEDLING(1) {
 			@Override
 			public int getTime() {
 				return CROP_PLOT.SEEDLING_TIME_FOR_BERRY;
 			}
-		}, MIDLING(3) {
+		}, MIDLING(2) {
 			@Override
 			public int getTime() {
 				return CROP_PLOT.MIDLING_TIME_FOR_BERRY;
 			}
-		}, GROWTHING(4) {
+		}, GROWTHING(3) {
 			@Override
 			public int getTime() {
 				return CROP_PLOT.GROWTHING_TIME_FOR_BERRY;
 			}
-		}, FRUITING(5) {
+		}, FRUITING(4) {
 			@Override
 			public int getTime() {
 				return -1;
@@ -349,7 +349,7 @@ public class TileEntityCropPlotNew extends TileEntity implements IInventory, IUp
 		if(name.equals(seedName))name = I18n.format(seedName + ".name");
 		text.add(EnumChatFormatting.YELLOW + I18n.format(stringType));
 		text.add(I18n.format("arkcraft.growing") + ": " + I18n.format("arkcraft.cropPlotState.head", name, I18n.format(stateName)));
-		text.add(EnumChatFormatting.BLUE + I18n.format("arkcraft.water", I18n.format("tile.water.name"), (getField(0)/20), type.getMaxWater() / 20, getField(0) > 0 ? I18n.format("arkcraft.cropPlotWater.irrigated") : I18n.format("arkcraft.cropPlotWater.notIrrigated")));
+		text.add(EnumChatFormatting.BLUE + I18n.format("arkcraft.water", I18n.format("tile.water.name"), (getField(0)/20), getType().getMaxWater() / 20, getField(0) > 0 ? I18n.format("arkcraft.cropPlotWater.irrigated") : I18n.format("arkcraft.cropPlotWater.notIrrigated")));
 		text.add("#8B4513" + I18n.format("arkcraft.gui.fertilizer", fertilizerClient));
 	}
 	private String seedName = "arkcraft.empty", stateName = "...", stringType = "...";
@@ -368,7 +368,7 @@ public class TileEntityCropPlotNew extends TileEntity implements IInventory, IUp
 			}
 		}
 		tag.setInteger("f", f);
-		tag.setInteger("t", type.ordinal());
+		//tag.setInteger("t", type.ordinal());
 	}
 
 	@Override
@@ -377,8 +377,8 @@ public class TileEntityCropPlotNew extends TileEntity implements IInventory, IUp
 		seedName = tag.getString("n");
 		stateName = "arkcraft.cropPlotState." + CropPlotState.VALUES[tag.getInteger("s")].name().toLowerCase();
 		fertilizerClient = tag.getInteger("f");
-		type = CropPlotType.VALUES[tag.getInteger("t")];
-		stringType = "tile.crop_plot." + type.name().toLowerCase() + ".name";
+		//type = CropPlotType.VALUES[tag.getInteger("t")];
+		stringType = "tile.crop_plot." + getType().name().toLowerCase() + ".name";
 	}
 
 	public ItemStack[] getStack() {
@@ -388,7 +388,7 @@ public class TileEntityCropPlotNew extends TileEntity implements IInventory, IUp
 	public void setStack(ItemStack[] stack) {
 		this.stack = stack;
 	}
-	public static enum CropPlotType{
+	public static enum CropPlotType implements IStringSerializable{
 		SMALL(200), MEDIUM(400), LARGE(600)
 
 		;
@@ -400,11 +400,23 @@ public class TileEntityCropPlotNew extends TileEntity implements IInventory, IUp
 		public int getMaxWater() {
 			return 120 * maxWater;
 		}
+		@Override
+		public String getName() {
+			return name().toLowerCase();
+		}
 	}
-	public void setType(int metadata) {
+	/*public void setType(int metadata) {
 		type = CropPlotType.VALUES[MathHelper.abs_int(metadata % CropPlotType.VALUES.length)];
-	}
+	}*/
 	public CropPlotType getType(){
-		return type;
+		return (CropPlotType) worldObj.getBlockState(pos).getValue(BlockCropPlot.TYPE);
 	}
+	/*@Override
+	public void writeToPacket(NBTTagCompound tag) {
+		tag.setInteger("t", type.ordinal());
+	}
+	@Override
+	public void readFromPacket(NBTTagCompound tag) {
+		type = CropPlotType.VALUES[tag.getInteger("t")];
+	}*/
 }

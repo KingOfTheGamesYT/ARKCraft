@@ -1,10 +1,19 @@
 {
     "variants": {
-        "age=0": { "model": "arkcraft:crop_plot_empty" },
-        "age=1": { "model": "arkcraft:crop_plot_empty" },
-        "age=2": { "model": "arkcraft:crop_plot_stage0" },
-        "age=3": { "model": "arkcraft:crop_plot_stage1" },
-        "age=4": { "model": "arkcraft:crop_plot_stage2" },
-        "age=5": { "model": "arkcraft:crop_plot_stage3" }
+        "age=0,type=small":  { "model":  "arkcraft:crop_plot_empty" },
+        "age=1,type=small":  { "model": "arkcraft:crop_plot_stage0" },
+        "age=2,type=small":  { "model": "arkcraft:crop_plot_stage1" },
+        "age=3,type=small":  { "model": "arkcraft:crop_plot_stage2" },
+        "age=4,type=small":  { "model": "arkcraft:crop_plot_stage3" },
+        "age=0,type=medium": { "model":  "arkcraft:crop_plot_empty_medium" },
+        "age=1,type=medium": { "model": "arkcraft:crop_plot_stage0_medium" },
+        "age=2,type=medium": { "model": "arkcraft:crop_plot_stage1_medium" },
+        "age=3,type=medium": { "model": "arkcraft:crop_plot_stage2_medium" },
+        "age=4,type=medium": { "model": "arkcraft:crop_plot_stage3_medium" },
+        "age=0,type=large":  { "model":  "arkcraft:crop_plot_empty_large" },
+        "age=1,type=large":  { "model": "arkcraft:crop_plot_stage0_large" },
+        "age=2,type=large":  { "model": "arkcraft:crop_plot_stage1_large" },
+        "age=3,type=large":  { "model": "arkcraft:crop_plot_stage2_large" },
+        "age=4,type=large":  { "model": "arkcraft:crop_plot_stage3_large" }
     }
 }

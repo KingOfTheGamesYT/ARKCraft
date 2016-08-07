@@ -2,9 +2,6 @@ package com.uberverse.arkcraft.common.block;
 
 import java.util.Random;
 
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.block.tile.TileInventorySmithy;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -22,8 +19,12 @@ import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.block.tile.TileInventorySmithy;
 
 /**
  * @author wildbill22
@@ -42,6 +43,7 @@ public class BlockSmithy extends BlockContainer {
 		this.ID = ID;
 	}
 
+	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		return new TileInventorySmithy();
 	}
@@ -50,7 +52,14 @@ public class BlockSmithy extends BlockContainer {
 	public boolean onBlockActivated(World worldIn, BlockPos blockPos, IBlockState state, EntityPlayer playerIn,
 			EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (!playerIn.isSneaking()) {
-			playerIn.openGui(ARKCraft.instance(), ID, worldIn, blockPos.getX(), blockPos.getY(), blockPos.getZ());
+			if(state.getValue(PART) == EnumPartType.RIGHT)
+				playerIn.openGui(ARKCraft.instance(), ID, worldIn, blockPos.getX(), blockPos.getY(), blockPos.getZ());
+			else{
+				EnumFacing f = (EnumFacing) state.getValue(FACING);
+				BlockPos pos = blockPos.offset(f.rotateY());
+				IBlockState oState = worldIn.getBlockState(pos);
+				oState.getBlock().onBlockActivated(worldIn, pos, oState, playerIn, side, hitX, hitY, hitZ);
+			}
 			return true;
 		}
 		return false;
@@ -60,6 +69,7 @@ public class BlockSmithy extends BlockContainer {
 		this.renderType = renderType;
 	}
 
+	@Override
 	public int getRenderType() {
 		return renderType;
 	}
@@ -68,6 +78,7 @@ public class BlockSmithy extends BlockContainer {
 		opaque = isOpaque;
 	}
 
+	@Override
 	public boolean isOpaqueCube() {
 		return isOpaque;
 	}
@@ -147,8 +158,8 @@ public class BlockSmithy extends BlockContainer {
 		return (meta & 8) > 0
 				? this.getDefaultState().withProperty(PART, BlockSmithy.EnumPartType.LEFT).withProperty(FACING,
 						enumfacing)
-				: this.getDefaultState().withProperty(PART, BlockSmithy.EnumPartType.RIGHT).withProperty(FACING,
-						enumfacing);
+						: this.getDefaultState().withProperty(PART, BlockSmithy.EnumPartType.RIGHT).withProperty(FACING,
+								enumfacing);
 	}
 
 	/**
@@ -187,10 +198,12 @@ public class BlockSmithy extends BlockContainer {
 			this.name = name;
 		}
 
+		@Override
 		public String toString() {
 			return this.name;
 		}
 
+		@Override
 		public String getName() {
 			return this.name;
 		}

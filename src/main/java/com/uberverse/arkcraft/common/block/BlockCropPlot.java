@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
@@ -28,6 +29,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew;
+import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew.CropPlotType;
 import com.uberverse.arkcraft.common.item.ARKCraftSeed;
 
 /**
@@ -35,8 +37,9 @@ import com.uberverse.arkcraft.common.item.ARKCraftSeed;
  */
 public class BlockCropPlot extends BlockContainer
 {
-	public static final int GROWTH_STAGES = 5; // 0 - 5
+	public static final int GROWTH_STAGES = 4; // 0 - 4
 	public static final PropertyInteger AGE = PropertyInteger.create("age", 0, GROWTH_STAGES);
+	public static final PropertyEnum TYPE = PropertyEnum.create("type", CropPlotType.class);
 	private int renderType = 3; // default value
 	private boolean isOpaque = false;
 	private int ID;
@@ -124,7 +127,7 @@ public class BlockCropPlot extends BlockContainer
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		return this.getDefaultState().withProperty(AGE, Integer.valueOf(meta));
+		return this.getDefaultState().withProperty(AGE, Integer.valueOf(meta % 5)).withProperty(TYPE, CropPlotType.VALUES[meta / 5]);
 	}
 
 	/**
@@ -133,13 +136,13 @@ public class BlockCropPlot extends BlockContainer
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
-		return ((Integer) state.getValue(AGE)).intValue();
+		return ((Integer) state.getValue(AGE)).intValue() + ((CropPlotType) state.getValue(TYPE)).ordinal() * 5;
 	}
 
 	@Override
 	protected BlockState createBlockState()
 	{
-		return new BlockState(this, new IProperty[] { AGE });
+		return new BlockState(this, new IProperty[] { AGE, TYPE});
 	}
 
 	/**
@@ -171,15 +174,19 @@ public class BlockCropPlot extends BlockContainer
 	}*/
 	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
-		super.breakBlock(worldIn, pos, state);
 		TileEntity tile = worldIn.getTileEntity(pos);
 		if(tile != null)InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) tile);
+		super.breakBlock(worldIn, pos, state);
 	}
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer,
 			ItemStack stack) {
-		TileEntityCropPlotNew te = (TileEntityCropPlotNew) worldIn.getTileEntity(pos);
-		te.setType(stack.getMetadata());
+		TileEntity tile = worldIn.getTileEntity(pos);
+		worldIn.setBlockState(pos, state.withProperty(TYPE, CropPlotType.VALUES[stack.getMetadata() % 3]));
+		if(tile != null){
+			tile.validate();
+			worldIn.setTileEntity(pos, tile);
+		}
 	}
 	/**
 	 * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
@@ -191,5 +198,9 @@ public class BlockCropPlot extends BlockContainer
 		list.add(new ItemStack(itemIn, 1, 0));
 		list.add(new ItemStack(itemIn, 1, 1));
 		list.add(new ItemStack(itemIn, 1, 2));
+	}
+	@Override
+	public int damageDropped(IBlockState state) {
+		return ((CropPlotType) state.getValue(TYPE)).ordinal();
 	}
 }
