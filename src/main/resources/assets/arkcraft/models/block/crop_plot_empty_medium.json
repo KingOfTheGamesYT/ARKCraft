@@ -1,9 +1,17 @@
 {
 "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
+"textures": {
+    "particle": "blocks/planks_birch",
+    "0": "blocks/planks_birch",
+    "1": "blocks/farmland_wet",
+    "3": "blocks/log_oak_top",
+    "2": "blocks/log_oak",
+    "berry_leaves": "arkcraft:blocks/berry_leaves"
+},
 "elements": [ 
 {
-    "from": [ 0, 0, 1 ],
-    "to": [ 16, 4, 2 ],
+    "from": [ -6, 0, -5 ],
+    "to": [ 22, 4, -4 ],
     "faces": {
         "down":  { "uv": [ 0, 0, 16, 1 ], "texture": "#0" },
         "up":    { "uv": [ 0, 0, 16, 1 ], "texture": "#0" },
@@ -14,8 +22,8 @@
     }
 },
 {
-    "from": [ 0, 0, 14 ],
-    "to": [ 16, 4, 15 ],
+    "from": [ -6, 0, 20 ],
+    "to": [ 22, 4, 21 ],
     "faces": {
         "down":  { "uv": [ 0, 0, 16, 1 ], "texture": "#0" },
         "up":    { "uv": [ 0, 0, 16, 1 ], "texture": "#0" },
@@ -26,8 +34,8 @@
     }
 },
 {
-    "from": [ 14, 0, 0 ],
-    "to": [ 15, 4, 16 ],
+    "from": [ 20, 0, -6 ],
+    "to": [ 21, 4, 22 ],
     "faces": {
         "down":  { "uv": [ 0, 0, 16, 1 ], "rotation": 90, "texture": "#0" },
         "up":    { "uv": [ 0, 0, 16, 1 ], "rotation": 90, "texture": "#0" },
@@ -38,8 +46,8 @@
     }
 },
 {
-    "from": [ 1, 0, 0 ],
-    "to": [ 2, 4, 16 ],
+    "from": [ -5, 0, -6 ],
+    "to": [ -4, 4, 22 ],
     "faces": {
         "down":  { "uv": [ 0, 0, 16, 1 ], "rotation": 90, "texture": "#0" },
         "up":    { "uv": [ 0, 0, 16, 1 ], "rotation": 90, "texture": "#0" },
@@ -50,16 +58,16 @@
     }
 },
 {
-    "from": [ 2, 0, 2 ],
-    "to": [ 14, 3, 14 ],
+    "from": [ -4, 0, -4 ],
+    "to": [ 20, 3, 20 ],
     "faces": {
         "down":  { "uv": [ 2, 2, 14, 14 ], "texture": "#0" },
         "up":    { "uv": [ 2, 2, 14, 14 ], "texture": "#1" }
     }
 },
 {
-    "from": [ 13.5, -0.5, 0.5 ],
-    "to": [ 15.5, 5, 2.5 ],
+    "from": [ 19.5, -0.5, -5.5 ],
+    "to": [ 21.5, 5, -3.5 ],
     "faces": {
         "down":  { "uv": [ 3, 7, 5, 9 ], "texture": "#3" },
         "up":    { "uv": [ 11, 7, 13, 9 ], "texture": "#3" },
@@ -70,8 +78,8 @@
     }
 },
 {
-    "from": [ 0.5, -0.5, 0.5 ],
-    "to": [ 2.5, 5, 2.5 ],
+    "from": [ -5.5, -0.5, -5.5 ],
+    "to": [ -3.5, 5, -3.5 ],
     "faces": {
         "down":  { "uv": [ 3, 7, 5, 9 ], "texture": "#3" },
         "up":    { "uv": [ 11, 7, 13, 9 ], "texture": "#3" },
@@ -82,8 +90,8 @@
     }
 },
 {
-    "from": [ 0.5, -0.5, 13.5 ],
-    "to": [ 2.5, 5, 15.5 ],
+    "from": [ -5.5, -0.5, 19.5 ],
+    "to": [ -3.5, 5, 21.5 ],
     "faces": {
         "down":  { "uv": [ 3, 7, 5, 9 ], "texture": "#3" },
         "up":    { "uv": [ 11, 7, 13, 9 ], "texture": "#3" },
@@ -94,8 +102,8 @@
     }
 },
 {
-    "from": [ 13.5, -0.5, 13.5 ],
-    "to": [ 15.5, 5, 15.5 ],
+    "from": [ 19.5, -0.5, 19.5 ],
+    "to": [ 21.5, 5, 21.5 ],
     "faces": {
         "down":  { "uv": [ 3, 7, 5, 9 ], "texture": "#3" },
         "up":    { "uv": [ 11, 7, 13, 9 ], "texture": "#3" },
