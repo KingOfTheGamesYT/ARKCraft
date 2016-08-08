@@ -128,10 +128,5 @@ public final class ModuleItemBalance
 		@DefaultInt(value = 5, minValue = 0, maxValue = 10, name = "Wire range.", comment = "Wire range")
 		public static int WIRE_RANGE;
 	}
-	
-	public static class WEIGHT_CONFIG
-	{
-		@DefaultBoolean(value = true, name = "Item weights", comment = "Enable item weights")
-		public static boolean ITEM_WEIGHTS;
-	}
+
 }

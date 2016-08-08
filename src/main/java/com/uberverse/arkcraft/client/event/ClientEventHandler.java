@@ -48,6 +48,7 @@ import com.uberverse.arkcraft.client.gui.GuiSmithy;
 import com.uberverse.arkcraft.common.block.tile.IHoverInfo;
 import com.uberverse.arkcraft.common.block.tile.TileInventorySmithy;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
+import com.uberverse.arkcraft.common.config.WeightsConfig;
 import com.uberverse.arkcraft.common.container.inventory.InventoryAttachment;
 import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
 import com.uberverse.arkcraft.common.entity.data.CalcPlayerWeight;
@@ -112,9 +113,6 @@ public class ClientEventHandler {
 		else if(disabledEquippItemAnimationTime<0)disabledEquippItemAnimationTime=0;	*/
 	}
 
-
-	int r0 = 0;
-	int r1 = 0;
 	@SubscribeEvent
 	public void onPlayerTickEvent(TickEvent.PlayerTickEvent event) {
 		// Update CraftingInventory
@@ -122,56 +120,27 @@ public class ClientEventHandler {
 			ARKPlayer.get(event.player).getInventoryBlueprints().update();
 		}
 
-		//Calculate item weight and update when the player updates
-		if(ModuleItemBalance.WEIGHT_CONFIG.ITEM_WEIGHTS)
-		{
-			//Removes the updating when the player is in a inventory
-			if(Minecraft.getMinecraft().currentScreen != null)
-			{
-				//So there isnt as many packet leaks...
-				if(ARKPlayer.get(event.player).getCarryWeight() != CalcPlayerWeight.getAsDouble(event.player))
+		// Calculate item weight and update when the player updates
+		if (WeightsConfig.isEnabled) {
+			// Removes the updating when the player is in a inventory
+			if (Minecraft.getMinecraft().currentScreen == null) {
+				// So there isnt as many packet leaks...
+				if (ARKPlayer.get(event.player).getCarryWeight() != CalcPlayerWeight.getAsDouble(event.player)) {
+					ARKPlayer.get(event.player).setCarryWeight(CalcPlayerWeight.getAsDouble(event.player));
+				}
 
-
-					// Calculate item weight and update when the player updates
-					if (ModuleItemBalance.WEIGHT_CONFIG.ITEM_WEIGHTS) {
-						// Removes the updating when the player is in a inventory
-						if (Minecraft.getMinecraft().currentScreen == null) {
-							// So there isnt as many packet leaks (if any)...
-							if (ARKPlayer.get(event.player).getCarryWeight() != CalcPlayerWeight.getAsDouble(event.player)) {
-								ARKPlayer.get(event.player).setCarryWeight(CalcPlayerWeight.getAsDouble(event.player));
-							}
-
-						}
-
-						// Weight rules
-						if (ARKPlayer.get(event.player).getCarryWeightRatio() >= 0.85) {
-							event.player.motionX *= 0;
-							event.player.motionY *= 0;
-							event.player.motionZ *= 0;
-							r0 = 0;
-							// new GUIFadeText("ark.splash.overEncumbered", "FF0000",
-							// Minecraft.getMinecraft());
-							r1++;
-							if (r1 % 1200 == 0 || r1 == 0) {
-								event.player.addChatComponentMessage(new ChatComponentTranslation("ark.splash.overEncumbered"));
-							}
-						} else if (ARKPlayer.get(event.player).getCarryWeightRatio() >= 0.75) {
-							event.player.motionX *= 0.2D;
-							event.player.motionZ *= 0.2D;
-							r1 = 0;
-							// new GUIFadeText("ark.splash.encumbered", "FFFF00",
-							// Minecraft.getMinecraft());
-
-							r0++;
-							if (r0 % 1200 == 0 || r0 == 0) {
-								event.player.addChatComponentMessage(new ChatComponentTranslation("ark.splash.encumbered"));
-							}
-
-						}
-					}
+				// Weight rules
+				if ((double) ARKPlayer.get(event.player).getCarryWeightRatio() >= (double) 0.85) {
+					event.player.motionX *= 0;
+					event.player.motionY *= 0;
+					event.player.motionZ *= 0;
+				} else if ((double) ARKPlayer.get(event.player).getCarryWeightRatio() >= (double) 0.75) {
+					event.player.motionX *= (double) WeightsConfig.encumberedSpeed;
+					event.player.motionY *= (double) WeightsConfig.encumberedSpeed;
+					event.player.motionZ *= (double) WeightsConfig.encumberedSpeed;
+				}
 			}
 		}
-
 
 	}
 
@@ -186,16 +155,10 @@ public class ClientEventHandler {
 		}
 	}
 
-	/*@SubscribeEvent
-	public void playerJoinWorld(PlayerEvent.PlayerLoggedInEvent event)
-	{
-		ARKPlayer.get(event.player).setCarryWeight(CalcPlayerWeight.getAsDouble(event.player));
-	}*/
-
 	@SubscribeEvent
 	public void mouseOverTooltip(ItemTooltipEvent event)
 	{
-		if(ModuleItemBalance.WEIGHT_CONFIG.ITEM_WEIGHTS)
+		if(WeightsConfig.isEnabled)
 		{
 			ItemStack stack = event.itemStack;
 			double weight = CalcPlayerWeight.getWeight(stack);

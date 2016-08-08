@@ -24,33 +24,37 @@ public class WeightsConfig
 	public static Configuration config;
 	public static final String GENERAL = Configuration.CATEGORY_GENERAL;
 	
+	public static boolean isEnabled;
+	public static double encumberedSpeed;
+	
 	public static void init(File dir)
 	{
-		if(ModuleItemBalance.WEIGHT_CONFIG.ITEM_WEIGHTS)
-		{
-			File configFile = new File(dir, ARKCraft.MODID + "_weights.cfg");
-	        if (config == null)
-	        {
-	            config = new Configuration(configFile);
-	        }
-	        loadConfig();
-		}
+		File configFile = new File(dir, ARKCraft.MODID + "_weights.cfg");
+        if (config == null)
+        {
+            config = new Configuration(configFile);
+        }
+        loadConfig();
 	}
 	
 	@SuppressWarnings("unchecked")
 	private static void loadConfig() 
 	{
 		config.load();
+		
+		isEnabled = config.getBoolean("enabled", "Setup", false, "Enabled the weight system. Will be false until final release.");
+		encumberedSpeed = config.getFloat("encumberedSpeed", "Setup", (float) 0.2, 0, 1, "The speed factor the player will be slowed down.");
+		
 		List<Item> itemList = ImmutableList.copyOf(Item.itemRegistry);
 		for(Item item : itemList)
 		{
-			config.getFloat(item.getUnlocalizedName().substring(5, item.getUnlocalizedName().length()), GENERAL, (int) genNewWeight(item.getUnlocalizedName().charAt(6)), 0, Integer.MAX_VALUE, "Sets the carry weight of item " + item.getUnlocalizedName().substring(5, item.getUnlocalizedName().length()));
+			config.getFloat(item.getUnlocalizedName().substring(5, item.getUnlocalizedName().length()), GENERAL, (int) genNewWeight(item.getUnlocalizedName().charAt(6)), 0, 16, "Sets the carry weight of item " + item.getUnlocalizedName().substring(5, item.getUnlocalizedName().length()));
 		}
 		
 		List<Block> blockList = ImmutableList.copyOf(Block.blockRegistry);
 		for(Block block : blockList)
 		{
-			config.getFloat(block.getUnlocalizedName().substring(5, block.getUnlocalizedName().length()), GENERAL, (int) genNewWeight(block.getUnlocalizedName().charAt(6)), 0, Integer.MAX_VALUE, "Sets the carry weight of block " + block.getUnlocalizedName().substring(5, block.getUnlocalizedName().length()));
+			config.getFloat(block.getUnlocalizedName().substring(5, block.getUnlocalizedName().length()), GENERAL, (int) genNewWeight(block.getUnlocalizedName().charAt(6)), 0, 16, "Sets the carry weight of block " + block.getUnlocalizedName().substring(5, block.getUnlocalizedName().length()));
 		}
 		config.save();
 	}

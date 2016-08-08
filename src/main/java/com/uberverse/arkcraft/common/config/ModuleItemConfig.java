@@ -52,7 +52,6 @@ public class ModuleItemConfig
         loadFields(cat_balance, ModuleItemBalance.PLAYER_CRAFTING.class);
         loadFields(cat_balance, ModuleItemBalance.COMPOST_BIN.class);
         loadFields(cat_balance, ModuleItemBalance.EXPLOSIVE_DEVICE.class);
-        loadFields(cat_balance, ModuleItemBalance.WEIGHT_CONFIG.class);
         // TODO: Add more classes from BALANCE here when available
     }
 
