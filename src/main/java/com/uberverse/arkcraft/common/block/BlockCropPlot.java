@@ -22,6 +22,8 @@ import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.IStringSerializable;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import net.minecraftforge.fml.relauncher.Side;
@@ -40,6 +42,7 @@ public class BlockCropPlot extends BlockContainer
 	public static final int GROWTH_STAGES = 4; // 0 - 4
 	public static final PropertyInteger AGE = PropertyInteger.create("age", 0, GROWTH_STAGES);
 	public static final PropertyEnum TYPE = PropertyEnum.create("type", CropPlotType.class);
+	public static final PropertyEnum BERRY = PropertyEnum.create("berry", BerryColor.class);
 	private int renderType = 3; // default value
 	private boolean isOpaque = false;
 	private int ID;
@@ -142,7 +145,7 @@ public class BlockCropPlot extends BlockContainer
 	@Override
 	protected BlockState createBlockState()
 	{
-		return new BlockState(this, new IProperty[] { AGE, TYPE});
+		return new BlockState(this, new IProperty[] { AGE, TYPE, BERRY });
 	}
 
 	/**
@@ -202,5 +205,34 @@ public class BlockCropPlot extends BlockContainer
 	@Override
 	public int damageDropped(IBlockState state) {
 		return ((CropPlotType) state.getValue(TYPE)).ordinal();
+	}
+	@Override
+	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+		IBlockState state = worldIn.getBlockState(pos);
+		CropPlotType t = (CropPlotType) state.getValue(TYPE);
+		if(t == CropPlotType.SMALL)setBlockBounds(0, 0, 0, 1, 0.35F, 1);
+		else if(t == CropPlotType.MEDIUM)setBlockBounds(-0.5F, 0, -0.5F, 1.5F, 0.35F, 1.5F);
+		else if(t == CropPlotType.LARGE)setBlockBounds(-1, 0, -1, 2, 0.35F, 2);
+	}
+	public static enum BerryColor implements IStringSerializable{
+		AMAR, AZUL, MEJO, NARCO, STIM, TINTO
+
+		;
+
+		public static final BerryColor[] VALUES = values();
+
+		@Override
+		public String getName() {
+			return name().toLowerCase();
+		}
+	}
+	@Override
+	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+		TileEntity tile = worldIn.getTileEntity(pos);
+		if(tile instanceof TileEntityCropPlotNew){
+			TileEntityCropPlotNew te = (TileEntityCropPlotNew) tile;
+			return state.withProperty(BERRY, te.getGrowingColor());
+		}
+		return state;
 	}
 }

@@ -32,6 +32,7 @@ import com.uberverse.arkcraft.common.item.tools.ItemStoneHatchet;
 import com.uberverse.arkcraft.common.item.tools.ItemStonePick;
 import com.uberverse.arkcraft.common.item.tools.ToolType;
 import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew.CropPlotType;
+import com.uberverse.arkcraft.common.block.BlockCropPlot.BerryColor;
 
 public class ARKCraftItems {
 	
@@ -107,12 +108,12 @@ public class ARKCraftItems {
 		spoiled_meat = addFood("spoiled_meat", 2, 0.1F, false, false);
 
 		// Seeds
-		tintoBerrySeed = addSeedItem("tintoBerrySeed", CropPlotType.SMALL);
-		amarBerrySeed = addSeedItem("amarBerrySeed", CropPlotType.SMALL);
-		azulBerrySeed = addSeedItem("azulBerrySeed", CropPlotType.SMALL);
-		mejoBerrySeed = addSeedItem("mejoBerrySeed", CropPlotType.SMALL);
-		narcoBerrySeed = addSeedItem("narcoBerrySeed", CropPlotType.SMALL);
-		stimBerrySeed = addSeedItem("stimBerrySeed", CropPlotType.SMALL);
+		tintoBerrySeed = addSeedItem("tintoBerrySeed", CropPlotType.SMALL, BerryColor.TINTO);
+		amarBerrySeed = addSeedItem("amarBerrySeed", CropPlotType.SMALL, BerryColor.AMAR);
+		azulBerrySeed = addSeedItem("azulBerrySeed", CropPlotType.SMALL, BerryColor.AZUL);
+		mejoBerrySeed = addSeedItem("mejoBerrySeed", CropPlotType.SMALL, BerryColor.MEJO);
+		narcoBerrySeed = addSeedItem("narcoBerrySeed", CropPlotType.SMALL, BerryColor.NARCO);
+		stimBerrySeed = addSeedItem("stimBerrySeed", CropPlotType.SMALL, BerryColor.STIM);
 		
 		//feces
 		small_feces = addFecesItem(
@@ -224,9 +225,9 @@ public class ARKCraftItems {
 		return f;
 	}
 	
-	protected static ARKCraftSeed addSeedItem(String name, CropPlotType type)
+	protected static ARKCraftSeed addSeedItem(String name, CropPlotType type, BerryColor color)
 	{
-		ARKCraftSeed i = new ARKCraftSeed(type);
+		ARKCraftSeed i = new ARKCraftSeed(type, color);
 		registerItem(name, i);
 		return i;
 	}

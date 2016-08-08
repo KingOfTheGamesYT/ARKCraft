@@ -1,19 +1,108 @@
 {
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+            "berry": "blocks/planks_oak"
+        }
+    },
     "variants": {
-        "age=0,type=small":  { "model":  "arkcraft:crop_plot_empty" },
-        "age=1,type=small":  { "model": "arkcraft:crop_plot_stage0" },
-        "age=2,type=small":  { "model": "arkcraft:crop_plot_stage1" },
-        "age=3,type=small":  { "model": "arkcraft:crop_plot_stage2" },
-        "age=4,type=small":  { "model": "arkcraft:crop_plot_stage3" },
-        "age=0,type=medium": { "model":  "arkcraft:crop_plot_empty_medium" },
-        "age=1,type=medium": { "model": "arkcraft:crop_plot_stage0_medium" },
-        "age=2,type=medium": { "model": "arkcraft:crop_plot_stage1_medium" },
-        "age=3,type=medium": { "model": "arkcraft:crop_plot_stage2_medium" },
-        "age=4,type=medium": { "model": "arkcraft:crop_plot_stage3_medium" },
-        "age=0,type=large":  { "model":  "arkcraft:crop_plot_empty_large" },
-        "age=1,type=large":  { "model": "arkcraft:crop_plot_stage0_large" },
-        "age=2,type=large":  { "model": "arkcraft:crop_plot_stage1_large" },
-        "age=3,type=large":  { "model": "arkcraft:crop_plot_stage2_large" },
-        "age=4,type=large":  { "model": "arkcraft:crop_plot_stage3_large" }
+        "type":{
+            "small":{
+                "model": "arkcraft:crop_plot_small"
+            },
+            "medium":{
+                "model": "arkcraft:crop_plot_medium"
+            },
+            "large":{
+                "model": "arkcraft:crop_plot_large"
+            }
+        },
+        "age":{
+            0:{},
+            1:{
+//                "type":{
+//                    "small":{
+                        "submodel": "arkcraft:plant1"
+//                    },
+//                    "medium":{
+//                        "submodel": "arkcraft:plant1"
+//                    },
+//                    "large":{
+//                        "submodel": "arkcraft:largePlant1"
+//                    }
+//                }
+            },
+            2:{
+//                "type":{
+//                    "small":{
+                        "submodel": "arkcraft:plant2"
+//                    },
+//                    "medium":{
+//                        "submodel": "arkcraft:plant2"
+//                    },
+//                    "large":{
+//                        "submodel": "arkcraft:largePlant2"
+//                    }
+//                }
+            },
+            3:{
+//                "type":{
+//                    "small":{
+                        "submodel": "arkcraft:plant3"
+//                    },
+//                    "medium":{
+//                        "submodel": "arkcraft:plant3"
+//                    },
+//                    "large":{
+//                        "submodel": "arkcraft:largePlant3"
+//                    }
+//                }
+            },
+            4:{
+//                "type":{
+//                    "small":{
+                        "submodel": "arkcraft:plant4"
+//                    },
+//                    "medium":{
+//                        "submodel": "arkcraft:plant4"
+//                    },
+//                    "large":{
+//                        "submodel": "arkcraft:largePlant4"
+//                    }
+//                }
+            }
+        },
+        "berry":{
+            "amar":{
+                "textures":{
+                    "berry": "arkcraft:blocks/berry_leaves_amar"
+                }
+            },
+            "azul":{
+                "textures":{
+                    "berry": "arkcraft:blocks/berry_leaves_azul"
+                }
+            },
+            "mejo":{
+                "textures":{
+                    "berry": "arkcraft:blocks/berry_leaves_mejo"
+                }
+            },
+            "narco":{
+                "textures":{
+                    "berry": "arkcraft:blocks/berry_leaves_narco"
+                }
+            },
+            "stim":{
+                "textures":{
+                    "berry": "arkcraft:blocks/berry_leaves_stim"
+                }
+            },
+            "tinto":{
+                "textures":{
+                    "berry": "arkcraft:blocks/berry_leaves_tinto"
+                }
+            }
+        }
     }
 }

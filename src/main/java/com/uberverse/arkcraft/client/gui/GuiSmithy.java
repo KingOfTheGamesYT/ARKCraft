@@ -4,13 +4,13 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.container.ContainerInventorySmithy;
@@ -27,7 +27,7 @@ public class GuiSmithy extends GuiContainer
 	public String name = "Smithy";
 	public static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID,
 			"textures/gui/smithy.png");
-	private TileInventorySmithy tileEntity;
+	public TileInventorySmithy tileEntity;
 	private GuiButton buttonCraftOne;
 	private GuiButton buttonCraftAll;
 	private GuiButton buttonPrevRecipe;
@@ -158,11 +158,12 @@ public class GuiSmithy extends GuiContainer
 	}
 
 	// abstract in super
+	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
-		this.fontRendererObj.drawString(name, (int) (xSize / 2) - (name.length() * 5 / 2), 5,
+		this.fontRendererObj.drawString(name, xSize / 2 - (name.length() * 5 / 2), 5,
 				Color.darkGray.getRGB());
 		// Number being crafted
 		if (tileEntity.isCraftingOne())
@@ -205,6 +206,7 @@ public class GuiSmithy extends GuiContainer
 	}
 
 	// abstract in super
+	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
 	{
 		GL11.glColor4f(1F, 1F, 1F, 1F);

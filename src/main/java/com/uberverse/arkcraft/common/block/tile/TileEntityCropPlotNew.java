@@ -23,6 +23,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.uberverse.arkcraft.common.block.BlockCropPlot;
+import com.uberverse.arkcraft.common.block.BlockCropPlot.BerryColor;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance.CROP_PLOT;
 import com.uberverse.arkcraft.common.item.ARKCraftFeces;
 import com.uberverse.arkcraft.common.item.ARKCraftSeed;
@@ -239,6 +240,7 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 				tileentity.validate();
 				worldObj.setTileEntity(pos, tileentity);
 			}
+			worldObj.markBlockForUpdate(pos);
 		}
 	}
 	@Override
@@ -411,12 +413,16 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 	public CropPlotType getType(){
 		return (CropPlotType) worldObj.getBlockState(pos).getValue(BlockCropPlot.TYPE);
 	}
-	/*@Override
+	@Override
 	public void writeToPacket(NBTTagCompound tag) {
-		tag.setInteger("t", type.ordinal());
+		tag.setInteger("c", getGrowingColor().ordinal());
 	}
 	@Override
 	public void readFromPacket(NBTTagCompound tag) {
-		type = CropPlotType.VALUES[tag.getInteger("t")];
-	}*/
+		colorClient = BerryColor.VALUES[tag.getInteger("c")];
+	}
+	private BerryColor colorClient = BerryColor.AMAR;
+	public BerryColor getGrowingColor() {
+		return worldObj.isRemote ? colorClient : (growing != null && growing.getItem() instanceof ARKCraftSeed ? ((ARKCraftSeed)growing.getItem()).getBerryColor(growing) : BerryColor.AMAR);
+	}
 }

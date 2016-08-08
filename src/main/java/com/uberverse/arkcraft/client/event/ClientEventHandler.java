@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
@@ -11,6 +15,7 @@ import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -21,6 +26,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
+
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -37,17 +43,17 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.client.gui.GuiSmithy;
 import com.uberverse.arkcraft.common.block.tile.IHoverInfo;
+import com.uberverse.arkcraft.common.block.tile.TileInventorySmithy;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.container.inventory.InventoryAttachment;
 import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
 import com.uberverse.arkcraft.common.entity.data.CalcPlayerWeight;
 import com.uberverse.arkcraft.common.event.CommonEventHandler;
+import com.uberverse.arkcraft.common.handlers.ARKShapelessRecipe;
+import com.uberverse.arkcraft.common.handlers.recipes.SmithyCraftingManager;
 import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
@@ -106,7 +112,7 @@ public class ClientEventHandler {
 		else if(disabledEquippItemAnimationTime<0)disabledEquippItemAnimationTime=0;	*/
 	}
 
-	
+
 	int r0 = 0;
 	int r1 = 0;
 	@SubscribeEvent
@@ -125,56 +131,56 @@ public class ClientEventHandler {
 				//So there isnt as many packet leaks...
 				if(ARKPlayer.get(event.player).getCarryWeight() != CalcPlayerWeight.getAsDouble(event.player))
 
-		
-		// Calculate item weight and update when the player updates
-		if (ModuleItemBalance.WEIGHT_CONFIG.ITEM_WEIGHTS) {
-			// Removes the updating when the player is in a inventory
-			if (Minecraft.getMinecraft().currentScreen == null) {
-				// So there isnt as many packet leaks (if any)...
-				if (ARKPlayer.get(event.player).getCarryWeight() != CalcPlayerWeight.getAsDouble(event.player)) {
-					ARKPlayer.get(event.player).setCarryWeight(CalcPlayerWeight.getAsDouble(event.player));
-				}
 
-			}
-			
-			// Weight rules
-			if ((double) ARKPlayer.get(event.player).getCarryWeightRatio() >= (double) 0.85) {
-				event.player.motionX *= 0;
-				event.player.motionY *= 0;
-				event.player.motionZ *= 0;
-				r0 = 0;
-				// new GUIFadeText("ark.splash.overEncumbered", "FF0000",
-				// Minecraft.getMinecraft());
-				r1++;
-				if (r1 % 1200 == 0 || r1 == 0) {
-					event.player.addChatComponentMessage(new ChatComponentTranslation("ark.splash.overEncumbered"));
-				}
-			} else if ((double) ARKPlayer.get(event.player).getCarryWeightRatio() >= (double) 0.75) {
-				event.player.motionX *= (double) 0.2D;
-				event.player.motionZ *= (double) 0.2D;
-				r1 = 0;
-				// new GUIFadeText("ark.splash.encumbered", "FFFF00",
-				// Minecraft.getMinecraft());
+					// Calculate item weight and update when the player updates
+					if (ModuleItemBalance.WEIGHT_CONFIG.ITEM_WEIGHTS) {
+						// Removes the updating when the player is in a inventory
+						if (Minecraft.getMinecraft().currentScreen == null) {
+							// So there isnt as many packet leaks (if any)...
+							if (ARKPlayer.get(event.player).getCarryWeight() != CalcPlayerWeight.getAsDouble(event.player)) {
+								ARKPlayer.get(event.player).setCarryWeight(CalcPlayerWeight.getAsDouble(event.player));
+							}
 
-				r0++;
-				if (r0 % 1200 == 0 || r0 == 0) {
-					event.player.addChatComponentMessage(new ChatComponentTranslation("ark.splash.encumbered"));
-				}
+						}
 
+						// Weight rules
+						if (ARKPlayer.get(event.player).getCarryWeightRatio() >= 0.85) {
+							event.player.motionX *= 0;
+							event.player.motionY *= 0;
+							event.player.motionZ *= 0;
+							r0 = 0;
+							// new GUIFadeText("ark.splash.overEncumbered", "FF0000",
+							// Minecraft.getMinecraft());
+							r1++;
+							if (r1 % 1200 == 0 || r1 == 0) {
+								event.player.addChatComponentMessage(new ChatComponentTranslation("ark.splash.overEncumbered"));
+							}
+						} else if (ARKPlayer.get(event.player).getCarryWeightRatio() >= 0.75) {
+							event.player.motionX *= 0.2D;
+							event.player.motionZ *= 0.2D;
+							r1 = 0;
+							// new GUIFadeText("ark.splash.encumbered", "FFFF00",
+							// Minecraft.getMinecraft());
+
+							r0++;
+							if (r0 % 1200 == 0 || r0 == 0) {
+								event.player.addChatComponentMessage(new ChatComponentTranslation("ark.splash.encumbered"));
+							}
+
+						}
+					}
 			}
 		}
-			}
+
+
 	}
-		
-		
-	}
-	
+
 	@SubscribeEvent
 	public void entityJumpEvent(LivingJumpEvent event)
 	{
 		if(event.entityLiving instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.entity;
-			if((double) ARKPlayer.get(player).getCarryWeightRatio() >= .85) {
+			if(ARKPlayer.get(player).getCarryWeightRatio() >= .85) {
 				event.setCanceled(true);
 			}
 		}
@@ -185,7 +191,7 @@ public class ClientEventHandler {
 	{
 		ARKPlayer.get(event.player).setCarryWeight(CalcPlayerWeight.getAsDouble(event.player));
 	}*/
-	
+
 	@SubscribeEvent
 	public void mouseOverTooltip(ItemTooltipEvent event)
 	{
@@ -400,17 +406,40 @@ public class ClientEventHandler {
 				player.openGui(ARKCraft.instance, ARKCraft.GUI.ATTACHMENT_GUI.getID(), player.worldObj, 0, 0, 0);
 				ARKCraft.modChannel.sendToServer(new OpenAttachmentInventory());
 			}
-		} else if (harvestOverlay.isPressed()) 
+		} else if (harvestOverlay.isPressed())
 		{
 			CommonEventHandler handler = new CommonEventHandler();
 			if(handler.arkMode() == false)
-        	{
+			{
 				handler.arkMode = true;
-        	}
-        	else
-        	{
-        		handler.arkMode = false;	
-        	}
+			}
+			else
+			{
+				handler.arkMode = false;
+			}
+		}
+	}
+	@SubscribeEvent
+	public void onTooltip(ItemTooltipEvent event){
+		if(mc.currentScreen instanceof GuiSmithy){
+			TileInventorySmithy te = ((GuiSmithy) mc.currentScreen).tileEntity;
+			ItemStack stack = te.inventoryBlueprints.getStackInSlot(0);
+			if(event.itemStack == stack){
+				event.toolTip.add("arkcraft.tooltip.recipe");
+				List recipeList = SmithyCraftingManager.getInstance().getRecipeList();
+				for(int i = 0;i<recipeList.size();i++){
+					if(recipeList.get(i) instanceof ARKShapelessRecipe){
+						ARKShapelessRecipe r = (ARKShapelessRecipe) recipeList.get(i);
+						if(r.getRecipeOutput().isItemEqual(stack)){
+							for(int j = 0;j<r.recipeItems.size();j++){
+								ItemStack cStack = ((ItemStack)r.recipeItems.get(j));
+								event.toolTip.add(I18n.format("arkcraft.tooltip.ingredient", I18n.format(cStack.getDisplayName()), cStack.stackSize));
+							}
+							break;
+						}
+					}
+				}
+			}
 		}
 	}
 }
