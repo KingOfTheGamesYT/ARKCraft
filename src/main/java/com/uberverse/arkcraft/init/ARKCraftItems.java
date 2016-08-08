@@ -24,6 +24,7 @@ import com.uberverse.arkcraft.common.item.ARKCraftItem;
 import com.uberverse.arkcraft.common.item.ARKCraftSeed;
 import com.uberverse.arkcraft.common.item.explosives.ItemGrenade;
 import com.uberverse.arkcraft.common.item.firearms.ItemSlingshot;
+import com.uberverse.arkcraft.common.item.melee.ItemPike;
 import com.uberverse.arkcraft.common.item.melee.ItemSpear;
 import com.uberverse.arkcraft.common.item.tools.ItemMetalHatchet;
 import com.uberverse.arkcraft.common.item.tools.ItemMetalPick;
@@ -58,6 +59,7 @@ public class ARKCraftItems {
 	public static ItemGrenade grenade;
 	public static ItemSlingshot slingshot;
 	public static ItemSpear spear;
+	public static ItemPike pike;
 	public static Item tabItem;
 
 	
@@ -92,6 +94,7 @@ public class ARKCraftItems {
 		
 		//Weapons
 		spear = addSpear("spear", STONE);
+		pike = addPike("pike", METAL);
 		EntityHandler.registerModEntity(EntitySpear.class, "spear", ARKCraft.instance, 16, 20, true);
 	
 		// Food
@@ -196,6 +199,12 @@ public class ARKCraftItems {
 		return i;
 	}
 
+	public static ItemPike addPike(String name, ToolMaterial m)
+	{
+		ItemPike i = new ItemPike(m);
+		registerItem(name, i);
+		return i;
+	}
 	
 	public static ItemMetalHatchet addMetalHatchet(String name, ToolMaterial m)
 	{
