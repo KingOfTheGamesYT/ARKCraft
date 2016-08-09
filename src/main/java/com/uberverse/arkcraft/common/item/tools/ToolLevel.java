@@ -29,6 +29,6 @@ public enum ToolLevel {//TODO: Fill the enum up with the appropriate values.
 	}
 	@SideOnly(Side.CLIENT)
 	public String getTranslatedName(){//TODO: Setup the localization entries.
-		return I18n.format("arkCraft.toolLevel." + name);
+		return I18n.format("arkcraft.toolLevel." + name);
 	}
 }
