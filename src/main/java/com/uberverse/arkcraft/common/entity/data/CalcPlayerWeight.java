@@ -26,7 +26,7 @@ public class CalcPlayerWeight
 			if(player.inventory.getStackInSlot(i) != null)
 			{
 				stack = player.inventory.getStackInSlot(i);
-				weight += WeightsConfig.getConfig().get(Configuration.CATEGORY_GENERAL, stack.getItem().getUnlocalizedName().substring(5, stack.getItem().getUnlocalizedName().length()), 0).getDouble() * stack.stackSize;
+				weight += WeightsConfig.getConfig().get(Configuration.CATEGORY_GENERAL, stack.getItem().getUnlocalizedName().substring(5, stack.getItem().getUnlocalizedName().length()), 0.5).getDouble() * stack.stackSize;
 			}
 		}
 		return weight;
@@ -34,7 +34,7 @@ public class CalcPlayerWeight
 	
 	public static double getWeight(ItemStack stack)
 	{
-		return WeightsConfig.getConfig().get(Configuration.CATEGORY_GENERAL, stack.getItem().getUnlocalizedName().substring(5, stack.getItem().getUnlocalizedName().length()), 0).getDouble();
+		return WeightsConfig.getConfig().get(Configuration.CATEGORY_GENERAL, stack.getItem().getUnlocalizedName().substring(5, stack.getItem().getUnlocalizedName().length()), 0.5).getDouble();
 	}
 
 }

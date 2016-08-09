@@ -150,6 +150,7 @@ attribute.name.arkcraft.reloadTime=Reload Time
 # Splash Text
 ark.splash.encumbered=You are encumbered!
 ark.splash.overEncumbered=You are over encumbered!
+ark.splash.noJump=You are over encumbered! You cannot jump!
 
 # Tooltips
 item.narcotics.tooltip=%12A Knockout of a Drink
