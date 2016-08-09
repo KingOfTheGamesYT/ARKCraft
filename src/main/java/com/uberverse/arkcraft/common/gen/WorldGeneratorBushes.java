@@ -2,13 +2,9 @@ package com.uberverse.arkcraft.common.gen;
 
 import java.util.Random;
 
-import net.minecraft.block.BlockGrass;
-import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.fml.common.IWorldGenerator;
-
-import com.uberverse.arkcraft.init.ARKCraftBlocks;
 
 public class WorldGeneratorBushes implements IWorldGenerator
 {
