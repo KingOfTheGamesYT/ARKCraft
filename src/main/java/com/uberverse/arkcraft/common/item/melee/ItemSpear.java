@@ -6,13 +6,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
 
-import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.entity.EntitySpear;
 
 public class ItemSpear extends ItemSword
 {
-	public static double spearDamage = ModuleItemBalance.WEAPONS.SPEAR_DAMAGE;
-
 	public ItemSpear(ToolMaterial m)
 	{
 		super(m);

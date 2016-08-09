@@ -10,13 +10,6 @@ public class WorldGeneratorBushes implements IWorldGenerator
 {
 
 	@Override
-	public void generate(Random random, int chunkX, int chunkZ, World world,
-			IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
-		// TODO Auto-generated method stub
-		
-	}
-	/*
-	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider)
 	{
 		if (world.provider.getDimensionId() == 0)
@@ -34,5 +27,5 @@ public class WorldGeneratorBushes implements IWorldGenerator
 				}
 			}
 		}
-	}	*/
+	}	
 }

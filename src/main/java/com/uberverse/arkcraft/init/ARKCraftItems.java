@@ -64,9 +64,11 @@ public class ARKCraftItems {
 
 	
 	public static ToolMaterial METAL = EnumHelper.addToolMaterial("METAL_MAT",
-			3, 1500, 6.0F, 0.8F, 8);
+			3, 1500, 6.0F, 2.5F, 8);
 	public static ToolMaterial STONE = EnumHelper.addToolMaterial("STONE_MAT",
-			2, 500, 3.5F, 0.4F, 13);
+			2, 500, 3.5F, 1.5F, 13);
+	public static ToolMaterial WOOD = EnumHelper.addToolMaterial("WOOD_MAT",
+			1, 200, 2.5F, 1.0F, 3);
 	
 	public static Map<String, Item> allItems = new HashMap<String, Item>();
 
@@ -90,11 +92,12 @@ public class ARKCraftItems {
 		metal_hatchet = addMetalHatchet("metal_hatchet", METAL);
 		stone_hatchet = addStoneHatchet("stone_hatchet", STONE);
 		stone_pick = addStonePick("stone_pick", STONE);
-		metal_sickle = addMetalSickle("metal_sickle", STONE);
+		metal_sickle = addMetalSickle("metal_sickle", METAL);
 		
 		//Weapons
-		spear = addSpear("spear", STONE);
+		spear = addSpear("spear", WOOD);
 		pike = addPike("pike", METAL);
+		
 		EntityHandler.registerModEntity(EntitySpear.class, "spear", ARKCraft.instance, 16, 20, true);
 	
 		// Food

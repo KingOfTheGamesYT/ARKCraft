@@ -3,13 +3,6 @@ package com.uberverse.arkcraft.init;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.util.ResourceLocation;
-
-import net.minecraftforge.fml.common.registry.GameRegistry;
-
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.ARKContainerBlock;
 import com.uberverse.arkcraft.common.block.ARKCraftBerryBush;
@@ -17,6 +10,7 @@ import com.uberverse.arkcraft.common.block.BlockARKBase;
 import com.uberverse.arkcraft.common.block.BlockCompostBin;
 import com.uberverse.arkcraft.common.block.BlockCropPlot;
 import com.uberverse.arkcraft.common.block.BlockFlashlight;
+import com.uberverse.arkcraft.common.block.BlockGreenScreen;
 import com.uberverse.arkcraft.common.block.BlockMortarAndPestle;
 import com.uberverse.arkcraft.common.block.BlockRefiningForge;
 import com.uberverse.arkcraft.common.block.BlockSmithy;
@@ -33,6 +27,12 @@ import com.uberverse.arkcraft.common.block.tile.TileInventoryMP;
 import com.uberverse.arkcraft.common.block.tile.TileInventorySmithy;
 import com.uberverse.arkcraft.common.tileentity.TileFlashlight;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+
 public class ARKCraftBlocks {
 
 	public static BlockFlashlight block_flashlight;
@@ -45,6 +45,8 @@ public class ARKCraftBlocks {
 	public static BlockMortarAndPestle pestle;
 	public static BlockCropPlot crop_plot;
 	public static BlockRefiningForge refining_forge;
+	
+	public static BlockGreenScreen greenScreen;
 
 	public static ARKCraftBlocks getInstance()
 	{
@@ -60,14 +62,14 @@ public class ARKCraftBlocks {
 
 	public static void init()
 	{
+
 		//Misc
 		block_flashlight = new BlockFlashlight();
 		GameRegistry.registerBlock(block_flashlight, "block_flashlight");
-	//	berryBush = (ARKCraftBerryBush) registerBlock(new ARKCraftBerryBush(0.4F), "berryBush");
-
-		wooden_spikes = (BlockSpikes) registerBlock(new BlockSpikes(Material.wood, 3.0F),
-				"wooden_spikes");
-
+		berryBush = (ARKCraftBerryBush) registerBlock(new ARKCraftBerryBush(0.4F), "berryBush");
+		
+		greenScreen = (BlockGreenScreen) registerBlock(new BlockGreenScreen(Material.gourd), "greenScreen");
+		
 		// Containers
 		smithy = registerSmithy("smithy", Material.wood,
 				ARKCraft.GUI.SMITHY.getID(), false, false, 3);
@@ -89,7 +91,7 @@ public class ARKCraftBlocks {
 		GameRegistry.registerTileEntity(TileFlashlight.class, "TileFlashlight");
 
 	}
-
+	
 	private static Block registerBlock(Block block, String name)
 	{
 		block.setCreativeTab(ARKCraft.tabARK);
@@ -117,7 +119,7 @@ public class ARKCraftBlocks {
 	{
 		return (Block) Block.blockRegistry.getObject(new ResourceLocation(name));
 	}
-
+	
 	protected static ARKContainerBlock addContainer(String name, Material mat, int ID, boolean renderAsNormalBlock, boolean isOpaque, int renderType)
 	{
 		ARKContainerBlock container = new ARKContainerBlock(mat, ID);
