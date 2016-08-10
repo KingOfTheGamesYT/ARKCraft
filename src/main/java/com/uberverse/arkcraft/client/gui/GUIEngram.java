@@ -6,7 +6,6 @@ package com.uberverse.arkcraft.client.gui;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.container.ContainerEngram;
 import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
-import com.uberverse.arkcraft.common.inventory.InventoryEngram;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,7 +21,7 @@ public class GUIEngram extends GuiContainer
 
 	private static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID, "textures/gui/engram_gui.png");
 	
-	private InventoryEngram inventory;
+	//private InventoryEngram inventory;
 	
 	public GUIEngram(EntityPlayer player, InventoryPlayer inventory, ARKPlayer arkPlayer)
 	{
