@@ -8,7 +8,6 @@ public class BlockGreenScreen extends Block
 
 	public BlockGreenScreen(Material materialIn) {
 		super(materialIn);
-		
+		this.setLightLevel(0.9F);
 	}
-
 }

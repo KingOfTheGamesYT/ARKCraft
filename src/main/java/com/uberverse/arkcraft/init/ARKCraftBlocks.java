@@ -7,6 +7,7 @@ import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.ARKContainerBlock;
 import com.uberverse.arkcraft.common.block.ARKCraftBerryBush;
 import com.uberverse.arkcraft.common.block.BlockARKBase;
+import com.uberverse.arkcraft.common.block.BlockCampfire;
 import com.uberverse.arkcraft.common.block.BlockCompostBin;
 import com.uberverse.arkcraft.common.block.BlockCropPlot;
 import com.uberverse.arkcraft.common.block.BlockFlashlight;
@@ -21,6 +22,7 @@ import com.uberverse.arkcraft.common.block.itemblock.ItemMortarAndPestle;
 import com.uberverse.arkcraft.common.block.itemblock.ItemRefiningForge;
 import com.uberverse.arkcraft.common.block.itemblock.ItemSmithy;
 import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew;
+import com.uberverse.arkcraft.common.block.tile.TileInventoryCampfire;
 import com.uberverse.arkcraft.common.block.tile.TileInventoryCompostBin;
 import com.uberverse.arkcraft.common.block.tile.TileInventoryForge;
 import com.uberverse.arkcraft.common.block.tile.TileInventoryMP;
@@ -45,6 +47,7 @@ public class ARKCraftBlocks {
 	public static BlockMortarAndPestle pestle;
 	public static BlockCropPlot crop_plot;
 	public static BlockRefiningForge refining_forge;
+	public static BlockCampfire campfire;
 	
 	public static BlockGreenScreen greenScreen;
 
@@ -81,13 +84,16 @@ public class ARKCraftBlocks {
 				ARKCraft.GUI.COMPOST_BIN.getID(), false, false, 3);
 		refining_forge = registerRefiningForge("refining_forge", Material.rock, false,
 				ARKCraft.GUI.FORGE_GUI.getID(), false, false, 3);
-
+		campfire = registerCampfire("campfire", Material.wood,
+				ARKCraft.GUI.CAMPFIRE_GUI.getID(), false, 3);
+		
 		// Tile Entities
 		GameRegistry.registerTileEntity(TileEntityCropPlotNew.class, ARKCraft.MODID + "cropPlot");
 		GameRegistry.registerTileEntity(TileInventoryMP.class, "TileInventoryMP");
 		GameRegistry.registerTileEntity(TileInventoryCompostBin.class, "TileEntityCompostBin");
 		GameRegistry.registerTileEntity(TileInventorySmithy.class, "TileInventorySmithy");
 		GameRegistry.registerTileEntity(TileInventoryForge.class, "TileInventoryForge");
+		GameRegistry.registerTileEntity(TileInventoryCampfire.class, "TileInventoryCampfire");
 		GameRegistry.registerTileEntity(TileFlashlight.class, "TileFlashlight");
 
 	}
@@ -148,6 +154,13 @@ public class ARKCraftBlocks {
 	{
 		BlockRefiningForge container = new BlockRefiningForge(mat, ID);
 		registerBlockWithItemBlock(container, ItemRefiningForge.class, name);
+		return container;
+	}
+	
+	protected static BlockCampfire registerCampfire(String name, Material mat, int ID, boolean isOpaque, int renderType)
+	{
+		BlockCampfire container = new BlockCampfire(mat, ID);
+		registerBlockWithItemBlock(container, ItemCampfire.class, name);
 		return container;
 	}
 

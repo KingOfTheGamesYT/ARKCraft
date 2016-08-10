@@ -1,0 +1,9 @@
+{
+    "variants": {
+           "burning_sides_count=0": { "model": "arkcraft:campfire"},
+           "burning_sides_count=1": { "model": "arkcraft:campfire"},
+           "burning_sides_count=2": { "model": "arkcraft:campfire"},
+           "burning_sides_count=3": { "model": "arkcraft:campfire"},
+           "burning_sides_count=4": { "model": "arkcraft:campfire"}
+    }
+}
