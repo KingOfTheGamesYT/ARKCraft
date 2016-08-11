@@ -9,9 +9,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.uberverse.arkcraft.common.handlers.CampfireRecipe;
+import com.uberverse.arkcraft.common.handlers.CampfireRecipe;
 import com.uberverse.arkcraft.common.handlers.recipes.CampfireCraftingManager;
+import com.uberverse.arkcraft.common.handlers.recipes.ForgeCraftingHandler;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,13 +22,14 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.EnumSkyBlock;
 
-public class TileInventoryCampfire extends TileEntity implements IForge
+public class TileInventoryCampfireNew extends TileEntity implements IForge
 {
 	private ItemStack[] itemStacks = new ItemStack[getSlotCount()];
 
@@ -34,7 +38,7 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 	/** the ticks burning left */
 	private int burningTicks;
 
-	public TileInventoryCampfire()
+	public TileInventoryCampfireNew()
 	{
 		super();
 	}
@@ -99,7 +103,7 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 			for (int i = 0; i < itemStacks.length; i++)
 			{
 				ItemStack stack = itemStacks[i];
-				if (stack != null && CampfireCraftingManager.isValidFuel(stack
+				if (stack != null && ForgeCraftingHandler.isValidFuel(stack
 						.getItem()) && possibleRecipes.size() > 0)
 				{
 					if (!worldObj.isRemote)
@@ -107,7 +111,7 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 						stack.stackSize--;
 						if (stack.stackSize == 0) itemStacks[i] = null;
 					}
-					this.burningTicks += CampfireCraftingManager.getBurnTime(stack
+					this.burningTicks += ForgeCraftingHandler.getBurnTime(stack
 							.getItem());
 					break;
 				}

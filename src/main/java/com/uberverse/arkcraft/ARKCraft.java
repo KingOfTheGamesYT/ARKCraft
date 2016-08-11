@@ -24,6 +24,7 @@ import com.uberverse.arkcraft.common.config.WeightsConfig;
 import com.uberverse.arkcraft.common.event.CommonEventHandler;
 import com.uberverse.arkcraft.common.gen.WorldGeneratorBushes;
 import com.uberverse.arkcraft.common.handlers.GuiHandler;
+import com.uberverse.arkcraft.common.handlers.recipes.CampfireCraftingManager;
 import com.uberverse.arkcraft.common.handlers.recipes.ForgeCraftingHandler;
 import com.uberverse.arkcraft.common.handlers.recipes.PestleCraftingManager;
 import com.uberverse.arkcraft.common.handlers.recipes.PlayerCraftingManager;
@@ -94,6 +95,7 @@ public class ARKCraft
 		SmithyCraftingManager.registerSmithyCraftingRecipes();
 		PlayerCraftingManager.registerPlayerCraftingRecipes();
 		ForgeCraftingHandler.registerForgeRecipes();
+		CampfireCraftingManager.registerCampfireRecipes();
 
 		//This has to be here so it can create weights for our items and blocks as well
 		WeightsConfig.init(event.getModConfigurationDirectory());
