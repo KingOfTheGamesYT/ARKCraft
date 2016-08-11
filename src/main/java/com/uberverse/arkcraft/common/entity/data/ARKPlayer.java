@@ -7,6 +7,7 @@ import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.handlers.recipes.PlayerCraftingManager;
 import com.uberverse.arkcraft.common.inventory.InventoryBlueprints;
 import com.uberverse.arkcraft.common.inventory.InventoryPlayerCrafting;
+import com.uberverse.arkcraft.common.inventory.InventoryPlayerEngram;
 import com.uberverse.arkcraft.common.network.PlayerPoop;
 import com.uberverse.arkcraft.common.network.SyncPlayerData;
 import com.uberverse.lib.LogHelper;
@@ -46,6 +47,8 @@ public class ARKPlayer implements IExtendedEntityProperties
 	//Unlocked Engrams
 	private ArrayList<Object> engrams;
 	
+	private InventoryPlayerEngram engramInv;
+	
 	public ARKPlayer(EntityPlayer player, World world)
 	{
 		// Initialize some stuff
@@ -59,6 +62,7 @@ public class ARKPlayer implements IExtendedEntityProperties
 		this.weight = 100.0;
 		this.engramPoints = 0;
 		this.engrams = new ArrayList<Object>();
+		this.engramInv = new InventoryPlayerEngram();
 	}
 
 	/**
@@ -224,6 +228,11 @@ public class ARKPlayer implements IExtendedEntityProperties
 	public int getEngramPoints()
 	{
 		return engramPoints;
+	}
+	
+	public InventoryPlayerEngram getEngramInventory()
+	{
+		return engramInv;
 	}
 
 	/**

@@ -112,7 +112,7 @@ public class GuiHandler implements IGuiHandler
 		else if (ID == ARKCraft.GUI.ENGRAM_GUI.getID())
 		{
 			//FMLClientHandler.instance().displayGuiScreen(player, new GUIEngram(player, player.inventory, ARKPlayer.get(player)));
-			return new ContainerEngram(player.inventory, player);
+			return new ContainerEngram(ARKPlayer.get(player).getEngramInventory(), player);
 		}
 		/*else if (ID == ARKCraft.GUI.CROP_PLOT.getID())
 		{
@@ -253,7 +253,7 @@ public class GuiHandler implements IGuiHandler
 		}
 		else if (ID == ARKCraft.GUI.ENGRAM_GUI.getID())
 		{
-			return new GUIEngram(player, player.inventory, ARKPlayer.get(player).getEngramPoints());
+			return new GUIEngram(player, ARKPlayer.get(player).getEngramPoints());
 		}
 		else if (ID == ARKCraft.GUI.COMPOST_BIN.getID())
 		{

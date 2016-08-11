@@ -36,10 +36,10 @@ public class GUIEngram extends GuiContainer
 	private static String engramDesc = "null";
 	private int engramPoints;
 	
-	public GUIEngram(EntityPlayer player, InventoryPlayer inventory, int engramPoints)
+	public GUIEngram(EntityPlayer player, int engramPoints)
 	{
-		super(new ContainerEngram(inventory, player));
-		//this.inventory = inventory;
+		super(new ContainerEngram(ARKPlayer.get(player).getEngramInventory(), player));
+		this.inventory = ARKPlayer.get(player).getEngramInventory();
 		this.player = player;
 		this.engramPoints = engramPoints;
 		this.xSize = 170;
