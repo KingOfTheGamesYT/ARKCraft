@@ -38,14 +38,16 @@ public class BlockStateGenerator {
 						if(notWriteComma){
 							notWriteComma = notWriteComma && c.ordinal() == BerryColor.VALUES.length - 1 && t.ordinal() == CropPlotType.VALUES.length - 1;
 						}
-						String head = "age="+i+",berry="+c.getName()+",type="+t.getName();
-						String model = "arkcraft:crop_plot_"+t.getName()+"_"+(i-1);
+						String head = "age="+i+",berry="+c.getName()+",transparent=!,type="+t.getName();
+						//String model = "arkcraft:crop_plot_"+t.getName()+"_"+(i-1);
+						String model = "arkcraft:crop_plot_"+(i-1);
 						String texture = BERRY_TEXTURE_PREFIX.replace("!", c.getName());
 						if(i == 0){
-							out.println("    \""+head+"\": { \"model\": \"arkcraft:crop_plot_"+t.getName()+"\"}" + (notWriteComma ? "" : ","));
+							out.println("    \""+head.replace("!", "false")+"\": { \"model\": \"arkcraft:crop_plot_"+t.getName()+"\"},");
 						}else
-							out.println("    \""+head+"\": { \"model\": \"arkcraft:crop_plot_"+t.getName()+"\", \"submodel\": {\"plant\": {\"model\": \""+model+"\"}}, \"textures\": {\"berry\": \""+texture+"\""+"} }" + (notWriteComma ? "" : ","));
-						System.out.println("[BSG]: Writing: "+head+" Resource names: Model: "+model+" Texture: "+texture);
+							out.println("    \""+head.replace("!", "false")+"\": { \"model\": \"arkcraft:crop_plot_"+t.getName()+"\", \"submodel\": {\"plant\": {\"model\": \""+model+"\"}}, \"textures\": {\"berry\": \""+texture+"\""+"} },");
+						out.println("    \""+head.replace("!", "true")+"\": { \"model\": \"arkcraft:crop_plot_transparent\"}" + (notWriteComma ? "" : ","));
+						System.out.println("[BSG]: Writing: "+head.replace("!", "<t>")+" Resource names: Model: "+model+" Texture: "+texture);
 					}
 				}
 			}

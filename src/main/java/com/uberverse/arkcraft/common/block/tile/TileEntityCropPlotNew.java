@@ -14,8 +14,10 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityHopper;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.IStringSerializable;
 
@@ -37,6 +39,7 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 	private int fertilizer = 0;
 	private int water = 0;
 	private ItemStack growing;
+	public Part part = Part.MIDDLE;
 	//private CropPlotType type = CropPlotType.SMALL;
 	@Override
 	public String getName() {
@@ -60,22 +63,24 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 
 	@Override
 	public ItemStack getStackInSlot(int index) {
-		return stack[index];
+		TileEntityCropPlotNew te = (TileEntityCropPlotNew) worldObj.getTileEntity(part.offset(pos, true));
+		return te.stack[index];
 	}
 
 	@Override
 	public ItemStack decrStackSize(int slot, int par2) {
-		if (this.stack[slot] != null) {
+		TileEntityCropPlotNew te = (TileEntityCropPlotNew) worldObj.getTileEntity(part.offset(pos, true));
+		if (te.stack[slot] != null) {
 			ItemStack itemstack;
-			if (this.stack[slot].stackSize <= par2) {
-				itemstack = this.stack[slot];
-				this.stack[slot] = null;
+			if (te.stack[slot].stackSize <= par2) {
+				itemstack = te.stack[slot];
+				te.stack[slot] = null;
 				return itemstack;
 			} else {
-				itemstack = this.stack[slot].splitStack(par2);
+				itemstack = te.stack[slot].splitStack(par2);
 
-				if (this.stack[slot].stackSize == 0) {
-					this.stack[slot] = null;
+				if (te.stack[slot].stackSize == 0) {
+					te.stack[slot] = null;
 				}
 				return itemstack;
 			}
@@ -93,7 +98,8 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack) {
-		this.stack[index] = stack;
+		TileEntityCropPlotNew te = (TileEntityCropPlotNew) worldObj.getTileEntity(part.offset(pos, true));
+		te.stack[index] = stack;
 	}
 
 	@Override
@@ -141,12 +147,13 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 
 	@Override
 	public void clear() {
-		stack = new ItemStack[this.getSizeInventory()];
+		TileEntityCropPlotNew te = (TileEntityCropPlotNew) worldObj.getTileEntity(part.offset(pos, true));
+		te.stack = new ItemStack[this.getSizeInventory()];
 	}
 
 	@Override
 	public void update() {
-		if(!worldObj.isRemote){
+		if(!worldObj.isRemote && !transparent){
 			for(int i = 0;i<10;i++){
 				if(stack[i] != null){
 					Item item = stack[i].getItem();
@@ -267,6 +274,8 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 		fertilizer = compound.getInteger("fertilizer");
 		state = CropPlotState.VALUES[compound.getInteger("cropState")];
 		growing = ItemStack.loadItemStackFromNBT(compound.getCompoundTag("growing"));
+		transparent = compound.getBoolean("transparent");
+		part = Part.VALUES[compound.getInteger("part")];
 		//getType() = CropPlotType.VALUES[compound.getInteger("plotType")];
 	}
 	@Override
@@ -289,6 +298,8 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 		NBTTagCompound g = new NBTTagCompound();
 		if(growing != null)growing.writeToNBT(g);
 		compound.setTag("growing", g);
+		compound.setBoolean("transparent", transparent);
+		compound.setInteger("part", part.ordinal());
 		//compound.setInteger("plotType", getType().ordinal());
 		//return compound; //for mc 1.9
 	}
@@ -357,6 +368,12 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 	private String seedName = "arkcraft.empty", stateName = "...", stringType = "...";
 	@Override
 	public void writeToNBTPacket(NBTTagCompound tag) {
+		TileEntity tile = worldObj.getTileEntity(part.offset(pos, true));
+		if(tile instanceof TileEntityCropPlotNew){
+			((TileEntityCropPlotNew)tile).writeToNBTPacket_p(tag);
+		}
+	}
+	private void writeToNBTPacket_p(NBTTagCompound tag){
 		tag.setInteger("w", water);
 		tag.setString("n", growing != null ? growing.getUnlocalizedName() : "arkcraft.empty");
 		tag.setInteger("s", state.ordinal());
@@ -370,7 +387,7 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 			}
 		}
 		tag.setInteger("f", f);
-		//tag.setInteger("t", type.ordinal());
+		tag.setInteger("t", getType().ordinal());
 	}
 
 	@Override
@@ -380,7 +397,7 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 		stateName = "arkcraft.cropPlotState." + CropPlotState.VALUES[tag.getInteger("s")].name().toLowerCase();
 		fertilizerClient = tag.getInteger("f");
 		//type = CropPlotType.VALUES[tag.getInteger("t")];
-		stringType = "tile.crop_plot." + getType().name().toLowerCase() + ".name";
+		stringType = "tile.crop_plot." + CropPlotType.VALUES[tag.getInteger("t")].name().toLowerCase() + ".name";
 	}
 
 	public ItemStack[] getStack() {
@@ -416,13 +433,54 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 	@Override
 	public void writeToPacket(NBTTagCompound tag) {
 		tag.setInteger("c", getGrowingColor().ordinal());
+		tag.setBoolean("t", transparent);
+		tag.setInteger("p", part.ordinal());
 	}
 	@Override
 	public void readFromPacket(NBTTagCompound tag) {
 		colorClient = BerryColor.VALUES[tag.getInteger("c")];
+		transparent = tag.getBoolean("t");
+		part = Part.VALUES[tag.getInteger("p")];
 	}
 	private BerryColor colorClient = BerryColor.AMAR;
+	public boolean transparent;
 	public BerryColor getGrowingColor() {
 		return worldObj.isRemote ? colorClient : (growing != null && growing.getItem() instanceof ARKCraftSeed ? ((ARKCraftSeed)growing.getItem()).getBerryColor(growing) : BerryColor.AMAR);
+	}
+
+	public boolean isTransparent() {
+		return part != Part.MIDDLE;
+	}
+	public static enum Part{
+		MIDDLE(null, null), NORTH(EnumFacing.NORTH, null), NORTH_EAST(EnumFacing.NORTH, EnumFacing.EAST),
+		NORTH_WEST(EnumFacing.NORTH, EnumFacing.WEST), SOUTH(EnumFacing.SOUTH, null),
+		SOUTH_EAST(EnumFacing.SOUTH, EnumFacing.EAST), SOUTH_WEST(EnumFacing.SOUTH, EnumFacing.WEST),
+		WEST(EnumFacing.WEST, null), EAST(EnumFacing.EAST, null)
+
+		;
+		private final EnumFacing m, s;
+		private Part(EnumFacing m, EnumFacing s) {
+			this.m = m;
+			this.s = s;
+		}
+		public static final Part[] VALUES = values();
+		public static Part getPart(EnumFacing m, EnumFacing s){
+			if(m.getOpposite() == s)return null;
+			for(Part p : VALUES){
+				if(p.m == m && p.s == s){
+					return p;
+				}
+			}
+			return NORTH_WEST;
+		}
+		public BlockPos offset(BlockPos pos, boolean reverse){
+			if(m != null){
+				pos = pos.offset(reverse ? m.getOpposite() : m);
+				if(s != null){
+					pos = pos.offset(reverse ? s.getOpposite() : s);
+				}
+			}
+			return pos;
+		}
 	}
 }

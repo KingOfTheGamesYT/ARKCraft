@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
@@ -13,6 +14,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
@@ -32,6 +34,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew;
 import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew.CropPlotType;
+import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew.Part;
 import com.uberverse.arkcraft.common.item.ARKCraftSeed;
 
 /**
@@ -43,6 +46,7 @@ public class BlockCropPlot extends BlockContainer
 	public static final PropertyInteger AGE = PropertyInteger.create("age", 0, GROWTH_STAGES);
 	public static final PropertyEnum TYPE = PropertyEnum.create("type", CropPlotType.class);
 	public static final PropertyEnum BERRY = PropertyEnum.create("berry", BerryColor.class);
+	public static final PropertyBool TRANSPARENT = PropertyBool.create("transparent");
 	private int renderType = 3; // default value
 	private boolean isOpaque = false;
 	private int ID;
@@ -71,20 +75,26 @@ public class BlockCropPlot extends BlockContainer
 	{
 		if (!playerIn.isSneaking())
 		{
-			if(playerIn.getHeldItem() != null && playerIn.getHeldItem().getItem() instanceof ARKCraftSeed && ((Integer)state.getValue(AGE)) == 0){
-				ItemStack s = playerIn.getHeldItem().splitStack(1);
-				s = TileEntityHopper.func_174918_a((IInventory) worldIn.getTileEntity(pos), s, null);
-				if(s != null){
-					if(!playerIn.inventory.addItemStackToInventory(s)){
-						EntityItem item = new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), s);
-						worldIn.spawnEntityInWorld(item);
-					}
-				}
+			TileEntityCropPlotNew te = (TileEntityCropPlotNew) worldIn.getTileEntity(pos);
+			if(te.part != Part.MIDDLE){
+				BlockPos pos2 = te.part.offset(pos, true);
+				return this.onBlockActivated(worldIn, pos2, worldIn.getBlockState(pos2), playerIn, side, hitX, hitY, hitZ);
 			}else{
-				playerIn.openGui(ARKCraft.instance(), ID, worldIn, pos.getX(), pos.getY(),
-						pos.getZ());
+				if(playerIn.getHeldItem() != null && playerIn.getHeldItem().getItem() instanceof ARKCraftSeed && ((Integer)state.getValue(AGE)) == 0){
+					ItemStack s = playerIn.getHeldItem().splitStack(1);
+					s = TileEntityHopper.func_174918_a((IInventory) worldIn.getTileEntity(pos), s, null);
+					if(s != null){
+						if(!playerIn.inventory.addItemStackToInventory(s)){
+							EntityItem item = new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), s);
+							worldIn.spawnEntityInWorld(item);
+						}
+					}
+				}else{
+					playerIn.openGui(ARKCraft.instance(), ID, worldIn, pos.getX(), pos.getY(),
+							pos.getZ());
+				}
+				return true;
 			}
-			return true;
 		}
 		return false;
 	}
@@ -145,7 +155,7 @@ public class BlockCropPlot extends BlockContainer
 	@Override
 	protected BlockState createBlockState()
 	{
-		return new BlockState(this, new IProperty[] { AGE, TYPE, BERRY });
+		return new BlockState(this, new IProperty[] { AGE, TYPE, BERRY, TRANSPARENT });
 	}
 
 	/**
@@ -177,18 +187,42 @@ public class BlockCropPlot extends BlockContainer
 	}*/
 	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
-		TileEntity tile = worldIn.getTileEntity(pos);
-		if(tile != null)InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) tile);
+		TileEntityCropPlotNew tile = (TileEntityCropPlotNew) worldIn.getTileEntity(pos);
+		if(tile != null)InventoryHelper.dropInventoryItems(worldIn, pos, tile);
+		CropPlotType t = (CropPlotType) state.getValue(TYPE);
+		if(tile.part == Part.MIDDLE){
+			if(t != CropPlotType.SMALL){
+				for(Part p : Part.VALUES){
+					if(p != Part.MIDDLE){
+						BlockPos pos2 = p.offset(pos, false);
+						worldIn.setBlockState(pos2, Blocks.air.getDefaultState());
+					}
+				}
+			}
+		}else{
+			worldIn.setBlockState(tile.part.offset(pos, true), Blocks.air.getDefaultState());
+		}
 		super.breakBlock(worldIn, pos, state);
 	}
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer,
 			ItemStack stack) {
 		TileEntity tile = worldIn.getTileEntity(pos);
-		worldIn.setBlockState(pos, state.withProperty(TYPE, CropPlotType.VALUES[stack.getMetadata() % 3]));
+		CropPlotType t = CropPlotType.VALUES[stack.getMetadata() % 3];
+		worldIn.setBlockState(pos, state.withProperty(TYPE, t));
 		if(tile != null){
 			tile.validate();
 			worldIn.setTileEntity(pos, tile);
+		}
+		if(t != CropPlotType.SMALL){
+			for(Part p : Part.VALUES){
+				if(p != Part.MIDDLE){
+					BlockPos pos2 = p.offset(pos, false);
+					worldIn.setBlockState(pos2, state);
+					TileEntityCropPlotNew te = (TileEntityCropPlotNew) worldIn.getTileEntity(pos2);
+					te.part = p;
+				}
+			}
 		}
 	}
 	/**
@@ -231,7 +265,7 @@ public class BlockCropPlot extends BlockContainer
 		TileEntity tile = worldIn.getTileEntity(pos);
 		if(tile instanceof TileEntityCropPlotNew){
 			TileEntityCropPlotNew te = (TileEntityCropPlotNew) tile;
-			return state.withProperty(BERRY, te.getGrowingColor());
+			return state.withProperty(BERRY, te.getGrowingColor()).withProperty(TRANSPARENT, te.isTransparent());
 		}
 		return state;
 	}
