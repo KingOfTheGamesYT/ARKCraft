@@ -78,10 +78,10 @@ public class GuiSmithy extends GuiContainer
 		int buttonId = 0;
 		buttonList.clear();
 		buttonPrevRecipe = new GuiButton(buttonId++, guiLeft + LEFT_BUTTON_XPOS,
-				guiTop + LEFT_BUTTON_YPOS, LEFT_BUTTON_WIDTH, LEFT_BUTTON_HEIGHT, "<<");
+				guiTop + LEFT_BUTTON_YPOS, LEFT_BUTTON_WIDTH, LEFT_BUTTON_HEIGHT, "<=");
 		buttonList.add(buttonPrevRecipe);
 		buttonNextRecipe = new GuiButton(buttonId++, guiLeft + RIGHT_BUTTON_XPOS,
-				guiTop + RIGHT_BUTTON_YPOS, RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT, ">>");
+				guiTop + RIGHT_BUTTON_YPOS, RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT, "=>");
 		buttonList.add(buttonNextRecipe);
 		buttonCraftAll = new GuiButton(buttonId++, guiLeft + CRAFT_BUTTON_XPOS,
 				guiTop + CRAFT_BUTTON_YPOS, CRAFT_BUTTON_WIDTH, CRAFT_BUTTON_HEIGHT, "Craft All");

@@ -390,7 +390,6 @@ public class ClientEventHandler {
 			TileInventorySmithy te = ((GuiSmithy) mc.currentScreen).tileEntity;
 			ItemStack stack = te.inventoryBlueprints.getStackInSlot(0);
 			if(event.itemStack == stack){
-				event.toolTip.add("arkcraft.tooltip.recipe");
 				List recipeList = SmithyCraftingManager.getInstance().getRecipeList();
 				for(int i = 0;i<recipeList.size();i++){
 					if(recipeList.get(i) instanceof ARKShapelessRecipe){

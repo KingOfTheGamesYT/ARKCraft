@@ -1,6 +1,7 @@
 {
     "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
     "textures": {
+        "particle": "blocks/planks_oak",
         "0": "blocks/cobblestone",
         "1": "blocks/planks_oak",
         "2": "blocks/dirt"
@@ -299,7 +300,7 @@
         {
             "name": "dirt",
             "from": [ 3.000000014901161, 0.0, 3.0 ], 
-            "to": [ 13.000000014901161, -1.4901161193847656E-8, 13.0 ], 
+            "to": [ 13.000000014901161, 0.2, 13.0 ], 
             "faces": {
                 "north": { "texture": "#2", "uv": [ 0.0, 0.0, 10.0, -1.4901161193847656E-8 ] },
                 "east": { "texture": "#2", "uv": [ 0.0, 0.0, 10.0, -1.4901161193847656E-8 ] },

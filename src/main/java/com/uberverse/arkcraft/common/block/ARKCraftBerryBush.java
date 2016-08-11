@@ -12,8 +12,10 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
@@ -52,12 +54,11 @@ public class ARKCraftBerryBush extends Block {
 		worldIn.setBlockState(pos, state.withProperty(HARVEST_COUNT, 3));
 	}
 
-	public Item getHarvestItem(Random rand) {
-		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+	public Item getHarvestItem(Random rand, EntityPlayer player) {
 		ItemStack heldStack = player.getCurrentEquippedItem();
 
 		//TODO replace spyglass with sickle
-		if (heldStack != null && heldStack.getItem() == ARKCraftItems.spy_glass) {
+		if (heldStack != null && heldStack.getItem() == ARKCraftItems.metal_sickle) {
 			if (rand.nextInt(30) <= 15) {
 				return ARKCraftItems.fiber;
 			}
@@ -76,15 +77,6 @@ public class ARKCraftBerryBush extends Block {
 		}
 
 		return null;
-
-		/*
-		 * else if (rand.nextInt(10) <= 4) { return rand.nextInt(10) <= 5 ?
-		 * ARKCraftItems.amarBerry : ARKCraftItems.narcoBerry; } else if
-		 * (rand.nextInt(15) <= 4) { return ARKCraftItems.stimBerry; } else if
-		 * (rand.nextInt(10) >= 4 && rand.nextInt(10) <= 8) { return
-		 * rand.nextInt(10) <= 5 ? ARKCraftItems.mejoBerry :
-		 * ARKCraftItems.tintoBerry; } else { return ARKCraftItems.azulBerry; }
-		 */
 	}
 
 	public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
@@ -92,13 +84,13 @@ public class ARKCraftBerryBush extends Block {
 	}
 
 	public void onLeftClicked(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn) {
-		if (!worldIn.isRemote) {
+		if (worldIn.isRemote) {
 			int harvestCount = getMetaFromState(state);
 			if (harvestCount > 0) {
 				this.setBlockUnbreakable();
 				for (int i = 0; i < ModuleItemBalance.PLANTS.BERRIES_MIN_PER_PICKING
 						|| i <= worldIn.rand.nextInt(ModuleItemBalance.PLANTS.BERRIES_MAX_PER_PICKING); i++) {
-					Item itemPicked = getHarvestItem(worldIn.rand);
+					Item itemPicked = getHarvestItem(worldIn.rand, playerIn);
 					this.entityDropItem(worldIn, pos, playerIn, new ItemStack(itemPicked, 1, 0));
 				}
 				worldIn.setBlockState(pos, state.withProperty(HARVEST_COUNT, harvestCount - 1));

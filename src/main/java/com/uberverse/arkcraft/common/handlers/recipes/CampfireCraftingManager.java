@@ -5,18 +5,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.uberverse.arkcraft.common.handlers.CampfireRecipe;
+import com.uberverse.arkcraft.init.ARKCraftItems;
+
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-import com.uberverse.arkcraft.common.handlers.ForgeRecipe;
-import com.uberverse.arkcraft.init.ARKCraftItems;
-
-public class ForgeCraftingHandler
+public class CampfireCraftingManager
 {
-	public static void registerForgeRecipes()
+	public static void registerCampfireRecipes()
 	{
-		registerMetalRecipe();
+		registerCookedMeat();
 		registerFuels();
 	}
 
@@ -24,19 +24,19 @@ public class ForgeCraftingHandler
 	{
 		registerFuel(ARKCraftItems.wood, 600);
 		registerFuel(ARKCraftItems.thatch, 140);
-		//registerFuel(ARKCraftItems.spark_powder, 1200);
+	//	registerFuel(ARKCraftItems.spark_powder, 1200);
 	}
 
-	private static void registerMetalRecipe()
+	private static void registerCookedMeat()
 	{
-		ForgeRecipe r = new ForgeRecipe("metalIngot");
-		r.addInputItems(ARKCraftItems.metal, ARKCraftItems.metal);
-		r.setOutputItem(ARKCraftItems.spear);
+		CampfireRecipe r = new CampfireRecipe("meatCooked");
+		r.addInputItems(ARKCraftItems.meat_raw, ARKCraftItems.meat_raw);
+		r.setOutputItem(ARKCraftItems.meat_cooked);
 		r.setBurnTime(1);
 		registerRecipe(r.toString(), r);
 	}
 
-	private static Map<String, ForgeRecipe> recipes = new HashMap<String, ForgeRecipe>();
+	private static Map<String, CampfireRecipe> recipes = new HashMap<String, CampfireRecipe>();
 	private static Map<Item, Integer> fuels = new HashMap<Item, Integer>();
 
 	public static boolean registerFuel(Item i, int burnTime)
@@ -44,12 +44,12 @@ public class ForgeCraftingHandler
 		return fuels.put(i, new Integer(burnTime)) == null;
 	}
 
-	public static void registerRecipe(String id, ForgeRecipe recipe)
+	public static void registerRecipe(String id, CampfireRecipe recipe)
 	{
 		recipes.put(id, recipe);
 	}
 
-	public static Map<String, ForgeRecipe> getRecipes()
+	public static Map<String, CampfireRecipe> getRecipes()
 	{
 		return recipes;
 	}
@@ -64,10 +64,10 @@ public class ForgeCraftingHandler
 		return fuels.get(i);
 	}
 
-	public static List<ForgeRecipe> findPossibleRecipes(IInventory inv)
+	public static List<CampfireRecipe> findPossibleRecipes(IInventory inv)
 	{
-		List<ForgeRecipe> list = new ArrayList<ForgeRecipe>();
-		for (ForgeRecipe r : recipes.values())
+		List<CampfireRecipe> list = new ArrayList<CampfireRecipe>();
+		for (CampfireRecipe r : recipes.values())
 		{
 			List<Item> inputs = new ArrayList<Item>(r.getInput());
 			for (int i = 0; i < inv.getSizeInventory(); i++)
@@ -90,7 +90,7 @@ public class ForgeCraftingHandler
 		return list;
 	}
 
-	public static ForgeRecipe getForgeRecipe(String id)
+	public static CampfireRecipe getCampfireRecipe(String id)
 	{
 		return recipes.get(id);
 	}
