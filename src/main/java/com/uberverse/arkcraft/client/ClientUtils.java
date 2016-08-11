@@ -1,5 +1,7 @@
 package com.uberverse.arkcraft.client;
 
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
 import java.util.Iterator;
 import java.util.List;
 
@@ -9,7 +11,6 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
-
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -136,4 +137,5 @@ public class ClientUtils {
 		GlStateManager.enableTexture2D();
 	}
 	private static float zLevel = 0F;
+	
 }

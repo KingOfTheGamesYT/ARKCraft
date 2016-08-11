@@ -1,21 +1,16 @@
 package com.uberverse.arkcraft.common.handlers;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
-
-import net.minecraftforge.fml.common.network.IGuiHandler;
-
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.gui.GUIAttachment;
 import com.uberverse.arkcraft.client.gui.GUICompostBin;
+import com.uberverse.arkcraft.client.gui.GUIEngram;
 import com.uberverse.arkcraft.client.gui.GUIForge;
 import com.uberverse.arkcraft.client.gui.GuiCropPlotNew;
 import com.uberverse.arkcraft.client.gui.GuiMP;
 import com.uberverse.arkcraft.client.gui.GuiPlayerCrafting;
 import com.uberverse.arkcraft.client.gui.GuiSmithy;
 import com.uberverse.arkcraft.common.block.container.ContainerCropPlotNew;
+import com.uberverse.arkcraft.common.block.container.ContainerEngram;
 import com.uberverse.arkcraft.common.block.container.ContainerInventoryCompostBin;
 import com.uberverse.arkcraft.common.block.container.ContainerInventoryForge;
 import com.uberverse.arkcraft.common.block.container.ContainerInventoryMP;
@@ -28,7 +23,14 @@ import com.uberverse.arkcraft.common.block.tile.TileInventoryMP;
 import com.uberverse.arkcraft.common.block.tile.TileInventorySmithy;
 import com.uberverse.arkcraft.common.container.ContainerInventoryAttachment;
 import com.uberverse.arkcraft.common.container.inventory.InventoryAttachment;
+import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
 import com.uberverse.lib.LogHelper;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.IGuiHandler;
 
 public class GuiHandler implements IGuiHandler
 {
@@ -106,6 +108,11 @@ public class GuiHandler implements IGuiHandler
 				LogHelper
 				.info("GuiHandler - getClientGuiElement: TileEntityForge not found!");
 			}
+		}
+		else if (ID == ARKCraft.GUI.ENGRAM_GUI.getID())
+		{
+			//FMLClientHandler.instance().displayGuiScreen(player, new GUIEngram(player, player.inventory, ARKPlayer.get(player)));
+			return new ContainerEngram(player.inventory, player);
 		}
 		/*else if (ID == ARKCraft.GUI.CROP_PLOT.getID())
 		{
@@ -243,6 +250,10 @@ public class GuiHandler implements IGuiHandler
 				LogHelper
 				.info("GuiHandler - getClientGuiElement: TileEntityForge not found!");
 			}
+		}
+		else if (ID == ARKCraft.GUI.ENGRAM_GUI.getID())
+		{
+			return new GUIEngram(player, player.inventory, ARKPlayer.get(player).getEngramPoints());
 		}
 		else if (ID == ARKCraft.GUI.COMPOST_BIN.getID())
 		{

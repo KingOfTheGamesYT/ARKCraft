@@ -137,7 +137,8 @@ public class ARKCraft
 		PLAYER(8),
 		TAMED_DINO(9),
 		FORGE_GUI(10),
-		ATTACHMENT_GUI(11);
+		ATTACHMENT_GUI(11),
+		ENGRAM_GUI(12);
 		int id;
 
 		GUI(int id)

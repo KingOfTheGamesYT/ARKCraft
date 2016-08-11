@@ -10,7 +10,7 @@ import net.minecraft.inventory.Slot;
  * @author ERBF
  *
  */
-public class ContainerEngram extends Container 
+public class ContainerEngram extends Container implements IContainerScrollable
 {
 
 	public ContainerEngram(InventoryPlayer inventory, EntityPlayer player)
@@ -37,6 +37,76 @@ public class ContainerEngram extends Container
 	        return false;
 	    }
 		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.uberverse.arkcraft.common.block.container.IContainerScrollable#getScrollingOffset()
+	 */
+	@Override
+	public int getScrollingOffset() {
+		
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.uberverse.arkcraft.common.block.container.IContainerScrollable#scroll(int)
+	 */
+	@Override
+	public void scroll(int offset) {
+	}
+
+	/* (non-Javadoc)
+	 * @see com.uberverse.arkcraft.common.block.container.IContainerScrollable#getScrollableSlotsWidth()
+	 */
+	@Override
+	public int getScrollableSlotsWidth() {
+		
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.uberverse.arkcraft.common.block.container.IContainerScrollable#getScrollableSlotsHeight()
+	 */
+	@Override
+	public int getScrollableSlotsHeight() {
+		
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.uberverse.arkcraft.common.block.container.IContainerScrollable#getScrollableSlotsCount()
+	 */
+	@Override
+	public int getScrollableSlotsCount() {
+		
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.uberverse.arkcraft.common.block.container.IContainerScrollable#getRequiredSlotsCount()
+	 */
+	@Override
+	public int getRequiredSlotsCount() {
+		
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.uberverse.arkcraft.common.block.container.IContainerScrollable#getMaxOffset()
+	 */
+	@Override
+	public int getMaxOffset() {
+		
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.uberverse.arkcraft.common.block.container.IContainerScrollable#getRelativeScrollingOffset()
+	 */
+	@Override
+	public double getRelativeScrollingOffset() {
+		
+		return 0;
 	}
 	
 }

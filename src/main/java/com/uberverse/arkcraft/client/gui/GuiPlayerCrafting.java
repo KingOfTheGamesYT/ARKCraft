@@ -34,6 +34,7 @@ public class GuiPlayerCrafting extends GuiContainer
     private InventoryBlueprints inventoryBlueprints;
     private GuiButton[] buttonCraftOne;
     private GuiButton engramButton;
+    private EntityPlayer player;
 
     public GuiPlayerCrafting(InventoryPlayer invPlayer, EntityPlayer player)
     {
@@ -41,6 +42,7 @@ public class GuiPlayerCrafting extends GuiContainer
         inventoryBlueprints = ARKPlayer.get(player).getInventoryBlueprints();
         LogHelper.info("GuiPlayerCrafting: Constructor called on " + FMLCommonHandler.instance().getEffectiveSide());
 
+        this.player = player;
         this.xSize = 175;
         this.ySize = 242;
     }
@@ -90,7 +92,8 @@ public class GuiPlayerCrafting extends GuiContainer
     protected void actionPerformed(GuiButton button)
     {
     	if(button == engramButton) {
-    		Minecraft.getMinecraft().displayGuiScreen(null);
+    		//Minecraft.getMinecraft().displayGuiScreen(null);
+    		player.openGui(ARKCraft.instance, ARKCraft.GUI.ENGRAM_GUI.getID(), player.worldObj, 0, 0, 0);
     	} else {
     		for (int row = 0; row < ContainerInventoryPlayerCrafting.NUM_ROWS_BP; row++)
             {

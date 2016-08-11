@@ -201,3 +201,7 @@ arkcraft.water=%s: %d/%d (%s)
 arkcraft.cropPlotWater.irrigated=Irrigated
 arkcraft.cropPlotWater.notIrrigated=Not Irrigated
 arkcraft.tooltip.ingredient=* %s * %d
+
+# Engrams
+ark.engram.learn=Learn Engram
+ark.engram.close=Close

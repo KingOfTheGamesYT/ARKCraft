@@ -36,7 +36,7 @@ public class ARKPlayer implements IExtendedEntityProperties
 	// constructor and in NBT):
 	private boolean canPoop; // True if player can poop (timer sets this)
 	// actual stats
-	private int health, oxygen, food, water, damage, speed, stamina, torpor, xp, level;
+	private int health, oxygen, food, water, damage, speed, stamina, torpor, xp, level, engramPoints;
 	// max stats
 	private int maxHealth, maxOxygen, maxFood, maxWater, maxDamage, maxSpeed, maxStamina;
 	//actual weights
@@ -57,6 +57,7 @@ public class ARKPlayer implements IExtendedEntityProperties
 		//For player carry weight
 		this.carryWeight = 0.0;
 		this.weight = 100.0;
+		this.engramPoints = 0;
 		this.engrams = new ArrayList<Object>();
 	}
 
@@ -95,6 +96,7 @@ public class ARKPlayer implements IExtendedEntityProperties
 		properties.setInteger("torpor", torpor);
 		properties.setInteger("xp", xp);
 		properties.setInteger("level", level);
+		properties.setInteger("engramPoints", engramPoints);
 		properties.setDouble("carryWeight", carryWeight);
 		properties.setDouble("weight", weight);
 
@@ -130,6 +132,7 @@ public class ARKPlayer implements IExtendedEntityProperties
 		properties.setInteger("torpor", torpor);
 		properties.setInteger("xp", xp);
 		properties.setInteger("level", level);
+		properties.setInteger("engramPoints", engramPoints);
 		properties.setDouble("carryWeight", carryWeight);
 
 		properties.setInteger("maxHealth", maxHealth);
@@ -181,6 +184,12 @@ public class ARKPlayer implements IExtendedEntityProperties
 		this.weight = weight;
 		syncClient(player, false);
 	}
+	
+	public void setEngramPoints(int engramPoints)
+	{
+		this.engramPoints = engramPoints;
+		syncClient(player, false);
+	}
 
 	public int getWater()
 	{
@@ -210,6 +219,11 @@ public class ARKPlayer implements IExtendedEntityProperties
 	public double getCarryWeightRatio() 
 	{
 		return (double) carryWeight / weight;
+	}
+	
+	public int getEngramPoints()
+	{
+		return engramPoints;
 	}
 
 	/**
