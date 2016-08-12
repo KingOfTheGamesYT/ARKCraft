@@ -205,6 +205,17 @@ arkcraft.tooltip.ingredient=* %s * %d
 
 # Engrams
 ark.engram.learn=Learn Engram
+ark.engram.learn.true=Learned
+ark.engram.learn.false=Unlearned
 ark.engram.close=Close
+ark.engram.consume=Consumes EP
+
+# Engram Items
+item.engramStonePick.name=Stone Pick
+item.engramTorch.name=Torch
+
+# Engram Item Description
+engram.engramStonePick.desc=For harvesting.
+engram.engramTorch.desc=Provides light, and some warmth. 
 
 arkcraft.toolLevel.primitive=Primitive

@@ -103,6 +103,8 @@ public class ARKPlayer implements IExtendedEntityProperties
 		properties.setInteger("engramPoints", engramPoints);
 		properties.setDouble("carryWeight", carryWeight);
 		properties.setDouble("weight", weight);
+		
+		this.engramInv.writeToNBT(properties);
 
 		properties.setInteger("maxHealth", maxHealth);
 		properties.setInteger("maxOxygen", maxOxygen);
@@ -138,6 +140,8 @@ public class ARKPlayer implements IExtendedEntityProperties
 		properties.setInteger("level", level);
 		properties.setInteger("engramPoints", engramPoints);
 		properties.setDouble("carryWeight", carryWeight);
+		
+		this.engramInv.readFromNBT(properties);
 
 		properties.setInteger("maxHealth", maxHealth);
 		properties.setInteger("maxOxygen", maxOxygen);

@@ -44,6 +44,7 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.client.gui.GUIEngram;
 import com.uberverse.arkcraft.client.gui.GuiSmithy;
 import com.uberverse.arkcraft.common.block.tile.IHoverInfo;
 import com.uberverse.arkcraft.common.block.tile.TileInventorySmithy;
@@ -56,6 +57,7 @@ import com.uberverse.arkcraft.common.event.CommonEventHandler;
 import com.uberverse.arkcraft.common.handlers.ARKShapelessRecipe;
 import com.uberverse.arkcraft.common.handlers.recipes.SmithyCraftingManager;
 import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
+import com.uberverse.arkcraft.common.item.engram.Engram;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
 import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
@@ -164,10 +166,12 @@ public class ClientEventHandler {
 	{
 		if(WeightsConfig.isEnabled) {
 			ItemStack stack = event.itemStack;
-			double weight = CalcPlayerWeight.getWeight(stack);
-			event.toolTip.add(EnumChatFormatting.BOLD + "" + EnumChatFormatting.WHITE + "Weight: " + weight);
-			if(stack.stackSize > 1) {
-				event.toolTip.add("Stack Weight: " + (weight * stack.stackSize));
+			if(!(stack.getItem() instanceof Engram)) {
+				double weight = CalcPlayerWeight.getWeight(stack);
+				event.toolTip.add(EnumChatFormatting.BOLD + "" + EnumChatFormatting.WHITE + "Weight: " + weight);
+				if(stack.stackSize > 1) {
+					event.toolTip.add("Stack Weight: " + (weight * stack.stackSize));
+				}
 			}
 		}
 	}
@@ -404,6 +408,17 @@ public class ClientEventHandler {
 					}
 				}
 			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void engramTooltip(ItemTooltipEvent event) 
+	{
+		EntityPlayer player = event.entityPlayer;
+		if(event.itemStack.getItem() instanceof Engram) {
+			Engram engram = (Engram) event.itemStack.getItem();
+			GUIEngram.setEngramTitle(engram.getFormattedName());
+			GUIEngram.setEngramDescription(engram.getFormattedDesc());
 		}
 	}
 }

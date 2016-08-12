@@ -1,10 +1,12 @@
 package com.uberverse.arkcraft.common.block.container;
 
 import com.uberverse.arkcraft.common.inventory.InventoryPlayerEngram;
+import com.uberverse.arkcraft.common.item.engram.ARKCraftEngrams;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 
 /**
  * @author ERBF
@@ -15,9 +17,14 @@ public class ContainerEngram extends Container implements IContainerScrollable
 
 	public ContainerEngram(InventoryPlayerEngram inventory, EntityPlayer player)
 	{
+		int index = 0;
 		for (int y = 0; y < 4; ++y) {
 	        for (int x = 0; x < 8; ++x) {
-	            this.addSlotToContainer(new EngramSlot(inventory, x + y * 3, 1 + x * 20, 44 + y * 20));
+	            this.addSlotToContainer(new EngramSlot(inventory, index, 1 + x * 20, 44 + y * 20));
+	            try {
+	            	inventory.setInventorySlotContents(index, new ItemStack(ARKCraftEngrams.engramList.get(index)));
+	            } catch (IndexOutOfBoundsException e) {}
+	            index++;
 	        }
 	    }
 	}

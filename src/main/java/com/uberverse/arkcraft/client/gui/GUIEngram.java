@@ -10,6 +10,7 @@ import com.uberverse.arkcraft.common.block.container.ContainerEngram;
 import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
 import com.uberverse.arkcraft.common.inventory.InventoryPlayerEngram;
 
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
@@ -31,8 +32,8 @@ public class GUIEngram extends GuiContainer
 	
 	private EntityPlayer player;
 	
-	private static String engramTitle = "null";
-	private static String engramDesc = "null";
+	private static String engramTitle = "(null)";
+	private static String engramDesc = "(null)";
 	private int engramPoints;
 	
 	public GUIEngram(EntityPlayer player, int engramPoints)
@@ -72,8 +73,8 @@ public class GUIEngram extends GuiContainer
 	{
 		String s = "Engram Points: " + engramPoints;
 		fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, -10, 4210752);
-		fontRendererObj.drawString(engramTitle, xSize / 2 - fontRendererObj.getStringWidth(engramTitle), 6, 4210752);
-		fontRendererObj.drawString(engramDesc, xSize / 2 - fontRendererObj.getStringWidth(engramDesc), 18, 4210752);
+		fontRendererObj.drawString(engramTitle, /*xSize / 2 - fontRendererObj.getStringWidth(engramTitle)*/ drawHalfWidth(engramTitle, fontRendererObj, xSize), 6, 4210752);
+		fontRendererObj.drawString(engramDesc, /*xSize / 2 - fontRendererObj.getStringWidth(engramDesc)*/ drawHalfWidth(engramDesc, fontRendererObj, xSize), 18, 4210752);
 	}
 	
 	@Override
@@ -85,6 +86,31 @@ public class GUIEngram extends GuiContainer
 			//oh boy
 			this.engramPoints = ARKPlayer.get(player).getEngramPoints(); //Updates engram count
 		}
+	}
+	
+	private static int drawHalfWidth(String string, FontRenderer renderer, int xSize)
+	{
+		return xSize / 2 - renderer.getStringWidth(string);
+	}
+	
+	public static String getEngramTitle() 
+	{
+		return engramTitle;
+	}
+	
+	public static void setEngramTitle(String newTitle)
+	{
+		engramTitle = newTitle;
+	}
+	
+	public static String getEngramDescription()
+	{
+		return engramDesc;
+	}
+	
+	public static void setEngramDescription(String newDesc)
+	{
+		engramDesc = newDesc;
 	}
 	
 }

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.uberverse.arkcraft.client.engram;
+package com.uberverse.arkcraft.common.item.engram;
 
 /**
  * @author ERBF | Aug 9, 2016

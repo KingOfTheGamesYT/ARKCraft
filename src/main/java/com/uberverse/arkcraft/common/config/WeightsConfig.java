@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.item.engram.Engram;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -50,7 +51,9 @@ public class WeightsConfig
 		List<Item> itemList = ImmutableList.copyOf(Item.itemRegistry);
 		for(Item item : itemList)
 		{
-			config.getFloat(item.getUnlocalizedName().substring(5, item.getUnlocalizedName().length()), GENERAL, (int) genNewWeight(item.getUnlocalizedName().charAt(6)), 0, 16, "Sets the carry weight of item " + item.getUnlocalizedName().substring(5, item.getUnlocalizedName().length()));
+			if(!(item instanceof Engram)) {
+				config.getFloat(item.getUnlocalizedName().substring(5, item.getUnlocalizedName().length()), GENERAL, (int) genNewWeight(item.getUnlocalizedName().charAt(6)), 0, 16, "Sets the carry weight of item " + item.getUnlocalizedName().substring(5, item.getUnlocalizedName().length()));
+			}
 		}
 		
 		List<Block> blockList = ImmutableList.copyOf(Block.blockRegistry);
