@@ -1,108 +1,189 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "textures": {
-            "berry": "blocks/planks_oak"
-        }
-    },
-    "variants": {
-        "type":{
-            "small":{
-                "model": "arkcraft:crop_plot_small"
-            },
-            "medium":{
-                "model": "arkcraft:crop_plot_medium"
-            },
-            "large":{
-                "model": "arkcraft:crop_plot_large"
-            }
-        },
-        "age":{
-            0:{},
-            1:{
-//                "type":{
-//                    "small":{
-                        "submodel": "arkcraft:plant1"
-//                    },
-//                    "medium":{
-//                        "submodel": "arkcraft:plant1"
-//                    },
-//                    "large":{
-//                        "submodel": "arkcraft:largePlant1"
-//                    }
-//                }
-            },
-            2:{
-//                "type":{
-//                    "small":{
-                        "submodel": "arkcraft:plant2"
-//                    },
-//                    "medium":{
-//                        "submodel": "arkcraft:plant2"
-//                    },
-//                    "large":{
-//                        "submodel": "arkcraft:largePlant2"
-//                    }
-//                }
-            },
-            3:{
-//                "type":{
-//                    "small":{
-                        "submodel": "arkcraft:plant3"
-//                    },
-//                    "medium":{
-//                        "submodel": "arkcraft:plant3"
-//                    },
-//                    "large":{
-//                        "submodel": "arkcraft:largePlant3"
-//                    }
-//                }
-            },
-            4:{
-//                "type":{
-//                    "small":{
-                        "submodel": "arkcraft:plant4"
-//                    },
-//                    "medium":{
-//                        "submodel": "arkcraft:plant4"
-//                    },
-//                    "large":{
-//                        "submodel": "arkcraft:largePlant4"
-//                    }
-//                }
-            }
-        },
-        "berry":{
-            "amar":{
-                "textures":{
-                    "berry": "arkcraft:blocks/berry_leaves_amar"
-                }
-            },
-            "azul":{
-                "textures":{
-                    "berry": "arkcraft:blocks/berry_leaves_azul"
-                }
-            },
-            "mejo":{
-                "textures":{
-                    "berry": "arkcraft:blocks/berry_leaves_mejo"
-                }
-            },
-            "narco":{
-                "textures":{
-                    "berry": "arkcraft:blocks/berry_leaves_narco"
-                }
-            },
-            "stim":{
-                "textures":{
-                    "berry": "arkcraft:blocks/berry_leaves_stim"
-                }
-            },
-            "tinto":{
-                "textures":{
-                    "berry": "arkcraft:blocks/berry_leaves_tinto"
-                }
-            }
-        }
-    }
+  "_comment": "This blockstate file was created by Tom's Block State Generator. com.tom.blockstategenerator",
+  "forge_marker": 1,
+  "defaults": {
+    "textures": { "berry": "arkcraft:blocks/berry_leaves_amar" }
+  },
+  "variants": {
+    "age=0,berry=amar,transparent=false,type=small": { "model": "arkcraft:crop_plot_small"},
+    "age=0,berry=amar,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=0,berry=amar,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium"},
+    "age=0,berry=amar,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=0,berry=amar,transparent=false,type=large": { "model": "arkcraft:crop_plot_large"},
+    "age=0,berry=amar,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=0,berry=azul,transparent=false,type=small": { "model": "arkcraft:crop_plot_small"},
+    "age=0,berry=azul,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=0,berry=azul,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium"},
+    "age=0,berry=azul,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=0,berry=azul,transparent=false,type=large": { "model": "arkcraft:crop_plot_large"},
+    "age=0,berry=azul,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=0,berry=mejo,transparent=false,type=small": { "model": "arkcraft:crop_plot_small"},
+    "age=0,berry=mejo,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=0,berry=mejo,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium"},
+    "age=0,berry=mejo,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=0,berry=mejo,transparent=false,type=large": { "model": "arkcraft:crop_plot_large"},
+    "age=0,berry=mejo,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=0,berry=narco,transparent=false,type=small": { "model": "arkcraft:crop_plot_small"},
+    "age=0,berry=narco,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=0,berry=narco,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium"},
+    "age=0,berry=narco,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=0,berry=narco,transparent=false,type=large": { "model": "arkcraft:crop_plot_large"},
+    "age=0,berry=narco,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=0,berry=stim,transparent=false,type=small": { "model": "arkcraft:crop_plot_small"},
+    "age=0,berry=stim,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=0,berry=stim,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium"},
+    "age=0,berry=stim,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=0,berry=stim,transparent=false,type=large": { "model": "arkcraft:crop_plot_large"},
+    "age=0,berry=stim,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=0,berry=tinto,transparent=false,type=small": { "model": "arkcraft:crop_plot_small"},
+    "age=0,berry=tinto,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=0,berry=tinto,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium"},
+    "age=0,berry=tinto,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=0,berry=tinto,transparent=false,type=large": { "model": "arkcraft:crop_plot_large"},
+    "age=0,berry=tinto,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=1,berry=amar,transparent=false,type=small": { "model": "arkcraft:crop_plot_small", "submodel": {"plant": {"model": "arkcraft:crop_plot_0"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_amar"} },
+    "age=1,berry=amar,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=1,berry=amar,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium", "submodel": {"plant": {"model": "arkcraft:crop_plot_0"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_amar"} },
+    "age=1,berry=amar,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=1,berry=amar,transparent=false,type=large": { "model": "arkcraft:crop_plot_large", "submodel": {"plant": {"model": "arkcraft:crop_plot_0"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_amar"} },
+    "age=1,berry=amar,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=1,berry=azul,transparent=false,type=small": { "model": "arkcraft:crop_plot_small", "submodel": {"plant": {"model": "arkcraft:crop_plot_0"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_azul"} },
+    "age=1,berry=azul,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=1,berry=azul,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium", "submodel": {"plant": {"model": "arkcraft:crop_plot_0"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_azul"} },
+    "age=1,berry=azul,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=1,berry=azul,transparent=false,type=large": { "model": "arkcraft:crop_plot_large", "submodel": {"plant": {"model": "arkcraft:crop_plot_0"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_azul"} },
+    "age=1,berry=azul,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=1,berry=mejo,transparent=false,type=small": { "model": "arkcraft:crop_plot_small", "submodel": {"plant": {"model": "arkcraft:crop_plot_0"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_mejo"} },
+    "age=1,berry=mejo,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=1,berry=mejo,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium", "submodel": {"plant": {"model": "arkcraft:crop_plot_0"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_mejo"} },
+    "age=1,berry=mejo,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=1,berry=mejo,transparent=false,type=large": { "model": "arkcraft:crop_plot_large", "submodel": {"plant": {"model": "arkcraft:crop_plot_0"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_mejo"} },
+    "age=1,berry=mejo,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=1,berry=narco,transparent=false,type=small": { "model": "arkcraft:crop_plot_small", "submodel": {"plant": {"model": "arkcraft:crop_plot_0"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_narco"} },
+    "age=1,berry=narco,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=1,berry=narco,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium", "submodel": {"plant": {"model": "arkcraft:crop_plot_0"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_narco"} },
+    "age=1,berry=narco,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=1,berry=narco,transparent=false,type=large": { "model": "arkcraft:crop_plot_large", "submodel": {"plant": {"model": "arkcraft:crop_plot_0"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_narco"} },
+    "age=1,berry=narco,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=1,berry=stim,transparent=false,type=small": { "model": "arkcraft:crop_plot_small", "submodel": {"plant": {"model": "arkcraft:crop_plot_0"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_stim"} },
+    "age=1,berry=stim,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=1,berry=stim,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium", "submodel": {"plant": {"model": "arkcraft:crop_plot_0"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_stim"} },
+    "age=1,berry=stim,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=1,berry=stim,transparent=false,type=large": { "model": "arkcraft:crop_plot_large", "submodel": {"plant": {"model": "arkcraft:crop_plot_0"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_stim"} },
+    "age=1,berry=stim,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=1,berry=tinto,transparent=false,type=small": { "model": "arkcraft:crop_plot_small", "submodel": {"plant": {"model": "arkcraft:crop_plot_0"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_tinto"} },
+    "age=1,berry=tinto,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=1,berry=tinto,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium", "submodel": {"plant": {"model": "arkcraft:crop_plot_0"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_tinto"} },
+    "age=1,berry=tinto,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=1,berry=tinto,transparent=false,type=large": { "model": "arkcraft:crop_plot_large", "submodel": {"plant": {"model": "arkcraft:crop_plot_0"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_tinto"} },
+    "age=1,berry=tinto,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=2,berry=amar,transparent=false,type=small": { "model": "arkcraft:crop_plot_small", "submodel": {"plant": {"model": "arkcraft:crop_plot_1"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_amar"} },
+    "age=2,berry=amar,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=2,berry=amar,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium", "submodel": {"plant": {"model": "arkcraft:crop_plot_1"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_amar"} },
+    "age=2,berry=amar,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=2,berry=amar,transparent=false,type=large": { "model": "arkcraft:crop_plot_large", "submodel": {"plant": {"model": "arkcraft:crop_plot_1"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_amar"} },
+    "age=2,berry=amar,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=2,berry=azul,transparent=false,type=small": { "model": "arkcraft:crop_plot_small", "submodel": {"plant": {"model": "arkcraft:crop_plot_1"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_azul"} },
+    "age=2,berry=azul,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=2,berry=azul,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium", "submodel": {"plant": {"model": "arkcraft:crop_plot_1"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_azul"} },
+    "age=2,berry=azul,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=2,berry=azul,transparent=false,type=large": { "model": "arkcraft:crop_plot_large", "submodel": {"plant": {"model": "arkcraft:crop_plot_1"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_azul"} },
+    "age=2,berry=azul,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=2,berry=mejo,transparent=false,type=small": { "model": "arkcraft:crop_plot_small", "submodel": {"plant": {"model": "arkcraft:crop_plot_1"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_mejo"} },
+    "age=2,berry=mejo,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=2,berry=mejo,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium", "submodel": {"plant": {"model": "arkcraft:crop_plot_1"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_mejo"} },
+    "age=2,berry=mejo,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=2,berry=mejo,transparent=false,type=large": { "model": "arkcraft:crop_plot_large", "submodel": {"plant": {"model": "arkcraft:crop_plot_1"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_mejo"} },
+    "age=2,berry=mejo,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=2,berry=narco,transparent=false,type=small": { "model": "arkcraft:crop_plot_small", "submodel": {"plant": {"model": "arkcraft:crop_plot_1"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_narco"} },
+    "age=2,berry=narco,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=2,berry=narco,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium", "submodel": {"plant": {"model": "arkcraft:crop_plot_1"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_narco"} },
+    "age=2,berry=narco,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=2,berry=narco,transparent=false,type=large": { "model": "arkcraft:crop_plot_large", "submodel": {"plant": {"model": "arkcraft:crop_plot_1"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_narco"} },
+    "age=2,berry=narco,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=2,berry=stim,transparent=false,type=small": { "model": "arkcraft:crop_plot_small", "submodel": {"plant": {"model": "arkcraft:crop_plot_1"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_stim"} },
+    "age=2,berry=stim,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=2,berry=stim,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium", "submodel": {"plant": {"model": "arkcraft:crop_plot_1"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_stim"} },
+    "age=2,berry=stim,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=2,berry=stim,transparent=false,type=large": { "model": "arkcraft:crop_plot_large", "submodel": {"plant": {"model": "arkcraft:crop_plot_1"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_stim"} },
+    "age=2,berry=stim,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=2,berry=tinto,transparent=false,type=small": { "model": "arkcraft:crop_plot_small", "submodel": {"plant": {"model": "arkcraft:crop_plot_1"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_tinto"} },
+    "age=2,berry=tinto,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=2,berry=tinto,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium", "submodel": {"plant": {"model": "arkcraft:crop_plot_1"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_tinto"} },
+    "age=2,berry=tinto,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=2,berry=tinto,transparent=false,type=large": { "model": "arkcraft:crop_plot_large", "submodel": {"plant": {"model": "arkcraft:crop_plot_1"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_tinto"} },
+    "age=2,berry=tinto,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=3,berry=amar,transparent=false,type=small": { "model": "arkcraft:crop_plot_small", "submodel": {"plant": {"model": "arkcraft:crop_plot_2"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_amar"} },
+    "age=3,berry=amar,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=3,berry=amar,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium", "submodel": {"plant": {"model": "arkcraft:crop_plot_2"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_amar"} },
+    "age=3,berry=amar,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=3,berry=amar,transparent=false,type=large": { "model": "arkcraft:crop_plot_large", "submodel": {"plant": {"model": "arkcraft:crop_plot_2"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_amar"} },
+    "age=3,berry=amar,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=3,berry=azul,transparent=false,type=small": { "model": "arkcraft:crop_plot_small", "submodel": {"plant": {"model": "arkcraft:crop_plot_2"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_azul"} },
+    "age=3,berry=azul,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=3,berry=azul,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium", "submodel": {"plant": {"model": "arkcraft:crop_plot_2"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_azul"} },
+    "age=3,berry=azul,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=3,berry=azul,transparent=false,type=large": { "model": "arkcraft:crop_plot_large", "submodel": {"plant": {"model": "arkcraft:crop_plot_2"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_azul"} },
+    "age=3,berry=azul,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=3,berry=mejo,transparent=false,type=small": { "model": "arkcraft:crop_plot_small", "submodel": {"plant": {"model": "arkcraft:crop_plot_2"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_mejo"} },
+    "age=3,berry=mejo,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=3,berry=mejo,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium", "submodel": {"plant": {"model": "arkcraft:crop_plot_2"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_mejo"} },
+    "age=3,berry=mejo,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=3,berry=mejo,transparent=false,type=large": { "model": "arkcraft:crop_plot_large", "submodel": {"plant": {"model": "arkcraft:crop_plot_2"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_mejo"} },
+    "age=3,berry=mejo,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=3,berry=narco,transparent=false,type=small": { "model": "arkcraft:crop_plot_small", "submodel": {"plant": {"model": "arkcraft:crop_plot_2"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_narco"} },
+    "age=3,berry=narco,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=3,berry=narco,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium", "submodel": {"plant": {"model": "arkcraft:crop_plot_2"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_narco"} },
+    "age=3,berry=narco,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=3,berry=narco,transparent=false,type=large": { "model": "arkcraft:crop_plot_large", "submodel": {"plant": {"model": "arkcraft:crop_plot_2"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_narco"} },
+    "age=3,berry=narco,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=3,berry=stim,transparent=false,type=small": { "model": "arkcraft:crop_plot_small", "submodel": {"plant": {"model": "arkcraft:crop_plot_2"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_stim"} },
+    "age=3,berry=stim,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=3,berry=stim,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium", "submodel": {"plant": {"model": "arkcraft:crop_plot_2"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_stim"} },
+    "age=3,berry=stim,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=3,berry=stim,transparent=false,type=large": { "model": "arkcraft:crop_plot_large", "submodel": {"plant": {"model": "arkcraft:crop_plot_2"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_stim"} },
+    "age=3,berry=stim,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=3,berry=tinto,transparent=false,type=small": { "model": "arkcraft:crop_plot_small", "submodel": {"plant": {"model": "arkcraft:crop_plot_2"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_tinto"} },
+    "age=3,berry=tinto,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=3,berry=tinto,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium", "submodel": {"plant": {"model": "arkcraft:crop_plot_2"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_tinto"} },
+    "age=3,berry=tinto,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=3,berry=tinto,transparent=false,type=large": { "model": "arkcraft:crop_plot_large", "submodel": {"plant": {"model": "arkcraft:crop_plot_2"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_tinto"} },
+    "age=3,berry=tinto,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=4,berry=amar,transparent=false,type=small": { "model": "arkcraft:crop_plot_small", "submodel": {"plant": {"model": "arkcraft:crop_plot_3"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_amar"} },
+    "age=4,berry=amar,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=4,berry=amar,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium", "submodel": {"plant": {"model": "arkcraft:crop_plot_3"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_amar"} },
+    "age=4,berry=amar,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=4,berry=amar,transparent=false,type=large": { "model": "arkcraft:crop_plot_large", "submodel": {"plant": {"model": "arkcraft:crop_plot_3"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_amar"} },
+    "age=4,berry=amar,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=4,berry=azul,transparent=false,type=small": { "model": "arkcraft:crop_plot_small", "submodel": {"plant": {"model": "arkcraft:crop_plot_3"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_azul"} },
+    "age=4,berry=azul,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=4,berry=azul,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium", "submodel": {"plant": {"model": "arkcraft:crop_plot_3"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_azul"} },
+    "age=4,berry=azul,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=4,berry=azul,transparent=false,type=large": { "model": "arkcraft:crop_plot_large", "submodel": {"plant": {"model": "arkcraft:crop_plot_3"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_azul"} },
+    "age=4,berry=azul,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=4,berry=mejo,transparent=false,type=small": { "model": "arkcraft:crop_plot_small", "submodel": {"plant": {"model": "arkcraft:crop_plot_3"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_mejo"} },
+    "age=4,berry=mejo,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=4,berry=mejo,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium", "submodel": {"plant": {"model": "arkcraft:crop_plot_3"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_mejo"} },
+    "age=4,berry=mejo,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=4,berry=mejo,transparent=false,type=large": { "model": "arkcraft:crop_plot_large", "submodel": {"plant": {"model": "arkcraft:crop_plot_3"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_mejo"} },
+    "age=4,berry=mejo,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=4,berry=narco,transparent=false,type=small": { "model": "arkcraft:crop_plot_small", "submodel": {"plant": {"model": "arkcraft:crop_plot_3"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_narco"} },
+    "age=4,berry=narco,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=4,berry=narco,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium", "submodel": {"plant": {"model": "arkcraft:crop_plot_3"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_narco"} },
+    "age=4,berry=narco,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=4,berry=narco,transparent=false,type=large": { "model": "arkcraft:crop_plot_large", "submodel": {"plant": {"model": "arkcraft:crop_plot_3"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_narco"} },
+    "age=4,berry=narco,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=4,berry=stim,transparent=false,type=small": { "model": "arkcraft:crop_plot_small", "submodel": {"plant": {"model": "arkcraft:crop_plot_3"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_stim"} },
+    "age=4,berry=stim,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=4,berry=stim,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium", "submodel": {"plant": {"model": "arkcraft:crop_plot_3"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_stim"} },
+    "age=4,berry=stim,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=4,berry=stim,transparent=false,type=large": { "model": "arkcraft:crop_plot_large", "submodel": {"plant": {"model": "arkcraft:crop_plot_3"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_stim"} },
+    "age=4,berry=stim,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"},
+    "age=4,berry=tinto,transparent=false,type=small": { "model": "arkcraft:crop_plot_small", "submodel": {"plant": {"model": "arkcraft:crop_plot_3"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_tinto"} },
+    "age=4,berry=tinto,transparent=true,type=small": { "model": "arkcraft:crop_plot_transparent"},
+    "age=4,berry=tinto,transparent=false,type=medium": { "model": "arkcraft:crop_plot_medium", "submodel": {"plant": {"model": "arkcraft:crop_plot_3"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_tinto"} },
+    "age=4,berry=tinto,transparent=true,type=medium": { "model": "arkcraft:crop_plot_transparent"},
+    "age=4,berry=tinto,transparent=false,type=large": { "model": "arkcraft:crop_plot_large", "submodel": {"plant": {"model": "arkcraft:crop_plot_3"}}, "textures": {"berry": "arkcraft:blocks/berry_leaves_tinto"} },
+    "age=4,berry=tinto,transparent=true,type=large": { "model": "arkcraft:crop_plot_transparent"}
+  }
 }
