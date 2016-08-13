@@ -52,6 +52,7 @@ item.fur_legs.name=Fur Leggings
 item.fur_boots.name=Fur Boots
 item.tranq_arrow.name=Tranquilizer Arrow
 item.slingshot.name=Slingshot
+item.pike.name=Stone Pike
 item.ironPike.name=Iron Pike
 item.spear.name=Stone Spear
 item.saddle_small.name=Small Saddle
@@ -113,6 +114,11 @@ item.stone_hatchet.name=Stone Hatchet
 item.item_refining_forge.name=Refining Forge
 item.metal_pick_primitive.name=Metal Pickaxe
 item.metal_hatchet_primitive.name=Metal Hatchet
+item.metal_sickle_primitive.name=Metal Sickle
+item.metal_pick_ascendant.name=Metal Pickaxe
+item.metal_hatchet_ascendant.name=Metal Hatchet
+item.metal_sickle_ascendant.name=Metal Sickle
+item.spoiled_meat.name=Spoiled Meat
 
 # Miscellaneous
 itemGroup.tabARKCraftMisc=ARKCraft: Survival Evolved
@@ -202,3 +208,4 @@ arkcraft.cropPlotWater.irrigated=Irrigated
 arkcraft.cropPlotWater.notIrrigated=Not Irrigated
 arkcraft.tooltip.ingredient=* %s * %d
 arkcraft.toolLevel.primitive=Primitive
+arkcraft.toolLevel.ascendant=Ascendant

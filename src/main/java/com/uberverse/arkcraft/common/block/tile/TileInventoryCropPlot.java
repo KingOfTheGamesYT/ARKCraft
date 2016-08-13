@@ -810,10 +810,10 @@ public class TileInventoryCropPlot extends TileEntity implements IInventory, IUp
 	// If you need more than this, or shorts are too small, use a custom packet
 	// in your container instead.
 
-	private static final byte GROWTH_STAGE_FIELD_ID = 0;
-	private static final byte WATER_FIELD_ID = 1;
-	private static final byte GROW_FIELD_ID = 2;
-	private static final byte NUMBER_OF_FIELDS = 3;
+	public static final byte GROWTH_STAGE_FIELD_ID = 0;
+	public static final byte WATER_FIELD_ID = 1;
+	public static final byte GROW_FIELD_ID = 2;
+	public static final byte NUMBER_OF_FIELDS = 3;
 
 	@Override
 	public int getField(int id)

@@ -32,7 +32,7 @@ import com.uberverse.lib.Utils;
 
 public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInventory, IUpdatePlayerListBox, IHoverInfo{
 	private ItemStack[] stack = new ItemStack[this.getSizeInventory()];
-	private int growth = 0;
+	private int growthTime = 0;
 	private CropPlotState state = CropPlotState.EMPTY;
 	private int fertilizer = 0;
 	private int water = 0;
@@ -160,7 +160,7 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 						}
 					}else if(item instanceof ARKCraftSeed){
 						if(growing == null && fertilizer > 0 && water > 0 && ((ARKCraftSeed)item).getType().ordinal() <= getType().ordinal()){
-							growth = CROP_PLOT.SEEDLING_TIME_FOR_BERRY * 20;
+							growthTime = CROP_PLOT.SEEDLING_TIME_FOR_BERRY * 20;
 							LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + "]: Started Growing: " + stack[i]);
 							growing = decrStackSize(i, 1);
 							state = CropPlotState.SEEDED;
@@ -177,10 +177,15 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 				}
 			}
 			if(growing != null){
-				if(growth >= 0 && worldObj.getLight(pos) > 7){
+				if(growthTime >= 0 && worldObj.getLight(pos) > 7){
 					if(fertilizer > 0 && water > 0){
-						growth--;
-						water--;
+						growthTime--;
+						/*
+						 * TODO Find a beneficial decrement amount, water-- is WAY to slow.
+						 * TODO Maybe increase it on higher difficulties?
+						 * TODO Different water, fertilizer and chance of harvest in different difficulties.
+						 */
+						water -= 3;
 						fertilizer-= (state == CropPlotState.FRUITING ? 1 : 2);
 					}else{
 						int rand = worldObj.rand.nextInt(100);//5% chance if plant dies to return the seed
@@ -192,23 +197,23 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 						setState(0);
 					}
 				}
-				if(growth < 0){
+				if(growthTime < 0){
 					if(state == CropPlotState.FRUITING){
 						ItemStack r = ARKCraftSeed.getBerryForSeed(growing);
 						LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + "]: Growing Successful: "+growing + ", output: " + r);
 						TileEntityHopper.func_174918_a(this, r, null);
-						growth = CROP_PLOT.FRUIT_OUTPUT_TIME_FOR_BERRY * 20;
+						growthTime = CROP_PLOT.FRUIT_OUTPUT_TIME_FOR_BERRY * 20;
 					}else{
 						state = state.next();
 						LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + "]: Growing State Updated! Growing: "+growing + ", state: " + state.name());
 						if(state.getTime() > 0)
-							growth = state.getTime() * 20;
+							growthTime = state.getTime() * 20;
 						else
-							growth = -1;
+							growthTime = -1;
 					}
 				}
 				setState(state.age);
-				if(growth % 50 == 0)LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + "]: Growing: "+growing + ", growth remaining: " + growth + ", water: " + water + ", fertilizer: " + fertilizer + ".");
+				if(growthTime % 50 == 0)LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + "]: Growing: "+growing + ", growth remaining: " + growthTime + ", water: " + water + ", fertilizer: " + fertilizer + ".");
 			}else{
 				setState(0);
 			}
@@ -262,7 +267,7 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 				this.stack[j] = ItemStack.loadItemStackFromNBT(nbttagcompound);
 			}
 		}
-		growth = compound.getInteger("growth");
+		growthTime = compound.getInteger("growth");
 		water = compound.getInteger("water");
 		fertilizer = compound.getInteger("fertilizer");
 		state = CropPlotState.VALUES[compound.getInteger("cropState")];
@@ -282,7 +287,7 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 			}
 		}
 		compound.setTag("inventory", list);
-		compound.setInteger("growth", growth);
+		compound.setInteger("growth", growthTime);
 		compound.setInteger("water", water);
 		compound.setInteger("fertilizer", fertilizer);
 		compound.setInteger("cropState", state.ordinal());
@@ -346,6 +351,7 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 	}
 	@Override
 	@SideOnly(Side.CLIENT)
+	//TODO make fully irrigated crop plots have green water text
 	public void addInformation(List<String> text) {
 		String name = I18n.format(seedName);
 		if(name.equals(seedName))name = I18n.format(seedName + ".name");

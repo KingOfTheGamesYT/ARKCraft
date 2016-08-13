@@ -4,18 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.potion.PotionEffect;
-import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-
 import com.google.common.collect.Sets;
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.block.BlockCropPlot.BerryColor;
+import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew.CropPlotType;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
-import com.uberverse.arkcraft.common.entity.EntitySimpleBullet;
 import com.uberverse.arkcraft.common.entity.EntitySpear;
 import com.uberverse.arkcraft.common.handlers.EntityHandler;
 import com.uberverse.arkcraft.common.item.ARKCraftFeces;
@@ -31,9 +24,14 @@ import com.uberverse.arkcraft.common.item.tools.ItemMetalPick;
 import com.uberverse.arkcraft.common.item.tools.ItemMetalSickle;
 import com.uberverse.arkcraft.common.item.tools.ItemStoneHatchet;
 import com.uberverse.arkcraft.common.item.tools.ItemStonePick;
-import com.uberverse.arkcraft.common.item.tools.ToolType;
-import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew.CropPlotType;
-import com.uberverse.arkcraft.common.block.BlockCropPlot.BerryColor;
+
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.potion.PotionEffect;
+import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ARKCraftItems {
 	

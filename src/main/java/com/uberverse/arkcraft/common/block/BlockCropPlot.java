@@ -2,6 +2,12 @@ package com.uberverse.arkcraft.common.block;
 
 import java.util.List;
 
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew;
+import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew.CropPlotType;
+import com.uberverse.arkcraft.common.item.ARKCraftSeed;
+import com.uberverse.lib.LogHelper;
+
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -13,6 +19,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
@@ -25,14 +32,9 @@ import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-
+import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew;
-import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew.CropPlotType;
-import com.uberverse.arkcraft.common.item.ARKCraftSeed;
 
 /**
  * @author wildbill22
@@ -80,7 +82,35 @@ public class BlockCropPlot extends BlockContainer
 						worldIn.spawnEntityInWorld(item);
 					}
 				}
-			}else{
+			}
+						
+			if(playerIn.getHeldItem() != null && playerIn.getHeldItem().getItem() == Items.water_bucket) {
+				LogHelper.info("Player clicked with water bucket!");
+				ItemStack container = playerIn.getHeldItem();
+				if(FluidContainerRegistry.isFilledContainer(container)) {
+					LogHelper.info("Player's water bucket is a filled container!");
+					TileEntity entity = worldIn.getTileEntity(pos);
+					if(entity instanceof TileEntityCropPlotNew && entity != null) {
+						LogHelper.info("A TileEntityCropPlotNew is found at the place the player right clicked!");
+						TileEntityCropPlotNew target = (TileEntityCropPlotNew)entity;	
+						int water = TileEntityCropPlotNew.getItemWaterValue(container) + target.getField(0);
+						//The currentWater + addedWater needs to be smaller or equal to the max water.
+						if(water <= target.getType().getMaxWater()) {
+							target.setField(0, water);
+							ItemStack drainedContainer = FluidContainerRegistry.drainFluidContainer(container);
+							if(drainedContainer != null) {
+								if(!playerIn.capabilities.isCreativeMode) container.setItem(drainedContainer.getItem());
+								LogHelper.info("The drained container is not null, the bucket has been replaced with a new itemstack.");
+							}
+						}
+						else {
+							LogHelper.error("The crop plot water is at the max!");
+						}
+					}
+				}
+			}
+			
+			else{
 				playerIn.openGui(ARKCraft.instance(), ID, worldIn, pos.getX(), pos.getY(),
 						pos.getZ());
 			}
@@ -194,9 +224,10 @@ public class BlockCropPlot extends BlockContainer
 	/**
 	 * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, List list)
+	public void getSubBlocks(Item itemIn, CreativeTabs tab, @SuppressWarnings("rawtypes") List list)
 	{
 		list.add(new ItemStack(itemIn, 1, 0));
 		list.add(new ItemStack(itemIn, 1, 1));

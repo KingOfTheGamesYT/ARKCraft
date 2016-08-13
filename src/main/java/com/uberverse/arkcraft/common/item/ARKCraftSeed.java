@@ -51,7 +51,7 @@ public class ARKCraftSeed extends Item
 				if (stack.getItem() == ARKCraftItems.tintoBerrySeed) { return new ItemStack(
 						ARKCraftItems.tintoBerry); }
 				if (stack.getItem() == ARKCraftItems.stimBerrySeed) { return new ItemStack(
-						ARKCraftItems.stimBerrySeed); }
+						ARKCraftItems.stimBerry); }
 			}
 		}
 		return null;

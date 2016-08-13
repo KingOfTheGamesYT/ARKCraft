@@ -8,6 +8,25 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.client.gui.GuiSmithy;
+import com.uberverse.arkcraft.common.block.tile.IHoverInfo;
+import com.uberverse.arkcraft.common.block.tile.TileInventorySmithy;
+import com.uberverse.arkcraft.common.config.WeightsConfig;
+import com.uberverse.arkcraft.common.container.inventory.InventoryAttachment;
+import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
+import com.uberverse.arkcraft.common.entity.data.CalcPlayerWeight;
+import com.uberverse.arkcraft.common.event.CommonEventHandler;
+import com.uberverse.arkcraft.common.handlers.ARKShapelessRecipe;
+import com.uberverse.arkcraft.common.handlers.recipes.SmithyCraftingManager;
+import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
+import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
+import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
+import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
+import com.uberverse.arkcraft.common.network.OpenPlayerCrafting;
+import com.uberverse.arkcraft.common.network.ReloadStarted;
+import com.uberverse.arkcraft.init.ARKCraftItems;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
@@ -20,13 +39,11 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
-
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -42,26 +59,6 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.client.gui.GuiSmithy;
-import com.uberverse.arkcraft.common.block.tile.IHoverInfo;
-import com.uberverse.arkcraft.common.block.tile.TileInventorySmithy;
-import com.uberverse.arkcraft.common.config.ModuleItemBalance;
-import com.uberverse.arkcraft.common.config.WeightsConfig;
-import com.uberverse.arkcraft.common.container.inventory.InventoryAttachment;
-import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
-import com.uberverse.arkcraft.common.entity.data.CalcPlayerWeight;
-import com.uberverse.arkcraft.common.event.CommonEventHandler;
-import com.uberverse.arkcraft.common.handlers.ARKShapelessRecipe;
-import com.uberverse.arkcraft.common.handlers.recipes.SmithyCraftingManager;
-import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
-import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
-import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
-import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
-import com.uberverse.arkcraft.common.network.OpenPlayerCrafting;
-import com.uberverse.arkcraft.common.network.ReloadStarted;
-import com.uberverse.arkcraft.init.ARKCraftItems;
 
 
 public class ClientEventHandler {
@@ -224,7 +221,7 @@ public class ClientEventHandler {
 	@SubscribeEvent(priority=EventPriority.HIGHEST)
 	public void renderWorldLast(RenderWorldLastEvent e)
 	{
-		EntityPlayer player = mc.thePlayer;
+		//EntityPlayer player = mc.thePlayer;
 		//Calling the hack for the Item Swap animation
 		/*
 		if(disabledEquippItemAnimationTime>0){
@@ -352,6 +349,7 @@ public class ClientEventHandler {
 		}
 	}
 
+	@SuppressWarnings("static-access")
 	@SubscribeEvent
 	public void onPlayerKeypressed(InputEvent.KeyInputEvent event) {
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
@@ -388,6 +386,7 @@ public class ClientEventHandler {
 			TileInventorySmithy te = ((GuiSmithy) mc.currentScreen).tileEntity;
 			ItemStack stack = te.inventoryBlueprints.getStackInSlot(0);
 			if(event.itemStack == stack){
+				@SuppressWarnings("rawtypes")
 				List recipeList = SmithyCraftingManager.getInstance().getRecipeList();
 				for(int i = 0;i<recipeList.size();i++){
 					if(recipeList.get(i) instanceof ARKShapelessRecipe){

@@ -85,7 +85,7 @@ public class CommonEventHandler {
 
 		Action eventAction = event.action;
 		ItemStack item = event.entityPlayer.getCurrentEquippedItem();
-
+		
 		if (item != null && item.getItem() instanceof ItemRangedWeapon) {
 			if (eventAction.RIGHT_CLICK_BLOCK != null
 					& eventAction.RIGHT_CLICK_AIR != null) {
@@ -93,8 +93,9 @@ public class CommonEventHandler {
 						Minecraft.getMinecraft().getItemRenderer(), 1F,
 						"equippedProgress", "field_78454_c");
 			}
-
 		}
+		
+		
 	}	
 
 	// for (int x = -checkSize; x <= checkSize; x++) {
