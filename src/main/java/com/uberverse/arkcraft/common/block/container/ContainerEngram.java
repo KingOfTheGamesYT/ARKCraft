@@ -1,7 +1,9 @@
 package com.uberverse.arkcraft.common.block.container;
 
+import com.uberverse.arkcraft.client.gui.GUIEngram;
 import com.uberverse.arkcraft.common.inventory.InventoryPlayerEngram;
 import com.uberverse.arkcraft.common.item.engram.ARKCraftEngrams;
+import com.uberverse.arkcraft.common.item.engram.Engram;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -107,7 +109,7 @@ public class ContainerEngram extends Container implements IContainerScrollable
 		@Override
 		public boolean canTakeStack(EntityPlayer playerIn)
 	    {
-	        return false;
+	        return true;
 	    }
 		
 		@Override
@@ -115,6 +117,16 @@ public class ContainerEngram extends Container implements IContainerScrollable
 		{
 			return 1;
 		}
+		
+		@Override
+		public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack)
+	    {
+	        if(stack.getItem() instanceof Engram) {
+	        	Engram engram = (Engram) stack.getItem();
+				GUIEngram.setEngramTitle(engram.getFormattedName());
+				GUIEngram.setEngramDescription(engram.getFormattedDesc());
+	        }
+	    }
 		
 	}
 	

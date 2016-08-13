@@ -411,7 +411,7 @@ public class ClientEventHandler {
 		}
 	}
 	
-	@SubscribeEvent
+	/*@SubscribeEvent
 	public void engramTooltip(ItemTooltipEvent event) 
 	{
 		EntityPlayer player = event.entityPlayer;
@@ -420,5 +420,5 @@ public class ClientEventHandler {
 			GUIEngram.setEngramTitle(engram.getFormattedName());
 			GUIEngram.setEngramDescription(engram.getFormattedDesc());
 		}
-	}
+	}*/
 }
