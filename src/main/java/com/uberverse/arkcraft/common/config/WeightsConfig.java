@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.item.engram.Engram;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -25,6 +26,7 @@ public class WeightsConfig
 	public static final String GENERAL = Configuration.CATEGORY_GENERAL;
 	
 	public static boolean isEnabled;
+	public static boolean allowInCreative;
 	public static double encumberedSpeed;
 	
 	public static void init(File dir)
@@ -43,12 +45,15 @@ public class WeightsConfig
 		config.load();
 		
 		isEnabled = config.getBoolean("enabled", "Setup", false, "Enabled the weight system. Will be false until final release.");
+		allowInCreative = config.getBoolean("allowInCreative", "Setup", false, "Allow weight tracking while in creative mode.");
 		encumberedSpeed = config.getFloat("encumberedSpeed", "Setup", (float) 0.2, 0, 1, "The speed factor the player will be slowed down.");
 		
 		List<Item> itemList = ImmutableList.copyOf(Item.itemRegistry);
 		for(Item item : itemList)
 		{
-			config.getFloat(item.getUnlocalizedName().substring(5, item.getUnlocalizedName().length()), GENERAL, (int) genNewWeight(item.getUnlocalizedName().charAt(6)), 0, 16, "Sets the carry weight of item " + item.getUnlocalizedName().substring(5, item.getUnlocalizedName().length()));
+			if(!(item instanceof Engram)) {
+				config.getFloat(item.getUnlocalizedName().substring(5, item.getUnlocalizedName().length()), GENERAL, (int) genNewWeight(item.getUnlocalizedName().charAt(6)), 0, 16, "Sets the carry weight of item " + item.getUnlocalizedName().substring(5, item.getUnlocalizedName().length()));
+			}
 		}
 		
 		List<Block> blockList = ImmutableList.copyOf(Block.blockRegistry);
@@ -56,6 +61,7 @@ public class WeightsConfig
 		{
 			config.getFloat(block.getUnlocalizedName().substring(5, block.getUnlocalizedName().length()), GENERAL, (int) genNewWeight(block.getUnlocalizedName().charAt(6)), 0, 16, "Sets the carry weight of block " + block.getUnlocalizedName().substring(5, block.getUnlocalizedName().length()));
 		}
+		
 		config.save();
 	}
 	

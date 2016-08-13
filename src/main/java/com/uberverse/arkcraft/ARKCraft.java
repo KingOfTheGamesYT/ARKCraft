@@ -2,6 +2,7 @@ package com.uberverse.arkcraft;
 
 import org.apache.logging.log4j.Logger;
 
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
@@ -24,11 +25,13 @@ import com.uberverse.arkcraft.common.config.WeightsConfig;
 import com.uberverse.arkcraft.common.event.CommonEventHandler;
 import com.uberverse.arkcraft.common.gen.WorldGeneratorBushes;
 import com.uberverse.arkcraft.common.handlers.GuiHandler;
+import com.uberverse.arkcraft.common.handlers.recipes.CampfireCraftingManager;
 import com.uberverse.arkcraft.common.handlers.recipes.ForgeCraftingHandler;
 import com.uberverse.arkcraft.common.handlers.recipes.PestleCraftingManager;
 import com.uberverse.arkcraft.common.handlers.recipes.PlayerCraftingManager;
 import com.uberverse.arkcraft.common.handlers.recipes.RecipeHandler;
 import com.uberverse.arkcraft.common.handlers.recipes.SmithyCraftingManager;
+import com.uberverse.arkcraft.common.item.engram.ARKCraftEngrams;
 import com.uberverse.arkcraft.common.network.DescriptionHandler;
 import com.uberverse.arkcraft.common.network.MessageHover;
 import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
@@ -87,6 +90,7 @@ public class ARKCraft
 		ARKCraftBlocks.init();
 		ARKCraftItems.init();
 		ARKCraftRangedWeapons.init();
+		ARKCraftEngrams.init();
 		NetworkRegistry.INSTANCE.registerGuiHandler(ARKCraft.instance, new GuiHandler());
 
 		RecipeHandler.registerVanillaCraftingRecipes();
@@ -94,6 +98,7 @@ public class ARKCraft
 		SmithyCraftingManager.registerSmithyCraftingRecipes();
 		PlayerCraftingManager.registerPlayerCraftingRecipes();
 		ForgeCraftingHandler.registerForgeRecipes();
+		CampfireCraftingManager.registerCampfireRecipes();
 
 		//This has to be here so it can create weights for our items and blocks as well
 		WeightsConfig.init(event.getModConfigurationDirectory());
@@ -137,7 +142,9 @@ public class ARKCraft
 		PLAYER(8),
 		TAMED_DINO(9),
 		FORGE_GUI(10),
-		ATTACHMENT_GUI(11);
+		ATTACHMENT_GUI(11),
+		ENGRAM_GUI(12),
+		CAMPFIRE_GUI(13);
 		int id;
 
 		GUI(int id)

@@ -1,6 +1,7 @@
 package com.uberverse.arkcraft.client.event;
 
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Random;
 
@@ -20,6 +21,7 @@ import com.uberverse.arkcraft.common.event.CommonEventHandler;
 import com.uberverse.arkcraft.common.handlers.ARKShapelessRecipe;
 import com.uberverse.arkcraft.common.handlers.recipes.SmithyCraftingManager;
 import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
+import com.uberverse.arkcraft.common.item.engram.Engram;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
 import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
@@ -39,6 +41,7 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
@@ -59,7 +62,6 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-
 
 public class ClientEventHandler {
 	private static KeyBinding reload, attachment, playerPooping, harvestOverlay, playerCrafting;
@@ -119,35 +121,39 @@ public class ClientEventHandler {
 
 		// Calculate item weight and update when the player updates
 		if (WeightsConfig.isEnabled) {
-			// Removes the updating when the player is in a inventory
-			if (Minecraft.getMinecraft().currentScreen == null) {
-				// So there isnt as many packet leaks...
-				if (ARKPlayer.get(event.player).getCarryWeight() != CalcPlayerWeight.getAsDouble(event.player)) {
-					ARKPlayer.get(event.player).setCarryWeight(CalcPlayerWeight.getAsDouble(event.player));
-				}
+			if(!event.player.capabilities.isCreativeMode || WeightsConfig.allowInCreative) {
+				// Removes the updating when the player is in a inventory
+				if (Minecraft.getMinecraft().currentScreen == null) {
+					// So there isnt as many packet leaks...
+					if (ARKPlayer.get(event.player).getCarryWeight() != CalcPlayerWeight.getAsDouble(event.player)) {
+						ARKPlayer.get(event.player).setCarryWeight(CalcPlayerWeight.getAsDouble(event.player));
+					}
 
-				// Weight rules
-				if ((double) ARKPlayer.get(event.player).getCarryWeightRatio() >= (double) 0.85) {
-					event.player.motionX *= 0;
-					event.player.motionY *= 0;
-					event.player.motionZ *= 0;
-				} else if ((double) ARKPlayer.get(event.player).getCarryWeightRatio() >= (double) 0.75) {
-					event.player.motionX *= (double) WeightsConfig.encumberedSpeed;
-					event.player.motionY *= (double) WeightsConfig.encumberedSpeed;
-					event.player.motionZ *= (double) WeightsConfig.encumberedSpeed;
+					// Weight rules
+					if ((double) ARKPlayer.get(event.player).getCarryWeightRatio() >= (double) 0.85) {
+						event.player.motionX *= 0;
+						event.player.motionZ *= 0;
+					} else if ((double) ARKPlayer.get(event.player).getCarryWeightRatio() >= (double) 0.75) {
+						event.player.motionX *= (double) WeightsConfig.encumberedSpeed;
+						event.player.motionY *= (double) WeightsConfig.encumberedSpeed;
+						event.player.motionZ *= (double) WeightsConfig.encumberedSpeed;
+					}
 				}
 			}
 		}
 
 	}
-
+	
 	@SubscribeEvent
-	public void entityJumpEvent(LivingJumpEvent event)
+	public void onPlayerJump(LivingJumpEvent event)
 	{
-		if(event.entityLiving instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) event.entity;
-			if(ARKPlayer.get(player).getCarryWeightRatio() >= .85) {
-				event.setCanceled(true);
+		if(event.entity instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) event.entityLiving;
+			if(!player.capabilities.isCreativeMode || WeightsConfig.allowInCreative) {
+				if((double) ARKPlayer.get(player).getCarryWeightRatio() >= (double) 0.85) {
+					player.motionY *= 0;
+					player.addChatComponentMessage(new ChatComponentTranslation("ark.splash.noJump"));
+				}
 			}
 		}
 	}
@@ -155,14 +161,14 @@ public class ClientEventHandler {
 	@SubscribeEvent
 	public void mouseOverTooltip(ItemTooltipEvent event)
 	{
-		if(WeightsConfig.isEnabled)
-		{
+		if(WeightsConfig.isEnabled) {
 			ItemStack stack = event.itemStack;
-			double weight = CalcPlayerWeight.getWeight(stack);
-			event.toolTip.add(EnumChatFormatting.BOLD + "" + EnumChatFormatting.WHITE + "Weight: " + weight);
-			if(stack.stackSize > 1)
-			{
-				event.toolTip.add("Stack Weight: " + (weight * stack.stackSize));
+			if(!(stack.getItem() instanceof Engram)) {
+				double weight = CalcPlayerWeight.getWeight(stack);
+				event.toolTip.add(EnumChatFormatting.BOLD + "" + EnumChatFormatting.WHITE + "Weight: " + weight);
+				if(stack.stackSize > 1) {
+					event.toolTip.add("Stack Weight: " + (weight * stack.stackSize));
+				}
 			}
 		}
 	}
@@ -403,4 +409,15 @@ public class ClientEventHandler {
 			}
 		}
 	}
+	
+	/*@SubscribeEvent
+	public void engramTooltip(ItemTooltipEvent event) 
+	{
+		EntityPlayer player = event.entityPlayer;
+		if(event.itemStack.getItem() instanceof Engram) {
+			Engram engram = (Engram) event.itemStack.getItem();
+			GUIEngram.setEngramTitle(engram.getFormattedName());
+			GUIEngram.setEngramDescription(engram.getFormattedDesc());
+		}
+	}*/
 }

@@ -7,6 +7,7 @@ import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.handlers.recipes.PlayerCraftingManager;
 import com.uberverse.arkcraft.common.inventory.InventoryBlueprints;
 import com.uberverse.arkcraft.common.inventory.InventoryPlayerCrafting;
+import com.uberverse.arkcraft.common.inventory.InventoryPlayerEngram;
 import com.uberverse.arkcraft.common.network.PlayerPoop;
 import com.uberverse.arkcraft.common.network.SyncPlayerData;
 import com.uberverse.lib.LogHelper;
@@ -36,7 +37,7 @@ public class ARKPlayer implements IExtendedEntityProperties
 	// constructor and in NBT):
 	private boolean canPoop; // True if player can poop (timer sets this)
 	// actual stats
-	private int health, oxygen, food, water, damage, speed, stamina, torpor, xp, level;
+	private int health, oxygen, food, water, damage, speed, stamina, torpor, xp, level, engramPoints;
 	// max stats
 	private int maxHealth, maxOxygen, maxFood, maxWater, maxDamage, maxSpeed, maxStamina;
 	//actual weights
@@ -45,6 +46,8 @@ public class ARKPlayer implements IExtendedEntityProperties
 	private double maxCarryWeight;
 	//Unlocked Engrams
 	private ArrayList<Object> engrams;
+	
+	private InventoryPlayerEngram engramInv;
 	
 	public ARKPlayer(EntityPlayer player, World world)
 	{
@@ -57,7 +60,9 @@ public class ARKPlayer implements IExtendedEntityProperties
 		//For player carry weight
 		this.carryWeight = 0.0;
 		this.weight = 100.0;
+		this.engramPoints = 0;
 		this.engrams = new ArrayList<Object>();
+		this.engramInv = new InventoryPlayerEngram();
 	}
 
 	/**
@@ -95,8 +100,11 @@ public class ARKPlayer implements IExtendedEntityProperties
 		properties.setInteger("torpor", torpor);
 		properties.setInteger("xp", xp);
 		properties.setInteger("level", level);
+		properties.setInteger("engramPoints", engramPoints);
 		properties.setDouble("carryWeight", carryWeight);
 		properties.setDouble("weight", weight);
+		
+		this.engramInv.writeToNBT(properties);
 
 		properties.setInteger("maxHealth", maxHealth);
 		properties.setInteger("maxOxygen", maxOxygen);
@@ -130,7 +138,10 @@ public class ARKPlayer implements IExtendedEntityProperties
 		properties.setInteger("torpor", torpor);
 		properties.setInteger("xp", xp);
 		properties.setInteger("level", level);
+		properties.setInteger("engramPoints", engramPoints);
 		properties.setDouble("carryWeight", carryWeight);
+		
+		this.engramInv.readFromNBT(properties);
 
 		properties.setInteger("maxHealth", maxHealth);
 		properties.setInteger("maxOxygen", maxOxygen);
@@ -181,6 +192,12 @@ public class ARKPlayer implements IExtendedEntityProperties
 		this.weight = weight;
 		syncClient(player, false);
 	}
+	
+	public void setEngramPoints(int engramPoints)
+	{
+		this.engramPoints = engramPoints;
+		syncClient(player, false);
+	}
 
 	public int getWater()
 	{
@@ -210,6 +227,16 @@ public class ARKPlayer implements IExtendedEntityProperties
 	public double getCarryWeightRatio() 
 	{
 		return (double) carryWeight / weight;
+	}
+	
+	public int getEngramPoints()
+	{
+		return engramPoints;
+	}
+	
+	public InventoryPlayerEngram getEngramInventory()
+	{
+		return engramInv;
 	}
 
 	/**

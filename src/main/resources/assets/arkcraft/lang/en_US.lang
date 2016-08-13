@@ -157,6 +157,7 @@ attribute.name.arkcraft.reloadTime=Reload Time
 # Splash Text
 ark.splash.encumbered=You are encumbered!
 ark.splash.overEncumbered=You are over encumbered!
+ark.splash.noJump=You are over encumbered! You cannot jump!
 
 # Tooltips
 item.narcotics.tooltip=%12A Knockout of a Drink
@@ -207,5 +208,25 @@ arkcraft.water=%s: %d/%d (%s)
 arkcraft.cropPlotWater.irrigated=Irrigated
 arkcraft.cropPlotWater.notIrrigated=Not Irrigated
 arkcraft.tooltip.ingredient=* %s * %d
+<<<<<<< HEAD
 arkcraft.toolLevel.primitive=Primitive
 arkcraft.toolLevel.ascendant=Ascendant
+=======
+
+# Engrams
+ark.engram.learn=Learn Engram
+ark.engram.learn.true=Learned
+ark.engram.learn.false=Unlearned
+ark.engram.close=Close
+ark.engram.consume=Consumes EP
+
+# Engram Items
+item.engramStonePick.name=Stone Pick
+item.engramTorch.name=Torch
+
+# Engram Item Description
+engram.engramStonePick.desc=For harvesting.
+engram.engramTorch.desc=Provides light, and some warmth. 
+
+arkcraft.toolLevel.primitive=Primitive
+>>>>>>> 1f99fc21f3df0e1780da217594c18fa438d38f08

@@ -24,15 +24,17 @@ import com.uberverse.lib.LogHelper;
 /* Player Crafting */
 
 /**
- * @author wildbill22
+ * @author wildbill22, ERBF
  */
 public class GuiPlayerCrafting extends GuiContainer
 {
 
-    public String name = "Player Built-in Crafting";
+    public String name = "Built-in Crafting";
     public static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID, "textures/gui/player_inventory_gui.png");
     private InventoryBlueprints inventoryBlueprints;
     private GuiButton[] buttonCraftOne;
+    private GuiButton engramButton;
+    private EntityPlayer player;
 
     public GuiPlayerCrafting(InventoryPlayer invPlayer, EntityPlayer player)
     {
@@ -40,6 +42,7 @@ public class GuiPlayerCrafting extends GuiContainer
         inventoryBlueprints = ARKPlayer.get(player).getInventoryBlueprints();
         LogHelper.info("GuiPlayerCrafting: Constructor called on " + FMLCommonHandler.instance().getEffectiveSide());
 
+        this.player = player;
         this.xSize = 175;
         this.ySize = 242;
     }
@@ -77,6 +80,9 @@ public class GuiPlayerCrafting extends GuiContainer
                 buttonList.add(buttonCraftOne[i]);
             }
         }
+        
+        engramButton = new GuiButton(ContainerInventoryPlayerCrafting.NUM_ROWS_BP * ContainerInventoryPlayerCrafting.NUM_COLUMNS_BP, guiLeft + 119, guiTop + 9, 50, 10, "Engrams");
+        this.buttonList.add(engramButton);
     }
 
     /**
@@ -85,19 +91,24 @@ public class GuiPlayerCrafting extends GuiContainer
     @Override
     protected void actionPerformed(GuiButton button)
     {
-        for (int row = 0; row < ContainerInventoryPlayerCrafting.NUM_ROWS_BP; row++)
-        {
-            for (int col = 0; col < ContainerInventoryPlayerCrafting.NUM_COLUMNS_BP; col++)
+    	if(button == engramButton) {
+    		//Minecraft.getMinecraft().displayGuiScreen(null);
+    		player.openGui(ARKCraft.instance, ARKCraft.GUI.ENGRAM_GUI.getID(), player.worldObj, 0, 0, 0);
+    	} else {
+    		for (int row = 0; row < ContainerInventoryPlayerCrafting.NUM_ROWS_BP; row++)
             {
-                int i = col + row * ContainerInventoryPlayerCrafting.NUM_COLUMNS_BP;
-                if (button == buttonCraftOne[i])
+                for (int col = 0; col < ContainerInventoryPlayerCrafting.NUM_COLUMNS_BP; col++)
                 {
-                    inventoryBlueprints.setCraftOnePressed(true, i, true); // and update server
-                    inventoryBlueprints.setxButtonPressed(ContainerInventoryPlayerCrafting.BLUEPRINT_XPOS + col * 18);
-                    inventoryBlueprints.setyButtonPressed(ContainerInventoryPlayerCrafting.BLUEPRINT_YPOS + row * 18);
+                    int i = col + row * ContainerInventoryPlayerCrafting.NUM_COLUMNS_BP;
+                    if (button == buttonCraftOne[i])
+                    {
+                        inventoryBlueprints.setCraftOnePressed(true, i, true); // and update server
+                        inventoryBlueprints.setxButtonPressed(ContainerInventoryPlayerCrafting.BLUEPRINT_XPOS + col * 18);
+                        inventoryBlueprints.setyButtonPressed(ContainerInventoryPlayerCrafting.BLUEPRINT_YPOS + row * 18);
+                    }
                 }
             }
-        }
+    	}
     }
 
     /**
@@ -132,7 +143,7 @@ public class GuiPlayerCrafting extends GuiContainer
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
         // Name of GUI at top
-        this.fontRendererObj.drawString(name, (int) (xSize / 2) - (name.length() * 5 / 2), 5, Color.darkGray.getRGB());
+        this.fontRendererObj.drawString(name, ContainerInventoryPlayerCrafting.BLUEPRINT_XPOS/*(int) (xSize / 2) - (name.length() * 5 / 2)*/, 5, Color.darkGray.getRGB());
 
         List<String> hoveringText = new ArrayList<String>();
 
