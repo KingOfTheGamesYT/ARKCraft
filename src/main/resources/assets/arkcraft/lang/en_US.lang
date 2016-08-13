@@ -10,9 +10,11 @@ tile.refining_forge.name=Refining Forge
 tile.crop_plot.small.name=Small Crop Plot
 tile.crop_plot.medium.name=Medium Crop Plot
 tile.crop_plot.large.name=Large Crop Plot
+tile.campfire.name=Campfire
 
 # Containers
 container.inventory_refining_forge.name=Refining Forge
+container.inventory_campfire.name=Campfire
 arkcraft.gui.fertilizer=Fertilizer: %d/%d
 
 # World Types
@@ -208,10 +210,8 @@ arkcraft.water=%s: %d/%d (%s)
 arkcraft.cropPlotWater.irrigated=Irrigated
 arkcraft.cropPlotWater.notIrrigated=Not Irrigated
 arkcraft.tooltip.ingredient=* %s * %d
-<<<<<<< HEAD
 arkcraft.toolLevel.primitive=Primitive
 arkcraft.toolLevel.ascendant=Ascendant
-=======
 
 # Engrams
 ark.engram.learn=Learn Engram
@@ -227,6 +227,3 @@ item.engramTorch.name=Torch
 # Engram Item Description
 engram.engramStonePick.desc=For harvesting.
 engram.engramTorch.desc=Provides light, and some warmth. 
-
-arkcraft.toolLevel.primitive=Primitive
->>>>>>> 1f99fc21f3df0e1780da217594c18fa438d38f08

@@ -399,7 +399,7 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 	@Override
 	public String getName()
 	{
-		return "container.inventory_refining_forge.name";
+		return "container.inventory_campfire.name";
 	}
 
 	@Override

@@ -63,12 +63,12 @@ public class ContainerInventoryCampfire extends Container
 		// Add the tile fuel slots
 		for (int x = 0; x < FURNACE_SLOT_COUNT; x++)
 		{
-			for (x = x; x < 4; x++)
+			for (x = 0; x < 4; x++)
 			{
 				addSlotToContainer(new Slot(tileInventoryFurnace, x,
 						FURNACE_SLOTS_XPOS + SLOT_X_SPACING * x, FURNACE_SLOTS_YPOS));
 			}
-			for (x = x; x < FURNACE_SLOT_COUNT; x++)
+			for (x = 0; x < FURNACE_SLOT_COUNT; x++)
 			{
 				addSlotToContainer(new Slot(tileInventoryFurnace, x,
 						FURNACE_SLOTS_XPOS + SLOT_X_SPACING * (x - 4), FURNACE_SLOTS_YPOS + 18));
@@ -104,19 +104,21 @@ public class ContainerInventoryCampfire extends Container
 		return tileInventoryCampfire.isUseableByPlayer(player);
 	}
 
-	// This is where you specify what happens when a player shift clicks a slot
-	// in the gui
-	// (when you shift click a slot in the TileEntity Inventory, it moves it to
-	// the first available position in the hotbar and/or
-	// player inventory. When you you shift-click a hotbar or player inventory
-	// item, it moves it to the first available
-	// position in the TileEntity inventory - either input or fuel as
-	// appropriate for the item you clicked)
-	// At the very least you must override this and return null or the game will
-	// crash when the player shift clicks a slot
-	// returns null if the source slot is empty, or if none of the source slot
-	// items could be moved.
-	// otherwise, returns a copy of the source stack
+	/*
+	 * This is where you specify what happens when a player shift clicks a slot
+	 * in the gui
+	 * (when you shift click a slot in the TileEntity Inventory, it moves it to
+	 * the first available position in the hotbar and/or
+	 * player inventory. When you you shift-click a hotbar or player inventory
+	 * item, it moves it to the first available
+	 * position in the TileEntity inventory - either input or fuel as
+	 * appropriate for the item you clicked)
+	 * At the very least you must override this and return null or the game will
+	 * crash when the player shift clicks a slot
+	 * returns null if the source slot is empty, or if none of the source slot
+	 * items could be moved.
+	 * otherwise, returns a copy of the source stack 
+	 */
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int sourceSlotIndex)
 	{
