@@ -24,6 +24,12 @@ public class ARKCraftEngrams
 	public static Engram woodenClub, waterskin, clothGloves, clothBoots, clothHat, woodenSign, hideSleepingBag, 
 						 thatchRoof, thatchWall, thatchDoor;
 	
+	//Level 5
+	public static Engram slingshot, storageBox, simpleBed, phiomiaSaddle, mortarAndPestle, sparkpowder, 
+						 bloodExtractionSyringe, narcotic, paintbrush, singlePanelFlag, multiPanelFlag,
+						 standingTorch, slopedThatchWallLeft, slopedThatchWallRight, slopedThatchRoof,
+						 woodenFoundation, woodenWall;
+	
 	public static void init()
 	{
 		//Level 1
@@ -51,6 +57,25 @@ public class ARKCraftEngrams
 		thatchRoof = new Engram("engramThatchRoof", 3, 3);
 		thatchWall = new Engram("engramThatchWall", 3, 3);
 		thatchDoor = new Engram("engramThatchDoor", 3, 3);
+		
+		//Level 5
+		slingshot = new Engram("engramSlingshot", 5, 6);
+		storageBox = new Engram("engramStorageBox", 5, 6);
+		simpleBed = new Engram("engramSimpleBed", 5, 8);
+		phiomiaSaddle = new Engram("engramPhiomiaSaddle", 5, 6);
+		mortarAndPestle = new Engram("engramMortarAndPestle", 5, 6);
+		sparkpowder = new Engram("engramSparkpowder", 5, 3);
+		bloodExtractionSyringe = new Engram("engramBloodExtractionSyringe", 5, 6);
+		narcotic = new Engram("engramNarcotic", 5, 6);
+		paintbrush = new Engram("engramPaintbrush", 5, 3);
+		singlePanelFlag = new Engram("engramSinglePanelFlag", 5, 6);
+		multiPanelFlag = new Engram("engramMultiPanelFlag", 5, 6);
+		standingTorch = new Engram("engramStandingTorch", 5, 6);
+		slopedThatchWallLeft = new Engram("engramSlopedThatchWallLeft", 5, 3);
+		slopedThatchWallRight = new Engram("engramSlopedThatchWallRight", 5, 3);
+		slopedThatchRoof = new Engram("engramSlopedThatchRoof", 5, 3);
+		woodenFoundation = new Engram("engramWoodenFoundation", 5, 6);
+		woodenWall = new Engram("engramWoodenWall", 5, 7);
 	}
 
 }

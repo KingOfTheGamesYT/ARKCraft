@@ -26,6 +26,9 @@ public class Engram extends Item
 	{
 		super();
 		this.setUnlocalizedName(name);
+		this.setMaxStackSize(1);
+		this.isDamageable();
+		this.setMaxDamage(1);
 		
 		this.name = name;
 		this.unlockLevel = unlockLevel;

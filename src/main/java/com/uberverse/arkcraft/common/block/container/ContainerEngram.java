@@ -1,11 +1,15 @@
 package com.uberverse.arkcraft.common.block.container;
 
+import java.util.Random;
+
 import com.uberverse.arkcraft.client.gui.GUIEngram;
 import com.uberverse.arkcraft.common.inventory.InventoryPlayerEngram;
 import com.uberverse.arkcraft.common.item.engram.ARKCraftEngrams;
 import com.uberverse.arkcraft.common.item.engram.Engram;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -17,8 +21,12 @@ import net.minecraft.item.ItemStack;
 public class ContainerEngram extends Container implements IContainerScrollable
 {
 
+	private static InventoryPlayerEngram invEngram;
+	
 	public ContainerEngram(InventoryPlayerEngram inventory, EntityPlayer player)
 	{
+		invEngram = inventory;
+		
 		int index = 0;
 		for (int y = 0; y < 4; ++y) {
 	        for (int x = 0; x < 8; ++x) {
@@ -31,10 +39,15 @@ public class ContainerEngram extends Container implements IContainerScrollable
 	    }
 	}
 	
+	public static InventoryPlayerEngram getEngramInventory()
+	{
+		return invEngram;
+	}
+	
 	@Override
 	public boolean canInteractWith(EntityPlayer playerIn) 
 	{
-		return true;
+		return false;
 	}
 
 	/* (non-Javadoc)
@@ -57,7 +70,7 @@ public class ContainerEngram extends Container implements IContainerScrollable
 	 */
 	@Override
 	public int getScrollableSlotsWidth() {
-		return 0;
+		return 18;
 	}
 
 	/* (non-Javadoc)
@@ -65,7 +78,7 @@ public class ContainerEngram extends Container implements IContainerScrollable
 	 */
 	@Override
 	public int getScrollableSlotsHeight() {
-		return 0;
+		return 18;
 	}
 
 	/* (non-Javadoc)
@@ -73,7 +86,7 @@ public class ContainerEngram extends Container implements IContainerScrollable
 	 */
 	@Override
 	public int getScrollableSlotsCount() {
-		return 0;
+		return 32;
 	}
 
 	/* (non-Javadoc)
@@ -81,7 +94,7 @@ public class ContainerEngram extends Container implements IContainerScrollable
 	 */
 	@Override
 	public int getRequiredSlotsCount() {
-		return 0;
+		return 8;
 	}
 
 	/* (non-Javadoc)
@@ -89,7 +102,7 @@ public class ContainerEngram extends Container implements IContainerScrollable
 	 */
 	@Override
 	public int getMaxOffset() {
-		return 0;
+		return 18;
 	}
 
 	/* (non-Javadoc)
@@ -97,13 +110,14 @@ public class ContainerEngram extends Container implements IContainerScrollable
 	 */
 	@Override
 	public double getRelativeScrollingOffset() {
-		return 0;
+		return 18;
 	}
 	
 	public class EngramSlot extends Slot {
 
 		public EngramSlot(InventoryPlayerEngram inventoryIn, int index, int xPosition, int yPosition) {
 			super(inventoryIn, index, xPosition, yPosition);
+			
 		}
 		
 		@Override
@@ -119,12 +133,20 @@ public class ContainerEngram extends Container implements IContainerScrollable
 		}
 		
 		@Override
+		public boolean isItemValid(ItemStack stack)
+	    {
+	        return false;
+	    }
+		
+		@Override
 		public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack)
 	    {
 	        if(stack.getItem() instanceof Engram) {
 	        	Engram engram = (Engram) stack.getItem();
 				GUIEngram.setEngramTitle(engram.getFormattedName());
 				GUIEngram.setEngramDescription(engram.getFormattedDesc());
+				ContainerEngram.getEngramInventory().setInventorySlotContents(this.getSlotIndex(), playerIn.inventory.getItemStack());
+				playerIn.inventory.getItemStack().attemptDamageItem(engram.getMaxDamage(), new Random());
 	        }
 	    }
 		
