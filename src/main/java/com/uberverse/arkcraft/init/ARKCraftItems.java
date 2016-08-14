@@ -11,6 +11,7 @@ import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew.CropPlotTy
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.entity.EntitySpear;
 import com.uberverse.arkcraft.common.handlers.EntityHandler;
+import com.uberverse.arkcraft.common.item.ARKCraftBook;
 import com.uberverse.arkcraft.common.item.ARKCraftFeces;
 import com.uberverse.arkcraft.common.item.ARKCraftFood;
 import com.uberverse.arkcraft.common.item.ARKCraftItem;
@@ -42,7 +43,8 @@ public class ARKCraftItems {
 	public static ItemMetalHatchet metal_hatchet;
 	public static ItemMetalSickle metal_sickle;
 	
-    private static final Set EFFECTIVE_ON = Sets.newHashSet(new Block[] {Blocks.activator_rail, Blocks.coal_ore, Blocks.cobblestone, Blocks.detector_rail, Blocks.diamond_block, Blocks.diamond_ore, Blocks.double_stone_slab, Blocks.golden_rail, Blocks.gold_block, Blocks.gold_ore, Blocks.ice, Blocks.iron_block, Blocks.iron_ore, Blocks.lapis_block, Blocks.lapis_ore, Blocks.lit_redstone_ore, Blocks.mossy_cobblestone, Blocks.netherrack, Blocks.packed_ice, Blocks.rail, Blocks.redstone_ore, Blocks.sandstone, Blocks.red_sandstone, Blocks.stone, Blocks.stone_slab});
+    @SuppressWarnings({"unused", "rawtypes"})
+	private static final Set EFFECTIVE_ON = Sets.newHashSet(new Block[] {Blocks.activator_rail, Blocks.coal_ore, Blocks.cobblestone, Blocks.detector_rail, Blocks.diamond_block, Blocks.diamond_ore, Blocks.double_stone_slab, Blocks.golden_rail, Blocks.gold_block, Blocks.gold_ore, Blocks.ice, Blocks.iron_block, Blocks.iron_ore, Blocks.lapis_block, Blocks.lapis_ore, Blocks.lit_redstone_ore, Blocks.mossy_cobblestone, Blocks.netherrack, Blocks.packed_ice, Blocks.rail, Blocks.redstone_ore, Blocks.sandstone, Blocks.red_sandstone, Blocks.stone, Blocks.stone_slab});
 	
 	//Food
 	public static ARKCraftFood tintoBerry, amarBerry, azulBerry, mejoBerry,
@@ -53,6 +55,7 @@ public class ARKCraftItems {
 	//Misc
 	public static ARKCraftItem stone, spy_glass, fiber, thatch, wood, flint, metal;
 	public static ARKCraftFeces small_feces, medium_feces, large_feces, fertilizer, player_feces;
+	public static ARKCraftBook info_book;
 	
 	public static ItemGrenade grenade;
 	public static ItemSlingshot slingshot;
@@ -138,6 +141,8 @@ public class ARKCraftItems {
 		fertilizer = addFecesItem("fertilizer",
 				ModuleItemBalance.CROP_PLOT.SECONDS_FOR_FERTILIZER_TO_DECOMPOSE);
 
+		info_book = addBook("info_book");
+		
 		tabItem = new Item().setUnlocalizedName("tabItem");
 		registerItem("tabItem", tabItem);
 		tabItem.setCreativeTab(null);
@@ -240,6 +245,12 @@ public class ARKCraftItems {
 		ARKCraftSeed i = new ARKCraftSeed(type, color);
 		registerItem(name, i);
 		return i;
+	}
+	
+	public static ARKCraftBook addBook(String name) {
+		ARKCraftBook book = new ARKCraftBook(name);
+		registerItem(name, book);
+		return book;
 	}
 	
 	public static void registerItem(String name, Item item)

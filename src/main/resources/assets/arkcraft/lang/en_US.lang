@@ -121,6 +121,7 @@ item.metal_pick_ascendant.name=Metal Pickaxe
 item.metal_hatchet_ascendant.name=Metal Hatchet
 item.metal_sickle_ascendant.name=Metal Sickle
 item.spoiled_meat.name=Spoiled Meat
+item.info_book.name=ARK Manual
 
 # Miscellaneous
 itemGroup.tabARKCraftMisc=ARKCraft: Survival Evolved
@@ -165,7 +166,7 @@ ark.splash.noJump=You are over encumbered! You cannot jump!
 item.narcotics.tooltip=%12A Knockout of a Drink
 item.rock.tooltip=%6A Rocky Road to Victory
 item.explosive_ball.tooltip=%12A Rocky Road to Destruction
-item.dodo_bag.tooltip=Backpack for the Dodo
+item.dodo_bag.tooltip=%12Doesn't carry emotional baggage
 item.gun_powder.tooltip=Recipe for Destruction
 
 item.fiber.tooltip=%6Material of the Ages

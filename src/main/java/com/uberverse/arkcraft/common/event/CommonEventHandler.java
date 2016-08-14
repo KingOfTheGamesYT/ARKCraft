@@ -23,7 +23,9 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -77,48 +79,58 @@ public class CommonEventHandler {
 				ARKPlayer.get(player).setCanPoop(true);
 			}
 
+			// TODO Find a cleaner way to do this.
 			World worldIn = player.getEntityWorld();
-			if (worldIn != null) {
+			// The item will spawn on the server side. If you don't check, it
+			// will run on client and create a 'phantom' item
+			if (worldIn != null && !worldIn.isRemote) {
 				List<Entity> entities = worldIn.loadedEntityList;
 				for (int i = 0; i < entities.size(); i++) {
 					for (int j = 1; j < entities.size(); j++) {
 						if (entities.get(i) instanceof EntityItem && entities.get(j) instanceof EntityItem) {
 							EntityItem target = (EntityItem) entities.get(i);
-							EntityItem targetS = (EntityItem) entities.get(j);
-							Item item = target.getEntityItem().getItem();
-							Item itemS = targetS.getEntityItem().getItem();
+							EntityItem targetJ = (EntityItem) entities.get(j);
 
 							int x = target.getPosition().getX();
 							int y = target.getPosition().getY();
 							int z = target.getPosition().getZ();
 
-							int xS = targetS.getPosition().getX();
-							int yS = targetS.getPosition().getY();
-							int zS = targetS.getPosition().getZ();
+							int xJ = targetJ.getPosition().getX();
+							int yJ = targetJ.getPosition().getY();
+							int zJ = targetJ.getPosition().getZ();
 
-							// the two items must be at least 3 blocks close to
+							Item item = target.getEntityItem().getItem();
+							Item itemJ = targetJ.getEntityItem().getItem();
+							// the two items must be at least 3 blocks close
+							// to
 							// each other in xy directions, must be 1 block
 							// close in z.
 
-							if (Math.abs(x - xS) <= 3 && Math.abs(y - yS) <= 3 && Math.abs(z - zS) <= 1) {
+							if (Math.abs(x - xJ) <= 3 && Math.abs(y - yJ) <= 3 && Math.abs(z - zJ) <= 1) {
+								// Check if items are in water
+								//Block dest = worldIn.getBlockState(target.getPosition()).getBlock();
+								//Block destJ = worldIn.getBlockState(targetJ.getPosition()).getBlock();
+								//if (dest == Blocks.water && destJ == Blocks.water) {
+									if (item == Items.book && itemJ == Items.bone) {
+										if (target.ticksExisted > 100 && targetJ.ticksExisted > 100) {
+											target.setDead();
+											targetJ.setDead();
+											WorldServer worldServer = (WorldServer)worldIn;
+											for(int l = 0; l <= 40; l++) {	
+												worldServer.spawnParticle(EnumParticleTypes.SMOKE_LARGE, false, x + 0.5D, y+ 1.0D, z+ 0.5D, 1, 0.0D, 0.0D, 0.0D, 0.0D, new int[0]);
+											}
+											if (target.isDead && targetJ.isDead) {
+												worldIn.spawnEntityInWorld(new EntityItem(worldIn, x, y, z,
+														new ItemStack(ARKCraftItems.info_book)));
 
-								if (item == Items.book && itemS == Items.bone) {
-									// LogHelper.info("Found a Book and a Bone
-									// on the Ground @ [" +
-									// target.getPosition().getX() + ", " +
-									// target.getPosition().getY() + ", " +
-									// target.getPosition().getZ() + "]" + ", "
-									// + "[" + targetS.getPosition().getX() + ",
-									// " + targetS.getPosition().getY() + ", " +
-									// targetS.getPosition().getZ() + "]");
-									if (target.ticksExisted > 100 && targetS.ticksExisted > 100) {
-										target.setDead();
-										targetS.setDead();
-										if(target.isDead && targetS.isDead) player.inventory.addItemStackToInventory(new ItemStack(ARKCraftItems.amarBerry));
+												
+											}
+										}
 									}
-								}
+								//}
 							}
 						}
+
 					}
 				}
 			}
