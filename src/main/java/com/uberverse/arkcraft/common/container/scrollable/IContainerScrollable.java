@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.common.block.container;
+package com.uberverse.arkcraft.common.container.scrollable;
 
 public interface IContainerScrollable
 {
