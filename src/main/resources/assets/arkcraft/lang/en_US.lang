@@ -224,6 +224,12 @@ ark.engram.consume=Consumes EP
 # Engram Items
 item.engramStonePick.name=Stone Pick
 item.engramTorch.name=Torch
+item.engramCampfire.name=Campfire
+item.engramStoneHatchet.name=Stone Hatchet
+item.engramSpear.name=Spear
+item.engramNote.name=Note
+item.engramClothPants.name=Cloth Pants
+item.engramClothShirt.name=Cloth Shirt
 
 # Engram Item Description
 engram.engramStonePick.desc=For harvesting.
