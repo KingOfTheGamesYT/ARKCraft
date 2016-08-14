@@ -23,7 +23,7 @@ public class InventoryPlayerEngram implements IInventory
 
 	private final String name = "Engram Inventory";
 	private final String tagName = "inventoryPlayerEngram";
-	public static int size = 32;
+	public static int size = 64;
 	private ItemStack[] inventory = new ItemStack[size];
 	
 	public InventoryPlayerEngram() {}

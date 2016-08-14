@@ -122,7 +122,7 @@ public class CommonEventHandler {
 											if (target.isDead && targetJ.isDead) {
 												worldIn.spawnEntityInWorld(new EntityItem(worldIn, x, y, z,
 														new ItemStack(ARKCraftItems.info_book)));
-
+   
 												
 											}
 										}

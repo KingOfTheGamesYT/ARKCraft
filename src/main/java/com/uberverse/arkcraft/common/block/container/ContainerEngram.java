@@ -1,8 +1,7 @@
 package com.uberverse.arkcraft.common.block.container;
 
-import java.util.Random;
-
 import com.uberverse.arkcraft.client.gui.GUIEngram;
+import com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable;
 import com.uberverse.arkcraft.common.inventory.InventoryPlayerEngram;
 import com.uberverse.arkcraft.common.item.engram.ARKCraftEngrams;
 import com.uberverse.arkcraft.common.item.engram.Engram;
@@ -10,9 +9,7 @@ import com.uberverse.arkcraft.common.item.engram.Engram;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ReportedException;
 
 /**
  * @author ERBF
@@ -28,7 +25,7 @@ public class ContainerEngram extends Container implements IContainerScrollable
 		invEngram = inventory;
 		
 		int index = 0;
-		for (int y = 0; y < 4; ++y) {
+		for (int y = 0; y < 8; ++y) {
 	        for (int x = 0; x < 8; ++x) {
 	            this.addSlotToContainer(new EngramSlot(inventory, index, 1 + x * 20, 44 + y * 20));
 	            try {
@@ -114,14 +111,14 @@ public class ContainerEngram extends Container implements IContainerScrollable
 	    }
 		
 		@Override
-		public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack) throws NullPointerException, ReportedException
+		public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack)
 	    {
 	        if(stack.getItem() instanceof Engram) {
 	        	Engram engram = (Engram) stack.getItem();
 				GUIEngram.setEngramTitle(engram.getFormattedName());
 				GUIEngram.setEngramDescription(engram.getFormattedDesc());
 				ContainerEngram.getEngramInventory().setInventorySlotContents(this.getSlotIndex(), playerIn.inventory.getItemStack());
-				playerIn.inventory.getItemStack();
+				playerIn.inventory.setItemStack(null);
 	        }
 	    }
 		
