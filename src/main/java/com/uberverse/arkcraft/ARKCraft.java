@@ -49,7 +49,7 @@ import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
 
-@Mod(modid = ARKCraft.MODID, name = ARKCraft.NAME, version = ARKCraft.VERSION)
+@Mod(modid = ARKCraft.MODID, name = ARKCraft.NAME, version = ARKCraft.VERSION /*dependencies = "required-after:LLibrary@[0.5.5,)"*/)
 public class ARKCraft
 {
 	public static final String MODID = "arkcraft", VERSION = "${version}",

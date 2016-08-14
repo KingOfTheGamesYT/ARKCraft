@@ -3,6 +3,7 @@
  */
 package com.uberverse.arkcraft.client.gui;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.ARKCraft;
@@ -51,12 +52,20 @@ public class GUIEngram extends GuiContainer
 	public void initGui()
 	{
 		super.initGui();
+		Keyboard.enableRepeatEvents(true);
 		
 		learn = new GuiButton(0, guiLeft + 79 - (mc.fontRendererObj.getStringWidth(I18n.format("ark.engram.learn")) / 2), guiTop + 125, mc.fontRendererObj.getStringWidth(I18n.format("ark.engram.learn")) + 6, 11, I18n.format("ark.engram.learn"));
 		close = new GuiButton(1, guiLeft + 154 - (mc.fontRendererObj.getStringWidth(I18n.format("ark.engram.close")) / 2), guiTop + 3, mc.fontRendererObj.getStringWidth(I18n.format("ark.engram.close")) + 6, 11, I18n.format("ark.engram.close"));
 		
 		this.buttonList.add(learn);
 		this.buttonList.add(close);
+	}
+	
+	@Override
+	public void onGuiClosed()
+	{
+		super.onGuiClosed();
+		Keyboard.enableRepeatEvents(false);
 	}
 	
 	@Override
