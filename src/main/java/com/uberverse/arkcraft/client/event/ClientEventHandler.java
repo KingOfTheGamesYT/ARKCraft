@@ -10,7 +10,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.client.gui.GuiSmithy;
+import com.uberverse.arkcraft.client.gui.GUISmithy;
 import com.uberverse.arkcraft.common.block.tile.IHoverInfo;
 import com.uberverse.arkcraft.common.block.tile.TileInventorySmithy;
 import com.uberverse.arkcraft.common.config.WeightsConfig;
@@ -388,8 +388,8 @@ public class ClientEventHandler {
 	}
 	@SubscribeEvent
 	public void onTooltip(ItemTooltipEvent event){
-		if(mc.currentScreen instanceof GuiSmithy){
-			TileInventorySmithy te = ((GuiSmithy) mc.currentScreen).tileEntity;
+		if(mc.currentScreen instanceof GUISmithy){
+			TileInventorySmithy te = ((GUISmithy) mc.currentScreen).tileEntity;
 			ItemStack stack = te.inventoryBlueprints.getStackInSlot(0);
 			if(event.itemStack == stack){
 				@SuppressWarnings("rawtypes")

@@ -13,7 +13,7 @@ import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.event.ClientEventHandler;
 import com.uberverse.arkcraft.common.event.CommonEventHandler;
 
-public class GuiOverlayGetResources extends Gui
+public class GUIOverlayGetResources extends Gui
 {
 	private static final Minecraft mc = Minecraft.getMinecraft();
 	private static final TextureMap iconLocation = new TextureMap(ARKCraft.MODID + "textures/items/azul.png");

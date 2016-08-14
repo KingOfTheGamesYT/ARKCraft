@@ -7,9 +7,9 @@ import com.uberverse.arkcraft.client.gui.GUICompostBin;
 import com.uberverse.arkcraft.client.gui.GUIEngram;
 import com.uberverse.arkcraft.client.gui.GUIForge;
 import com.uberverse.arkcraft.client.gui.GuiCropPlotNew;
-import com.uberverse.arkcraft.client.gui.GuiMP;
-import com.uberverse.arkcraft.client.gui.GuiPlayerCrafting;
-import com.uberverse.arkcraft.client.gui.GuiSmithy;
+import com.uberverse.arkcraft.client.gui.GUIMortarPestle;
+import com.uberverse.arkcraft.client.gui.GUIPlayerCrafting;
+import com.uberverse.arkcraft.client.gui.GUISmithy;
 import com.uberverse.arkcraft.common.block.container.ContainerCropPlotNew;
 import com.uberverse.arkcraft.common.block.container.ContainerEngram;
 import com.uberverse.arkcraft.common.block.container.ContainerInventoryCampfire;
@@ -201,7 +201,7 @@ public class GuiHandler implements IGuiHandler
 			TileEntity tileEntity = world.getTileEntity(xyz);
 			if (tileEntity instanceof TileInventorySmithy)
 			{
-				return new GuiSmithy(player.inventory,
+				return new GUISmithy(player.inventory,
 						(TileInventorySmithy) tileEntity);
 			}
 			else
@@ -216,7 +216,7 @@ public class GuiHandler implements IGuiHandler
 			TileEntity tileEntity = world.getTileEntity(xyz);
 			if (tileEntity instanceof TileInventoryMP)
 			{
-				return new GuiMP(player.inventory, (TileInventoryMP) tileEntity);
+				return new GUIMortarPestle(player.inventory, (TileInventoryMP) tileEntity);
 			}
 			else
 			{
@@ -313,7 +313,7 @@ public class GuiHandler implements IGuiHandler
 		// }
 		else if (ID == ARKCraft.GUI.PLAYER.getID())
 		{
-			return new GuiPlayerCrafting(player.inventory, player);
+			return new GUIPlayerCrafting(player.inventory, player);
 		}
 		else if (ID == ARKCraft.GUI.ATTACHMENT_GUI.getID())
 		{

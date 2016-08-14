@@ -21,7 +21,7 @@ import com.uberverse.arkcraft.common.block.tile.TileInventoryMP;
 /**
  * @author Vastatio
  */
-public class GuiMP extends GuiContainer
+public class GUIMortarPestle extends GuiContainer
 {
 
     public String name = "Mortar and Pestle";
@@ -32,7 +32,7 @@ public class GuiMP extends GuiContainer
     private GuiButton buttonPrevRecipe;
     private GuiButton buttonNextRecipe;
 
-    public GuiMP(InventoryPlayer invPlayer, TileInventoryMP tileInventoryMP)
+    public GUIMortarPestle(InventoryPlayer invPlayer, TileInventoryMP tileInventoryMP)
     {
         super(new ContainerInventoryMP(invPlayer, tileInventoryMP));
         this.tileEntity = tileInventoryMP;

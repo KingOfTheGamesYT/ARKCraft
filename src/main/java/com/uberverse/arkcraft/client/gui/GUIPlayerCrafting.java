@@ -26,7 +26,7 @@ import com.uberverse.lib.LogHelper;
 /**
  * @author wildbill22, ERBF
  */
-public class GuiPlayerCrafting extends GuiContainer
+public class GUIPlayerCrafting extends GuiContainer
 {
 
     public String name = "Built-in Crafting";
@@ -36,7 +36,7 @@ public class GuiPlayerCrafting extends GuiContainer
     private GuiButton engramButton;
     private EntityPlayer player;
 
-    public GuiPlayerCrafting(InventoryPlayer invPlayer, EntityPlayer player)
+    public GUIPlayerCrafting(InventoryPlayer invPlayer, EntityPlayer player)
     {
         super(new ContainerInventoryPlayerCrafting(invPlayer, player));
         inventoryBlueprints = ARKPlayer.get(player).getInventoryBlueprints();

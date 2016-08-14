@@ -15,8 +15,8 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.event.ClientEventHandler;
-import com.uberverse.arkcraft.client.gui.GuiOverlayGetResources;
-import com.uberverse.arkcraft.client.gui.GuiOverlayReloading;
+import com.uberverse.arkcraft.client.gui.GUIOverlayGetResources;
+import com.uberverse.arkcraft.client.gui.GUIOverlayReloading;
 import com.uberverse.arkcraft.client.render.RenderAdvancedBullet;
 import com.uberverse.arkcraft.client.render.RenderSimpleBullet;
 import com.uberverse.arkcraft.client.render.RenderSimpleRifleAmmo;
@@ -52,8 +52,8 @@ public class ClientProxy extends CommonProxy{
 		ClientEventHandler.init();
 
 	//1	MinecraftForge.EVENT_BUS.register(new GuiOverlay());
-		MinecraftForge.EVENT_BUS.register(new GuiOverlayReloading());
-		MinecraftForge.EVENT_BUS.register(new GuiOverlayGetResources());
+		MinecraftForge.EVENT_BUS.register(new GUIOverlayReloading());
+		MinecraftForge.EVENT_BUS.register(new GUIOverlayGetResources());
 
 	//	KeyBindings.preInit();
 	//	dossierProxy.init();

@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL11;
 import com.uberverse.arkcraft.common.event.CommonEventHandler;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 
-public class GuiOverlayReloading extends Gui
+public class GUIOverlayReloading extends Gui
 {
 	private static final Minecraft mc = Minecraft.getMinecraft();
 

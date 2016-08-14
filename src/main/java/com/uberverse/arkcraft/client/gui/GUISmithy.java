@@ -21,7 +21,7 @@ import com.uberverse.arkcraft.common.block.tile.TileInventorySmithy;
 /**
  * @author wildbill22
  */
-public class GuiSmithy extends GuiContainer
+public class GUISmithy extends GuiContainer
 {
 
 	public String name = "Smithy";
@@ -33,7 +33,7 @@ public class GuiSmithy extends GuiContainer
 	private GuiButton buttonPrevRecipe;
 	private GuiButton buttonNextRecipe;
 
-	public GuiSmithy(InventoryPlayer invPlayer, TileInventorySmithy tileInventorySmithy)
+	public GUISmithy(InventoryPlayer invPlayer, TileInventorySmithy tileInventorySmithy)
 	{
 		super(new ContainerInventorySmithy(invPlayer, tileInventorySmithy));
 		this.tileEntity = tileInventorySmithy;
