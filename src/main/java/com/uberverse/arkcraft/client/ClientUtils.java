@@ -1,7 +1,5 @@
 package com.uberverse.arkcraft.client;
 
-import java.awt.font.FontRenderContext;
-import java.awt.geom.AffineTransform;
 import java.util.Iterator;
 import java.util.List;
 
