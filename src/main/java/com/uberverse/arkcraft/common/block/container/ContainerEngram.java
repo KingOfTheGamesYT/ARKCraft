@@ -7,12 +7,12 @@ import com.uberverse.arkcraft.common.inventory.InventoryPlayerEngram;
 import com.uberverse.arkcraft.common.item.engram.ARKCraftEngrams;
 import com.uberverse.arkcraft.common.item.engram.Engram;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ReportedException;
 
 /**
  * @author ERBF
@@ -50,64 +50,40 @@ public class ContainerEngram extends Container implements IContainerScrollable
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.uberverse.arkcraft.common.block.container.IContainerScrollable#getScrollingOffset()
-	 */
 	@Override
 	public int getScrollingOffset() {
 		return 0;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.uberverse.arkcraft.common.block.container.IContainerScrollable#scroll(int)
-	 */
 	@Override
 	public void scroll(int offset) {
 	}
 
-	/* (non-Javadoc)
-	 * @see com.uberverse.arkcraft.common.block.container.IContainerScrollable#getScrollableSlotsWidth()
-	 */
 	@Override
 	public int getScrollableSlotsWidth() {
 		return 18;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.uberverse.arkcraft.common.block.container.IContainerScrollable#getScrollableSlotsHeight()
-	 */
 	@Override
 	public int getScrollableSlotsHeight() {
 		return 18;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.uberverse.arkcraft.common.block.container.IContainerScrollable#getScrollableSlotsCount()
-	 */
 	@Override
 	public int getScrollableSlotsCount() {
 		return 32;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.uberverse.arkcraft.common.block.container.IContainerScrollable#getRequiredSlotsCount()
-	 */
 	@Override
 	public int getRequiredSlotsCount() {
 		return 8;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.uberverse.arkcraft.common.block.container.IContainerScrollable#getMaxOffset()
-	 */
 	@Override
 	public int getMaxOffset() {
 		return 18;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.uberverse.arkcraft.common.block.container.IContainerScrollable#getRelativeScrollingOffset()
-	 */
 	@Override
 	public double getRelativeScrollingOffset() {
 		return 18;
@@ -117,7 +93,6 @@ public class ContainerEngram extends Container implements IContainerScrollable
 
 		public EngramSlot(InventoryPlayerEngram inventoryIn, int index, int xPosition, int yPosition) {
 			super(inventoryIn, index, xPosition, yPosition);
-			
 		}
 		
 		@Override
@@ -139,14 +114,14 @@ public class ContainerEngram extends Container implements IContainerScrollable
 	    }
 		
 		@Override
-		public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack)
+		public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack) throws NullPointerException, ReportedException
 	    {
 	        if(stack.getItem() instanceof Engram) {
 	        	Engram engram = (Engram) stack.getItem();
 				GUIEngram.setEngramTitle(engram.getFormattedName());
 				GUIEngram.setEngramDescription(engram.getFormattedDesc());
 				ContainerEngram.getEngramInventory().setInventorySlotContents(this.getSlotIndex(), playerIn.inventory.getItemStack());
-				playerIn.inventory.getItemStack().attemptDamageItem(engram.getMaxDamage(), new Random());
+				playerIn.inventory.getItemStack();
 	        }
 	    }
 		
