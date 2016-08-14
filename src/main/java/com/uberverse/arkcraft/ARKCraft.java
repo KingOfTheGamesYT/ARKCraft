@@ -2,23 +2,6 @@ package com.uberverse.arkcraft;
 
 import org.apache.logging.log4j.Logger;
 
-
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.Mod.Instance;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-
 import com.uberverse.arkcraft.common.config.CoreConfig;
 import com.uberverse.arkcraft.common.config.ModuleItemConfig;
 import com.uberverse.arkcraft.common.config.WeightsConfig;
@@ -49,11 +32,26 @@ import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
 
-@Mod(modid = ARKCraft.MODID, name = ARKCraft.NAME, version = ARKCraft.VERSION /*dependencies = "required-after:LLibrary@[0.5.5,)"*/)
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.EventBus;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+
+@Mod(modid = ARKCraft.MODID, name = ARKCraft.NAME, version = ARKCraft.VERSION)
 public class ARKCraft
 {
-	public static final String MODID = "arkcraft", VERSION = "${version}",
-			NAME = "ARKCraft";
+	public static final String MODID = "arkcraft", VERSION = "${version}", NAME = "ARKCraft";
 
 	public static final String descriptionPacketChannel = MODID + ":descPacket";
 
@@ -66,10 +64,12 @@ public class ARKCraft
 	public static CreativeTabs tabARK;
 	public static SimpleNetworkWrapper modChannel;
 	public static Logger modLog;
+	public static EventBus bus;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
+		bus = new EventBus();
 		CoreConfig.init(event.getModConfigurationDirectory());
 		FMLCommonHandler.instance().bus().register(new CoreConfig());
 		ModuleItemConfig.init(event.getModConfigurationDirectory());
@@ -100,7 +100,8 @@ public class ARKCraft
 		ForgeCraftingHandler.registerForgeRecipes();
 		CampfireCraftingManager.registerCampfireRecipes();
 
-		//This has to be here so it can create weights for our items and blocks as well
+		// This has to be here so it can create weights for our items and blocks
+		// as well
 		WeightsConfig.init(event.getModConfigurationDirectory());
 
 		setupNetwork();
@@ -164,28 +165,25 @@ public class ARKCraft
 
 		int id = 0;
 		// The handler (usually in the packet class), the packet class, unique
-		modChannel.registerMessage(PlayerPoop.Handler.class, PlayerPoop.class,
+		modChannel.registerMessage(PlayerPoop.Handler.class, PlayerPoop.class, id++, Side.SERVER);
+		modChannel.registerMessage(UpdateMPToCraftItem.Handler.class, UpdateMPToCraftItem.class,
 				id++, Side.SERVER);
-		modChannel.registerMessage(UpdateMPToCraftItem.Handler.class,
-				UpdateMPToCraftItem.class, id++, Side.SERVER);
 		modChannel.registerMessage(UpdateSmithyToCraftItem.Handler.class,
 				UpdateSmithyToCraftItem.class, id++, Side.SERVER);
-		modChannel.registerMessage(OpenPlayerCrafting.Handler.class,
-				OpenPlayerCrafting.class, id++, Side.SERVER);
-		modChannel.registerMessage(UpdatePlayerCrafting.Handler.class,
-				UpdatePlayerCrafting.class, id++, Side.SERVER);
+		modChannel.registerMessage(OpenPlayerCrafting.Handler.class, OpenPlayerCrafting.class, id++,
+				Side.SERVER);
+		modChannel.registerMessage(UpdatePlayerCrafting.Handler.class, UpdatePlayerCrafting.class,
+				id++, Side.SERVER);
 		modChannel.registerMessage(OpenAttachmentInventory.Handler.class,
 				OpenAttachmentInventory.class, id++, Side.SERVER);
-		modChannel.registerMessage(ReloadStarted.Handler.class,
-				ReloadStarted.class, id++, Side.SERVER);
-		modChannel.registerMessage(ReloadFinished.Handler.class,
-				ReloadFinished.class, id++, Side.CLIENT);
-		modChannel.registerMessage(ScrollingMessage.Handler.class,
-				ScrollingMessage.class, id++, Side.SERVER);
-		modChannel.registerMessage(MessageHover.class,
-				MessageHover.class, id++, Side.CLIENT);
-		modChannel.registerMessage(MessageHoverReq.class,
-				MessageHoverReq.class, id++, Side.SERVER);
+		modChannel.registerMessage(ReloadStarted.Handler.class, ReloadStarted.class, id++,
+				Side.SERVER);
+		modChannel.registerMessage(ReloadFinished.Handler.class, ReloadFinished.class, id++,
+				Side.CLIENT);
+		modChannel.registerMessage(ScrollingMessage.Handler.class, ScrollingMessage.class, id++,
+				Side.SERVER);
+		modChannel.registerMessage(MessageHover.class, MessageHover.class, id++, Side.CLIENT);
+		modChannel.registerMessage(MessageHoverReq.class, MessageHoverReq.class, id++, Side.SERVER);
 		DescriptionHandler.init();
 	}
 
