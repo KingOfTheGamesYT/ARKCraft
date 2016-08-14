@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
+import com.uberverse.arkcraft.common.entity.IArkLeveling;
 import com.uberverse.arkcraft.common.entity.event.ArkExperienceGainEvent;
 import com.uberverse.arkcraft.common.handlers.recipes.PlayerCraftingManager;
 import com.uberverse.arkcraft.common.inventory.InventoryBlueprints;
@@ -24,7 +25,7 @@ import net.minecraftforge.common.IExtendedEntityProperties;
 /**
  * @author wildbill22, Lewis_McReu, ERBF
  */
-public class ARKPlayer implements IExtendedEntityProperties
+public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 {
 	// TODO
 	private static final int healthIncrease = 10, staminaIncrease = 10, oxygenIncrease = 20,
@@ -347,7 +348,7 @@ public class ARKPlayer implements IExtendedEntityProperties
 	}
 
 	// Leveling stuff
-	public void addXP(int xp)
+	public void addXP(long xp)
 	{
 		ArkExperienceGainEvent event = new ArkExperienceGainEvent(this.player, xp);
 		boolean canceled = ARKCraft.bus.post(event);
@@ -358,16 +359,16 @@ public class ARKPlayer implements IExtendedEntityProperties
 		}
 	}
 
-	private void checkLevel()
+	public void checkLevel()
 	{
-		if (level < maxLevel && xp > getRequiredXP())
+		while (level < maxLevel && xp > getRequiredXP())
 		{
 			level++;
 			engramPoints += getReceivedEngramPoints(level);
 		}
 	}
 
-	private long getRequiredXP()
+	public long getRequiredXP()
 	{
 		return Math.round(Math.pow(level + 1, 3) / 2);
 	}
