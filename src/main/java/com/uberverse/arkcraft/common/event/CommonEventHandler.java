@@ -113,12 +113,12 @@ public class CommonEventHandler {
 								//if (dest == Blocks.water && destJ == Blocks.water) {
 									if (item == Items.book && itemJ == Items.bone) {
 										if (target.ticksExisted > 100 && targetJ.ticksExisted > 100) {
-											target.setDead();
-											targetJ.setDead();
+											target.getEntityItem().stackSize -= 1;
+											targetJ.getEntityItem().stackSize -= 1;
+											if(target.getEntityItem().stackSize == 0) target.setDead();
+											if(targetJ.getEntityItem().stackSize == 0) targetJ.setDead();
 											WorldServer worldServer = (WorldServer)worldIn;
-											for(int l = 0; l <= 40; l++) {	
-												worldServer.spawnParticle(EnumParticleTypes.SMOKE_LARGE, false, x + 0.5D, y+ 1.0D, z+ 0.5D, 1, 0.0D, 0.0D, 0.0D, 0.0D, new int[0]);
-											}
+											worldServer.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, false, x + 0.5D, y+ 1.0D, z+ 0.5D, 1, 0.0D, 0.0D, 0.0D, 0.0D, new int[0]);
 											if (target.isDead && targetJ.isDead) {
 												worldIn.spawnEntityInWorld(new EntityItem(worldIn, x, y, z,
 														new ItemStack(ARKCraftItems.info_book)));
