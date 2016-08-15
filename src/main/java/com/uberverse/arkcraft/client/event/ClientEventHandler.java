@@ -1,7 +1,6 @@
 package com.uberverse.arkcraft.client.event;
 
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.Random;
 
@@ -276,7 +275,7 @@ public class ClientEventHandler {
 					OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 					GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 					GL11.glDisable(GL11.GL_ALPHA_TEST);
-					com.uberverse.arkcraft.client.ClientUtils.drawHoveringText(list, width / 2, height / 2, mc.fontRendererObj, width, height);
+					com.uberverse.arkcraft.ClientUtils.drawHoveringText(list, width / 2, height / 2, mc.fontRendererObj, width, height);
 					GL11.glPopMatrix();
 				}
 			}

@@ -1,6 +1,6 @@
 package com.uberverse.arkcraft.common.network;
 
-import com.uberverse.arkcraft.common.block.container.IContainerScrollable;
+import com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
