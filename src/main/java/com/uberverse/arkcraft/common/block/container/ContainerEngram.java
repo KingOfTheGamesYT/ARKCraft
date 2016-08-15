@@ -2,6 +2,7 @@ package com.uberverse.arkcraft.common.block.container;
 
 import com.uberverse.arkcraft.client.gui.GUIEngram;
 import com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable;
+import com.uberverse.arkcraft.common.container.scrollable.SlotScrolling;
 import com.uberverse.arkcraft.common.inventory.InventoryPlayerEngram;
 import com.uberverse.arkcraft.common.item.engram.ARKCraftEngrams;
 import com.uberverse.arkcraft.common.item.engram.Engram;
@@ -18,16 +19,22 @@ import net.minecraft.item.ItemStack;
 public class ContainerEngram extends Container implements IContainerScrollable
 {
 
+	public static final int SLOT_SPACING = 20;
+	
 	private static InventoryPlayerEngram invEngram;
+	
+	private int maxSlots;
+	private int scrollingOffset = 0;
 	
 	public ContainerEngram(InventoryPlayerEngram inventory, EntityPlayer player)
 	{
 		invEngram = inventory;
+		maxSlots = inventory.getSizeInventory();
 		
 		int index = 0;
 		for (int y = 0; y < 8; ++y) {
 	        for (int x = 0; x < 8; ++x) {
-	            this.addSlotToContainer(new EngramSlot(inventory, index, 1 + x * 20, 44 + y * 20));
+	            this.addSlotToContainer(new EngramSlot(inventory, index, 1 + x * 20, 44 + y * 20, this));
 	            try {
 	            	inventory.setInventorySlotContents(index, new ItemStack(ARKCraftEngrams.engramList.get(index)));
 	            } catch (IndexOutOfBoundsException e) {}
@@ -47,49 +54,100 @@ public class ContainerEngram extends Container implements IContainerScrollable
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable#getScrollingOffset()
+	 */
 	@Override
 	public int getScrollingOffset() {
-		return 0;
+		return this.scrollingOffset;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable#scroll(int)
+	 */
 	@Override
 	public void scroll(int offset) {
+		int newScrollingOffset = scrollingOffset + offset;
+		if(isValidOffset(newScrollingOffset)) {
+			scrollingOffset = newScrollingOffset;
+			refreshLists();
+		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable#getScrollableSlotsWidth()
+	 */
 	@Override
 	public int getScrollableSlotsWidth() {
 		return 18;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable#getScrollableSlotsHeight()
+	 */
 	@Override
 	public int getScrollableSlotsHeight() {
 		return 18;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable#getScrollableSlotsCount()
+	 */
 	@Override
 	public int getScrollableSlotsCount() {
+		return 18 * 18;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable#getRequiredSlotsCount()
+	 */
+	@Override
+	public int getRequiredSlotsCount() {
 		return 32;
 	}
 
-	@Override
-	public int getRequiredSlotsCount() {
-		return 8;
-	}
-
+	/* (non-Javadoc)
+	 * @see com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable#getMaxOffset()
+	 */
 	@Override
 	public int getMaxOffset() {
-		return 18;
+		return 32 / getScrollableSlotsWidth() - getScrollableSlotsHeight() + 1;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable#getRelativeScrollingOffset()
+	 */
 	@Override
 	public double getRelativeScrollingOffset() {
-		return 18;
+		return (double) this.scrollingOffset / (double) getMaxOffset();
 	}
 	
-	public class EngramSlot extends Slot {
+	@SuppressWarnings("unchecked")
+	private void refreshLists()
+	{
+		for(int i = 0; i < inventoryItemStacks.size(); i++) {
+			Slot slot = (Slot) inventorySlots.get(i);
+			if(slot instanceof EngramSlot) {
+				inventoryItemStacks.set(i, slot.getStack());
+			}
+		}
+	}
+	
+	private boolean isValidOffset(int offset)
+	{
+		int maxOffset = getMaxOffset();
+		return canScroll() && offset >= 0 && offset <= maxOffset;
+	}
+	
+	public boolean canScroll()
+	{
+		return this.maxSlots < 32;
+	}
+	
+	public class EngramSlot extends SlotScrolling {
 
-		public EngramSlot(InventoryPlayerEngram inventoryIn, int index, int xPosition, int yPosition) {
-			super(inventoryIn, index, xPosition, yPosition);
+		public EngramSlot(InventoryPlayerEngram inventoryIn, int index, int xPosition, int yPosition, IContainerScrollable container) {
+			super(inventoryIn, index, xPosition, yPosition, container);
 		}
 		
 		@Override
