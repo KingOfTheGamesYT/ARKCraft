@@ -48,9 +48,10 @@ public class ClientProxy extends CommonProxy{
 	{
 		if (initDone) { return; }
 		super.init();
-
+		
 		ClientEventHandler.init();
-
+		dossierProxy.init();
+		
 	//1	MinecraftForge.EVENT_BUS.register(new GuiOverlay());
 		MinecraftForge.EVENT_BUS.register(new GUIOverlayReloading());
 		MinecraftForge.EVENT_BUS.register(new GUIOverlayGetResources());

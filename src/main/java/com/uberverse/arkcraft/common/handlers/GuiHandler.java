@@ -1,15 +1,18 @@
 package com.uberverse.arkcraft.common.handlers;
 
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.client.book.GuiInfoBook;
+import com.uberverse.arkcraft.client.book.core.BookData;
+import com.uberverse.arkcraft.client.book.core.BookDataStore;
 import com.uberverse.arkcraft.client.gui.GUIAttachment;
 import com.uberverse.arkcraft.client.gui.GUICampfire;
 import com.uberverse.arkcraft.client.gui.GUICompostBin;
 import com.uberverse.arkcraft.client.gui.GUIEngram;
 import com.uberverse.arkcraft.client.gui.GUIForge;
-import com.uberverse.arkcraft.client.gui.GuiCropPlotNew;
 import com.uberverse.arkcraft.client.gui.GUIMortarPestle;
 import com.uberverse.arkcraft.client.gui.GUIPlayerCrafting;
 import com.uberverse.arkcraft.client.gui.GUISmithy;
+import com.uberverse.arkcraft.client.gui.GuiCropPlotNew;
 import com.uberverse.arkcraft.common.block.container.ContainerCropPlotNew;
 import com.uberverse.arkcraft.common.block.container.ContainerEngram;
 import com.uberverse.arkcraft.common.block.container.ContainerInventoryCampfire;
@@ -30,6 +33,7 @@ import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
 import com.uberverse.lib.LogHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
@@ -303,6 +307,11 @@ public class GuiHandler implements IGuiHandler
 				.info("GuiHandler - getClientGuiElement: TileEntityCompostBin not found!");
 			}
 		}
+		else if(ID == ARKCraft.GUI.BOOK_GUI.getID()) {
+			ItemStack stack = player.getCurrentEquippedItem();
+			return new GuiInfoBook(stack, GuiHandler.getBookDataFromStack(stack));
+		}
+		
 
 		// else if (ID == GlobalAdditions.GUI.SCOPE_GUI.getID()) {
 		// Entity entity = getEntityAt(player, x, y, z);
@@ -321,5 +330,10 @@ public class GuiHandler implements IGuiHandler
 					InventoryAttachment.create(player.getHeldItem()));
 		}
 		return null;
+	}
+	
+	private static BookData getBookDataFromStack(ItemStack stack)
+	{
+		return BookDataStore.getBookDataFromName(stack.getUnlocalizedName());
 	}
 }
