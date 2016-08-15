@@ -118,7 +118,7 @@ public class CommonEventHandler {
 											if(target.getEntityItem().stackSize == 0) target.setDead();
 											if(targetJ.getEntityItem().stackSize == 0) targetJ.setDead();
 											WorldServer worldServer = (WorldServer)worldIn;
-											worldServer.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, false, x + 0.5D, y+ 1.0D, z+ 0.5D, 1, 0.0D, 0.0D, 0.0D, 0.0D, new int[0]);
+											worldServer.spawnParticle(EnumParticleTypes.SMOKE_LARGE, false, x + 0.5D, y+ 1.0D, z+ 0.5D, 1, 0.0D, 0.0D, 0.0D, 0.0D, new int[0]);
 											if (target.isDead && targetJ.isDead) {
 												worldIn.spawnEntityInWorld(new EntityItem(worldIn, x, y, z,
 														new ItemStack(ARKCraftItems.info_book)));
