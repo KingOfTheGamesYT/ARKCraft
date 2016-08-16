@@ -82,8 +82,8 @@ public class GUIEngram extends GuiContainer
 	{
 		String s = "Engram Points: " + engramPoints;
 		fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, -10, 4210752);
-		fontRendererObj.drawString(engramTitle, /*xSize / 2 - fontRendererObj.getStringWidth(engramTitle)*/ drawHalfWidth(engramTitle, fontRendererObj, xSize), 6, 4210752);
-		fontRendererObj.drawString(engramDesc, /*xSize / 2 - fontRendererObj.getStringWidth(engramDesc)*/ drawHalfWidth(engramDesc, fontRendererObj, xSize), 18, 4210752);
+		fontRendererObj.drawString(engramTitle, drawHalfWidth(engramTitle, fontRendererObj, xSize), 6, 4210752);
+		fontRendererObj.drawString(engramDesc, drawHalfWidth(engramDesc, fontRendererObj, xSize), 18, 4210752);
 	}
 	
 	@Override
@@ -120,6 +120,11 @@ public class GUIEngram extends GuiContainer
 	public static void setEngramDescription(String newDesc)
 	{
 		engramDesc = newDesc;
+	}
+	
+	public InventoryPlayerEngram getInventory()
+	{
+		return inventory;
 	}
 	
 }
