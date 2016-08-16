@@ -22,7 +22,9 @@ public class PageCraftingBlock extends Page {
 	
 	@Override
 	public void draw(int guiLeft, int guiTop, int mouseX, int mouseY, SmallFontRenderer renderer, boolean canTranslate, GuiInfoBook book) {
-		
+		if(result != null) {
+			
+		}
 	
 	}
 }
