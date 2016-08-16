@@ -14,24 +14,30 @@ public class SlotScrolling extends Slot
 		this.container = container;
 	}
 
+	protected IContainerScrollable getContainer()
+	{
+		return container;
+	}
+
 	@Override
 	public int getSlotIndex()
 	{
-		return super.getSlotIndex() + (container.getScrollingOffset() * 9);
+		return super.getSlotIndex() + (container.getScrollingOffset() * container
+				.getScrollableSlotsWidth());
 	}
 
 	@Override
 	public ItemStack getStack()
 	{
 		int index = getSlotIndex();
-		return index < container.getRequiredSlotsCount() ? this.inventory
+		return index < container.getTotalSlotsAmount() ? this.inventory
 				.getStackInSlot(index) : null;
 	}
 
 	@Override
 	public void putStack(ItemStack stack)
 	{
-		if (getSlotIndex() < container.getRequiredSlotsCount())
+		if (getSlotIndex() < container.getTotalSlotsAmount())
 		{
 			inventory.setInventorySlotContents(getSlotIndex(), stack);
 			onSlotChanged();
@@ -47,7 +53,7 @@ public class SlotScrolling extends Slot
 	@Override
 	public boolean isItemValid(ItemStack stack)
 	{
-		return getSlotIndex() < container.getRequiredSlotsCount();
+		return getSlotIndex() < container.getTotalSlotsAmount();
 	}
 
 	public void refresh()
