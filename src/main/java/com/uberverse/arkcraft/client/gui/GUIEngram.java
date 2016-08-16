@@ -10,6 +10,7 @@ import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.container.ContainerEngram;
 import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
 import com.uberverse.arkcraft.common.inventory.InventoryPlayerEngram;
+import com.uberverse.arkcraft.common.item.engram.Engram;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -95,6 +96,12 @@ public class GUIEngram extends GuiContainer
 			//oh boy
 			this.engramPoints = ARKPlayer.get(player).getEngramPoints(); //Updates engram count
 		}
+	}
+	
+	public static void setInformation(Engram engram)
+	{
+		setEngramTitle(engram.getFormattedName());
+		setEngramDescription(engram.getFormattedDesc());
 	}
 	
 	private static int drawHalfWidth(String string, FontRenderer renderer, int xSize)

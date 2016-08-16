@@ -143,8 +143,7 @@ public class ContainerEngram extends Container implements IContainerScrollable
 	    {
 	        if(stack.getItem() instanceof Engram) {
 	        	Engram engram = (Engram) stack.getItem();
-				GUIEngram.setEngramTitle(engram.getFormattedName());
-				GUIEngram.setEngramDescription(engram.getFormattedDesc());
+				GUIEngram.setInformation(engram);
 				ContainerEngram.getEngramInventory().setInventorySlotContents(this.getSlotIndex(), playerIn.inventory.getItemStack());
 				playerIn.inventory.setItemStack(null);
 	        }
