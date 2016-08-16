@@ -26,8 +26,8 @@ public class GuiInfoBook extends GuiScreen {
 	private ItemStack item;
 
 	// General
-	public int guiWidth = 156;
-	public int guiHeight = 220;
+	public int guiWidth = 271;
+	public int guiHeight = 360;
 	private BookDocument document;
 
 	// Pages (Count, buttons, font renderer, data)
@@ -44,6 +44,8 @@ public class GuiInfoBook extends GuiScreen {
 	// Pages (The content)
 	private Page pageLeft;
 	private Page pageRight;
+	
+	
 
 	public GuiInfoBook(ItemStack stack, BookData data) {
 		this.mc = Minecraft.getMinecraft();
@@ -73,7 +75,7 @@ public class GuiInfoBook extends GuiScreen {
 		// LogHelper.info("CurrentPage: " + currentPage);
 		// LogHelper.info("Mouse X: " + mouseX + ", Mouse Y: " + mouseY);
 		int x = (width / 2);
-		int y = (height - this.guiHeight) / 2;
+		int y = ((height - this.guiHeight) / 2) + 80;
 
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 		this.mc.getTextureManager().bindTexture(bookRight);
@@ -89,10 +91,10 @@ public class GuiInfoBook extends GuiScreen {
 		LogHelper.info(pageRight == null ? "pageRight is null!" : "pageRight is not null");
 		if (pageLeft != null && pageRight != null) {
 			LogHelper.info("Trying to draw the left page!");
-			pageLeft.draw(x - guiWidth, y + 12, mouseX, mouseY, fontRenderer, bd.canTranslate, this);
+			pageLeft.draw(x + 70 - guiWidth, y + 12, mouseX, mouseY, fontRenderer, bd.canTranslate, this);
 
 			LogHelper.info("Trying to draw the right page!");
-			pageRight.draw(x, y + 12, mouseX, mouseY, fontRenderer, bd.canTranslate, this);
+			pageRight.draw(x - 70, y + 12, mouseX, mouseY, fontRenderer, bd.canTranslate, this);
 		}
 
 		nButton.drawButton(Minecraft.getMinecraft(), mouseX, mouseY);
@@ -106,6 +108,9 @@ public class GuiInfoBook extends GuiScreen {
 				currentPage += 2;
 			if (button.id == 2 && currentPage != 0)
 				currentPage -= 2;
+			if(button.id == 3) {
+				
+			}
 			updateContent();
 		}
 	}
@@ -151,4 +156,5 @@ public class GuiInfoBook extends GuiScreen {
 		return false;
 	}
 
+	
 }

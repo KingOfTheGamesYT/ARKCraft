@@ -6,11 +6,16 @@ import com.uberverse.arkcraft.client.book.lib.Page;
 import com.uberverse.arkcraft.client.book.lib.SmallFontRenderer;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
 /**
  * @author Vastatio
+ * The title page.
+ * It includes 3 strings, a title, text, and an image.
+ * It draws the title at guiTop+5, the text at guiTop + 85 and the image at guiTop + 15.
+ * 
  */
 public class PageTitle extends Page
 {
@@ -28,7 +33,7 @@ public class PageTitle extends Page
             {
                 Minecraft.getMinecraft().getTextureManager().bindTexture(imagePath);
             }
-            book.drawTexturedModalRect(guiLeft + (book.guiWidth - 64) / 2, guiTop + 15, 0, 0, 64, 64);
+            book.drawTexturedModalRect(guiLeft + (book.guiWidth - 64) / 2, guiTop + 25, 0, 0, 64, 64);
 
         }
 
@@ -38,7 +43,7 @@ public class PageTitle extends Page
             {
                 StatCollector.translateToLocal(title);
             }
-            renderer.drawString(title, guiLeft + (book.guiWidth - renderer.getStringWidth(title)) / 2, guiTop + 5, 0);
+            renderer.drawString(EnumChatFormatting.UNDERLINE + title, guiLeft + (book.guiWidth - renderer.getStringWidth(title)) / 2, guiTop + 5, 0);
         }
 
         if (text != null)
@@ -47,7 +52,7 @@ public class PageTitle extends Page
             {
                 StatCollector.translateToLocal(text);
             }
-            renderer.drawSplitString(text, guiLeft + (book.guiWidth - renderer.getStringWidth(title)) / 2, guiTop + 85, renderer.getStringWidth(title), 0);
+            renderer.drawSplitString(EnumChatFormatting.ITALIC + text, guiLeft + (book.guiWidth - renderer.getStringWidth(title)) / 2, guiTop + 105, renderer.getStringWidth(title), 0);
         }
     }
 

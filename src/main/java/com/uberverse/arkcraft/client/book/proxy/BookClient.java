@@ -68,6 +68,6 @@ public class BookClient extends BookCommon {
 	@Override
 	public void registerBlockClasses() {
 		LogHelper.info("Regsitering Block Classes.");
-		
 	}
+	
 }

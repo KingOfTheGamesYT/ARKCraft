@@ -13,6 +13,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
+@SuppressWarnings({"rawtypes"})
 public class ClientUtils {
 	public static void drawHoveringText(List textLines, int x, int y, FontRenderer font, int width, int height)
 	{
