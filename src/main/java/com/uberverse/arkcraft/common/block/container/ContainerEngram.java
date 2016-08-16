@@ -54,17 +54,11 @@ public class ContainerEngram extends Container implements IContainerScrollable
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable#getScrollingOffset()
-	 */
 	@Override
 	public int getScrollingOffset() {
 		return this.scrollingOffset;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable#scroll(int)
-	 */
 	@Override
 	public void scroll(int offset) {
 		int newScrollingOffset = scrollingOffset + offset;
@@ -74,49 +68,31 @@ public class ContainerEngram extends Container implements IContainerScrollable
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable#getScrollableSlotsWidth()
-	 */
 	@Override
 	public int getScrollableSlotsWidth() {
 		return 18;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable#getScrollableSlotsHeight()
-	 */
 	@Override
 	public int getScrollableSlotsHeight() {
 		return 18;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable#getScrollableSlotsCount()
-	 */
 	@Override
 	public int getScrollableSlotsCount() {
 		return 18 * 18;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable#getRequiredSlotsCount()
-	 */
 	@Override
 	public int getRequiredSlotsCount() {
 		return 32;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable#getMaxOffset()
-	 */
 	@Override
 	public int getMaxOffset() {
 		return 32 / getScrollableSlotsWidth() - getScrollableSlotsHeight() + 1;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable#getRelativeScrollingOffset()
-	 */
 	@Override
 	public double getRelativeScrollingOffset() {
 		return (double) this.scrollingOffset / (double) getMaxOffset();
@@ -161,12 +137,6 @@ public class ContainerEngram extends Container implements IContainerScrollable
 		{
 			return 1;
 		}
-		
-		@Override
-		public boolean isItemValid(ItemStack stack)
-	    {
-	        return false;
-	    }
 		
 		@Override
 		public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack)
