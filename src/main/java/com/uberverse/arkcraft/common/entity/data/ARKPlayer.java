@@ -10,6 +10,7 @@ import com.uberverse.arkcraft.common.handlers.recipes.PlayerCraftingManager;
 import com.uberverse.arkcraft.common.inventory.InventoryBlueprints;
 import com.uberverse.arkcraft.common.inventory.InventoryPlayerCrafting;
 import com.uberverse.arkcraft.common.inventory.InventoryPlayerEngram;
+import com.uberverse.arkcraft.common.item.engram.Engram;
 import com.uberverse.arkcraft.common.network.PlayerPoop;
 import com.uberverse.arkcraft.common.network.SyncPlayerData;
 import com.uberverse.lib.LogHelper;
@@ -48,7 +49,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 	// max weights
 	private double maxCarryWeight;
 	// Unlocked Engrams
-	private ArrayList<Object> engrams;
+	private ArrayList<Integer> engrams;
 
 	private InventoryPlayerEngram engramInv;
 
@@ -65,7 +66,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 		this.carryWeight = 0.0;
 		this.weight = 100.0;
 		this.engramPoints = 0;
-		this.engrams = new ArrayList<Object>();
+		this.engrams = new ArrayList<Integer>();
 		this.engramInv = new InventoryPlayerEngram();
 	}
 
@@ -203,6 +204,32 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 	public void setEngramPoints(int engramPoints)
 	{
 		this.engramPoints = engramPoints;
+		syncClient(player, false);
+	}
+	
+	/***
+	 * 
+	 * @param engram
+	 * @param pos not the position being set. used to dictate which engrams the player already has.
+	 */
+	public void addLearnedEngram(Engram engram, int pos)
+	{
+		if(!engrams.contains(pos)) {
+			engrams.add(pos);
+		}
+		syncClient(player, false);
+	}
+	
+	/***
+	 * 
+	 * @param engram
+	 * @param pos not the position being set. used to dictate which engrams the player already has.
+	 */
+	public void removeLearnedEngram(Engram engram, int pos)
+	{
+		if(engrams.contains(pos)) {
+			engrams.remove(pos);
+		}
 		syncClient(player, false);
 	}
 
