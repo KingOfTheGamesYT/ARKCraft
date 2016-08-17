@@ -12,9 +12,13 @@ public interface IContainerScrollable
 
 	public int getScrollableSlotsCount();
 
-	public int getRequiredSlotsCount();
-
 	public int getMaxOffset();
 
 	public double getRelativeScrollingOffset();
+
+	public int getVisibleSlotsAmounts();
+
+	public int getTotalSlotsAmount();
+
+	public boolean canScroll();
 }
