@@ -30,22 +30,18 @@ public class ContainerEngram extends Container implements IContainerScrollable
 	{
 		invEngram = inventory;
 		totalSlots = inventory.getSizeInventory();
-
+		addSlotsAndEngrams(inventory);
+	}
+	
+	private void addSlotsAndEngrams(InventoryPlayerEngram inventory)
+	{
 		int index = 0;
-		for (int y = 0; y < 4; ++y)
-		{
-			for (int x = 0; x < 8; ++x)
-			{
-				this.addSlotToContainer(
-						new EngramSlot(inventory, index, 1 + x * 20, 44 + y * 20, this));
-				try
-				{
-					inventory.setInventorySlotContents(index,
-							new ItemStack(ARKCraftEngrams.engramList.get(index)));
-				}
-				catch (IndexOutOfBoundsException e)
-				{
-				}
+		for (int y = 0; y < 8; ++y) {
+			for (int x = 0; x < 8; ++x) {
+				this.addSlotToContainer(new EngramSlot(inventory, index, 1 + x * 20, 44 + y * 20, this));
+				try {
+					inventory.setInventorySlotContents(index, new ItemStack(ARKCraftEngrams.engramList.get(index)));
+				} catch (IndexOutOfBoundsException e) {}
 				index++;
 			}
 		}
