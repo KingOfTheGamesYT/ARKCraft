@@ -10,7 +10,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
-public class PageImageLink extends Page {
+public class PageChapter extends Page {
 
 	public String title;
 	public String image;

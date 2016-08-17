@@ -7,10 +7,10 @@
 			"image": "textures/gui/logo.png"
 		},
 		{
-			"type": "imagelink",
-			"title": "ARKCraft Forum",
-			"image": "textures/gui/arkcraft_logo.png",
-			"link": "http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/2722534-wip-arkcraft-the-ark-survival-evolved-minecraft"
+			"type": "title",
+			"title": "Sections",
+			"text": "Real education, screw books! Wait...",
+			"image": "textures/gui/arkcraft_logo.png"
 		}
 	]
 }

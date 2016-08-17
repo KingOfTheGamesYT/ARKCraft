@@ -52,7 +52,7 @@ public class PageTitle extends Page
             {
                 StatCollector.translateToLocal(text);
             }
-            renderer.drawSplitString(EnumChatFormatting.ITALIC + text, guiLeft + (book.guiWidth - renderer.getStringWidth(title)) / 2, guiTop + 105, renderer.getStringWidth(title), 0);
+            renderer.drawSplitString(EnumChatFormatting.ITALIC + text, guiLeft + (book.guiWidth - renderer.getStringWidth(title)) / 2, guiTop + 105, (int)(renderer.getStringWidth(text) / 1.5f), 0);
         }
     }
 
