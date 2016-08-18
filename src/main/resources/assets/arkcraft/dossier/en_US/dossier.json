@@ -3,14 +3,14 @@
 		{
 			"type": "title",
 			"title": "ARKCraft Manual to Ascendence",
-			"text": "Your guide to total dominance in and of the ARKCraft World.",
+			"text": "Thrive and survive in your environment, ARKCrafter.",
 			"image": "textures/gui/logo.png"
 		},
 		{
 			"type": "title",
 			"title": "Sections",
-			"text": "Real education, screw books! Wait...",
-			"image": "textures/gui/arkcraft_logo.png"
+			"text": "One thing to Note: Crafting, Guns, Structures, Oh My!",
+			"image": "textures/items/arkCraftLogo3.png"
 		}
 	]
 }

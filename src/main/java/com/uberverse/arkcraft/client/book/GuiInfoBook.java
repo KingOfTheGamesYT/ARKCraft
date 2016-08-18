@@ -26,8 +26,8 @@ public class GuiInfoBook extends GuiScreen {
 	private ItemStack item;
 
 	// General
-	public int guiWidth = 271;
-	public int guiHeight = 360;
+	public int guiWidth = 156;
+	public int guiHeight = 220;
 	private BookDocument document;
 
 	// Pages (Count, buttons, font renderer, data)
@@ -58,9 +58,9 @@ public class GuiInfoBook extends GuiScreen {
 		bookRight = data.rightPage;
 	}
 
-	@Override
-	public void initGui() {
-		LogHelper.info("initGUI() called");
+	public void initGui()
+	{
+		LogHelper.info("initGui() is called!");
 		currentPage = 0;
 		maxPages = document.getEntries().length;
 		updateContent();
@@ -68,14 +68,16 @@ public class GuiInfoBook extends GuiScreen {
 		int y = (this.height - guiHeight) / 2;
 		this.buttonList.add(this.nButton = new PageButton(1, x + guiWidth + 26, y + guiHeight - 25, true));
 		this.buttonList.add(this.prevButton = new PageButton(2, x - 45, y + guiHeight - 25, false));
+
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+	public void drawScreen(int mouseX, int mouseY, float partialTicks)
+	{
 		// LogHelper.info("CurrentPage: " + currentPage);
 		// LogHelper.info("Mouse X: " + mouseX + ", Mouse Y: " + mouseY);
 		int x = (width / 2);
-		int y = ((height - this.guiHeight) / 2) + 80;
+		int y = (height - this.guiHeight) / 2;
 
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 		this.mc.getTextureManager().bindTexture(bookRight);
@@ -83,23 +85,26 @@ public class GuiInfoBook extends GuiScreen {
 
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 		this.mc.getTextureManager().bindTexture(bookLeft);
-		this.drawTexturedModalRect(x - guiWidth, y, 256 - this.guiWidth, 0, this.guiWidth, this.guiHeight);
+		this.drawTexturedModalRect(x - guiWidth, y, 256 - this.guiWidth, 0, this.guiWidth,
+				this.guiHeight);
 
 		super.drawScreen(mouseX, mouseY, partialTicks);
 
 		LogHelper.info(pageLeft == null ? "pageLeft is null!" : "pageLeft is not null");
 		LogHelper.info(pageRight == null ? "pageRight is null!" : "pageRight is not null");
-		if (pageLeft != null && pageRight != null) {
+		if (pageLeft != null && pageRight != null)
+		{
 			LogHelper.info("Trying to draw the left page!");
-			pageLeft.draw(x + 70 - guiWidth, y + 12, mouseX, mouseY, fontRenderer, bd.canTranslate, this);
+			pageLeft.draw(x - guiWidth, y + 12, mouseX, mouseY, fontRenderer, bd.canTranslate, this);
 
 			LogHelper.info("Trying to draw the right page!");
-			pageRight.draw(x - 70, y + 12, mouseX, mouseY, fontRenderer, bd.canTranslate, this);
+			pageRight.draw(x, y + 12, mouseX, mouseY, fontRenderer, bd.canTranslate, this);
 		}
 
 		nButton.drawButton(Minecraft.getMinecraft(), mouseX, mouseY);
 		prevButton.drawButton(Minecraft.getMinecraft(), mouseX, mouseY);
 	}
+
 
 	@Override
 	public void actionPerformed(GuiButton button) {

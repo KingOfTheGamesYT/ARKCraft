@@ -13,8 +13,8 @@ import net.minecraft.util.StatCollector;
 /**
  * @author Vastatio
  * The title page.
- * It includes 3 strings, a title, text, and an image.
- * It draws the title at guiTop+5, the text at guiTop + 85 and the image at guiTop + 15.
+ * It includes 3 strings, a title, text, and an image path.
+ * It draws the title at guiTop+5, the text at guiTop + 105 and the image at guiTop + 25.
  * 
  */
 public class PageTitle extends Page
@@ -23,7 +23,7 @@ public class PageTitle extends Page
     public String title;
     public String text;
     public String image;
-
+    
     public void draw(int guiLeft, int guiTop, int mouseX, int mouseY, SmallFontRenderer renderer, boolean canTranslate, GuiInfoBook book)
     {
         if (image != null)
@@ -32,8 +32,8 @@ public class PageTitle extends Page
             if (imagePath != null)
             {
                 Minecraft.getMinecraft().getTextureManager().bindTexture(imagePath);
+                book.drawTexturedModalRect(guiLeft + (book.guiWidth - 64) / 2, guiTop + 25, 0, 0, 64, 64);
             }
-            book.drawTexturedModalRect(guiLeft + (book.guiWidth - 64) / 2, guiTop + 25, 0, 0, 64, 64);
 
         }
 
@@ -45,14 +45,14 @@ public class PageTitle extends Page
             }
             renderer.drawString(EnumChatFormatting.UNDERLINE + title, guiLeft + (book.guiWidth - renderer.getStringWidth(title)) / 2, guiTop + 5, 0);
         }
-
+        
         if (text != null)
         {
             if (canTranslate)
             {
                 StatCollector.translateToLocal(text);
             }
-            renderer.drawSplitString(EnumChatFormatting.ITALIC + text, guiLeft + (book.guiWidth - renderer.getStringWidth(title)) / 2, guiTop + 105, (int)(renderer.getStringWidth(text) / 1.5f), 0);
+            renderer.drawSplitString(EnumChatFormatting.ITALIC + text, guiLeft - 70 + (renderer.getStringWidth(text))/2, guiTop + 105, book.guiWidth - 40, 0);
         }
     }
 
@@ -62,4 +62,5 @@ public class PageTitle extends Page
 
     public String getImagePath() { return image; }
 
+    
 }

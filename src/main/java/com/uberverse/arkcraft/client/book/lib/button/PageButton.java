@@ -25,12 +25,12 @@ public class PageButton extends GuiButton
     {
         if (this.visible)
         {
-             /* boolean for hover */
+        	/* boolean for hover */
             boolean hover = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             mc.getTextureManager().bindTexture(texture);
-            int x = 11;
-            int y = 40;
+            int x = 7;
+            int y = 187;
 
             if (hover)
             {
