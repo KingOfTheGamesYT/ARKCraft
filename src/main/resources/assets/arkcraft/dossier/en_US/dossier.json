@@ -2,15 +2,19 @@
 	"entries": [
 		{
 			"type": "title",
-			"title": "ARKCraft Manual to Ascendence",
-			"text": "Thrive and survive in your environment, ARKCrafter.",
+			"title": "Preface",
+			"text": "Descending into the magnificent world of ARKCraft: Survival Evolved, this manual shows a variety of different topics to suit your needs.",
 			"image": "textures/gui/logo.png"
 		},
 		{
-			"type": "title",
+			"type": "chapter",
 			"title": "Sections",
-			"text": "One thing to Note: Crafting, Guns, Structures, Oh My!",
-			"image": "textures/items/arkCraftLogo3.png"
+			"sections": [
+				"Materials and Resources",
+				"Crafting and Collection",
+				"Mechanics",
+				"Tool Operation/Maintenance"
+			]
 		}
 	]
 }

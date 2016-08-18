@@ -1,5 +1,10 @@
 package com.uberverse.arkcraft.client.book;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.client.book.core.BookData;
@@ -12,8 +17,11 @@ import com.uberverse.lib.LogHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiConfirmOpenLink;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.event.ClickEvent;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -33,7 +41,7 @@ public class GuiInfoBook extends GuiScreen {
 	// Pages (Count, buttons, font renderer, data)
 	private int currentPage;
 	private int maxPages;
-	private PageButton prevButton, nButton;
+	private PageButton prevButton, nButton, forums;
 	private SmallFontRenderer fontRenderer = BookClient.fontRenderer;
 	private BookData bd;
 
@@ -44,7 +52,7 @@ public class GuiInfoBook extends GuiScreen {
 	// Pages (The content)
 	private Page pageLeft;
 	private Page pageRight;
-	
+	private String uri = "http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/2722534-wip-arkcraft-the-ark-survival-evolved-minecraft";
 	
 
 	public GuiInfoBook(ItemStack stack, BookData data) {
@@ -59,7 +67,7 @@ public class GuiInfoBook extends GuiScreen {
 	}
 
 	public void initGui()
-	{
+	{	
 		LogHelper.info("initGui() is called!");
 		currentPage = 0;
 		maxPages = document.getEntries().length;
@@ -71,6 +79,31 @@ public class GuiInfoBook extends GuiScreen {
 
 	}
 
+	@Override
+	public void confirmClicked(boolean result, int id) {
+		if (id == 13)
+		{
+			if (result)
+			{
+				try
+				{
+					Class<?> oclass = Class.forName("java.awt.Desktop");
+					Object object = oclass.getMethod("getDesktop", new Class[0]).invoke(
+							(Object) null, new Object[0]);
+					oclass.getMethod("browse", new Class[] { URI.class }).invoke(object,
+							new Object[] { new URI(uri) });
+				}
+				catch (Throwable throwable)
+				{
+					LogHelper.error("Couldn\'t open link");
+					throwable.printStackTrace();
+				}
+			}
+			else { this.mc.displayGuiScreen(this); }
+		}
+	}	
+	
+	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks)
 	{
@@ -96,15 +129,31 @@ public class GuiInfoBook extends GuiScreen {
 		{
 			LogHelper.info("Trying to draw the left page!");
 			pageLeft.draw(x - guiWidth, y + 12, mouseX, mouseY, fontRenderer, bd.canTranslate, this);
-
+			
 			LogHelper.info("Trying to draw the right page!");
 			pageRight.draw(x, y + 12, mouseX, mouseY, fontRenderer, bd.canTranslate, this);
 		}
-
+		
 		nButton.drawButton(Minecraft.getMinecraft(), mouseX, mouseY);
 		prevButton.drawButton(Minecraft.getMinecraft(), mouseX, mouseY);
+		
 	}
 
+
+	@Override
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+		super.mouseClicked(mouseX, mouseY, mouseButton);
+		int imageWidth = 64;
+		int imageHeight = 64;
+		int leftBound = (width/2)-guiWidth + (this.guiWidth - 64) / 2;
+		int topBound = (height - this.guiHeight) / 2;
+		
+		boolean xClick = mouseX <= leftBound + imageWidth && mouseX >= leftBound;
+		boolean yClick = mouseY >= topBound && mouseY >= topBound + imageHeight;
+		if(currentPage == 0 && xClick && yClick) {
+			this.mc.displayGuiScreen(new GuiConfirmOpenLink(this, "https://google.com", 13, true));
+		}
+	}
 
 	@Override
 	public void actionPerformed(GuiButton button) {
@@ -113,9 +162,7 @@ public class GuiInfoBook extends GuiScreen {
 				currentPage += 2;
 			if (button.id == 2 && currentPage != 0)
 				currentPage -= 2;
-			if(button.id == 3) {
-				
-			}
+			
 			updateContent();
 		}
 	}

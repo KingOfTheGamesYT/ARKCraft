@@ -384,12 +384,12 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 
         if (par5)
         {
-            l = this.renderString(par1Str, par2 + 1, par3 + 1, par4, true);
-            l = Math.max(l, this.renderString(par1Str, par2, par3, par4, false));
+            l = this.renderString(par1Str, par2 + 1, par3 + 1, par4, true, 9);
+            l = Math.max(l, this.renderString(par1Str, par2, par3, par4, false, 9));
         }
         else
         {
-            l = this.renderString(par1Str, par2, par3, par4, false);
+            l = this.renderString(par1Str, par2, par3, par4, false, 9);
         }
 
         return l;
@@ -491,8 +491,9 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
     /**
      * Render a single line string at the current (posX,posY) and update posX
      */
-    private void renderStringAtPos(String par1Str, boolean par2)
+    private void renderStringAtPos(String par1Str, boolean par2, int fontSize)
     {
+    	this.FONT_HEIGHT = fontSize;
         for (int i = 0; i < par1Str.length(); ++i)
         {
             char c0 = par1Str.charAt(i);
@@ -654,7 +655,7 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
     /**
      * Render string either left or right aligned depending on bidiFlag
      */
-    private int renderStringAligned(String par1Str, int par2, int par3, int par4, int par5, boolean par6)
+    private int renderStringAligned(String par1Str, int par2, int par3, int par4, int par5, boolean par6, int fontSize)
     {
         if (this.bidiFlag)
         {
@@ -663,13 +664,13 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
             par2 = par2 + par4 - i1;
         }
 
-        return this.renderString(par1Str, par2, par3, par5, par6);
+        return this.renderString(par1Str, par2, par3, par5, par6, fontSize);
     }
 
     /**
      * Render single line string by setting GL color, current (posX,posY), and calling renderStringAtPos()
      */
-    private int renderString(String par1Str, int par2, int par3, int par4, boolean par5)
+    private int renderString(String par1Str, int par2, int par3, int par4, boolean par5, int fontSize)
     {
         if (par1Str == null)
         {
@@ -699,7 +700,7 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
             GL11.glColor4f(this.red, this.blue, this.green, this.alpha);
             this.posX = (float) par2;
             this.posY = (float) par3;
-            this.renderStringAtPos(par1Str, par5);
+            this.renderStringAtPos(par1Str, par5, fontSize);
             if (!gl_blend)
             {
                 GL11.glDisable(GL11.GL_BLEND);
@@ -899,26 +900,26 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
     /**
      * Splits and draws a String with wordwrap (maximum length is parameter k)
      */
-    public void drawSplitString(String par1Str, int par2, int par3, int par4, int par5)
+    public void drawSplitString(String par1Str, int par2, int par3, int par4, int par5, int fontSize)
     {
         this.resetStyles();
         this.textColor = par5;
         par1Str = this.trimStringNewline(par1Str);
-        this.renderSplitString(par1Str, par2, par3, par4, false);
+        this.renderSplitString(par1Str, par2, par3, par4, false, fontSize);
     }
 
     /**
      * Perform actual work of rendering a multi-line string with wordwrap and with darker drop shadow color if flag is
      * set
      */
-    private void renderSplitString(String par1Str, int par2, int par3, int par4, boolean par5)
+    private void renderSplitString(String par1Str, int par2, int par3, int par4, boolean par5, int fontSize)
     {
         List<String> list = this.listFormattedStringToWidth(par1Str, par4);
 
         for (Iterator<String> iterator = list.iterator(); iterator.hasNext(); par3 += this.FONT_HEIGHT)
         {
             String s1 = iterator.next();
-            this.renderStringAligned(s1, par2, par3, par4, this.textColor, par5);
+            this.renderStringAligned(s1, par2, par3, par4, this.textColor, par5, fontSize);
         }
     }
 

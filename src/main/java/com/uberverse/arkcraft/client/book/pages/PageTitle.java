@@ -32,7 +32,7 @@ public class PageTitle extends Page
             if (imagePath != null)
             {
                 Minecraft.getMinecraft().getTextureManager().bindTexture(imagePath);
-                book.drawTexturedModalRect(guiLeft + (book.guiWidth - 64) / 2, guiTop + 25, 0, 0, 64, 64);
+                book.drawTexturedModalRect(guiLeft + (book.guiWidth - 64) / 2, guiTop + 75, 0, 0, 64, 64);
             }
 
         }
@@ -43,7 +43,7 @@ public class PageTitle extends Page
             {
                 StatCollector.translateToLocal(title);
             }
-            renderer.drawString(EnumChatFormatting.UNDERLINE + title, guiLeft + (book.guiWidth - renderer.getStringWidth(title)) / 2, guiTop + 5, 0);
+            renderer.drawSplitString(EnumChatFormatting.BOLD +""+ EnumChatFormatting.UNDERLINE + title, guiLeft + (book.guiWidth - renderer.getStringWidth(title)) / 2, guiTop + 5, 1000, 0, 10);
         }
         
         if (text != null)
@@ -52,8 +52,11 @@ public class PageTitle extends Page
             {
                 StatCollector.translateToLocal(text);
             }
-            renderer.drawSplitString(EnumChatFormatting.ITALIC + text, guiLeft - 70 + (renderer.getStringWidth(text))/2, guiTop + 105, book.guiWidth - 40, 0);
+            renderer.drawSplitString(text, guiLeft - 27 + (renderer.splitStringWidth(text, book.guiWidth - 20)), guiTop + 35, book.guiWidth - 20, 0, 6);
         }
+        
+        String footnote = "Click the book to go to forum!";
+        renderer.drawSplitString(EnumChatFormatting.DARK_RED + footnote,43 + guiLeft - (book.guiWidth - renderer.getStringWidth(footnote)) / 2, guiTop + 165, 1000, 0, 6);
     }
 
     public String getTitle() { return title; }

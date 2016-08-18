@@ -161,6 +161,8 @@ public class CommonEventHandler
 													0.0D, 0.0D, 0.0D, new int[0]);
 											world.spawnEntityInWorld(new EntityItem(world, x, y, z,
 													new ItemStack(ARKCraftItems.info_book)));
+											
+											
 										}
 									}
 								}
