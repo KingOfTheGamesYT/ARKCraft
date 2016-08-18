@@ -5,6 +5,7 @@ import com.uberverse.arkcraft.client.book.lib.Page;
 import com.uberverse.arkcraft.client.book.lib.SmallFontRenderer;
 
 import net.minecraft.block.Block;
+import net.minecraft.util.StatCollector;
 
 /**
  * 
@@ -26,5 +27,18 @@ public class PageCraftingBlock extends Page {
 			
 		}
 	
+		if(title != null) {
+			if(canTranslate) StatCollector.translateToLocal(title);
+			
+		}
+		
+		if(text != null) {
+			
+		}
+		
+		if(recipeImage != null) {
+			
+		}
+		
 	}
 }

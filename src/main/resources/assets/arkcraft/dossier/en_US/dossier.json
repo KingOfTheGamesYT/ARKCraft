@@ -3,14 +3,14 @@
 		{
 			"type": "title",
 			"title": "ARKCraft Manual to Ascendence",
-			"text": "Your guide to total dominance in and of the ARKCraft World.",
+			"text": "Thrive and survive in your environment, ARKCrafter.",
 			"image": "textures/gui/logo.png"
 		},
 		{
-			"type": "imagelink",
-			"title": "ARKCraft Forum",
-			"image": "textures/gui/arkcraft_logo.png",
-			"link": "http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/2722534-wip-arkcraft-the-ark-survival-evolved-minecraft"
+			"type": "title",
+			"title": "Sections",
+			"text": "One thing to Note: Crafting, Guns, Structures, Oh My!",
+			"image": "textures/items/arkCraftLogo3.png"
 		}
 	]
 }
