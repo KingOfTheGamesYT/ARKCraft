@@ -20,6 +20,7 @@ import com.uberverse.arkcraft.common.event.CommonEventHandler;
 import com.uberverse.arkcraft.common.handlers.ARKShapelessRecipe;
 import com.uberverse.arkcraft.common.handlers.recipes.SmithyCraftingManager;
 import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
+import com.uberverse.arkcraft.common.item.engram.ARKCraftEngrams;
 import com.uberverse.arkcraft.common.item.engram.Engram;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
@@ -60,6 +61,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class ClientEventHandler {
@@ -409,14 +411,12 @@ public class ClientEventHandler {
 		}
 	}
 	
-	/*@SubscribeEvent
-	public void engramTooltip(ItemTooltipEvent event) 
-	{
-		EntityPlayer player = event.entityPlayer;
-		if(event.itemStack.getItem() instanceof Engram) {
-			Engram engram = (Engram) event.itemStack.getItem();
-			GUIEngram.setEngramTitle(engram.getFormattedName());
-			GUIEngram.setEngramDescription(engram.getFormattedDesc());
+	@SubscribeEvent
+	public void playerLogin(PlayerLoggedInEvent event) {
+		ARKPlayer player = ARKPlayer.get(event.player);
+		for(int learned : player.learnedEngrams()) {
+			Engram engram = ARKCraftEngrams.engramList.get(player.learnedEngrams().get(learned));
+			engram.setLearned();
 		}
-	}*/
+	}
 }

@@ -5,6 +5,8 @@ package com.uberverse.arkcraft.common.item.engram;
 
 import java.util.ArrayList;
 
+import net.minecraft.client.resources.I18n;
+
 /**
  * @author ERBF | Aug 11, 2016
  *
@@ -76,6 +78,27 @@ public class ARKCraftEngrams
 		slopedThatchRoof = new Engram("engramSlopedThatchRoof", 5, 3);
 		woodenFoundation = new Engram("engramWoodenFoundation", 5, 6);
 		woodenWall = new Engram("engramWoodenWall", 5, 7);
+	}
+	
+	public static Engram getEngramByLocalizedName(String localizedName)
+	{
+		String name = I18n.format(localizedName);
+		for(Engram engram : engramList) {
+			if(engram.getFormattedName().equalsIgnoreCase(name)) {
+				return engram;
+			}
+		}
+		return null;
+	}
+	
+	public static Engram getEngramByUnlocalizedName(String unlocalizedName)
+	{
+		for(Engram engram : engramList) {
+			if(engram.getName().equalsIgnoreCase(unlocalizedName)) {
+				return engram;
+			}
+		}
+		return null;
 	}
 
 }

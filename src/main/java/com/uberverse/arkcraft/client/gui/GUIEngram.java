@@ -15,6 +15,8 @@ import com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable;
 import com.uberverse.arkcraft.common.container.scrollable.IGuiScrollable;
 import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
 import com.uberverse.arkcraft.common.inventory.InventoryPlayerEngram;
+import com.uberverse.arkcraft.common.item.engram.ARKCraftEngrams;
+import com.uberverse.arkcraft.common.item.engram.Engram;
 import com.uberverse.arkcraft.common.network.ScrollingMessage;
 
 import net.minecraft.client.gui.FontRenderer;
@@ -118,9 +120,26 @@ public class GUIEngram extends GuiContainer implements IGuiScrollable
 		else if (button == learn)
 		{
 			// oh boy
-			this.engramPoints = ARKPlayer.get(player).getEngramPoints(); // Updates
-																			// engram
-																			// count
+			this.engramPoints = ARKPlayer.get(player).getEngramPoints(); // Updates engram count
+			
+			Engram selectedEngram = ARKCraftEngrams.getEngramByLocalizedName(getEngramTitle()); //selected engram
+			
+			//DEBUGGING
+			System.out.println(selectedEngram != null ? selectedEngram.getFormattedName() : "null");
+			System.out.println(selectedEngram != null ? selectedEngram.getFormattedDesc() : "null");     
+			
+			if(engramPoints >= selectedEngram.getRequiredEp()) {
+				selectedEngram.setLearned();
+				
+				int pos = 0;
+				for(Engram engram : ARKCraftEngrams.engramList) {
+					if(engram == selectedEngram) {
+						ARKPlayer.get(player).addLearnedEngram(selectedEngram, pos);
+						break;
+					}
+					pos++;
+				}
+			}
 		}
 	}
 
