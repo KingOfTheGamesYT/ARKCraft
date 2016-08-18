@@ -52,7 +52,7 @@ public class GuiInfoBook extends GuiScreen {
 	// Pages (The content)
 	private Page pageLeft;
 	private Page pageRight;
-	private String uri = "http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/2722534-wip-arkcraft-the-ark-survival-evolved-minecraft";
+	private String uri = "https://minecraft.curseforge.com/projects/arkcraft-mod";
 	
 
 	public GuiInfoBook(ItemStack stack, BookData data) {
@@ -151,7 +151,7 @@ public class GuiInfoBook extends GuiScreen {
 		boolean xClick = mouseX <= leftBound + imageWidth && mouseX >= leftBound;
 		boolean yClick = mouseY >= topBound && mouseY >= topBound + imageHeight;
 		if(currentPage == 0 && xClick && yClick) {
-			this.mc.displayGuiScreen(new GuiConfirmOpenLink(this, "https://google.com", 13, true));
+			this.mc.displayGuiScreen(new GuiConfirmOpenLink(this, uri.toString(), 13, true));
 		}
 	}
 

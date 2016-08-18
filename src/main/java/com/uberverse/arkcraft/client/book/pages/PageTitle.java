@@ -55,8 +55,8 @@ public class PageTitle extends Page
             renderer.drawSplitString(text, guiLeft - 27 + (renderer.splitStringWidth(text, book.guiWidth - 20)), guiTop + 35, book.guiWidth - 20, 0, 6);
         }
         
-        String footnote = "Click the book to go to forum!";
-        renderer.drawSplitString(EnumChatFormatting.DARK_RED + footnote,43 + guiLeft - (book.guiWidth - renderer.getStringWidth(footnote)) / 2, guiTop + 165, 1000, 0, 6);
+        String footnote = "Click the book to curseforge page.";
+        renderer.drawSplitString(EnumChatFormatting.DARK_RED + footnote,27 + guiLeft - (book.guiWidth - renderer.getStringWidth(footnote)) / 2, guiTop + 165, 1000, 0, 6);
     }
 
     public String getTitle() { return title; }
