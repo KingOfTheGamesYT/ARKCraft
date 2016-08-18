@@ -232,6 +232,11 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 		}
 		syncClient(player, false);
 	}
+	
+	public ArrayList<Integer> learnedEngrams()
+	{
+		return engrams;
+	}
 
 	public int getWater()
 	{
