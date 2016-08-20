@@ -123,14 +123,15 @@ public class GuiInfoBook extends GuiScreen {
 
 		super.drawScreen(mouseX, mouseY, partialTicks);
 
-		LogHelper.info(pageLeft == null ? "pageLeft is null!" : "pageLeft is not null");
-		LogHelper.info(pageRight == null ? "pageRight is null!" : "pageRight is not null");
+		LogHelper.info("Current Page: " + currentPage);
+		//LogHelper.info(pageLeft == null ? "pageLeft is null!" : "pageLeft is not null");
+		//LogHelper.info(pageRight == null ? "pageRight is null!" : "pageRight is not null");
 		if (pageLeft != null && pageRight != null)
 		{
-			LogHelper.info("Trying to draw the left page!");
+			//LogHelper.info("Trying to draw the left page!");
 			pageLeft.draw(x - guiWidth, y + 12, mouseX, mouseY, fontRenderer, bd.canTranslate, this);
 			
-			LogHelper.info("Trying to draw the right page!");
+			//LogHelper.info("Trying to draw the right page!");
 			pageRight.draw(x, y + 12, mouseX, mouseY, fontRenderer, bd.canTranslate, this);
 		}
 		
@@ -145,11 +146,11 @@ public class GuiInfoBook extends GuiScreen {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		int imageWidth = 64;
 		int imageHeight = 64;
-		int leftBound = (width/2)-guiWidth + (this.guiWidth - 64) / 2;
-		int topBound = (height - this.guiHeight) / 2;
+		int leftBound = (width/2)-guiWidth + (this.guiWidth - imageWidth) / 2;
+		int topBound = ((height - this.guiHeight) / 2) + 75;
 		
 		boolean xClick = mouseX <= leftBound + imageWidth && mouseX >= leftBound;
-		boolean yClick = mouseY >= topBound && mouseY >= topBound + imageHeight;
+		boolean yClick = mouseY >= topBound && mouseY <= topBound + imageHeight;
 		if(currentPage == 0 && xClick && yClick) {
 			this.mc.displayGuiScreen(new GuiConfirmOpenLink(this, uri.toString(), 13, true));
 		}
@@ -208,5 +209,9 @@ public class GuiInfoBook extends GuiScreen {
 		return false;
 	}
 
-	
+	@Override
+	public void updateScreen() {
+		prevButton.visible = currentPage != 0;
+		nButton.visible = currentPage != maxPages - 1;
+	}
 }

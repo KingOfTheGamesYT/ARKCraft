@@ -15,6 +15,26 @@
 				"Mechanics",
 				"Tool Operation/Maintenance"
 			]
+		},
+		{
+			"type": "chapter",
+			"title": "Sections",
+			"sections": [
+				"Materials and Resources",
+				"Crafting and Collection",
+				"Mechanics",
+				"Tool Operation/Maintenance"
+			]
+		},
+		{
+			"type": "chapter",
+			"title": "Sections",
+			"sections": [
+				"Materials and Resources",
+				"Crafting and Collection",
+				"Mechanics",
+				"Tool Operation/Maintenance"
+			]
 		}
 	]
 }

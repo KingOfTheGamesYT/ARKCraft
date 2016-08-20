@@ -22,6 +22,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
@@ -78,7 +79,6 @@ public class CommonEventHandler
 	}
 
 	@SubscribeEvent
-	@SuppressWarnings({ "unchecked" })
 	public void onLivingUpdateEvent(LivingEvent.LivingUpdateEvent event)
 	{
 		// LogHelper.info("LIVING UPDATE EVENT");
@@ -93,22 +93,58 @@ public class CommonEventHandler
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@SubscribeEvent
-	public void onWorldTick(WorldTickEvent event)
-	{
-		if (event.side.isServer())
-		{
+	public void onWorldTick(WorldTickEvent event) {
+		if (event.side.isServer()) {
 			World world = event.world;
 			// The item will spawn on the server side. If you don't check, it
 			// will run on client and create a 'phantom' item
-			if (!world.isRemote)
-			{
-				if (bookSpawnDelay > 0) bookSpawnDelay--;
-				else
-				{
+			if (!world.isRemote) {
+				Item wantedItem = Items.bone;
+
+				if (bookSpawnDelay > 0)
+					bookSpawnDelay--;
+				else {
 					List<Entity> entities = world.loadedEntityList;
-					for (int i = 0; i < entities.size(); i++)
-					{
+					for (Entity entityIter : entities) {
+						// Wanted to be book item
+						if (entityIter instanceof EntityItem) {
+							EntityItem item = (EntityItem) entityIter;
+							if (item.getEntityItem().getItem() == Items.book) {
+								List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(item,
+										new AxisAlignedBB(item.getPosition().add(-3, 0, -3), item.getPosition().add(3, 1, 3)));
+								for (Entity entity : list) {
+									if (entity instanceof EntityItem) {
+										EntityItem entityItem = (EntityItem) entity;
+										if (entityItem.getEntityItem().getItem() == wantedItem) {
+											if(item.ticksExisted > 100 && entityItem.ticksExisted > 100) {
+												bookSpawnDelay += 20;
+												double x = item.getPosition().getX();
+												double y = item.getPosition().getY();
+												double z = item.getPosition().getZ();
+												WorldServer worldServer = (WorldServer) world;
+												worldServer.spawnParticle(EnumParticleTypes.SMOKE_LARGE, false, x + 0.5D,
+													y + 1.0D, z + 0.5D, 1, 0.0D, 0.0D, 0.0D, 0.0D, new int[0]);
+												world.spawnEntityInWorld(new EntityItem(world, x, y, z,
+													new ItemStack(ARKCraftItems.info_book)));
+												entityItem.getEntityItem().stackSize--;
+												item.getEntityItem().stackSize--;
+												if (entityItem.getEntityItem().stackSize <= 0) entityItem.setDead();
+												if (item.getEntityItem().stackSize <= 0) item.setDead();
+											}
+										}
+									}
+								}
+							}
+
+						}
+					}
+				}
+			}
+		}
+	}
+						/*
 						for (int j = 1; j < entities.size(); j++)
 						{
 							if (entities.get(i) instanceof EntityItem && entities
@@ -117,6 +153,7 @@ public class CommonEventHandler
 								EntityItem target = (EntityItem) entities.get(i);
 								EntityItem targetJ = (EntityItem) entities.get(j);
 
+								
 								int x = target.getPosition().getX();
 								int y = target.getPosition().getY();
 								int z = target.getPosition().getZ();
@@ -127,7 +164,7 @@ public class CommonEventHandler
 
 								Item item = target.getEntityItem().getItem();
 								Item itemJ = targetJ.getEntityItem().getItem();
-
+									
 								if ((item == Items.book && itemJ == Items.bone) || (item == Items.bone && itemJ == Items.book) && !target.isDead && !targetJ.isDead)
 								{
 									if (target.ticksExisted > 100 && targetJ.ticksExisted > 100)
@@ -173,7 +210,8 @@ public class CommonEventHandler
 			}
 		}
 	}
-
+	*/
+						
 	public static int bookSpawnDelay = 0;
 
 	public static int count;
