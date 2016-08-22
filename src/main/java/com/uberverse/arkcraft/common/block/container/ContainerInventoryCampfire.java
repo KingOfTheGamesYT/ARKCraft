@@ -42,12 +42,12 @@ public class ContainerInventoryCampfire extends Container
 	private final int PLAYER_INVENTORY_SLOT_COUNT = PLAYER_INVENTORY_COLUMN_COUNT * PLAYER_INVENTORY_ROW_COUNT;
 	private final int VANILLA_SLOT_COUNT = HOTBAR_SLOT_COUNT + PLAYER_INVENTORY_SLOT_COUNT;
 
-	public final int FURNACE_SLOT_COUNT = 8;
+	public final int CAMPFIRE_SLOT_COUNT = 4;
 
 	// slot index is the unique index for all slots in this container i.e. 0 -
 	// 35 for invPlayer then 36 - 49 for tileInventoryFurnace
-	private final int FIRST_FURNACE_SLOT_INDEX = 0;
-	public final int VANILLA_FIRST_SLOT_INDEX = FIRST_FURNACE_SLOT_INDEX + FURNACE_SLOT_COUNT;
+	private final int FIRST_CAMPFIRE_SLOT_INDEX = 0;
+	public final int VANILLA_FIRST_SLOT_INDEX = FIRST_CAMPFIRE_SLOT_INDEX + CAMPFIRE_SLOT_COUNT;
 
 	public ContainerInventoryCampfire(InventoryPlayer invPlayer, TileInventoryCampfire tileInventoryFurnace)
 	{
@@ -61,14 +61,14 @@ public class ContainerInventoryCampfire extends Container
 		final int FURNACE_SLOTS_XPOS = 53;
 		final int FURNACE_SLOTS_YPOS = 26;
 		// Add the tile fuel slots
-		for (int x = 0; x < FURNACE_SLOT_COUNT; x++)
+		for (int x = 0; x < CAMPFIRE_SLOT_COUNT; x++)
 		{
 			for (x = 0; x < 4; x++)
 			{
 				addSlotToContainer(new Slot(tileInventoryFurnace, x,
 						FURNACE_SLOTS_XPOS + SLOT_X_SPACING * x, FURNACE_SLOTS_YPOS));
 			}
-			for (x = 0; x < FURNACE_SLOT_COUNT; x++)
+			for (x = 0; x < CAMPFIRE_SLOT_COUNT; x++)
 			{
 				addSlotToContainer(new Slot(tileInventoryFurnace, x,
 						FURNACE_SLOTS_XPOS + SLOT_X_SPACING * (x - 4), FURNACE_SLOTS_YPOS + 18));
@@ -135,10 +135,10 @@ public class ContainerInventoryCampfire extends Container
 			// the furnace slots
 			// If the stack is smeltable try to merge merge the stack into the
 			// input slots
-			if (!mergeItemStack(sourceStack, FIRST_FURNACE_SLOT_INDEX,
-					FIRST_FURNACE_SLOT_INDEX + FURNACE_SLOT_COUNT, false)) { return null; }
+			if (!mergeItemStack(sourceStack, FIRST_CAMPFIRE_SLOT_INDEX,
+					FIRST_CAMPFIRE_SLOT_INDEX + CAMPFIRE_SLOT_COUNT, false)) { return null; }
 		}
-		else if (sourceSlotIndex >= FIRST_FURNACE_SLOT_INDEX && sourceSlotIndex < FIRST_FURNACE_SLOT_INDEX + FURNACE_SLOT_COUNT)
+		else if (sourceSlotIndex >= FIRST_CAMPFIRE_SLOT_INDEX && sourceSlotIndex < FIRST_CAMPFIRE_SLOT_INDEX + CAMPFIRE_SLOT_COUNT)
 		{
 			// This is a furnace slot so merge the stack into the players
 			// inventory: try the hotbar first and then the main inventory

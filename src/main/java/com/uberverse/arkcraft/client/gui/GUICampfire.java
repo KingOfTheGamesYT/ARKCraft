@@ -35,15 +35,15 @@ public class GUICampfire extends GuiContainer
 
 	private TileInventoryCampfire tileEntity;
 
-	public GUICampfire(InventoryPlayer invPlayer, TileInventoryCampfire tileInventoryFurnace)
+	public GUICampfire(InventoryPlayer invPlayer, TileInventoryCampfire tileInventoryCampfire)
 	{
-		super(new ContainerInventoryCampfire(invPlayer, tileInventoryFurnace));
+		super(new ContainerInventoryCampfire(invPlayer, tileInventoryCampfire));
 
 		// Set the width and height of the gui
 		xSize = 176;
 		ySize = 207;
 
-		this.tileEntity = tileInventoryFurnace;
+		this.tileEntity = tileInventoryCampfire;
 	}
 
 	// some [x,y] coordinates of graphical elements
