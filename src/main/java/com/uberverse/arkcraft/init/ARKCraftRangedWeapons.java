@@ -3,12 +3,6 @@ package com.uberverse.arkcraft.init;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.block.BlockDispenser;
-import net.minecraft.item.Item;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.entity.EntityAdvancedBullet;
@@ -16,6 +10,7 @@ import com.uberverse.arkcraft.common.entity.EntityRocketPropelledGrenade;
 import com.uberverse.arkcraft.common.entity.EntitySimpleBullet;
 import com.uberverse.arkcraft.common.entity.EntitySimpleRifleAmmo;
 import com.uberverse.arkcraft.common.entity.EntitySimpleShotgunAmmo;
+import com.uberverse.arkcraft.common.entity.EntityStone;
 import com.uberverse.arkcraft.common.entity.EntityTranquilizer;
 import com.uberverse.arkcraft.common.entity.dispense.DispenseRocketPropelledGrenade;
 import com.uberverse.arkcraft.common.entity.dispense.DispenseSimpleBullet;
@@ -33,8 +28,14 @@ import com.uberverse.arkcraft.common.item.firearms.ItemLongneckRifle;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.item.firearms.ItemShotgun;
 import com.uberverse.arkcraft.common.item.firearms.ItemSimplePistol;
-import com.uberverse.arkcraft.common.item.melee.ItemSpear;
 import com.uberverse.arkcraft.common.item.ranged.ItemCrossbow;
+import com.uberverse.arkcraft.common.item.ranged.ItemSlingshot;
+
+import net.minecraft.block.BlockDispenser;
+import net.minecraft.item.Item;
+import net.minecraft.item.Item.ToolMaterial;
+import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ARKCraftRangedWeapons {
 	
@@ -47,6 +48,7 @@ public class ARKCraftRangedWeapons {
 	public static ItemRangedWeapon longneck_rifle;
 	public static ItemRangedWeapon shotgun;
 	public static ItemRangedWeapon crossbow;
+	public static ItemSlingshot slingshot;
 	
 	public static ToolMaterial METAL = EnumHelper.addToolMaterial("METAL_MAT",
 			3, 1500, 6.0F, 0.8F, 8);
@@ -68,7 +70,9 @@ public class ARKCraftRangedWeapons {
 		holo_scope = addItemAttachment("holo_scope", AttachmentType.HOLO_SCOPE);
 		laser = addItemAttachment("laser", AttachmentType.LASER);
 		silencer = addItemAttachment("silencer", AttachmentType.SILENCER);
-	//	shotgun =ARKCraftWeapons.shotgun
+		
+		slingshot = addSlingshot("slingshot");
+		EntityHandler.registerModEntity(EntityStone.class,"stone", ARKCraft.instance, 64, 10, true);
 		
 		registerDispenseBehavior();
 		registerWeaponEntities();
@@ -186,7 +190,14 @@ public class ARKCraftRangedWeapons {
 					new DispenseRocketPropelledGrenade());
 		}
 	}
+	protected static ItemSlingshot addSlingshot(String name)
+	{
+		ItemSlingshot slingshot = new ItemSlingshot();
+		registerItem(name, slingshot);
+		return slingshot;
+	}
 
+	
 	protected static ItemProjectile addItemProjectile(String name)
 	{
 		ItemProjectile i = new ItemProjectile();

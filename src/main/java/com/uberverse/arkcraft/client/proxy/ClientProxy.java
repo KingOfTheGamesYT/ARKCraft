@@ -185,8 +185,8 @@ public class ClientProxy extends CommonProxy{
 
 	public static void registerItemVariants()
 	{
-	//	ModelBakery.addVariantName(ARKCraftItems.slingshot,
-	//			"arkcraft:slingshot", "arkcraft:slingshot_pulled");
+		ModelBakery.addVariantName(ARKCraftRangedWeapons.slingshot,
+				"arkcraft:slingshot", "arkcraft:slingshot_pulled");
 		ModelBakery.addVariantName(ARKCraftRangedWeapons.shotgun,
 				"arkcraft:weapons/shotgun", "arkcraft:weapons/shotgun_reload");
 		ModelBakery.addVariantName(ARKCraftRangedWeapons.longneck_rifle,
