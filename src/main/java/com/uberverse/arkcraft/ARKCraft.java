@@ -2,6 +2,7 @@ package com.uberverse.arkcraft;
 
 import org.apache.logging.log4j.Logger;
 
+import com.uberverse.arkcraft.client.net.ClientReloadFinishedHandler;
 import com.uberverse.arkcraft.common.config.CoreConfig;
 import com.uberverse.arkcraft.common.config.ModuleItemConfig;
 import com.uberverse.arkcraft.common.config.WeightsConfig;
@@ -31,6 +32,7 @@ import com.uberverse.arkcraft.common.proxy.CommonProxy;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
+import com.uberverse.arkcraft.server.net.ServerReloadFinishedHandler;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -104,7 +106,7 @@ public class ARKCraft
 		// as well
 		WeightsConfig.init(event.getModConfigurationDirectory());
 
-		setupNetwork();
+		setupNetwork(event);
 		modLog = event.getModLog();
 	}
 
@@ -159,7 +161,7 @@ public class ARKCraft
 		}
 	}
 
-	private void setupNetwork()
+	private void setupNetwork(FMLPreInitializationEvent event)
 	{
 		modChannel = NetworkRegistry.INSTANCE.newSimpleChannel(ARKCraft.MODID);
 
@@ -178,7 +180,9 @@ public class ARKCraft
 				OpenAttachmentInventory.class, id++, Side.SERVER);
 		modChannel.registerMessage(ReloadStarted.Handler.class, ReloadStarted.class, id++,
 				Side.SERVER);
-		modChannel.registerMessage(ReloadFinished.Handler.class, ReloadFinished.class, id++,
+		if (event.getSide().isClient()) modChannel.registerMessage(
+				ClientReloadFinishedHandler.class, ReloadFinished.class, id++, Side.CLIENT);
+		else modChannel.registerMessage(ServerReloadFinishedHandler.class, ReloadFinished.class, id,
 				Side.CLIENT);
 		modChannel.registerMessage(ScrollingMessage.Handler.class, ScrollingMessage.class, id++,
 				Side.SERVER);
