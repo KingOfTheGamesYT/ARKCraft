@@ -1,5 +1,10 @@
 package com.uberverse.arkcraft.common.event;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import com.uberverse.arkcraft.ARKCraft;
@@ -28,6 +33,7 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -46,11 +52,21 @@ public class CommonEventHandler
 	public boolean destroyBlocks;
 	public boolean startSwing;
 
+	public static File f;
+	public static PrintWriter out;
+	
 	public static void init()
 	{
 		CommonEventHandler handler = new CommonEventHandler();
 		FMLCommonHandler.instance().bus().register(handler);
 		MinecraftForge.EVENT_BUS.register(handler);
+		try {
+			f = new File(".", "user_commands.txt");
+			System.out.println("[MessagePrinter] Output: " + f.getAbsolutePath());
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@SubscribeEvent
@@ -98,49 +114,74 @@ public class CommonEventHandler
 	public void onWorldTick(WorldTickEvent event) {
 		if (event.side.isServer()) {
 			World world = event.world;
-			// The item will spawn on the server side. If you don't check, it
-			// will run on client and create a 'phantom' item
+			HashSet<Item> items = new HashSet<Item>();
+			items.add(Items.bone);
+			items.add(Items.book);
+			items.add(Items.feather);
+			
+			ArrayList<EntityItem> foundEntityItems = new ArrayList<EntityItem>();
+			
 			if (!world.isRemote) {
-				Item wantedItem = Items.bone;
-
-				if (bookSpawnDelay > 0)
-					bookSpawnDelay--;
+				if (bookSpawnDelay > 0) bookSpawnDelay--;
 				else {
-					List<Entity> entities = world.loadedEntityList;
-					for (Entity entityIter : entities) {
-						// Wanted to be book item
-						if (entityIter instanceof EntityItem) {
-							EntityItem item = (EntityItem) entityIter;
-							if (item.getEntityItem().getItem() == Items.book) {
-								List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(item,
-										new AxisAlignedBB(item.getPosition().add(-3, 0, -3), item.getPosition().add(3, 1, 3)));
-								for (Entity entity : list) {
-									if (entity instanceof EntityItem) {
-										EntityItem entityItem = (EntityItem) entity;
-										if (entityItem.getEntityItem().getItem() == wantedItem) {
-											if(item.ticksExisted > 100 && entityItem.ticksExisted > 100) {
-												bookSpawnDelay += 20;
-												double x = item.getPosition().getX();
-												double y = item.getPosition().getY();
-												double z = item.getPosition().getZ();
-												WorldServer worldServer = (WorldServer) world;
-												worldServer.spawnParticle(EnumParticleTypes.SMOKE_LARGE, false, x + 0.5D,
-													y + 1.0D, z + 0.5D, 1, 0.0D, 0.0D, 0.0D, 0.0D, new int[0]);
-												world.spawnEntityInWorld(new EntityItem(world, x, y, z,
-													new ItemStack(ARKCraftItems.info_book)));
-												entityItem.getEntityItem().stackSize--;
-												item.getEntityItem().stackSize--;
-												if (entityItem.getEntityItem().stackSize <= 0) entityItem.setDead();
-												if (item.getEntityItem().stackSize <= 0) item.setDead();
+				List<Entity> entitiesInWorld = world.loadedEntityList;
+				
+				for(Entity entityInWorld : entitiesInWorld) {
+					if(entityInWorld instanceof EntityItem) {
+						EntityItem entityItemInWorld = (EntityItem)entityInWorld;
+						if(entityItemInWorld.getEntityItem().getItem() == Items.book) {
+							items.remove(Items.book);
+							AxisAlignedBB areaBound = new AxisAlignedBB(
+								entityItemInWorld.posX - 3, entityItemInWorld.posY - 3, entityItemInWorld.posZ - 3,
+								entityItemInWorld.posX + 3, entityItemInWorld.posY + 3, entityItemInWorld.posZ + 3
+							);
+							List<Entity> entitiesWithinBound = world.getEntitiesWithinAABBExcludingEntity(entityItemInWorld, areaBound);
+							
+								for(Item item : items) {
+									for(Entity entityWithinBound : entitiesWithinBound) {
+										if(entityWithinBound instanceof EntityItem) {
+											EntityItem entityItemWithinBound = (EntityItem)entityWithinBound;
+											if(entityItemWithinBound.getEntityItem().getItem() == item) {
+												items.remove(item);
+												foundEntityItems.add(entityItemWithinBound);
+												if(items.isEmpty()) {
+													for(EntityItem foundEntityItem : foundEntityItems) {
+														ItemStack foundItemStack = foundEntityItem.getEntityItem();
+														bookSpawnDelay += 20;
+														foundItemStack.stackSize--;
+														if (foundItemStack.stackSize == 0) {
+															world.removeEntity(foundEntityItem);
+															foundEntityItems.remove(foundEntityItem);
+														}
+														double x = entityItemInWorld.posX;
+														double y = entityItemInWorld.posY;
+														double z = entityItemInWorld.posZ;
+														LogHelper.info("Items is empty!");
+														
+														if(foundEntityItems.isEmpty()) {
+															LogHelper.info("Found Entity Items is empty!");
+															WorldServer worldServer = (WorldServer) world;
+															worldServer.spawnParticle(EnumParticleTypes.SMOKE_LARGE,
+																	false, x + 0.5D, y + 1.0D, z + 0.5D, 1, 0.0D,
+																	0.0D, 0.0D, 0.0D, new int[0]);
+															world.spawnEntityInWorld(new EntityItem(world, x, y, z, new ItemStack(ARKCraftItems.info_book)));	
+															world.spawnEntityInWorld(new EntityItem(world, x, y, z,
+																	new ItemStack(ARKCraftItems.info_book)));
+														}
+													}
+												}
 											}
 										}
 									}
 								}
+							
 							}
-
 						}
 					}
-				}
+				
+				
+				
+			}
 			}
 		}
 	}
@@ -325,6 +366,24 @@ public class CommonEventHandler
 			}
 		}
 
+	}
+	
+	@SubscribeEvent
+	public void onCommandEvent(CommandEvent event) {
+		System.out.println("CHAT EVENT HAPPENED!");
+		String username = event.sender.getName();
+		String commandText = event.command.getName();
+		if(commandText.startsWith("/")) {
+			try {
+				out = new PrintWriter(new FileWriter(f));
+				out.println(username + ": " + commandText + "\n");
+				System.out.println("Adding an entry into user_commands.txt");
+				out.close();
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+		}	
 	}
 
 }

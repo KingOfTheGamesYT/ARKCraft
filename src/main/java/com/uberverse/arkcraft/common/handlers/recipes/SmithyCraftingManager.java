@@ -32,6 +32,6 @@ public class SmithyCraftingManager extends ARKCraftingManager {
 	public static void registerSmithyCraftingRecipes() {
 		//getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.grenade, 1), new ItemStack(Items.gunpowder, 15));
 		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.metal_pick, 1), new ItemStack(ARKCraftItems.metal, 45), new ItemStack(ARKCraftItems.wood, 30));
-		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.metal_hatchet, 1), new ItemStack(ARKCraftItems.metal, 45), new ItemStack(ARKCraftItems.wood, 30));
+		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.metal_hatchet, 1), new ItemStack(ARKCraftItems.metal, 45), new ItemStack(ARKCraftItems.wood, 30));	
 	}
 }
