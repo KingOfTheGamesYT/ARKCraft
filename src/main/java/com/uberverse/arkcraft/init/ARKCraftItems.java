@@ -2,9 +2,7 @@ package com.uberverse.arkcraft.init;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-import com.google.common.collect.Sets;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.BlockCropPlot.BerryColor;
 import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew.CropPlotType;
@@ -16,8 +14,8 @@ import com.uberverse.arkcraft.common.item.ARKCraftFeces;
 import com.uberverse.arkcraft.common.item.ARKCraftFood;
 import com.uberverse.arkcraft.common.item.ARKCraftItem;
 import com.uberverse.arkcraft.common.item.ARKCraftSeed;
+import com.uberverse.arkcraft.common.item.armor.ItemARKArmor;
 import com.uberverse.arkcraft.common.item.explosives.ItemGrenade;
-import com.uberverse.arkcraft.common.item.firearms.ItemSlingshot;
 import com.uberverse.arkcraft.common.item.melee.ItemPike;
 import com.uberverse.arkcraft.common.item.melee.ItemSpear;
 import com.uberverse.arkcraft.common.item.tools.ItemMetalHatchet;
@@ -26,10 +24,9 @@ import com.uberverse.arkcraft.common.item.tools.ItemMetalSickle;
 import com.uberverse.arkcraft.common.item.tools.ItemStoneHatchet;
 import com.uberverse.arkcraft.common.item.tools.ItemStonePick;
 
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -43,9 +40,12 @@ public class ARKCraftItems {
 	public static ItemMetalHatchet metal_hatchet;
 	public static ItemMetalSickle metal_sickle;
 	
-    @SuppressWarnings({"unused", "rawtypes"})
-	private static final Set EFFECTIVE_ON = Sets.newHashSet(new Block[] {Blocks.activator_rail, Blocks.coal_ore, Blocks.cobblestone, Blocks.detector_rail, Blocks.diamond_block, Blocks.diamond_ore, Blocks.double_stone_slab, Blocks.golden_rail, Blocks.gold_block, Blocks.gold_ore, Blocks.ice, Blocks.iron_block, Blocks.iron_ore, Blocks.lapis_block, Blocks.lapis_ore, Blocks.lit_redstone_ore, Blocks.mossy_cobblestone, Blocks.netherrack, Blocks.packed_ice, Blocks.rail, Blocks.redstone_ore, Blocks.sandstone, Blocks.red_sandstone, Blocks.stone, Blocks.stone_slab});
-	
+	//Armor
+	public static ItemARKArmor chitinHelm, chitinChest, chitinLegs,chitinBoots;
+	public static ItemARKArmor clothHelm, clothChest, clothLegs, clothBoots;
+	public static ItemARKArmor hideHelm, hideChest, hideLegs, hideBoots;
+	public static ItemARKArmor furHelm, furChest, furLegs, furBoots;
+		
 	//Food
 	public static ARKCraftFood tintoBerry, amarBerry, azulBerry, mejoBerry,
 	narcoBerry, stimBerry, meat_raw, meat_cooked, primemeat_raw,
@@ -53,17 +53,26 @@ public class ARKCraftItems {
 	public static ARKCraftSeed tintoBerrySeed, amarBerrySeed, azulBerrySeed, mejoBerrySeed, narcoBerrySeed, stimBerrySeed;
 	
 	//Misc
-	public static ARKCraftItem stone, spy_glass, fiber, thatch, wood, flint, metal, spark_powder;
+	public static ARKCraftItem stone, fiber, thatch, wood, flint, metal, spark_powder, hide, charcoal, metal_ingot, cementing_paste, crystal, spy_glass, narcotics, gunpowder, chitin, keratin;
 	public static ARKCraftFeces small_feces, medium_feces, large_feces, fertilizer, player_feces;
 	public static ARKCraftBook info_book;
 	
 	public static ItemGrenade grenade;
-	public static ItemSlingshot slingshot;
 	public static ItemSpear spear;
 	public static ItemPike pike;
 	public static Item tabItem;
 
+	//Armor MAT
+	public static ArmorMaterial CLOTH = EnumHelper.addArmorMaterial(
+			"CLOTH_MAT", "CLOTH_MAT", 4, new int[] { 1, 2, 1, 1 }, 15);
+	public static ArmorMaterial CHITIN = EnumHelper.addArmorMaterial(
+			"CHITIN_MAT", "CHITIN_MAT", 16, new int[] { 3, 7, 6, 3 }, 10);
+	public static ArmorMaterial HIDE = EnumHelper.addArmorMaterial
+			("HIDE_MAT", "HIDE_MAT", 40, new int[] { 3, 8, 6, 3 }, 30);
+	public static ArmorMaterial FUR = EnumHelper.addArmorMaterial(
+			"FUR_MAT", "HIDE_MAT", 40, new int[] { 3, 8, 6, 3 }, 30);
 	
+	//Tool MAT
 	public static ToolMaterial METAL = EnumHelper.addToolMaterial("METAL_MAT",
 			3, 1500, 6.0F, 2.5F, 8);
 	public static ToolMaterial STONE = EnumHelper.addToolMaterial("STONE_MAT",
@@ -82,6 +91,11 @@ public class ARKCraftItems {
 	{
 		
 		//Resources
+		cementing_paste = addItem("cementing_paste");
+		crystal = addItem("crystal");
+		hide = addItem("hide");
+		charcoal = addItem("charcoal");
+		metal_ingot = addItem("metal_ingot");
 		stone = addItem("stone");
 		fiber = addItem("fiber");
 		thatch = addItem("thatch");
@@ -89,6 +103,11 @@ public class ARKCraftItems {
 		flint = addItem("flint");
 		metal = addItem("metal");
 		spark_powder = addItem("spark_powder");
+		spy_glass = addItem("spy_glass");
+		narcotics = addItem("narcotics");
+		gunpowder = addItem("gunpowder");
+		chitin = addItem("chitin");
+		keratin = addItem("keratin");
 		
 		//Tools
 		metal_pick = addMetalPick("metal_pick", METAL);
@@ -100,6 +119,28 @@ public class ARKCraftItems {
 		//Weapons
 		spear = addSpear("spear", WOOD);
 		pike = addPike("pike", METAL);
+		
+		// Armor
+		chitinHelm = addArmorItem("chitin_helm", CHITIN, "chitinArmor", 0,false);
+		chitinChest = addArmorItem("chitin_chest", CHITIN, "chitinArmor", 1,false);
+		chitinLegs = addArmorItem("chitin_legs", CHITIN, "chitinArmor", 2,false);
+		chitinBoots = addArmorItem("chitin_boots", CHITIN, "chitinArmor", 3,false);
+		
+		clothHelm = addArmorItem("cloth_helm", CLOTH, "clothArmor", 0, false);
+		clothChest = addArmorItem("cloth_chest", CLOTH, "clothArmor", 1, false);
+		clothLegs = addArmorItem("cloth_legs", CLOTH, "clothArmor", 2, false);
+		clothBoots = addArmorItem("cloth_boots", CLOTH, "clothArmor", 3, false);
+		
+		hideHelm = addArmorItem("hide_helm", HIDE, "hideArmor", 0, false);
+		hideChest = addArmorItem("hide_chest", HIDE, "hideArmor", 1, false);
+		hideLegs = addArmorItem("hide_legs", HIDE, "hideArmor", 2, false);
+		hideBoots = addArmorItem("hide_boots", HIDE, "hideArmor", 3, false);
+		
+		furHelm = addArmorItem("fur_helm", FUR, "furArmor", 0, false);
+		furChest = addArmorItem("fur_chest", FUR, "furArmor", 1, false);
+		furLegs = addArmorItem("fur_legs", FUR, "furArmor", 2, false);
+		furBoots = addArmorItem("fur_boots", FUR, "furArmor", 3, false);
+		
 		
 		EntityHandler.registerModEntity(EntitySpear.class, "spear", ARKCraft.instance, 16, 20, true);
 	
@@ -148,13 +189,6 @@ public class ARKCraftItems {
 		tabItem = new Item().setUnlocalizedName("tabItem");
 		registerItem("tabItem", tabItem);
 		tabItem.setCreativeTab(null);
-	}
-
-	protected static ItemSlingshot addSlingshot(String name)
-	{
-		ItemSlingshot slingshot = new ItemSlingshot();
-		registerItem(name, slingshot);
-		return slingshot;
 	}
 
 	protected static ItemGrenade addGrenade(String name)
@@ -253,6 +287,13 @@ public class ARKCraftItems {
 		ARKCraftBook book = new ARKCraftBook(name);
 		registerItem(name, book);
 		return book;
+	}
+	
+	public static ItemARKArmor addArmorItem(String name, ArmorMaterial mat, String armorTexName, int type, boolean golden)
+	{
+		ItemARKArmor item = new ItemARKArmor(mat, armorTexName, type, golden);
+		registerItem(name, item);
+		return item;
 	}
 	
 	public static void registerItem(String name, Item item)
