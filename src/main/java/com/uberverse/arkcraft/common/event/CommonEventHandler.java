@@ -257,25 +257,6 @@ public class CommonEventHandler
 
 	public static int count;
 
-	@SuppressWarnings("static-access")
-	@SubscribeEvent
-	public void playerInteract(PlayerInteractEvent event)
-	{
-
-		Action eventAction = event.action;
-		ItemStack item = event.entityPlayer.getCurrentEquippedItem();
-
-		if (item != null && item.getItem() instanceof ItemRangedWeapon)
-		{
-			if (eventAction.RIGHT_CLICK_BLOCK != null & eventAction.RIGHT_CLICK_AIR != null)
-			{
-				ObfuscationReflectionHelper.setPrivateValue(ItemRenderer.class,
-						Minecraft.getMinecraft().getItemRenderer(), 1F, "equippedProgress",
-						"field_78454_c");
-			}
-		}
-
-	}
 
 	// for (int x = -checkSize; x <= checkSize; x++) {
 	// for (int z = -checkSize; z <= checkSize; z++) {
@@ -343,7 +324,6 @@ public class CommonEventHandler
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent evt)
 	{
-
 		EntityPlayer p = evt.player;
 		ItemStack stack = p.getCurrentEquippedItem();
 

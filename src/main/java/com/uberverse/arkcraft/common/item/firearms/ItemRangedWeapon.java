@@ -461,6 +461,7 @@ public abstract class ItemRangedWeapon extends ItemBow {
 				EntityProjectile p = createProjectile(stack, world, player);
 				applyProjectileEnchantments(p, stack);
 				if (p != null)
+					ARKCraft.modLog.info("Shot");
 					world.spawnEntityInWorld(p);
 			}
 		}

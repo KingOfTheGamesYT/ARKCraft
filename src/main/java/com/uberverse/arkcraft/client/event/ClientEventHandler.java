@@ -33,6 +33,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.model.ModelPlayer;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -56,8 +57,11 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
@@ -111,6 +115,25 @@ public class ClientEventHandler {
 		/*
 		if(disabledEquippItemAnimationTime>0)disabledEquippItemAnimationTime--;
 		else if(disabledEquippItemAnimationTime<0)disabledEquippItemAnimationTime=0;	*/
+	}
+	
+	@SuppressWarnings("static-access")
+	@SubscribeEvent
+	public void playerInteract(PlayerInteractEvent event)
+	{
+		Action eventAction = event.action;
+		ItemStack item = event.entityPlayer.getCurrentEquippedItem();
+
+		if (item != null && item.getItem() instanceof ItemRangedWeapon)
+		{
+			if (eventAction.RIGHT_CLICK_BLOCK != null & eventAction.RIGHT_CLICK_AIR != null)
+			{
+				ObfuscationReflectionHelper.setPrivateValue(ItemRenderer.class,
+						Minecraft.getMinecraft().getItemRenderer(), 1F, "equippedProgress",
+						"field_78454_c");
+			}
+		}
+
 	}
 
 	@SubscribeEvent
