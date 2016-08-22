@@ -1,6 +1,5 @@
 package com.uberverse.arkcraft.common.block.container;
 
-
 import com.uberverse.arkcraft.common.block.tile.TileInventoryCampfire;
 import com.uberverse.lib.LogHelper;
 
@@ -59,20 +58,12 @@ public class ContainerInventoryCampfire extends Container
 		final int PLAYER_INVENTORY_YPOS = 84;
 		final int HOTBAR_YPOS = PLAYER_INVENTORY_YPOS + 10 + 16 * 3;
 		final int FURNACE_SLOTS_XPOS = 53;
-		final int FURNACE_SLOTS_YPOS = 26;
+		final int FURNACE_SLOTS_YPOS = 35;
 		// Add the tile fuel slots
 		for (int x = 0; x < CAMPFIRE_SLOT_COUNT; x++)
 		{
-			for (x = 0; x < 4; x++)
-			{
-				addSlotToContainer(new Slot(tileInventoryFurnace, x,
-						FURNACE_SLOTS_XPOS + SLOT_X_SPACING * x, FURNACE_SLOTS_YPOS));
-			}
-			for (x = 0; x < CAMPFIRE_SLOT_COUNT; x++)
-			{
-				addSlotToContainer(new Slot(tileInventoryFurnace, x,
-						FURNACE_SLOTS_XPOS + SLOT_X_SPACING * (x - 4), FURNACE_SLOTS_YPOS + 18));
-			}
+			addSlotToContainer(new Slot(tileInventoryFurnace, x,
+					FURNACE_SLOTS_XPOS + SLOT_X_SPACING * x, FURNACE_SLOTS_YPOS));
 		}
 
 		// Add the players hotbar to the gui - the [xpos, ypos] location of each
@@ -106,18 +97,15 @@ public class ContainerInventoryCampfire extends Container
 
 	/*
 	 * This is where you specify what happens when a player shift clicks a slot
-	 * in the gui
-	 * (when you shift click a slot in the TileEntity Inventory, it moves it to
-	 * the first available position in the hotbar and/or
-	 * player inventory. When you you shift-click a hotbar or player inventory
-	 * item, it moves it to the first available
-	 * position in the TileEntity inventory - either input or fuel as
-	 * appropriate for the item you clicked)
-	 * At the very least you must override this and return null or the game will
-	 * crash when the player shift clicks a slot
-	 * returns null if the source slot is empty, or if none of the source slot
-	 * items could be moved.
-	 * otherwise, returns a copy of the source stack 
+	 * in the gui (when you shift click a slot in the TileEntity Inventory, it
+	 * moves it to the first available position in the hotbar and/or player
+	 * inventory. When you you shift-click a hotbar or player inventory item, it
+	 * moves it to the first available position in the TileEntity inventory -
+	 * either input or fuel as appropriate for the item you clicked) At the very
+	 * least you must override this and return null or the game will crash when
+	 * the player shift clicks a slot returns null if the source slot is empty,
+	 * or if none of the source slot items could be moved. otherwise, returns a
+	 * copy of the source stack
 	 */
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int sourceSlotIndex)
