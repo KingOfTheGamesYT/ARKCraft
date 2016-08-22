@@ -119,9 +119,9 @@ public class BlockCampfire extends BlockContainer
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
 	{
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
-		if (tileEntity instanceof TileInventoryForge)
+		if (tileEntity instanceof TileInventoryCampfire)
 		{
-			TileInventoryForge tileInventoryForge = (TileInventoryForge) tileEntity;
+			TileInventoryCampfire tileInventoryForge = (TileInventoryCampfire) tileEntity;
 			return state.withProperty(BURNING, tileInventoryForge.isBurning());
 		}
 		return state;

@@ -520,7 +520,7 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 	@Override
 	public int getSlotCount()
 	{
-		return 8;
+		return 4;
 	}
 
 	@Override

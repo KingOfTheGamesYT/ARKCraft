@@ -31,7 +31,7 @@ public class PestleCraftingManager extends ARKCraftingManager {
 	}
 
 	public static void registerPestleCraftingRecipes() {
-		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.grenade, 1), new ItemStack(Items.gunpowder, 15));
+		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.mejoBerry, 1), new ItemStack(Items.baked_potato, 15));
 		/*
 		 * // Narcotics getInstance().addShapelessRecipe(new
 		 * ItemStack(ARKCraftItems.narcotics, 1), new

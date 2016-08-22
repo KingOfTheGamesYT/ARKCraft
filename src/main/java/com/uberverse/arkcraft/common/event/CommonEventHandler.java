@@ -302,7 +302,6 @@ public class CommonEventHandler
 	@SubscribeEvent
 	public void breakSpeed(BreakSpeed event)
 	{
-		System.out.println(arkMode);
 		if (arkMode && event.entityPlayer.getHeldItem() != null && event.entityPlayer.getHeldItem()
 				.getItem() instanceof ARKCraftTool)
 		{

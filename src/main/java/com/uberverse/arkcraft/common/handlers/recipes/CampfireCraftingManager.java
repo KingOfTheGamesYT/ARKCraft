@@ -30,7 +30,7 @@ public class CampfireCraftingManager
 	private static void registerCookedMeat()
 	{
 		CampfireRecipe r = new CampfireRecipe("meatCooked");
-		r.addInputItems(ARKCraftItems.meat_raw, ARKCraftItems.meat_raw);
+		r.addInputItems(ARKCraftItems.meat_raw);
 		r.setOutputItem(ARKCraftItems.meat_cooked);
 		r.setBurnTime(1);
 		registerRecipe(r.toString(), r);
