@@ -1,6 +1,7 @@
 {
 "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
 "textures": {
+    "particle": "blocks/planks_big_oak",
     "farmland_wet": "blocks/farmland_wet",
     "planks_spruce": "blocks/planks_big_oak",
     "planks_oak": "blocks/planks_spruce"

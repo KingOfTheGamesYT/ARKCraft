@@ -53,7 +53,7 @@ public class ARKCraftItems {
 	public static ARKCraftSeed tintoBerrySeed, amarBerrySeed, azulBerrySeed, mejoBerrySeed, narcoBerrySeed, stimBerrySeed;
 	
 	//Misc
-	public static ARKCraftItem stone, spy_glass, fiber, thatch, wood, flint, metal;
+	public static ARKCraftItem stone, spy_glass, fiber, thatch, wood, flint, metal, spark_powder;
 	public static ARKCraftFeces small_feces, medium_feces, large_feces, fertilizer, player_feces;
 	public static ARKCraftBook info_book;
 	
@@ -80,13 +80,15 @@ public class ARKCraftItems {
 	
 	public static void init()
 	{
+		
+		//Resources
 		stone = addItem("stone");
-		spy_glass = addItem("spy_glass");
 		fiber = addItem("fiber");
 		thatch = addItem("thatch");
 		wood = addItem("wood");
 		flint = addItem("flint");
 		metal = addItem("metal");
+		spark_powder = addItem("spark_powder");
 		
 		//Tools
 		metal_pick = addMetalPick("metal_pick", METAL);
