@@ -19,6 +19,7 @@ import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.container.ContainerInventoryPlayerCrafting;
 import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
 import com.uberverse.arkcraft.common.inventory.InventoryBlueprints;
+import com.uberverse.arkcraft.common.inventory.InventoryPlayerCrafting;
 import com.uberverse.lib.LogHelper;
 
 /* Player Crafting */
@@ -31,7 +32,7 @@ public class GUIPlayerCrafting extends GuiContainer
 
     public String name = "Built-in Crafting";
     public static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID, "textures/gui/player_inventory_gui.png");
-    private InventoryBlueprints inventoryBlueprints;
+    public InventoryBlueprints inventoryBlueprints;
     private GuiButton[] buttonCraftOne;
     private GuiButton engramButton;
     private EntityPlayer player;

@@ -26,12 +26,10 @@ import net.minecraftforge.common.IExtendedEntityProperties;
 /**
  * @author wildbill22, Lewis_McReu, ERBF
  */
-public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
-{
+public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling {
 	// TODO
-	private static final int healthIncrease = 10, staminaIncrease = 10, oxygenIncrease = 20,
-			foodIncrease = 10, waterIncrease = 10, damageIncrease = 5, speedIncrease = 2,
-			maxTorpor = 200, maxLevel = 98;
+	private static final int healthIncrease = 10, staminaIncrease = 10, oxygenIncrease = 20, foodIncrease = 10,
+			waterIncrease = 10, damageIncrease = 5, speedIncrease = 2, maxTorpor = 200, maxLevel = 98;
 
 	public static final String EXT_PROP_NAME = "ARKPlayer";
 	private final EntityPlayer player;
@@ -53,8 +51,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 
 	private InventoryPlayerEngram engramInv;
 
-	public ARKPlayer(EntityPlayer player, World world)
-	{
+	public ARKPlayer(EntityPlayer player, World world) {
 		// Initialize some stuff
 		this.player = player;
 		this.setCanPoop(false);
@@ -75,8 +72,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 	 *
 	 * @param player
 	 */
-	public static final void register(EntityPlayer player, World world)
-	{
+	public static final void register(EntityPlayer player, World world) {
 		player.registerExtendedProperties(ARKPlayer.EXT_PROP_NAME, new ARKPlayer(player, world));
 	}
 
@@ -84,14 +80,12 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 	 * @param player
 	 * @return properties of player
 	 */
-	public static final ARKPlayer get(EntityPlayer player)
-	{
+	public static final ARKPlayer get(EntityPlayer player) {
 		return (ARKPlayer) player.getExtendedProperties(EXT_PROP_NAME);
 	}
 
 	@Override
-	public void saveNBTData(NBTTagCompound compound)
-	{
+	public void saveNBTData(NBTTagCompound compound) {
 		NBTTagCompound properties = new NBTTagCompound();
 		// ARK player properties
 		properties.setBoolean("canPoop", canPoop);
@@ -125,10 +119,11 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 	}
 
 	@Override
-	public void loadNBTData(NBTTagCompound compound)
-	{
+	public void loadNBTData(NBTTagCompound compound) {
 		NBTTagCompound properties = compound.getCompoundTag(EXT_PROP_NAME);
-		if (properties == null) { return; }
+		if (properties == null) {
+			return;
+		}
 		// ARK player properties
 		canPoop = properties.getBoolean("canPoop");
 		health = properties.getInteger("health");
@@ -161,20 +156,17 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 		inventoryPlayerCrafting.loadInventoryFromNBT(compound);
 	}
 
-	public void setWater(int water)
-	{
+	public void setWater(int water) {
 		this.water = water;
 		syncClient(player, false);
 	}
 
-	public void setTorpor(int torpor)
-	{
+	public void setTorpor(int torpor) {
 		this.torpor = torpor;
 		syncClient(player, false);
 	}
 
-	public void setStamina(int stamina)
-	{
+	public void setStamina(int stamina) {
 		this.stamina = stamina;
 		syncClient(player, false);
 	}
@@ -184,8 +176,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 	 * 
 	 * @param carryWeight
 	 */
-	public void setCarryWeight(double carryWeight)
-	{
+	public void setCarryWeight(double carryWeight) {
 		this.carryWeight = carryWeight;
 		syncClient(player, false);
 	}
@@ -195,86 +186,77 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 	 * 
 	 * @param weight
 	 */
-	public void setWeight(double weight)
-	{
+	public void setWeight(double weight) {
 		this.weight = weight;
 		syncClient(player, false);
 	}
 
-	public void setEngramPoints(int engramPoints)
-	{
+	public void setEngramPoints(int engramPoints) {
 		this.engramPoints = engramPoints;
 		syncClient(player, false);
 	}
-	
+
 	/***
 	 * 
 	 * @param engram
-	 * @param pos not the position being set. used to dictate which engrams the player already has.
+	 * @param pos
+	 *            not the position being set. used to dictate which engrams the
+	 *            player already has.
 	 */
-	public void addLearnedEngram(Engram engram, int pos)
-	{
-		if(!engrams.contains(pos)) {
+	public void addLearnedEngram(Engram engram, int pos) {
+		if (!engrams.contains(pos)) {
 			engrams.add(pos);
 		}
 		syncClient(player, false);
 	}
-	
+
 	/***
 	 * 
 	 * @param engram
-	 * @param pos not the position being set. used to dictate which engrams the player already has.
+	 * @param pos
+	 *            not the position being set. used to dictate which engrams the
+	 *            player already has.
 	 */
-	public void removeLearnedEngram(Engram engram, int pos)
-	{
-		if(engrams.contains(pos)) {
+	public void removeLearnedEngram(Engram engram, int pos) {
+		if (engrams.contains(pos)) {
 			engrams.remove(pos);
 		}
 		syncClient(player, false);
 	}
-	
-	public ArrayList<Integer> learnedEngrams()
-	{
+
+	public ArrayList<Integer> learnedEngrams() {
 		return engrams;
 	}
 
-	public int getWater()
-	{
+	public int getWater() {
 		return water;
 	}
 
-	public int getTorpor()
-	{
+	public int getTorpor() {
 		return torpor;
 	}
 
-	public int getStamina()
-	{
+	public int getStamina() {
 		return stamina;
 	}
 
-	public double getCarryWeight()
-	{
+	public double getCarryWeight() {
 		return carryWeight;
 	}
 
-	public double getWeight()
-	{
+	public double getWeight() {
 		return weight;
 	}
 
-	public double getCarryWeightRatio()
-	{
+	public double getCarryWeightRatio() {
 		return (double) carryWeight / weight;
 	}
 
-	public int getEngramPoints()
-	{
+	public int getEngramPoints() {
 		return engramPoints;
 	}
 
-	public InventoryPlayerEngram getEngramInventory()
-	{
+	public InventoryPlayerEngram getEngramInventory() {
 		return engramInv;
 	}
 
@@ -282,8 +264,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 	 * Copies additional player data from the given ExtendedPlayer instance
 	 * Avoids NBT disk I/O overhead when cloning a player after respawn
 	 */
-	public void copy(ARKPlayer props)
-	{
+	public void copy(ARKPlayer props) {
 		this.canPoop = props.canPoop;
 		this.torpor = props.torpor;
 		this.water = props.water;
@@ -293,51 +274,39 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 	}
 
 	@Override
-	public void init(Entity entity, World world)
-	{
+	public void init(Entity entity, World world) {
 	}
 
-	public void syncClient(EntityPlayer player, boolean all)
-	{
-		if (player instanceof EntityPlayerMP)
-		{
+	public void syncClient(EntityPlayer player, boolean all) {
+		if (player instanceof EntityPlayerMP) {
 			ARKCraft.modChannel.sendTo(new SyncPlayerData(all, this), (EntityPlayerMP) player);
 		}
 	}
 
 	@SuppressWarnings("unused")
-	private EntityPlayer getPlayer()
-	{
+	private EntityPlayer getPlayer() {
 		return player;
 	}
 
 	// --------- Pooping -----------------
-	public boolean canPoop()
-	{
+	public boolean canPoop() {
 		return canPoop;
 	}
 
-	public void setCanPoop(boolean canPoop)
-	{
+	public void setCanPoop(boolean canPoop) {
 		this.canPoop = canPoop;
 	}
 
-	public void poop()
-	{
-		if (canPoop())
-		{
-			if (player.worldObj.isRemote)
-			{
+	public void poop() {
+		if (canPoop()) {
+			if (player.worldObj.isRemote) {
 				player.playSound(ARKCraft.MODID + ":" + "dodo_defficating", 1.0F,
-						(player.worldObj.rand.nextFloat() - player.worldObj.rand
-								.nextFloat()) * 0.2F + 1.0F);
+						(player.worldObj.rand.nextFloat() - player.worldObj.rand.nextFloat()) * 0.2F + 1.0F);
 				ARKCraft.modChannel.sendToServer(new PlayerPoop(true));
 				LogHelper.info("Player is pooping!");
 			}
 			setCanPoop(false);
-		}
-		else
-		{
+		} else {
 			player.addChatMessage(new ChatComponentTranslation("chat.canNotPoop"));
 		}
 	}
@@ -346,8 +315,8 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 	// -----------------
 
 	// Inventory for Crafting
-	private InventoryPlayerCrafting inventoryPlayerCrafting = new InventoryPlayerCrafting(
-			"Crafting", false, INVENTORY_SLOTS_COUNT);
+	private InventoryPlayerCrafting inventoryPlayerCrafting = new InventoryPlayerCrafting("Crafting", false,
+			INVENTORY_SLOTS_COUNT);
 	private InventoryBlueprints inventoryBlueprints = new InventoryBlueprints("Blueprints", false,
 			BLUEPRINT_SLOTS_COUNT, PlayerCraftingManager.getInstance(), inventoryPlayerCrafting,
 			(short) ModuleItemBalance.PLAYER_CRAFTING.CRAFT_TIME_FOR_ITEM);
@@ -359,56 +328,48 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 	public static final int FIRST_INVENTORY_SLOT = 0;
 	public static final int LAST_INVENTORY_SLOT = INVENTORY_SLOTS_COUNT - 1;
 
-	public InventoryBlueprints getInventoryBlueprints()
-	{
+	public InventoryBlueprints getInventoryBlueprints() {
 		return inventoryBlueprints;
 	}
 
-	public void setInventoryBlueprints(InventoryBlueprints inventoryBlueprints)
-	{
+	public void setInventoryBlueprints(InventoryBlueprints inventoryBlueprints) {
 		this.inventoryBlueprints = inventoryBlueprints;
 	}
 
-	public InventoryPlayerCrafting getInventoryPlayer()
-	{
+	public InventoryPlayerCrafting getInventoryPlayer() {
 		return inventoryPlayerCrafting;
 	}
 
-	public void setInventoryPlayer(InventoryPlayerCrafting inventoryPlayer)
-	{
+	public void setInventoryPlayer(InventoryPlayerCrafting inventoryPlayer) {
 		this.inventoryPlayerCrafting = inventoryPlayer;
 	}
 
 	// Leveling stuff
-	public void addXP(long xp)
-	{
+	public void addXP(long xp) {
 		ArkExperienceGainEvent event = new ArkExperienceGainEvent(this.player, xp);
 		boolean canceled = ARKCraft.bus.post(event);
-		if (!canceled)
-		{
+		if (!canceled) {
 			this.xp += event.getXp();
 			checkLevel();
 		}
 	}
 
-	public void checkLevel()
-	{
-		while (level < maxLevel && xp > getRequiredXP())
-		{
+	public void checkLevel() {
+		while (level < maxLevel && xp > getRequiredXP()) {
 			level++;
 			engramPoints += getReceivedEngramPoints(level);
 		}
 	}
 
-	public long getRequiredXP()
-	{
+	public long getRequiredXP() {
 		return Math.round(Math.pow(level + 1, 3) / 2);
 	}
 
-	private static int getReceivedEngramPoints(int level)
-	{
-		if (level < 60) return level / 10 * 4 + 8;
-		if (level < 100) return (level / 10 - 6) * 10 + 40;
+	private static int getReceivedEngramPoints(int level) {
+		if (level < 60)
+			return level / 10 * 4 + 8;
+		if (level < 100)
+			return (level / 10 - 6) * 10 + 40;
 		return 0;
 	}
 }

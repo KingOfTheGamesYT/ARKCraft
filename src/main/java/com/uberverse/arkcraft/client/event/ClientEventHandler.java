@@ -9,8 +9,11 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.client.gui.GUIMortarPestle;
+import com.uberverse.arkcraft.client.gui.GUIPlayerCrafting;
 import com.uberverse.arkcraft.client.gui.GUISmithy;
 import com.uberverse.arkcraft.common.block.tile.IHoverInfo;
+import com.uberverse.arkcraft.common.block.tile.TileInventoryMP;
 import com.uberverse.arkcraft.common.block.tile.TileInventorySmithy;
 import com.uberverse.arkcraft.common.config.WeightsConfig;
 import com.uberverse.arkcraft.common.container.inventory.InventoryAttachment;
@@ -18,7 +21,11 @@ import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
 import com.uberverse.arkcraft.common.entity.data.CalcPlayerWeight;
 import com.uberverse.arkcraft.common.event.CommonEventHandler;
 import com.uberverse.arkcraft.common.handlers.ARKShapelessRecipe;
+import com.uberverse.arkcraft.common.handlers.recipes.PestleCraftingManager;
+import com.uberverse.arkcraft.common.handlers.recipes.PlayerCraftingManager;
 import com.uberverse.arkcraft.common.handlers.recipes.SmithyCraftingManager;
+import com.uberverse.arkcraft.common.inventory.InventoryBlueprints;
+import com.uberverse.arkcraft.common.inventory.InventoryPlayerCrafting;
 import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
 import com.uberverse.arkcraft.common.item.engram.ARKCraftEngrams;
 import com.uberverse.arkcraft.common.item.engram.Engram;
@@ -40,6 +47,7 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentTranslation;
@@ -48,6 +56,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -418,6 +427,49 @@ public class ClientEventHandler {
 			if(event.itemStack == stack){
 				@SuppressWarnings("rawtypes")
 				List recipeList = SmithyCraftingManager.getInstance().getRecipeList();
+				for(int i = 0;i<recipeList.size();i++){
+					if(recipeList.get(i) instanceof ARKShapelessRecipe){
+						ARKShapelessRecipe r = (ARKShapelessRecipe) recipeList.get(i);
+						if(r.getRecipeOutput().isItemEqual(stack)){
+							for(int j = 0;j<r.recipeItems.size();j++){
+								ItemStack cStack = ((ItemStack)r.recipeItems.get(j));
+								event.toolTip.add(I18n.format("arkcraft.tooltip.ingredient", I18n.format(cStack.getDisplayName()), cStack.stackSize));
+							}
+							break;
+						}
+					}
+				}
+			}
+		}
+		else if
+		(mc.currentScreen instanceof GUIMortarPestle){
+			TileInventoryMP te = ((GUIMortarPestle) mc.currentScreen).tileEntity;
+			ItemStack stack = te.inventoryBlueprints.getStackInSlot(0);
+			if(event.itemStack == stack){
+				@SuppressWarnings("rawtypes")
+				List recipeList = PestleCraftingManager.getInstance().getRecipeList();
+				for(int i = 0;i<recipeList.size();i++){
+					if(recipeList.get(i) instanceof ARKShapelessRecipe){
+						ARKShapelessRecipe r = (ARKShapelessRecipe) recipeList.get(i);
+						if(r.getRecipeOutput().isItemEqual(stack)){
+							for(int j = 0;j<r.recipeItems.size();j++){
+								ItemStack cStack = ((ItemStack)r.recipeItems.get(j));
+								event.toolTip.add(I18n.format("arkcraft.tooltip.ingredient", I18n.format(cStack.getDisplayName()), cStack.stackSize));
+							}
+							break;
+						}
+					}
+				}
+			}
+		}
+		else if
+		(mc.currentScreen instanceof GUIPlayerCrafting)
+		{
+			InventoryBlueprints inv = ((GUIPlayerCrafting) mc.currentScreen).inventoryBlueprints;
+			ItemStack stack = inv.getStackInSlot(0);
+			if(event.itemStack == stack){
+				@SuppressWarnings("rawtypes")
+				List recipeList = PlayerCraftingManager.getInstance().getRecipeList();
 				for(int i = 0;i<recipeList.size();i++){
 					if(recipeList.get(i) instanceof ARKShapelessRecipe){
 						ARKShapelessRecipe r = (ARKShapelessRecipe) recipeList.get(i);
