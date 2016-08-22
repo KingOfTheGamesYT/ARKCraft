@@ -33,7 +33,7 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 	private Map<CampfireRecipe, Integer> activeRecipes = new HashMap<CampfireRecipe, Integer>();
 	/** the ticks burning left */
 	private int burningTicks;
-
+	
 	public TileInventoryCampfire()
 	{
 		super();
@@ -92,7 +92,7 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 
 	private void updateBurning(List<CampfireRecipe> possibleRecipes)
 	{
-		if (burningTicks < 1)
+		if (burningTicks <= 1)
 		{
 			for (int i = 0; i < itemStacks.length; i++)
 			{

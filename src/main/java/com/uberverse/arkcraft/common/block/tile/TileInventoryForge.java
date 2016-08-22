@@ -91,7 +91,7 @@ public class TileInventoryForge extends TileEntity implements IForge
 
 	private void updateBurning(List<ForgeRecipe> possibleRecipes)
 	{
-		if (burningTicks < 1)
+		if (burningTicks <= 1)
 		{
 			for (int i = 0; i < itemStacks.length; i++)
 			{
