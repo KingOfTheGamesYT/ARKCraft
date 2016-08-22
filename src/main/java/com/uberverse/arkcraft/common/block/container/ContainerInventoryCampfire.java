@@ -221,4 +221,9 @@ public class ContainerInventoryCampfire extends Container
 	{
 		tileInventoryCampfire.setField(id, data);
 	}
+
+	public void toggleBurning()
+	{
+		tileInventoryCampfire.setBurning(!tileInventoryCampfire.isBurning());
+	}
 }

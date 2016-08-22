@@ -1,20 +1,27 @@
 package com.uberverse.arkcraft.client.gui;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.container.ContainerInventoryForge;
 import com.uberverse.arkcraft.common.block.tile.TileInventoryForge;
+
+import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GUIForge extends GuiContainer
@@ -64,8 +71,8 @@ public class GUIForge extends GuiContainer
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
 		Minecraft.getMinecraft().getTextureManager().bindTexture(textureFlame);
-		if (tileEntity.isBurning()) drawTexturedModalRect(guiLeft + FLAME_XPOS,
-				guiTop + FLAME_YPOS, FLAME_ICON_U, FLAME_ICON_V, FLAME_WIDTH, FLAME_HEIGHT);
+		if (tileEntity.isBurning()) drawTexturedModalRect(guiLeft + FLAME_XPOS, guiTop + FLAME_YPOS,
+				FLAME_ICON_U, FLAME_ICON_V, FLAME_WIDTH, FLAME_HEIGHT);
 	}
 
 	@Override
@@ -116,5 +123,46 @@ public class GUIForge extends GuiContainer
 	public static boolean isInRect(int x, int y, int xSize, int ySize, int mouseX, int mouseY)
 	{
 		return ((mouseX >= x && mouseX <= x + xSize) && (mouseY >= y && mouseY <= y + ySize));
+	}
+
+	@Override
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
+	{
+		if (isInRect(guiLeft + FLAME_XPOS, guiTop + FLAME_YPOS, FLAME_WIDTH, FLAME_HEIGHT, mouseX,
+				mouseY))
+		{
+			ARKCraft.modChannel.sendToServer(new ClickMessage());
+			return;
+		}
+
+		super.mouseClicked(mouseX, mouseY, mouseButton);
+	}
+
+	public static class ClickMessage implements IMessage
+	{
+		@Override
+		public void fromBytes(ByteBuf buf)
+		{
+		}
+
+		@Override
+		public void toBytes(ByteBuf buf)
+		{
+		}
+
+		public static class Handler implements IMessageHandler<ClickMessage, IMessage>
+		{
+			@Override
+			public IMessage onMessage(ClickMessage message, MessageContext ctx)
+			{
+				if (ctx.side.isServer())
+				{
+					Container c = ctx.getServerHandler().playerEntity.openContainer;
+					if (c instanceof ContainerInventoryForge) ((ContainerInventoryForge) c)
+							.toggleBurning();
+				}
+				return null;
+			}
+		}
 	}
 }

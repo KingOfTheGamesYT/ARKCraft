@@ -2,6 +2,8 @@ package com.uberverse.arkcraft;
 
 import org.apache.logging.log4j.Logger;
 
+import com.uberverse.arkcraft.client.gui.GUICampfire;
+import com.uberverse.arkcraft.client.gui.GUIForge;
 import com.uberverse.arkcraft.client.net.ClientReloadFinishedHandler;
 import com.uberverse.arkcraft.common.config.CoreConfig;
 import com.uberverse.arkcraft.common.config.ModuleItemConfig;
@@ -188,6 +190,10 @@ public class ARKCraft
 				Side.SERVER);
 		modChannel.registerMessage(MessageHover.class, MessageHover.class, id++, Side.CLIENT);
 		modChannel.registerMessage(MessageHoverReq.class, MessageHoverReq.class, id++, Side.SERVER);
+		modChannel.registerMessage(GUICampfire.ClickMessage.Handler.class,
+				GUICampfire.ClickMessage.class, id++, Side.SERVER);
+		modChannel.registerMessage(GUIForge.ClickMessage.Handler.class, GUIForge.ClickMessage.class,
+				id++, Side.SERVER);
 		DescriptionHandler.init();
 	}
 

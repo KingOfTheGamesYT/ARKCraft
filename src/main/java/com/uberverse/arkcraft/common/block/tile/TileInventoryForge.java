@@ -33,6 +33,7 @@ public class TileInventoryForge extends TileEntity implements IForge
 	private Map<ForgeRecipe, Integer> activeRecipes = new HashMap<ForgeRecipe, Integer>();
 	/** the ticks burning left */
 	private int burningTicks;
+	private boolean burning;
 
 	public TileInventoryForge()
 	{
@@ -49,6 +50,15 @@ public class TileInventoryForge extends TileEntity implements IForge
 		return burningTicks / 20; // 20 ticks per second
 	}
 
+	public boolean setBurning(boolean in)
+	{
+		this.burning = in;
+		updateBurning();
+		if (in != burning) markDirty();
+		worldObj.markBlockForUpdate(pos);
+		return this.burning;
+	}
+
 	// This method is called every tick to update the tile entity, i.e.
 	// - see if the fuel has run out, and if so turn the furnace "off" and
 	// slowly uncook the current item (if any)
@@ -57,11 +67,11 @@ public class TileInventoryForge extends TileEntity implements IForge
 	@Override
 	public void update()
 	{
-		List<ForgeRecipe> possibleRecipes = ForgeCraftingHandler.findPossibleRecipes(this);
-		updateBurning(possibleRecipes);
+		updateBurning();
 		// LogHelper.info(burningTicks);
 		if (!worldObj.isRemote)
 		{
+			List<ForgeRecipe> possibleRecipes = ForgeCraftingHandler.findPossibleRecipes(this);
 			if (this.isBurning() && possibleRecipes.size() > 0)
 			{
 				Iterator<Entry<ForgeRecipe, Integer>> it = activeRecipes.entrySet().iterator();
@@ -89,28 +99,34 @@ public class TileInventoryForge extends TileEntity implements IForge
 		worldObj.checkLightFor(EnumSkyBlock.BLOCK, pos);
 	}
 
-	private void updateBurning(List<ForgeRecipe> possibleRecipes)
+	private void updateBurning()
 	{
-		if (burningTicks <= 1)
+		if (burning)
 		{
-			for (int i = 0; i < itemStacks.length; i++)
+			if (burningTicks <= 1)
 			{
-				ItemStack stack = itemStacks[i];
-				if (stack != null && ForgeCraftingHandler
-						.isValidFuel(stack.getItem()) && possibleRecipes.size() > 0)
+				for (int i = 0; i < itemStacks.length; i++)
 				{
-					if (!worldObj.isRemote)
+					ItemStack stack = itemStacks[i];
+					if (stack != null && ForgeCraftingHandler.isValidFuel(stack.getItem()))
 					{
-						stack.stackSize--;
-						if (stack.stackSize == 0) itemStacks[i] = null;
+						if (!worldObj.isRemote)
+						{
+							stack.stackSize--;
+							if (stack.stackSize == 0) itemStacks[i] = null;
+						}
+						this.burningTicks += ForgeCraftingHandler.getBurnTime(stack.getItem());
+						break;
 					}
-					this.burningTicks += ForgeCraftingHandler.getBurnTime(stack.getItem());
-					break;
 				}
 			}
+			if (burningTicks > 0)
+			{
+				this.burningTicks--;
+				if (burningTicks < 1) burning = false;
+			}
 		}
-		if (burningTicks > 0) this.burningTicks--;
-
+		else burningTicks = 0;
 	}
 
 	private void updateInventory()
@@ -317,6 +333,7 @@ public class TileInventoryForge extends TileEntity implements IForge
 			nbtList.appendTag(nbt);
 		}
 		parentNBT.setTag("activeRecipes", nbtList);
+		parentNBT.setBoolean("burning", burning);
 	}
 
 	// This is where you load the data that you saved in writeToNBT
@@ -325,6 +342,7 @@ public class TileInventoryForge extends TileEntity implements IForge
 	{
 		super.readFromNBT(nbt); // The super call is required to save
 								// and load the tiles location
+		this.burning = nbt.getBoolean("burning");
 		final byte NBT_TYPE_COMPOUND = 10; // See NBTBase.createNewByType() for
 											// a listing
 		NBTTagList dataForAllSlots = nbt.getTagList("Items", NBT_TYPE_COMPOUND);
@@ -518,7 +536,7 @@ public class TileInventoryForge extends TileEntity implements IForge
 	@Override
 	public boolean isBurning()
 	{
-		return this.burningTicks > 0;
+		return burning;
 	}
 
 	@Override
