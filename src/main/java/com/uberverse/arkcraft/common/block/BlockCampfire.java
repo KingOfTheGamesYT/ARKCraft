@@ -38,6 +38,7 @@ public class BlockCampfire extends BlockContainer
 		this.setCreativeTab(CreativeTabs.tabBlock);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(BURNING, false));
 		float f = 0.65F; // Height
+		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, f, 1.0F);
 		this.ID = ID;
 	}
 
