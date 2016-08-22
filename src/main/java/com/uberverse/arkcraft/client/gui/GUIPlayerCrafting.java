@@ -7,6 +7,7 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
@@ -18,6 +19,8 @@ import org.lwjgl.opengl.GL11;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.container.ContainerInventoryPlayerCrafting;
 import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
+import com.uberverse.arkcraft.common.handlers.ARKShapelessRecipe;
+import com.uberverse.arkcraft.common.handlers.recipes.PlayerCraftingManager;
 import com.uberverse.arkcraft.common.inventory.InventoryBlueprints;
 import com.uberverse.arkcraft.common.inventory.InventoryPlayerCrafting;
 import com.uberverse.lib.LogHelper;
@@ -164,12 +167,29 @@ public class GUIPlayerCrafting extends GuiContainer
                 if (isInRect(x, y, BLUEPRINT_WIDTH, BLUEPRINT_HEIGHT, mouseX, mouseY))
                 {
                     ItemStack stack = inventoryBlueprints.getStackInSlot(i);
+                	List recipeList = PlayerCraftingManager.getInstance().getRecipeList();
+                	String itemName = stack.getItem().getItemStackDisplayName(stack);
+    				for(int i1 = 0;i1<recipeList.size();i1++){
+    					if(recipeList.get(i1) instanceof ARKShapelessRecipe){
+    						ARKShapelessRecipe r = (ARKShapelessRecipe) recipeList.get(i1);
+    						if(r.getRecipeOutput().isItemEqual(stack)){
+    							for(int j = 0;j<r.recipeItems.size();j++){
+    								ItemStack cStack = ((ItemStack)r.recipeItems.get(j));
+    								hoveringText.add(I18n.format("arkcraft.tooltip.ingredient", I18n.format(cStack.getDisplayName()), cStack.stackSize));
+    							}
+    							break;
+    						}
+    					}
+    				}
+    				row = ContainerInventoryPlayerCrafting.NUM_ROWS_BP;
+                    break;
+    				/*
                     String itemName = stack.getItem().getItemStackDisplayName(stack);
                     // TODO: Disable buttons if the item can't be crafted!
                     hoveringText.add(itemName + " - Can craft " + inventoryBlueprints.getNumToBeCrafted(i));
                     // Exit loops
                     row = ContainerInventoryPlayerCrafting.NUM_ROWS_BP;
-                    break;
+                    break;	*/
                 }
             }
         }
