@@ -62,7 +62,6 @@ public class ARKCraftBerryBush extends Block
 	{
 		ItemStack heldStack = player.getCurrentEquippedItem();
 
-		// TODO replace spyglass with sickle
 		if (heldStack != null && heldStack.getItem() == ARKCraftItems.metal_sickle)
 		{
 			if (rand.nextInt(30) <= 15) { return ARKCraftItems.fiber; }
@@ -90,7 +89,6 @@ public class ARKCraftBerryBush extends Block
 				return ARKCraftItems.azulBerry;
 			}
 		}
-
 		return null;
 	}
 
@@ -107,7 +105,7 @@ public class ARKCraftBerryBush extends Block
 
 	public void onLeftClicked(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn)
 	{
-		if (worldIn.isRemote)
+		if (!worldIn.isRemote)
 		{
 			int harvestCount = getMetaFromState(state);
 			if (harvestCount > 0)
