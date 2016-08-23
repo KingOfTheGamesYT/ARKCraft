@@ -1,5 +1,8 @@
 package com.uberverse.arkcraft;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.logging.log4j.Logger;
 
 import com.uberverse.arkcraft.client.gui.GUICampfire;
@@ -8,6 +11,7 @@ import com.uberverse.arkcraft.client.net.ClientReloadFinishedHandler;
 import com.uberverse.arkcraft.common.config.CoreConfig;
 import com.uberverse.arkcraft.common.config.ModuleItemConfig;
 import com.uberverse.arkcraft.common.config.WeightsConfig;
+import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
 import com.uberverse.arkcraft.common.event.CommonEventHandler;
 import com.uberverse.arkcraft.common.gen.WorldGeneratorBushes;
 import com.uberverse.arkcraft.common.handlers.GuiHandler;
@@ -36,8 +40,13 @@ import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
 import com.uberverse.arkcraft.server.net.ServerReloadFinishedHandler;
 
+import net.minecraft.command.CommandException;
+import net.minecraft.command.ICommand;
+import net.minecraft.command.ICommandSender;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -46,6 +55,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.EventBus;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -127,6 +137,65 @@ public class ARKCraft
 	public void postInit(FMLPostInitializationEvent event)
 	{
 
+	}
+
+	@EventHandler
+	public void serverStart(FMLServerStartingEvent event)
+	{
+		event.registerServerCommand(new ICommand()
+		{
+
+			@Override
+			public int compareTo(Object o)
+			{
+				return 0;
+			}
+
+			@Override
+			public String getName()
+			{
+				return "arkxp";
+			}
+
+			@Override
+			public String getCommandUsage(ICommandSender sender)
+			{
+				return "arkxp";
+			}
+
+			@Override
+			public List getAliases()
+			{
+				return Collections.EMPTY_LIST;
+			}
+
+			@Override
+			public void execute(ICommandSender sender, String[] args) throws CommandException
+			{
+				if (sender instanceof EntityPlayer)
+				{
+					ARKPlayer.get((EntityPlayer) sender).addXP(100);
+				}
+			}
+
+			@Override
+			public boolean canCommandSenderUse(ICommandSender sender)
+			{
+				return true;
+			}
+
+			@Override
+			public List addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
+			{
+				return Collections.EMPTY_LIST;
+			}
+
+			@Override
+			public boolean isUsernameIndex(String[] args, int index)
+			{
+				return true;
+			}
+		});
 	}
 
 	public static ARKCraft instance()

@@ -66,7 +66,7 @@ public class Engram extends Item
 		return unlockLevel;
 	}
 	
-	public int getRequiredEp()
+	public int getRequiredPoints()
 	{
 		return ep;
 	}

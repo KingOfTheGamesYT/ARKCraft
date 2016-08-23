@@ -41,20 +41,18 @@ import net.minecraftforge.fml.common.network.IGuiHandler;
 
 public class GuiHandler implements IGuiHandler
 {
-	//	public static EntityARKCreature rightClickedEntity;
+	// public static EntityARKCreature rightClickedEntity;
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
 	{
 		if (world.isRemote)
 		{
-			LogHelper
-			.info("GuiHandler: getServerGuiElement called from client");
+			LogHelper.info("GuiHandler: getServerGuiElement called from client");
 		}
 		else
 		{
-			LogHelper
-			.info("GuiHandler: getServerGuiElement called from server");
+			LogHelper.info("GuiHandler: getServerGuiElement called from server");
 		}
 		if (ID == ARKCraft.GUI.SMITHY.getID())
 		{
@@ -67,8 +65,7 @@ public class GuiHandler implements IGuiHandler
 			}
 			else
 			{
-				LogHelper
-				.info("GuiHandler - getServerGuiElement: TileEntitySmithy not found!");
+				LogHelper.info("GuiHandler - getServerGuiElement: TileEntitySmithy not found!");
 			}
 		}
 		else if (ID == ARKCraft.GUI.PESTLE_AND_MORTAR.getID())
@@ -77,13 +74,11 @@ public class GuiHandler implements IGuiHandler
 			TileEntity tileEntity = world.getTileEntity(xyz);
 			if (tileEntity instanceof TileInventoryMP)
 			{
-				return new ContainerInventoryMP(player.inventory,
-						(TileInventoryMP) tileEntity);
+				return new ContainerInventoryMP(player.inventory, (TileInventoryMP) tileEntity);
 			}
 			else
 			{
-				LogHelper
-				.info("GuiHandler - getServerGuiElement: TileEntityMP not found!");
+				LogHelper.info("GuiHandler - getServerGuiElement: TileEntityMP not found!");
 			}
 		}
 		else if (ID == ARKCraft.GUI.COMPOST_BIN.getID())
@@ -97,8 +92,7 @@ public class GuiHandler implements IGuiHandler
 			}
 			else
 			{
-				LogHelper
-				.info("GuiHandler - getServerGuiElement: TileEntityCompostBin not found!");
+				LogHelper.info("GuiHandler - getServerGuiElement: TileEntityCompostBin not found!");
 			}
 		}
 		else if (ID == ARKCraft.GUI.FORGE_GUI.getID())
@@ -112,8 +106,7 @@ public class GuiHandler implements IGuiHandler
 			}
 			else
 			{
-				LogHelper
-				.info("GuiHandler - getServerGuiElement: TileEntityForge not found!");
+				LogHelper.info("GuiHandler - getServerGuiElement: TileEntityForge not found!");
 			}
 		}
 		else if (ID == ARKCraft.GUI.CAMPFIRE_GUI.getID())
@@ -127,30 +120,24 @@ public class GuiHandler implements IGuiHandler
 			}
 			else
 			{
-				LogHelper
-				.info("GuiHandler - getServerGuiElement: TileEntityCampfire not found!");
+				LogHelper.info("GuiHandler - getServerGuiElement: TileEntityCampfire not found!");
 			}
 		}
 		else if (ID == ARKCraft.GUI.ENGRAM_GUI.getID())
 		{
-			//FMLClientHandler.instance().displayGuiScreen(player, new GUIEngram(player, player.inventory, ARKPlayer.get(player)));
+			// FMLClientHandler.instance().displayGuiScreen(player, new
+			// GUIEngram(player, player.inventory, ARKPlayer.get(player)));
 			return new ContainerEngram(ARKPlayer.get(player).getEngramInventory(), player);
 		}
-		/*else if (ID == ARKCraft.GUI.CROP_PLOT.getID())
-		{
-			BlockPos xyz = new BlockPos(x, y, z);
-			TileEntity tileEntity = world.getTileEntity(xyz);
-			if (tileEntity instanceof TileInventoryCropPlot)
-			{
-				return new ContainerInventoryCropPlot(player.inventory,
-						(TileInventoryCropPlot) tileEntity);
-			}
-			else
-			{
-				LogHelper
-						.info("GuiHandler - getServerGuiElement: TileEntityCropPlot not found!");
-			}
-		}*/
+		/*
+		 * else if (ID == ARKCraft.GUI.CROP_PLOT.getID()) { BlockPos xyz = new
+		 * BlockPos(x, y, z); TileEntity tileEntity = world.getTileEntity(xyz);
+		 * if (tileEntity instanceof TileInventoryCropPlot) { return new
+		 * ContainerInventoryCropPlot(player.inventory, (TileInventoryCropPlot)
+		 * tileEntity); } else { LogHelper
+		 * .info("GuiHandler - getServerGuiElement: TileEntityCropPlot not found!"
+		 * ); } }
+		 */
 		else if (ID == ARKCraft.GUI.CROP_PLOT.getID())
 		{
 			BlockPos xyz = new BlockPos(x, y, z);
@@ -163,7 +150,7 @@ public class GuiHandler implements IGuiHandler
 			else
 			{
 				LogHelper
-				.info("GuiHandler - getServerGuiElement: TileEntityCropPlotNew not found!");
+						.info("GuiHandler - getServerGuiElement: TileEntityCropPlotNew not found!");
 			}
 		}
 		// else if (ID == GlobalAdditions.GUI.SCOPE_GUI.getID()) {
@@ -171,18 +158,16 @@ public class GuiHandler implements IGuiHandler
 		// if (entity != null && entity instanceof EntityDodo)
 		// return null;
 		// else
-		// LogHelper.error("GuiHandler - getServerGuiElement: Did not find entity with inventory!");
+		// LogHelper.error("GuiHandler - getServerGuiElement: Did not find
+		// entity with inventory!");
 		// }
 		else if (ID == ARKCraft.GUI.PLAYER.getID())
 		{
-			return new ContainerInventoryPlayerCrafting(player.inventory,
-					player);
+			return new ContainerInventoryPlayerCrafting(player.inventory, player);
 		}
-		else if (ID == ARKCraft.GUI.ATTACHMENT_GUI.getID())
-		{
-			return new ContainerInventoryAttachment(player, player.inventory,
-					InventoryAttachment.create(player.getHeldItem()));
-		}
+		else if (ID == ARKCraft.GUI.ATTACHMENT_GUI
+				.getID()) { return new ContainerInventoryAttachment(player, player.inventory,
+						InventoryAttachment.create(player.getHeldItem())); }
 		return null;
 	}
 
@@ -191,13 +176,11 @@ public class GuiHandler implements IGuiHandler
 	{
 		if (world.isRemote)
 		{
-			LogHelper
-			.info("GuiHandler: getClientGuiElement called from client");
+			LogHelper.info("GuiHandler: getClientGuiElement called from client");
 		}
 		else
 		{
-			LogHelper
-			.info("GuiHandler: getClientGuiElement called from server");
+			LogHelper.info("GuiHandler: getClientGuiElement called from server");
 		}
 		if (ID == ARKCraft.GUI.SMITHY.getID())
 		{
@@ -205,13 +188,11 @@ public class GuiHandler implements IGuiHandler
 			TileEntity tileEntity = world.getTileEntity(xyz);
 			if (tileEntity instanceof TileInventorySmithy)
 			{
-				return new GUISmithy(player.inventory,
-						(TileInventorySmithy) tileEntity);
+				return new GUISmithy(player.inventory, (TileInventorySmithy) tileEntity);
 			}
 			else
 			{
-				LogHelper
-				.info("GuiHandler - getClientGuiElement: TileEntitySmithy not found!");
+				LogHelper.info("GuiHandler - getClientGuiElement: TileEntitySmithy not found!");
 			}
 		}
 		else if (ID == ARKCraft.GUI.PESTLE_AND_MORTAR.getID())
@@ -224,8 +205,7 @@ public class GuiHandler implements IGuiHandler
 			}
 			else
 			{
-				LogHelper
-				.info("GuiHandler - getClientGuiElement: TileEntityMP not found!");
+				LogHelper.info("GuiHandler - getClientGuiElement: TileEntityMP not found!");
 			}
 		}
 		else if (ID == ARKCraft.GUI.CAMPFIRE_GUI.getID())
@@ -234,43 +214,34 @@ public class GuiHandler implements IGuiHandler
 			TileEntity tileEntity = world.getTileEntity(xyz);
 			if (tileEntity instanceof TileInventoryCampfire)
 			{
-				return new GUICampfire(player.inventory,
-						(TileInventoryCampfire) tileEntity);
+				return new GUICampfire(player.inventory, (TileInventoryCampfire) tileEntity);
 			}
 			else
 			{
-				LogHelper
-				.info("GuiHandler - getClientGuiElement: TileEntityCampfire not found!");
+				LogHelper.info("GuiHandler - getClientGuiElement: TileEntityCampfire not found!");
 			}
 		}
-		/*else if (ID == ARKCraft.GUI.CROP_PLOT.getID())
-		{
-			BlockPos xyz = new BlockPos(x, y, z);
-			TileEntity tileEntity = world.getTileEntity(xyz);
-			if (tileEntity instanceof TileInventoryCropPlot)
-			{
-				return new GUICropPlot(player.inventory,
-						(TileInventoryCropPlot) tileEntity);
-			}
-			else
-			{
-				LogHelper
-				.info("GuiHandler - getClientGuiElement: TileEntityCropPlot not found!");
-			}
-		}*/
+		/*
+		 * else if (ID == ARKCraft.GUI.CROP_PLOT.getID()) { BlockPos xyz = new
+		 * BlockPos(x, y, z); TileEntity tileEntity = world.getTileEntity(xyz);
+		 * if (tileEntity instanceof TileInventoryCropPlot) { return new
+		 * GUICropPlot(player.inventory, (TileInventoryCropPlot) tileEntity); }
+		 * else { LogHelper
+		 * .info("GuiHandler - getClientGuiElement: TileEntityCropPlot not found!"
+		 * ); } }
+		 */
 		else if (ID == ARKCraft.GUI.CROP_PLOT.getID())
 		{
 			BlockPos xyz = new BlockPos(x, y, z);
 			TileEntity tileEntity = world.getTileEntity(xyz);
 			if (tileEntity instanceof TileEntityCropPlotNew)
 			{
-				return new GuiCropPlotNew(player.inventory,
-						(TileEntityCropPlotNew) tileEntity);
+				return new GuiCropPlotNew(player.inventory, (TileEntityCropPlotNew) tileEntity);
 			}
 			else
 			{
 				LogHelper
-				.info("GuiHandler - getClientGuiElement: TileEntityCropPlotNew not found!");
+						.info("GuiHandler - getClientGuiElement: TileEntityCropPlotNew not found!");
 			}
 		}
 		else if (ID == ARKCraft.GUI.FORGE_GUI.getID())
@@ -279,18 +250,16 @@ public class GuiHandler implements IGuiHandler
 			TileEntity tileEntity = world.getTileEntity(xyz);
 			if (tileEntity instanceof TileInventoryForge)
 			{
-				return new GUIForge(player.inventory,
-						(TileInventoryForge) tileEntity);
+				return new GUIForge(player.inventory, (TileInventoryForge) tileEntity);
 			}
 			else
 			{
-				LogHelper
-				.info("GuiHandler - getClientGuiElement: TileEntityForge not found!");
+				LogHelper.info("GuiHandler - getClientGuiElement: TileEntityForge not found!");
 			}
 		}
 		else if (ID == ARKCraft.GUI.ENGRAM_GUI.getID())
 		{
-			return new GUIEngram(player, ARKPlayer.get(player).getEngramPoints());
+			return new GUIEngram(player);
 		}
 		else if (ID == ARKCraft.GUI.COMPOST_BIN.getID())
 		{
@@ -298,40 +267,36 @@ public class GuiHandler implements IGuiHandler
 			TileEntity tileEntity = world.getTileEntity(xyz);
 			if (tileEntity instanceof TileInventoryCompostBin)
 			{
-				return new GUICompostBin(player.inventory,
-						(TileInventoryCompostBin) tileEntity);
+				return new GUICompostBin(player.inventory, (TileInventoryCompostBin) tileEntity);
 			}
 			else
 			{
-				LogHelper
-				.info("GuiHandler - getClientGuiElement: TileEntityCompostBin not found!");
+				LogHelper.info("GuiHandler - getClientGuiElement: TileEntityCompostBin not found!");
 			}
 		}
-		else if(ID == ARKCraft.GUI.BOOK_GUI.getID()) {
+		else if (ID == ARKCraft.GUI.BOOK_GUI.getID())
+		{
 			ItemStack stack = player.getCurrentEquippedItem();
 			return new GuiInfoBook(stack, GuiHandler.getBookDataFromStack(stack));
 		}
-		
 
 		// else if (ID == GlobalAdditions.GUI.SCOPE_GUI.getID()) {
 		// Entity entity = getEntityAt(player, x, y, z);
 		// if (entity != null && entity instanceof EntityDodo)
 		// return null;
 		// else
-		// LogHelper.error("GuiHandler - getServerGuiElement: Did not find entity with inventory!");
+		// LogHelper.error("GuiHandler - getServerGuiElement: Did not find
+		// entity with inventory!");
 		// }
 		else if (ID == ARKCraft.GUI.PLAYER.getID())
 		{
 			return new GUIPlayerCrafting(player.inventory, player);
 		}
-		else if (ID == ARKCraft.GUI.ATTACHMENT_GUI.getID())
-		{
-			return new GUIAttachment(player, player.inventory,
-					InventoryAttachment.create(player.getHeldItem()));
-		}
+		else if (ID == ARKCraft.GUI.ATTACHMENT_GUI.getID()) { return new GUIAttachment(player,
+				player.inventory, InventoryAttachment.create(player.getHeldItem())); }
 		return null;
 	}
-	
+
 	private static BookData getBookDataFromStack(ItemStack stack)
 	{
 		return BookDataStore.getBookDataFromName(stack.getUnlocalizedName());

@@ -147,7 +147,6 @@ public class GUICampfire extends GuiContainer
 			{
 				if (ctx.side.isServer())
 				{
-					ARKCraft.modLog.info("handled");
 					Container c = ctx.getServerHandler().playerEntity.openContainer;
 					if (c instanceof ContainerInventoryCampfire) ((ContainerInventoryCampfire) c)
 							.toggleBurning();
