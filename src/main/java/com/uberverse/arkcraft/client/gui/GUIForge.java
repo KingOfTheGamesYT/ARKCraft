@@ -54,8 +54,8 @@ public class GUIForge extends GuiContainer
 	final int COOK_BAR_WIDTH = 80;
 	final int COOK_BAR_HEIGHT = 17;
 
-	final int FLAME_XPOS = 22;
-	final int FLAME_YPOS = 36;
+	final int FLAME_XPOS = 26;
+	final int FLAME_YPOS = 37;
 	final int FLAME_ICON_U = 176; // texture position of flame icon
 	final int FLAME_ICON_V = 0;
 	final int FLAME_WIDTH = 14;
@@ -80,7 +80,8 @@ public class GUIForge extends GuiContainer
 	{
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
-		final int LABEL_XPOS = 5;
+		final int LABEL_XPOS = xSize / 2 - fontRendererObj
+				.getStringWidth(tileEntity.getDisplayName().getUnformattedText()) / 2;
 		final int LABEL_YPOS = 5;
 		fontRendererObj.drawString(tileEntity.getDisplayName().getUnformattedText(), LABEL_XPOS,
 				LABEL_YPOS, Color.darkGray.getRGB());
