@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.apache.logging.log4j.Logger;
 
-import com.uberverse.arkcraft.client.gui.GUICampfire;
-import com.uberverse.arkcraft.client.gui.GUIForge;
 import com.uberverse.arkcraft.client.net.ClientReloadFinishedHandler;
 import com.uberverse.arkcraft.common.config.CoreConfig;
 import com.uberverse.arkcraft.common.config.ModuleItemConfig;
@@ -22,6 +20,8 @@ import com.uberverse.arkcraft.common.handlers.recipes.PlayerCraftingManager;
 import com.uberverse.arkcraft.common.handlers.recipes.RecipeHandler;
 import com.uberverse.arkcraft.common.handlers.recipes.SmithyCraftingManager;
 import com.uberverse.arkcraft.common.item.engram.ARKCraftEngrams;
+import com.uberverse.arkcraft.common.network.CampfireToggleMessage;
+import com.uberverse.arkcraft.common.network.ForgeToggleMessage;
 import com.uberverse.arkcraft.common.network.DescriptionHandler;
 import com.uberverse.arkcraft.common.network.MessageHover;
 import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
@@ -253,15 +253,15 @@ public class ARKCraft
 				Side.SERVER);
 		if (event.getSide().isClient()) modChannel.registerMessage(
 				ClientReloadFinishedHandler.class, ReloadFinished.class, id++, Side.CLIENT);
-		else modChannel.registerMessage(ServerReloadFinishedHandler.class, ReloadFinished.class, id,
+		else modChannel.registerMessage(ServerReloadFinishedHandler.class, ReloadFinished.class, id++,
 				Side.CLIENT);
 		modChannel.registerMessage(ScrollingMessage.Handler.class, ScrollingMessage.class, id++,
 				Side.SERVER);
 		modChannel.registerMessage(MessageHover.class, MessageHover.class, id++, Side.CLIENT);
 		modChannel.registerMessage(MessageHoverReq.class, MessageHoverReq.class, id++, Side.SERVER);
-		modChannel.registerMessage(GUICampfire.ClickMessage.Handler.class,
-				GUICampfire.ClickMessage.class, id++, Side.SERVER);
-		modChannel.registerMessage(GUIForge.ClickMessage.Handler.class, GUIForge.ClickMessage.class,
+		modChannel.registerMessage(CampfireToggleMessage.Handler.class,
+				CampfireToggleMessage.class, id++, Side.SERVER);
+		modChannel.registerMessage(ForgeToggleMessage.Handler.class, ForgeToggleMessage.class,
 				id++, Side.SERVER);
 		DescriptionHandler.init();
 	}

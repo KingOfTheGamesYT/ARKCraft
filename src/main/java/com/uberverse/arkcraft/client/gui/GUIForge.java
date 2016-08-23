@@ -8,18 +8,14 @@ import java.util.List;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.container.ContainerInventoryForge;
 import com.uberverse.arkcraft.common.block.tile.TileInventoryForge;
+import com.uberverse.arkcraft.common.network.ForgeToggleMessage;
 
-import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -132,38 +128,10 @@ public class GUIForge extends GuiContainer
 		if (isInRect(guiLeft + FLAME_XPOS, guiTop + FLAME_YPOS, FLAME_WIDTH, FLAME_HEIGHT, mouseX,
 				mouseY))
 		{
-			ARKCraft.modChannel.sendToServer(new ClickMessage());
+			ARKCraft.modChannel.sendToServer(new ForgeToggleMessage());
 			return;
 		}
 
 		super.mouseClicked(mouseX, mouseY, mouseButton);
-	}
-
-	public static class ClickMessage implements IMessage
-	{
-		@Override
-		public void fromBytes(ByteBuf buf)
-		{
-		}
-
-		@Override
-		public void toBytes(ByteBuf buf)
-		{
-		}
-
-		public static class Handler implements IMessageHandler<ClickMessage, IMessage>
-		{
-			@Override
-			public IMessage onMessage(ClickMessage message, MessageContext ctx)
-			{
-				if (ctx.side.isServer())
-				{
-					Container c = ctx.getServerHandler().playerEntity.openContainer;
-					if (c instanceof ContainerInventoryForge) ((ContainerInventoryForge) c)
-							.toggleBurning();
-				}
-				return null;
-			}
-		}
 	}
 }
