@@ -54,11 +54,11 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 
 	public boolean setBurning(boolean in)
 	{
-		this.burning = in;
-		updateBurning();
-		if (in != burning) markDirty();
-		worldObj.markBlockForUpdate(pos);
-		return this.burning;
+			this.burning = in;
+			updateBurning();
+			if (in != burning) markDirty();
+			worldObj.markBlockForUpdate(pos);
+			return this.burning;
 	}
 
 	// This method is called every tick to update the tile entity, i.e.
@@ -121,6 +121,7 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 						this.burningTicks += CampfireCraftingManager.getBurnTime(stack.getItem());
 						break;
 					}
+					else  burning = false;
 				}
 			}
 			if (burningTicks > 0)
