@@ -66,7 +66,7 @@ import net.minecraftforge.fml.relauncher.Side;
 @Mod(modid = ARKCraft.MODID, name = ARKCraft.NAME, version = ARKCraft.VERSION)
 public class ARKCraft
 {
-	public static final String MODID = "arkcraft", VERSION = "${version}", NAME = "ARKCraft";
+	public static final String MODID = "arkcraft", VERSION = "0.13-Alpha", NAME = "ARKCraft";
 
 	public static final String descriptionPacketChannel = MODID + ":descPacket";
 

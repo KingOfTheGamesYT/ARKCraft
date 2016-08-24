@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import com.google.common.collect.Sets;
+import com.google.common.collect.ImmutableSet;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
@@ -98,8 +98,7 @@ public class CommonEventHandler
 		}
 	}
 
-	@SuppressWarnings("unused")
-	private static final Set<Item> INPUTS = Sets.newHashSet(Items.book, Items.bone, Items.wheat);
+	private static final Set<Item> INPUTS = ImmutableSet.of(Items.bone, Items.book, Items.wheat);
 	
 	@SuppressWarnings("unchecked")
 	@SubscribeEvent
@@ -115,7 +114,7 @@ public class CommonEventHandler
 				//LogHelper.info("The world is not remote.");
 				List<Entity> entitiesInWorld = world.loadedEntityList;
 				for(Entity entityInWorld : entitiesInWorld) {
-					final Set<Item> remainingInputs = new HashSet<Item>(); // Create a mutable copy of the input set to track which items have been found
+					final Set<Item> remainingInputs = new HashSet<Item>(INPUTS); // Create a mutable copy of the input set to track which items have been found
 					ArrayList<EntityItem> foundEntityItems = new ArrayList<EntityItem>();
 					//LogHelper.info("Found an Entity in the world!");
 					if(entityInWorld instanceof EntityItem) {
