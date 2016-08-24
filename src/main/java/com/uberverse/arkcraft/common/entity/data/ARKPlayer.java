@@ -206,33 +206,39 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 		this.engramPoints = engramPoints;
 		syncClient(player, false);
 	}
-	
+
 	/***
 	 * 
 	 * @param engram
-	 * @param pos not the position being set. used to dictate which engrams the player already has.
+	 * @param pos
+	 *            not the position being set. used to dictate which engrams the
+	 *            player already has.
 	 */
 	public void addLearnedEngram(Engram engram, int pos)
 	{
-		if(!engrams.contains(pos)) {
+		if (!engrams.contains(pos))
+		{
 			engrams.add(pos);
 		}
 		syncClient(player, false);
 	}
-	
+
 	/***
 	 * 
 	 * @param engram
-	 * @param pos not the position being set. used to dictate which engrams the player already has.
+	 * @param pos
+	 *            not the position being set. used to dictate which engrams the
+	 *            player already has.
 	 */
 	public void removeLearnedEngram(Engram engram, int pos)
 	{
-		if(engrams.contains(pos)) {
+		if (engrams.contains(pos))
+		{
 			engrams.remove(pos);
 		}
 		syncClient(player, false);
 	}
-	
+
 	public ArrayList<Integer> learnedEngrams()
 	{
 		return engrams;
@@ -388,6 +394,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 		{
 			this.xp += event.getXp();
 			checkLevel();
+			syncClient(player, false);
 		}
 	}
 

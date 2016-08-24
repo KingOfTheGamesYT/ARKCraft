@@ -32,7 +32,7 @@ public class BookClient extends BookCommon {
 	public void init() {
 		bookInfo = new BookInfo();
 		mc = Minecraft.getMinecraft();
-		fontRenderer = new SmallFontRenderer(mc.gameSettings, new ResourceLocation("textures/font/acsii.png"), mc.renderEngine, false);
+		fontRenderer = new SmallFontRenderer(mc.gameSettings, new ResourceLocation("textures/font/ascii.png"), mc.renderEngine, false);
 		registerPageClasses();
 		registerBlockClasses();
 		

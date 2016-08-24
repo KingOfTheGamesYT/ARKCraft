@@ -43,17 +43,15 @@ public class GUIEngram extends GuiContainer implements IGuiScrollable
 
 	private static String engramTitle = "(null)";
 	private static String engramDesc = "(null)";
-	private int engramPoints;
 
 	private int scrollPosition;
 	private boolean scrollClicked = false;
 
-	public GUIEngram(EntityPlayer player, int engramPoints)
+	public GUIEngram(EntityPlayer player)
 	{
 		super(new ContainerEngram(ARKPlayer.get(player).getEngramInventory(), player));
 		this.inventory = ARKPlayer.get(player).getEngramInventory();
 		this.player = player;
-		this.engramPoints = engramPoints;
 		this.xSize = 170;
 		this.ySize = 134;
 	}
@@ -100,7 +98,7 @@ public class GUIEngram extends GuiContainer implements IGuiScrollable
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
-		String s = "Engram Points: " + engramPoints;
+		String s = "Engram Points: " + ARKPlayer.get(player).getEngramPoints();
 		fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, -10,
 				4210752);
 		fontRendererObj.drawString(engramTitle, drawHalfWidth(engramTitle, fontRendererObj, xSize),
@@ -119,21 +117,22 @@ public class GUIEngram extends GuiContainer implements IGuiScrollable
 		}
 		else if (button == learn)
 		{
-			// oh boy
-			this.engramPoints = ARKPlayer.get(player).getEngramPoints(); // Updates engram count
-			
-			Engram selectedEngram = ARKCraftEngrams.getEngramByLocalizedName(getEngramTitle()); //selected engram
-			
-			//DEBUGGING
+			Engram selectedEngram = ARKCraftEngrams.getEngramByLocalizedName(getEngramTitle()); // selected
+																								// engram
+
+			// DEBUGGING
 			System.out.println(selectedEngram != null ? selectedEngram.getFormattedName() : "null");
-			System.out.println(selectedEngram != null ? selectedEngram.getFormattedDesc() : "null");     
-			
-			if(engramPoints >= selectedEngram.getRequiredEp()) {
+			System.out.println(selectedEngram != null ? selectedEngram.getFormattedDesc() : "null");
+
+			if (ARKPlayer.get(player).getEngramPoints() >= selectedEngram.getRequiredPoints())
+			{
 				selectedEngram.setLearned();
-				
+
 				int pos = 0;
-				for(Engram engram : ARKCraftEngrams.engramList) {
-					if(engram == selectedEngram) {
+				for (Engram engram : ARKCraftEngrams.engramList)
+				{
+					if (engram == selectedEngram)
+					{
 						ARKPlayer.get(player).addLearnedEngram(selectedEngram, pos);
 						break;
 					}
@@ -201,6 +200,6 @@ public class GUIEngram extends GuiContainer implements IGuiScrollable
 	@Override
 	public boolean canScroll()
 	{
-		return ((IContainerScrollable)this.inventorySlots).canScroll();
+		return ((IContainerScrollable) this.inventorySlots).canScroll();
 	}
 }

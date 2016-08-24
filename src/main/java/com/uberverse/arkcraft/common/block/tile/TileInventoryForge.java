@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.uberverse.arkcraft.common.handlers.ForgeRecipe;
+import com.uberverse.arkcraft.common.handlers.recipes.ForgeCraftingHandler;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -22,9 +25,6 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.EnumSkyBlock;
 
-import com.uberverse.arkcraft.common.handlers.ForgeRecipe;
-import com.uberverse.arkcraft.common.handlers.recipes.ForgeCraftingHandler;
-
 public class TileInventoryForge extends TileEntity implements IForge
 {
 	private ItemStack[] itemStacks = new ItemStack[getSlotCount()];
@@ -33,6 +33,7 @@ public class TileInventoryForge extends TileEntity implements IForge
 	private Map<ForgeRecipe, Integer> activeRecipes = new HashMap<ForgeRecipe, Integer>();
 	/** the ticks burning left */
 	private int burningTicks;
+	private boolean burning;
 
 	public TileInventoryForge()
 	{
@@ -49,6 +50,15 @@ public class TileInventoryForge extends TileEntity implements IForge
 		return burningTicks / 20; // 20 ticks per second
 	}
 
+	public boolean setBurning(boolean in)
+	{
+		this.burning = in;
+		updateBurning();
+		if (in != burning) markDirty();
+		worldObj.markBlockForUpdate(pos);
+		return this.burning;
+	}
+
 	// This method is called every tick to update the tile entity, i.e.
 	// - see if the fuel has run out, and if so turn the furnace "off" and
 	// slowly uncook the current item (if any)
@@ -57,75 +67,76 @@ public class TileInventoryForge extends TileEntity implements IForge
 	@Override
 	public void update()
 	{
-		List<ForgeRecipe> possibleRecipes = ForgeCraftingHandler
-				.findPossibleRecipes(this);
-		updateBurning(possibleRecipes);
+		updateBurning();
 		// LogHelper.info(burningTicks);
-		if (this.isBurning() && possibleRecipes.size() > 0)
+		if (!worldObj.isRemote)
 		{
-			Iterator<Entry<ForgeRecipe, Integer>> it = activeRecipes.entrySet()
-					.iterator();
-			while (it.hasNext())
+			List<ForgeRecipe> possibleRecipes = ForgeCraftingHandler.findPossibleRecipes(this);
+			if (this.isBurning() && possibleRecipes.size() > 0)
 			{
-				Entry<ForgeRecipe, Integer> e = it.next();
-				if (!possibleRecipes.contains(e.getKey()))
+				Iterator<Entry<ForgeRecipe, Integer>> it = activeRecipes.entrySet().iterator();
+				while (it.hasNext())
 				{
-					it.remove();
+					Entry<ForgeRecipe, Integer> e = it.next();
+					if (!possibleRecipes.contains(e.getKey()))
+					{
+						it.remove();
+					}
 				}
+				for (ForgeRecipe r : possibleRecipes)
+				{
+					if (!activeRecipes.containsKey(r)) activeRecipes.put(r, 0);
+				}
+
+				updateCookTimes();
+
+				updateInventory();
+
+				markDirty();
 			}
-			for (ForgeRecipe r : possibleRecipes)
-			{
-				if (!activeRecipes.containsKey(r)) activeRecipes.put(r, 0);
-			}
-
-			updateCookTimes();
-
-			updateInventory();
-
-			markDirty();
-		}
-		else clearActiveRecipes();
-		if (worldObj.isRemote)
-		{
-			worldObj.markBlockForUpdate(pos);
+			else clearActiveRecipes();
 		}
 		worldObj.checkLightFor(EnumSkyBlock.BLOCK, pos);
 	}
 
-	private void updateBurning(List<ForgeRecipe> possibleRecipes)
+	private void updateBurning()
 	{
-		if (burningTicks < 1)
+		if (burning)
 		{
-			for (int i = 0; i < itemStacks.length; i++)
+			if (burningTicks <= 1)
 			{
-				ItemStack stack = itemStacks[i];
-				if (stack != null && ForgeCraftingHandler.isValidFuel(stack
-						.getItem()) && possibleRecipes.size() > 0)
+				for (int i = 0; i < itemStacks.length; i++)
 				{
-					if (!worldObj.isRemote)
+					ItemStack stack = itemStacks[i];
+					if (stack != null && ForgeCraftingHandler.isValidFuel(stack.getItem()))
 					{
-						stack.stackSize--;
-						if (stack.stackSize == 0) itemStacks[i] = null;
+						if (!worldObj.isRemote)
+						{
+							stack.stackSize--;
+							if (stack.stackSize == 0) itemStacks[i] = null;
+						}
+						this.burningTicks += ForgeCraftingHandler.getBurnTime(stack.getItem());
+						break;
 					}
-					this.burningTicks += ForgeCraftingHandler.getBurnTime(stack
-							.getItem());
-					break;
+					else  burning = false;
 				}
 			}
+			if (burningTicks > 0)
+			{
+				this.burningTicks--;
+				if (burningTicks < 1) burning = false;
+			}
 		}
-		if (burningTicks > 0) this.burningTicks--;
-
+		else burningTicks = 0;
 	}
 
 	private void updateInventory()
 	{
-		Iterator<Entry<ForgeRecipe, Integer>> it = activeRecipes.entrySet()
-				.iterator();
+		Iterator<Entry<ForgeRecipe, Integer>> it = activeRecipes.entrySet().iterator();
 		while (it.hasNext())
 		{
 			Entry<ForgeRecipe, Integer> e = it.next();
-			if (e.getValue() >= (e.getKey().getBurnTime() * this
-					.getBurnFactor() * 20))
+			if (e.getValue() >= (e.getKey().getBurnTime() * this.getBurnFactor() * 20))
 			{
 				it.remove();
 				ForgeRecipe r = e.getKey();
@@ -134,9 +145,8 @@ public class TileInventoryForge extends TileEntity implements IForge
 				int outputStack = -1;
 				for (int i = 0; i < itemStacks.length; i++)
 				{
-					if (itemStacks[i] != null && itemStacks[i].getItem()
-							.equals(output) && itemStacks[i].stackSize < this
-							.getInventoryStackLimit())
+					if (itemStacks[i] != null && itemStacks[i].getItem().equals(
+							output) && itemStacks[i].stackSize < this.getInventoryStackLimit())
 					{
 						outputStack = i;
 						break;
@@ -183,8 +193,7 @@ public class TileInventoryForge extends TileEntity implements IForge
 
 	private void updateCookTimes()
 	{
-		Iterator<Entry<ForgeRecipe, Integer>> it = activeRecipes.entrySet()
-				.iterator();
+		Iterator<Entry<ForgeRecipe, Integer>> it = activeRecipes.entrySet().iterator();
 		while (it.hasNext())
 		{
 			Entry<ForgeRecipe, Integer> e = it.next();
@@ -274,8 +283,8 @@ public class TileInventoryForge extends TileEntity implements IForge
 		final double Y_CENTRE_OFFSET = 0.5;
 		final double Z_CENTRE_OFFSET = 0.5;
 		final double MAXIMUM_DISTANCE_SQ = 8.0 * 8.0;
-		return player.getDistanceSq(pos.getX() + X_CENTRE_OFFSET,
-				pos.getY() + Y_CENTRE_OFFSET, pos.getZ() + Z_CENTRE_OFFSET) < MAXIMUM_DISTANCE_SQ;
+		return player.getDistanceSq(pos.getX() + X_CENTRE_OFFSET, pos.getY() + Y_CENTRE_OFFSET,
+				pos.getZ() + Z_CENTRE_OFFSET) < MAXIMUM_DISTANCE_SQ;
 	}
 
 	// ------------------------------
@@ -325,6 +334,7 @@ public class TileInventoryForge extends TileEntity implements IForge
 			nbtList.appendTag(nbt);
 		}
 		parentNBT.setTag("activeRecipes", nbtList);
+		parentNBT.setBoolean("burning", burning);
 	}
 
 	// This is where you load the data that you saved in writeToNBT
@@ -333,6 +343,7 @@ public class TileInventoryForge extends TileEntity implements IForge
 	{
 		super.readFromNBT(nbt); // The super call is required to save
 								// and load the tiles location
+		this.burning = nbt.getBoolean("burning");
 		final byte NBT_TYPE_COMPOUND = 10; // See NBTBase.createNewByType() for
 											// a listing
 		NBTTagList dataForAllSlots = nbt.getTagList("Items", NBT_TYPE_COMPOUND);
@@ -344,8 +355,7 @@ public class TileInventoryForge extends TileEntity implements IForge
 			byte slotNumber = dataForOneSlot.getByte("Slot");
 			if (slotNumber >= 0 && slotNumber < this.itemStacks.length)
 			{
-				this.itemStacks[slotNumber] = ItemStack
-						.loadItemStackFromNBT(dataForOneSlot);
+				this.itemStacks[slotNumber] = ItemStack.loadItemStackFromNBT(dataForOneSlot);
 			}
 		}
 
@@ -357,8 +367,7 @@ public class TileInventoryForge extends TileEntity implements IForge
 		{
 			NBTTagCompound nbtR = nbtList.getCompoundTagAt(i);
 			int cookTime = nbtR.getInteger("cookTime");
-			ForgeRecipe r = ForgeCraftingHandler.getForgeRecipe(nbtR
-					.getString("recipeKey"));
+			ForgeRecipe r = ForgeCraftingHandler.getForgeRecipe(nbtR.getString("recipeKey"));
 			this.activeRecipes.put(r, cookTime);
 		}
 	}
@@ -412,8 +421,8 @@ public class TileInventoryForge extends TileEntity implements IForge
 	@Override
 	public IChatComponent getDisplayName()
 	{
-		return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(
-				this.getName());
+		return this.hasCustomName() ? new ChatComponentText(
+				this.getName()) : new ChatComponentTranslation(this.getName());
 	}
 
 	// Fields are used to send non-inventory information from the server to
@@ -443,7 +452,8 @@ public class TileInventoryForge extends TileEntity implements IForge
 		// if (id >= FIRST_BURN_TIME_INITIAL_FIELD_ID && id <
 		// FIRST_BURN_TIME_INITIAL_FIELD_ID + FUEL_SLOTS_COUNT) { return
 		// burnTimeInitialValue[id - FIRST_BURN_TIME_INITIAL_FIELD_ID]; }
-		// System.err.println("Invalid field ID in TileInventorySmelting.getField:"
+		// System.err.println("Invalid field ID in
+		// TileInventorySmelting.getField:"
 		// + id);
 		return 0;
 	}
@@ -467,7 +477,8 @@ public class TileInventoryForge extends TileEntity implements IForge
 		// }
 		// else
 		// {
-		// System.err.println("Invalid field ID in TileInventorySmelting.setField:"
+		// System.err.println("Invalid field ID in
+		// TileInventorySmelting.setField:"
 		// + id);
 		// }
 	}
@@ -526,7 +537,7 @@ public class TileInventoryForge extends TileEntity implements IForge
 	@Override
 	public boolean isBurning()
 	{
-		return this.burningTicks > 0;
+		return burning;
 	}
 
 	@Override

@@ -1,20 +1,23 @@
 package com.uberverse.arkcraft.client.gui;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.block.container.ContainerInventoryForge;
+import com.uberverse.arkcraft.common.block.tile.TileInventoryForge;
+import com.uberverse.arkcraft.common.network.ForgeToggleMessage;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.block.container.ContainerInventoryForge;
-import com.uberverse.arkcraft.common.block.tile.TileInventoryForge;
 
 @SideOnly(Side.CLIENT)
 public class GUIForge extends GuiContainer
@@ -47,8 +50,8 @@ public class GUIForge extends GuiContainer
 	final int COOK_BAR_WIDTH = 80;
 	final int COOK_BAR_HEIGHT = 17;
 
-	final int FLAME_XPOS = 22;
-	final int FLAME_YPOS = 36;
+	final int FLAME_XPOS = 26;
+	final int FLAME_YPOS = 37;
 	final int FLAME_ICON_U = 176; // texture position of flame icon
 	final int FLAME_ICON_V = 0;
 	final int FLAME_WIDTH = 14;
@@ -64,8 +67,8 @@ public class GUIForge extends GuiContainer
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
 		Minecraft.getMinecraft().getTextureManager().bindTexture(textureFlame);
-		if (tileEntity.isBurning()) drawTexturedModalRect(guiLeft + FLAME_XPOS,
-				guiTop + FLAME_YPOS, FLAME_ICON_U, FLAME_ICON_V, FLAME_WIDTH, FLAME_HEIGHT);
+		if (tileEntity.isBurning()) drawTexturedModalRect(guiLeft + FLAME_XPOS, guiTop + FLAME_YPOS,
+				FLAME_ICON_U, FLAME_ICON_V, FLAME_WIDTH, FLAME_HEIGHT);
 	}
 
 	@Override
@@ -73,7 +76,8 @@ public class GUIForge extends GuiContainer
 	{
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
-		final int LABEL_XPOS = 5;
+		final int LABEL_XPOS = xSize / 2 - fontRendererObj
+				.getStringWidth(tileEntity.getDisplayName().getUnformattedText()) / 2;
 		final int LABEL_YPOS = 5;
 		fontRendererObj.drawString(tileEntity.getDisplayName().getUnformattedText(), LABEL_XPOS,
 				LABEL_YPOS, Color.darkGray.getRGB());
@@ -116,5 +120,18 @@ public class GUIForge extends GuiContainer
 	public static boolean isInRect(int x, int y, int xSize, int ySize, int mouseX, int mouseY)
 	{
 		return ((mouseX >= x && mouseX <= x + xSize) && (mouseY >= y && mouseY <= y + ySize));
+	}
+
+	@Override
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
+	{
+		if (isInRect(guiLeft + FLAME_XPOS, guiTop + FLAME_YPOS, FLAME_WIDTH, FLAME_HEIGHT, mouseX,
+				mouseY))
+		{
+			ARKCraft.modChannel.sendToServer(new ForgeToggleMessage());
+			return;
+		}
+
+		super.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 }

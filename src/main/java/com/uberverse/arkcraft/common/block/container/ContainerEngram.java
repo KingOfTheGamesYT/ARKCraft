@@ -18,7 +18,6 @@ import net.minecraft.item.ItemStack;
  */
 public class ContainerEngram extends Container implements IContainerScrollable
 {
-
 	public static final int SLOT_SPACING = 20;
 
 	private InventoryPlayerEngram invEngram;
@@ -26,22 +25,32 @@ public class ContainerEngram extends Container implements IContainerScrollable
 	private int totalSlots;
 	private int scrollingOffset = 0;
 
+	private int selection = -1;
+
 	public ContainerEngram(InventoryPlayerEngram inventory, EntityPlayer player)
 	{
 		invEngram = inventory;
 		totalSlots = inventory.getSizeInventory();
 		addSlotsAndEngrams(inventory);
 	}
-	
+
 	private void addSlotsAndEngrams(InventoryPlayerEngram inventory)
 	{
 		int index = 0;
-		for (int y = 0; y < 8; ++y) {
-			for (int x = 0; x < 8; ++x) {
-				this.addSlotToContainer(new EngramSlot(inventory, index, 1 + x * 20, 44 + y * 20, this));
-				try {
-					inventory.setInventorySlotContents(index, new ItemStack(ARKCraftEngrams.engramList.get(index)));
-				} catch (IndexOutOfBoundsException e) {}
+		for (int y = 0; y < 4; ++y)
+		{
+			for (int x = 0; x < 8; ++x)
+			{
+				this.addSlotToContainer(
+						new EngramSlot(inventory, index, 1 + x * 20, 44 + y * 20, this));
+				try
+				{
+					inventory.setInventorySlotContents(index,
+							new ItemStack(ARKCraftEngrams.engramList.get(index)));
+				}
+				catch (IndexOutOfBoundsException e)
+				{
+				}
 				index++;
 			}
 		}
@@ -163,18 +172,22 @@ public class ContainerEngram extends Container implements IContainerScrollable
 		}
 
 		@Override
-		public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack)  
+		public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack)
 		{
 			if (stack.getItem() instanceof Engram)
 			{
 				Engram engram = (Engram) stack.getItem();
 				GUIEngram.setEngramTitle(engram.getFormattedName());
 				GUIEngram.setEngramDescription(engram.getFormattedDesc());
-				((ContainerEngram) getContainer()).invEngram.setInventorySlotContents(
-						this.getSlotIndex(), playerIn.inventory.getItemStack());
+				((ContainerEngram) this.getContainer()).setSelected(this.getSlotIndex());
 				playerIn.inventory.setItemStack(null);
 			}
 		}
 
+	}
+
+	public void setSelected(int index)
+	{
+		this.selection = index;
 	}
 }

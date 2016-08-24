@@ -26,7 +26,7 @@ public class GUIMortarPestle extends GuiContainer
 
     public String name = "Mortar and Pestle";
     public static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID, "textures/gui/mortar_and_pestle.png");
-    private TileInventoryMP tileEntity;
+    public TileInventoryMP tileEntity;
     private GuiButton buttonCraftOne;
     private GuiButton buttonCraftAll;
     private GuiButton buttonPrevRecipe;

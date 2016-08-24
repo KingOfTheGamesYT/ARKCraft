@@ -1,5 +1,8 @@
 package com.uberverse.arkcraft.common.block.container;
 
+import com.uberverse.arkcraft.common.block.tile.TileInventoryForge;
+import com.uberverse.lib.LogHelper;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -8,9 +11,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.uberverse.arkcraft.common.block.tile.TileInventoryForge;
-import com.uberverse.lib.LogHelper;
 
 public class ContainerInventoryForge extends Container
 {
@@ -229,5 +229,10 @@ public class ContainerInventoryForge extends Container
 	public void updateProgressBar(int id, int data)
 	{
 		tileInventoryForge.setField(id, data);
+	}
+
+	public void toggleBurning()
+	{
+		tileInventoryForge.setBurning(!tileInventoryForge.isBurning());
 	}
 }

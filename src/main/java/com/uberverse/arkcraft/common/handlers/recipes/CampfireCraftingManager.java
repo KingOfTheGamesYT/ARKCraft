@@ -17,6 +17,7 @@ public class CampfireCraftingManager
 	public static void registerCampfireRecipes()
 	{
 		registerCookedMeat();
+		registerCookedPrimeMeat();
 		registerFuels();
 	}
 
@@ -24,14 +25,23 @@ public class CampfireCraftingManager
 	{
 		registerFuel(ARKCraftItems.wood, 600);
 		registerFuel(ARKCraftItems.thatch, 140);
-	//	registerFuel(ARKCraftItems.spark_powder, 1200);
+		registerFuel(ARKCraftItems.spark_powder, 1200);
 	}
 
 	private static void registerCookedMeat()
 	{
-		CampfireRecipe r = new CampfireRecipe("meatCooked");
-		r.addInputItems(ARKCraftItems.meat_raw, ARKCraftItems.meat_raw);
+		CampfireRecipe r = new CampfireRecipe("cooked_meat");
+		r.addInputItems(ARKCraftItems.meat_raw);
 		r.setOutputItem(ARKCraftItems.meat_cooked);
+		r.setBurnTime(1);
+		registerRecipe(r.toString(), r);
+	}
+	
+	private static void registerCookedPrimeMeat()
+	{
+		CampfireRecipe r = new CampfireRecipe("cooked_prime_meat");
+		r.addInputItems(ARKCraftItems.primemeat_raw);
+		r.setOutputItem(ARKCraftItems.primemeat_cooked);
 		r.setBurnTime(1);
 		registerRecipe(r.toString(), r);
 	}

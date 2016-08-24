@@ -30,25 +30,29 @@ public class PestleCraftingManager extends ARKCraftingManager {
 		return instance;
 	}
 
-	public static void registerPestleCraftingRecipes() {
-		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.grenade, 1), new ItemStack(Items.gunpowder, 15));
-		/*
-		 * // Narcotics getInstance().addShapelessRecipe(new
-		 * ItemStack(ARKCraftItems.narcotics, 1), new
-		 * ItemStack(ARKCraftItems.narcoBerry, 5), new
-		 * ItemStack(ARKCraftItems.spoiled_meat, 1)); // Gun Powder
-		 * getInstance().addShapelessRecipe(new
-		 * ItemStack(ARKCraftItems.gun_powder, 1), new
-		 * ItemStack(ARKCraftItems.flint, 1), new ItemStack(Items.coal, 1)); //
-		 * Spark Powder getInstance().addShapelessRecipe(new
-		 * ItemStack(ARKCraftItems.spark_powder, 1), new
-		 * ItemStack(ARKCraftItems.flint, 2), new ItemStack(ARKCraftItems.rock,
-		 * 1));
-		 * 
-		 * // Cementing Pastes getInstance().addShapelessRecipe(new
-		 * ItemStack(ARKCraftItems.cementing_pastes, 1), new
-		 * ItemStack(ARKCraftItems.rock, 8), new ItemStack(ARKCraftItems.chitin,
-		 * 4));
-		 */
+	public static void registerPestleCraftingRecipes() 
+	{
+		//SparkPowder
+		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.spark_powder, 1), new 
+				ItemStack(ARKCraftItems.stone, 1), new 
+				ItemStack(ARKCraftItems.flint, 2));
+		 // Narcotics 
+		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.narcotics, 1), new
+				ItemStack(ARKCraftItems.narcoBerry, 5), new
+				ItemStack(ARKCraftItems.spoiled_meat, 1));
+		// Gun Powder
+		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.gunpowder, 1),new
+				ItemStack(ARKCraftItems.flint, 1), new 
+				ItemStack(ARKCraftItems.charcoal, 1)); 
+		
+		// Cementing Pastes 
+		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.cementing_paste, 1), new
+				ItemStack(ARKCraftItems.stone, 8), new 
+				ItemStack(ARKCraftItems.chitin, 4));
+		
+		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.cementing_paste, 1), new
+				ItemStack(ARKCraftItems.stone, 8), new 
+				ItemStack(ARKCraftItems.keratin, 4));
+		 
 	}
 }

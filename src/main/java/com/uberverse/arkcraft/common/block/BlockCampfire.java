@@ -1,10 +1,13 @@
 package com.uberverse.arkcraft.common.block;
 
+import java.util.Random;
+
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.tile.TileInventoryCampfire;
 import com.uberverse.arkcraft.common.block.tile.TileInventoryForge;
 
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -17,6 +20,7 @@ import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
@@ -33,6 +37,8 @@ public class BlockCampfire extends BlockContainer
 		super(material);
 		this.setCreativeTab(CreativeTabs.tabBlock);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(BURNING, false));
+		float f = 0.65F; // Height
+		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, f, 1.0F);
 		this.ID = ID;
 	}
 
@@ -66,6 +72,30 @@ public class BlockCampfire extends BlockContainer
 		playerIn.openGui(ARKCraft.instance(), ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
+	
+	@Override
+    @SideOnly(Side.CLIENT)
+    public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
+    {
+        double d0 = (double)pos.getX() + 0.5D;
+        double d1 = (double)pos.getY() + 0.7D;
+        double d2 = (double)pos.getZ() + 0.5D;
+        double d3 = 0.22D;
+        double d4 = 0.27D;
+		IBlockState blockState = getActualState(getDefaultState(), worldIn, pos);
+        boolean burning = (Boolean) blockState.getValue(BURNING);
+        
+        if(burning)
+        {
+            worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
+            worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
+        }
+
+        
+       //     worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4 * 1, d1 + d3, d2 + d4 * 1, 0.0D, 0.0D, 0.0D, new int[0]);
+        //    worldIn.spawnParticle(EnumParticleTypes.FLAME, d0 + d4 * 1, d1 + d3, d2 + d4 * 1, 0.0D, 0.0D, 0.0D, new int[0]);
+        
+    }
 
 	// This is where you can do something when the block is broken. In this case
 	// drop the inventory's contents
@@ -119,9 +149,9 @@ public class BlockCampfire extends BlockContainer
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
 	{
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
-		if (tileEntity instanceof TileInventoryForge)
+		if (tileEntity instanceof TileInventoryCampfire)
 		{
-			TileInventoryForge tileInventoryForge = (TileInventoryForge) tileEntity;
+			TileInventoryCampfire tileInventoryForge = (TileInventoryCampfire) tileEntity;
 			return state.withProperty(BURNING, tileInventoryForge.isBurning());
 		}
 		return state;
@@ -177,7 +207,7 @@ public class BlockCampfire extends BlockContainer
 	@SideOnly(Side.CLIENT)
 	public EnumWorldBlockLayer getBlockLayer()
 	{
-		return EnumWorldBlockLayer.SOLID;
+		return EnumWorldBlockLayer.CUTOUT;
 	}
 
 	// used by the renderer to control lighting and visibility of other blocks.

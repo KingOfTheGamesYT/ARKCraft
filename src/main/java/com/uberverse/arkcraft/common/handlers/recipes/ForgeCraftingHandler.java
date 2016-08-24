@@ -24,14 +24,14 @@ public class ForgeCraftingHandler
 	{
 		registerFuel(ARKCraftItems.wood, 600);
 		registerFuel(ARKCraftItems.thatch, 140);
-		//registerFuel(ARKCraftItems.spark_powder, 1200);
+		registerFuel(ARKCraftItems.spark_powder, 1200);
 	}
 
 	private static void registerMetalRecipe()
 	{
 		ForgeRecipe r = new ForgeRecipe("metalIngot");
 		r.addInputItems(ARKCraftItems.metal, ARKCraftItems.metal);
-		r.setOutputItem(ARKCraftItems.spear);
+		r.setOutputItem(ARKCraftItems.metal_ingot);
 		r.setBurnTime(1);
 		registerRecipe(r.toString(), r);
 	}

@@ -1,6 +1,5 @@
 package com.uberverse.arkcraft.common.block.container;
 
-
 import com.uberverse.arkcraft.common.block.tile.TileInventoryCampfire;
 import com.uberverse.lib.LogHelper;
 
@@ -42,12 +41,12 @@ public class ContainerInventoryCampfire extends Container
 	private final int PLAYER_INVENTORY_SLOT_COUNT = PLAYER_INVENTORY_COLUMN_COUNT * PLAYER_INVENTORY_ROW_COUNT;
 	private final int VANILLA_SLOT_COUNT = HOTBAR_SLOT_COUNT + PLAYER_INVENTORY_SLOT_COUNT;
 
-	public final int FURNACE_SLOT_COUNT = 8;
+	public final int CAMPFIRE_SLOT_COUNT = 4;
 
 	// slot index is the unique index for all slots in this container i.e. 0 -
 	// 35 for invPlayer then 36 - 49 for tileInventoryFurnace
-	private final int FIRST_FURNACE_SLOT_INDEX = 0;
-	public final int VANILLA_FIRST_SLOT_INDEX = FIRST_FURNACE_SLOT_INDEX + FURNACE_SLOT_COUNT;
+	private final int FIRST_CAMPFIRE_SLOT_INDEX = 0;
+	public final int VANILLA_FIRST_SLOT_INDEX = FIRST_CAMPFIRE_SLOT_INDEX + CAMPFIRE_SLOT_COUNT;
 
 	public ContainerInventoryCampfire(InventoryPlayer invPlayer, TileInventoryCampfire tileInventoryFurnace)
 	{
@@ -59,20 +58,12 @@ public class ContainerInventoryCampfire extends Container
 		final int PLAYER_INVENTORY_YPOS = 84;
 		final int HOTBAR_YPOS = PLAYER_INVENTORY_YPOS + 10 + 16 * 3;
 		final int FURNACE_SLOTS_XPOS = 53;
-		final int FURNACE_SLOTS_YPOS = 26;
+		final int FURNACE_SLOTS_YPOS = 35;
 		// Add the tile fuel slots
-		for (int x = 0; x < FURNACE_SLOT_COUNT; x++)
+		for (int x = 0; x < CAMPFIRE_SLOT_COUNT; x++)
 		{
-			for (x = 0; x < 4; x++)
-			{
-				addSlotToContainer(new Slot(tileInventoryFurnace, x,
-						FURNACE_SLOTS_XPOS + SLOT_X_SPACING * x, FURNACE_SLOTS_YPOS));
-			}
-			for (x = 0; x < FURNACE_SLOT_COUNT; x++)
-			{
-				addSlotToContainer(new Slot(tileInventoryFurnace, x,
-						FURNACE_SLOTS_XPOS + SLOT_X_SPACING * (x - 4), FURNACE_SLOTS_YPOS + 18));
-			}
+			addSlotToContainer(new Slot(tileInventoryFurnace, x,
+					FURNACE_SLOTS_XPOS + SLOT_X_SPACING * x, FURNACE_SLOTS_YPOS));
 		}
 
 		// Add the players hotbar to the gui - the [xpos, ypos] location of each
@@ -106,18 +97,15 @@ public class ContainerInventoryCampfire extends Container
 
 	/*
 	 * This is where you specify what happens when a player shift clicks a slot
-	 * in the gui
-	 * (when you shift click a slot in the TileEntity Inventory, it moves it to
-	 * the first available position in the hotbar and/or
-	 * player inventory. When you you shift-click a hotbar or player inventory
-	 * item, it moves it to the first available
-	 * position in the TileEntity inventory - either input or fuel as
-	 * appropriate for the item you clicked)
-	 * At the very least you must override this and return null or the game will
-	 * crash when the player shift clicks a slot
-	 * returns null if the source slot is empty, or if none of the source slot
-	 * items could be moved.
-	 * otherwise, returns a copy of the source stack 
+	 * in the gui (when you shift click a slot in the TileEntity Inventory, it
+	 * moves it to the first available position in the hotbar and/or player
+	 * inventory. When you you shift-click a hotbar or player inventory item, it
+	 * moves it to the first available position in the TileEntity inventory -
+	 * either input or fuel as appropriate for the item you clicked) At the very
+	 * least you must override this and return null or the game will crash when
+	 * the player shift clicks a slot returns null if the source slot is empty,
+	 * or if none of the source slot items could be moved. otherwise, returns a
+	 * copy of the source stack
 	 */
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int sourceSlotIndex)
@@ -135,10 +123,10 @@ public class ContainerInventoryCampfire extends Container
 			// the furnace slots
 			// If the stack is smeltable try to merge merge the stack into the
 			// input slots
-			if (!mergeItemStack(sourceStack, FIRST_FURNACE_SLOT_INDEX,
-					FIRST_FURNACE_SLOT_INDEX + FURNACE_SLOT_COUNT, false)) { return null; }
+			if (!mergeItemStack(sourceStack, FIRST_CAMPFIRE_SLOT_INDEX,
+					FIRST_CAMPFIRE_SLOT_INDEX + CAMPFIRE_SLOT_COUNT, false)) { return null; }
 		}
-		else if (sourceSlotIndex >= FIRST_FURNACE_SLOT_INDEX && sourceSlotIndex < FIRST_FURNACE_SLOT_INDEX + FURNACE_SLOT_COUNT)
+		else if (sourceSlotIndex >= FIRST_CAMPFIRE_SLOT_INDEX && sourceSlotIndex < FIRST_CAMPFIRE_SLOT_INDEX + CAMPFIRE_SLOT_COUNT)
 		{
 			// This is a furnace slot so merge the stack into the players
 			// inventory: try the hotbar first and then the main inventory
@@ -232,5 +220,10 @@ public class ContainerInventoryCampfire extends Container
 	public void updateProgressBar(int id, int data)
 	{
 		tileInventoryCampfire.setField(id, data);
+	}
+
+	public void toggleBurning()
+	{
+		tileInventoryCampfire.setBurning(!tileInventoryCampfire.isBurning());
 	}
 }

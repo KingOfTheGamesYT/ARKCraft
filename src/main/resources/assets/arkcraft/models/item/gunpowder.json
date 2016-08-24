@@ -1,7 +1,7 @@
 {
     "parent":"builtin/generated",
     "textures": {
-        "layer0":"arkcraft:items/rock"
+        "layer0":"arkcraft:items/gunpowder"
     },
     "display": {
         "thirdperson": {
