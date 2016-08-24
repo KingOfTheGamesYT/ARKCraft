@@ -71,7 +71,7 @@ public class ARKCraftBlocks {
 		GameRegistry.registerBlock(block_flashlight, "block_flashlight");
 		berryBush = (ARKCraftBerryBush) registerBlock(new ARKCraftBerryBush(0.4F), "berryBush");
 		
-		greenScreen = (BlockGreenScreen) registerBlock(new BlockGreenScreen(Material.gourd), "greenScreen");
+		greenScreen = (BlockGreenScreen) registerBlockNoTab(new BlockGreenScreen(Material.gourd), "greenScreen");
 		
 		// Containers
 		smithy = registerSmithy("smithy", Material.wood,

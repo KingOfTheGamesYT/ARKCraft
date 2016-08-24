@@ -157,7 +157,7 @@ public class ARKCraftRangedWeapons {
 		}
 		if (ModuleItemBalance.WEAPONS.CROSSBOW)
 		{
-			crossbow = addShooter(new ItemCrossbow());
+		//	crossbow = addShooter(new ItemCrossbow());
 		}
 	}
 
