@@ -6,7 +6,9 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import com.google.common.collect.ImmutableSet;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
@@ -109,82 +111,77 @@ public class CommonEventHandler
 		}
 	}
 
+	private static final Set<Item> INPUTS = ImmutableSet.of(Items.bone, Items.book, Items.feather);
+	
 	@SuppressWarnings("unchecked")
 	@SubscribeEvent
 	public void onWorldTick(WorldTickEvent event) {
 		if (event.side.isServer()) {
+			//LogHelper.info("[OnWorldTick] The Side is on the server!");
 			World world = event.world;
-			HashSet<Item> items = new HashSet<Item>();
-			items.add(Items.bone);
-			items.add(Items.book);
-			items.add(Items.feather);
-			
-			ArrayList<EntityItem> foundEntityItems = new ArrayList<EntityItem>();
-			
+				
+			EntityItem itemToSpawn = null;
 			if (!world.isRemote) {
 				if (bookSpawnDelay > 0) bookSpawnDelay--;
 				else {
+				//LogHelper.info("The world is not remote.");
 				List<Entity> entitiesInWorld = world.loadedEntityList;
-				
 				for(Entity entityInWorld : entitiesInWorld) {
+					final Set<Item> remainingInputs = new HashSet<>(INPUTS); // Create a mutable copy of the input set to track which items have been found
+					ArrayList<EntityItem> foundEntityItems = new ArrayList<EntityItem>();
+					//LogHelper.info("Found an Entity in the world!");
 					if(entityInWorld instanceof EntityItem) {
 						EntityItem entityItemInWorld = (EntityItem)entityInWorld;
 						if(entityItemInWorld.getEntityItem().getItem() == Items.book) {
-							items.remove(Items.book);
-							AxisAlignedBB areaBound = new AxisAlignedBB(
-								entityItemInWorld.posX - 3, entityItemInWorld.posY - 3, entityItemInWorld.posZ - 3,
-								entityItemInWorld.posX + 3, entityItemInWorld.posY + 3, entityItemInWorld.posZ + 3
-							);
+							LogHelper.info("Found an Entity in the world that is a book!");
+							remainingInputs.remove(Items.book);
+							foundEntityItems.add(entityItemInWorld);
+							AxisAlignedBB areaBound = entityItemInWorld.getEntityBoundingBox().expand(3, 3, 3);
 							List<Entity> entitiesWithinBound = world.getEntitiesWithinAABBExcludingEntity(entityItemInWorld, areaBound);
-							
-								for(Item item : items) {
-									for(Entity entityWithinBound : entitiesWithinBound) {
-										if(entityWithinBound instanceof EntityItem) {
-											EntityItem entityItemWithinBound = (EntityItem)entityWithinBound;
-											if(entityItemWithinBound.getEntityItem().getItem() == item) {
-												items.remove(item);
-												foundEntityItems.add(entityItemWithinBound);
-												if(items.isEmpty()) {
-													for(EntityItem foundEntityItem : foundEntityItems) {
-														ItemStack foundItemStack = foundEntityItem.getEntityItem();
-														bookSpawnDelay += 20;
-														foundItemStack.stackSize--;
-														if (foundItemStack.stackSize == 0) {
-															world.removeEntity(foundEntityItem);
-															foundEntityItems.remove(foundEntityItem);
-														}
-														double x = entityItemInWorld.posX;
-														double y = entityItemInWorld.posY;
-														double z = entityItemInWorld.posZ;
-														LogHelper.info("Items is empty!");
-														
-														if(foundEntityItems.isEmpty()) {
-															LogHelper.info("Found Entity Items is empty!");
-															WorldServer worldServer = (WorldServer) world;
-															worldServer.spawnParticle(EnumParticleTypes.SMOKE_LARGE,
-																	false, x + 0.5D, y + 1.0D, z + 0.5D, 1, 0.0D,
-																	0.0D, 0.0D, 0.0D, new int[0]);
-															world.spawnEntityInWorld(new EntityItem(world, x, y, z, new ItemStack(ARKCraftItems.info_book)));	
-															world.spawnEntityInWorld(new EntityItem(world, x, y, z,
-																	new ItemStack(ARKCraftItems.info_book)));
-														}
-													}
+								for (Entity entityWithinBound : entitiesWithinBound) {
+									if (entityWithinBound instanceof EntityItem) {
+										EntityItem entityItemWithinBound = (EntityItem) entityWithinBound;
+										if (entityItemWithinBound.getEntityItem().getItem() == Items.bone) {
+											LogHelper.info("Found an Entity near the book that is a bone!");
+											remainingInputs.remove(Items.bone);
+											if(!remainingInputs.contains(entityItemWithinBound)) foundEntityItems.add(entityItemWithinBound);
+										} else if (entityItemWithinBound.getEntityItem().getItem() == Items.feather) {
+											LogHelper.info("Found an Entity near the book that is a feather!");
+											remainingInputs.remove(Items.feather);
+											if(!remainingInputs.contains(entityItemWithinBound)) foundEntityItems.add(entityItemWithinBound);
+										}
+										if (remainingInputs.isEmpty()) {
+											LogHelper.info("All items have been found. The Items hashmap is empty.");
+											for (EntityItem foundEntityItem : foundEntityItems) {												
+												bookSpawnDelay += 20;
+												foundEntityItem.getEntityItem().stackSize--;
+												if (foundEntityItem.getEntityItem().stackSize <= 0) {
+													LogHelper.info("Deleting the Item: " + foundEntityItem.getEntityItem().getItem().toString());
+													foundEntityItem.setDead();
 												}
+												((WorldServer)world).spawnParticle(EnumParticleTypes.SMOKE_LARGE, false,
+														entityItemInWorld.posX + 0.5D,
+														entityItemInWorld.posY + 1.0D,
+														entityItemInWorld.posZ + 0.5D, 
+														1, 0.0D, 0.0D, 0.0D, 0.0D, new int[0]
+												);
+												itemToSpawn = new EntityItem(world, entityItemInWorld.posX, entityItemInWorld.posY, entityItemInWorld.posZ, new ItemStack(ARKCraftItems.info_book, 1));
 											}
 										}
+
 									}
 								}
-							
+
 							}
 						}
+					foundEntityItems.clear();
 					}
-				
-				
-				
-			}
+				if(itemToSpawn != null) world.spawnEntityInWorld(itemToSpawn);
+				}
 			}
 		}
 	}
+	
 						/*
 						for (int j = 1; j < entities.size(); j++)
 						{
