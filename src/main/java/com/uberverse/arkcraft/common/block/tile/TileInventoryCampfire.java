@@ -121,7 +121,7 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 						this.burningTicks += CampfireCraftingManager.getBurnTime(stack.getItem());
 						break;
 					}
-					else  burning = false;
+					else burning = false;
 				}
 			}
 			if (burningTicks > 0)
