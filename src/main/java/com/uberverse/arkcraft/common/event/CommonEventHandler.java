@@ -1,14 +1,14 @@
 package com.uberverse.arkcraft.common.event;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
@@ -19,8 +19,6 @@ import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.lib.LogHelper;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,15 +33,11 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
@@ -62,13 +56,6 @@ public class CommonEventHandler
 		CommonEventHandler handler = new CommonEventHandler();
 		FMLCommonHandler.instance().bus().register(handler);
 		MinecraftForge.EVENT_BUS.register(handler);
-		try {
-			f = new File(".", "user_commands.txt");
-			System.out.println("[MessagePrinter] Output: " + f.getAbsolutePath());
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	@SubscribeEvent
@@ -111,7 +98,8 @@ public class CommonEventHandler
 		}
 	}
 
-	private static final Set<Item> INPUTS = ImmutableSet.of(Items.bone, Items.book, Items.feather);
+	@SuppressWarnings("unused")
+	private static final Set<Item> INPUTS = Sets.newHashSet(Items.book, Items.bone, Items.wheat);
 	
 	@SuppressWarnings("unchecked")
 	@SubscribeEvent
@@ -127,7 +115,7 @@ public class CommonEventHandler
 				//LogHelper.info("The world is not remote.");
 				List<Entity> entitiesInWorld = world.loadedEntityList;
 				for(Entity entityInWorld : entitiesInWorld) {
-					final Set<Item> remainingInputs = new HashSet<>(INPUTS); // Create a mutable copy of the input set to track which items have been found
+					final Set<Item> remainingInputs = new HashSet<Item>(); // Create a mutable copy of the input set to track which items have been found
 					ArrayList<EntityItem> foundEntityItems = new ArrayList<EntityItem>();
 					//LogHelper.info("Found an Entity in the world!");
 					if(entityInWorld instanceof EntityItem) {
@@ -145,27 +133,23 @@ public class CommonEventHandler
 											LogHelper.info("Found an Entity near the book that is a bone!");
 											remainingInputs.remove(Items.bone);
 											if(!remainingInputs.contains(entityItemWithinBound)) foundEntityItems.add(entityItemWithinBound);
-										} else if (entityItemWithinBound.getEntityItem().getItem() == Items.feather) {
-											LogHelper.info("Found an Entity near the book that is a feather!");
-											remainingInputs.remove(Items.feather);
+										} else if (entityItemWithinBound.getEntityItem().getItem() == Items.wheat) {
+											LogHelper.info("Found an Entity near the book that is wheat!");
+											remainingInputs.remove(Items.wheat);
 											if(!remainingInputs.contains(entityItemWithinBound)) foundEntityItems.add(entityItemWithinBound);
 										}
 										if (remainingInputs.isEmpty()) {
 											LogHelper.info("All items have been found. The Items hashmap is empty.");
-											for (EntityItem foundEntityItem : foundEntityItems) {												
-												bookSpawnDelay += 20;
-												foundEntityItem.getEntityItem().stackSize--;
-												if (foundEntityItem.getEntityItem().stackSize <= 0) {
-													LogHelper.info("Deleting the Item: " + foundEntityItem.getEntityItem().getItem().toString());
-													foundEntityItem.setDead();
-												}
-												((WorldServer)world).spawnParticle(EnumParticleTypes.SMOKE_LARGE, false,
-														entityItemInWorld.posX + 0.5D,
-														entityItemInWorld.posY + 1.0D,
-														entityItemInWorld.posZ + 0.5D, 
-														1, 0.0D, 0.0D, 0.0D, 0.0D, new int[0]
-												);
-												itemToSpawn = new EntityItem(world, entityItemInWorld.posX, entityItemInWorld.posY, entityItemInWorld.posZ, new ItemStack(ARKCraftItems.info_book, 1));
+											for (EntityItem foundEntityItem : foundEntityItems) {
+													Random random = new Random();
+													bookSpawnDelay += 100 + random.nextInt(10);
+													foundEntityItem.getEntityItem().stackSize--;
+													if (foundEntityItem.getEntityItem().stackSize <= 0) {
+														LogHelper.info("Deleting the Item: " + foundEntityItem.getEntityItem().getItem().toString());
+														foundEntityItem.setDead();
+													}
+													itemToSpawn = new EntityItem(world, entityItemInWorld.posX, entityItemInWorld.posY, entityItemInWorld.posZ, new ItemStack(ARKCraftItems.info_book, 1));
+												
 											}
 										}
 
@@ -176,79 +160,21 @@ public class CommonEventHandler
 						}
 					foundEntityItems.clear();
 					}
-				if(itemToSpawn != null) world.spawnEntityInWorld(itemToSpawn);
+				if(itemToSpawn != null) {
+					((WorldServer)world).spawnParticle(EnumParticleTypes.SMOKE_LARGE, false,
+							itemToSpawn.posX,
+							itemToSpawn.posY + 0.5D,
+							itemToSpawn.posZ, 
+							5, 0.0D, 0.0D, 0.0D, 0.0D, new int[0]
+					);
+					world.spawnEntityInWorld(itemToSpawn);
+				}
+				
 				}
 			}
 		}
 	}
 	
-						/*
-						for (int j = 1; j < entities.size(); j++)
-						{
-							if (entities.get(i) instanceof EntityItem && entities
-									.get(j) instanceof EntityItem)
-							{
-								EntityItem target = (EntityItem) entities.get(i);
-								EntityItem targetJ = (EntityItem) entities.get(j);
-
-								
-								int x = target.getPosition().getX();
-								int y = target.getPosition().getY();
-								int z = target.getPosition().getZ();
-
-								int xJ = targetJ.getPosition().getX();
-								int yJ = targetJ.getPosition().getY();
-								int zJ = targetJ.getPosition().getZ();
-
-								Item item = target.getEntityItem().getItem();
-								Item itemJ = targetJ.getEntityItem().getItem();
-									
-								if ((item == Items.book && itemJ == Items.bone) || (item == Items.bone && itemJ == Items.book) && !target.isDead && !targetJ.isDead)
-								{
-									if (target.ticksExisted > 100 && targetJ.ticksExisted > 100)
-									{
-										// the two items must be at least 3
-										// blocks close
-										// to
-										// each other in xy directions, must be
-										// 1 block
-										// close in z.
-										if (Math.abs(x - xJ) <= 3 && Math.abs(y - yJ) <= 1 && Math
-												.abs(z - zJ) <= 3)
-										// Check if items are in water
-										// Block dest =
-										// worldIn.getBlockState(target.getPosition()).getBlock();
-										// Block destJ =
-										// worldIn.getBlockState(targetJ.getPosition()).getBlock();
-										// if (dest == Blocks.water && destJ ==
-										// Blocks.water) {
-										{
-											bookSpawnDelay += 20;
-											target.getEntityItem().stackSize--;
-											targetJ.getEntityItem().stackSize--;
-											if (target.getEntityItem().stackSize == 0) world
-													.removeEntity(target);
-											if (targetJ.getEntityItem().stackSize == 0) world
-													.removeEntity(targetJ);
-											WorldServer worldServer = (WorldServer) world;
-											worldServer.spawnParticle(EnumParticleTypes.SMOKE_LARGE,
-													false, x + 0.5D, y + 1.0D, z + 0.5D, 1, 0.0D,
-													0.0D, 0.0D, 0.0D, new int[0]);
-											world.spawnEntityInWorld(new EntityItem(world, x, y, z,
-													new ItemStack(ARKCraftItems.info_book)));
-											
-											
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	*/
 						
 	public static int bookSpawnDelay = 0;
 
@@ -342,24 +268,6 @@ public class CommonEventHandler
 			}
 		}
 
-	}
-	
-	@SubscribeEvent
-	public void onCommandEvent(CommandEvent event) {
-		System.out.println("CHAT EVENT HAPPENED!");
-		String username = event.sender.getName();
-		String commandText = event.command.getName();
-		if(commandText.startsWith("/")) {
-			try {
-				out = new PrintWriter(new FileWriter(f));
-				out.println(username + ": " + commandText + "\n");
-				System.out.println("Adding an entry into user_commands.txt");
-				out.close();
-			}
-			catch(Exception e) {
-				e.printStackTrace();
-			}
-		}	
 	}
 
 }

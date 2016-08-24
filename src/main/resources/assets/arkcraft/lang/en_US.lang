@@ -124,8 +124,7 @@ item.spoiled_meat.name=Spoiled Meat
 item.info_book.name=ARK Manual
 
 # Miscellaneous
-itemGroup.tabARKCraftMisc=ARKCraft: Survival Evolved
-itemGroup.tabARK=ARKCraft
+itemGroup.tabARK=ARKCraft: Survival Evolved
 
 # Configuration GUI
 category.arkcraft.mod1_balance=Entity & World Gen Balance Settings

@@ -21,6 +21,7 @@ public class ARKCraftBook extends Item {
 		super();
 		this.setUnlocalizedName(name);
 		this.setCreativeTab(ARKCraft.tabARK);
+		this.maxStackSize = 1;
 	}
 
 	@Override

@@ -21,8 +21,8 @@ import com.uberverse.arkcraft.common.handlers.recipes.RecipeHandler;
 import com.uberverse.arkcraft.common.handlers.recipes.SmithyCraftingManager;
 import com.uberverse.arkcraft.common.item.engram.ARKCraftEngrams;
 import com.uberverse.arkcraft.common.network.CampfireToggleMessage;
-import com.uberverse.arkcraft.common.network.ForgeToggleMessage;
 import com.uberverse.arkcraft.common.network.DescriptionHandler;
+import com.uberverse.arkcraft.common.network.ForgeToggleMessage;
 import com.uberverse.arkcraft.common.network.MessageHover;
 import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
 import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
@@ -62,6 +62,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
+@SuppressWarnings("rawtypes")
 @Mod(modid = ARKCraft.MODID, name = ARKCraft.NAME, version = ARKCraft.VERSION)
 public class ARKCraft
 {
@@ -93,12 +94,26 @@ public class ARKCraft
 
 		tabARK = new CreativeTabs(CreativeTabs.getNextID(), "tabARK")
 		{
+			
 			@Override
 			public Item getTabIconItem()
 			{
 				// TODO Assign proper item as icon
-				return ARKCraftItems.tabItem;
+				return ARKCraftItems.info_book;
 			}
+			
+			@Override
+			public boolean hasSearchBar() {
+				return true;
+			}
+			
+			/*
+			@Override
+			public CreativeTabs setBackgroundImageName(String texture) {
+				texture = "arkcraft.png";
+				return this;
+			}
+			*/
 		};
 
 		ARKCraftBlocks.init();
