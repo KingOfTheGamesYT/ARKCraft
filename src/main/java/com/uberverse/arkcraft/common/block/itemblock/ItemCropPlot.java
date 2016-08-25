@@ -9,6 +9,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew.CropPlotType;
+import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew.Part;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 
 public class ItemCropPlot extends ItemBlockARK
@@ -44,6 +45,13 @@ public class ItemCropPlot extends ItemBlockARK
 			}
 			else if (ARKCraftBlocks.crop_plot.canPlaceBlockAt(worldIn, blockpos1))
 			{
+				if(stack.getMetadata() > 0){
+					for(Part p : Part.VALUES){
+						if(p != Part.MIDDLE){
+							if(!ARKCraftBlocks.crop_plot.canPlaceBlockAt(worldIn, p.offset(blockpos1, false)))return false;
+						}
+					}
+				}
 				--stack.stackSize;
 				worldIn.setBlockState(blockpos1, ARKCraftBlocks.crop_plot.getDefaultState());
 				ARKCraftBlocks.crop_plot.onBlockPlacedBy(worldIn, blockpos1, ARKCraftBlocks.crop_plot.getDefaultState(), playerIn, stack);

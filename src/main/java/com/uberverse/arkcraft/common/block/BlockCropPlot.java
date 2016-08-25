@@ -2,13 +2,6 @@ package com.uberverse.arkcraft.common.block;
 
 import java.util.List;
 
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew;
-import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew.CropPlotType;
-import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew.Part;
-import com.uberverse.arkcraft.common.item.ARKCraftSeed;
-import com.uberverse.lib.LogHelper;
-
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -35,9 +28,17 @@ import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew;
+import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew.CropPlotType;
+import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew.Part;
+import com.uberverse.arkcraft.common.item.ARKCraftSeed;
+import com.uberverse.lib.LogHelper;
 /**
  * @author wildbill22
  */
@@ -92,7 +93,7 @@ public class BlockCropPlot extends BlockContainer
 						}
 					}
 				}
-			}	
+			}
 			if(playerIn.getHeldItem() != null && playerIn.getHeldItem().getItem() == Items.water_bucket) {
 				LogHelper.info("Player clicked with water bucket!");
 				ItemStack container = playerIn.getHeldItem();
@@ -101,7 +102,7 @@ public class BlockCropPlot extends BlockContainer
 					TileEntity entity = worldIn.getTileEntity(pos);
 					if(entity instanceof TileEntityCropPlotNew && entity != null) {
 						LogHelper.info("A TileEntityCropPlotNew is found at the place the player right clicked!");
-						TileEntityCropPlotNew target = (TileEntityCropPlotNew)entity;	
+						TileEntityCropPlotNew target = (TileEntityCropPlotNew)entity;
 						int water = TileEntityCropPlotNew.getItemWaterValue(container) + target.getField(0);
 						//The currentWater + addedWater needs to be smaller or equal to the max water.
 						if(water <= target.getType().getMaxWater()) {
@@ -122,7 +123,7 @@ public class BlockCropPlot extends BlockContainer
 				playerIn.openGui(ARKCraft.instance(), ID, worldIn, pos.getX(), pos.getY(),
 						pos.getZ());
 			}
-			
+
 			return true;
 		}
 		return false;
@@ -238,7 +239,8 @@ public class BlockCropPlot extends BlockContainer
 			ItemStack stack) {
 		TileEntity tile = worldIn.getTileEntity(pos);
 		CropPlotType t = CropPlotType.VALUES[stack.getMetadata() % 3];
-		worldIn.setBlockState(pos, state.withProperty(TYPE, t));
+		state = state.withProperty(TYPE, t);
+		worldIn.setBlockState(pos, state);
 		if(tile != null){
 			tile.validate();
 			worldIn.setTileEntity(pos, tile);
@@ -274,9 +276,17 @@ public class BlockCropPlot extends BlockContainer
 	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
 		IBlockState state = worldIn.getBlockState(pos);
 		CropPlotType t = (CropPlotType) state.getValue(TYPE);
-		if(t == CropPlotType.SMALL)setBlockBounds(0, 0, 0, 1, 0.35F, 1);
-		else if(t == CropPlotType.MEDIUM)setBlockBounds(-0.5F, 0, -0.5F, 1.5F, 0.35F, 1.5F);
-		else if(t == CropPlotType.LARGE)setBlockBounds(-1, 0, -1, 2, 0.35F, 2);
+		TileEntity tile = worldIn.getTileEntity(pos);
+		if(tile instanceof TileEntityCropPlotNew){
+			TileEntityCropPlotNew te = (TileEntityCropPlotNew) tile;
+			BlockPos p = new BlockPos(0, 0, 0);
+			p = te.part.offset(p, true);
+			if(t == CropPlotType.SMALL)setBlockBounds(0, 0, 0, 1, 0.35F, 1);
+			else if(t == CropPlotType.MEDIUM)setBlockBounds(-0.5F + p.getX(), 0, -0.5F + p.getZ(), 1.5F + p.getX(), 0.35F, 1.5F + p.getZ());
+			else if(t == CropPlotType.LARGE)setBlockBounds(-1 + p.getX(), 0, -1 + p.getZ(), 2 + p.getX(), 0.35F, 2 + p.getZ());
+		}else{
+			setBlockBounds(0, 0, 0, 1, 0.35F, 1);
+		}
 	}
 	public static enum BerryColor implements IStringSerializable{
 		AMAR, AZUL, MEJO, NARCO, STIM, TINTO

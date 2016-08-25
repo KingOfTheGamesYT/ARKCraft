@@ -153,7 +153,7 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 
 	@Override
 	public void update() {
-		if(!worldObj.isRemote && !transparent){
+		if(!worldObj.isRemote && !isTransparent()){
 			for(int i = 0;i<10;i++){
 				if(stack[i] != null){
 					Item item = stack[i].getItem();
@@ -279,7 +279,7 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 		fertilizer = compound.getInteger("fertilizer");
 		state = CropPlotState.VALUES[compound.getInteger("cropState")];
 		growing = ItemStack.loadItemStackFromNBT(compound.getCompoundTag("growing"));
-		transparent = compound.getBoolean("transparent");
+		//transparent = compound.getBoolean("transparent");
 		part = Part.VALUES[compound.getInteger("part")];
 		//getType() = CropPlotType.VALUES[compound.getInteger("plotType")];
 	}
@@ -303,7 +303,7 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 		NBTTagCompound g = new NBTTagCompound();
 		if(growing != null)growing.writeToNBT(g);
 		compound.setTag("growing", g);
-		compound.setBoolean("transparent", transparent);
+		//compound.setBoolean("transparent", transparent);
 		compound.setInteger("part", part.ordinal());
 		//compound.setInteger("plotType", getType().ordinal());
 		//return compound; //for mc 1.9
@@ -439,17 +439,17 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 	@Override
 	public void writeToPacket(NBTTagCompound tag) {
 		tag.setInteger("c", getGrowingColor().ordinal());
-		tag.setBoolean("t", transparent);
+		//tag.setBoolean("t", transparent);
 		tag.setInteger("p", part.ordinal());
 	}
 	@Override
 	public void readFromPacket(NBTTagCompound tag) {
 		colorClient = BerryColor.VALUES[tag.getInteger("c")];
-		transparent = tag.getBoolean("t");
+		//transparent = tag.getBoolean("t");
 		part = Part.VALUES[tag.getInteger("p")];
 	}
 	private BerryColor colorClient = BerryColor.AMAR;
-	public boolean transparent;
+	//public boolean transparent;
 	public BerryColor getGrowingColor() {
 		return worldObj.isRemote ? colorClient : (growing != null && growing.getItem() instanceof ARKCraftSeed ? ((ARKCraftSeed)growing.getItem()).getBerryColor(growing) : BerryColor.AMAR);
 	}
