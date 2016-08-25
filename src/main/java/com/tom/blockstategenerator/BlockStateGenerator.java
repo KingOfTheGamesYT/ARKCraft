@@ -22,7 +22,14 @@ public class BlockStateGenerator {
 			out.println("  \"forge_marker\": 1,");
 			System.out.println("[BSG]: Writing Defaults");
 			out.println("  \"defaults\": {");
-			out.println("    \"textures\": { \"berry\": \""+BERRY_TEXTURE_PREFIX.replace("!", BerryColor.VALUES[0].getName())+"\" }");
+			out.println("    \"textures\": {");
+			out.println("      \"berry_leaves\": \""+BERRY_TEXTURE_PREFIX.replace("!", BerryColor.VALUES[0].getName())+"\"");
+			/*out.println("      \"particle\": \"blocks/planks_birch\",");
+			out.println("      \"0\": \"blocks/planks_birch\",");
+			out.println("      \"1\": \"blocks/farmland_wet\",");
+			out.println("      \"3\": \"blocks/log_oak_top\",");
+			out.println("      \"2\": \"blocks/log_oak\"");*/
+			out.println("    }");
 			out.println("  },");
 			out.println("  \"variants\": {");//age=1,berry=narco,type=medium
 			/*System.out.println("[BSG]: Writing Base Models");
@@ -46,6 +53,10 @@ public class BlockStateGenerator {
 							out.println("    \""+head.replace("!", "false")+"\": { \"model\": \"arkcraft:crop_plot_"+t.getName()+"\"},");
 						}else
 							out.println("    \""+head.replace("!", "false")+"\": { \"model\": \"arkcraft:crop_plot_"+t.getName()+"\", \"submodel\": {\"plant\": {\"model\": \""+model+"\"}}, \"textures\": {\"berry\": \""+texture+"\""+"} },");
+						/*if(i == 0){
+							out.println("    \""+head.replace("!", "false")+"\": { \"model\": \"arkcraft:crop_plot_"+t.getName()+"\"},");
+						}else
+							out.println("    \""+head.replace("!", "false")+"\": { \"model\": \"arkcraft:crop_plot_"+t.getName()+"_stage"+(i-1)+"\", \"textures\": {\"berry_leaves\": \""+texture+"\""+"} },");*/
 						out.println("    \""+head.replace("!", "true")+"\": { \"model\": \"arkcraft:crop_plot_transparent\"}" + (notWriteComma ? "" : ","));
 						System.out.println("[BSG]: Writing: "+head.replace("!", "<t>")+" Resource names: Model: "+model+" Texture: "+texture);
 					}
