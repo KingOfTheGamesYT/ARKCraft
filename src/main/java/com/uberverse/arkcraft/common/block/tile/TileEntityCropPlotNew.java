@@ -20,6 +20,8 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.EnumDifficulty;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -40,6 +42,7 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 	private int water = 0;
 	private ItemStack growing;
 	public Part part = Part.MIDDLE;
+	private static boolean LOG = true;
 	//private CropPlotType type = CropPlotType.SMALL;
 	@Override
 	public String getName() {
@@ -130,7 +133,7 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 
 	@Override
 	public int getField(int id) {
-		return id == 0 ? water : id == 1 ? fertilizer : id == 2 ? fertilizerClient : 0;
+		return id == 0 ? water : id == 1 ? fertilizer : id == 2 ? fertilizerClient : id == -20 ? difficultyClient : 0;
 	}
 
 	@Override
@@ -153,76 +156,94 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 
 	@Override
 	public void update() {
-		if(!worldObj.isRemote && !isTransparent()){
-			for(int i = 0;i<10;i++){
-				if(stack[i] != null){
-					Item item = stack[i].getItem();
-					if(item instanceof ARKCraftFeces){
-						if(fertilizer < 100){
-							fertilizer += 40;
-							stack[i].setItemDamage(stack[i].getItemDamage() + 1);
-							if(stack[i].getMaxDamage() == stack[i].getItemDamage()){
-								decrStackSize(i, 1);
-							}
-						}
-					}else if(item instanceof ARKCraftSeed){
-						if(growing == null && fertilizer > 0 && water > 0 && ((ARKCraftSeed)item).getType().ordinal() <= getType().ordinal()){
-							growthTime = CROP_PLOT.SEEDLING_TIME_FOR_BERRY * 20;
-							LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + "]: Started Growing: " + stack[i]);
-							growing = decrStackSize(i, 1);
-							state = CropPlotState.SEEDED;
-						}
+		if(!worldObj.isRemote){
+			if(worldObj.isRaining() && worldObj.canSeeSky(pos)){
+				int rand = worldObj.rand.nextInt(50);
+				if(rand % 10 < 2){
+					if(part == Part.MIDDLE){
+						fillWithRain(false);
 					}else{
-						int itemWater = getItemWaterValue(stack[i]);
-						if(itemWater > 0){
-							if(water + itemWater <= getType().getMaxWater()){
-								stack[i] = getContainerItem(stack[i]);
-								water += itemWater;
-							}
+						TileEntity tile = worldObj.getTileEntity(part.offset(pos, true));
+						if(tile instanceof TileEntityCropPlotNew){
+							((TileEntityCropPlotNew)tile).fillWithRain(false);
 						}
 					}
 				}
 			}
-			if(growing != null){
-				if(growthTime >= 0 && worldObj.getLight(pos) > 7){
-					if(fertilizer > 0 && water > 0){
-						growthTime--;
-						/*
-						 * TODO Find a beneficial decrement amount, water-- is WAY to slow.
-						 * TODO Maybe increase it on higher difficulties?
-						 * TODO Different water, fertilizer and chance of harvest in different difficulties.
-						 */
-						water -= 3;
-						fertilizer-= (state == CropPlotState.FRUITING ? 1 : 2);
-					}else{
-						int rand = worldObj.rand.nextInt(100);//5% chance if plant dies to return the seed
-						if(rand % 20 == 0){
-							TileEntityHopper.func_174918_a(this, growing, null);
+			if(!isTransparent()){
+				for(int i = 0;i<10;i++){
+					if(stack[i] != null){
+						Item item = stack[i].getItem();
+						if(item instanceof ARKCraftFeces){
+							if(fertilizer < 100){
+								fertilizer += 40;
+								stack[i].setItemDamage(stack[i].getItemDamage() + 1);
+								if(stack[i].getMaxDamage() == stack[i].getItemDamage()){
+									decrStackSize(i, 1);
+								}
+							}
+						}else if(item instanceof ARKCraftSeed){
+							if(growing == null && fertilizer > 0 && water > 5 && ((ARKCraftSeed)item).getType().ordinal() <= getType().ordinal()){
+								growthTime = CROP_PLOT.SEEDLING_TIME_FOR_BERRY * 20;
+								if(LOG)LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + "]: Started Growing: " + stack[i]);
+								growing = decrStackSize(i, 1);
+								state = CropPlotState.SEEDED;
+							}
+						}else{
+							int itemWater = getItemWaterValue(stack[i]);
+							if(itemWater > 0){
+								if(water + itemWater <= getType().getMaxWater()){
+									stack[i] = getContainerItem(stack[i]);
+									water += itemWater;
+								}
+							}
 						}
-						growing = null;
-						state = CropPlotState.EMPTY;
-						setState(0);
 					}
 				}
-				if(growthTime < 0){
-					if(state == CropPlotState.FRUITING){
-						ItemStack r = ARKCraftSeed.getBerryForSeed(growing);
-						LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + "]: Growing Successful: "+growing + ", output: " + r);
-						TileEntityHopper.func_174918_a(this, r, null);
-						growthTime = CROP_PLOT.FRUIT_OUTPUT_TIME_FOR_BERRY * 20;
-					}else{
-						state = state.next();
-						LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + "]: Growing State Updated! Growing: "+growing + ", state: " + state.name());
-						if(state.getTime() > 0)
-							growthTime = state.getTime() * 20;
-						else
-							growthTime = -1;
+				if(growing != null){
+					if(growthTime >= 0 && worldObj.getLight(pos) > 7){
+						if(fertilizer > 0 && water > 5){
+							growthTime--;
+							water -= (worldObj.getDifficulty().ordinal() + 1);
+							fertilizer-= (state == CropPlotState.FRUITING ? (worldObj.getDifficulty().ordinal() + 1) : (worldObj.getDifficulty().ordinal() + 1) * 2);
+						}else{
+							int rand = worldObj.rand.nextInt(100);//5% chance if plant dies to return the seed
+							boolean ret = false;
+							if(rand % (worldObj.getDifficulty() == EnumDifficulty.NORMAL ? 40 : (worldObj.getDifficulty() == EnumDifficulty.EASY ? 30 : 20)) == 0 && worldObj.getDifficulty() != EnumDifficulty.HARD){
+								ret = TileEntityHopper.func_174918_a(this, growing, null) == null;
+							}
+							if(LOG)LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + "]: Crop died: "+growing + "Seed return: "+ret);
+							growing = null;
+							state = CropPlotState.EMPTY;
+							setState(0);
+						}
 					}
+					if(growthTime < 0){
+						if(state == CropPlotState.FRUITING){
+							int d = worldObj.getDifficulty().ordinal();
+							boolean success = d == 0 ? true : worldObj.rand.nextInt(d + 1) == 1;
+							if(success){
+								ItemStack r = ARKCraftSeed.getBerryForSeed(growing);
+								if(LOG)LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + "]: Growing Successful: "+growing + ", output: " + r);
+								TileEntityHopper.func_174918_a(this, r, null);
+							}else{
+								if(LOG)LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + "]: Growing Failed: "+growing);
+							}
+							growthTime = MathHelper.floor_double(CROP_PLOT.FRUIT_OUTPUT_TIME_FOR_BERRY * (20D * ((worldObj.getDifficulty().ordinal() * 0.5D) + 1)));
+						}else{
+							state = state.next();
+							if(LOG)LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + "]: Growing State Updated! Growing: "+growing + ", state: " + state.name());
+							if(state.getTime() > 0)
+								growthTime = MathHelper.floor_double(state.getTime() * (20D * ((worldObj.getDifficulty().ordinal() * 0.5D) + 1)));
+							else
+								growthTime = -1;
+						}
+					}
+					setState(state.age);
+					//if(growthTime % 50 == 0)LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + "]: Growing: "+growing + ", growth remaining: " + growthTime + ", water: " + water + ", fertilizer: " + fertilizer + ".");
+				}else{
+					setState(0);
 				}
-				setState(state.age);
-				if(growthTime % 50 == 0)LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + "]: Growing: "+growing + ", growth remaining: " + growthTime + ", water: " + water + ", fertilizer: " + fertilizer + ".");
-			}else{
-				setState(0);
 			}
 		}
 	}
@@ -367,11 +388,13 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 		if(name.equals(seedName))name = I18n.format(seedName + ".name");
 		text.add(EnumChatFormatting.YELLOW + I18n.format(stringType));
 		text.add(I18n.format("arkcraft.growing") + ": " + I18n.format("arkcraft.cropPlotState.head", name, I18n.format(stateName)));
-		String water = (getField(0) > 0 ? getField(0) > (getType().getMaxWater() / 3) ? EnumChatFormatting.GREEN : EnumChatFormatting.YELLOW : EnumChatFormatting.RED) + "" + (getField(0)/20) + "/" + getType().getMaxWater() / 20;
-		text.add(EnumChatFormatting.BLUE + I18n.format("arkcraft.water", I18n.format("tile.water.name"), water, getField(0) > 0 ? I18n.format("arkcraft.cropPlotWater.irrigated") : I18n.format("arkcraft.cropPlotWater.notIrrigated")));
-		text.add("#8B4513" + I18n.format("arkcraft.gui.fertilizer", fertilizerClient));
+		String water = synced ? (getField(0) > 0 ? getField(0) > (getType().getMaxWater() / 3) ? EnumChatFormatting.GREEN : EnumChatFormatting.YELLOW : EnumChatFormatting.RED) + "" + (getField(0)/20) + "/" + getType().getMaxWater() / 20 : "...";
+		text.add(EnumChatFormatting.BLUE + I18n.format("arkcraft.water", I18n.format("tile.water.name"), water, synced ? (getField(0) > 0 ? I18n.format("arkcraft.cropPlotWater.irrigated") : I18n.format("arkcraft.cropPlotWater.notIrrigated")) : "?"));
+		text.add("#8B4513" + I18n.format("arkcraft.gui.fertilizer", synced ? fertilizerClient / (difficultyClient + 1) : "?"));
 	}
 	private String seedName = "arkcraft.empty", stateName = "...", stringType = "...";
+	private boolean synced = false;
+	private int difficultyClient = 0;
 	@Override
 	public void writeToNBTPacket(NBTTagCompound tag) {
 		TileEntity tile = worldObj.getTileEntity(part.offset(pos, true));
@@ -394,6 +417,7 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 		}
 		tag.setInteger("f", f);
 		tag.setInteger("t", getType().ordinal());
+		tag.setInteger("d", worldObj.getDifficulty().ordinal());
 	}
 
 	@Override
@@ -404,6 +428,8 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 		fertilizerClient = tag.getInteger("f");
 		//type = CropPlotType.VALUES[tag.getInteger("t")];
 		stringType = "tile.crop_plot." + CropPlotType.VALUES[tag.getInteger("t")].name().toLowerCase() + ".name";
+		synced = true;
+		difficultyClient = tag.getInteger("d");
 	}
 
 	public ItemStack[] getStack() {
@@ -441,12 +467,14 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 		tag.setInteger("c", getGrowingColor().ordinal());
 		//tag.setBoolean("t", transparent);
 		tag.setInteger("p", part.ordinal());
+		tag.setInteger("d", worldObj.getDifficulty().ordinal());
 	}
 	@Override
 	public void readFromPacket(NBTTagCompound tag) {
 		colorClient = BerryColor.VALUES[tag.getInteger("c")];
 		//transparent = tag.getBoolean("t");
 		part = Part.VALUES[tag.getInteger("p")];
+		difficultyClient = tag.getInteger("d");
 	}
 	private BerryColor colorClient = BerryColor.AMAR;
 	//public boolean transparent;
@@ -488,5 +516,8 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 			}
 			return pos;
 		}
+	}
+	public void fillWithRain(boolean big) {
+		water = Math.min(water + (big ? 350 + worldObj.rand.nextInt(50) : worldObj.rand.nextInt(20) + 5), getType().getMaxWater());
 	}
 }

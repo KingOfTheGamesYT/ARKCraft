@@ -309,4 +309,17 @@ public class BlockCropPlot extends BlockContainer
 		}
 		return state;
 	}
+	@Override
+	public void fillWithRain(World worldIn, BlockPos pos) {
+		TileEntityCropPlotNew te = (TileEntityCropPlotNew) worldIn.getTileEntity(pos);
+		if(te.part == Part.MIDDLE){
+			te.fillWithRain(true);
+		}else{
+			TileEntity tile = worldIn.getTileEntity(te.part.offset(pos, true));
+			if(tile instanceof TileEntityCropPlotNew){
+				te = (TileEntityCropPlotNew) tile;
+				te.fillWithRain(true);
+			}
+		}
+	}
 }
