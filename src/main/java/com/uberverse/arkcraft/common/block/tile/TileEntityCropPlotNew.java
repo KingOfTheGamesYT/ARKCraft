@@ -362,13 +362,13 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 	}
 	@Override
 	@SideOnly(Side.CLIENT)
-	//TODO make fully irrigated crop plots have green water text
 	public void addInformation(List<String> text) {
 		String name = I18n.format(seedName);
 		if(name.equals(seedName))name = I18n.format(seedName + ".name");
 		text.add(EnumChatFormatting.YELLOW + I18n.format(stringType));
 		text.add(I18n.format("arkcraft.growing") + ": " + I18n.format("arkcraft.cropPlotState.head", name, I18n.format(stateName)));
-		text.add(EnumChatFormatting.BLUE + I18n.format("arkcraft.water", I18n.format("tile.water.name"), (getField(0)/20), getType().getMaxWater() / 20, getField(0) > 0 ? I18n.format("arkcraft.cropPlotWater.irrigated") : I18n.format("arkcraft.cropPlotWater.notIrrigated")));
+		String water = (getField(0) > 0 ? getField(0) > (getType().getMaxWater() / 3) ? EnumChatFormatting.GREEN : EnumChatFormatting.YELLOW : EnumChatFormatting.RED) + "" + (getField(0)/20) + "/" + getType().getMaxWater() / 20;
+		text.add(EnumChatFormatting.BLUE + I18n.format("arkcraft.water", I18n.format("tile.water.name"), water, getField(0) > 0 ? I18n.format("arkcraft.cropPlotWater.irrigated") : I18n.format("arkcraft.cropPlotWater.notIrrigated")));
 		text.add("#8B4513" + I18n.format("arkcraft.gui.fertilizer", fertilizerClient));
 	}
 	private String seedName = "arkcraft.empty", stateName = "...", stringType = "...";
