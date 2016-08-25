@@ -22,6 +22,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityHopper;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumWorldBlockLayer;
@@ -273,7 +274,8 @@ public class BlockCropPlot extends BlockContainer
 		return ((CropPlotType) state.getValue(TYPE)).ordinal();
 	}
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+	@SideOnly(Side.CLIENT)
+	public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos) {
 		IBlockState state = worldIn.getBlockState(pos);
 		CropPlotType t = (CropPlotType) state.getValue(TYPE);
 		TileEntity tile = worldIn.getTileEntity(pos);
@@ -281,12 +283,13 @@ public class BlockCropPlot extends BlockContainer
 			TileEntityCropPlotNew te = (TileEntityCropPlotNew) tile;
 			BlockPos p = new BlockPos(0, 0, 0);
 			p = te.part.offset(p, true);
-			if(t == CropPlotType.SMALL)setBlockBounds(0, 0, 0, 1, 0.35F, 1);
-			else if(t == CropPlotType.MEDIUM)setBlockBounds(-0.5F + p.getX(), 0, -0.5F + p.getZ(), 1.5F + p.getX(), 0.35F, 1.5F + p.getZ());
-			else if(t == CropPlotType.LARGE)setBlockBounds(-1 + p.getX(), 0, -1 + p.getZ(), 2 + p.getX(), 0.35F, 2 + p.getZ());
+			if(t == CropPlotType.SMALL)return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 0.35F, pos.getZ() + 1);
+			else if(t == CropPlotType.MEDIUM)return new AxisAlignedBB(pos.getX() -0.5F + p.getX(), pos.getY(), pos.getZ()-0.5F + p.getZ(), pos.getX() + 1.5F + p.getX(), pos.getY() + 0.35F, pos.getZ() + 1.5F + p.getZ());
+			else if(t == CropPlotType.LARGE)return new AxisAlignedBB(pos.getX()-1 + p.getX(), pos.getY(), pos.getZ()-1 + p.getZ(), pos.getX() + 2 + p.getX(), pos.getY() + 0.35F, pos.getZ() + 2 + p.getZ());
 		}else{
-			setBlockBounds(0, 0, 0, 1, 0.35F, 1);
+			return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 0.35F, pos.getZ() + 1);
 		}
+		return super.getSelectedBoundingBox(worldIn, pos);
 	}
 	public static enum BerryColor implements IStringSerializable{
 		AMAR, AZUL, MEJO, NARCO, STIM, TINTO
