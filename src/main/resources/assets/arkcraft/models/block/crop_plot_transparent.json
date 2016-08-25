@@ -1,7 +1,20 @@
 {
-    "parent":"block/cube_all",
     "textures":{
         "all":"arkcraft:blocks/null",
         "particle": "blocks/planks_birch"
-    }
+    },
+    "elements": [ 
+	{
+      "from": [ 2, 0, 2 ],
+      "to": [ 14, 3, 14 ],
+   	  "faces": {
+   	     "down":  { "uv": [ 0, 0, 16, 1 ], "texture": "#all" },
+   	     "up":    { "uv": [ 0, 0, 16, 1 ], "texture": "#all" },
+   	     "north": { "uv": [ 0, 0, 16, 4 ], "texture": "#all" },
+   	     "south": { "uv": [ 0, 0, 16, 4 ], "texture": "#all" },
+         "west":  { "uv": [ 2, 0, 3, 4 ],  "texture": "#all" },
+   	     "east":  { "uv": [ 2, 0, 3, 4 ],  "texture": "#all" }
+      }
+	}
+    ]
 }
