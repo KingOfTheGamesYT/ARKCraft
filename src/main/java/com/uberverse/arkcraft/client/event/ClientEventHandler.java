@@ -8,6 +8,46 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.model.ModelPlayer;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
+
+import net.minecraftforge.client.event.FOVUpdateEvent;
+import net.minecraftforge.client.event.MouseEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderHandEvent;
+import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.gui.GUIMortarPestle;
 import com.uberverse.arkcraft.client.gui.GUIPlayerCrafting;
@@ -33,45 +73,6 @@ import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
 import com.uberverse.arkcraft.common.network.OpenPlayerCrafting;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.init.ARKCraftItems;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.model.ModelPlayer;
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
-import net.minecraftforge.client.event.FOVUpdateEvent;
-import net.minecraftforge.client.event.MouseEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderHandEvent;
-import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class ClientEventHandler
 {
@@ -169,21 +170,21 @@ public class ClientEventHandler
 							.getAsDouble(event.player))
 					{
 						ARKPlayer.get(event.player)
-								.setCarryWeight(CalcPlayerWeight.getAsDouble(event.player));
+						.setCarryWeight(CalcPlayerWeight.getAsDouble(event.player));
 					}
 
 					// Weight rules
-					if ((double) ARKPlayer.get(event.player).getCarryWeightRatio() >= (double) 0.85)
+					if (ARKPlayer.get(event.player).getCarryWeightRatio() >= 0.85)
 					{
 						event.player.motionX *= 0;
 						event.player.motionZ *= 0;
 					}
-					else if ((double) ARKPlayer.get(event.player)
-							.getCarryWeightRatio() >= (double) 0.75)
+					else if (ARKPlayer.get(event.player)
+							.getCarryWeightRatio() >= 0.75)
 					{
-						event.player.motionX *= (double) WeightsConfig.encumberedSpeed;
-						event.player.motionY *= (double) WeightsConfig.encumberedSpeed;
-						event.player.motionZ *= (double) WeightsConfig.encumberedSpeed;
+						event.player.motionX *= WeightsConfig.encumberedSpeed;
+						event.player.motionY *= WeightsConfig.encumberedSpeed;
+						event.player.motionZ *= WeightsConfig.encumberedSpeed;
 					}
 				}
 			}
@@ -199,7 +200,7 @@ public class ClientEventHandler
 			EntityPlayer player = (EntityPlayer) event.entityLiving;
 			if (!player.capabilities.isCreativeMode || WeightsConfig.allowInCreative)
 			{
-				if ((double) ARKPlayer.get(player).getCarryWeightRatio() >= (double) 0.85)
+				if (ARKPlayer.get(player).getCarryWeightRatio() >= 0.85)
 				{
 					player.motionY *= 0;
 					player.addChatComponentMessage(
@@ -270,7 +271,7 @@ public class ClientEventHandler
 					selected = stack;
 					if (showScopeOverlap) evt.setCanceled(true);
 				}
-			}
+			}		
 		}
 	}
 
@@ -328,7 +329,7 @@ public class ClientEventHandler
 			}
 			// Remove crosshairs
 			else if (evt.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS && showScopeOverlap) evt
-					.setCanceled(true);
+			.setCanceled(true);
 		}
 		else if (evt.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS)
 		{
