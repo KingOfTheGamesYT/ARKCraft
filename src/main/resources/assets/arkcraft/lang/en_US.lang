@@ -44,6 +44,7 @@ item.cloth_helm.name=Cloth Hat
 item.cloth_chest.name=Cloth Shirt
 item.cloth_legs.name=Cloth Pants
 item.cloth_boots.name=Cloth Shoes
+item.crystal.name=Crystals
 item.hide_helm.name=Hide Helmet
 item.hide_chest.name=Hide Chestplate
 item.hide_legs.name=Hide Leggings
@@ -52,6 +53,7 @@ item.fur_helm.name=Fur Helmet
 item.fur_chest.name=Fur Chestplate
 item.fur_legs.name=Fur Leggings
 item.fur_boots.name=Fur Boots
+item.gunpowder.name=Gunpowder
 item.tranq_arrow.name=Tranquilizer Arrow
 item.slingshot.name=Slingshot
 item.pike.name=Stone Pike
@@ -78,6 +80,7 @@ item.player_feces.name=Player Feces
 item.fertilizer.name=Fertilizer
 item.tranq_gun.name=Tranquilizer Gun
 item.simple_pistol.name=Simple Pistol
+item.stone.name=Stone
 item.tranquilizer.name=Tranquilizer
 item.simple_bullet.name=Simple Bullet
 item.advanced_bullet.name=Advanced Bullet
@@ -121,10 +124,10 @@ item.metal_pick_ascendant.name=Metal Pickaxe
 item.metal_hatchet_ascendant.name=Metal Hatchet
 item.metal_sickle_ascendant.name=Metal Sickle
 item.spoiled_meat.name=Spoiled Meat
-item.info_book.name=ARK Manual
+item.info_book.name=The ARKCraft Compendium
 
 # Miscellaneous
-itemGroup.tabARK=ARKCraft: Survival Evolved
+itemGroup.arkcraft=ARKCraft
 
 # Configuration GUI
 category.arkcraft.mod1_balance=Entity & World Gen Balance Settings

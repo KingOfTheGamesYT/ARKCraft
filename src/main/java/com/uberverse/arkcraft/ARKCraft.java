@@ -45,7 +45,6 @@ import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -66,7 +65,7 @@ import net.minecraftforge.fml.relauncher.Side;
 @Mod(modid = ARKCraft.MODID, name = ARKCraft.NAME, version = ARKCraft.VERSION)
 public class ARKCraft
 {
-	public static final String MODID = "arkcraft", VERSION = "0.13-Alpha", NAME = "ARKCraft";
+	public static final String MODID = "arkcraft", VERSION = "0.1.3-Alpha", NAME = "ARKCraft";
 
 	public static final String descriptionPacketChannel = MODID + ":descPacket";
 
@@ -92,29 +91,7 @@ public class ARKCraft
 
 		GameRegistry.registerWorldGenerator(new WorldGeneratorBushes(), 0);
 
-		tabARK = new CreativeTabs(CreativeTabs.getNextID(), "tabARK")
-		{
-			
-			@Override
-			public Item getTabIconItem()
-			{
-				// TODO Assign proper item as icon
-				return ARKCraftItems.info_book;
-			}
-			
-			@Override
-			public boolean hasSearchBar() {
-				return true;
-			}
-			
-			/*
-			@Override
-			public CreativeTabs setBackgroundImageName(String texture) {
-				texture = "arkcraft.png";
-				return this;
-			}
-			*/
-		};
+		tabARK = ARKCreativeTab.INSTANCE;
 
 		ARKCraftBlocks.init();
 		ARKCraftItems.init();

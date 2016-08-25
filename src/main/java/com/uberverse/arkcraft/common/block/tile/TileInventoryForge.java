@@ -22,8 +22,10 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.EnumSkyBlock;
+import net.minecraft.world.WorldServer;
 
 public class TileInventoryForge extends TileEntity implements IForge
 {
@@ -74,6 +76,13 @@ public class TileInventoryForge extends TileEntity implements IForge
 			List<ForgeRecipe> possibleRecipes = ForgeCraftingHandler.findPossibleRecipes(this);
 			if (this.isBurning() && possibleRecipes.size() > 0)
 			{
+				
+				((WorldServer)this.getWorld()).spawnParticle(EnumParticleTypes.SMOKE_NORMAL, false,
+						this.getPos().getX() + 0.65D,
+						this.getPos().getY() + 1.8D,
+						this.getPos().getZ() + 0.5D, 
+						5, 0.0D, 0.0D, 0.0D, 0.0D, new int[0]
+				);
 				Iterator<Entry<ForgeRecipe, Integer>> it = activeRecipes.entrySet().iterator();
 				while (it.hasNext())
 				{

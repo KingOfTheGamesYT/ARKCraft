@@ -4,10 +4,8 @@ import java.util.Random;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.tile.TileInventoryCampfire;
-import com.uberverse.arkcraft.common.block.tile.TileInventoryForge;
 
 import net.minecraft.block.BlockContainer;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -48,7 +46,7 @@ public class BlockCampfire extends BlockContainer
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{
-		return new TileInventoryCampfire();
+		return new TileInventoryCampfire();	
 	}
 
 	@Override
@@ -80,7 +78,7 @@ public class BlockCampfire extends BlockContainer
         double d0 = (double)pos.getX() + 0.5D;
         double d1 = (double)pos.getY() + 0.7D;
         double d2 = (double)pos.getZ() + 0.5D;
-        double d3 = 0.22D;
+		double d3 = 0.22D;
         double d4 = 0.27D;
 		IBlockState blockState = getActualState(getDefaultState(), worldIn, pos);
         boolean burning = (Boolean) blockState.getValue(BURNING);

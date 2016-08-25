@@ -41,7 +41,7 @@ public class GuiInfoBook extends GuiScreen {
 	// Pages (Count, buttons, font renderer, data)
 	private int currentPage;
 	private int maxPages;
-	private PageButton prevButton, nButton, forums;
+	private PageButton prevButton, nButton;
 	private SmallFontRenderer fontRenderer = BookClient.fontRenderer;
 	private BookData bd;
 
