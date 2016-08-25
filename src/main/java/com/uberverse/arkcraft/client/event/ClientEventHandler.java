@@ -263,11 +263,13 @@ public class ClientEventHandler
 		{
 			ItemStack stack = thePlayer.getCurrentEquippedItem();
 			InventoryAttachment att = InventoryAttachment.create(stack);
-			if (att != null || stack.getItem().equals(ARKCraftItems.spy_glass))
-			{
-				showScopeOverlap = stack != null && evt.buttonstate;
-				selected = stack;
-				if (showScopeOverlap) evt.setCanceled(true);
+			if(stack != null){
+				if (att != null || stack.getItem().equals(ARKCraftItems.spy_glass))
+				{
+					showScopeOverlap = evt.buttonstate;
+					selected = stack;
+					if (showScopeOverlap) evt.setCanceled(true);
+				}
 			}
 		}
 	}
