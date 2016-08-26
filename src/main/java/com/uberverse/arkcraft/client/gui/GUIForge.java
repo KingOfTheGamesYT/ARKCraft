@@ -104,7 +104,7 @@ public class GUIForge extends GuiContainer
 		{
 			hoveringText.add("Fuel Time:");
 			hoveringText.add(tileEntity.secondsOfFuelRemaining() + "s");
-			hoveringText.add(EnumChatFormatting.BOLD + "Press to Stoke the Flames");
+			hoveringText.add(EnumChatFormatting.RED + "Press to Stoke the Flames");
 		}
 		// If hoveringText is not empty draw the hovering text
 		if (!hoveringText.isEmpty())
