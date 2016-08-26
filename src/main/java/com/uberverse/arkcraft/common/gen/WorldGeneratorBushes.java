@@ -16,7 +16,7 @@ public class WorldGeneratorBushes implements IWorldGenerator
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider)
 	{
-		if (world.provider.getDimensionId() == 0)
+		if (world.provider.getDimensionId() == 0 && world.getWorldType() != world.getWorldType().FLAT)
 		{
 			for (int i = 0; i < 4; i++)
 			{

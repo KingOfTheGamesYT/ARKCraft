@@ -79,9 +79,9 @@ public class SmithyCraftingManager extends ARKCraftingManager {
 				new ItemStack(ARKCraftItems.hide, 25));
 
 		// Crossbow
-		getInstance().addShapelessRecipe(new ItemStack(ARKCraftRangedWeapons.crossbow, 1),
-				new ItemStack(ARKCraftItems.metal_ingot, 7), new ItemStack(ARKCraftItems.wood, 10),
-				new ItemStack(ARKCraftItems.fiber, 35));
+	//	getInstance().addShapelessRecipe(new ItemStack(ARKCraftRangedWeapons.crossbow, 1),
+	//			new ItemStack(ARKCraftItems.metal_ingot, 7), new ItemStack(ARKCraftItems.wood, 10),
+	//			new ItemStack(ARKCraftItems.fiber, 35));
 
 		// Bullets
 		// Simple Bullet
