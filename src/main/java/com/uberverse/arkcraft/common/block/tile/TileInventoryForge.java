@@ -127,14 +127,13 @@ public class TileInventoryForge extends TileEntity implements IForge
 						this.burningTicks += ForgeCraftingHandler.getBurnTime(stack.getItem());
 						break;
 					}
-					else burning = false;
 				}
 			}
 			if (burningTicks > 0)
 			{
 				this.burningTicks--;
-				if (burningTicks < 1) burning = false;
 			}
+			if (burningTicks < 1) burning = false;
 		}
 		else burningTicks = 0;
 	}
