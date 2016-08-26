@@ -164,7 +164,8 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft implements IInvent
 						fillWithRain(false);
 					}else{
 						TileEntity tile = worldObj.getTileEntity(part.offset(pos, true));
-						if(tile instanceof TileEntityCropPlotNew){
+						if(tile instanceof TileEntityCropPlotNew && tile.hasWorldObj())
+						{
 							((TileEntityCropPlotNew)tile).fillWithRain(false);
 						}
 					}
