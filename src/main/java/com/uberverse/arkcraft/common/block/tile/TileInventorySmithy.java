@@ -4,6 +4,14 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.config.ModuleItemBalance;
+import com.uberverse.arkcraft.common.handlers.IARKRecipe;
+import com.uberverse.arkcraft.common.handlers.recipes.SmithyCraftingManager;
+import com.uberverse.arkcraft.common.inventory.InventoryBlueprints;
+import com.uberverse.arkcraft.common.network.UpdateSmithyToCraftItem;
+import com.uberverse.lib.LogHelper;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -24,14 +32,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.config.ModuleItemBalance;
-import com.uberverse.arkcraft.common.handlers.IARKRecipe;
-import com.uberverse.arkcraft.common.handlers.recipes.SmithyCraftingManager;
-import com.uberverse.arkcraft.common.inventory.InventoryBlueprints;
-import com.uberverse.arkcraft.common.network.UpdateSmithyToCraftItem;
-import com.uberverse.lib.LogHelper;
 
 /**
  * @author wildbill22
@@ -273,7 +273,7 @@ public class TileInventorySmithy extends TileEntity implements IInventory, IUpda
 		if (!craftAll && !craftOne) { return; }
 		// Reset crafting time if it reaches -1 (is true after crafting one of
 		// multiple, or after pushing button in GUI)
-		if (craftingTime < 0)
+		if (craftingTime < 0 && isCrafting())
 		{
 			craftingTime = CRAFT_TIME_FOR_ITEM;
 			if (this.guiOpen)
@@ -293,7 +293,7 @@ public class TileInventorySmithy extends TileEntity implements IInventory, IUpda
 		}
 
 		// If craftingTime has reached -1, try and craft the item
-		if (craftingTime < 0)
+		if (craftingTime < 0 && isCrafting())
 		{
 			LogHelper.info("TileInventorySmith: About to craft the item on " + (FMLCommonHandler
 					.instance().getEffectiveSide() == Side.CLIENT ? "client" : "server"));
@@ -355,9 +355,10 @@ public class TileInventorySmithy extends TileEntity implements IInventory, IUpda
 		for (int outputSlot = LAST_INVENTORY_SLOT; outputSlot > FIRST_INVENTORY_SLOT; outputSlot--)
 		{
 			ItemStack outputStack = itemStacks[outputSlot];
-			if (outputStack != null && outputStack.getItem() == result.getItem() && (!outputStack
-					.getHasSubtypes() || outputStack.getMetadata() == outputStack.getMetadata()) && ItemStack
-					.areItemStackTagsEqual(outputStack, result))
+			if (outputStack != null && outputStack.getItem() == result
+					.getItem() && (!outputStack.getHasSubtypes() || outputStack
+							.getMetadata() == outputStack.getMetadata()) && ItemStack
+									.areItemStackTagsEqual(outputStack, result))
 			{
 				int combinedSize = itemStacks[outputSlot].stackSize + result.stackSize;
 				if (combinedSize <= getInventoryStackLimit() && combinedSize <= itemStacks[outputSlot]
@@ -391,8 +392,8 @@ public class TileInventorySmithy extends TileEntity implements IInventory, IUpda
 		// finds if there is enough inventory to craft the result
 		if (!doCraftItem)
 		{
-			numThatCanBeCrafted = (short) SmithyCraftingManager.getInstance().hasMatchingRecipe(
-					result, itemStacks, false);
+			numThatCanBeCrafted = (short) SmithyCraftingManager.getInstance()
+					.hasMatchingRecipe(result, itemStacks, false);
 			if (numThatCanBeCrafted <= 0)
 			{
 				if (this.guiOpen)
@@ -447,8 +448,8 @@ public class TileInventorySmithy extends TileEntity implements IInventory, IUpda
 	@Override
 	public IChatComponent getDisplayName()
 	{
-		return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(
-				this.getName());
+		return this.hasCustomName() ? new ChatComponentText(
+				this.getName()) : new ChatComponentTranslation(this.getName());
 	}
 
 	@Override
