@@ -76,7 +76,7 @@ public class ContainerInventoryPlayerCrafting extends Container
 			{
 				int slotIndex = col + row * NUM_COLUMNS_PC;
 
-				this.addSlotToContainer(new SlotPlayerCraftingInventory(inventoryPlayerCrafting,
+				this.addSlotToContainer(new Slot(inventoryPlayerCrafting,
 						slotIndex, PC_XPOS + col * 18, PLAYER_CRAFTING_YPOS + row * 18));
 			}
 		}

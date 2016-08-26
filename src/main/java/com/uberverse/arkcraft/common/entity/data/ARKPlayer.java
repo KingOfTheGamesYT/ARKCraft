@@ -57,6 +57,10 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 	{
 		// Initialize some stuff
 		this.player = player;
+		this.inventoryPlayerCrafting = new InventoryPlayerCrafting("crafting", false, player);
+		inventoryBlueprints = new InventoryBlueprints("Blueprints", false,
+	            BLUEPRINT_SLOTS_COUNT, PlayerCraftingManager.getInstance(), inventoryPlayerCrafting,
+	            (short) ModuleItemBalance.PLAYER_CRAFTING.CRAFT_TIME_FOR_ITEM);
 		this.setCanPoop(false);
 		this.water = 20;
 		this.torpor = 0;
@@ -352,11 +356,8 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 	// -----------------
 
 	// Inventory for Crafting
-	private InventoryPlayerCrafting inventoryPlayerCrafting = new InventoryPlayerCrafting(
-			"Crafting", false, INVENTORY_SLOTS_COUNT);
-	private InventoryBlueprints inventoryBlueprints = new InventoryBlueprints("Blueprints", false,
-			BLUEPRINT_SLOTS_COUNT, PlayerCraftingManager.getInstance(), inventoryPlayerCrafting,
-			(short) ModuleItemBalance.PLAYER_CRAFTING.CRAFT_TIME_FOR_ITEM);
+	private InventoryPlayerCrafting inventoryPlayerCrafting;	
+	private InventoryBlueprints inventoryBlueprints; 
 
 	// Constants for the inventory
 	public static final int BLUEPRINT_SLOTS_COUNT = 20;

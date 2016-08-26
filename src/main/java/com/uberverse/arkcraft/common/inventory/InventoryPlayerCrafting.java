@@ -16,16 +16,14 @@ import net.minecraft.util.IChatComponent;
 public class InventoryPlayerCrafting implements IInventory
 {
     private String inventoryTitle;
-    private int slotsCount;
-    private ItemStack[] inventoryContents;
     private boolean hasCustomName;
+    private EntityPlayer player;
 
-    public InventoryPlayerCrafting(String title, boolean customName, int slotCount)
+    public InventoryPlayerCrafting(String title, boolean customName, EntityPlayer player)
     {
         this.inventoryTitle = title;
         this.hasCustomName = customName;
-        this.slotsCount = slotCount;
-        this.inventoryContents = new ItemStack[slotCount];
+        this.player = player;
     }
 
     public void loadInventoryFromNBT(NBTTagCompound nbt)
@@ -33,6 +31,11 @@ public class InventoryPlayerCrafting implements IInventory
         final byte NBT_TYPE_COMPOUND = 10;
         NBTTagList dataForAllItems = nbt.getTagList("Items", NBT_TYPE_COMPOUND);
         loadInventoryFromNBT(dataForAllItems);
+    }
+    
+    public void getPlayerInventory(EntityPlayer player)
+    {
+    	player.getInventory();
     }
 
     public void loadInventoryFromNBT(NBTTagList nbt)
@@ -89,7 +92,7 @@ public class InventoryPlayerCrafting implements IInventory
 
     public ItemStack[] getItemStacks()
     {
-        return inventoryContents;
+        return player.getInventory();
     }
 
     @Override
@@ -113,34 +116,34 @@ public class InventoryPlayerCrafting implements IInventory
     @Override
     public int getSizeInventory()
     {
-        return this.slotsCount;
+        return this.player.inventory.getSizeInventory();
     }
 
     @Override
     public ItemStack getStackInSlot(int index)
     {
-        return index >= 0 && index < this.inventoryContents.length ? this.inventoryContents[index] : null;
+    	return this.player.inventory.getStackInSlot(index);
     }
 
     @Override
     public ItemStack decrStackSize(int index, int count)
     {
-        if (this.inventoryContents[index] != null)
+        if (this.getStackInSlot(index) != null)
         {
             ItemStack itemstack;
-            if (this.inventoryContents[index].stackSize <= count)
+            if (this.getStackInSlot(index).stackSize <= count)
             {
-                itemstack = this.inventoryContents[index];
-                this.inventoryContents[index] = null;
+                itemstack = this.getStackInSlot(index);
+                this.setInventorySlotContents(index, null);
                 this.markDirty();
                 return itemstack;
             }
             else
             {
-                itemstack = this.inventoryContents[index].splitStack(count);
-                if (this.inventoryContents[index].stackSize == 0)
+                itemstack = this.getStackInSlot(index).splitStack(count);
+                if (this.getStackInSlot(index).stackSize == 0)
                 {
-                    this.inventoryContents[index] = null;
+                    this.setInventorySlotContents(index, null);
                 }
                 this.markDirty();
                 return itemstack;
@@ -155,10 +158,10 @@ public class InventoryPlayerCrafting implements IInventory
     @Override
     public ItemStack getStackInSlotOnClosing(int index)
     {
-        if (this.inventoryContents[index] != null)
+        if (this.getStackInSlot(index) != null)
         {
-            ItemStack itemstack = this.inventoryContents[index];
-            this.inventoryContents[index] = null;
+            ItemStack itemstack = this.getStackInSlot(index);
+            this.setInventorySlotContents(index, null);
             return itemstack;
         }
         else
@@ -170,7 +173,7 @@ public class InventoryPlayerCrafting implements IInventory
     @Override
     public void setInventorySlotContents(int index, ItemStack stack)
     {
-        this.inventoryContents[index] = stack;
+        this.setInventorySlotContents(index, stack);
         if (stack != null && stack.stackSize > this.getInventoryStackLimit())
         {
             stack.stackSize = this.getInventoryStackLimit();
@@ -213,9 +216,9 @@ public class InventoryPlayerCrafting implements IInventory
     @Override
     public void clear()
     {
-        for (int i = 0; i < this.inventoryContents.length; ++i)
+        for (int i = 0; i < this.getItemStacks().length; ++i)
         {
-            this.inventoryContents[i] = null;
+            this.setInventorySlotContents(i, null);
         }
     }
 }
