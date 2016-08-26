@@ -34,9 +34,8 @@ public class ContainerInventoryPlayerCrafting extends Container
 
 	public ContainerInventoryPlayerCrafting(InventoryPlayer invPlayer, EntityPlayer player)
 	{
-		LogHelper
-				.info("ContainerInventoryPlayerCrafting: Constructor called on " + FMLCommonHandler
-						.instance().getEffectiveSide());
+		LogHelper.info("ContainerInventoryPlayerCrafting: Constructor called on " + FMLCommonHandler
+				.instance().getEffectiveSide());
 
 		inventoryBlueprints = ARKPlayer.get(player).getInventoryBlueprints();
 		inventoryPlayerCrafting = ARKPlayer.get(player).getInventoryPlayer();
@@ -63,23 +62,23 @@ public class ContainerInventoryPlayerCrafting extends Container
 		final int NUM_ROWS_PC = 2;
 		final int PC_XPOS = 26;
 		final int PC_SLOT_COUNT = NUM_COLUMNS_PC * NUM_ROWS_PC;
-		if (PC_SLOT_COUNT != inventoryPlayerCrafting.getSizeInventory())
-		{
-			LogHelper
-					.error("Mismatched slot count in container(" + PC_SLOT_COUNT + ") and InventoryPlayerCrafting (" + inventoryPlayerCrafting
-							.getSizeInventory() + ")");
-			return;
-		}
-		for (int row = 0; row < NUM_ROWS_PC; row++)
-		{
-			for (int col = 0; col < NUM_COLUMNS_PC; col++)
-			{
-				int slotIndex = col + row * NUM_COLUMNS_PC;
-
-				this.addSlotToContainer(new Slot(inventoryPlayerCrafting,
-						slotIndex, PC_XPOS + col * 18, PLAYER_CRAFTING_YPOS + row * 18));
-			}
-		}
+//		if (PC_SLOT_COUNT != inventoryPlayerCrafting.getSizeInventory())
+//		{
+//			LogHelper
+//					.error("Mismatched slot count in container(" + PC_SLOT_COUNT + ") and InventoryPlayerCrafting (" + inventoryPlayerCrafting
+//							.getSizeInventory() + ")");
+//			return;
+//		}
+//		for (int row = 0; row < NUM_ROWS_PC; row++)
+//		{
+//			for (int col = 0; col < NUM_COLUMNS_PC; col++)
+//			{
+//				int slotIndex = col + row * NUM_COLUMNS_PC;
+//
+//				this.addSlotToContainer(new Slot(inventoryPlayerCrafting, slotIndex,
+//						PC_XPOS + col * 18, PLAYER_CRAFTING_YPOS + row * 18));
+//			}
+//		}
 
 		/* Player inventory */
 		final int PLAYER_INVENTORY_YPOS = 161;
@@ -119,11 +118,13 @@ public class ContainerInventoryPlayerCrafting extends Container
 		// Check if the slot clicked is the crafting inventory container slot
 		int nonPlayerSlotsCount = inventoryPlayerCrafting.getSizeInventory() + inventoryBlueprints
 				.getSizeInventory();
-		if (sourceSlotIndex > inventoryBlueprints.getSizeInventory() - 1 && sourceSlotIndex < nonPlayerSlotsCount)
+		if (sourceSlotIndex > inventoryBlueprints
+				.getSizeInventory() - 1 && sourceSlotIndex < nonPlayerSlotsCount)
 		{
 			// This is a player crafting inventory slot so merge the stack into
 			// the players inventory
-			if (!mergeItemStack(sourceStack, nonPlayerSlotsCount, 36 + nonPlayerSlotsCount, false)) { return null; }
+			if (!mergeItemStack(sourceStack, nonPlayerSlotsCount, 36 + nonPlayerSlotsCount,
+					false)) { return null; }
 		}
 		// Check if the slot clicked is one of the vanilla container slots
 		else if (sourceSlotIndex >= nonPlayerSlotsCount && sourceSlotIndex < 36 + nonPlayerSlotsCount)
@@ -224,7 +225,8 @@ public class ContainerInventoryPlayerCrafting extends Container
 	@Override
 	public void updateProgressBar(int id, int data)
 	{
-		// LogHelper.info("ContainerInventorySmithy-updateProgressBar: Called on "
+		// LogHelper.info("ContainerInventorySmithy-updateProgressBar: Called on
+		// "
 		// + (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT ?
 		// "client" : "server"));
 		// LogHelper.info("ContainerInventorySmithy-updateProgressBar: id = " +
