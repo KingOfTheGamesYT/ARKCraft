@@ -15,7 +15,6 @@ tile.campfire.name=Campfire
 # Containers
 container.inventory_refining_forge.name=Refining Forge
 container.inventory_campfire.name=Campfire
-arkcraft.gui.fertilizer=Fertilizer: %d/%d
 
 # World Types
 generator.island=ARK: The Island
@@ -199,7 +198,7 @@ item.saddle_medium.tooltip=%oA Dino Rider's Dream
 item.saddle_large.tooltip=%oA Dino Rider's Dream
 
 arkcraft.tooltip.toolLevel=Tool Level: %d
-arkcraft.gui.fertilizer=Fertilizer: %d sec remaining
+arkcraft.gui.fertilizer=Fertilizer: %s sec remaining
 arkcraft.cropPlotState.head=%s (%s)
 arkcraft.growing=Crop
 arkcraft.empty=Empty
@@ -209,7 +208,7 @@ arkcraft.cropPlotState.seedling=Seedling
 arkcraft.cropPlotState.midling=Midling
 arkcraft.cropPlotState.growthing=Growing
 arkcraft.cropPlotState.fruiting=Fruiting
-arkcraft.water=%s: %d/%d (%s)
+arkcraft.water=%s: %s (%s)
 arkcraft.cropPlotWater.irrigated=Irrigated
 arkcraft.cropPlotWater.notIrrigated=Not Irrigated
 arkcraft.tooltip.ingredient=* %s * %d
