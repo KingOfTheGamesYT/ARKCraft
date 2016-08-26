@@ -511,7 +511,7 @@ public class ClientEventHandler
 							for (int j = 0; j < r.recipeItems.size(); j++)
 							{
 								ItemStack cStack = ((ItemStack) r.recipeItems.get(j));
-								event.toolTip.add(I18n.format("arkcraft.tooltip.ingredient",
+								event.toolTip.add(EnumChatFormatting.GOLD + I18n.format("arkcraft.tooltip.ingredient",
 										I18n.format(cStack.getDisplayName()), cStack.stackSize));
 							}
 							break;
