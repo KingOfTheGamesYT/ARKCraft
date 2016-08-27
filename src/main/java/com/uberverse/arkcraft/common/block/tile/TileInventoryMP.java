@@ -268,7 +268,7 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 		if (!craftAll && !craftOne) { return; }
 		// Reset crafting time if it reaches -1 (is true after crafting one of
 		// multiple, or after pushing button in GUI)
-		if (craftingTime < 0)
+		if (craftingTime < 0  && isCrafting())
 		{
 			craftingTime = CRAFT_TIME_FOR_ITEM;
 			if (this.guiOpen)
@@ -288,7 +288,7 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 		}
 
 		// If craftingTime has reached -1, try and craft the item
-		if (craftingTime < 0)
+		if (craftingTime < 0  && isCrafting())
 		{
 			// LogHelper.info("TileInventoryMP: About to craft the item on " +
 			// (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT ?
@@ -351,9 +351,10 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 		for (int outputSlot = LAST_INVENTORY_SLOT; outputSlot > FIRST_INVENTORY_SLOT; outputSlot--)
 		{
 			ItemStack outputStack = itemStacks[outputSlot];
-			if (outputStack != null && outputStack.getItem() == result.getItem() && (!outputStack
-					.getHasSubtypes() || outputStack.getMetadata() == outputStack.getMetadata()) && ItemStack
-					.areItemStackTagsEqual(outputStack, result))
+			if (outputStack != null && outputStack.getItem() == result
+					.getItem() && (!outputStack.getHasSubtypes() || outputStack
+							.getMetadata() == outputStack.getMetadata()) && ItemStack
+									.areItemStackTagsEqual(outputStack, result))
 			{
 				int combinedSize = itemStacks[outputSlot].stackSize + result.stackSize;
 				if (combinedSize <= getInventoryStackLimit() && combinedSize <= itemStacks[outputSlot]
@@ -387,8 +388,8 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 		// finds if there is enough inventory to craft the result
 		if (!doCraftItem)
 		{
-			numThatCanBeCrafted = (short) PestleCraftingManager.getInstance().hasMatchingRecipe(
-					result, itemStacks, false);
+			numThatCanBeCrafted = (short) PestleCraftingManager.getInstance()
+					.hasMatchingRecipe(result, itemStacks, false);
 			if (numThatCanBeCrafted <= 0)
 			{
 				if (this.guiOpen)
@@ -439,8 +440,8 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 	@Override
 	public IChatComponent getDisplayName()
 	{
-		return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(
-				this.getName());
+		return this.hasCustomName() ? new ChatComponentText(
+				this.getName()) : new ChatComponentTranslation(this.getName());
 	}
 
 	@Override

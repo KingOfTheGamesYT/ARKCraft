@@ -14,6 +14,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -94,6 +95,7 @@ public class GUICampfire extends GuiContainer
 		{
 			hoveringText.add("Fuel Time:");
 			hoveringText.add(tileEntity.secondsOfFuelRemaining() + "s");
+			hoveringText.add(EnumChatFormatting.RED + "Press to Stoke the Flames");
 		}
 		// If hoveringText is not empty draw the hovering text
 		if (!hoveringText.isEmpty())
