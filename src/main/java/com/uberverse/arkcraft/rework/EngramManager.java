@@ -60,8 +60,8 @@ public class EngramManager
 
 	public List<Engram> getUnlockedEngrams(EntityPlayer player)
 	{
-		Collection<Short> col = ARKPlayer.get(player).learnedEngrams();
-		List<Engram> out = new ArrayList<>();
+		final Collection<Short> col = ARKPlayer.get(player).learnedEngrams();
+		final List<Engram> out = new ArrayList<>();
 		engrams.forEach(new Consumer<Engram>()
 		{
 			@Override
@@ -74,7 +74,7 @@ public class EngramManager
 		return out;
 	}
 
-	public List<Engram> getUnlockedEngramsOfType(EntityPlayer player, EngramType type)
+	public List<Engram> getUnlockedEngramsOfType(EntityPlayer player, final EngramType type)
 	{
 		List<Engram> in = getUnlockedEngrams(player);
 		in.removeIf(new Predicate<Engram>()
