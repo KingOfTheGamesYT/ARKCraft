@@ -16,7 +16,7 @@ import com.uberverse.arkcraft.common.container.scrollable.IGuiScrollable;
 import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
 import com.uberverse.arkcraft.common.inventory.InventoryPlayerEngram;
 import com.uberverse.arkcraft.common.network.ScrollingMessage;
-import com.uberverse.arkcraft.rework.EngramManager;
+import com.uberverse.arkcraft.common.network.UnlockEngramMessage;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -116,18 +116,8 @@ public class GUIEngram extends GuiContainer implements IGuiScrollable
 		}
 		else if (button == learn)
 		{
-			com.uberverse.arkcraft.rework.EngramManager.Engram selected = EngramManager.instance()
-					.getEngram(((ContainerEngram) inventorySlots).getSelected());
-			// DEBUGGING
-			// System.out.println(selectedEngram != null ?
-			// selectedEngram.getFormattedName() : "null");
-			// System.out.println(selectedEngram != null ?
-			// selectedEngram.getFormattedDesc() : "null");
-
-			if (ARKPlayer.get(player).getEngramPoints() >= selected.getPoints())
-			{
-				ARKPlayer.get(player).learnEngram(selected.getId(), selected.getPoints());
-			}
+			ARKCraft.modChannel.sendToServer(
+					new UnlockEngramMessage(((ContainerEngram) inventorySlots).getSelected()));
 		}
 	}
 

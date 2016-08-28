@@ -24,12 +24,12 @@ import com.uberverse.arkcraft.common.block.tile.TileInventoryCampfire;
 import com.uberverse.arkcraft.common.block.tile.TileInventoryCompostBin;
 import com.uberverse.arkcraft.common.block.tile.TileInventoryForge;
 import com.uberverse.arkcraft.common.block.tile.TileInventoryMP;
-import com.uberverse.arkcraft.common.block.tile.TileInventorySmithy;
 import com.uberverse.arkcraft.common.container.ContainerInventoryAttachment;
 import com.uberverse.arkcraft.common.container.inventory.InventoryAttachment;
 import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
 import com.uberverse.arkcraft.rework.ContainerSmithy;
 import com.uberverse.arkcraft.rework.GUISmithy;
+import com.uberverse.arkcraft.rework.TileEntitySmithy;
 import com.uberverse.lib.LogHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -58,11 +58,11 @@ public class GuiHandler implements IGuiHandler
 		{
 			BlockPos xyz = new BlockPos(x, y, z);
 			TileEntity tileEntity = world.getTileEntity(xyz);
-			if (tileEntity instanceof TileInventorySmithy)
+			if (tileEntity instanceof TileEntitySmithy)
 			{
-				return new ContainerSmithy(player, (TileInventorySmithy) tileEntity);
+				return new ContainerSmithy(player, (TileEntitySmithy) tileEntity);
 				// return new ContainerInventorySmithy(player.inventory,
-				// (TileInventorySmithy) tileEntity);
+				// (TileEntitySmithy) tileEntity);
 			}
 			else
 			{
@@ -187,10 +187,10 @@ public class GuiHandler implements IGuiHandler
 		{
 			BlockPos xyz = new BlockPos(x, y, z);
 			TileEntity tileEntity = world.getTileEntity(xyz);
-			if (tileEntity instanceof TileInventorySmithy)
+			if (tileEntity instanceof TileEntitySmithy)
 			{
-				return new GUISmithy(player, (TileInventorySmithy) tileEntity);
-				// return new GUISmithy(player.inventory, (TileInventorySmithy)
+				return new GUISmithy(player, (TileEntitySmithy) tileEntity);
+				// return new GUISmithy(player.inventory, (TileEntitySmithy)
 				// tileEntity);
 			}
 			else

@@ -34,6 +34,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
@@ -50,7 +51,7 @@ public class CommonEventHandler
 
 	public static File f;
 	public static PrintWriter out;
-	
+
 	public static void init()
 	{
 		CommonEventHandler handler = new CommonEventHandler();
@@ -77,6 +78,16 @@ public class CommonEventHandler
 	}
 
 	@SubscribeEvent
+	public void entityJoinWorld(EntityJoinWorldEvent e)
+	{
+		if (e.entity instanceof EntityPlayerMP)
+		{
+			System.out.println("joinworld");
+			ARKPlayer.get((EntityPlayer) e.entity).syncClient((EntityPlayer) e.entity, true);
+		}
+	}
+
+	@SubscribeEvent
 	public void onClonePlayer(PlayerEvent.Clone event)
 	{
 		LogHelper.info("ARKPlayerEventHandler: Cloning player extended properties");
@@ -99,56 +110,104 @@ public class CommonEventHandler
 	}
 
 	private static final Set<Item> INPUTS = ImmutableSet.of(Items.bone, Items.book, Items.wheat);
-	
+
 	@SuppressWarnings("unchecked")
 	@SubscribeEvent
-	public void onWorldTick(WorldTickEvent event) {
-		if (event.side.isServer()) {
-			//LogHelper.info("[OnWorldTick] The Side is on the server!");
+	public void onWorldTick(WorldTickEvent event)
+	{
+		if (event.side.isServer())
+		{
+			// LogHelper.info("[OnWorldTick] The Side is on the server!");
 			World world = event.world;
-				
+
 			EntityItem itemToSpawn = null;
-			if (!world.isRemote) {
+			if (!world.isRemote)
+			{
 				if (bookSpawnDelay > 0) bookSpawnDelay--;
-				else {
-				//LogHelper.info("The world is not remote.");
-				List<Entity> entitiesInWorld = world.loadedEntityList;
-				for(Entity entityInWorld : entitiesInWorld) {
-					final Set<Item> remainingInputs = new HashSet<Item>(INPUTS); // Create a mutable copy of the input set to track which items have been found
-					ArrayList<EntityItem> foundEntityItems = new ArrayList<EntityItem>();
-					//LogHelper.info("Found an Entity in the world!");
-					if(entityInWorld instanceof EntityItem) {
-						EntityItem entityItemInWorld = (EntityItem)entityInWorld;
-						if(entityItemInWorld.getEntityItem().getItem() == Items.book) {
-							LogHelper.info("Found an Entity in the world that is a book!");
-							remainingInputs.remove(Items.book);
-							foundEntityItems.add(entityItemInWorld);
-							AxisAlignedBB areaBound = entityItemInWorld.getEntityBoundingBox().expand(3, 3, 3);
-							List<Entity> entitiesWithinBound = world.getEntitiesWithinAABBExcludingEntity(entityItemInWorld, areaBound);
-								for (Entity entityWithinBound : entitiesWithinBound) {
-									if (entityWithinBound instanceof EntityItem) {
+				else
+				{
+					// LogHelper.info("The world is not remote.");
+					List<Entity> entitiesInWorld = world.loadedEntityList;
+					for (Entity entityInWorld : entitiesInWorld)
+					{
+						final Set<Item> remainingInputs = new HashSet<Item>(INPUTS); // Create
+																						// a
+																						// mutable
+																						// copy
+																						// of
+																						// the
+																						// input
+																						// set
+																						// to
+																						// track
+																						// which
+																						// items
+																						// have
+																						// been
+																						// found
+						ArrayList<EntityItem> foundEntityItems = new ArrayList<EntityItem>();
+						// LogHelper.info("Found an Entity in the world!");
+						if (entityInWorld instanceof EntityItem)
+						{
+							EntityItem entityItemInWorld = (EntityItem) entityInWorld;
+							if (entityItemInWorld.getEntityItem().getItem() == Items.book)
+							{
+								LogHelper.info("Found an Entity in the world that is a book!");
+								remainingInputs.remove(Items.book);
+								foundEntityItems.add(entityItemInWorld);
+								AxisAlignedBB areaBound = entityItemInWorld.getEntityBoundingBox()
+										.expand(3, 3, 3);
+								List<Entity> entitiesWithinBound = world
+										.getEntitiesWithinAABBExcludingEntity(entityItemInWorld,
+												areaBound);
+								for (Entity entityWithinBound : entitiesWithinBound)
+								{
+									if (entityWithinBound instanceof EntityItem)
+									{
 										EntityItem entityItemWithinBound = (EntityItem) entityWithinBound;
-										if (entityItemWithinBound.getEntityItem().getItem() == Items.bone) {
-											LogHelper.info("Found an Entity near the book that is a bone!");
+										if (entityItemWithinBound.getEntityItem()
+												.getItem() == Items.bone)
+										{
+											LogHelper.info(
+													"Found an Entity near the book that is a bone!");
 											remainingInputs.remove(Items.bone);
-											if(!remainingInputs.contains(entityItemWithinBound)) foundEntityItems.add(entityItemWithinBound);
-										} else if (entityItemWithinBound.getEntityItem().getItem() == Items.wheat) {
-											LogHelper.info("Found an Entity near the book that is wheat!");
-											remainingInputs.remove(Items.wheat);
-											if(!remainingInputs.contains(entityItemWithinBound)) foundEntityItems.add(entityItemWithinBound);
+											if (!remainingInputs.contains(
+													entityItemWithinBound)) foundEntityItems
+															.add(entityItemWithinBound);
 										}
-										if (remainingInputs.isEmpty()) {
-											LogHelper.info("All items have been found. The Items hashmap is empty.");
-											for (EntityItem foundEntityItem : foundEntityItems) {
-													Random random = new Random();
-													bookSpawnDelay += 100 + random.nextInt(10);
-													foundEntityItem.getEntityItem().stackSize--;
-													if (foundEntityItem.getEntityItem().stackSize <= 0) {
-														LogHelper.info("Deleting the Item: " + foundEntityItem.getEntityItem().getItem().toString());
-														foundEntityItem.setDead();
-													}
-													itemToSpawn = new EntityItem(world, entityItemInWorld.posX, entityItemInWorld.posY, entityItemInWorld.posZ, new ItemStack(ARKCraftItems.info_book, 1));
-												
+										else if (entityItemWithinBound.getEntityItem()
+												.getItem() == Items.wheat)
+										{
+											LogHelper.info(
+													"Found an Entity near the book that is wheat!");
+											remainingInputs.remove(Items.wheat);
+											if (!remainingInputs.contains(
+													entityItemWithinBound)) foundEntityItems
+															.add(entityItemWithinBound);
+										}
+										if (remainingInputs.isEmpty())
+										{
+											LogHelper.info(
+													"All items have been found. The Items hashmap is empty.");
+											for (EntityItem foundEntityItem : foundEntityItems)
+											{
+												Random random = new Random();
+												bookSpawnDelay += 100 + random.nextInt(10);
+												foundEntityItem.getEntityItem().stackSize--;
+												if (foundEntityItem.getEntityItem().stackSize <= 0)
+												{
+													LogHelper
+															.info("Deleting the Item: " + foundEntityItem
+																	.getEntityItem().getItem()
+																	.toString());
+													foundEntityItem.setDead();
+												}
+												itemToSpawn = new EntityItem(world,
+														entityItemInWorld.posX,
+														entityItemInWorld.posY,
+														entityItemInWorld.posZ,
+														new ItemStack(ARKCraftItems.info_book, 1));
+
 											}
 										}
 
@@ -157,28 +216,24 @@ public class CommonEventHandler
 
 							}
 						}
-					foundEntityItems.clear();
+						foundEntityItems.clear();
 					}
-				if(itemToSpawn != null) {
-					((WorldServer)world).spawnParticle(EnumParticleTypes.SMOKE_LARGE, false,
-							itemToSpawn.posX,
-							itemToSpawn.posY + 0.5D,
-							itemToSpawn.posZ, 
-							5, 0.0D, 0.0D, 0.0D, 0.0D, new int[0]
-					);
-					world.spawnEntityInWorld(itemToSpawn);
-				}
-				
+					if (itemToSpawn != null)
+					{
+						((WorldServer) world).spawnParticle(EnumParticleTypes.SMOKE_LARGE, false,
+								itemToSpawn.posX, itemToSpawn.posY + 0.5D, itemToSpawn.posZ, 5,
+								0.0D, 0.0D, 0.0D, 0.0D, new int[0]);
+						world.spawnEntityInWorld(itemToSpawn);
+					}
+
 				}
 			}
 		}
 	}
-	
-						
+
 	public static int bookSpawnDelay = 0;
 
 	public static int count;
-
 
 	// for (int x = -checkSize; x <= checkSize; x++) {
 	// for (int z = -checkSize; z <= checkSize; z++) {

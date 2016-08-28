@@ -31,10 +31,9 @@ public class EngramManager
 
 	public static void init()
 	{
-		for (int i = 0; i < 50; i++)
-			instance().registerEngram(new Engram("stone_pick" + i, ARKCraftItems.stone_pick, 0, 1,
-					10, EngramType.SMITHY, new EngramRecipe(ARKCraftItems.wood, 1,
-							ARKCraftItems.stone, 1, ARKCraftItems.thatch, 10)));
+		instance().registerEngram(new Engram("stone_pick", ARKCraftItems.stone_pick, 0, 1, 10,
+				EngramType.SMITHY, new EngramRecipe(ARKCraftItems.wood, 1, ARKCraftItems.stone, 1,
+						ARKCraftItems.thatch, 10)));
 	}
 
 	private Set<Engram> engrams;
@@ -158,14 +157,46 @@ public class EngramManager
 		{
 			return craftingTime;
 		}
-		
+
 		public boolean canCraft(IInventory inventory)
 		{
-			for (EngramRecipe r : this.recipes)
+			return canCraft(inventory, 1);
+		}
+
+		public boolean canCraft(IInventory inventory, int amount)
+		{
+			Map<Item, Integer> map = convertIInventoryToMap(inventory);
+			while (amount > 0)
 			{
-				if (r.canCraft(inventory)) return true;
+				for (EngramRecipe r : this.recipes)
+				{
+					if (r.canCraft(map))
+					{
+						r.consume(map);
+						amount--;
+						if (amount <= 0) return true;
+					}
+				}
 			}
 			return false;
+		}
+
+		public int getCraftableAmount(IInventory inventory)
+		{
+			Map<Item, Integer> map = convertIInventoryToMap(inventory);
+			int amount = 0;
+			while (amount > 0)
+			{
+				for (EngramRecipe r : this.recipes)
+				{
+					if (r.canCraft(map))
+					{
+						r.consume(map);
+						amount++;
+					}
+				}
+			}
+			return amount;
 		}
 
 		public EngramType getType()
@@ -189,6 +220,39 @@ public class EngramManager
 		{
 			return id - o.id;
 		}
+
+		public static Map<Item, Integer> convertIInventoryToMap(IInventory inv)
+		{
+			Map<Item, Integer> out = new HashMap<>();
+			for (int i = 0; i < inv.getSizeInventory(); i++)
+			{
+				ItemStack s = inv.getStackInSlot(i);
+				if (s != null)
+				{
+					if (!out.containsKey(s.getItem()))
+					{
+						out.put(s.getItem(), s.stackSize);
+						continue;
+					}
+					out.put(s.getItem(), out.get(s.getItem()) + s.stackSize);
+				}
+			}
+
+			return out;
+		}
+
+		public void consume(IInventory inv)
+		{
+			Map<Item, Integer> map = convertIInventoryToMap(inv);
+			for (EngramRecipe recipe : recipes)
+			{
+				if (recipe.canCraft(map))
+				{
+					recipe.consume(inv);
+					break;
+				}
+			}
+		}
 	}
 
 	public static class EngramRecipe
@@ -198,6 +262,40 @@ public class EngramManager
 		private EngramRecipe()
 		{
 			this.items = new HashMap<>();
+		}
+
+		void consume(IInventory inv)
+		{
+			boolean[] consumed = new boolean[items.size()];
+			int[] yetFound = new int[items.size()];
+			Arrays.fill(consumed, false);
+			Arrays.fill(yetFound, 0);
+
+			for (int i = 0; i < inv.getSizeInventory(); i++)
+			{
+				ItemStack s = inv.getStackInSlot(i);
+				if (s != null)
+				{
+					for (int j = 0; j < items.size(); j++)
+					{
+						Entry<Item, Integer> e = (Entry<Item, Integer>) items.entrySet()
+								.toArray()[j];
+						if (s.getItem() == e.getKey())
+						{
+							if (!consumed[j])
+							{
+								if (s.stackSize > e.getValue() - yetFound[j]) s.stackSize -= e
+										.getValue() - yetFound[j];
+								else
+								{
+									inv.setInventorySlotContents(i, null);
+								}
+							}
+							break;
+						}
+					}
+				}
+			}
 		}
 
 		public EngramRecipe(Object... objects)
@@ -219,36 +317,21 @@ public class EngramManager
 			}
 		}
 
-		public boolean canCraft(IInventory inv)
+		public void consume(Map<Item, Integer> map)
 		{
-			boolean[] b = new boolean[items.size()];
-			int[] c = new int[items.size()];
-			Arrays.fill(b, false);
-			Arrays.fill(c, 0);
-			for (int i = 0; i < inv.getSizeInventory(); i++)
+			for (Item i : items.keySet())
 			{
-				ItemStack s = inv.getStackInSlot(i);
-				if (s != null)
-				{
-					for (int j = 0; j < items.size(); j++)
-					{
-						Entry<Item, Integer> e = (Entry<Item, Integer>) items.entrySet()
-								.toArray()[j];
-						if (s.getItem() == e.getKey())
-						{
-							if (!b[j])
-							{
-								if (s.stackSize < e.getValue() - c[j]) c[j] += s.stackSize;
-								else b[j] = true;
-							}
-							break;
-						}
-					}
-				}
+				items.put(i, map.getOrDefault(i, 0) - items.get(i));
 			}
-			for (boolean d : b)
+		}
+
+		public boolean canCraft(Map<Item, Integer> map)
+		{
+			for (Item i : items.keySet())
 			{
-				if (!d) return false;
+				int required = items.get(i);
+				int available = items.getOrDefault(i, 0);
+				if (required > available) return false;
 			}
 			return true;
 		}

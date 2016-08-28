@@ -3,7 +3,6 @@ package com.uberverse.arkcraft.rework;
 import java.io.IOException;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.block.tile.TileInventorySmithy;
 import com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable;
 import com.uberverse.arkcraft.common.container.scrollable.IGuiScrollable;
 import com.uberverse.arkcraft.common.network.ScrollingMessage;
@@ -33,9 +32,9 @@ public class GUISmithy extends GuiContainer implements IGuiScrollable
 
 	private GuiButton craft, craftall;
 
-	public GUISmithy(EntityPlayer player, TileInventorySmithy tile)
+	public GUISmithy(EntityPlayer player, TileEntitySmithy tileEntity)
 	{
-		super(new ContainerSmithy(player, tile));
+		super(new ContainerSmithy(player, tileEntity));
 		xSize = 176;
 		ySize = 222;
 		guiLeft = (Minecraft.getMinecraft().displayWidth - xSize) / 2;
@@ -84,8 +83,9 @@ public class GUISmithy extends GuiContainer implements IGuiScrollable
 	@Override
 	protected void actionPerformed(GuiButton button) throws IOException
 	{
-		// TODO Auto-generated method stub
-		super.actionPerformed(button);
+		if (button == craft) ((ContainerSmithy) this.inventorySlots).craftOne();
+		else if (button == craftall) ((ContainerSmithy) this.inventorySlots).craftAll();
+		else super.actionPerformed(button);
 	}
 
 	@Override

@@ -1,15 +1,16 @@
 package com.uberverse.arkcraft.rework;
 
-import com.uberverse.arkcraft.common.block.tile.TileInventorySmithy;
 import com.uberverse.arkcraft.rework.EngramManager.EngramType;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 
 public class ContainerSmithy extends ContainerEngramCrafting
 {
-	public ContainerSmithy(EntityPlayer player, TileInventorySmithy tile)
+	public ContainerSmithy(EntityPlayer player, TileEntitySmithy tileEntity)
 	{
-		super(EngramType.SMITHY, player, tile);
+		super(EngramType.SMITHY, player, tileEntity);
 	}
 
 	@Override
@@ -82,5 +83,36 @@ public class ContainerSmithy extends ContainerEngramCrafting
 	public int getInventorySlotsHeight()
 	{
 		return 6;
+	}
+
+	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index)
+	{
+		ItemStack itemstack = null;
+		Slot slot = (Slot) this.inventorySlots.get(index);
+
+		if (slot != null && slot.getHasStack())
+		{
+			ItemStack itemstack1 = slot.getStack();
+			itemstack = itemstack1.copy();
+			if (slot.inventory == getIInventory())
+			{
+
+				if (!this.mergeItemStack(itemstack1, playerInvBoundLeft, playerInvBoundRight,
+						false)) return null;
+
+			}
+			else if (slot.inventory == getPlayerInventory()) if (!this.mergeItemStack(itemstack1,
+					invBoundLeft, invBoundRight, false)) return null;
+			if (itemstack1.stackSize == 0)
+			{
+				slot.putStack((ItemStack) null);
+			}
+			else
+			{
+				slot.onSlotChanged();
+			}
+		}
+
+		return itemstack;
 	}
 }

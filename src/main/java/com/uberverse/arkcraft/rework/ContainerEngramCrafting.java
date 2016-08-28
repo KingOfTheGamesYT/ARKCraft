@@ -3,8 +3,10 @@ package com.uberverse.arkcraft.rework;
 import java.util.Collections;
 import java.util.List;
 
+import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable;
 import com.uberverse.arkcraft.common.container.scrollable.SlotScrolling;
+import com.uberverse.arkcraft.common.network.CraftMessage;
 import com.uberverse.arkcraft.rework.EngramManager.Engram;
 import com.uberverse.arkcraft.rework.EngramManager.EngramType;
 
@@ -13,6 +15,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IChatComponent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public abstract class ContainerEngramCrafting extends ContainerScrollable
 {
@@ -20,35 +23,46 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 
 	private EntityPlayer player;
 	private EngramInventory engramInventory;
-	private IInventory inventory;
+	private TileEntityEngramCrafter inventory;
 
-	public ContainerEngramCrafting(EngramType type, EntityPlayer player, IInventory inventory)
+	protected int playerInvBoundLeft, playerInvBoundRight, invBoundLeft, invBoundRight,
+			scrollInvBoundLeft, scrollInvBoundRight;
+
+	private int counter = 0;
+
+	public ContainerEngramCrafting(EngramType type, EntityPlayer player, TileEntityEngramCrafter inventory)
 	{
+		super();
 		this.player = player;
 		this.inventory = inventory;
 		this.engramInventory = new EngramInventory(
 				EngramManager.instance().getUnlockedEngramsOfType(player, type));
 		initPlayerSlots();
-		initScrollableSlots();
 		initInventorySlots();
+		initScrollableSlots();
+		System.out.println(counter);
 	}
 
 	private void initInventorySlots()
 	{
+		invBoundLeft = counter;
 		for (int row = 0; row < getInventorySlotsHeight(); row++)
 		{
 			for (int col = 0; col < getInventorySlotsWidth(); col++)
 			{
+				int index = col + row * getInventorySlotsWidth();
 				this.addSlotToContainer(
-						new Slot(getIInventory(), row * getInventorySlotsWidth() + col,
-								getInventorySlotsX() + col * getSlotSize(),
+						new Slot(getIInventory(), index, getInventorySlotsX() + col * getSlotSize(),
 								getInventorySlotsY() + row * getSlotSize()));
+				counter++;
 			}
 		}
+		invBoundRight = counter;
 	}
 
 	private void initPlayerSlots()
 	{
+		playerInvBoundLeft = counter;
 		for (int row = 0; row < 3; row++)
 		{
 			for (int col = 0; col < 9; col++)
@@ -57,6 +71,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 				addSlotToContainer(new Slot(player.inventory, slotIndex,
 						getPlayerInventorySlotsX() + col * getSlotSize(),
 						getPlayerInventorySlotsY() + row * getSlotSize()));
+				counter++;
 			}
 		}
 
@@ -64,18 +79,24 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		{
 			addSlotToContainer(new Slot(player.inventory, col,
 					getPlayerHotbarSlotsX() + col * getSlotSize(), getPlayerHotbarSlotsY()));
+			counter++;
 		}
+
+		playerInvBoundRight = counter;
 	}
 
 	@Override
 	public void initScrollableSlots()
 	{
+		scrollInvBoundLeft = counter;
 		for (int i = 0; i < getVisibleSlotsAmounts(); i++)
 		{
 			this.addSlotToContainer(new EngramSlot(getScrollableInventory(), i,
 					getScrollableSlotsX() + i % getScrollableSlotsWidth() * getSlotSize(),
 					getScrollableSlotsY() + i / getScrollableSlotsWidth() * getSlotSize(), this));
+			counter++;
 		}
+		scrollInvBoundRight = counter;
 	}
 
 	public abstract int getPlayerInventorySlotsX();
@@ -111,11 +132,46 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		return engramInventory;
 	}
 
+	public IInventory getPlayerInventory()
+	{
+		return player.inventory;
+	}
+
+	private short selectedEngramId = -1;
+
+	public void selectEngram(short engramId)
+	{
+		this.selectedEngramId = engramId;
+		System.out.println(engramId);
+	}
+
+	public void craftOne()
+	{
+		if (FMLCommonHandler.instance().getSide()
+				.isClient()) ARKCraft.modChannel.sendToServer(new CraftMessage(false));
+		else if (FMLCommonHandler.instance().getSide()
+				.isServer() && selectedEngramId >= 0) inventory.startCraft(selectedEngramId);
+	}
+
+	public void craftAll()
+	{
+		if (FMLCommonHandler.instance().getSide()
+				.isClient()) ARKCraft.modChannel.sendToServer(new CraftMessage(true));
+		else if (FMLCommonHandler.instance().getSide()
+				.isServer() && selectedEngramId >= 0) inventory.startCraftAll(selectedEngramId);
+	}
+
 	public static class EngramSlot extends SlotScrolling
 	{
 		public EngramSlot(IInventory inventoryIn, int index, int xPosition, int yPosition, IContainerScrollable container)
 		{
 			super(inventoryIn, index, xPosition, yPosition, container);
+		}
+
+		@Override
+		public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack)
+		{
+			((ContainerEngramCrafting) getContainer()).selectEngram((short) getSlotIndex());
 		}
 	}
 

@@ -25,7 +25,7 @@ public class FixedSizeQueue<E> implements Queue<E>
 	@Override
 	public boolean isEmpty()
 	{
-		return queue.size() <= 0;
+		return size() <= 0;
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class FixedSizeQueue<E> implements Queue<E>
 	@Override
 	public boolean addAll(Collection<? extends E> c)
 	{
-		if ((c.size() + queue.size()) <= size) return queue.addAll(c);
+		if ((c.size() + size()) <= size) return queue.addAll(c);
 		return false;
 	}
 
@@ -92,14 +92,14 @@ public class FixedSizeQueue<E> implements Queue<E>
 	@Override
 	public boolean add(E e)
 	{
-		if (queue.size() == size) return false;
+		if (size() == size) return false;
 		return queue.add(e);
 	}
 
 	@Override
 	public boolean offer(E e)
 	{
-		if (queue.size() == size) return false;
+		if (size() == size) return false;
 		return queue.offer(e);
 	}
 

@@ -21,6 +21,7 @@ import com.uberverse.arkcraft.common.handlers.recipes.RecipeHandler;
 import com.uberverse.arkcraft.common.handlers.recipes.SmithyCraftingManager;
 import com.uberverse.arkcraft.common.item.engram.ARKCraftEngrams;
 import com.uberverse.arkcraft.common.network.CampfireToggleMessage;
+import com.uberverse.arkcraft.common.network.CraftMessage;
 import com.uberverse.arkcraft.common.network.DescriptionHandler;
 import com.uberverse.arkcraft.common.network.ForgeToggleMessage;
 import com.uberverse.arkcraft.common.network.MessageHover;
@@ -32,6 +33,7 @@ import com.uberverse.arkcraft.common.network.ReloadFinished;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.common.network.ScrollingMessage;
 import com.uberverse.arkcraft.common.network.SyncPlayerData;
+import com.uberverse.arkcraft.common.network.UnlockEngramMessage;
 import com.uberverse.arkcraft.common.network.UpdateMPToCraftItem;
 import com.uberverse.arkcraft.common.network.UpdatePlayerCrafting;
 import com.uberverse.arkcraft.common.network.UpdateSmithyToCraftItem;
@@ -41,7 +43,6 @@ import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
 import com.uberverse.arkcraft.server.net.ServerReloadFinishedHandler;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
@@ -85,6 +86,8 @@ public class ARKCraft
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
+		setupNetwork(event);
+
 		bus = new EventBus();
 		CoreConfig.init(event.getModConfigurationDirectory());
 		FMLCommonHandler.instance().bus().register(new CoreConfig());
@@ -112,8 +115,6 @@ public class ARKCraft
 		// as well
 		WeightsConfig.init(event.getModConfigurationDirectory());
 
-		setupNetwork(event);
-
 		proxy.preInit();
 
 		logger = event.getModLog();
@@ -133,8 +134,9 @@ public class ARKCraft
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-		if (event.getSide().isClient()) System.out
-				.println(Minecraft.getMinecraft().fontRendererObj.getStringWidth(" "));
+		// if (event.getSide().isClient()) System.out
+		// .println(Minecraft.getMinecraft().fontRendererObj.getStringWidth("
+		// "));
 	}
 
 	@EventHandler
@@ -263,6 +265,10 @@ public class ARKCraft
 				Side.SERVER);
 		modChannel.registerMessage(SyncPlayerData.Handler.class, SyncPlayerData.class, id++,
 				Side.CLIENT);
+		modChannel.registerMessage(CraftMessage.Handler.class, CraftMessage.class, id++,
+				Side.SERVER);
+		modChannel.registerMessage(UnlockEngramMessage.Handler.class, UnlockEngramMessage.class,
+				id++, Side.SERVER);
 		DescriptionHandler.init();
 	}
 

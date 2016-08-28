@@ -10,9 +10,10 @@ import com.uberverse.arkcraft.common.handlers.recipes.PlayerCraftingManager;
 import com.uberverse.arkcraft.common.inventory.InventoryBlueprints;
 import com.uberverse.arkcraft.common.inventory.InventoryPlayerCrafting;
 import com.uberverse.arkcraft.common.inventory.InventoryPlayerEngram;
-import com.uberverse.arkcraft.common.item.engram.Engram;
 import com.uberverse.arkcraft.common.network.PlayerPoop;
 import com.uberverse.arkcraft.common.network.SyncPlayerData;
+import com.uberverse.arkcraft.rework.EngramManager;
+import com.uberverse.arkcraft.rework.EngramManager.Engram;
 import com.uberverse.lib.LogHelper;
 
 import net.minecraft.entity.Entity;
@@ -127,7 +128,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 		properties.setIntArray("unlockedEngrams", c);
 
 		compound.setTag(EXT_PROP_NAME, properties);
-		inventoryPlayerCrafting.saveInventoryToNBT(compound);
+		// inventoryPlayerCrafting.saveInventoryToNBT(compound);
 	}
 
 	@Override
@@ -164,7 +165,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 		for (int i : properties.getIntArray("unlockedEngrams"))
 			engrams.add((short) i);
 
-		inventoryPlayerCrafting.loadInventoryFromNBT(compound);
+		// inventoryPlayerCrafting.loadInventoryFromNBT(compound);
 	}
 
 	public void setWater(int water)
@@ -210,38 +211,6 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 	public void setEngramPoints(int engramPoints)
 	{
 		this.engramPoints = engramPoints;
-		syncClient(player, false);
-	}
-
-	/***
-	 * 
-	 * @param engram
-	 * @param pos
-	 *            not the position being set. used to dictate which engrams the
-	 *            player already has.
-	 */
-	public void addLearnedEngram(Engram engram, int pos)
-	{
-		// if (!engrams.contains(pos))
-		// {
-		// engrams.add(pos);
-		// }
-		// syncClient(player, false);
-	}
-
-	/***
-	 * 
-	 * @param engram
-	 * @param pos
-	 *            not the position being set. used to dictate which engrams the
-	 *            player already has.
-	 */
-	public void removeLearnedEngram(Engram engram, int pos)
-	{
-		if (engrams.contains(pos))
-		{
-			engrams.remove(pos);
-		}
 		syncClient(player, false);
 	}
 
@@ -311,9 +280,17 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 
 	public void syncClient(EntityPlayer player, boolean all)
 	{
+		ARKPlayer p = this;
 		if (player instanceof EntityPlayerMP)
 		{
-			ARKCraft.modChannel.sendTo(new SyncPlayerData(all, this), (EntityPlayerMP) player);
+			((EntityPlayerMP) player).getServerForPlayer().addScheduledTask(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					ARKCraft.modChannel.sendTo(new SyncPlayerData(all, p), (EntityPlayerMP) player);
+				}
+			});
 		}
 	}
 
@@ -423,9 +400,17 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 		return 0;
 	}
 
-	public void learnEngram(short id, int points)
+	public void learnEngram(short id)
 	{
-		this.engrams.add(id);
-		this.engramPoints -= points;
+		if (!engrams.contains(id))
+		{
+			Engram e = EngramManager.instance().getEngram(id);
+			if (e != null)
+			{
+				this.engrams.add(id);
+				this.engramPoints -= e.getPoints();
+				syncClient(player, false);
+			}
+		}
 	}
 }
