@@ -14,7 +14,7 @@ public class SlotScrolling extends Slot
 		this.container = container;
 	}
 
-	protected IContainerScrollable getContainer()
+	public IContainerScrollable getContainer()
 	{
 		return container;
 	}

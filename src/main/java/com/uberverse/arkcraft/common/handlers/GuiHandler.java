@@ -11,7 +11,6 @@ import com.uberverse.arkcraft.client.gui.GUIEngram;
 import com.uberverse.arkcraft.client.gui.GUIForge;
 import com.uberverse.arkcraft.client.gui.GUIMortarPestle;
 import com.uberverse.arkcraft.client.gui.GUIPlayerCrafting;
-import com.uberverse.arkcraft.client.gui.GUISmithy;
 import com.uberverse.arkcraft.client.gui.GuiCropPlotNew;
 import com.uberverse.arkcraft.common.block.container.ContainerCropPlotNew;
 import com.uberverse.arkcraft.common.block.container.ContainerEngram;
@@ -20,7 +19,6 @@ import com.uberverse.arkcraft.common.block.container.ContainerInventoryCompostBi
 import com.uberverse.arkcraft.common.block.container.ContainerInventoryForge;
 import com.uberverse.arkcraft.common.block.container.ContainerInventoryMP;
 import com.uberverse.arkcraft.common.block.container.ContainerInventoryPlayerCrafting;
-import com.uberverse.arkcraft.common.block.container.ContainerInventorySmithy;
 import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew;
 import com.uberverse.arkcraft.common.block.tile.TileInventoryCampfire;
 import com.uberverse.arkcraft.common.block.tile.TileInventoryCompostBin;
@@ -30,6 +28,8 @@ import com.uberverse.arkcraft.common.block.tile.TileInventorySmithy;
 import com.uberverse.arkcraft.common.container.ContainerInventoryAttachment;
 import com.uberverse.arkcraft.common.container.inventory.InventoryAttachment;
 import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
+import com.uberverse.arkcraft.rework.ContainerSmithy;
+import com.uberverse.arkcraft.rework.GUISmithy;
 import com.uberverse.lib.LogHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -60,8 +60,9 @@ public class GuiHandler implements IGuiHandler
 			TileEntity tileEntity = world.getTileEntity(xyz);
 			if (tileEntity instanceof TileInventorySmithy)
 			{
-				return new ContainerInventorySmithy(player.inventory,
-						(TileInventorySmithy) tileEntity);
+				return new ContainerSmithy(player, (TileInventorySmithy) tileEntity);
+				// return new ContainerInventorySmithy(player.inventory,
+				// (TileInventorySmithy) tileEntity);
 			}
 			else
 			{
@@ -188,7 +189,9 @@ public class GuiHandler implements IGuiHandler
 			TileEntity tileEntity = world.getTileEntity(xyz);
 			if (tileEntity instanceof TileInventorySmithy)
 			{
-				return new GUISmithy(player.inventory, (TileInventorySmithy) tileEntity);
+				return new GUISmithy(player, (TileInventorySmithy) tileEntity);
+				// return new GUISmithy(player.inventory, (TileInventorySmithy)
+				// tileEntity);
 			}
 			else
 			{

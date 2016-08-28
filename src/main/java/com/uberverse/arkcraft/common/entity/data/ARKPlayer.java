@@ -49,18 +49,16 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 	// max weights
 	private double maxCarryWeight;
 	// Unlocked Engrams
-	private ArrayList<Integer> engrams;
-
-	private InventoryPlayerEngram engramInv;
+	private ArrayList<Short> engrams;
 
 	public ARKPlayer(EntityPlayer player, World world)
 	{
 		// Initialize some stuff
 		this.player = player;
 		this.inventoryPlayerCrafting = new InventoryPlayerCrafting("crafting", false, player);
-		inventoryBlueprints = new InventoryBlueprints("Blueprints", false,
-	            BLUEPRINT_SLOTS_COUNT, PlayerCraftingManager.getInstance(), inventoryPlayerCrafting,
-	            (short) ModuleItemBalance.PLAYER_CRAFTING.CRAFT_TIME_FOR_ITEM);
+		inventoryBlueprints = new InventoryBlueprints("Blueprints", false, BLUEPRINT_SLOTS_COUNT,
+				PlayerCraftingManager.getInstance(), inventoryPlayerCrafting,
+				(short) ModuleItemBalance.PLAYER_CRAFTING.CRAFT_TIME_FOR_ITEM);
 		this.setCanPoop(false);
 		this.water = 20;
 		this.torpor = 0;
@@ -70,8 +68,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 		this.carryWeight = 0.0;
 		this.weight = 100.0;
 		this.engramPoints = 0;
-		this.engrams = new ArrayList<Integer>();
-		this.engramInv = new InventoryPlayerEngram();
+		this.engrams = new ArrayList<>();
 	}
 
 	/**
@@ -113,8 +110,6 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 		properties.setDouble("carryWeight", carryWeight);
 		properties.setDouble("weight", weight);
 
-		this.engramInv.writeToNBT(properties);
-
 		properties.setInteger("maxHealth", maxHealth);
 		properties.setInteger("maxOxygen", maxOxygen);
 		properties.setInteger("maxFood", maxFood);
@@ -123,6 +118,13 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 		properties.setInteger("maxSpeed", maxSpeed);
 		properties.setInteger("maxStamina", maxStamina);
 		properties.setDouble("maxCarryWeight", maxCarryWeight);
+
+		Short[] s = engrams.toArray(new Short[1]);
+
+		int[] c = new int[engrams.size()];
+		for (int i = 0; i < engrams.size(); i++)
+			c[i] = engrams.get(i);
+		properties.setIntArray("unlockedEngrams", c);
 
 		compound.setTag(EXT_PROP_NAME, properties);
 		inventoryPlayerCrafting.saveInventoryToNBT(compound);
@@ -139,28 +141,28 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 		oxygen = properties.getInteger("oxygen");
 		weight = properties.getInteger("weight");
 
-		// TODO Convert to load instead of save
-		properties.setInteger("food", food);
-		properties.setInteger("water", water);
-		properties.setInteger("damage", damage);
-		properties.setInteger("speed", speed);
-		properties.setInteger("stamina", stamina);
-		properties.setInteger("torpor", torpor);
-		properties.setLong("xp", xp);
-		properties.setInteger("level", level);
-		properties.setInteger("engramPoints", engramPoints);
-		properties.setDouble("carryWeight", carryWeight);
+		food = properties.getInteger("food");
+		water = properties.getInteger("water");
+		damage = properties.getInteger("damage");
+		speed = properties.getInteger("speed");
+		stamina = properties.getInteger("stamina");
+		torpor = properties.getInteger("torpor");
+		xp = properties.getLong("xp");
+		level = properties.getInteger("level");
+		engramPoints = properties.getInteger("engramPoints");
+		carryWeight = properties.getDouble("carryWeight");
 
-		this.engramInv.readFromNBT(properties);
+		maxHealth = properties.getInteger("maxHealth");
+		maxOxygen = properties.getInteger("maxOxygen");
+		maxFood = properties.getInteger("maxFood");
+		maxWater = properties.getInteger("maxWater");
+		maxDamage = properties.getInteger("maxDamage");
+		maxSpeed = properties.getInteger("maxSpeed");
+		maxStamina = properties.getInteger("maxStamina");
+		maxCarryWeight = properties.getDouble("maxCarryWeight");
 
-		properties.setInteger("maxHealth", maxHealth);
-		properties.setInteger("maxOxygen", maxOxygen);
-		properties.setInteger("maxFood", maxFood);
-		properties.setInteger("maxWater", maxWater);
-		properties.setInteger("maxDamage", maxDamage);
-		properties.setInteger("maxSpeed", maxSpeed);
-		properties.setInteger("maxStamina", maxStamina);
-		properties.setDouble("maxCarryWeight", maxCarryWeight);
+		for (int i : properties.getIntArray("unlockedEngrams"))
+			engrams.add((short) i);
 
 		inventoryPlayerCrafting.loadInventoryFromNBT(compound);
 	}
@@ -220,11 +222,11 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 	 */
 	public void addLearnedEngram(Engram engram, int pos)
 	{
-		if (!engrams.contains(pos))
-		{
-			engrams.add(pos);
-		}
-		syncClient(player, false);
+		// if (!engrams.contains(pos))
+		// {
+		// engrams.add(pos);
+		// }
+		// syncClient(player, false);
 	}
 
 	/***
@@ -243,7 +245,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 		syncClient(player, false);
 	}
 
-	public ArrayList<Integer> learnedEngrams()
+	public ArrayList<Short> learnedEngrams()
 	{
 		return engrams;
 	}
@@ -285,7 +287,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 
 	public InventoryPlayerEngram getEngramInventory()
 	{
-		return engramInv;
+		return new InventoryPlayerEngram();
 	}
 
 	/**
@@ -356,8 +358,8 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 	// -----------------
 
 	// Inventory for Crafting
-	private InventoryPlayerCrafting inventoryPlayerCrafting;	
-	private InventoryBlueprints inventoryBlueprints; 
+	private InventoryPlayerCrafting inventoryPlayerCrafting;
+	private InventoryBlueprints inventoryBlueprints;
 
 	// Constants for the inventory
 	public static final int BLUEPRINT_SLOTS_COUNT = 20;
@@ -395,6 +397,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 		{
 			this.xp += event.getXp();
 			checkLevel();
+			ARKCraft.logger.info(engramPoints);
 			syncClient(player, false);
 		}
 	}
@@ -418,5 +421,11 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 		if (level < 60) return level / 10 * 4 + 8;
 		if (level < 100) return (level / 10 - 6) * 10 + 40;
 		return 0;
+	}
+
+	public void learnEngram(short id, int points)
+	{
+		this.engrams.add(id);
+		this.engramPoints -= points;
 	}
 }

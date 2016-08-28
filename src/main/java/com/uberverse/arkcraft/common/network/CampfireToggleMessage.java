@@ -26,7 +26,7 @@ public class CampfireToggleMessage implements IMessage
 		@Override
 		public IMessage onMessage(CampfireToggleMessage message, MessageContext ctx)
 		{
-			ARKCraft.modLog.info("receive");
+			ARKCraft.logger.info("receive");
 			if (ctx.side.isServer())
 			{
 				Container c = ctx.getServerHandler().playerEntity.openContainer;

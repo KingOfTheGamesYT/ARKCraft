@@ -31,6 +31,7 @@ import com.uberverse.arkcraft.common.network.PlayerPoop;
 import com.uberverse.arkcraft.common.network.ReloadFinished;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.common.network.ScrollingMessage;
+import com.uberverse.arkcraft.common.network.SyncPlayerData;
 import com.uberverse.arkcraft.common.network.UpdateMPToCraftItem;
 import com.uberverse.arkcraft.common.network.UpdatePlayerCrafting;
 import com.uberverse.arkcraft.common.network.UpdateSmithyToCraftItem;
@@ -40,6 +41,7 @@ import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
 import com.uberverse.arkcraft.server.net.ServerReloadFinishedHandler;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
@@ -77,7 +79,7 @@ public class ARKCraft
 
 	public static CreativeTabs tabARK;
 	public static SimpleNetworkWrapper modChannel;
-	public static Logger modLog;
+	public static Logger logger;
 	public static EventBus bus;
 
 	@EventHandler
@@ -111,7 +113,10 @@ public class ARKCraft
 		WeightsConfig.init(event.getModConfigurationDirectory());
 
 		setupNetwork(event);
-		modLog = event.getModLog();
+
+		proxy.preInit();
+
+		logger = event.getModLog();
 	}
 
 	@EventHandler
@@ -128,7 +133,8 @@ public class ARKCraft
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-
+		if (event.getSide().isClient()) System.out
+				.println(Minecraft.getMinecraft().fontRendererObj.getStringWidth(" "));
 	}
 
 	@EventHandler
@@ -245,16 +251,18 @@ public class ARKCraft
 				Side.SERVER);
 		if (event.getSide().isClient()) modChannel.registerMessage(
 				ClientReloadFinishedHandler.class, ReloadFinished.class, id++, Side.CLIENT);
-		else modChannel.registerMessage(ServerReloadFinishedHandler.class, ReloadFinished.class, id++,
-				Side.CLIENT);
+		else modChannel.registerMessage(ServerReloadFinishedHandler.class, ReloadFinished.class,
+				id++, Side.CLIENT);
 		modChannel.registerMessage(ScrollingMessage.Handler.class, ScrollingMessage.class, id++,
 				Side.SERVER);
 		modChannel.registerMessage(MessageHover.class, MessageHover.class, id++, Side.CLIENT);
 		modChannel.registerMessage(MessageHoverReq.class, MessageHoverReq.class, id++, Side.SERVER);
-		modChannel.registerMessage(CampfireToggleMessage.Handler.class,
-				CampfireToggleMessage.class, id++, Side.SERVER);
-		modChannel.registerMessage(ForgeToggleMessage.Handler.class, ForgeToggleMessage.class,
+		modChannel.registerMessage(CampfireToggleMessage.Handler.class, CampfireToggleMessage.class,
 				id++, Side.SERVER);
+		modChannel.registerMessage(ForgeToggleMessage.Handler.class, ForgeToggleMessage.class, id++,
+				Side.SERVER);
+		modChannel.registerMessage(SyncPlayerData.Handler.class, SyncPlayerData.class, id++,
+				Side.CLIENT);
 		DescriptionHandler.init();
 	}
 

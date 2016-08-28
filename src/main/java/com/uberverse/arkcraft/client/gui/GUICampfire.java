@@ -120,7 +120,7 @@ public class GUICampfire extends GuiContainer
 		if (isInRect(guiLeft + FLAME_XPOS, guiTop + FLAME_YPOS, FLAME_WIDTH, FLAME_HEIGHT, mouseX,
 				mouseY))
 		{
-			ARKCraft.modLog.info("send");
+			ARKCraft.logger.info("send");
 			ARKCraft.modChannel.sendToServer(new CampfireToggleMessage());
 		}
 

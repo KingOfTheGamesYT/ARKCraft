@@ -50,19 +50,19 @@ public class ARKMessagePipeline extends MessageToMessageCodec<FMLProxyPacket, AR
     {
         if (packets.size() > 256)
         {
-            ARKCraft.modLog.error("More than 256 packets registered");
+            ARKCraft.logger.error("More than 256 packets registered");
             return false;
         }
 
         if (packets.contains(class0))
         {
-            ARKCraft.modLog.warn("Packet already registered");
+            ARKCraft.logger.warn("Packet already registered");
             return false;
         }
 
         if (isPostInitialized)
         {
-            ARKCraft.modLog.error("Already post-initialized");
+            ARKCraft.logger.error("Already post-initialized");
             return false;
         }
 

@@ -3,8 +3,8 @@
  */
 package com.uberverse.arkcraft.common.inventory;
 
-import com.uberverse.arkcraft.common.item.engram.ARKCraftEngrams;
 import com.uberverse.arkcraft.common.item.engram.Engram;
+import com.uberverse.arkcraft.rework.EngramManager;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -32,32 +32,19 @@ public class InventoryPlayerEngram implements IInventory
 	@Override
 	public int getSizeInventory()
 	{
-		return ARKCraftEngrams.engramList.size();
+		return EngramManager.instance().getEngrams().size();
 	}
 
 	@Override
 	public ItemStack getStackInSlot(int slot)
 	{
-		return new ItemStack(ARKCraftEngrams.engramList.get(slot));
+		return new ItemStack(EngramManager.instance().getEngram((short) slot).getItem());
 	}
 
 	@Override
 	public ItemStack decrStackSize(int slot, int amount)
 	{
-		ItemStack stack = getStackInSlot(slot);
-		if (stack != null)
-		{
-			if (stack.stackSize > amount)
-			{
-				stack = stack.splitStack(amount);
-				this.markDirty();
-			}
-			else
-			{
-				setInventorySlotContents(slot, null);
-			}
-		}
-		return stack;
+		return null;
 	}
 
 	@Override

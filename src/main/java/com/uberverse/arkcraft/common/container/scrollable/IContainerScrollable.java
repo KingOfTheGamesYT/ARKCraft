@@ -1,5 +1,7 @@
 package com.uberverse.arkcraft.common.container.scrollable;
 
+import net.minecraft.inventory.IInventory;
+
 public interface IContainerScrollable
 {
 	public int getScrollingOffset();
@@ -21,4 +23,16 @@ public interface IContainerScrollable
 	public int getTotalSlotsAmount();
 
 	public boolean canScroll();
+
+	public void initScrollableSlots();
+
+	public int getScrollableSlotsX();
+
+	public int getScrollableSlotsY();
+
+	public int getSlotSize();
+
+	public void refreshScrollableSlotContents();
+
+	public IInventory getScrollableInventory();
 }

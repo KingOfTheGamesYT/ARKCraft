@@ -173,7 +173,7 @@ public class InventoryPlayerCrafting implements IInventory
     @Override
     public void setInventorySlotContents(int index, ItemStack stack)
     {
-        this.setInventorySlotContents(index, stack);
+        //this.setInventorySlotContents(index, stack);
         if (stack != null && stack.stackSize > this.getInventoryStackLimit())
         {
             stack.stackSize = this.getInventoryStackLimit();

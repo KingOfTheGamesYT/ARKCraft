@@ -1,5 +1,8 @@
 package com.uberverse.arkcraft.common.network;
 
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,9 +12,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
-
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
 
 /**
  * @author gegy1000
@@ -29,7 +29,7 @@ public class SyncPlayerData implements IMessage
 
 	public SyncPlayerData(boolean all, ARKPlayer player)
 	{
-		this.nbt = new NBTTagCompound();	
+		this.nbt = new NBTTagCompound();
 		player.saveNBTData(nbt);
 	}
 
