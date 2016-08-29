@@ -8,6 +8,46 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.model.ModelPlayer;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
+
+import net.minecraftforge.client.event.FOVUpdateEvent;
+import net.minecraftforge.client.event.MouseEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderHandEvent;
+import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.gui.GUIMortarPestle;
 import com.uberverse.arkcraft.client.gui.GUIPlayerCrafting;
@@ -33,51 +73,6 @@ import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
 import com.uberverse.arkcraft.common.network.OpenPlayerCrafting;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.init.ARKCraftItems;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.model.ModelPlayer;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.RenderPlayer;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
-import net.minecraftforge.client.event.FOVUpdateEvent;
-import net.minecraftforge.client.event.MouseEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderHandEvent;
-import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class ClientEventHandler
 {
@@ -133,7 +128,7 @@ public class ClientEventHandler
 		 * 0;
 		 */
 	}
-	
+
 	@SuppressWarnings("static-access")
 	@SubscribeEvent
 	public void playerInteract(PlayerInteractEvent event)
@@ -151,61 +146,6 @@ public class ClientEventHandler
 			}
 		}
 
-	}
-	RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
-	
-	@SubscribeEvent
-	public void renderHand(RenderHandEvent event)
-	{
-		EntityPlayer p = Minecraft.getMinecraft().thePlayer;
-		ItemStack item = p.getCurrentEquippedItem();
-		if (item != null && item.getItem() instanceof ItemRangedWeapon)
-		{
-			event.setCanceled(true);
-			renderPlayerArms((AbstractClientPlayer) p);
-		}
-	}
-
-	private void renderLeftArm(RenderPlayer renderPlayerIn) {
-		
-    //    float f = 1.0F;
-     //   GlStateManager.color(f, f, f);
-		  float f = 1.0F;
-	        GlStateManager.color(f, f, f);
-        ModelPlayer modelplayer = (ModelPlayer) renderPlayerIn.getPlayerModel();
-        EntityPlayer p = Minecraft.getMinecraft().thePlayer;
-      //  this.func_177137_d(p_177138_1_);
-     //   modelplayer.bipedLeftArm.showModel = true;
-    //    modelplayer.bipedRightArm.showModel = true;
-        modelplayer.isSneak = false;
-        modelplayer.swingProgress = 0.0F;
-    //    modelplayer.setRotationAngles(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, p);
-       // modelplayer.func_178725_a();
-     //   modelplayer.func_178726_b();
-        modelplayer.setRotationAngles(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, p);
-        modelplayer.bipedLeftArm.render(0.0625F);
-        
-	//	GlStateManager.pushMatrix();
-	///	GlStateManager.rotate(92.0F, 0.0F, 1.0F, 0.0F);
-	//	GlStateManager.rotate(45.0F, 1.0F, 0.0F, 0.0F);
-	///	GlStateManager.rotate(41.0F, 0.0F, 0.0F, 1.0F);
-	//	GlStateManager.translate(-0.3F, -1.1F, 0.45F);
-	
-	//	Minecraft mc = Minecraft.getMinecraft();
-	//	renderPlayerIn.func_177138_b(mc.thePlayer);
-	//	GlStateManager.popMatrix();
-	}
-
-	private void renderPlayerArms(AbstractClientPlayer clientPlayer) {
-		Minecraft mc = Minecraft.getMinecraft();
-		mc.getTextureManager().bindTexture(clientPlayer.getLocationSkin());
-		Render render = this.renderManager.getEntityRenderObject(mc.thePlayer);
-		RenderPlayer renderplayer = (RenderPlayer) render;
-		if (!clientPlayer.isInvisible()) {
-			GlStateManager.disableCull();
-			this.renderLeftArm(renderplayer);
-			GlStateManager.enableCull();
-		}
 	}
 
 	@SubscribeEvent

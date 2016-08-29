@@ -9,5 +9,6 @@ public class ARKCraftBlock extends Block
 	{
 		super(materialIn);
 		setUnlocalizedName(unlocalizedName);
+		//setCreativeTab(ARKCraft.tabARK);
 	}
 }
