@@ -47,7 +47,8 @@ public class ItemCompostBin extends ItemBlockARK
 			{
 				pos = pos.up();
 			}
-			int i = MathHelper.floor_double((double) (playerIn.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+			int i = MathHelper
+					.floor_double((double) (playerIn.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 			EnumFacing enumfacing1 = EnumFacing.getHorizontal(i);
 			// BlockPos blockpos1 = pos.offset(enumfacing1); // like a bed,
 			// placed vertically
@@ -59,8 +60,8 @@ public class ItemCompostBin extends ItemBlockARK
 			if (playerIn.canPlayerEdit(pos, side, stack) && playerIn.canPlayerEdit(blockpos1, side,
 					stack))
 			{
-				if (flag2 && flag3 && World.doesBlockHaveSolidTopSurface(worldIn, pos.down()) && World
-						.doesBlockHaveSolidTopSurface(worldIn, blockpos1.down()))
+				if (flag2 && flag3 && World.doesBlockHaveSolidTopSurface(worldIn, pos
+						.down()) && World.doesBlockHaveSolidTopSurface(worldIn, blockpos1.down()))
 				{
 					IBlockState iblockstate1 = ARKCraftBlocks.compost_bin.getDefaultState()
 							.withProperty(BlockCompostBin.FACING, enumfacing1)

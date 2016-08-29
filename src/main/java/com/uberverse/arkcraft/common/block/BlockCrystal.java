@@ -1,5 +1,6 @@
 package com.uberverse.arkcraft.common.block;
 
-public class BlockCrystal {
+public class BlockCrystal
+{
 
 }

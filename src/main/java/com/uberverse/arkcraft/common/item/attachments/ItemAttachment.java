@@ -2,7 +2,6 @@ package com.uberverse.arkcraft.common.item.attachments;
 
 import com.uberverse.arkcraft.common.item.ARKCraftItem;
 
-
 /**
  * @author Lewis_McReu
  *

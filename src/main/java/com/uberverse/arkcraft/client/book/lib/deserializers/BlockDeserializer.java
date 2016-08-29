@@ -12,21 +12,25 @@ import com.uberverse.lib.LogHelper;
 
 import net.minecraft.block.Block;
 
-public class BlockDeserializer implements JsonDeserializer<Block> {
+public class BlockDeserializer implements JsonDeserializer<Block>
+{
 
 	@Override
-	public Block deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
+	public Block deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+	{
 		JsonObject obj = json.getAsJsonObject();
-		try {
+		try
+		{
 			LogHelper.info("Trying to Deserialize blocks.");
 			Class<? extends Block> block = PageData.getBlock(obj.get("name").getAsString());
 			return context.deserialize(json, block);
 		}
-		catch(JsonParseException e) {
+		catch (JsonParseException e)
+		{
 			e.printStackTrace();
 			LogHelper.error("Failed to deserialize blocks!");
 		}
-		
+
 		return null;
 	}
 }

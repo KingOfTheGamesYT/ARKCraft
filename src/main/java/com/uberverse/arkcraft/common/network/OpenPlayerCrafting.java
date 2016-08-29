@@ -69,8 +69,8 @@ public class OpenPlayerCrafting implements IMessage
 	{
 		if (player != null)
 		{
-			player.openGui(ARKCraft.instance(), ARKCraft.GUI.PLAYER.getID(),
-					player.worldObj, 0, 0, 0);
+			player.openGui(ARKCraft.instance(), ARKCraft.GUI.PLAYER.getID(), player.worldObj, 0, 0,
+					0);
 		}
 	}
 }

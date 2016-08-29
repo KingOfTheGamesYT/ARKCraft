@@ -29,10 +29,9 @@ public class EntityHandler
 
 		EntityRegistry.registerGlobalEntityID(eClass, name, eggID);
 		EntityRegistry.addSpawn(eClass, 25, 2, 4, EnumCreatureType.CREATURE, biomes);
-		EntityRegistry
-				.registerModEntity(eClass, name, ++entityID, ARKCraft.instance, 64, 3, true);
-		EntityList.entityEggs.put(Integer.valueOf(eggID), new EntityList.EntityEggInfo(++entityID,
-				mainColor, secondColor));
+		EntityRegistry.registerModEntity(eClass, name, ++entityID, ARKCraft.instance, 64, 3, true);
+		EntityList.entityEggs.put(Integer.valueOf(eggID),
+				new EntityList.EntityEggInfo(++entityID, mainColor, secondColor));
 	}
 
 	public static void registerMonster(Class eClass, String name)
@@ -47,8 +46,8 @@ public class EntityHandler
 				BiomeGenBase.desert, BiomeGenBase.forest, BiomeGenBase.birchForest,
 				BiomeGenBase.extremeHills);
 		EntityRegistry.registerModEntity(eClass, name, entityID, ARKCraft.instance, 64, 1, true);
-		EntityList.entityEggs.put(Integer.valueOf(eggID), new EntityList.EntityEggInfo(entityID,
-				mainColor, secondColor));
+		EntityList.entityEggs.put(Integer.valueOf(eggID),
+				new EntityList.EntityEggInfo(entityID, mainColor, secondColor));
 	}
 
 	public static void registerEntityEgg(Class eClass, String name, BiomeGenBase... biomes)
@@ -59,13 +58,13 @@ public class EntityHandler
 		int secondColor = rand.nextInt() * 16777215;
 
 		EntityRegistry.registerGlobalEntityID(eClass, name, id);
-		//TODO Model error
-		//EntityRegistry.registerModEntity(eClass, name, id, ARKCraft.instance(), 64, 4, true);
-		EntityRegistry.addSpawn(eClass, 5, 2, 4,
-				EnumCreatureType.CREATURE, biomes);
+		// TODO Model error
+		// EntityRegistry.registerModEntity(eClass, name, id,
+		// ARKCraft.instance(), 64, 4, true);
+		EntityRegistry.addSpawn(eClass, 5, 2, 4, EnumCreatureType.CREATURE, biomes);
 		EntityList.idToClassMapping.put(id, eClass);
-		EntityList.entityEggs.put(Integer.valueOf(id), new EntityList.EntityEggInfo(id, mainColor,
-				secondColor));
+		EntityList.entityEggs.put(Integer.valueOf(id),
+				new EntityList.EntityEggInfo(id, mainColor, secondColor));
 	}
 
 	public static void registerEntity(Class<? extends Entity> entity, int primaryColor, int secondaryColor)

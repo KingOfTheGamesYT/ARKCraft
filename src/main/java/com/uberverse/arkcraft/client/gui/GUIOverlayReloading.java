@@ -50,7 +50,8 @@ public class GUIOverlayReloading extends Gui
 				else if (weapon.isReloading(stack))
 				{
 					f = Math.min(
-							(float) CommonEventHandler.reloadTicks / weapon.getReloadDuration(), 1F);
+							(float) CommonEventHandler.reloadTicks / weapon.getReloadDuration(),
+							1F);
 					color = 0x60EAA800;
 				}
 				else
@@ -69,8 +70,8 @@ public class GUIOverlayReloading extends Gui
 				if (!p.capabilities.isCreativeMode)
 				{
 					ItemRangedWeapon weapon = (ItemRangedWeapon) stack.getItem();
-					text = weapon.getAmmoQuantity(stack) + "/" + weapon.getAmmoQuantityInInventory(
-							stack, p);
+					text = weapon.getAmmoQuantity(stack) + "/" + weapon
+							.getAmmoQuantityInInventory(stack, p);
 				}
 				else
 				{

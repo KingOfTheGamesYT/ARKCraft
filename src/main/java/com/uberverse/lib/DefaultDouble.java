@@ -12,13 +12,13 @@ import java.lang.annotation.Target;
 @Target({ ElementType.FIELD })
 public @interface DefaultDouble
 {
-    String comment() default "";
+	String comment() default "";
 
-    String name();
+	String name();
 
-    double value();
+	double value();
 
-    double minValue();
+	double minValue();
 
-    double maxValue();
+	double maxValue();
 }

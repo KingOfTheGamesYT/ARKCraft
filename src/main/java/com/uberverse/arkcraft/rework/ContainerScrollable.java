@@ -29,9 +29,11 @@ public abstract class ContainerScrollable extends Container implements IContaine
 	}
 
 	@Override
-	public void scroll(int offset)
+	public void scroll(float scroll)
 	{
-		int newScrollingOffset = scrollingOffset + offset;
+		int offset = (int) ((float) getMaxOffset() * scroll);
+
+		int newScrollingOffset = offset;
 		if (isValidOffset(newScrollingOffset))
 		{
 			scrollingOffset = newScrollingOffset;
@@ -54,9 +56,9 @@ public abstract class ContainerScrollable extends Container implements IContaine
 	}
 
 	@Override
-	public double getRelativeScrollingOffset()
+	public float getRelativeScrollingOffset()
 	{
-		return (double) this.scrollingOffset / (double) getMaxOffset();
+		return (float) this.scrollingOffset / (float) getMaxOffset();
 	}
 
 	@Override

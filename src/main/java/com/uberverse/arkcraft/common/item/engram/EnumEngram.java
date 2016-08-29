@@ -7,11 +7,12 @@ package com.uberverse.arkcraft.common.item.engram;
  * @author ERBF | Aug 9, 2016
  *
  */
-public enum EnumEngram {
+public enum EnumEngram
+{
 
 	STONE_PICK(1, 0),
 	TORCH(1, 0),
-	
+
 	CAMPFIRE(2, 3),
 	STONE_HATCHET(2, 3),
 	SPEAR(2, 3),
@@ -20,7 +21,7 @@ public enum EnumEngram {
 	CLOTH_SHIRT(2, 3),
 	THATCH_FOUNDATION(2, 3),
 	THATCH_DOORFRAME(2, 3),
-	
+
 	WOODEN_CLUB(3, 4),
 	WATERSKIN(3, 6),
 	CLOTH_GLOVES(3, 3),
@@ -31,7 +32,7 @@ public enum EnumEngram {
 	THATCH_ROOF(3, 3),
 	THATCH_WALL(3, 3),
 	THATCH_DOOR(3, 3),
-	
+
 	SLINGSHOT(5, 6),
 	STORAGE_BOX(5, 6),
 	SIMPLE_BED(5, 8),
@@ -49,7 +50,7 @@ public enum EnumEngram {
 	SLOPED_THATCH_ROOF(5, 3),
 	WOODEN_FOUNDATION(5, 6),
 	WOODEN_WALL(5, 7),
-	
+
 	COOKINGPOT(10, 9),
 	CEMENTING_PASTE(10, 3),
 	STIMULANT(10, 6),
@@ -71,15 +72,16 @@ public enum EnumEngram {
 	SLOPED_WOOD_WALL_LEFT(10, 3),
 	SLOPED_WOOD_WALL_RIGHT(10, 3),
 	SLOPED_WOODEN_ROOF(10, 4),
-	WOODEN_DOORFRAME(10, 6),
-	;
-	
+	WOODEN_DOORFRAME(10, 6),;
+
 	private String id;
 	private int requiredLevel, unlockEP;
-	EnumEngram(int requiredLevel, int unlockEP) {
+
+	EnumEngram(int requiredLevel, int unlockEP)
+	{
 		this.id = this.name();
 		this.requiredLevel = requiredLevel;
 		this.unlockEP = unlockEP;
 	}
-	
+
 }

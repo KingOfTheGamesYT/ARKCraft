@@ -46,7 +46,7 @@ public class BlockCampfire extends BlockContainer
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{
-		return new TileInventoryCampfire();	
+		return new TileInventoryCampfire();
 	}
 
 	@Override
@@ -70,30 +70,33 @@ public class BlockCampfire extends BlockContainer
 		playerIn.openGui(ARKCraft.instance(), ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
-	
-	@Override
-    @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
-    {
-        double d0 = (double)pos.getX() + 0.5D;
-        double d1 = (double)pos.getY() + 0.7D;
-        double d2 = (double)pos.getZ() + 0.5D;
-		double d3 = 0.22D;
-        double d4 = 0.27D;
-		IBlockState blockState = getActualState(getDefaultState(), worldIn, pos);
-        boolean burning = (Boolean) blockState.getValue(BURNING);
-        
-        if(burning)
-        {
-            worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
-            worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
-        }
 
-        
-       //     worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4 * 1, d1 + d3, d2 + d4 * 1, 0.0D, 0.0D, 0.0D, new int[0]);
-        //    worldIn.spawnParticle(EnumParticleTypes.FLAME, d0 + d4 * 1, d1 + d3, d2 + d4 * 1, 0.0D, 0.0D, 0.0D, new int[0]);
-        
-    }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
+	{
+		double d0 = (double) pos.getX() + 0.5D;
+		double d1 = (double) pos.getY() + 0.7D;
+		double d2 = (double) pos.getZ() + 0.5D;
+		double d3 = 0.22D;
+		double d4 = 0.27D;
+		IBlockState blockState = getActualState(getDefaultState(), worldIn, pos);
+		boolean burning = (Boolean) blockState.getValue(BURNING);
+
+		if (burning)
+		{
+			worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D,
+					new int[0]);
+			worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D,
+					new int[0]);
+		}
+
+		// worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4 * 1, d1
+		// + d3, d2 + d4 * 1, 0.0D, 0.0D, 0.0D, new int[0]);
+		// worldIn.spawnParticle(EnumParticleTypes.FLAME, d0 + d4 * 1, d1 + d3,
+		// d2 + d4 * 1, 0.0D, 0.0D, 0.0D, new int[0]);
+
+	}
 
 	// This is where you can do something when the block is broken. In this case
 	// drop the inventory's contents
@@ -101,8 +104,9 @@ public class BlockCampfire extends BlockContainer
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
 	{
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
-		if (tileEntity instanceof IInventory) {
-			InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory)tileEntity);
+		if (tileEntity instanceof IInventory)
+		{
+			InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) tileEntity);
 		}
 
 		// if (inventory != null){

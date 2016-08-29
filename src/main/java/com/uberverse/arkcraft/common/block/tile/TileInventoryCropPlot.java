@@ -217,7 +217,8 @@ public class TileInventoryCropPlot extends TileEntity implements IInventory, IUp
 			// growTime
 			if (growthStage == 5 && growTime >= GROW_TIME_FOR_BERRY)
 			{
-				// LogHelper.info("TileInventoryCropPlot: About to harvest a berry on "
+				// LogHelper.info("TileInventoryCropPlot: About to harvest a
+				// berry on "
 				// + (FMLCommonHandler.instance().getEffectiveSide() ==
 				// Side.CLIENT ? "client" : "server"));
 				harvestBerry();
@@ -246,7 +247,7 @@ public class TileInventoryCropPlot extends TileEntity implements IInventory, IUp
 		{
 			switch (growthStage)
 			{
-			// not seeded
+				// not seeded
 				case 0:
 					growthStage++;
 					break;
@@ -324,10 +325,11 @@ public class TileInventoryCropPlot extends TileEntity implements IInventory, IUp
 		boolean inventoryChanged = false;
 
 		// Consume any water buckets
-		if (itemStacks[WATER_SLOT] != null && itemStacks[WATER_SLOT].getItem() == Items.water_bucket)
+		if (itemStacks[WATER_SLOT] != null && itemStacks[WATER_SLOT]
+				.getItem() == Items.water_bucket)
 		{
-			itemStacks[WATER_SLOT] = itemStacks[WATER_SLOT].getItem().getContainerItem(
-					itemStacks[WATER_SLOT]);
+			itemStacks[WATER_SLOT] = itemStacks[WATER_SLOT].getItem()
+					.getContainerItem(itemStacks[WATER_SLOT]);
 			waterTimeRemaining += waterTimeInitialValue;
 			if (waterTimeRemaining > MAXIMUM_WATER_TIME)
 			{
@@ -435,10 +437,10 @@ public class TileInventoryCropPlot extends TileEntity implements IInventory, IUp
 							break;
 						}
 
-						if (outputStack.getItem() == result.getItem() && (!outputStack
-								.getHasSubtypes() || outputStack.getMetadata() == outputStack
-								.getMetadata()) && ItemStack.areItemStackTagsEqual(outputStack,
-								result))
+						if (outputStack.getItem() == result
+								.getItem() && (!outputStack.getHasSubtypes() || outputStack
+										.getMetadata() == outputStack.getMetadata()) && ItemStack
+												.areItemStackTagsEqual(outputStack, result))
 						{
 							int combinedSize = itemStacks[outputSlot].stackSize + result.stackSize;
 							if (combinedSize <= getInventoryStackLimit() && combinedSize <= itemStacks[outputSlot]
@@ -562,8 +564,8 @@ public class TileInventoryCropPlot extends TileEntity implements IInventory, IUp
 	@Override
 	public IChatComponent getDisplayName()
 	{
-		return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(
-				this.getName());
+		return this.hasCustomName() ? new ChatComponentText(
+				this.getName()) : new ChatComponentTranslation(this.getName());
 	}
 
 	@Override

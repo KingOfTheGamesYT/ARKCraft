@@ -153,8 +153,8 @@ public class GUICropPlot extends GuiContainer
 
 		// get grow arrow as a double between 0 and 1, and draw it
 		double growProgress = tileEntity.fractionOfGrowTimeComplete();
-		drawTexturedModalRect(guiLeft + ARROW_XPOS, guiTop + ARROW_YPOS, ARROW_ICON_U,
-				ARROW_ICON_V, (int) (growProgress * ARROW_WIDTH), ARROW_HEIGHT);
+		drawTexturedModalRect(guiLeft + ARROW_XPOS, guiTop + ARROW_YPOS, ARROW_ICON_U, ARROW_ICON_V,
+				(int) (growProgress * ARROW_WIDTH), ARROW_HEIGHT);
 	}
 
 	// Returns true if the given x,y coordinates are within the given rectangle

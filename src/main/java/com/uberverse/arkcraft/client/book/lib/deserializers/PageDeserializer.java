@@ -11,23 +11,25 @@ import com.uberverse.arkcraft.client.book.core.PageData;
 import com.uberverse.arkcraft.client.book.lib.Page;
 import com.uberverse.lib.LogHelper;
 
-public class PageDeserializer implements JsonDeserializer<Page> {
+public class PageDeserializer implements JsonDeserializer<Page>
+{
 
 	@Override
-	public Page deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
+	public Page deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+	{
 		JsonObject obj = json.getAsJsonObject();
-		try {
+		try
+		{
 			LogHelper.info("Trying to deserialize Pages.");
 			Class<? extends Page> page = PageData.getBookPage(obj.get("type").getAsString());
 			return context.deserialize(obj, page);
 		}
-		catch(JsonParseException e) {
+		catch (JsonParseException e)
+		{
 			e.printStackTrace();
 			LogHelper.error("Failed to deserialize pages!");
 		}
 		return null;
 	}
 
-	
-	
 }

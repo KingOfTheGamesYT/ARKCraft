@@ -9,6 +9,9 @@ import net.minecraft.world.World;
 
 import com.uberverse.arkcraft.init.ARKCraftItems;
 
+/**
+ * @author Vastatio
+ */
 public class ARKCraftFood extends ItemFood
 {
 
@@ -33,15 +36,15 @@ public class ARKCraftFood extends ItemFood
 		 *
 		 * So maybe just a mistake? Then remove the static. If not talk to me
 		 * about Java coding or read a tutorial on how static works. 3) We can
-		 * discuss this in our next group coding meeting, but the intent of the @author
-		 * on a file is that you don't edit the file without asking the author.
-		 * Probably doesn't apply to this file, so maybe we shouldn't put our
-		 * name on all files we check-in. 4) Don't check in any files with
-		 * warnings if you can avoid it. There are only a few types of warnings
-		 * you should leave in a file, probably just these two:
-		 * "@SuppressWarnings({"unchecked", "rawtypes"})". Others if you leave
-		 * them are because you plan to fix them eventually. (Like this one
-		 * below.)
+		 * discuss this in our next group coding meeting, but the intent of
+		 * the @author on a file is that you don't edit the file without asking
+		 * the author. Probably doesn't apply to this file, so maybe we
+		 * shouldn't put our name on all files we check-in. 4) Don't check in
+		 * any files with warnings if you can avoid it. There are only a few
+		 * types of warnings you should leave in a file, probably just these
+		 * two: "@SuppressWarnings({"unchecked", "rawtypes"})". Others if you
+		 * leave them are because you plan to fix them eventually. (Like this
+		 * one below.)
 		 */
 		globalHealAmount = healAmount;
 	}

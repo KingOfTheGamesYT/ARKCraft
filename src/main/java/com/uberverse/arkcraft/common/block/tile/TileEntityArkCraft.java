@@ -13,9 +13,11 @@ import com.uberverse.arkcraft.ARKCraft;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
-public class TileEntityArkCraft extends TileEntity {
+public class TileEntityArkCraft extends TileEntity
+{
 	@Override
-	public Packet getDescriptionPacket() {
+	public Packet getDescriptionPacket()
+	{
 		ByteBuf buf = Unpooled.buffer();
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());
@@ -25,6 +27,12 @@ public class TileEntityArkCraft extends TileEntity {
 		ByteBufUtils.writeTag(buf, tag);
 		return new FMLProxyPacket(new PacketBuffer(buf), ARKCraft.descriptionPacketChannel);
 	}
-	public void writeToPacket(NBTTagCompound tag){}
-	public void readFromPacket(NBTTagCompound tag){}
+
+	public void writeToPacket(NBTTagCompound tag)
+	{
+	}
+
+	public void readFromPacket(NBTTagCompound tag)
+	{
+	}
 }

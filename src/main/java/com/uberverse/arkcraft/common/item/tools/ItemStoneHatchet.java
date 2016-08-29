@@ -13,27 +13,28 @@ public class ItemStoneHatchet extends ItemAxe
 {
 
 	public ItemStoneHatchet(ToolMaterial material)
-    {
+	{
 
-        super(material);
-    }
+		super(material);
+	}
 
-    @Override
-    public Set<String> getToolClasses(ItemStack stack)
-    {
-        return ImmutableSet.of("pickaxe", "axe");
-    }
+	@Override
+	public Set<String> getToolClasses(ItemStack stack)
+	{
+		return ImmutableSet.of("pickaxe", "axe");
+	}
 
-    @Override
-    public float getStrVsBlock(ItemStack stack, Block block)
-    {
+	@Override
+	public float getStrVsBlock(ItemStack stack, Block block)
+	{
 
-        return block.getMaterial() != Material.wood && block.getMaterial() != Material.vine && block.getMaterial() != Material.plants ?
-                super.getStrVsBlock(stack, block) : this.efficiencyOnProperMaterial;
-    }
+		return block.getMaterial() != Material.wood && block.getMaterial() != Material.vine && block
+				.getMaterial() != Material.plants ? super.getStrVsBlock(stack,
+						block) : this.efficiencyOnProperMaterial;
+	}
 
-    public boolean isArkTool()
-    {
-        return true;
-    }
+	public boolean isArkTool()
+	{
+		return true;
+	}
 }

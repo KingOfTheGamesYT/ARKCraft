@@ -59,10 +59,14 @@ public class ContainerInventoryCropPlot extends Container
 							.getSizeInventory() + ")");
 		}
 		// Water and Seed slot are first two
-		this.addSlotToContainer(new SlotWater(tileInventoryCropPlot,
-				TileInventoryCropPlot.WATER_SLOT, 8, 53)); // Water input slot
-		this.addSlotToContainer(new SlotSeed(tileInventoryCropPlot,
-				TileInventoryCropPlot.SEED_SLOT, 44, 17)); // Seed input slot
+		this.addSlotToContainer(
+				new SlotWater(tileInventoryCropPlot, TileInventoryCropPlot.WATER_SLOT, 8, 53)); // Water
+																								// input
+																								// slot
+		this.addSlotToContainer(
+				new SlotSeed(tileInventoryCropPlot, TileInventoryCropPlot.SEED_SLOT, 44, 17)); // Seed
+																								// input
+																								// slot
 		// Fertilizer slots
 		for (int col = TileInventoryCropPlot.FIRST_FERTILIZER_SLOT; col < CROP_SLOT_COUNT - 1; col++)
 		{
@@ -71,8 +75,8 @@ public class ContainerInventoryCropPlot extends Container
 		}
 		// Berry output slot (berry is centered in 24 x 24 box (berry is 16 x
 		// 16)
-		this.addSlotToContainer(new Slot(tileInventoryCropPlot, TileInventoryCropPlot.BERRY_SLOT,
-				104, 17));
+		this.addSlotToContainer(
+				new Slot(tileInventoryCropPlot, TileInventoryCropPlot.BERRY_SLOT, 104, 17));
 	}
 
 	/* Nothing to do, this is a furnace type container */
@@ -96,9 +100,7 @@ public class ContainerInventoryCropPlot extends Container
 			{
 				// This is a vanilla container slot so merge the stack into the
 				// crop plot inventory
-				if (!mergeItemStack(
-						sourceStack,
-						36,
+				if (!mergeItemStack(sourceStack, 36,
 						36 + TileInventoryCropPlot.WATER_SLOT + TileInventoryCropPlot.WATER_SLOTS_COUNT,
 						false)) { return null; }
 			}
@@ -106,9 +108,7 @@ public class ContainerInventoryCropPlot extends Container
 			{
 				// This is a vanilla container slot so merge the stack into the
 				// crop plot inventory
-				if (!mergeItemStack(
-						sourceStack,
-						36,
+				if (!mergeItemStack(sourceStack, 36,
 						36 + TileInventoryCropPlot.SEED_SLOT + TileInventoryCropPlot.SEED_SLOTS_COUNT,
 						false)) { return null; }
 			}
@@ -116,9 +116,7 @@ public class ContainerInventoryCropPlot extends Container
 			{
 				// This is a vanilla container slot so merge the stack into the
 				// crop plot inventory
-				if (!mergeItemStack(
-						sourceStack,
-						36,
+				if (!mergeItemStack(sourceStack, 36,
 						36 + TileInventoryCropPlot.FIRST_FERTILIZER_SLOT + TileInventoryCropPlot.FERTILIZER_SLOTS_COUNT,
 						false)) { return null; }
 			}

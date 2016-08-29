@@ -14,29 +14,33 @@ import net.minecraft.item.ItemStack;
  *         for the block will match 2) Do not have two recipes for the same
  *         ItemStack, only the first will be used
  */
-public class SmithyCraftingManager extends ARKCraftingManager {
+public class SmithyCraftingManager extends ARKCraftingManager
+{
 
 	private static SmithyCraftingManager instance = null;
 
-	public SmithyCraftingManager() {
+	public SmithyCraftingManager()
+	{
 		super();
 		instance = this;
 	}
 
-	public static SmithyCraftingManager getInstance() {
-		if (instance == null) {
+	public static SmithyCraftingManager getInstance()
+	{
+		if (instance == null)
+		{
 			instance = new SmithyCraftingManager();
 		}
 		return instance;
 	}
 
-	public static void registerSmithyCraftingRecipes() {
+	public static void registerSmithyCraftingRecipes()
+	{
 
 		// Spy Glass
 		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.spy_glass, 1),
 				new ItemStack(ARKCraftItems.wood, 5), new ItemStack(ARKCraftItems.hide, 10),
-				new ItemStack(ARKCraftItems.fiber, 10),
-				new ItemStack(ARKCraftItems.crystal, 2));
+				new ItemStack(ARKCraftItems.fiber, 10), new ItemStack(ARKCraftItems.crystal, 2));
 
 		// Scope
 		getInstance().addShapelessRecipe(new ItemStack(ARKCraftRangedWeapons.scope, 1),
@@ -48,11 +52,11 @@ public class SmithyCraftingManager extends ARKCraftingManager {
 				new ItemStack(ARKCraftItems.metal_ingot, 10), new ItemStack(ARKCraftItems.wood, 10),
 				new ItemStack(ARKCraftItems.hide, 20));
 
-		//Metal Sickle
+		// Metal Sickle
 		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.metal_sickle),
 				new ItemStack(ARKCraftItems.metal_ingot, 18), new ItemStack(ARKCraftItems.wood, 4),
 				new ItemStack(ARKCraftItems.hide, 16));
-		
+
 		// Metal Pick
 		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.metal_pick, 1),
 				new ItemStack(ARKCraftItems.metal_ingot, 1), new ItemStack(ARKCraftItems.wood, 1),
@@ -79,24 +83,31 @@ public class SmithyCraftingManager extends ARKCraftingManager {
 				new ItemStack(ARKCraftItems.hide, 25));
 
 		// Crossbow
-	//	getInstance().addShapelessRecipe(new ItemStack(ARKCraftRangedWeapons.crossbow, 1),
-	//			new ItemStack(ARKCraftItems.metal_ingot, 7), new ItemStack(ARKCraftItems.wood, 10),
-	//			new ItemStack(ARKCraftItems.fiber, 35));
+		// getInstance().addShapelessRecipe(new
+		// ItemStack(ARKCraftRangedWeapons.crossbow, 1),
+		// new ItemStack(ARKCraftItems.metal_ingot, 7), new
+		// ItemStack(ARKCraftItems.wood, 10),
+		// new ItemStack(ARKCraftItems.fiber, 35));
 
 		// Bullets
 		// Simple Bullet
 		getInstance().addShapelessRecipe(new ItemStack(ARKCraftRangedWeapons.simple_bullet, 1),
-				new ItemStack(ARKCraftItems.gunpowder, 6), new ItemStack(ARKCraftItems.metal_ingot, 1));
+				new ItemStack(ARKCraftItems.gunpowder, 6),
+				new ItemStack(ARKCraftItems.metal_ingot, 1));
 		// Simple Rifle Ammo
 		getInstance().addShapelessRecipe(new ItemStack(ARKCraftRangedWeapons.simple_rifle_ammo, 1),
-				new ItemStack(ARKCraftItems.gunpowder, 12), new ItemStack(ARKCraftItems.metal_ingot, 2));
+				new ItemStack(ARKCraftItems.gunpowder, 12),
+				new ItemStack(ARKCraftItems.metal_ingot, 2));
 		// Simple Shotgun Ammo
-		getInstance().addShapelessRecipe(new ItemStack(ARKCraftRangedWeapons.simple_shotgun_ammo, 1),
-				new ItemStack(ARKCraftItems.gunpowder, 3), new ItemStack(ARKCraftItems.metal_ingot, 1),
+		getInstance().addShapelessRecipe(
+				new ItemStack(ARKCraftRangedWeapons.simple_shotgun_ammo, 1),
+				new ItemStack(ARKCraftItems.gunpowder, 3),
+				new ItemStack(ARKCraftItems.metal_ingot, 1),
 				new ItemStack(ARKCraftRangedWeapons.simple_bullet, 3));
 		// Tranquilizer
 		getInstance().addShapelessRecipe(new ItemStack(ARKCraftRangedWeapons.tranquilizer, 1),
-				new ItemStack(ARKCraftItems.narcotics, 3), new ItemStack(ARKCraftItems.metal_ingot, 2),
+				new ItemStack(ARKCraftItems.narcotics, 3),
+				new ItemStack(ARKCraftItems.metal_ingot, 2),
 				new ItemStack(ARKCraftRangedWeapons.simple_rifle_ammo, 1));
 	}
 }

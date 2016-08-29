@@ -65,8 +65,8 @@ public class EntitySpear extends EntityProjectile
 		{
 			if (entity instanceof EntityLivingBase && worldObj.isRemote)
 			{
-				((EntityLivingBase) entity).setArrowCountInEntity(((EntityLivingBase) entity)
-						.getArrowCountInEntity() + 1);
+				((EntityLivingBase) entity).setArrowCountInEntity(
+						((EntityLivingBase) entity).getArrowCountInEntity() + 1);
 			}
 			applyEntityHitEffects(entity);
 			playHitSound();
@@ -77,7 +77,7 @@ public class EntitySpear extends EntityProjectile
 			bounceBack();
 		}
 	}
-	
+
 	@Override
 	public void onGroundHit(MovingObjectPosition movingobjectposition)
 	{

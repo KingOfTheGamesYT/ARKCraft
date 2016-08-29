@@ -36,7 +36,7 @@ public class CampfireCraftingManager
 		r.setBurnTime(1);
 		registerRecipe(r.toString(), r);
 	}
-	
+
 	private static void registerCookedPrimeMeat()
 	{
 		CampfireRecipe r = new CampfireRecipe("cooked_prime_meat");

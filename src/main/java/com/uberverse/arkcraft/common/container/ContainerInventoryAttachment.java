@@ -32,9 +32,8 @@ public class ContainerInventoryAttachment extends Container
 		for (int col = 0; col < ATTACHMENT_SLOT_COUNT; col++)
 		{
 			int slotIndex = col;
-			addSlotToContainer(new SlotAttachment(tileInventoryAttachment,
-					slotIndex, ATTACHMENT_SLOT_XPOS + col * 18,
-					ATTACHMENT_SLOT_YPOS));
+			addSlotToContainer(new SlotAttachment(tileInventoryAttachment, slotIndex,
+					ATTACHMENT_SLOT_XPOS + col * 18, ATTACHMENT_SLOT_YPOS));
 		}
 
 		/* Player inventory */
@@ -53,8 +52,7 @@ public class ContainerInventoryAttachment extends Container
 		final int HOTBAR_YPOS = 142;
 		for (int col = 0; col < 9; col++)
 		{
-			addSlotToContainer(new Slot(invPlayer, col, 8 + col * 18,
-					HOTBAR_YPOS));
+			addSlotToContainer(new Slot(invPlayer, col, 8 + col * 18, HOTBAR_YPOS));
 		}
 	}
 
@@ -92,8 +90,8 @@ public class ContainerInventoryAttachment extends Container
 				if (index >= ATTACHMENT_SLOT_COUNT)
 				{
 					// place in custom inventory
-					if (!this.mergeItemStack(itemstack1, 0,
-							ATTACHMENT_SLOT_COUNT, false)) { return null; }
+					if (!this.mergeItemStack(itemstack1, 0, ATTACHMENT_SLOT_COUNT,
+							false)) { return null; }
 				}
 			}
 
@@ -155,13 +153,12 @@ public class ContainerInventoryAttachment extends Container
 
 				if (itemstack1 != null && itemstack1.getItem() == stack
 						.getItem() && (!stack.getHasSubtypes() || stack
-						.getItemDamage() == itemstack1.getItemDamage()) && ItemStack
-						.areItemStackTagsEqual(stack, itemstack1))
+								.getItemDamage() == itemstack1.getItemDamage()) && ItemStack
+										.areItemStackTagsEqual(stack, itemstack1))
 				{
 					int l = itemstack1.stackSize + stack.stackSize;
 
-					if (l <= stack.getMaxStackSize() && l <= slot
-							.getSlotStackLimit())
+					if (l <= stack.getMaxStackSize() && l <= slot.getSlotStackLimit())
 					{
 						stack.stackSize = 0;
 						itemstack1.stackSize = l;
@@ -211,11 +208,8 @@ public class ContainerInventoryAttachment extends Container
 					}
 					else
 					{
-						putStackInSlot(
-								k,
-								new ItemStack(stack.getItem(), slot
-										.getSlotStackLimit(), stack
-										.getItemDamage()));
+						putStackInSlot(k, new ItemStack(stack.getItem(), slot.getSlotStackLimit(),
+								stack.getItemDamage()));
 						stack.stackSize -= slot.getSlotStackLimit();
 						tileInventoryAttachment.markDirty();
 						flag1 = true;
@@ -240,8 +234,7 @@ public class ContainerInventoryAttachment extends Container
 		@Override
 		public boolean isItemValid(ItemStack stack)
 		{
-			return tileInventoryAttachment.isItemValidForSlot(this.slotNumber,
-					stack);
+			return tileInventoryAttachment.isItemValidForSlot(this.slotNumber, stack);
 		}
 
 	}

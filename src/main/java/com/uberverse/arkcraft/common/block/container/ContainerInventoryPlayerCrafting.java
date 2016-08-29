@@ -62,23 +62,24 @@ public class ContainerInventoryPlayerCrafting extends Container
 		final int NUM_ROWS_PC = 2;
 		final int PC_XPOS = 26;
 		final int PC_SLOT_COUNT = NUM_COLUMNS_PC * NUM_ROWS_PC;
-//		if (PC_SLOT_COUNT != inventoryPlayerCrafting.getSizeInventory())
-//		{
-//			LogHelper
-//					.error("Mismatched slot count in container(" + PC_SLOT_COUNT + ") and InventoryPlayerCrafting (" + inventoryPlayerCrafting
-//							.getSizeInventory() + ")");
-//			return;
-//		}
-//		for (int row = 0; row < NUM_ROWS_PC; row++)
-//		{
-//			for (int col = 0; col < NUM_COLUMNS_PC; col++)
-//			{
-//				int slotIndex = col + row * NUM_COLUMNS_PC;
-//
-//				this.addSlotToContainer(new Slot(inventoryPlayerCrafting, slotIndex,
-//						PC_XPOS + col * 18, PLAYER_CRAFTING_YPOS + row * 18));
-//			}
-//		}
+		// if (PC_SLOT_COUNT != inventoryPlayerCrafting.getSizeInventory())
+		// {
+		// LogHelper
+		// .error("Mismatched slot count in container(" + PC_SLOT_COUNT + ") and
+		// InventoryPlayerCrafting (" + inventoryPlayerCrafting
+		// .getSizeInventory() + ")");
+		// return;
+		// }
+		// for (int row = 0; row < NUM_ROWS_PC; row++)
+		// {
+		// for (int col = 0; col < NUM_COLUMNS_PC; col++)
+		// {
+		// int slotIndex = col + row * NUM_COLUMNS_PC;
+		//
+		// this.addSlotToContainer(new Slot(inventoryPlayerCrafting, slotIndex,
+		// PC_XPOS + col * 18, PLAYER_CRAFTING_YPOS + row * 18));
+		// }
+		// }
 
 		/* Player inventory */
 		final int PLAYER_INVENTORY_YPOS = 161;

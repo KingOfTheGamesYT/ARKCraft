@@ -1,12 +1,17 @@
 package com.uberverse.arkcraft.common.network;
 
-import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
+import com.uberverse.arkcraft.rework.ARKPlayer;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
+/**
+ * 
+ * @author Lewis_McReu
+ *
+ */
 public class UnlockEngramMessage implements IMessage
 {
 	public UnlockEngramMessage()

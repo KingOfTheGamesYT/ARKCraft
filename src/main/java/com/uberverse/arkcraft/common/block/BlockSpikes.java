@@ -14,44 +14,59 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class BlockSpikes extends Block
 {
 
-    private int renderType = 3; //default value
+	private int renderType = 3; // default value
 
-    public BlockSpikes(Material m, float hardness)
-    {
-        super(m);
-        this.setHardness(hardness);
-    }
+	public BlockSpikes(Material m, float hardness)
+	{
+		super(m);
+		this.setHardness(hardness);
+	}
 
-    @Override
-    public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
-    {
-        entityIn.attackEntityFrom(DamageSource.cactus, 4.0F);
-    }
+	@Override
+	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
+	{
+		entityIn.attackEntityFrom(DamageSource.cactus, 4.0F);
+	}
 
-    @Override
-    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
-    {
-        float f = 0.0625F;
-        return new AxisAlignedBB((double) ((float) pos.getX() + f), (double) pos.getY(), (double) ((float) pos.getZ() + f), (double) ((float) (pos.getX() + 1) - f), (double) ((float) (pos.getY() + 1) - f), (double) ((float) (pos.getZ() + 1) - f));
-    }
+	@Override
+	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
+	{
+		float f = 0.0625F;
+		return new AxisAlignedBB((double) ((float) pos.getX() + f), (double) pos.getY(),
+				(double) ((float) pos.getZ() + f), (double) ((float) (pos.getX() + 1) - f),
+				(double) ((float) (pos.getY() + 1) - f), (double) ((float) (pos.getZ() + 1) - f));
+	}
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos)
-    {
-        float f = 0.0F;
-        return new AxisAlignedBB((double) ((float) pos.getX() + f), (double) pos.getY(), (double) ((float) pos.getZ() + f), (double) ((float) (pos.getX() + 1) - f), (double) (pos.getY() + 1), (double) ((float) (pos.getZ() + 1) - f));
-    }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos)
+	{
+		float f = 0.0F;
+		return new AxisAlignedBB((double) ((float) pos.getX() + f), (double) pos.getY(),
+				(double) ((float) pos.getZ() + f), (double) ((float) (pos.getX() + 1) - f),
+				(double) (pos.getY() + 1), (double) ((float) (pos.getZ() + 1) - f));
+	}
 
-    @Override
-    public boolean isFullCube() {return false;}
+	@Override
+	public boolean isFullCube()
+	{
+		return false;
+	}
 
-    @Override
-    public boolean isOpaqueCube() {return false;}
+	@Override
+	public boolean isOpaqueCube()
+	{
+		return false;
+	}
 
-    public void setRenderType(int renderType) { this.renderType = renderType; }
+	public void setRenderType(int renderType)
+	{
+		this.renderType = renderType;
+	}
 
-    public int getRenderType() { return renderType; }
-
+	public int getRenderType()
+	{
+		return renderType;
+	}
 
 }

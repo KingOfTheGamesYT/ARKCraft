@@ -1,12 +1,12 @@
 package com.uberverse.arkcraft.common.entity;
 
-import net.minecraft.entity.Entity;
+import com.uberverse.arkcraft.common.config.ModuleItemBalance;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 
-public class EntityTranquilizer extends EntityProjectile implements
-		ITranquilizer
+public class EntityTranquilizer extends EntityProjectile implements ITranquilizer
 {
 	public EntityTranquilizer(World world)
 	{
@@ -44,8 +44,8 @@ public class EntityTranquilizer extends EntityProjectile implements
 	{
 		super.onUpdate();
 
-		worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, posX, posY,
-				posZ, 0.0D, 0.0D, 0.0D);
+		worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, posX, posY, posZ, 0.0D, 0.0D,
+				0.0D);
 	}
 
 	@Override
@@ -56,16 +56,8 @@ public class EntityTranquilizer extends EntityProjectile implements
 	}
 
 	@Override
-	public void applyTorpor(Entity entityHit)
+	public int getTorpor()
 	{
-		// TODO apply torpor to player
-	/*	if (entityHit instanceof EntityARKCreature)
-		{
-			LogHelper
-					.info("Torpor applied: " + ModuleItemBalance.WEAPONS.TRANQ_AMMO_TORPOR_TIME);
-			((EntityARKCreature) entityHit).increaseTorpor(
-					ModuleItemBalance.WEAPONS.TRANQ_AMMO_TORPOR_TIME,
-					this.shootingEntity);
-		} */
-	}	
+		return ModuleItemBalance.WEAPONS.TRANQ_AMMO_TORPOR_TIME;
+	}
 }

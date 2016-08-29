@@ -44,7 +44,7 @@ public class EntityGrenade extends EntityProjectile
 		prevPosZ = posZ;
 
 	}
-	
+
 	@Override
 	public void onUpdate()
 	{

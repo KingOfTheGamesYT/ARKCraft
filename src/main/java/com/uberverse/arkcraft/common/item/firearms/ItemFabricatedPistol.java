@@ -12,8 +12,8 @@ import com.uberverse.arkcraft.common.item.attachments.Laserable;
 import com.uberverse.arkcraft.common.item.attachments.Scopeable;
 import com.uberverse.arkcraft.common.item.attachments.Silenceable;
 
-public class ItemFabricatedPistol extends ItemRangedWeapon implements Silenceable, Laserable,
-		Scopeable, HoloScopeable, Flashable
+public class ItemFabricatedPistol extends ItemRangedWeapon
+		implements Silenceable, Laserable, Scopeable, HoloScopeable, Flashable
 {
 
 	public ItemFabricatedPistol()

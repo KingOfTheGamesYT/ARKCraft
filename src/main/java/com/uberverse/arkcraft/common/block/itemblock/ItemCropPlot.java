@@ -45,16 +45,21 @@ public class ItemCropPlot extends ItemBlockARK
 			}
 			else if (ARKCraftBlocks.crop_plot.canPlaceBlockAt(worldIn, blockpos1))
 			{
-				if(stack.getMetadata() > 0){
-					for(Part p : Part.VALUES){
-						if(p != Part.MIDDLE){
-							if(!ARKCraftBlocks.crop_plot.canPlaceBlockAt(worldIn, p.offset(blockpos1, false)))return false;
+				if (stack.getMetadata() > 0)
+				{
+					for (Part p : Part.VALUES)
+					{
+						if (p != Part.MIDDLE)
+						{
+							if (!ARKCraftBlocks.crop_plot.canPlaceBlockAt(worldIn,
+									p.offset(blockpos1, false))) return false;
 						}
 					}
 				}
 				--stack.stackSize;
 				worldIn.setBlockState(blockpos1, ARKCraftBlocks.crop_plot.getDefaultState());
-				ARKCraftBlocks.crop_plot.onBlockPlacedBy(worldIn, blockpos1, ARKCraftBlocks.crop_plot.getDefaultState(), playerIn, stack);
+				ARKCraftBlocks.crop_plot.onBlockPlacedBy(worldIn, blockpos1,
+						ARKCraftBlocks.crop_plot.getDefaultState(), playerIn, stack);
 				return true;
 			}
 			else
@@ -63,8 +68,12 @@ public class ItemCropPlot extends ItemBlockARK
 			}
 		}
 	}
+
 	@Override
-	public String getUnlocalizedName(ItemStack stack) {
-		return super.getUnlocalizedName(stack) + "." + CropPlotType.VALUES[stack.getMetadata() % CropPlotType.VALUES.length].name().toLowerCase();
+	public String getUnlocalizedName(ItemStack stack)
+	{
+		return super.getUnlocalizedName(
+				stack) + "." + CropPlotType.VALUES[stack.getMetadata() % CropPlotType.VALUES.length]
+						.name().toLowerCase();
 	}
 }

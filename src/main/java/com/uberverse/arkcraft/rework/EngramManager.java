@@ -12,7 +12,6 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,9 +30,10 @@ public class EngramManager
 
 	public static void init()
 	{
-		instance().registerEngram(new Engram("stone_pick", ARKCraftItems.stone_pick, 0, 1, 10,
-				EngramType.SMITHY, new EngramRecipe(ARKCraftItems.wood, 1, ARKCraftItems.stone, 1,
-						ARKCraftItems.thatch, 10)));
+		for (int i = 0; i < 50; i++)
+			instance().registerEngram(new Engram("stone_pick" + i, ARKCraftItems.stone_pick, 0, 1,
+					10, EngramType.SMITHY, new EngramRecipe(ARKCraftItems.wood, 1,
+							ARKCraftItems.stone, 1, ARKCraftItems.thatch, 10)));
 	}
 
 	private Set<Engram> engrams;
@@ -60,7 +60,7 @@ public class EngramManager
 
 	public List<Engram> getUnlockedEngrams(EntityPlayer player)
 	{
-		final Collection<Short> col = ARKPlayer.get(player).learnedEngrams();
+		final Collection<Short> col = ARKPlayer.get(player).getUnlockedEngrams();
 		final List<Engram> out = new ArrayList<>();
 		engrams.forEach(new Consumer<Engram>()
 		{

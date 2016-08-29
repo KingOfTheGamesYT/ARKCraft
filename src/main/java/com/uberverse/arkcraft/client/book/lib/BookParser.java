@@ -14,30 +14,39 @@ import com.uberverse.lib.LogHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
-public class BookParser {
+public class BookParser
+{
 
-	//This is different from BookClient.readManual(), since this is more general (it only registers a page deserializer)
-	public static BookDocument parseJSON(GsonBuilder gBuilder, String dest) {
+	// This is different from BookClient.readManual(), since this is more
+	// general (it only registers a page deserializer)
+	public static BookDocument parseJSON(GsonBuilder gBuilder, String dest)
+	{
 		gBuilder = new GsonBuilder();
 		gBuilder.registerTypeAdapter(IPage.class, new PageDeserializer());
 		Gson target = gBuilder.create();
 		ResourceLocation loc = new ResourceLocation(ARKCraft.MODID, dest);
-		try {
+		try
+		{
 			LogHelper.info("Trying to find JSON file......");
-			InputStream stream = Minecraft.getMinecraft().getResourceManager().getResource(loc).getInputStream();
+			InputStream stream = Minecraft.getMinecraft().getResourceManager().getResource(loc)
+					.getInputStream();
 			Reader reader = new InputStreamReader(stream, "UTF-8");
-			/* This line tries to deserialize the whole JSON file into a BookDocument object. */
+			/*
+			 * This line tries to deserialize the whole JSON file into a
+			 * BookDocument object.
+			 */
 			BookDocument doc = target.fromJson(reader, BookDocument.class);
 			return doc;
 		}
-		catch(Exception e) {
+		catch (Exception e)
+		{
 			LogHelper.error("Failed to parse the JSON!");
 			e.printStackTrace();
-			
+
 		}
-		
-		//If unsuccessful, return null.
+
+		// If unsuccessful, return null.
 		return null;
 	}
-	
+
 }

@@ -17,33 +17,41 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 @Sharable
-public class DescriptionHandler extends SimpleChannelInboundHandler<FMLProxyPacket>{
+public class DescriptionHandler extends SimpleChannelInboundHandler<FMLProxyPacket>
+{
 
-	static {
-		NetworkRegistry.INSTANCE.newChannel(ARKCraft.descriptionPacketChannel, new DescriptionHandler());
+	static
+	{
+		NetworkRegistry.INSTANCE.newChannel(ARKCraft.descriptionPacketChannel,
+				new DescriptionHandler());
 	}
 
-	public static void init(){
+	public static void init()
+	{
 		System.out.println("Init the DescriptionHandler");
 	}
 
 	@Override
-	protected void channelRead0(ChannelHandlerContext ctx, FMLProxyPacket msg) throws Exception{
+	protected void channelRead0(ChannelHandlerContext ctx, FMLProxyPacket msg) throws Exception
+	{
 		final ByteBuf buf = msg.payload();
-		Minecraft.getMinecraft().addScheduledTask(new Runnable() {
+		Minecraft.getMinecraft().addScheduledTask(new Runnable()
+		{
 
 			@Override
-			public void run() {
+			public void run()
+			{
 				int x = buf.readInt();
 				int y = buf.readInt();
 				int z = buf.readInt();
-				TileEntity te = ARKCraft.proxy.getPlayer().worldObj.getTileEntity(new BlockPos(x, y, z));
-				if(te instanceof TileEntityArkCraft) {
-					((TileEntityArkCraft)te).readFromPacket(ByteBufUtils.readTag(buf));
+				TileEntity te = ARKCraft.proxy.getPlayer().worldObj
+						.getTileEntity(new BlockPos(x, y, z));
+				if (te instanceof TileEntityArkCraft)
+				{
+					((TileEntityArkCraft) te).readFromPacket(ByteBufUtils.readTag(buf));
 				}
 			}
 		});
 	}
 
 }
-

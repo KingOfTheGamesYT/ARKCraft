@@ -92,7 +92,8 @@ public class ContainerInventoryMP extends Container
 		{
 			// This is a MP inventory slot so merge the stack into the players
 			// inventory
-			if (!mergeItemStack(sourceStack, nonPlayerSlotsCount, 36 + nonPlayerSlotsCount, false)) { return null; }
+			if (!mergeItemStack(sourceStack, nonPlayerSlotsCount, 36 + nonPlayerSlotsCount,
+					false)) { return null; }
 		}
 		// Check if the slot clicked is one of the vanilla container slots
 		else if (sourceSlotIndex >= nonPlayerSlotsCount && sourceSlotIndex < 36 + nonPlayerSlotsCount)

@@ -9,36 +9,41 @@ import net.minecraft.util.StatCollector;
 
 /**
  * 
- * @author Archiving
- * This page is for crafting recipes that also have a block model.
+ * @author Archiving This page is for crafting recipes that also have a block
+ *         model.
  * 
  */
-public class PageCraftingBlock extends Page {
+public class PageCraftingBlock extends Page
+{
 
 	public Block result;
 	public String title;
 	public String text;
 	public String recipeImage;
-	
-	
+
 	@Override
-	public void draw(int guiLeft, int guiTop, int mouseX, int mouseY, SmallFontRenderer renderer, boolean canTranslate, GuiInfoBook book) {
-		if(result != null) {
-			
+	public void draw(int guiLeft, int guiTop, int mouseX, int mouseY, SmallFontRenderer renderer, boolean canTranslate, GuiInfoBook book)
+	{
+		if (result != null)
+		{
+
 		}
-	
-		if(title != null) {
-			if(canTranslate) StatCollector.translateToLocal(title);
-			
+
+		if (title != null)
+		{
+			if (canTranslate) StatCollector.translateToLocal(title);
+
 		}
-		
-		if(text != null) {
-			
+
+		if (text != null)
+		{
+
 		}
-		
-		if(recipeImage != null) {
-			
+
+		if (recipeImage != null)
+		{
+
 		}
-		
+
 	}
 }

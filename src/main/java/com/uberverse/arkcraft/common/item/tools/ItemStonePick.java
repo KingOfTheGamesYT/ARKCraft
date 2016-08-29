@@ -12,28 +12,31 @@ import com.google.common.collect.ImmutableSet;
 public class ItemStonePick extends ItemPickaxe
 {
 
-    public ItemStonePick(ToolMaterial material)
-    {
+	public ItemStonePick(ToolMaterial material)
+	{
 
-        super(material);
-    }
+		super(material);
+	}
 
-    @Override
-    public Set<String> getToolClasses(ItemStack stack)
-    {
-        return ImmutableSet.of("pickaxe", "axe");
-    }
+	@Override
+	public Set<String> getToolClasses(ItemStack stack)
+	{
+		return ImmutableSet.of("pickaxe", "axe");
+	}
 
-    @Override
-    public float getStrVsBlock(ItemStack stack, Block block)
-    {
+	@Override
+	public float getStrVsBlock(ItemStack stack, Block block)
+	{
 
-        return block.getMaterial() != Material.iron && block.getMaterial() != Material.anvil && block.getMaterial() != Material.rock ? super.getStrVsBlock(stack, block) : this.efficiencyOnProperMaterial;
+		return block.getMaterial() != Material.iron && block
+				.getMaterial() != Material.anvil && block
+						.getMaterial() != Material.rock ? super.getStrVsBlock(stack,
+								block) : this.efficiencyOnProperMaterial;
 
-    }
+	}
 
-    public boolean isArkTool()
-    {
-        return true;
-    }
+	public boolean isArkTool()
+	{
+		return true;
+	}
 }

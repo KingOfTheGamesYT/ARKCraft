@@ -16,47 +16,46 @@ import com.uberverse.arkcraft.common.event.CommonEventHandler;
 public class GUIOverlayGetResources extends Gui
 {
 	private static final Minecraft mc = Minecraft.getMinecraft();
-	private static final TextureMap iconLocation = new TextureMap(ARKCraft.MODID + "textures/items/azul.png");
+	private static final TextureMap iconLocation = new TextureMap(
+			ARKCraft.MODID + "textures/items/azul.png");
 	public boolean allowGuiOpen;
 	public static int count = 0;
-	
+
 	/*
-	public void test()
-	{
-		System.out.println(ClientEventHandler.openOverlay());
-		//ClientEventHandler evt = new ClientEventHandler();
-		if (allowGuiOpen != ClientEventHandler.openOverlay())
-		{
-			allowGuiOpen = true;
-			System.out.println(allowGuiOpen);
-		}
-	}	*/
-	
+	 * public void test() {
+	 * System.out.println(ClientEventHandler.openOverlay());
+	 * //ClientEventHandler evt = new ClientEventHandler(); if (allowGuiOpen !=
+	 * ClientEventHandler.openOverlay()) { allowGuiOpen = true;
+	 * System.out.println(allowGuiOpen); } }
+	 */
+
 	@SubscribeEvent
 	public void renderGUIOverlay(RenderGameOverlayEvent.Post e)
 	{
-		
+
 		if (allowGuiOpen != CommonEventHandler.arkMode)
 		{
 			EntityPlayer p = mc.thePlayer;
 			ItemStack stack = p.getCurrentEquippedItem();
 			ClientEventHandler handler = new ClientEventHandler();
-			
-				if (e.type.equals(ElementType.HELMET) )
-				{
-						String text = "ARK Enabled";
-						
-					
-					//	this.mc.renderEngine.bindTexture(new ResourceLocation(ARKCraft.MODID,
-				//				"textures/items/azul.png"));
-				//		this.drawTexturedModalRect(8, 8, 0, 0, 256, 256);
-					//	this.drawTexturedModalRect(posX + 8, posY + 8, 0, 0, 256, 256);
-				//		this.drawTexturedModalRect(xCoord, yCoord, textureSprite, p_175175_4_, p_175175_5_);	
-						int x = 2;
-						int y = 2;
-						drawString(mc.fontRendererObj, text, x, y, 0xFFFFFFFF);
-				//		this.drawTexturedModalRect(x + 8, y + 8, 0, 0, 32, 32);
-				}
+
+			if (e.type.equals(ElementType.HELMET))
+			{
+				String text = "ARK Enabled";
+
+				// this.mc.renderEngine.bindTexture(new
+				// ResourceLocation(ARKCraft.MODID,
+				// "textures/items/azul.png"));
+				// this.drawTexturedModalRect(8, 8, 0, 0, 256, 256);
+				// this.drawTexturedModalRect(posX + 8, posY + 8, 0, 0, 256,
+				// 256);
+				// this.drawTexturedModalRect(xCoord, yCoord, textureSprite,
+				// p_175175_4_, p_175175_5_);
+				int x = 2;
+				int y = 2;
+				drawString(mc.fontRendererObj, text, x, y, 0xFFFFFFFF);
+				// this.drawTexturedModalRect(x + 8, y + 8, 0, 0, 32, 32);
+			}
 		}
-	}	
+	}
 }

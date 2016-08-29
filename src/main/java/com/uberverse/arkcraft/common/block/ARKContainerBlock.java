@@ -13,42 +13,60 @@ import com.uberverse.arkcraft.ARKCraft;
 public class ARKContainerBlock extends Block
 {
 
-    private int renderType = 3; //default value
-    private boolean isOpaque = false;
-    private int ID;
-    private boolean render = false;
+	private int renderType = 3; // default value
+	private boolean isOpaque = false;
+	private int ID;
+	private boolean render = false;
 
-    public ARKContainerBlock(Material mat, int ID)
-    {
-        super(mat);
+	public ARKContainerBlock(Material mat, int ID)
+	{
+		super(mat);
 
-        this.ID = ID;
-    }
+		this.ID = ID;
+	}
 
-    public void setRenderType(int renderType) { this.renderType = renderType; }
+	public void setRenderType(int renderType)
+	{
+		this.renderType = renderType;
+	}
 
-    public int getRenderType() { return renderType; }
+	public int getRenderType()
+	{
+		return renderType;
+	}
 
-    public void setOpaque(boolean opaque) { opaque = isOpaque; }
+	public void setOpaque(boolean opaque)
+	{
+		opaque = isOpaque;
+	}
 
-    public boolean isOpaqueCube() { return isOpaque; }
+	public boolean isOpaqueCube()
+	{
+		return isOpaque;
+	}
 
-    @Override
-    public boolean onBlockActivated(World worldIn, BlockPos blockPos, IBlockState state, EntityPlayer playerIn, EnumFacing side,
-                                    float hitX, float hitY, float hitZ)
-    {
-        if (!playerIn.isSneaking())
-        {
-            if (!worldIn.isRemote)
-            {
-                playerIn.openGui(ARKCraft.instance(), ID, worldIn, blockPos.getX(), blockPos.getY(), blockPos.getZ());
-                return true;
-            }
-        }
-        return false;
-    }
+	@Override
+	public boolean onBlockActivated(World worldIn, BlockPos blockPos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
+	{
+		if (!playerIn.isSneaking())
+		{
+			if (!worldIn.isRemote)
+			{
+				playerIn.openGui(ARKCraft.instance(), ID, worldIn, blockPos.getX(), blockPos.getY(),
+						blockPos.getZ());
+				return true;
+			}
+		}
+		return false;
+	}
 
-    public void setRenderAsNormalBlock(boolean b) { render = b; }
+	public void setRenderAsNormalBlock(boolean b)
+	{
+		render = b;
+	}
 
-    public boolean renderAsNormalBlock() { return render; }
+	public boolean renderAsNormalBlock()
+	{
+		return render;
+	}
 }

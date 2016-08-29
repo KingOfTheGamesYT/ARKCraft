@@ -143,7 +143,8 @@ public class BlockCompostBin extends BlockContainer
 	@Override
 	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player)
 	{
-		if (player.capabilities.isCreativeMode && state.getValue(PART) == BlockCompostBin.EnumPartType.LEFT)
+		if (player.capabilities.isCreativeMode && state
+				.getValue(PART) == BlockCompostBin.EnumPartType.LEFT)
 		{
 			BlockPos blockpos1 = pos.offset(((EnumFacing) state.getValue(FACING)).getOpposite());
 			if (worldIn.getBlockState(blockpos1).getBlock() == this)
@@ -229,8 +230,8 @@ public class BlockCompostBin extends BlockContainer
 		return (meta & 8) > 0 ? this.getDefaultState()
 				.withProperty(PART, BlockCompostBin.EnumPartType.LEFT)
 				.withProperty(FACING, enumfacing) : this.getDefaultState()
-				.withProperty(PART, BlockCompostBin.EnumPartType.RIGHT)
-				.withProperty(FACING, enumfacing);
+						.withProperty(PART, BlockCompostBin.EnumPartType.RIGHT)
+						.withProperty(FACING, enumfacing);
 	}
 
 	/**

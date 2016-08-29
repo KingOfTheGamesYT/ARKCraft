@@ -36,7 +36,7 @@ public class ItemCrossbow extends ItemRangedWeapon
 	@Override
 	public void effectReloadDone(ItemStack stack, World world, EntityPlayer player)
 	{
-		world.playSoundAtEntity(player, "random.click", 0.8F, 1.0F / (this.getItemRand()
-				.nextFloat() * 0.4F + 0.4F));
+		world.playSoundAtEntity(player, "random.click", 0.8F,
+				1.0F / (this.getItemRand().nextFloat() * 0.4F + 0.4F));
 	}
 }

@@ -11,8 +11,6 @@ public class GuiTexturedButton extends GuiButton
 
 	private int resourceX, resourceY;
 
-	
-	
 	public GuiTexturedButton(int buttonId, int x, int y, int widthIn, int heightIn, ResourceLocation resource, int resourceX, int resourceY)
 	{
 		super(buttonId, x, y, widthIn, heightIn, "");

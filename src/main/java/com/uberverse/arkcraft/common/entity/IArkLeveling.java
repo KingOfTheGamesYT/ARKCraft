@@ -4,7 +4,13 @@ public interface IArkLeveling
 {
 	public void addXP(long xp);
 	
-	void checkLevel();
-	
+	public long getXP();
+
+	void updateLevel();
+
 	long getRequiredXP();
+
+	public short getLevel();
+	
+	public short getMaxLevel();
 }

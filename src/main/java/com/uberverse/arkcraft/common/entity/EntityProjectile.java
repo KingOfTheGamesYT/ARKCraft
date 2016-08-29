@@ -99,10 +99,12 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 		this.posY -= 0.10000000149011612D;
 		this.posZ -= (double) (MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * 0.16F);
 		this.setPosition(this.posX, this.posY, this.posZ);
-		this.motionX = (double) (-MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper
-				.cos(this.rotationPitch / 180.0F * (float) Math.PI));
-		this.motionZ = (double) (MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper
-				.cos(this.rotationPitch / 180.0F * (float) Math.PI));
+		this.motionX = (double) (-MathHelper
+				.sin(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper
+						.cos(this.rotationPitch / 180.0F * (float) Math.PI));
+		this.motionZ = (double) (MathHelper
+				.cos(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper
+						.cos(this.rotationPitch / 180.0F * (float) Math.PI));
 		this.motionY = (double) (-MathHelper.sin(this.rotationPitch / 180.0F * (float) Math.PI));
 		setThrowableHeading(motionX, motionY, motionZ, speed, inaccuracy);
 	}
@@ -131,9 +133,12 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 		motionX /= (double) f2;
 		motionY /= (double) f2;
 		motionZ /= (double) f2;
-		motionX += this.rand.nextGaussian() * (double) (this.rand.nextBoolean() ? -1 : 1) * 0.007499999832361937D * (double) inaccuracy;
-		motionY += this.rand.nextGaussian() * (double) (this.rand.nextBoolean() ? -1 : 1) * 0.007499999832361937D * (double) inaccuracy;
-		motionZ += this.rand.nextGaussian() * (double) (this.rand.nextBoolean() ? -1 : 1) * 0.007499999832361937D * (double) inaccuracy;
+		motionX += this.rand.nextGaussian() * (double) (this.rand
+				.nextBoolean() ? -1 : 1) * 0.007499999832361937D * (double) inaccuracy;
+		motionY += this.rand.nextGaussian() * (double) (this.rand
+				.nextBoolean() ? -1 : 1) * 0.007499999832361937D * (double) inaccuracy;
+		motionZ += this.rand.nextGaussian() * (double) (this.rand
+				.nextBoolean() ? -1 : 1) * 0.007499999832361937D * (double) inaccuracy;
 		motionX *= (double) speed;
 		motionY *= (double) speed;
 		motionZ *= (double) speed;
@@ -141,8 +146,10 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 		this.motionY = motionY;
 		this.motionZ = motionZ;
 		float f3 = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
-		this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(motionX, motionZ) * 180.0D / Math.PI);
-		this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(motionY, (double) f3) * 180.0D / Math.PI);
+		this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(motionX,
+				motionZ) * 180.0D / Math.PI);
+		this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(motionY,
+				(double) f3) * 180.0D / Math.PI);
 		this.ticksInGround = 0;
 	}
 
@@ -160,7 +167,8 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 		{
 			float f = MathHelper.sqrt_double(x * x + z * z);
 			this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(x, z) * 180.0D / Math.PI);
-			this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(y, (double) f) * 180.0D / Math.PI);
+			this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(y,
+					(double) f) * 180.0D / Math.PI);
 			this.prevRotationPitch = this.rotationPitch;
 			this.prevRotationYaw = this.rotationYaw;
 			this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw,
@@ -196,8 +204,8 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 			AxisAlignedBB axisalignedbb = block.getCollisionBoundingBox(this.worldObj, blockpos,
 					iblockstate);
 
-			if (axisalignedbb != null && axisalignedbb.isVecInside(new Vec3(this.posX, this.posY,
-					this.posZ)))
+			if (axisalignedbb != null && axisalignedbb
+					.isVecInside(new Vec3(this.posX, this.posY, this.posZ)))
 			{
 				this.inGround = true;
 			}
@@ -251,9 +259,9 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 
 			Entity entity = null;
 			@SuppressWarnings("rawtypes")
-			List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this
-					.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ)
-					.expand(1.0D, 1.0D, 1.0D));
+			List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this,
+					this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ)
+							.expand(1.0D, 1.0D, 1.0D));
 			double d0 = 0.0D;
 			int i;
 			float f1;
@@ -262,13 +270,14 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 			{
 				Entity entity1 = (Entity) list.get(i);
 
-				if (entity1.canBeCollidedWith() && (entity1 != this.shootingEntity || this.ticksInAir >= 5))
+				if (entity1
+						.canBeCollidedWith() && (entity1 != this.shootingEntity || this.ticksInAir >= 5))
 				{
 					f1 = 0.3F;
-					AxisAlignedBB axisalignedbb1 = entity1.getEntityBoundingBox().expand(
-							(double) f1, (double) f1, (double) f1);
-					MovingObjectPosition movingobjectposition1 = axisalignedbb1.calculateIntercept(
-							vec31, vec3);
+					AxisAlignedBB axisalignedbb1 = entity1.getEntityBoundingBox()
+							.expand((double) f1, (double) f1, (double) f1);
+					MovingObjectPosition movingobjectposition1 = axisalignedbb1
+							.calculateIntercept(vec31, vec3);
 
 					if (movingobjectposition1 != null)
 					{
@@ -333,7 +342,8 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 			f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
 			this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
 
-			for (this.rotationPitch = (float) (Math.atan2(this.motionY, (double) f2) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
+			for (this.rotationPitch = (float) (Math.atan2(this.motionY,
+					(double) f2) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
 			{
 				;
 			}
@@ -431,8 +441,8 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 		this.motionX = (double) ((float) (movingobjectposition.hitVec.xCoord - this.posX));
 		this.motionY = (double) ((float) (movingobjectposition.hitVec.yCoord - this.posY));
 		this.motionZ = (double) ((float) (movingobjectposition.hitVec.zCoord - this.posZ));
-		float f3 = MathHelper
-				.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
+		float f3 = MathHelper.sqrt_double(
+				this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
 		this.posX -= this.motionX / (double) f3 * 0.05000000074505806D;
 		this.posY -= this.motionY / (double) f3 * 0.05000000074505806D;
 		this.posZ -= this.motionZ / (double) f3 * 0.05000000074505806D;
@@ -646,8 +656,8 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 		tagCompound.setShort("life", (short) this.ticksInGround);
 		ResourceLocation resourcelocation = (ResourceLocation) Block.blockRegistry
 				.getNameForObject(this.inTile);
-		tagCompound
-				.setString("inTile", resourcelocation == null ? "" : resourcelocation.toString());
+		tagCompound.setString("inTile",
+				resourcelocation == null ? "" : resourcelocation.toString());
 		tagCompound.setByte("inData", (byte) this.inData);
 		tagCompound.setByte("shake", (byte) this.arrowShake);
 		tagCompound.setByte("inGround", (byte) (this.inGround ? 1 : 0));

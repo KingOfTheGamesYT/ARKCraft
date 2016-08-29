@@ -161,6 +161,13 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 				.isServer() && selectedEngramId >= 0) inventory.startCraftAll(selectedEngramId);
 	}
 
+	@Override
+	public boolean enchantItem(EntityPlayer playerIn, int id)
+	{
+
+		return super.enchantItem(playerIn, id);
+	}
+
 	public static class EngramSlot extends SlotScrolling
 	{
 		public EngramSlot(IInventory inventoryIn, int index, int xPosition, int yPosition, IContainerScrollable container)

@@ -10,9 +10,9 @@ import net.minecraft.block.material.Material;
 public class BlockARKBase extends Block
 {
 
-    public BlockARKBase(Material m, float hardness)
-    {
-        super(m);
-        this.setHardness(hardness);
-    }
+	public BlockARKBase(Material m, float hardness)
+	{
+		super(m);
+		this.setHardness(hardness);
+	}
 }

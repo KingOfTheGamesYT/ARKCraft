@@ -1,6 +1,5 @@
 package com.uberverse.arkcraft.common.entity;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.DamageSource;
@@ -8,9 +7,13 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
+/**
+ * 
+ * @author ?, Lewis_McReu
+ *
+ */
 public class EntityStone extends EntityThrowable implements ITranquilizer
 {
-
 	public EntityStone(World w)
 	{
 		super(w);
@@ -45,11 +48,8 @@ public class EntityStone extends EntityThrowable implements ITranquilizer
 	}
 
 	@Override
-	public void applyTorpor(Entity entityHit)
-	{ // TODO apply torpor to player
-	//	if (entityHit instanceof EntityARKCreature)
-	//	{
-		//	((EntityTameableDinosaur) entityHit).increaseTorpor(10);
-	//	}
+	public int getTorpor()
+	{
+		return 10;
 	}
 }

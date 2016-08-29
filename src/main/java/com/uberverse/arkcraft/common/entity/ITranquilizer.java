@@ -1,8 +1,28 @@
 package com.uberverse.arkcraft.common.entity;
 
-import net.minecraft.entity.Entity;
+import com.uberverse.arkcraft.rework.ARKPlayer;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+
+/**
+ * 
+ * @author Lewis_McReu
+ *
+ */
 public interface ITranquilizer
 {
-	public void applyTorpor(Entity entityHit);
+	public default void applyTorpor(Entity entityHit)
+	{
+		if (entityHit instanceof ITranquilizable)
+		{
+			((ITranquilizable) entityHit).applyTorpor(getTorpor());
+		}
+		else if (entityHit instanceof EntityPlayer)
+		{
+			ARKPlayer.get((EntityPlayer) entityHit).applyTorpor(getTorpor());
+		}
+	}
+
+	public int getTorpor();
 }

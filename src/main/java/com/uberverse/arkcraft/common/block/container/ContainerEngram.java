@@ -68,9 +68,9 @@ public class ContainerEngram extends Container implements IContainerScrollable
 	}
 
 	@Override
-	public void scroll(int offset)
+	public void scroll(float scroll)
 	{
-		int newScrollingOffset = scrollingOffset + offset;
+		int newScrollingOffset = (int) (getMaxOffset() * scroll);
 		if (isValidOffset(newScrollingOffset))
 		{
 			scrollingOffset = newScrollingOffset;
@@ -103,9 +103,9 @@ public class ContainerEngram extends Container implements IContainerScrollable
 	}
 
 	@Override
-	public double getRelativeScrollingOffset()
+	public float getRelativeScrollingOffset()
 	{
-		return (double) this.scrollingOffset / (double) getMaxOffset();
+		return (float) this.scrollingOffset / (float) getMaxOffset();
 	}
 
 	@SuppressWarnings("unchecked")

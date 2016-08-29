@@ -19,6 +19,7 @@ public class ARKCraftSeed extends Item
 
 	private CropPlotType type;
 	private BerryColor color;
+
 	public ARKCraftSeed(CropPlotType type, BerryColor color)
 	{
 		this.setMaxStackSize(16);
@@ -74,10 +75,14 @@ public class ARKCraftSeed extends Item
 	{
 		tooltip.add("Decomposes in " + (getMaxDamage() - itemStack.getItemDamage()) + " seconds");
 	}
-	public CropPlotType getType() {
+
+	public CropPlotType getType()
+	{
 		return type;
 	}
-	public BerryColor getBerryColor(ItemStack itemStack) {
+
+	public BerryColor getBerryColor(ItemStack itemStack)
+	{
 		return color;
 	}
 }

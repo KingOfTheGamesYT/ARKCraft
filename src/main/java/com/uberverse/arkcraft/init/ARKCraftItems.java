@@ -31,66 +31,68 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class ARKCraftItems {
-	
-	//Tools
+public class ARKCraftItems
+{
+
+	// Tools
 	public static ItemStonePick stone_pick;
 	public static ItemStoneHatchet stone_hatchet;
 	public static ItemMetalPick metal_pick;
 	public static ItemMetalHatchet metal_hatchet;
 	public static ItemMetalSickle metal_sickle;
-	
-	//Armor
-	public static ItemARKArmor chitinHelm, chitinChest, chitinLegs,chitinBoots;
+
+	// Armor
+	public static ItemARKArmor chitinHelm, chitinChest, chitinLegs, chitinBoots;
 	public static ItemARKArmor clothHelm, clothChest, clothLegs, clothBoots;
 	public static ItemARKArmor hideHelm, hideChest, hideLegs, hideBoots;
 	public static ItemARKArmor furHelm, furChest, furLegs, furBoots;
-		
-	//Food
-	public static ARKCraftFood tintoBerry, amarBerry, azulBerry, mejoBerry,
-	narcoBerry, stimBerry, meat_raw, meat_cooked, primemeat_raw,
-	primemeat_cooked, spoiled_meat;
-	public static ARKCraftSeed tintoBerrySeed, amarBerrySeed, azulBerrySeed, mejoBerrySeed, narcoBerrySeed, stimBerrySeed;
-	
-	//Misc
-	public static ARKCraftItem stone, fiber, thatch, wood, flint, metal, spark_powder, hide, charcoal, metal_ingot, cementing_paste, crystal, spy_glass, narcotics, gunpowder, chitin, keratin;
+
+	// Food
+	public static ARKCraftFood tintoBerry, amarBerry, azulBerry, mejoBerry, narcoBerry, stimBerry,
+			meat_raw, meat_cooked, primemeat_raw, primemeat_cooked, spoiled_meat;
+	public static ARKCraftSeed tintoBerrySeed, amarBerrySeed, azulBerrySeed, mejoBerrySeed,
+			narcoBerrySeed, stimBerrySeed;
+
+	// Misc
+	public static ARKCraftItem stone, fiber, thatch, wood, flint, metal, spark_powder, hide,
+			charcoal, metal_ingot, cementing_paste, crystal, spy_glass, narcotics, gunpowder,
+			chitin, keratin;
 	public static ARKCraftFeces small_feces, medium_feces, large_feces, fertilizer, player_feces;
 	public static ARKCraftBook info_book;
-	
+
 	public static ItemGrenade grenade;
 	public static ItemSpear spear;
 	public static ItemPike pike;
 	public static Item tabItem;
 
-	//Armor MAT
-	public static ArmorMaterial CLOTH = EnumHelper.addArmorMaterial(
-			"CLOTH_MAT", "CLOTH_MAT", 4, new int[] { 1, 2, 1, 1 }, 15);
-	public static ArmorMaterial CHITIN = EnumHelper.addArmorMaterial(
-			"CHITIN_MAT", "CHITIN_MAT", 16, new int[] { 3, 7, 6, 3 }, 10);
-	public static ArmorMaterial HIDE = EnumHelper.addArmorMaterial
-			("HIDE_MAT", "HIDE_MAT", 40, new int[] { 3, 8, 6, 3 }, 30);
-	public static ArmorMaterial FUR = EnumHelper.addArmorMaterial(
-			"FUR_MAT", "HIDE_MAT", 40, new int[] { 3, 8, 6, 3 }, 30);
-	
-	//Tool MAT
-	public static ToolMaterial METAL = EnumHelper.addToolMaterial("METAL_MAT",
-			3, 1500, 6.0F, 2.5F, 8);
-	public static ToolMaterial STONE = EnumHelper.addToolMaterial("STONE_MAT",
-			2, 500, 3.5F, 1.5F, 13);
-	public static ToolMaterial WOOD = EnumHelper.addToolMaterial("WOOD_MAT",
-			1, 200, 2.5F, 1.0F, 3);
-	
+	// Armor MAT
+	public static ArmorMaterial CLOTH = EnumHelper.addArmorMaterial("CLOTH_MAT", "CLOTH_MAT", 4,
+			new int[] { 1, 2, 1, 1 }, 15);
+	public static ArmorMaterial CHITIN = EnumHelper.addArmorMaterial("CHITIN_MAT", "CHITIN_MAT", 16,
+			new int[] { 3, 7, 6, 3 }, 10);
+	public static ArmorMaterial HIDE = EnumHelper.addArmorMaterial("HIDE_MAT", "HIDE_MAT", 40,
+			new int[] { 3, 8, 6, 3 }, 30);
+	public static ArmorMaterial FUR = EnumHelper.addArmorMaterial("FUR_MAT", "HIDE_MAT", 40,
+			new int[] { 3, 8, 6, 3 }, 30);
+
+	// Tool MAT
+	public static ToolMaterial METAL = EnumHelper.addToolMaterial("METAL_MAT", 3, 1500, 6.0F, 2.5F,
+			8);
+	public static ToolMaterial STONE = EnumHelper.addToolMaterial("STONE_MAT", 2, 500, 3.5F, 1.5F,
+			13);
+	public static ToolMaterial WOOD = EnumHelper.addToolMaterial("WOOD_MAT", 1, 200, 2.5F, 1.0F, 3);
+
 	public static Map<String, Item> allItems = new HashMap<String, Item>();
 
 	public static Map<String, Item> getAllItems()
 	{
 		return allItems;
 	}
-	
+
 	public static void init()
 	{
-		
-		//Resources
+
+		// Resources
 		cementing_paste = addItem("cementing_paste");
 		crystal = addItem("crystal");
 		hide = addItem("hide");
@@ -108,42 +110,42 @@ public class ARKCraftItems {
 		gunpowder = addItem("gunpowder");
 		chitin = addItem("chitin");
 		keratin = addItem("keratin");
-		
-		//Tools
+
+		// Tools
 		metal_pick = addMetalPick("metal_pick", METAL);
 		metal_hatchet = addMetalHatchet("metal_hatchet", METAL);
 		stone_hatchet = addStoneHatchet("stone_hatchet", STONE);
 		stone_pick = addStonePick("stone_pick", STONE);
 		metal_sickle = addMetalSickle("metal_sickle", METAL);
-		
-		//Weapons
+
+		// Weapons
 		spear = addSpear("spear", WOOD);
 		pike = addPike("pike", METAL);
-		
+
 		// Armor
-		chitinHelm = addArmorItem("chitin_helm", CHITIN, "chitinArmor", 0,false);
-		chitinChest = addArmorItem("chitin_chest", CHITIN, "chitinArmor", 1,false);
-		chitinLegs = addArmorItem("chitin_legs", CHITIN, "chitinArmor", 2,false);
-		chitinBoots = addArmorItem("chitin_boots", CHITIN, "chitinArmor", 3,false);
-		
+		chitinHelm = addArmorItem("chitin_helm", CHITIN, "chitinArmor", 0, false);
+		chitinChest = addArmorItem("chitin_chest", CHITIN, "chitinArmor", 1, false);
+		chitinLegs = addArmorItem("chitin_legs", CHITIN, "chitinArmor", 2, false);
+		chitinBoots = addArmorItem("chitin_boots", CHITIN, "chitinArmor", 3, false);
+
 		clothHelm = addArmorItem("cloth_helm", CLOTH, "clothArmor", 0, false);
 		clothChest = addArmorItem("cloth_chest", CLOTH, "clothArmor", 1, false);
 		clothLegs = addArmorItem("cloth_legs", CLOTH, "clothArmor", 2, false);
 		clothBoots = addArmorItem("cloth_boots", CLOTH, "clothArmor", 3, false);
-		
+
 		hideHelm = addArmorItem("hide_helm", HIDE, "hideArmor", 0, false);
 		hideChest = addArmorItem("hide_chest", HIDE, "hideArmor", 1, false);
 		hideLegs = addArmorItem("hide_legs", HIDE, "hideArmor", 2, false);
 		hideBoots = addArmorItem("hide_boots", HIDE, "hideArmor", 3, false);
-		
+
 		furHelm = addArmorItem("fur_helm", FUR, "furArmor", 0, false);
 		furChest = addArmorItem("fur_chest", FUR, "furArmor", 1, false);
 		furLegs = addArmorItem("fur_legs", FUR, "furArmor", 2, false);
 		furBoots = addArmorItem("fur_boots", FUR, "furArmor", 3, false);
-		
-		
-		EntityHandler.registerModEntity(EntitySpear.class, "spear", ARKCraft.instance, 16, 20, true);
-	
+
+		EntityHandler.registerModEntity(EntitySpear.class, "spear", ARKCraft.instance, 16, 20,
+				true);
+
 		// Food
 		tintoBerry = addFood("tinto", 4, 0.3F, false, true);
 		amarBerry = addFood("amar", 4, 0.3F, false, true);
@@ -164,19 +166,15 @@ public class ARKCraftItems {
 		mejoBerrySeed = addSeedItem("mejoBerrySeed", CropPlotType.SMALL, BerryColor.MEJO);
 		narcoBerrySeed = addSeedItem("narcoBerrySeed", CropPlotType.SMALL, BerryColor.NARCO);
 		stimBerrySeed = addSeedItem("stimBerrySeed", CropPlotType.SMALL, BerryColor.STIM);
-		
-		//feces
-		small_feces = addFecesItem(
-				"small_feces",
+
+		// feces
+		small_feces = addFecesItem("small_feces",
 				ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE);
-		medium_feces = addFecesItem(
-				"medium_feces",
+		medium_feces = addFecesItem("medium_feces",
 				ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE);
-		large_feces = addFecesItem(
-				"large_feces",
+		large_feces = addFecesItem("large_feces",
 				ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE);
-		player_feces = addFecesItem(
-				"player_feces",
+		player_feces = addFecesItem("player_feces",
 				ModuleItemBalance.CROP_PLOT.SECONDS_FOR_PLAYER_FECES_TO_DECOMPOSE);
 
 		// Technically not feces, but used in all situations the same
@@ -185,7 +183,7 @@ public class ARKCraftItems {
 				ModuleItemBalance.CROP_PLOT.SECONDS_FOR_FERTILIZER_TO_DECOMPOSE);
 
 		info_book = addBook("info_book");
-		
+
 		tabItem = new Item().setUnlocalizedName("tabItem");
 		registerItem("tabItem", tabItem);
 		tabItem.setCreativeTab(null);
@@ -211,14 +209,14 @@ public class ARKCraftItems {
 		registerItem(name, i);
 		return i;
 	}
-	
+
 	public static ItemMetalSickle addMetalSickle(String name, ToolMaterial m)
 	{
 		ItemMetalSickle i = new ItemMetalSickle(m);
 		registerItem(name, i);
 		return i;
 	}
-	
+
 	public static ARKCraftFeces addFecesItem(String name, int maxDamageIn)
 	{
 		ARKCraftFeces i = new ARKCraftFeces();
@@ -233,7 +231,7 @@ public class ARKCraftItems {
 		registerItem(name, i);
 		return i;
 	}
-	
+
 	public static ItemSpear addSpear(String name, ToolMaterial m)
 	{
 		ItemSpear i = new ItemSpear(m);
@@ -247,55 +245,56 @@ public class ARKCraftItems {
 		registerItem(name, i);
 		return i;
 	}
-	
+
 	public static ItemMetalHatchet addMetalHatchet(String name, ToolMaterial m)
 	{
 		ItemMetalHatchet i = new ItemMetalHatchet(m);
 		registerItem(name, i);
 		return i;
 	}
-	
+
 	public static ARKCraftItem addItem(String name)
 	{
 		ARKCraftItem i = new ARKCraftItem();
 		registerItem(name, i);
 		return i;
 	}
-	
+
 	protected static ARKCraftFood addFood(String name, int heal, float sat, boolean fav, boolean alwaysEdible)
 	{
 		ARKCraftFood f = new ARKCraftFood(heal, sat, fav, alwaysEdible);
 		registerItem(name, f);
 		return f;
 	}
-	
+
 	public static ARKCraftFood addFood(String name, int heal, float sat, boolean fav, boolean alwaysEdible, PotionEffect... effect)
 	{
 		ARKCraftFood f = new ARKCraftFood(heal, sat, fav, alwaysEdible, effect);
 		registerItem(name, f);
 		return f;
 	}
-	
+
 	protected static ARKCraftSeed addSeedItem(String name, CropPlotType type, BerryColor color)
 	{
 		ARKCraftSeed i = new ARKCraftSeed(type, color);
 		registerItem(name, i);
 		return i;
 	}
-	
-	public static ARKCraftBook addBook(String name) {
+
+	public static ARKCraftBook addBook(String name)
+	{
 		ARKCraftBook book = new ARKCraftBook(name);
 		registerItem(name, book);
 		return book;
 	}
-	
+
 	public static ItemARKArmor addArmorItem(String name, ArmorMaterial mat, String armorTexName, int type, boolean golden)
 	{
 		ItemARKArmor item = new ItemARKArmor(mat, armorTexName, type, golden);
 		registerItem(name, item);
 		return item;
 	}
-	
+
 	public static void registerItem(String name, Item item)
 	{
 		allItems.put(name, item);

@@ -11,8 +11,8 @@ import com.uberverse.arkcraft.common.item.attachments.Laserable;
 import com.uberverse.arkcraft.common.item.attachments.Scopeable;
 import com.uberverse.arkcraft.common.item.attachments.Silenceable;
 
-public class ItemLongneckRifle extends ItemRangedWeapon implements Scopeable, Silenceable,
-		Laserable, Flashable
+public class ItemLongneckRifle extends ItemRangedWeapon
+		implements Scopeable, Silenceable, Laserable, Flashable
 {
 	public ItemLongneckRifle()
 	{

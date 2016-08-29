@@ -40,6 +40,7 @@ import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew.CropPlotTy
 import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew.Part;
 import com.uberverse.arkcraft.common.item.ARKCraftSeed;
 import com.uberverse.lib.LogHelper;
+
 /**
  * @author wildbill22
  */
@@ -79,48 +80,71 @@ public class BlockCropPlot extends BlockContainer
 		if (!playerIn.isSneaking())
 		{
 			TileEntityCropPlotNew te = (TileEntityCropPlotNew) worldIn.getTileEntity(pos);
-			if(te.part != Part.MIDDLE){
+			if (te.part != Part.MIDDLE)
+			{
 				BlockPos pos2 = te.part.offset(pos, true);
-				return this.onBlockActivated(worldIn, pos2, worldIn.getBlockState(pos2), playerIn, side, hitX, hitY, hitZ);
+				return this.onBlockActivated(worldIn, pos2, worldIn.getBlockState(pos2), playerIn,
+						side, hitX, hitY, hitZ);
 			}
-			else {
-				if(playerIn.getHeldItem() != null && playerIn.getHeldItem().getItem() instanceof ARKCraftSeed && ((Integer)state.getValue(AGE)) == 0){
+			else
+			{
+				if (playerIn.getHeldItem() != null && playerIn.getHeldItem()
+						.getItem() instanceof ARKCraftSeed && ((Integer) state.getValue(AGE)) == 0)
+				{
 					ItemStack s = playerIn.getHeldItem().splitStack(1);
-					s = TileEntityHopper.func_174918_a((IInventory) worldIn.getTileEntity(pos), s, null);
-					if(s != null){
-						if(!playerIn.inventory.addItemStackToInventory(s)){
-							EntityItem item = new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), s);
+					s = TileEntityHopper.func_174918_a((IInventory) worldIn.getTileEntity(pos), s,
+							null);
+					if (s != null)
+					{
+						if (!playerIn.inventory.addItemStackToInventory(s))
+						{
+							EntityItem item = new EntityItem(worldIn, pos.getX(), pos.getY(),
+									pos.getZ(), s);
 							worldIn.spawnEntityInWorld(item);
 						}
 					}
 				}
 			}
-			if(playerIn.getHeldItem() != null && playerIn.getHeldItem().getItem() == Items.water_bucket) {
+			if (playerIn.getHeldItem() != null && playerIn.getHeldItem()
+					.getItem() == Items.water_bucket)
+			{
 				LogHelper.info("Player clicked with water bucket!");
 				ItemStack container = playerIn.getHeldItem();
-				if(FluidContainerRegistry.isFilledContainer(container)) {
+				if (FluidContainerRegistry.isFilledContainer(container))
+				{
 					LogHelper.info("Player's water bucket is a filled container!");
 					TileEntity entity = worldIn.getTileEntity(pos);
-					if(entity instanceof TileEntityCropPlotNew && entity != null) {
-						LogHelper.info("A TileEntityCropPlotNew is found at the place the player right clicked!");
-						TileEntityCropPlotNew target = (TileEntityCropPlotNew)entity;
-						int water = TileEntityCropPlotNew.getItemWaterValue(container) + target.getField(0);
-						//The currentWater + addedWater needs to be smaller or equal to the max water.
-						if(water <= target.getType().getMaxWater()) {
+					if (entity instanceof TileEntityCropPlotNew && entity != null)
+					{
+						LogHelper.info(
+								"A TileEntityCropPlotNew is found at the place the player right clicked!");
+						TileEntityCropPlotNew target = (TileEntityCropPlotNew) entity;
+						int water = TileEntityCropPlotNew.getItemWaterValue(container) + target
+								.getField(0);
+						// The currentWater + addedWater needs to be smaller or
+						// equal to the max water.
+						if (water <= target.getType().getMaxWater())
+						{
 							target.setField(0, water);
-							ItemStack drainedContainer = FluidContainerRegistry.drainFluidContainer(container);
-							if(drainedContainer != null) {
-								if(!playerIn.capabilities.isCreativeMode) container.setItem(drainedContainer.getItem());
-								LogHelper.info("The drained container is not null, the bucket has been replaced with a new itemstack.");
+							ItemStack drainedContainer = FluidContainerRegistry
+									.drainFluidContainer(container);
+							if (drainedContainer != null)
+							{
+								if (!playerIn.capabilities.isCreativeMode) container
+										.setItem(drainedContainer.getItem());
+								LogHelper.info(
+										"The drained container is not null, the bucket has been replaced with a new itemstack.");
 							}
 						}
-						else {
+						else
+						{
 							LogHelper.error("The crop plot water is at the max!");
 						}
 					}
 				}
 			}
-			else{
+			else
+			{
 				playerIn.openGui(ARKCraft.instance(), ID, worldIn, pos.getX(), pos.getY(),
 						pos.getZ());
 			}
@@ -171,7 +195,8 @@ public class BlockCropPlot extends BlockContainer
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		return this.getDefaultState().withProperty(AGE, Integer.valueOf(meta % 5)).withProperty(TYPE, CropPlotType.VALUES[meta / 5]);
+		return this.getDefaultState().withProperty(AGE, Integer.valueOf(meta % 5))
+				.withProperty(TYPE, CropPlotType.VALUES[meta / 5]);
 	}
 
 	/**
@@ -180,7 +205,8 @@ public class BlockCropPlot extends BlockContainer
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
-		return ((Integer) state.getValue(AGE)).intValue() + ((CropPlotType) state.getValue(TYPE)).ordinal() * 5;
+		return ((Integer) state.getValue(AGE))
+				.intValue() + ((CropPlotType) state.getValue(TYPE)).ordinal() * 5;
 	}
 
 	@Override
@@ -192,63 +218,67 @@ public class BlockCropPlot extends BlockContainer
 	/**
 	 * Returns randomly, about 1/2 of the fertilizer and berries
 	 */
-	/*@Override
-	public java.util.List<ItemStack> getDrops(net.minecraft.world.IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
-	{
-		java.util.List<ItemStack> ret = super.getDrops(world, pos, state, fortune);
-		Random rand = world instanceof World ? ((World) world).rand : new Random();
-		TileEntity tileEntity = world.getTileEntity(pos);
-		if (tileEntity instanceof TileInventoryCropPlot)
-		{
-			TileInventoryCropPlot tiCropPlot = (TileInventoryCropPlot) tileEntity;
-			for (int i = 0; i < TileInventoryCropPlot.FERTILIZER_SLOTS_COUNT; ++i)
-			{
-				if (rand.nextInt(2) == 0)
-				{
-					ret.add(tiCropPlot
-							.getStackInSlot(TileInventoryCropPlot.FIRST_FERTILIZER_SLOT + i));
-				}
-			}
-			if (rand.nextInt(2) == 0)
-			{
-				ret.add(tiCropPlot.getStackInSlot(TileInventoryCropPlot.BERRY_SLOT));
-			}
-		}
-		return ret;
-	}*/
+	/*
+	 * @Override public java.util.List<ItemStack>
+	 * getDrops(net.minecraft.world.IBlockAccess world, BlockPos pos,
+	 * IBlockState state, int fortune) { java.util.List<ItemStack> ret =
+	 * super.getDrops(world, pos, state, fortune); Random rand = world
+	 * instanceof World ? ((World) world).rand : new Random(); TileEntity
+	 * tileEntity = world.getTileEntity(pos); if (tileEntity instanceof
+	 * TileInventoryCropPlot) { TileInventoryCropPlot tiCropPlot =
+	 * (TileInventoryCropPlot) tileEntity; for (int i = 0; i <
+	 * TileInventoryCropPlot.FERTILIZER_SLOTS_COUNT; ++i) { if (rand.nextInt(2)
+	 * == 0) { ret.add(tiCropPlot
+	 * .getStackInSlot(TileInventoryCropPlot.FIRST_FERTILIZER_SLOT + i)); } } if
+	 * (rand.nextInt(2) == 0) {
+	 * ret.add(tiCropPlot.getStackInSlot(TileInventoryCropPlot.BERRY_SLOT)); } }
+	 * return ret; }
+	 */
 	@Override
-	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+	{
 		TileEntityCropPlotNew tile = (TileEntityCropPlotNew) worldIn.getTileEntity(pos);
-		if(tile != null)InventoryHelper.dropInventoryItems(worldIn, pos, tile);
+		if (tile != null) InventoryHelper.dropInventoryItems(worldIn, pos, tile);
 		CropPlotType t = (CropPlotType) state.getValue(TYPE);
-		if(tile.part == Part.MIDDLE){
-			if(t != CropPlotType.SMALL){
-				for(Part p : Part.VALUES){
-					if(p != Part.MIDDLE){
+		if (tile.part == Part.MIDDLE)
+		{
+			if (t != CropPlotType.SMALL)
+			{
+				for (Part p : Part.VALUES)
+				{
+					if (p != Part.MIDDLE)
+					{
 						BlockPos pos2 = p.offset(pos, false);
 						worldIn.setBlockState(pos2, Blocks.air.getDefaultState());
 					}
 				}
 			}
-		}else{
+		}
+		else
+		{
 			worldIn.setBlockState(tile.part.offset(pos, true), Blocks.air.getDefaultState());
 		}
 		super.breakBlock(worldIn, pos, state);
 	}
+
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer,
-			ItemStack stack) {
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
+	{
 		TileEntity tile = worldIn.getTileEntity(pos);
 		CropPlotType t = CropPlotType.VALUES[stack.getMetadata() % 3];
 		state = state.withProperty(TYPE, t);
 		worldIn.setBlockState(pos, state);
-		if(tile != null){
+		if (tile != null)
+		{
 			tile.validate();
 			worldIn.setTileEntity(pos, tile);
 		}
-		if(t != CropPlotType.SMALL){
-			for(Part p : Part.VALUES){
-				if(p != Part.MIDDLE){
+		if (t != CropPlotType.SMALL)
+		{
+			for (Part p : Part.VALUES)
+			{
+				if (p != Part.MIDDLE)
+				{
 					BlockPos pos2 = p.offset(pos, false);
 					worldIn.setBlockState(pos2, state);
 					TileEntityCropPlotNew te = (TileEntityCropPlotNew) worldIn.getTileEntity(pos2);
@@ -257,8 +287,10 @@ public class BlockCropPlot extends BlockContainer
 			}
 		}
 	}
+
 	/**
-	 * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
+	 * returns a list of blocks with the same ID, but different meta (eg: wood
+	 * returns 4 blocks)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -269,29 +301,44 @@ public class BlockCropPlot extends BlockContainer
 		list.add(new ItemStack(itemIn, 1, 1));
 		list.add(new ItemStack(itemIn, 1, 2));
 	}
+
 	@Override
-	public int damageDropped(IBlockState state) {
+	public int damageDropped(IBlockState state)
+	{
 		return ((CropPlotType) state.getValue(TYPE)).ordinal();
 	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
-	public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos) {
+	public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos)
+	{
 		IBlockState state = worldIn.getBlockState(pos);
 		CropPlotType t = (CropPlotType) state.getValue(TYPE);
 		TileEntity tile = worldIn.getTileEntity(pos);
-		if(tile instanceof TileEntityCropPlotNew){
+		if (tile instanceof TileEntityCropPlotNew)
+		{
 			TileEntityCropPlotNew te = (TileEntityCropPlotNew) tile;
 			BlockPos p = new BlockPos(0, 0, 0);
 			p = te.part.offset(p, true);
-			if(t == CropPlotType.SMALL)return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 0.35F, pos.getZ() + 1);
-			else if(t == CropPlotType.MEDIUM)return new AxisAlignedBB(pos.getX() -0.5F + p.getX(), pos.getY(), pos.getZ()-0.5F + p.getZ(), pos.getX() + 1.5F + p.getX(), pos.getY() + 0.35F, pos.getZ() + 1.5F + p.getZ());
-			else if(t == CropPlotType.LARGE)return new AxisAlignedBB(pos.getX()-1 + p.getX(), pos.getY(), pos.getZ()-1 + p.getZ(), pos.getX() + 2 + p.getX(), pos.getY() + 0.35F, pos.getZ() + 2 + p.getZ());
-		}else{
-			return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 0.35F, pos.getZ() + 1);
+			if (t == CropPlotType.SMALL) return new AxisAlignedBB(pos.getX(), pos.getY(),
+					pos.getZ(), pos.getX() + 1, pos.getY() + 0.35F, pos.getZ() + 1);
+			else if (t == CropPlotType.MEDIUM) return new AxisAlignedBB(
+					pos.getX() - 0.5F + p.getX(), pos.getY(), pos.getZ() - 0.5F + p.getZ(),
+					pos.getX() + 1.5F + p.getX(), pos.getY() + 0.35F, pos.getZ() + 1.5F + p.getZ());
+			else if (t == CropPlotType.LARGE) return new AxisAlignedBB(pos.getX() - 1 + p.getX(),
+					pos.getY(), pos.getZ() - 1 + p.getZ(), pos.getX() + 2 + p.getX(),
+					pos.getY() + 0.35F, pos.getZ() + 2 + p.getZ());
+		}
+		else
+		{
+			return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1,
+					pos.getY() + 0.35F, pos.getZ() + 1);
 		}
 		return super.getSelectedBoundingBox(worldIn, pos);
 	}
-	public static enum BerryColor implements IStringSerializable{
+
+	public static enum BerryColor implements IStringSerializable
+	{
 		AMAR, AZUL, MEJO, NARCO, STIM, TINTO
 
 		;
@@ -299,27 +346,38 @@ public class BlockCropPlot extends BlockContainer
 		public static final BerryColor[] VALUES = values();
 
 		@Override
-		public String getName() {
+		public String getName()
+		{
 			return name().toLowerCase();
 		}
 	}
+
 	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
+	{
 		TileEntity tile = worldIn.getTileEntity(pos);
-		if(tile instanceof TileEntityCropPlotNew){
+		if (tile instanceof TileEntityCropPlotNew)
+		{
 			TileEntityCropPlotNew te = (TileEntityCropPlotNew) tile;
-			return state.withProperty(BERRY, te.getGrowingColor()).withProperty(TRANSPARENT, te.isTransparent());
+			return state.withProperty(BERRY, te.getGrowingColor()).withProperty(TRANSPARENT,
+					te.isTransparent());
 		}
 		return state;
 	}
+
 	@Override
-	public void fillWithRain(World worldIn, BlockPos pos) {
+	public void fillWithRain(World worldIn, BlockPos pos)
+	{
 		TileEntityCropPlotNew te = (TileEntityCropPlotNew) worldIn.getTileEntity(pos);
-		if(te.part == Part.MIDDLE){
+		if (te.part == Part.MIDDLE)
+		{
 			te.fillWithRain(true);
-		}else{
+		}
+		else
+		{
 			TileEntity tile = worldIn.getTileEntity(te.part.offset(pos, true));
-			if(tile instanceof TileEntityCropPlotNew){
+			if (tile instanceof TileEntityCropPlotNew)
+			{
 				te = (TileEntityCropPlotNew) tile;
 				te.fillWithRain(true);
 			}

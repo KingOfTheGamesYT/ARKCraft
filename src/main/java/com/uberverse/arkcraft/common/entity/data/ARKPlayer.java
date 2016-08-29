@@ -46,7 +46,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 	// max stats
 	private int maxHealth, maxOxygen, maxFood, maxWater, maxDamage, maxSpeed, maxStamina;
 	// actual weights
-	private double carryWeight, weight;
+	private double carryWeight;
 	// max weights
 	private double maxCarryWeight;
 	// Unlocked Engrams
@@ -67,7 +67,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 		this.level = 1;
 		// For player carry weight
 		this.carryWeight = 0.0;
-		this.weight = 100.0;
+		this.maxCarryWeight = 100.0;
 		this.engramPoints = 0;
 		this.engrams = new ArrayList<>();
 	}
@@ -109,7 +109,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 		properties.setInteger("level", level);
 		properties.setInteger("engramPoints", engramPoints);
 		properties.setDouble("carryWeight", carryWeight);
-		properties.setDouble("weight", weight);
+		properties.setDouble("weight", maxCarryWeight);
 
 		properties.setInteger("maxHealth", maxHealth);
 		properties.setInteger("maxOxygen", maxOxygen);
@@ -140,7 +140,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 		canPoop = properties.getBoolean("canPoop");
 		health = properties.getInteger("health");
 		oxygen = properties.getInteger("oxygen");
-		weight = properties.getInteger("weight");
+		maxCarryWeight = properties.getInteger("weight");
 
 		food = properties.getInteger("food");
 		water = properties.getInteger("water");
@@ -204,7 +204,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 	 */
 	public void setWeight(double weight)
 	{
-		this.weight = weight;
+		this.maxCarryWeight = weight;
 		syncClient(player, false);
 	}
 
@@ -239,14 +239,9 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 		return carryWeight;
 	}
 
-	public double getWeight()
-	{
-		return weight;
-	}
-
 	public double getCarryWeightRatio()
 	{
-		return (double) carryWeight / weight;
+		return (double) carryWeight / maxCarryWeight;
 	}
 
 	public int getEngramPoints()
@@ -269,7 +264,6 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 		this.torpor = props.torpor;
 		this.water = props.water;
 		this.stamina = props.stamina;
-		this.weight = props.weight;
 		this.carryWeight = props.carryWeight;
 	}
 
@@ -311,25 +305,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 		this.canPoop = canPoop;
 	}
 
-	public void poop()
-	{
-		if (canPoop())
-		{
-			if (player.worldObj.isRemote)
-			{
-				player.playSound(ARKCraft.MODID + ":" + "dodo_defficating", 1.0F,
-						(player.worldObj.rand.nextFloat() - player.worldObj.rand
-								.nextFloat()) * 0.2F + 1.0F);
-				ARKCraft.modChannel.sendToServer(new PlayerPoop(true));
-				LogHelper.info("Player is pooping!");
-			}
-			setCanPoop(false);
-		}
-		else
-		{
-			player.addChatMessage(new ChatComponentTranslation("chat.canNotPoop"));
-		}
-	}
+	
 
 	// ----------------- End of Properties stuff, rest is for crafting
 	// -----------------
@@ -373,13 +349,13 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 		if (!canceled)
 		{
 			this.xp += event.getXp();
-			checkLevel();
+			updateLevel();
 			ARKCraft.logger.info(engramPoints);
 			syncClient(player, false);
 		}
 	}
 
-	public void checkLevel()
+	public void updateLevel()
 	{
 		while (level < maxLevel && xp > getRequiredXP())
 		{
@@ -400,17 +376,21 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 		return 0;
 	}
 
-	public void learnEngram(short id)
+	@Override
+	public long getXP()
 	{
-		if (!engrams.contains(id))
-		{
-			Engram e = EngramManager.instance().getEngram(id);
-			if (e != null)
-			{
-				this.engrams.add(id);
-				this.engramPoints -= e.getPoints();
-				syncClient(player, false);
-			}
-		}
+		return xp;
+	}
+
+	@Override
+	public short getLevel()
+	{
+		return (short) level;
+	}
+
+	@Override
+	public short getMaxLevel()
+	{
+		return maxLevel;
 	}
 }

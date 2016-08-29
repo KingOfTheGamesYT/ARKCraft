@@ -40,9 +40,9 @@ public class DispenseRocketPropelledGrenade extends DispenseWeaponProjectile
 	@Override
 	protected void playDispenseSound(IBlockSource blocksource)
 	{
-		blocksource.getWorld()
-				.playSoundEffect(blocksource.getX(), blocksource.getY(), blocksource.getZ(),
-						"random.explode", 3.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.7F));
+		blocksource.getWorld().playSoundEffect(blocksource.getX(), blocksource.getY(),
+				blocksource.getZ(), "random.explode", 3.0F,
+				1.0F / (rand.nextFloat() * 0.4F + 0.7F));
 		blocksource.getWorld().playSoundEffect(blocksource.getX(), blocksource.getY(),
 				blocksource.getZ(), "ambient.weather.thunder", 3.0F,
 				1.0F / (rand.nextFloat() * 0.4F + 0.4F));

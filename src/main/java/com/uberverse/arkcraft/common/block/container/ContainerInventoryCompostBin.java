@@ -102,7 +102,8 @@ public class ContainerInventoryCompostBin extends Container
 		{
 			// This is a compost bin slot so merge the stack into the players
 			// inventory
-			if (!mergeItemStack(sourceStack, COMPOST_SLOT_COUNT, 36 + COMPOST_SLOT_COUNT, false)) { return null; }
+			if (!mergeItemStack(sourceStack, COMPOST_SLOT_COUNT, 36 + COMPOST_SLOT_COUNT,
+					false)) { return null; }
 		}
 		else
 		{

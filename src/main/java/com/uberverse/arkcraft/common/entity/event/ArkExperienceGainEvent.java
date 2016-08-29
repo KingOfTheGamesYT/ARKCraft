@@ -14,12 +14,12 @@ public class ArkExperienceGainEvent extends EntityEvent
 		super(entity);
 		this.xp = xp;
 	}
-	
+
 	public long getXp()
 	{
 		return xp;
 	}
-	
+
 	public void setXp(long xp)
 	{
 		this.xp = xp;

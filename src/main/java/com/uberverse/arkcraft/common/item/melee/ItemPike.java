@@ -9,5 +9,5 @@ public class ItemPike extends ItemSword
 		super(m);
 		this.setMaxStackSize(1);
 		this.setFull3D();
-	}	
+	}
 }

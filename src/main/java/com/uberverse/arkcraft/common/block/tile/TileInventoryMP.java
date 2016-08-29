@@ -59,8 +59,8 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 
 	private void sendUpdateToServer()
 	{
-		ARKCraft.modChannel.sendToServer(new UpdateMPToCraftItem(blueprintSelected, craftOne,
-				craftAll, guiOpen, this.pos));
+		ARKCraft.modChannel.sendToServer(
+				new UpdateMPToCraftItem(blueprintSelected, craftOne, craftAll, guiOpen, this.pos));
 	}
 
 	public void setGuiOpen(boolean guiOpen, boolean andUpdateServer)
@@ -268,7 +268,7 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 		if (!craftAll && !craftOne) { return; }
 		// Reset crafting time if it reaches -1 (is true after crafting one of
 		// multiple, or after pushing button in GUI)
-		if (craftingTime < 0  && isCrafting())
+		if (craftingTime < 0 && isCrafting())
 		{
 			craftingTime = CRAFT_TIME_FOR_ITEM;
 			if (this.guiOpen)
@@ -288,7 +288,7 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 		}
 
 		// If craftingTime has reached -1, try and craft the item
-		if (craftingTime < 0  && isCrafting())
+		if (craftingTime < 0 && isCrafting())
 		{
 			// LogHelper.info("TileInventoryMP: About to craft the item on " +
 			// (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT ?

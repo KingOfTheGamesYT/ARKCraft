@@ -14,55 +14,56 @@ import net.minecraft.world.World;
 
 public abstract class DispenseWeaponProjectile extends BehaviorProjectileDispense
 {
-    protected Random rand;
+	protected Random rand;
 
-    public DispenseWeaponProjectile()
-    {
-        rand = new Random();
-    }
+	public DispenseWeaponProjectile()
+	{
+		rand = new Random();
+	}
 
-    @Override
-    public ItemStack dispenseStack(IBlockSource blocksource, ItemStack itemstack)
-    {
-        World world = blocksource.getWorld();
-        IPosition pos = BlockDispenser.getDispensePosition(blocksource);
-        EnumFacing face = BlockDispenser.getFacing(blocksource.getBlockMetadata());
-        IProjectile projectile = getProjectileEntity(world, pos, itemstack);
-        projectile.setThrowableHeading(face.getFrontOffsetX(), face.getFrontOffsetY() + getYVel(), face.getFrontOffsetZ(), getVelocity(), getDeviation());
-        world.spawnEntityInWorld((Entity) projectile);
-        itemstack.splitStack(1);
-        return itemstack;
-    }
+	@Override
+	public ItemStack dispenseStack(IBlockSource blocksource, ItemStack itemstack)
+	{
+		World world = blocksource.getWorld();
+		IPosition pos = BlockDispenser.getDispensePosition(blocksource);
+		EnumFacing face = BlockDispenser.getFacing(blocksource.getBlockMetadata());
+		IProjectile projectile = getProjectileEntity(world, pos, itemstack);
+		projectile.setThrowableHeading(face.getFrontOffsetX(), face.getFrontOffsetY() + getYVel(),
+				face.getFrontOffsetZ(), getVelocity(), getDeviation());
+		world.spawnEntityInWorld((Entity) projectile);
+		itemstack.splitStack(1);
+		return itemstack;
+	}
 
-    protected IProjectile getProjectileEntity(World world, IPosition pos, ItemStack itemstack)
-    {
-        return getProjectileEntity(world, pos);
-    }
+	protected IProjectile getProjectileEntity(World world, IPosition pos, ItemStack itemstack)
+	{
+		return getProjectileEntity(world, pos);
+	}
 
-    public double getYVel()
-    {
-        return 0.1D;
-    }
+	public double getYVel()
+	{
+		return 0.1D;
+	}
 
-    public float getVelocity()
-    {
-        return func_82500_b();
-    }
+	public float getVelocity()
+	{
+		return func_82500_b();
+	}
 
-    public float getDeviation()
-    {
-        return func_82498_a();
-    }
+	public float getDeviation()
+	{
+		return func_82498_a();
+	}
 
-    @Override
-    protected void playDispenseSound(IBlockSource blocksource)
-    {
-        super.playDispenseSound(blocksource);
-    }
+	@Override
+	protected void playDispenseSound(IBlockSource blocksource)
+	{
+		super.playDispenseSound(blocksource);
+	}
 
-    @Override
-    protected void spawnDispenseParticles(IBlockSource blocksource, EnumFacing facing)
-    {
-        super.spawnDispenseParticles(blocksource, facing);
-    }
+	@Override
+	protected void spawnDispenseParticles(IBlockSource blocksource, EnumFacing facing)
+	{
+		super.spawnDispenseParticles(blocksource, facing);
+	}
 }

@@ -11,34 +11,35 @@ import net.minecraft.client.resources.I18n;
  * @author ERBF | Aug 11, 2016
  *
  */
-public class ARKCraftEngrams 
+public class ARKCraftEngrams
 {
-	
+
 	public static ArrayList<Engram> engramList = new ArrayList<Engram>();
-	
-	//Level 1
+
+	// Level 1
 	public static Engram stonePick, torch;
-	
-	//Level 2
-	public static Engram campfire, stoneHatchet, spear, note, clothPants, clothShirt, thatchFoundation, thatchDoorframe;
-	
-	//Level 3
-	public static Engram woodenClub, waterskin, clothGloves, clothBoots, clothHat, woodenSign, hideSleepingBag, 
-						 thatchRoof, thatchWall, thatchDoor;
-	
-	//Level 5
-	public static Engram slingshot, storageBox, simpleBed, phiomiaSaddle, mortarAndPestle, sparkpowder, 
-						 bloodExtractionSyringe, narcotic, paintbrush, singlePanelFlag, multiPanelFlag,
-						 standingTorch, slopedThatchWallLeft, slopedThatchWallRight, slopedThatchRoof,
-						 woodenFoundation, woodenWall;
-	
+
+	// Level 2
+	public static Engram campfire, stoneHatchet, spear, note, clothPants, clothShirt,
+			thatchFoundation, thatchDoorframe;
+
+	// Level 3
+	public static Engram woodenClub, waterskin, clothGloves, clothBoots, clothHat, woodenSign,
+			hideSleepingBag, thatchRoof, thatchWall, thatchDoor;
+
+	// Level 5
+	public static Engram slingshot, storageBox, simpleBed, phiomiaSaddle, mortarAndPestle,
+			sparkpowder, bloodExtractionSyringe, narcotic, paintbrush, singlePanelFlag,
+			multiPanelFlag, standingTorch, slopedThatchWallLeft, slopedThatchWallRight,
+			slopedThatchRoof, woodenFoundation, woodenWall;
+
 	public static void init()
 	{
-		//Level 1
+		// Level 1
 		stonePick = new Engram("engramStonePick", 1, 0);
 		torch = new Engram("engramTorch", 1, 0);
-		
-		//Level 2
+
+		// Level 2
 		campfire = new Engram("engramCampfire", 2, 3);
 		stoneHatchet = new Engram("engramStoneHatchet", 2, 3);
 		spear = new Engram("engramSpear", 2, 3);
@@ -47,8 +48,8 @@ public class ARKCraftEngrams
 		clothShirt = new Engram("engramClothShirt", 2, 3);
 		thatchFoundation = new Engram("engramThatchFoundation", 2, 3);
 		thatchDoorframe = new Engram("engramThatchDoorframe", 2, 3);
-		
-		//Level 3
+
+		// Level 3
 		woodenClub = new Engram("engramWoodenClub", 3, 4);
 		waterskin = new Engram("engramWaterskin", 3, 6);
 		clothGloves = new Engram("engramClothGloves", 3, 3);
@@ -59,8 +60,8 @@ public class ARKCraftEngrams
 		thatchRoof = new Engram("engramThatchRoof", 3, 3);
 		thatchWall = new Engram("engramThatchWall", 3, 3);
 		thatchDoor = new Engram("engramThatchDoor", 3, 3);
-		
-		//Level 5
+
+		// Level 5
 		slingshot = new Engram("engramSlingshot", 5, 6);
 		storageBox = new Engram("engramStorageBox", 5, 6);
 		simpleBed = new Engram("engramSimpleBed", 5, 8);
@@ -79,24 +80,22 @@ public class ARKCraftEngrams
 		woodenFoundation = new Engram("engramWoodenFoundation", 5, 6);
 		woodenWall = new Engram("engramWoodenWall", 5, 7);
 	}
-	
+
 	public static Engram getEngramByLocalizedName(String localizedName)
 	{
 		String name = I18n.format(localizedName);
-		for(Engram engram : engramList) {
-			if(engram.getFormattedName().equalsIgnoreCase(name)) {
-				return engram;
-			}
+		for (Engram engram : engramList)
+		{
+			if (engram.getFormattedName().equalsIgnoreCase(name)) { return engram; }
 		}
 		return null;
 	}
-	
+
 	public static Engram getEngramByUnlocalizedName(String unlocalizedName)
 	{
-		for(Engram engram : engramList) {
-			if(engram.getName().equalsIgnoreCase(unlocalizedName)) {
-				return engram;
-			}
+		for (Engram engram : engramList)
+		{
+			if (engram.getName().equalsIgnoreCase(unlocalizedName)) { return engram; }
 		}
 		return null;
 	}

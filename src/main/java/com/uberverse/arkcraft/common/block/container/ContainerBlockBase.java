@@ -14,27 +14,25 @@ import com.uberverse.arkcraft.ARKCraft;
 public class ContainerBlockBase extends Block
 {
 
-    private int guiID;
+	private int guiID;
 
-    public ContainerBlockBase(Material mat, String name, float hardness, int guiID)
-    {
-        super(mat);
-        this.guiID = guiID;
-        this.setCreativeTab(ARKCraft.tabARK);
-        this.setHardness(hardness);
-        this.setUnlocalizedName(name);
-        GameRegistry.registerBlock(this, name);
-    }
+	public ContainerBlockBase(Material mat, String name, float hardness, int guiID)
+	{
+		super(mat);
+		this.guiID = guiID;
+		this.setCreativeTab(ARKCraft.tabARK);
+		this.setHardness(hardness);
+		this.setUnlocalizedName(name);
+		GameRegistry.registerBlock(this, name);
+	}
 
-    @Override
-    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ)
-    {
-        if (player.isSneaking())
-        {
-            return false;
-        }
-        player.openGui(ARKCraft.instance, guiID, world, blockPos.getX(), blockPos.getY(), blockPos.getZ());
-        return true;
-    }
+	@Override
+	public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ)
+	{
+		if (player.isSneaking()) { return false; }
+		player.openGui(ARKCraft.instance, guiID, world, blockPos.getX(), blockPos.getY(),
+				blockPos.getZ());
+		return true;
+	}
 
 }

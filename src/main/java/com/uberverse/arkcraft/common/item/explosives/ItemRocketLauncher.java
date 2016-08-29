@@ -47,8 +47,8 @@ public class ItemRocketLauncher extends ItemRangedWeapon
 	{
 		world.playSoundEffect(x, y, z, "random.explode", 3F,
 				1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F));
-		world.playSoundEffect(x, y, z, "ambient.weather.thunder", 3F, 1F / (this.getItemRand()
-				.nextFloat() * 0.4F + 0.4F));
+		world.playSoundEffect(x, y, z, "ambient.weather.thunder", 3F,
+				1F / (this.getItemRand().nextFloat() * 0.4F + 0.4F));
 
 		float particleX = -MathHelper.sin(((yaw + 23) / 180F) * 3.141593F) * MathHelper
 				.cos((pitch / 180F) * 3.141593F);
@@ -68,7 +68,7 @@ public class ItemRocketLauncher extends ItemRangedWeapon
 	@Override
 	public void effectReloadDone(ItemStack stack, World world, EntityPlayer player)
 	{
-		world.playSoundAtEntity(player, "random.door_close", 1.2F, 1.0F / (this.getItemRand()
-				.nextFloat() * 0.2F + 0.0F));
+		world.playSoundAtEntity(player, "random.door_close", 1.2F,
+				1.0F / (this.getItemRand().nextFloat() * 0.2F + 0.0F));
 	}
 }

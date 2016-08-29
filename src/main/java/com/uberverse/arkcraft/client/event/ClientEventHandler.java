@@ -8,6 +8,31 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.client.gui.GUIMortarPestle;
+import com.uberverse.arkcraft.client.gui.GUIPlayerCrafting;
+import com.uberverse.arkcraft.client.gui.GUISmithy;
+import com.uberverse.arkcraft.common.block.tile.IHoverInfo;
+import com.uberverse.arkcraft.common.block.tile.TileInventoryMP;
+import com.uberverse.arkcraft.common.block.tile.TileInventorySmithy;
+import com.uberverse.arkcraft.common.config.WeightsConfig;
+import com.uberverse.arkcraft.common.container.inventory.InventoryAttachment;
+import com.uberverse.arkcraft.common.entity.data.CalcPlayerWeight;
+import com.uberverse.arkcraft.common.event.CommonEventHandler;
+import com.uberverse.arkcraft.common.handlers.ARKShapelessRecipe;
+import com.uberverse.arkcraft.common.handlers.recipes.PestleCraftingManager;
+import com.uberverse.arkcraft.common.handlers.recipes.PlayerCraftingManager;
+import com.uberverse.arkcraft.common.handlers.recipes.SmithyCraftingManager;
+import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
+import com.uberverse.arkcraft.common.item.engram.Engram;
+import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
+import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
+import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
+import com.uberverse.arkcraft.common.network.OpenPlayerCrafting;
+import com.uberverse.arkcraft.common.network.ReloadStarted;
+import com.uberverse.arkcraft.init.ARKCraftItems;
+import com.uberverse.arkcraft.rework.ARKPlayer;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
@@ -21,13 +46,11 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
-
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -45,34 +68,7 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.client.gui.GUIMortarPestle;
-import com.uberverse.arkcraft.client.gui.GUIPlayerCrafting;
-import com.uberverse.arkcraft.client.gui.GUISmithy;
-import com.uberverse.arkcraft.common.block.tile.IHoverInfo;
-import com.uberverse.arkcraft.common.block.tile.TileInventoryMP;
-import com.uberverse.arkcraft.common.block.tile.TileInventorySmithy;
-import com.uberverse.arkcraft.common.config.WeightsConfig;
-import com.uberverse.arkcraft.common.container.inventory.InventoryAttachment;
-import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
-import com.uberverse.arkcraft.common.entity.data.CalcPlayerWeight;
-import com.uberverse.arkcraft.common.event.CommonEventHandler;
-import com.uberverse.arkcraft.common.handlers.ARKShapelessRecipe;
-import com.uberverse.arkcraft.common.handlers.recipes.PestleCraftingManager;
-import com.uberverse.arkcraft.common.handlers.recipes.PlayerCraftingManager;
-import com.uberverse.arkcraft.common.handlers.recipes.SmithyCraftingManager;
-import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
-import com.uberverse.arkcraft.common.item.engram.ARKCraftEngrams;
-import com.uberverse.arkcraft.common.item.engram.Engram;
-import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
-import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
-import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
-import com.uberverse.arkcraft.common.network.OpenPlayerCrafting;
-import com.uberverse.arkcraft.common.network.ReloadStarted;
-import com.uberverse.arkcraft.init.ARKCraftItems;
 
 public class ClientEventHandler
 {
@@ -129,6 +125,14 @@ public class ClientEventHandler
 		 */
 	}
 
+	@SubscribeEvent
+	public void onClientTick(RenderHandEvent event)
+	{
+		// TODO TEST
+		EntityPlayerSP p = Minecraft.getMinecraft().thePlayer;
+		p.renderArmPitch += 0.5;
+	}
+
 	@SuppressWarnings("static-access")
 	@SubscribeEvent
 	public void playerInteract(PlayerInteractEvent event)
@@ -151,63 +155,67 @@ public class ClientEventHandler
 	@SubscribeEvent
 	public void onPlayerTickEvent(TickEvent.PlayerTickEvent event)
 	{
+		// TODO reimplement with new ARKPlayer
 		// Update CraftingInventory
-		if (ARKPlayer.get(event.player).getInventoryBlueprints().isCrafting())
-		{
-			ARKPlayer.get(event.player).getInventoryBlueprints().update();
-		}
-
-		// Calculate item weight and update when the player updates
-		if (WeightsConfig.isEnabled)
-		{
-			if (!event.player.capabilities.isCreativeMode || WeightsConfig.allowInCreative)
-			{
-				// Removes the updating when the player is in a inventory
-				if (Minecraft.getMinecraft().currentScreen == null)
-				{
-					// So there isnt as many packet leaks...
-					if (ARKPlayer.get(event.player).getCarryWeight() != CalcPlayerWeight
-							.getAsDouble(event.player))
-					{
-						ARKPlayer.get(event.player)
-						.setCarryWeight(CalcPlayerWeight.getAsDouble(event.player));
-					}
-
-					// Weight rules
-					if (ARKPlayer.get(event.player).getCarryWeightRatio() >= 0.85)
-					{
-						event.player.motionX *= 0;
-						event.player.motionZ *= 0;
-					}
-					else if (ARKPlayer.get(event.player)
-							.getCarryWeightRatio() >= 0.75)
-					{
-						event.player.motionX *= WeightsConfig.encumberedSpeed;
-						event.player.motionY *= WeightsConfig.encumberedSpeed;
-						event.player.motionZ *= WeightsConfig.encumberedSpeed;
-					}
-				}
-			}
-		}
+		// if
+		// (ARKPlayer.get(event.player).getInventoryBlueprints().isCrafting())
+		// {
+		// ARKPlayer.get(event.player).getInventoryBlueprints().update();
+		// }
+		//
+		// // Calculate item weight and update when the player updates
+		// if (WeightsConfig.isEnabled)
+		// {
+		// if (!event.player.capabilities.isCreativeMode ||
+		// WeightsConfig.allowInCreative)
+		// {
+		// // Removes the updating when the player is in a inventory
+		// if (Minecraft.getMinecraft().currentScreen == null)
+		// {
+		// // So there isnt as many packet leaks...
+		// if (ARKPlayer.get(event.player).getCarryWeight() != CalcPlayerWeight
+		// .getAsDouble(event.player))
+		// {
+		// ARKPlayer.get(event.player)
+		// .setCarryWeight(CalcPlayerWeight.getAsDouble(event.player));
+		// }
+		//
+		// // Weight rules
+		// if (ARKPlayer.get(event.player).getCarryWeightRatio() >= 0.85)
+		// {
+		// event.player.motionX *= 0;
+		// event.player.motionZ *= 0;
+		// }
+		// else if (ARKPlayer.get(event.player).getCarryWeightRatio() >= 0.75)
+		// {
+		// event.player.motionX *= WeightsConfig.encumberedSpeed;
+		// event.player.motionY *= WeightsConfig.encumberedSpeed;
+		// event.player.motionZ *= WeightsConfig.encumberedSpeed;
+		// }
+		// }
+		// }
+		// }
 
 	}
 
 	@SubscribeEvent
 	public void onPlayerJump(LivingJumpEvent event)
 	{
-		if (event.entity instanceof EntityPlayer)
-		{
-			EntityPlayer player = (EntityPlayer) event.entityLiving;
-			if (!player.capabilities.isCreativeMode || WeightsConfig.allowInCreative)
-			{
-				if (ARKPlayer.get(player).getCarryWeightRatio() >= 0.85)
-				{
-					player.motionY *= 0;
-					player.addChatComponentMessage(
-							new ChatComponentTranslation("ark.splash.noJump"));
-				}
-			}
-		}
+		// TODO reimplement with new ARKPlayer
+		// if (event.entity instanceof EntityPlayer)
+		// {
+		// EntityPlayer player = (EntityPlayer) event.entityLiving;
+		// if (!player.capabilities.isCreativeMode ||
+		// WeightsConfig.allowInCreative)
+		// {
+		// if (ARKPlayer.get(player).getCarryWeightRatio() >= 0.85)
+		// {
+		// player.motionY *= 0;
+		// player.addChatComponentMessage(
+		// new ChatComponentTranslation("ark.splash.noJump"));
+		// }
+		// }
+		// }
 	}
 
 	@SubscribeEvent
@@ -264,14 +272,15 @@ public class ClientEventHandler
 		{
 			ItemStack stack = thePlayer.getCurrentEquippedItem();
 			InventoryAttachment att = InventoryAttachment.create(stack);
-			if(stack != null){
+			if (stack != null)
+			{
 				if (att != null || stack.getItem().equals(ARKCraftItems.spy_glass))
 				{
 					showScopeOverlap = evt.buttonstate;
 					selected = stack;
 					if (showScopeOverlap) evt.setCanceled(true);
 				}
-			}		
+			}
 		}
 	}
 
@@ -329,7 +338,7 @@ public class ClientEventHandler
 			}
 			// Remove crosshairs
 			else if (evt.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS && showScopeOverlap) evt
-			.setCanceled(true);
+					.setCanceled(true);
 		}
 		else if (evt.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS)
 		{
@@ -453,7 +462,7 @@ public class ClientEventHandler
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 		if (playerPooping.isPressed())
 		{
-			ARKPlayer.get(player).poop();
+			ARKPlayer.get(player).go();
 		}
 		else if (playerCrafting.isPressed())
 		{
@@ -511,7 +520,8 @@ public class ClientEventHandler
 							for (int j = 0; j < r.recipeItems.size(); j++)
 							{
 								ItemStack cStack = ((ItemStack) r.recipeItems.get(j));
-								event.toolTip.add(EnumChatFormatting.GOLD + I18n.format("arkcraft.tooltip.ingredient",
+								event.toolTip.add(EnumChatFormatting.GOLD + I18n.format(
+										"arkcraft.tooltip.ingredient",
 										I18n.format(cStack.getDisplayName()), cStack.stackSize));
 							}
 							break;
@@ -568,17 +578,6 @@ public class ClientEventHandler
 					}
 				}
 			}
-		}
-	}
-
-	@SubscribeEvent
-	public void playerLogin(PlayerLoggedInEvent event)
-	{
-		ARKPlayer player = ARKPlayer.get(event.player);
-		for (int learned : player.learnedEngrams())
-		{
-			Engram engram = ARKCraftEngrams.engramList.get(player.learnedEngrams().get(learned));
-			engram.setLearned();
 		}
 	}
 }

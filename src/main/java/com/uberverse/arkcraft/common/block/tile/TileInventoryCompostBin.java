@@ -127,7 +127,8 @@ public class TileInventoryCompostBin extends TileEntity implements IInventory, I
 			// compostTime
 			if (compostTime >= COMPOST_TIME_FOR_FECES)
 			{
-				// LogHelper.info("TileInventoryCompostBin: About to create fertilizer on "
+				// LogHelper.info("TileInventoryCompostBin: About to create
+				// fertilizer on "
 				// + (FMLCommonHandler.instance().getEffectiveSide() ==
 				// Side.CLIENT ? "client" : "server"));
 				compostFertilizer();
@@ -373,8 +374,8 @@ public class TileInventoryCompostBin extends TileEntity implements IInventory, I
 	@Override
 	public IChatComponent getDisplayName()
 	{
-		return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(
-				this.getName());
+		return this.hasCustomName() ? new ChatComponentText(
+				this.getName()) : new ChatComponentTranslation(this.getName());
 	}
 
 	@Override

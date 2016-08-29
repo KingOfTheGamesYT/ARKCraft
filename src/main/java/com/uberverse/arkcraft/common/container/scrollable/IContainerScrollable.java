@@ -6,7 +6,7 @@ public interface IContainerScrollable
 {
 	public int getScrollingOffset();
 
-	public void scroll(int offset);
+	public void scroll(float scroll);
 
 	public int getScrollableSlotsWidth();
 
@@ -16,7 +16,7 @@ public interface IContainerScrollable
 
 	public int getMaxOffset();
 
-	public double getRelativeScrollingOffset();
+	public float getRelativeScrollingOffset();
 
 	public int getVisibleSlotsAmounts();
 

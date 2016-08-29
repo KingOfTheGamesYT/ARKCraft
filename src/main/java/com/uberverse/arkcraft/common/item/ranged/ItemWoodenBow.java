@@ -1,5 +1,6 @@
 package com.uberverse.arkcraft.common.item.ranged;
 
-public class ItemWoodenBow {
+public class ItemWoodenBow
+{
 
 }

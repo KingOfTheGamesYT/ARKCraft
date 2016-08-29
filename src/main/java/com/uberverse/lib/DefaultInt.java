@@ -12,13 +12,13 @@ import java.lang.annotation.Target;
 @Target({ ElementType.FIELD })
 public @interface DefaultInt
 {
-    String comment() default "";
+	String comment() default "";
 
-    String name();
+	String name();
 
-    int value();
+	int value();
 
-    int minValue();
+	int minValue();
 
-    int maxValue();
+	int maxValue();
 }

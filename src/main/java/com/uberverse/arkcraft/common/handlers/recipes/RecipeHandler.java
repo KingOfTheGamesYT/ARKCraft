@@ -1,6 +1,5 @@
 package com.uberverse.arkcraft.common.handlers.recipes;
 
-
 public class RecipeHandler
 {
 
@@ -11,6 +10,6 @@ public class RecipeHandler
 
 	public static void registerVanillaCraftingRecipes()
 	{
-	
+
 	}
 }

@@ -1,8 +1,17 @@
 package com.uberverse.arkcraft.client.book.proxy;
 
-public class BookCommon {
+public class BookCommon
+{
 
-	public void init() {}
-	public void registerPageClasses() {}
-	public void registerBlockClasses() {}
+	public void init()
+	{
+	}
+
+	public void registerPageClasses()
+	{
+	}
+
+	public void registerBlockClasses()
+	{
+	}
 }

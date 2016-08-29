@@ -65,7 +65,7 @@ public class GUIForge extends GuiContainer
 		// Draw the image
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
-		
+
 		Minecraft.getMinecraft().getTextureManager().bindTexture(textureFlame);
 		if (tileEntity.isBurning()) drawTexturedModalRect(guiLeft + FLAME_XPOS, guiTop + FLAME_YPOS,
 				FLAME_ICON_U, FLAME_ICON_V, FLAME_WIDTH, FLAME_HEIGHT);

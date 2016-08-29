@@ -10,20 +10,30 @@ import net.minecraft.world.World;
 public class ContainerBlockSmithy extends ContainerBlockBase
 {
 
-    public ContainerBlockSmithy(String name, float hardness) { super(Material.anvil, name, hardness, 1); }
+	public ContainerBlockSmithy(String name, float hardness)
+	{
+		super(Material.anvil, name, hardness, 1);
+	}
 
-    public int getRenderType() { return 3; }
+	public int getRenderType()
+	{
+		return 3;
+	}
 
-    public boolean isOpaqueCube() { return false; }
+	public boolean isOpaqueCube()
+	{
+		return false;
+	}
 
-    public boolean renderAsNormalBlock() { return false; }
+	public boolean renderAsNormalBlock()
+	{
+		return false;
+	}
 
-    @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos,
-                                    IBlockState state, EntityPlayer playerIn, EnumFacing side,
-                                    float hitX, float hitY, float hitZ)
-    {
-        return super.onBlockActivated(worldIn, pos, state, playerIn, side, hitX, hitY, hitZ);
-    }
+	@Override
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
+	{
+		return super.onBlockActivated(worldIn, pos, state, playerIn, side, hitX, hitY, hitZ);
+	}
 
 }

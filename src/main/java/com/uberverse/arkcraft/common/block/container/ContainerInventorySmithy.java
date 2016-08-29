@@ -14,7 +14,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ContainerInventorySmithy extends Container {
+public class ContainerInventorySmithy extends Container
+{
 
 	private TileInventorySmithy tileInventorySmithy;
 	private InventoryBlueprints inventoryBlueprints;
@@ -23,7 +24,8 @@ public class ContainerInventorySmithy extends Container {
 	private int[] cachedFields;
 	public static final int RECIPE_ITEM_SLOT_YPOS = 60;
 
-	public ContainerInventorySmithy(InventoryPlayer invPlayer, TileInventorySmithy tileInventorySmithy) {
+	public ContainerInventorySmithy(InventoryPlayer invPlayer, TileInventorySmithy tileInventorySmithy)
+	{
 		LogHelper.info("ContainerMP: constructor called.");
 
 		this.tileInventorySmithy = tileInventorySmithy;
@@ -31,30 +33,36 @@ public class ContainerInventorySmithy extends Container {
 
 		/* MP inventory */
 		// Recipe blueprint slot
-		this.addSlotToContainer(
-				new SlotBlueprintInventory(inventoryBlueprints, TileInventorySmithy.BLUEPRINT_SLOT, 33, 16));
+		this.addSlotToContainer(new SlotBlueprintInventory(inventoryBlueprints,
+				TileInventorySmithy.BLUEPRINT_SLOT, 33, 16));
 
 		// Input & Output slots
-		for (int row = 0; row < 3; row++) {
-			for (int col = 0; col < 9; col++) {
+		for (int row = 0; row < 3; row++)
+		{
+			for (int col = 0; col < 9; col++)
+			{
 				int slotIndex = col + row * 9;
-				addSlotToContainer(new SlotRecipeInventory(this.tileInventorySmithy, slotIndex, 8 + col * 18,
-						RECIPE_ITEM_SLOT_YPOS + row * 18));
+				addSlotToContainer(new SlotRecipeInventory(this.tileInventorySmithy, slotIndex,
+						8 + col * 18, RECIPE_ITEM_SLOT_YPOS + row * 18));
 			}
 		}
 
 		/* Hotbar inventory */
 		final int HOTBAR_YPOS = 186;
-		for (int col = 0; col < 9; col++) {
+		for (int col = 0; col < 9; col++)
+		{
 			addSlotToContainer(new Slot(invPlayer, col, 8 + col * 18, HOTBAR_YPOS));
 		}
 
 		/* Player inventory */
 		final int PLAYER_INVENTORY_YPOS = 128;
-		for (int row = 0; row < 3; row++) {
-			for (int col = 0; col < 9; col++) {
+		for (int row = 0; row < 3; row++)
+		{
+			for (int col = 0; col < 9; col++)
+			{
 				int slotIndex = col + row * 9 + 9;
-				addSlotToContainer(new Slot(invPlayer, slotIndex, 8 + col * 18, PLAYER_INVENTORY_YPOS + row * 18));
+				addSlotToContainer(new Slot(invPlayer, slotIndex, 8 + col * 18,
+						PLAYER_INVENTORY_YPOS + row * 18));
 			}
 		}
 
@@ -62,57 +70,65 @@ public class ContainerInventorySmithy extends Container {
 	}
 
 	@Override
-	public void addCraftingToCrafters(ICrafting listener) {
+	public void addCraftingToCrafters(ICrafting listener)
+	{
 		super.addCraftingToCrafters(listener);
 		listener.func_175173_a(this, tileInventorySmithy);
 	}
 
 	/* Nothing to do, this is a furnace type container */
 	@Override
-	public void onContainerClosed(EntityPlayer playerIn) {
+	public void onContainerClosed(EntityPlayer playerIn)
+	{
 		super.onContainerClosed(playerIn);
 	}
 
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int sourceSlotIndex) {
+	public ItemStack transferStackInSlot(EntityPlayer playerIn, int sourceSlotIndex)
+	{
 		LogHelper.info("ARKContainerSmithy: transferStackInSlot called.");
 		Slot sourceSlot = (Slot) inventorySlots.get(sourceSlotIndex);
-		if (sourceSlot == null || !sourceSlot.getHasStack()) {
-			return null;
-		}
+		if (sourceSlot == null || !sourceSlot.getHasStack()) { return null; }
 		ItemStack sourceStack = sourceSlot.getStack();
 		ItemStack copyOfSourceStack = sourceStack.copy();
 
 		// Check if the slot clicked is a MP container slot
 		int nonPlayerSlotsCount = TileInventorySmithy.BLUEPRINT_SLOTS_COUNT + TileInventorySmithy.INVENTORY_SLOTS_COUNT;
-		if (sourceSlotIndex > TileInventorySmithy.BLUEPRINT_SLOTS_COUNT - 1 && sourceSlotIndex < nonPlayerSlotsCount) {
+		if (sourceSlotIndex > TileInventorySmithy.BLUEPRINT_SLOTS_COUNT - 1 && sourceSlotIndex < nonPlayerSlotsCount)
+		{
 			// This is a Smithy inventory slot so merge the stack into the
 			// players inventory
-			if (!mergeItemStack(sourceStack, nonPlayerSlotsCount, 36 + nonPlayerSlotsCount, false)) {
+			if (!mergeItemStack(sourceStack, nonPlayerSlotsCount, 36 + nonPlayerSlotsCount,
+					false)) { return null; }
+		}
+		// Check if the slot clicked is one of the vanilla container slots
+		else if (sourceSlotIndex >= nonPlayerSlotsCount && sourceSlotIndex < 36 + nonPlayerSlotsCount)
+		{
+			if (tileInventorySmithy.isItemValidForRecipeSlot(sourceStack))
+			{
+				// This is a vanilla container slot so merge the stack into the
+				// Smithy inventory
+				if (!mergeItemStack(sourceStack, TileInventorySmithy.BLUEPRINT_SLOTS_COUNT,
+						nonPlayerSlotsCount, false)) { return null; }
+			}
+			else
+			{
 				return null;
 			}
 		}
-		// Check if the slot clicked is one of the vanilla container slots
-		else if (sourceSlotIndex >= nonPlayerSlotsCount && sourceSlotIndex < 36 + nonPlayerSlotsCount) {
-			if (tileInventorySmithy.isItemValidForRecipeSlot(sourceStack)) {
-				// This is a vanilla container slot so merge the stack into the
-				// Smithy inventory
-				if (!mergeItemStack(sourceStack, TileInventorySmithy.BLUEPRINT_SLOTS_COUNT, nonPlayerSlotsCount,
-						false)) {
-					return null;
-				}
-			} else {
-				return null;
-			}
-		} else {
+		else
+		{
 			LogHelper.error("Invalid slotIndex:" + sourceSlotIndex);
 			return null;
 		}
 
 		// If stack size == 0 (the entire stack was moved) set slot contents to
 		// null
-		if (sourceStack.stackSize == 0) {
+		if (sourceStack.stackSize == 0)
+		{
 			sourceSlot.putStack(null);
-		} else {
+		}
+		else
+		{
 			sourceSlot.onSlotChanged();
 		}
 
@@ -121,7 +137,8 @@ public class ContainerInventorySmithy extends Container {
 	}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer playerIn) {
+	public boolean canInteractWith(EntityPlayer playerIn)
+	{
 		return tileInventorySmithy.isUseableByPlayer(playerIn);
 	}
 
@@ -141,17 +158,21 @@ public class ContainerInventorySmithy extends Container {
 	// receiving side, your int value will be wrong until the second short
 	// arrives. Use a custom packet instead.
 	@Override
-	public void detectAndSendChanges() {
+	public void detectAndSendChanges()
+	{
 		super.detectAndSendChanges();
 
 		boolean allFieldsHaveChanged = false;
 		boolean fieldHasChanged[] = new boolean[tileInventorySmithy.getFieldCount()];
-		if (cachedFields == null) {
+		if (cachedFields == null)
+		{
 			cachedFields = new int[tileInventorySmithy.getFieldCount()];
 			allFieldsHaveChanged = true;
 		}
-		for (int i = 0; i < cachedFields.length; ++i) {
-			if (allFieldsHaveChanged || cachedFields[i] != tileInventorySmithy.getField(i)) {
+		for (int i = 0; i < cachedFields.length; ++i)
+		{
+			if (allFieldsHaveChanged || cachedFields[i] != tileInventorySmithy.getField(i))
+			{
 				cachedFields[i] = tileInventorySmithy.getField(i);
 				fieldHasChanged[i] = true;
 			}
@@ -159,10 +180,13 @@ public class ContainerInventorySmithy extends Container {
 
 		// go through the list of crafters (players using this container) and
 		// update them if necessary
-		for (int i = 0; i < this.crafters.size(); ++i) {
+		for (int i = 0; i < this.crafters.size(); ++i)
+		{
 			ICrafting icrafting = (ICrafting) this.crafters.get(i);
-			for (int fieldID = 0; fieldID < tileInventorySmithy.getFieldCount(); ++fieldID) {
-				if (fieldHasChanged[fieldID]) {
+			for (int fieldID = 0; fieldID < tileInventorySmithy.getFieldCount(); ++fieldID)
+			{
+				if (fieldHasChanged[fieldID])
+				{
 					// Note that although sendProgressBarUpdate takes 2 ints on
 					// a server these are truncated to shorts
 					icrafting.sendProgressBarUpdate(this, fieldID, cachedFields[fieldID]);
@@ -177,7 +201,8 @@ public class ContainerInventorySmithy extends Container {
 	// so we just pass them to the tileEntity.
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void updateProgressBar(int id, int data) {
+	public void updateProgressBar(int id, int data)
+	{
 		// LogHelper.info("ContainerInventorySmithy-updateProgressBar: Called on
 		// "
 		// + (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT ?
@@ -188,15 +213,18 @@ public class ContainerInventorySmithy extends Container {
 	}
 
 	// SlotRecipeInventory is a slot for recipe items
-	public class SlotRecipeInventory extends Slot {
-		public SlotRecipeInventory(IInventory inventoryIn, int index, int xPosition, int yPosition) {
+	public class SlotRecipeInventory extends Slot
+	{
+		public SlotRecipeInventory(IInventory inventoryIn, int index, int xPosition, int yPosition)
+		{
 			super(inventoryIn, index, xPosition, yPosition);
 		}
 
 		// if this function returns false, the player won't be able to insert
 		// the given item into this slot
 		@Override
-		public boolean isItemValid(ItemStack stack) {
+		public boolean isItemValid(ItemStack stack)
+		{
 			return true;
 			// TODO is this really necessary? in ARK everything can be inserted
 			// into any inventory
@@ -205,30 +233,36 @@ public class ContainerInventorySmithy extends Container {
 	}
 
 	// SlotBlueprintInventory is a slot for blueprint items
-	public class SlotBlueprintInventory extends Slot {
-		public SlotBlueprintInventory(IInventory inventoryIn, int index, int xPosition, int yPosition) {
+	public class SlotBlueprintInventory extends Slot
+	{
+		public SlotBlueprintInventory(IInventory inventoryIn, int index, int xPosition, int yPosition)
+		{
 			super(inventoryIn, index, xPosition, yPosition);
 		}
 
 		// if this function returns false, the player won't be able to insert
 		// the given item into this slot
 		@Override
-		public boolean isItemValid(ItemStack stack) {
+		public boolean isItemValid(ItemStack stack)
+		{
 			return false;
 		}
 
 		@Override
-		public boolean canTakeStack(EntityPlayer playerIn) {
+		public boolean canTakeStack(EntityPlayer playerIn)
+		{
 			return false;
 		}
 	}
 
-	public void setBlueprintItemStack(ItemStack stack) {
+	public void setBlueprintItemStack(ItemStack stack)
+	{
 		this.inventoryBlueprints.setInventorySlotContents(0, stack);
 	}
 
 	// Used by GUI to see if any players have the GUI open
-	public int getNumCrafters() {
+	public int getNumCrafters()
+	{
 		return this.crafters.size();
 	}
 }

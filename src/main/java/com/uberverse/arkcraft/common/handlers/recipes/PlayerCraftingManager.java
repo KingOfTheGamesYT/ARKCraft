@@ -80,18 +80,23 @@ public class PlayerCraftingManager extends ARKCraftingManager
 				new ItemStack(ARKCraftItems.fiber, 12));
 
 		// Wooden Club
-	//	getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.wooden_club, 1),
-	//			new ItemStack(ARKCraftItems.wood, 4), new ItemStack(ARKCraftItems.fiber, 15));
+		// getInstance().addShapelessRecipe(new
+		// ItemStack(ARKCraftItems.wooden_club, 1),
+		// new ItemStack(ARKCraftItems.wood, 4), new
+		// ItemStack(ARKCraftItems.fiber, 15));
 
 		// Tranq Arrow
-	//	getInstance().addShapelessRecipe(new ItemStack(ARKCraftRangedWeapons.tranq_arrow, 1),
-	//			new ItemStack(ARKCraftRangedWeapons.stone_arrow, 1),
-	//			new ItemStack(ARKCraftItems.narcotics, 1));
+		// getInstance().addShapelessRecipe(new
+		// ItemStack(ARKCraftRangedWeapons.tranq_arrow, 1),
+		// new ItemStack(ARKCraftRangedWeapons.stone_arrow, 1),
+		// new ItemStack(ARKCraftItems.narcotics, 1));
 
 		// Stone Arrow
-	//	getInstance().addShapelessRecipe(new ItemStack(ARKCraftRangedWeapons.stone_arrow, 1),
-	//			new ItemStack(ARKCraftItems.fiber, 2), new ItemStack(ARKCraftItems.thatch, 2),
-	//			new ItemStack(ARKCraftItems.flint, 1));
+		// getInstance().addShapelessRecipe(new
+		// ItemStack(ARKCraftRangedWeapons.stone_arrow, 1),
+		// new ItemStack(ARKCraftItems.fiber, 2), new
+		// ItemStack(ARKCraftItems.thatch, 2),
+		// new ItemStack(ARKCraftItems.flint, 1));
 
 		// Cloth Armor
 		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.clothChest, 1),

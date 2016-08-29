@@ -72,8 +72,8 @@ public class UpdatePlayerCrafting implements IMessage
 	{
 		if (player != null)
 		{
-			ARKPlayer.get(player).getInventoryBlueprints()
-					.setCraftOnePressed(message.craftOneItem, message.blueprintPressed, false);
+			ARKPlayer.get(player).getInventoryBlueprints().setCraftOnePressed(message.craftOneItem,
+					message.blueprintPressed, false);
 		}
 	}
 }

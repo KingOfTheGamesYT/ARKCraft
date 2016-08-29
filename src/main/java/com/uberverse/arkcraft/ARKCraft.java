@@ -41,6 +41,8 @@ import com.uberverse.arkcraft.common.proxy.CommonProxy;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
+import com.uberverse.arkcraft.rework.network.arkplayer.ARKPlayerUpdate;
+import com.uberverse.arkcraft.rework.network.arkplayer.ARKPlayerUpdateRequest;
 import com.uberverse.arkcraft.server.net.ServerReloadFinishedHandler;
 
 import net.minecraft.command.CommandException;
@@ -117,7 +119,7 @@ public class ARKCraft
 
 		proxy.preInit();
 
-		logger = event.getModLog();
+		logger = new com.uberverse.lib.Logger(event.getModLog());
 	}
 
 	@EventHandler
@@ -269,6 +271,10 @@ public class ARKCraft
 				Side.SERVER);
 		modChannel.registerMessage(UnlockEngramMessage.Handler.class, UnlockEngramMessage.class,
 				id++, Side.SERVER);
+		modChannel.registerMessage(ARKPlayerUpdateRequest.Handler.class,
+				ARKPlayerUpdateRequest.class, id++, Side.SERVER);
+		modChannel.registerMessage(ARKPlayerUpdate.Handler.class, ARKPlayerUpdate.class, id++,
+				Side.CLIENT);
 		DescriptionHandler.init();
 	}
 

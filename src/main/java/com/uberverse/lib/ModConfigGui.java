@@ -27,8 +27,9 @@ public class ModConfigGui extends GuiConfig
 		{
 			List<IConfigElement> list = new ArrayList<IConfigElement>();
 			// Add all the settings from MOD1_BALANCE class
-			list.addAll(new ConfigElement(CoreConfig.config
-					.getCategory(CoreConfig.CATEGORY_BALANCE)).getChildElements());
+			list.addAll(
+					new ConfigElement(CoreConfig.config.getCategory(CoreConfig.CATEGORY_BALANCE))
+							.getChildElements());
 			return list;
 		}
 
@@ -53,8 +54,9 @@ public class ModConfigGui extends GuiConfig
 		{
 			List<IConfigElement> list = new ArrayList<IConfigElement>();
 			// Add all the settings from MOD2_BALANCE class
-			list.addAll(new ConfigElement(ModuleItemConfig.config
-					.getCategory(ModuleItemConfig.CATEGORY_BALANCE)).getChildElements());
+			list.addAll(new ConfigElement(
+					ModuleItemConfig.config.getCategory(ModuleItemConfig.CATEGORY_BALANCE))
+							.getChildElements());
 			return list;
 		}
 

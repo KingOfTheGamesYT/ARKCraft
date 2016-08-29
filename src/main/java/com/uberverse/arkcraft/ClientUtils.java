@@ -13,14 +13,15 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-@SuppressWarnings({"rawtypes"})
-public class ClientUtils {
+@SuppressWarnings({ "rawtypes" })
+public class ClientUtils
+{
 	public static void drawHoveringText(List textLines, int x, int y, FontRenderer font, int width, int height)
 	{
 		if (!textLines.isEmpty())
 		{
 			GlStateManager.disableRescaleNormal();
-			//RenderHelper.disableStandardItemLighting();
+			// RenderHelper.disableStandardItemLighting();
 			GlStateManager.disableLighting();
 			GlStateManager.disableDepth();
 			int k = 0;
@@ -28,7 +29,7 @@ public class ClientUtils {
 
 			while (iterator.hasNext())
 			{
-				String s = (String)iterator.next();
+				String s = (String) iterator.next();
 				int l = font.getStringWidth(s);
 
 				if (l > k)
@@ -72,14 +73,18 @@ public class ClientUtils {
 
 			for (int i2 = 0; i2 < textLines.size(); ++i2)
 			{
-				String s1 = (String)textLines.get(i2);
+				String s1 = (String) textLines.get(i2);
 				int color = -1;
-				if(s1.startsWith("#")){
+				if (s1.startsWith("#"))
+				{
 					String c = s1.substring(1, 7);
 					s1 = s1.substring(7);
-					try{
+					try
+					{
 						color = Integer.parseInt(c, 16);
-					}catch(NumberFormatException e){
+					}
+					catch (NumberFormatException e)
+					{
 						color = -1;
 					}
 				}
@@ -94,16 +99,17 @@ public class ClientUtils {
 			}
 
 			zLevel = 0.0F;
-			//GlStateManager.enableLighting();
+			// GlStateManager.enableLighting();
 			GlStateManager.enableDepth();
-			//RenderHelper.enableStandardItemLighting();
+			// RenderHelper.enableStandardItemLighting();
 			GlStateManager.enableRescaleNormal();
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		}
 	}
+
 	/**
-	 * Draws a rectangle with a vertical gradient between the specified colors (ARGB format). Args : x1, y1, x2, y2,
-	 * topColor, bottomColor
+	 * Draws a rectangle with a vertical gradient between the specified colors
+	 * (ARGB format). Args : x1, y1, x2, y2, topColor, bottomColor
 	 */
 	public static void drawGradientRect(int left, int top, int right, int bottom, int startColor, int endColor)
 	{
@@ -135,6 +141,7 @@ public class ClientUtils {
 		GlStateManager.enableAlpha();
 		GlStateManager.enableTexture2D();
 	}
+
 	private static float zLevel = 0F;
-	
+
 }

@@ -11,11 +11,11 @@ import java.util.Set;
 import com.google.common.collect.ImmutableSet;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
-import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.item.tools.ARKCraftTool;
 import com.uberverse.arkcraft.common.network.ReloadFinished;
 import com.uberverse.arkcraft.init.ARKCraftItems;
+import com.uberverse.arkcraft.rework.ARKPlayer;
 import com.uberverse.lib.LogHelper;
 
 import net.minecraft.block.state.IBlockState;
@@ -34,7 +34,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
@@ -62,10 +61,9 @@ public class CommonEventHandler
 	@SubscribeEvent
 	public void onEntityConstructing(EntityEvent.EntityConstructing event)
 	{
-		if (event.entity instanceof EntityPlayer && ARKPlayer
-				.get((EntityPlayer) event.entity) == null)
+		if (event.entity instanceof EntityPlayer)
 		{
-			ARKPlayer.register((EntityPlayer) event.entity, event.entity.worldObj);
+			ARKPlayer.register((EntityPlayer) event.entity);
 			if (event.entity.worldObj.isRemote) // On client
 			{
 				LogHelper.info("ARKPlayerEventHandler: Registered a new ARKPlayer on client.");
@@ -74,16 +72,6 @@ public class CommonEventHandler
 			{
 				LogHelper.info("ARKPlayerEventHandler: Registered a new ARKPlayer on server.");
 			}
-		}
-	}
-
-	@SubscribeEvent
-	public void entityJoinWorld(EntityJoinWorldEvent e)
-	{
-		if (e.entity instanceof EntityPlayerMP)
-		{
-			System.out.println("joinworld");
-			ARKPlayer.get((EntityPlayer) e.entity).syncClient((EntityPlayer) e.entity, true);
 		}
 	}
 
@@ -104,7 +92,7 @@ public class CommonEventHandler
 			// Enable pooping once every (the value in the config) ticks
 			if (player.ticksExisted % ModuleItemBalance.PLAYER.TICKS_BETWEEN_PLAYER_POOP == 0)
 			{
-				ARKPlayer.get(player).setCanPoop(true);
+				ARKPlayer.get(player).feelTheUrge();
 			}
 		}
 	}
@@ -268,7 +256,7 @@ public class CommonEventHandler
 	}
 
 	// TODO fix the issues with client and server side,
-	// (ClientEventhanlder.arkMode()) is the issues
+	// (ClientEventhandler.arkMode()) is the issues
 	public static boolean arkMode;
 
 	public boolean arkMode()

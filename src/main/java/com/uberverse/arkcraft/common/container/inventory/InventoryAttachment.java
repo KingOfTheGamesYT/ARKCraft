@@ -32,8 +32,8 @@ public class InventoryAttachment extends AbstractInventory
 
 	public static InventoryAttachment create(ItemStack stack)
 	{
-		if (stack != null && stack.getItem() instanceof ItemRangedWeapon && !(stack.getItem() instanceof NonSupporting)) return new InventoryAttachment(
-				stack);
+		if (stack != null && stack.getItem() instanceof ItemRangedWeapon && !(stack
+				.getItem() instanceof NonSupporting)) return new InventoryAttachment(stack);
 		return null;
 	}
 
@@ -79,8 +79,8 @@ public class InventoryAttachment extends AbstractInventory
 
 	private boolean isInvOfType(AttachmentType type)
 	{
-		return inventory[0] != null && ((ItemAttachment) inventory[0].getItem()).getType().equals(
-				type);
+		return inventory[0] != null && ((ItemAttachment) inventory[0].getItem()).getType()
+				.equals(type);
 	}
 
 	public boolean isScopePresent()
