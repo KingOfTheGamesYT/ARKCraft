@@ -185,13 +185,6 @@ public class ARKCraftBerryBush extends Block
 		return new BlockState(this, new IProperty[] { HARVEST_COUNT });
 	}
 
-	/*
-	 * @Override public void onBlockClicked(World worldIn, BlockPos pos,
-	 * EntityPlayer playerIn) {}
-	 * 
-	 * public Vec3 modifyAcceleration(World worldIn, BlockPos pos, Entity
-	 * entityIn, Vec3 motion) { return motion; }
-	 */
 	@Override
 	public boolean isOpaqueCube()
 	{
