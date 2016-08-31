@@ -141,21 +141,56 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 
 	public void craftOne()
 	{
-		if (FMLCommonHandler.instance().getSide().isClient()) ARKCraft.modChannel.sendToServer(new CraftMessage(false));
-		else if (FMLCommonHandler.instance().getSide().isServer() && selectedEngramId >= 0) crafter.startCraft(selectedEngramId);
+		System.out.println(selectedEngramId);
+		if (selectedEngramId >= 0)
+		{
+			// if (FMLCommonHandler.instance().getSide().isClient()) ARKCraft.modChannel.sendToServer(new CraftMessage(false));
+			// if (FMLCommonHandler.instance().getSide().isServer())
+			if (crafter.startCraft(selectedEngramId)) detectAndSendChanges();
+		}
 	}
 
 	public void craftAll()
 	{
-		if (FMLCommonHandler.instance().getSide().isClient()) ARKCraft.modChannel.sendToServer(new CraftMessage(true));
-		else if (FMLCommonHandler.instance().getSide().isServer() && selectedEngramId >= 0) crafter.startCraftAll(selectedEngramId);
+		System.out.println(selectedEngramId);
+		if (selectedEngramId >= 0)
+		{
+			// if (FMLCommonHandler.instance().getSide().isClient()) ARKCraft.modChannel.sendToServer(new CraftMessage(true));
+			// if (FMLCommonHandler.instance().getSide().isServer())
+			if (crafter.startCraftAll(selectedEngramId)) detectAndSendChanges();
+		}
 	}
+
+	// public void craftOne()
+	// {
+	// if (selectedEngramId >= 0) crafter.startCraft(selectedEngramId);
+	// }
+	//
+	// public void craftAll()
+	// {
+	// if (FMLCommonHandler.instance().getSide().isClient()) ARKCraft.modChannel.sendToServer(new CraftMessage(true));
+	// else if (FMLCommonHandler.instance().getSide().isServer() && selectedEngramId >= 0) crafter.startCraftAll(selectedEngramId);
+	// }
 
 	@Override
 	public boolean enchantItem(EntityPlayer playerIn, int id)
 	{
-
-		return super.enchantItem(playerIn, id);
+		if (id == 0)
+		{
+			craftOne();
+			return true;
+		}
+		else if (id == 1)
+		{
+			craftAll();
+			return true;
+		}
+		else if (id > 1)
+		{
+			this.selectedEngramId = (short) (id - 2);
+			return true;
+		}
+		else return super.enchantItem(playerIn, id);
 	}
 
 	public static class EngramSlot extends SlotScrolling

@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.client.gui;
+package com.uberverse.arkcraft.old;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -13,8 +13,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.block.container.ContainerInventorySmithy;
-import com.uberverse.arkcraft.common.block.tile.TileInventorySmithy;
 
 /* Smithy */
 

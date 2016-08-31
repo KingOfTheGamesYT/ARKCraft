@@ -1,6 +1,5 @@
-package com.uberverse.arkcraft.common.block.container;
+package com.uberverse.arkcraft.old;
 
-import com.uberverse.arkcraft.common.block.tile.TileInventorySmithy;
 import com.uberverse.arkcraft.common.inventory.InventoryBlueprints;
 import com.uberverse.lib.LogHelper;
 

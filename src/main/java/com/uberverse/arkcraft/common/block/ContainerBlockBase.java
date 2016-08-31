@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.common.block.container;
+package com.uberverse.arkcraft.common.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

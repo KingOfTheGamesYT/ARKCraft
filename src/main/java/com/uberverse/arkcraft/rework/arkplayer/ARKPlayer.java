@@ -140,7 +140,6 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 			@Override
 			public void run()
 			{
-				System.out.println("run");
 				ARKCraft.modChannel.sendToServer(new ARKPlayerUpdateRequest(all));
 			}
 		});
@@ -838,6 +837,12 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 		public Queue<CraftingOrder> getCraftingQueue()
 		{
 			return craftingQueue;
+		}
+
+		@Override
+		public IInventory getConsumedInventory()
+		{
+			return player.inventory;
 		}
 	}
 

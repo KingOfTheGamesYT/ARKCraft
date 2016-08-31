@@ -24,7 +24,7 @@ import com.uberverse.arkcraft.common.block.tile.TileInventoryForge;
 import com.uberverse.arkcraft.common.block.tile.TileInventoryMP;
 import com.uberverse.arkcraft.common.container.ContainerInventoryAttachment;
 import com.uberverse.arkcraft.common.container.inventory.InventoryAttachment;
-import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
+import com.uberverse.arkcraft.old.ARKPlayer;
 import com.uberverse.arkcraft.rework.container.ContainerPlayerCrafting;
 import com.uberverse.arkcraft.rework.container.ContainerSmithy;
 import com.uberverse.arkcraft.rework.gui.GUIPlayerCrafting;

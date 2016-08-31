@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.handlers.CampfireRecipe;
 import com.uberverse.arkcraft.common.handlers.recipes.CampfireCraftingManager;
 
@@ -72,8 +71,7 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 		updateBurning();
 		if (!worldObj.isRemote)
 		{
-			List<CampfireRecipe> possibleRecipes = CampfireCraftingManager
-					.findPossibleRecipes(this);
+			List<CampfireRecipe> possibleRecipes = CampfireCraftingManager.findPossibleRecipes(this);
 			// LogHelper.info(burningTicks);
 			if (this.isBurning() && possibleRecipes.size() > 0)
 			{
@@ -147,8 +145,7 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 				int outputStack = -1;
 				for (int i = 0; i < itemStacks.length; i++)
 				{
-					if (itemStacks[i] != null && itemStacks[i].getItem().equals(
-							output) && itemStacks[i].stackSize < this.getInventoryStackLimit())
+					if (itemStacks[i] != null && itemStacks[i].getItem().equals(output) && itemStacks[i].stackSize < this.getInventoryStackLimit())
 					{
 						outputStack = i;
 						break;
@@ -285,8 +282,7 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 		final double Y_CENTRE_OFFSET = 0.5;
 		final double Z_CENTRE_OFFSET = 0.5;
 		final double MAXIMUM_DISTANCE_SQ = 8.0 * 8.0;
-		return player.getDistanceSq(pos.getX() + X_CENTRE_OFFSET, pos.getY() + Y_CENTRE_OFFSET,
-				pos.getZ() + Z_CENTRE_OFFSET) < MAXIMUM_DISTANCE_SQ;
+		return player.getDistanceSq(pos.getX() + X_CENTRE_OFFSET, pos.getY() + Y_CENTRE_OFFSET, pos.getZ() + Z_CENTRE_OFFSET) < MAXIMUM_DISTANCE_SQ;
 	}
 
 	// ------------------------------
@@ -369,8 +365,7 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 		{
 			NBTTagCompound nbtR = nbtList.getCompoundTagAt(i);
 			int cookTime = nbtR.getInteger("cookTime");
-			CampfireRecipe r = CampfireCraftingManager
-					.getCampfireRecipe(nbtR.getString("recipeKey"));
+			CampfireRecipe r = CampfireCraftingManager.getCampfireRecipe(nbtR.getString("recipeKey"));
 			this.activeRecipes.put(r, cookTime);
 		}
 	}
@@ -424,8 +419,7 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 	@Override
 	public IChatComponent getDisplayName()
 	{
-		return this.hasCustomName() ? new ChatComponentText(
-				this.getName()) : new ChatComponentTranslation(this.getName());
+		return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName());
 	}
 
 	// Fields are used to send non-inventory information from the server to
@@ -523,13 +517,11 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 
 	@Override
 	public void openInventory(EntityPlayer player)
-	{
-	}
+	{}
 
 	@Override
 	public void closeInventory(EntityPlayer player)
-	{
-	}
+	{}
 
 	@Override
 	public int getSlotCount()

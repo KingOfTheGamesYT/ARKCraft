@@ -1,7 +1,7 @@
 package com.uberverse.arkcraft.common.network;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
+import com.uberverse.arkcraft.old.ARKPlayer;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;

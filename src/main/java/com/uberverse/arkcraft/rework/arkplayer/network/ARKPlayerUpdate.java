@@ -80,7 +80,6 @@ public class ARKPlayerUpdate implements IMessage
 		{
 			if (ctx.side.isClient())
 			{
-				System.out.println("arrived");
 				message.store(ARKPlayer.get(Minecraft.getMinecraft().thePlayer));
 			}
 			return null;

@@ -8,7 +8,7 @@ import java.util.List;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.container.ContainerInventoryCampfire;
 import com.uberverse.arkcraft.common.block.tile.TileInventoryCampfire;
-import com.uberverse.arkcraft.common.network.CampfireToggleMessage;
+import com.uberverse.arkcraft.common.network.BurnerToggle;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -120,8 +120,7 @@ public class GUICampfire extends GuiContainer
 		if (isInRect(guiLeft + FLAME_XPOS, guiTop + FLAME_YPOS, FLAME_WIDTH, FLAME_HEIGHT, mouseX,
 				mouseY))
 		{
-			ARKCraft.logger.info("send");
-			ARKCraft.modChannel.sendToServer(new CampfireToggleMessage());
+			ARKCraft.modChannel.sendToServer(new BurnerToggle());
 		}
 
 		super.mouseClicked(mouseX, mouseY, mouseButton);

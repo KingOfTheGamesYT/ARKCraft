@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ContainerInventoryForge extends Container
+public class ContainerInventoryForge extends Container implements IBurner
 {
 
 	// Stores the tile entity instance for later use
@@ -64,13 +64,11 @@ public class ContainerInventoryForge extends Container
 		{
 			for (x = x; x < 4; x++)
 			{
-				addSlotToContainer(new Slot(tileInventoryFurnace, x,
-						FURNACE_SLOTS_XPOS + SLOT_X_SPACING * x, FURNACE_SLOTS_YPOS));
+				addSlotToContainer(new Slot(tileInventoryFurnace, x, FURNACE_SLOTS_XPOS + SLOT_X_SPACING * x, FURNACE_SLOTS_YPOS));
 			}
 			for (x = x; x < FURNACE_SLOT_COUNT; x++)
 			{
-				addSlotToContainer(new Slot(tileInventoryFurnace, x,
-						FURNACE_SLOTS_XPOS + SLOT_X_SPACING * (x - 4), FURNACE_SLOTS_YPOS + 18));
+				addSlotToContainer(new Slot(tileInventoryFurnace, x, FURNACE_SLOTS_XPOS + SLOT_X_SPACING * (x - 4), FURNACE_SLOTS_YPOS + 18));
 			}
 		}
 
@@ -78,8 +76,7 @@ public class ContainerInventoryForge extends Container
 		// item
 		for (int x = 0; x < HOTBAR_SLOT_COUNT; x++)
 		{
-			addSlotToContainer(new Slot(invPlayer, x, PLAYER_INVENTORY_XPOS + SLOT_X_SPACING * x,
-					HOTBAR_YPOS));
+			addSlotToContainer(new Slot(invPlayer, x, PLAYER_INVENTORY_XPOS + SLOT_X_SPACING * x, HOTBAR_YPOS));
 		}
 
 		// Add the rest of the players inventory to the gui
@@ -132,8 +129,7 @@ public class ContainerInventoryForge extends Container
 			// the furnace slots
 			// If the stack is smeltable try to merge merge the stack into the
 			// input slots
-			if (!mergeItemStack(sourceStack, FIRST_FURNACE_SLOT_INDEX,
-					FIRST_FURNACE_SLOT_INDEX + FURNACE_SLOT_COUNT, false)) { return null; }
+			if (!mergeItemStack(sourceStack, FIRST_FURNACE_SLOT_INDEX, FIRST_FURNACE_SLOT_INDEX + FURNACE_SLOT_COUNT, false)) { return null; }
 		}
 		else if (sourceSlotIndex >= FIRST_FURNACE_SLOT_INDEX && sourceSlotIndex < FIRST_FURNACE_SLOT_INDEX + FURNACE_SLOT_COUNT)
 		{
@@ -141,8 +137,7 @@ public class ContainerInventoryForge extends Container
 			// inventory: try the hotbar first and then the main inventory
 			// because the main inventory slots are immediately after the hotbar
 			// slots, we can just merge with a single call
-			if (!mergeItemStack(sourceStack, VANILLA_FIRST_SLOT_INDEX,
-					VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) { return null; }
+			if (!mergeItemStack(sourceStack, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) { return null; }
 		}
 		else
 		{

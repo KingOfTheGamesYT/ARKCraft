@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.client.gui;
+package com.uberverse.arkcraft.old;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -17,8 +17,6 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.block.container.ContainerInventoryPlayerCrafting;
-import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
 import com.uberverse.arkcraft.common.handlers.ARKShapelessRecipe;
 import com.uberverse.arkcraft.common.handlers.recipes.PlayerCraftingManager;
 import com.uberverse.arkcraft.common.inventory.InventoryBlueprints;

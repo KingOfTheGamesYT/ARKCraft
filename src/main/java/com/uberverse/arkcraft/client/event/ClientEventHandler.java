@@ -10,11 +10,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.gui.GUIMortarPestle;
-import com.uberverse.arkcraft.client.gui.GUIPlayerCrafting;
-import com.uberverse.arkcraft.client.gui.GUISmithy;
 import com.uberverse.arkcraft.common.block.tile.IHoverInfo;
 import com.uberverse.arkcraft.common.block.tile.TileInventoryMP;
-import com.uberverse.arkcraft.common.block.tile.TileInventorySmithy;
 import com.uberverse.arkcraft.common.config.WeightsConfig;
 import com.uberverse.arkcraft.common.container.inventory.InventoryAttachment;
 import com.uberverse.arkcraft.common.entity.data.CalcPlayerWeight;
@@ -31,6 +28,9 @@ import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
 import com.uberverse.arkcraft.common.network.OpenPlayerCrafting;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.init.ARKCraftItems;
+import com.uberverse.arkcraft.old.GUIPlayerCrafting;
+import com.uberverse.arkcraft.old.GUISmithy;
+import com.uberverse.arkcraft.old.TileInventorySmithy;
 import com.uberverse.arkcraft.rework.arkplayer.ARKPlayer;
 
 import net.minecraft.client.Minecraft;

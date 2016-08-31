@@ -26,6 +26,18 @@ public interface IEngramCrafter extends NBTable
 			if (getProgress() > 0)
 			{
 				decreaseProgress();
+				if (getProgress() == 0 && !craftingQueue.isEmpty())
+				{
+					CraftingOrder c = craftingQueue.peek();
+					c.decreaseCount(1);
+					Item i = c.getEngram().getItem();
+					int amount = c.getEngram().getAmount();
+					ItemStack out = new ItemStack(i, amount);
+					addOrDrop(out);
+					if (c.getCount() == 0) craftingQueue.remove();
+					sync();
+					return;
+				}
 				syncProgress();
 			}
 			else if (!craftingQueue.isEmpty())
@@ -35,17 +47,7 @@ public interface IEngramCrafter extends NBTable
 				c.getEngram().consume(getIInventory());
 				sync();
 			}
-			if (getProgress() == 0 && !craftingQueue.isEmpty())
-			{
-				CraftingOrder c = craftingQueue.peek();
-				c.decreaseCount(1);
-				Item i = c.getEngram().getItem();
-				int amount = c.getEngram().getAmount();
-				ItemStack out = new ItemStack(i, amount);
-				addOrDrop(out);
-				if (c.getCount() == 0) craftingQueue.remove();
-				sync();
-			}
+
 		}
 	}
 
@@ -64,8 +66,7 @@ public interface IEngramCrafter extends NBTable
 				ItemStack in = inventory[i];
 				if (in.getItem() == stack.getItem())
 				{
-					if (in.stackSize + stack.stackSize < in
-							.getMaxStackSize()) in.stackSize += stack.stackSize;
+					if (in.stackSize + stack.stackSize < in.getMaxStackSize()) in.stackSize += stack.stackSize;
 					else
 					{
 						stack.stackSize -= in.getMaxStackSize() - in.stackSize;
@@ -85,8 +86,8 @@ public interface IEngramCrafter extends NBTable
 
 	public default void addOrDrop(ItemStack stack)
 	{
-		if (!add(stack)) getWorld().spawnEntityInWorld(new EntityItem(getWorld(),
-				getPosition().getX(), getPosition().getY(), getPosition().getZ(), stack));
+		if (!add(stack))
+			getWorld().spawnEntityInWorld(new EntityItem(getWorld(), getPosition().getX(), getPosition().getY(), getPosition().getZ(), stack));
 	}
 
 	@Override
@@ -106,8 +107,8 @@ public interface IEngramCrafter extends NBTable
 		for (int i = 0; i < inventory.tagCount(); i++)
 		{
 			NBTTagCompound n = queue.getCompoundTagAt(i);
-			if (n.getBoolean("load")) this.getCraftingQueue().add(new CraftingOrder(
-					EngramManager.instance().getEngram(n.getShort("id")), n.getInteger("count")));
+			if (n.getBoolean("load"))
+				this.getCraftingQueue().add(new CraftingOrder(EngramManager.instance().getEngram(n.getShort("id")), n.getInteger("count")));
 		}
 	}
 
@@ -169,16 +170,17 @@ public interface IEngramCrafter extends NBTable
 
 	default boolean startCraftAll(short engramId)
 	{
-		return startCraft(engramId, EngramManager.instance().getEngram(engramId)
-				.getCraftableAmount(getIInventory()) - getCraftingAmount(engramId));
+		return startCraft(engramId, EngramManager.instance().getEngram(engramId).getCraftableAmount(getIInventory()) - getCraftingAmount(engramId));
 	}
 
 	default boolean startCraft(short engramId)
 	{
-		if (EngramManager.instance().getEngram(engramId).canCraft(getIInventory(),
-				1 + getCraftingAmount(engramId))) return startCraft(engramId, 1);
+		if (EngramManager.instance().getEngram(engramId).canCraft(getConsumedInventory(), 1 + getCraftingAmount(engramId)))
+			return startCraft(engramId, 1);
 		return false;
 	}
+
+	public IInventory getConsumedInventory();
 
 	default int getCraftingAmount(short engramId)
 	{

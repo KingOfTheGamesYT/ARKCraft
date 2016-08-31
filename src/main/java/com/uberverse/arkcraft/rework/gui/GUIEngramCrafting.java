@@ -35,8 +35,16 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 	@Override
 	protected void actionPerformed(GuiButton button) throws IOException
 	{
-		if (button == craft) mc.playerController.sendEnchantPacket(0, 0);
-		else if (button == craftall) mc.playerController.sendEnchantPacket(0, 1);
+		if (button == craft)
+		{
+			mc.playerController.sendEnchantPacket(inventorySlots.windowId, 0);
+			// ((ContainerEngramCrafting) inventorySlots).craftOne();
+		}
+		else if (button == craftall)
+		{
+			mc.playerController.sendEnchantPacket(inventorySlots.windowId, 1);
+			// ((ContainerEngramCrafting) inventorySlots).craftAll();
+		}
 		else super.actionPerformed(button);
 	}
 

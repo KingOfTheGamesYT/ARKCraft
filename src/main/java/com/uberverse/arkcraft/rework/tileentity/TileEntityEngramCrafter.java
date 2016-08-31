@@ -19,8 +19,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 
-public abstract class TileEntityEngramCrafter extends TileEntity
-		implements IInventory, IUpdatePlayerListBox, IEngramCrafter
+public abstract class TileEntityEngramCrafter extends TileEntity implements IInventory, IUpdatePlayerListBox, IEngramCrafter
 {
 	private ItemStack[] inventory;
 
@@ -137,8 +136,7 @@ public abstract class TileEntityEngramCrafter extends TileEntity
 
 	@Override
 	public void setField(int id, int value)
-	{
-	}
+	{}
 
 	@Override
 	public int getFieldCount()
@@ -175,6 +173,12 @@ public abstract class TileEntityEngramCrafter extends TileEntity
 
 	@Override
 	public IInventory getIInventory()
+	{
+		return this;
+	}
+
+	@Override
+	public IInventory getConsumedInventory()
 	{
 		return this;
 	}
