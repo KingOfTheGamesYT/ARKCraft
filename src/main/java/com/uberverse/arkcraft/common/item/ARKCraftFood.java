@@ -1,11 +1,16 @@
 package com.uberverse.arkcraft.common.item;
 
+import java.util.List;
+
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
+
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.uberverse.arkcraft.init.ARKCraftItems;
 
@@ -18,8 +23,9 @@ public class ARKCraftFood extends ItemFood
 	private PotionEffect[] effects;
 	private boolean alwaysEdible;
 	public static int globalHealAmount; // Used For Adding XP On Register
+	public int decayTime;
 
-	public ARKCraftFood(int healAmount, float sat, boolean fav, boolean alwaysEdible, PotionEffect... effects)
+	public ARKCraftFood(int healAmount, float sat, boolean fav, boolean alwaysEdible, int decayTime, PotionEffect... effects)
 	{
 		super(healAmount, sat, fav);
 		this.effects = effects;
@@ -47,6 +53,8 @@ public class ARKCraftFood extends ItemFood
 		 * one below.)
 		 */
 		globalHealAmount = healAmount;
+		this.decayTime = decayTime;
+		setMaxDamage(decayTime);
 	}
 
 	@Override
@@ -88,15 +96,15 @@ public class ARKCraftFood extends ItemFood
 		{
 			if (stack.getItem() instanceof ARKCraftSeed)
 			{
-				if (stack.getItem() == (Item) ARKCraftItems.amarBerrySeed) { return new ItemStack(
+				if (stack.getItem() == ARKCraftItems.amarBerrySeed) { return new ItemStack(
 						ARKCraftItems.amarBerry); }
-				if (stack.getItem() == (Item) ARKCraftItems.azulBerrySeed) { return new ItemStack(
+				if (stack.getItem() == ARKCraftItems.azulBerrySeed) { return new ItemStack(
 						ARKCraftItems.azulBerry); }
-				if (stack.getItem() == (Item) ARKCraftItems.mejoBerrySeed) { return new ItemStack(
+				if (stack.getItem() == ARKCraftItems.mejoBerrySeed) { return new ItemStack(
 						ARKCraftItems.mejoBerry); }
-				if (stack.getItem() == (Item) ARKCraftItems.narcoBerrySeed) { return new ItemStack(
+				if (stack.getItem() == ARKCraftItems.narcoBerrySeed) { return new ItemStack(
 						ARKCraftItems.narcoBerry); }
-				if (stack.getItem() == (Item) ARKCraftItems.tintoBerrySeed) { return new ItemStack(
+				if (stack.getItem() == ARKCraftItems.tintoBerrySeed) { return new ItemStack(
 						ARKCraftItems.tintoBerry); }
 			}
 		}
@@ -110,10 +118,10 @@ public class ARKCraftFood extends ItemFood
 		{
 			if (stack.getItem() instanceof ARKCraftFood)
 			{
-				if (stack.getItem() == (Item) ARKCraftItems.meat_cooked) { return 25; }
-				if (stack.getItem() == (Item) ARKCraftItems.meat_raw) { return 10; }
-				if (stack.getItem() == (Item) ARKCraftItems.primemeat_cooked) { return 50; }
-				if (stack.getItem() == (Item) ARKCraftItems.primemeat_raw) { return 25; }
+				if (stack.getItem() == ARKCraftItems.meat_cooked) { return 25; }
+				if (stack.getItem() == ARKCraftItems.meat_raw) { return 10; }
+				if (stack.getItem() == ARKCraftItems.primemeat_cooked) { return 50; }
+				if (stack.getItem() == ARKCraftItems.primemeat_raw) { return 25; }
 			}
 		}
 		return 0;
@@ -126,7 +134,7 @@ public class ARKCraftFood extends ItemFood
 		{
 			if (stack.getItem() instanceof ARKCraftFood)
 			{
-				if (stack.getItem() == (Item) ARKCraftItems.narcoBerry) { return 25; }
+				if (stack.getItem() == ARKCraftItems.narcoBerry) { return 25; }
 			}
 		}
 		return 0;
@@ -135,5 +143,38 @@ public class ARKCraftFood extends ItemFood
 	public static int getXPFromSmelting()
 	{
 		return globalHealAmount / 2;
+	}
+	@Override
+	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+		if(stack.getMetadata() > getMaxDecayTime(stack)){
+			entityIn.getInventory()[itemSlot] = null;
+		}else{
+			stack.setItemDamage(stack.getMetadata()+1);
+		}
+	}
+	public int getMaxDecayTime(ItemStack stack){
+		return decayTime;
+	}
+	/**
+	 * allows items to add custom lines of information to the mouseover
+	 * description
+	 *
+	 * @param tooltip
+	 *            All lines to display in the Item's tooltip. This is a List of
+	 *            Strings.
+	 * @param advanced
+	 *            Whether the setting "Advanced tooltips" is enabled
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void addInformation(ItemStack itemStack, EntityPlayer playerIn, List tooltip, boolean advanced)
+	{
+		tooltip.add("Decomposes in " + ((getMaxDamage() - itemStack.getItemDamage()) / 20) + " seconds");
+	}
+	@Override
+	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged)
+	{
+		return slotChanged || (oldStack != null && newStack != null && (oldStack.getItem() != newStack.getItem()));
 	}
 }

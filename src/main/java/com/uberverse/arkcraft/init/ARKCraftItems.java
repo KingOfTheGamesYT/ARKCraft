@@ -3,10 +3,19 @@ package com.uberverse.arkcraft.init;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.potion.PotionEffect;
+
+import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.BlockCropPlot.BerryColor;
 import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew.CropPlotType;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
+import com.uberverse.arkcraft.common.config.ModuleItemBalance.PLAYER;
 import com.uberverse.arkcraft.common.entity.EntitySpear;
 import com.uberverse.arkcraft.common.handlers.EntityHandler;
 import com.uberverse.arkcraft.common.item.ARKCraftBook;
@@ -23,13 +32,6 @@ import com.uberverse.arkcraft.common.item.tools.ItemMetalPick;
 import com.uberverse.arkcraft.common.item.tools.ItemMetalSickle;
 import com.uberverse.arkcraft.common.item.tools.ItemStoneHatchet;
 import com.uberverse.arkcraft.common.item.tools.ItemStonePick;
-
-import net.minecraft.item.Item;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraft.potion.PotionEffect;
-import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ARKCraftItems
 {
@@ -49,14 +51,14 @@ public class ARKCraftItems
 
 	// Food
 	public static ARKCraftFood tintoBerry, amarBerry, azulBerry, mejoBerry, narcoBerry, stimBerry,
-			meat_raw, meat_cooked, primemeat_raw, primemeat_cooked, spoiled_meat;
+	meat_raw, meat_cooked, primemeat_raw, primemeat_cooked, spoiled_meat;
 	public static ARKCraftSeed tintoBerrySeed, amarBerrySeed, azulBerrySeed, mejoBerrySeed,
-			narcoBerrySeed, stimBerrySeed;
+	narcoBerrySeed, stimBerrySeed;
 
 	// Misc
 	public static ARKCraftItem stone, fiber, thatch, wood, flint, metal, spark_powder, hide,
-			charcoal, metal_ingot, cementing_paste, crystal, spy_glass, narcotics, gunpowder,
-			chitin, keratin;
+	charcoal, metal_ingot, cementing_paste, crystal, spy_glass, narcotics, gunpowder,
+	chitin, keratin;
 	public static ARKCraftFeces small_feces, medium_feces, large_feces, fertilizer, player_feces;
 	public static ARKCraftBook info_book;
 
@@ -262,14 +264,21 @@ public class ARKCraftItems
 
 	protected static ARKCraftFood addFood(String name, int heal, float sat, boolean fav, boolean alwaysEdible)
 	{
-		ARKCraftFood f = new ARKCraftFood(heal, sat, fav, alwaysEdible);
+		ARKCraftFood f = new ARKCraftFood(heal, sat, fav, alwaysEdible, PLAYER.TICKS_BEFORE_FOOD_DECAY);
 		registerItem(name, f);
 		return f;
 	}
 
-	public static ARKCraftFood addFood(String name, int heal, float sat, boolean fav, boolean alwaysEdible, PotionEffect... effect)
+	protected static ARKCraftFood addFood(String name, int heal, float sat, boolean fav, boolean alwaysEdible, int decayTime)
 	{
-		ARKCraftFood f = new ARKCraftFood(heal, sat, fav, alwaysEdible, effect);
+		ARKCraftFood f = new ARKCraftFood(heal, sat, fav, alwaysEdible, decayTime);
+		registerItem(name, f);
+		return f;
+	}
+
+	public static ARKCraftFood addFood(String name, int heal, float sat, boolean fav, boolean alwaysEdible, int decayTime, PotionEffect... effect)
+	{
+		ARKCraftFood f = new ARKCraftFood(heal, sat, fav, alwaysEdible, decayTime, effect);
 		registerItem(name, f);
 		return f;
 	}
