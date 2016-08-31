@@ -107,15 +107,13 @@ public class BlockRefiningForge extends BlockContainer
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-		if (!worldIn.isRemote) {
-			double d0 = (double) pos.getX() + 0.5D;
-			double d1 = (double) pos.getY() + 1D;
-			double d2 = (double) pos.getZ() + 0.75D;
+			double d0 = (double) pos.getX() + 0.8D;
+			double d1 = (double) pos.getY() + 1.9D;
+			double d2 = (double) pos.getZ() + 0.5D;
 			IBlockState blockState = getActualState(getDefaultState(), worldIn, pos);
 			boolean burning = (Boolean) blockState.getValue(BURNING);
 			if (burning) {
 				worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
-			}
 		}
 	}
 
