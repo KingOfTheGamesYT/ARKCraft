@@ -40,7 +40,6 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		initPlayerSlots();
 		initInventorySlots();
 		initScrollableSlots();
-		System.out.println(counter);
 	}
 
 	protected void initInventorySlots()
@@ -86,10 +85,8 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 	public void initScrollableSlots()
 	{
 		scrollInvBoundLeft = counter;
-		System.out.println(getVisibleSlotsAmount());
 		for (int i = 0; i < getVisibleSlotsAmount(); i++)
 		{
-			System.out.println("added");
 			this.addSlotToContainer(new EngramSlot(getScrollableInventory(), i, getScrollableSlotsX() + i % getScrollableSlotsWidth() * getSlotSize(),
 					getScrollableSlotsY() + i / getScrollableSlotsWidth() * getSlotSize(), this));
 			counter++;
@@ -140,7 +137,6 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 	public void selectEngram(short engramId)
 	{
 		this.selectedEngramId = engramId;
-		System.out.println(engramId);
 	}
 
 	public void craftOne()

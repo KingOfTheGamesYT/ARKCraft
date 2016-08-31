@@ -140,6 +140,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 			@Override
 			public void run()
 			{
+				System.out.println("run");
 				ARKCraft.modChannel.sendToServer(new ARKPlayerUpdateRequest(all));
 			}
 		});
@@ -490,7 +491,6 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 		for (int i = 0; i < unlockedEngrams.size(); i++)
 		{
 			c[i] = unlockedEngrams.get(i);
-			System.out.println(unlockedEngrams.get(i) + " to nbt");
 		}
 		properties.setIntArray("unlockedEngrams", c);
 
@@ -505,6 +505,11 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 	@Override
 	public void loadNBTData(NBTTagCompound compound)
 	{
+		if (compound == null || !compound.hasKey(propKey))
+		{
+			ARKCraft.logger.info("Couldn't find nbt!");
+			return;
+		}
 		NBTTagCompound properties = compound.getCompoundTag(propKey);
 		if (properties == null) { return; }
 
@@ -538,7 +543,6 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 		unlockedEngrams.clear();
 		for (int i : properties.getIntArray("unlockedEngrams"))
 		{
-			System.out.println(i + " from nbt");
 			unlockedEngrams.add((short) i);
 		}
 
@@ -552,7 +556,12 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 
 	@Override
 	public void init(Entity entity, World world)
-	{}
+	{
+		// if (world.isRemote)
+		// {
+		// requestSynchronization(true);
+		// }
+	}
 
 	/**
 	 * Copies additional player data from the given ExtendedPlayer instance Avoids NBT disk I/O overhead when cloning a player after respawn

@@ -57,6 +57,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
@@ -106,6 +107,15 @@ public class ClientEventHandler
 
 		harvestOverlay = new KeyBinding("key.harvestOverlay", Keyboard.KEY_P, ARKCraft.NAME);
 		ClientRegistry.registerKeyBinding(harvestOverlay);
+	}
+
+	@SubscribeEvent
+	public void onPlayerJoinWorld(EntityJoinWorldEvent event)
+	{
+		if (event.entity instanceof EntityPlayer && event.entity.worldObj.isRemote)
+		{
+			ARKPlayer.get((EntityPlayer) event.entity).requestSynchronization(true);
+		}
 	}
 
 	@SuppressWarnings("static-access")

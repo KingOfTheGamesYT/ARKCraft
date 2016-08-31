@@ -22,10 +22,9 @@ public class ARKPlayerUpdate implements IMessage
 
 	public ARKPlayerUpdate(ARKPlayer player, boolean all)
 	{
-		System.out.println("reply");
 		this.player = player;
 		this.all = all;
-		NBTTagCompound nbt = new NBTTagCompound();
+		nbt = new NBTTagCompound();
 		if (all) player.saveNBTData(nbt);
 	}
 
@@ -36,8 +35,8 @@ public class ARKPlayerUpdate implements IMessage
 		player = ARKPlayer.getDefault();
 		if (all)
 		{
-			System.out.println("read");
 			nbt = ByteBufUtils.readTag(buf);
+			System.out.println(nbt == null);
 		}
 		else
 		{
@@ -54,7 +53,6 @@ public class ARKPlayerUpdate implements IMessage
 		buf.writeBoolean(all);
 		if (all)
 		{
-			System.out.println("write");
 			ByteBufUtils.writeTag(buf, nbt);
 		}
 		else

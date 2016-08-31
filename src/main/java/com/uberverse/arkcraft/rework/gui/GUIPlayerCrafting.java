@@ -30,7 +30,7 @@ public class GUIPlayerCrafting extends GUIEngramCrafting
 	{
 		super.initGui();
 
-		this.openEngrams = new GuiTexturedButton(buttonCounter++, guiLeft + 113, guiTop + 134, 47, 14, buttons, 0, 84);
+		this.openEngrams = new GuiTexturedButton(buttonCounter++, guiLeft + 110, guiTop + 134, 47, 14, buttons, 0, 84);
 		buttonList.add(openEngrams);
 	}
 

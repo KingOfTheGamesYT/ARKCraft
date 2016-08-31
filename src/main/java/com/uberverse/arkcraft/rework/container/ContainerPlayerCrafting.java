@@ -27,13 +27,13 @@ public class ContainerPlayerCrafting extends ContainerEngramCrafting
 	@Override
 	public int getScrollableSlotsX()
 	{
-		return 25;
+		return 26;
 	}
 
 	@Override
 	public int getScrollableSlotsY()
 	{
-		return 26;
+		return 18;
 	}
 
 	@Override
