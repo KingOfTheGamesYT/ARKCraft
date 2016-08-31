@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.rework;
+package com.uberverse.arkcraft.rework.tileentity;
 
 import net.minecraft.entity.player.EntityPlayer;
 

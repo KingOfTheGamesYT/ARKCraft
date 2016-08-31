@@ -18,7 +18,7 @@ public interface IContainerScrollable
 
 	public float getRelativeScrollingOffset();
 
-	public int getVisibleSlotsAmounts();
+	public int getVisibleSlotsAmount();
 
 	public int getTotalSlotsAmount();
 

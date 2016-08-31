@@ -215,6 +215,9 @@ arkcraft.tooltip.ingredient=* %s * %d
 arkcraft.toolLevel.primitive=Primitive
 arkcraft.toolLevel.ascendant=Ascendant
 
+# Gui
+gui.text.level=Lvl: %s
+
 # Engrams
 ark.engram.learn=Learn Engram
 ark.engram.learn.true=Learned

@@ -1,6 +1,6 @@
-package com.uberverse.arkcraft.rework.network.arkplayer;
+package com.uberverse.arkcraft.rework.arkplayer.network;
 
-import com.uberverse.arkcraft.rework.ARKPlayer;
+import com.uberverse.arkcraft.rework.arkplayer.ARKPlayer;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;

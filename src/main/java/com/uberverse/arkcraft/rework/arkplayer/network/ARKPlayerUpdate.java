@@ -1,10 +1,12 @@
-package com.uberverse.arkcraft.rework.network.arkplayer;
+package com.uberverse.arkcraft.rework.arkplayer.network;
 
-import com.uberverse.arkcraft.rework.ARKPlayer;
-import com.uberverse.arkcraft.rework.ARKPlayer.Variable;
+import com.uberverse.arkcraft.rework.arkplayer.ARKPlayer;
+import com.uberverse.arkcraft.rework.arkplayer.ARKPlayer.Variable;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -12,16 +14,19 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 public class ARKPlayerUpdate implements IMessage
 {
 	public ARKPlayerUpdate()
-	{
-	}
+	{}
 
 	private ARKPlayer player;
 	private boolean all;
+	private NBTTagCompound nbt;
 
 	public ARKPlayerUpdate(ARKPlayer player, boolean all)
 	{
+		System.out.println("reply");
 		this.player = player;
 		this.all = all;
+		NBTTagCompound nbt = new NBTTagCompound();
+		if (all) player.saveNBTData(nbt);
 	}
 
 	@Override
@@ -31,10 +36,8 @@ public class ARKPlayerUpdate implements IMessage
 		player = ARKPlayer.getDefault();
 		if (all)
 		{
-			for (Variable<?> var : player.getStats().values())
-			{
-				var.read(buf);
-			}
+			System.out.println("read");
+			nbt = ByteBufUtils.readTag(buf);
 		}
 		else
 		{
@@ -51,10 +54,8 @@ public class ARKPlayerUpdate implements IMessage
 		buf.writeBoolean(all);
 		if (all)
 		{
-			for (Variable<?> var : player.getStats().values())
-			{
-				var.write(buf);
-			}
+			System.out.println("write");
+			ByteBufUtils.writeTag(buf, nbt);
 		}
 		else
 		{
@@ -67,7 +68,10 @@ public class ARKPlayerUpdate implements IMessage
 
 	private void store(ARKPlayer player)
 	{
-		if (all) player.copy(this.player);
+		if (all)
+		{
+			player.loadNBTData(nbt);
+		}
 		else player.copyConditionally(this.player);
 	}
 
@@ -78,6 +82,7 @@ public class ARKPlayerUpdate implements IMessage
 		{
 			if (ctx.side.isClient())
 			{
+				System.out.println("arrived");
 				message.store(ARKPlayer.get(Minecraft.getMinecraft().thePlayer));
 			}
 			return null;

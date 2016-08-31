@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.rework;
+package com.uberverse.arkcraft.rework.container;
 
 import java.util.Collections;
 import java.util.List;
@@ -7,8 +7,10 @@ import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable;
 import com.uberverse.arkcraft.common.container.scrollable.SlotScrolling;
 import com.uberverse.arkcraft.common.network.CraftMessage;
-import com.uberverse.arkcraft.rework.EngramManager.Engram;
-import com.uberverse.arkcraft.rework.EngramManager.EngramType;
+import com.uberverse.arkcraft.rework.engram.EngramManager;
+import com.uberverse.arkcraft.rework.engram.EngramManager.Engram;
+import com.uberverse.arkcraft.rework.engram.EngramManager.EngramType;
+import com.uberverse.arkcraft.rework.engram.IEngramCrafter;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -23,27 +25,25 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 
 	private EntityPlayer player;
 	private EngramInventory engramInventory;
-	private TileEntityEngramCrafter inventory;
+	private IEngramCrafter crafter;
 
-	protected int playerInvBoundLeft, playerInvBoundRight, invBoundLeft, invBoundRight,
-			scrollInvBoundLeft, scrollInvBoundRight;
+	protected int playerInvBoundLeft, playerInvBoundRight, invBoundLeft, invBoundRight, scrollInvBoundLeft, scrollInvBoundRight;
 
 	private int counter = 0;
 
-	public ContainerEngramCrafting(EngramType type, EntityPlayer player, TileEntityEngramCrafter inventory)
+	public ContainerEngramCrafting(EngramType type, EntityPlayer player, IEngramCrafter crafter)
 	{
 		super();
 		this.player = player;
-		this.inventory = inventory;
-		this.engramInventory = new EngramInventory(
-				EngramManager.instance().getUnlockedEngramsOfType(player, type));
+		this.crafter = crafter;
+		this.engramInventory = new EngramInventory(EngramManager.instance().getUnlockedEngramsOfType(player, type));
 		initPlayerSlots();
 		initInventorySlots();
 		initScrollableSlots();
 		System.out.println(counter);
 	}
 
-	private void initInventorySlots()
+	protected void initInventorySlots()
 	{
 		invBoundLeft = counter;
 		for (int row = 0; row < getInventorySlotsHeight(); row++)
@@ -52,15 +52,14 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 			{
 				int index = col + row * getInventorySlotsWidth();
 				this.addSlotToContainer(
-						new Slot(getIInventory(), index, getInventorySlotsX() + col * getSlotSize(),
-								getInventorySlotsY() + row * getSlotSize()));
+						new Slot(getIInventory(), index, getInventorySlotsX() + col * getSlotSize(), getInventorySlotsY() + row * getSlotSize()));
 				counter++;
 			}
 		}
 		invBoundRight = counter;
 	}
 
-	private void initPlayerSlots()
+	private final void initPlayerSlots()
 	{
 		playerInvBoundLeft = counter;
 		for (int row = 0; row < 3; row++)
@@ -68,8 +67,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 			for (int col = 0; col < 9; col++)
 			{
 				int slotIndex = col + row * 9 + 9;
-				addSlotToContainer(new Slot(player.inventory, slotIndex,
-						getPlayerInventorySlotsX() + col * getSlotSize(),
+				addSlotToContainer(new Slot(player.inventory, slotIndex, getPlayerInventorySlotsX() + col * getSlotSize(),
 						getPlayerInventorySlotsY() + row * getSlotSize()));
 				counter++;
 			}
@@ -77,8 +75,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 
 		for (int col = 0; col < 9; col++)
 		{
-			addSlotToContainer(new Slot(player.inventory, col,
-					getPlayerHotbarSlotsX() + col * getSlotSize(), getPlayerHotbarSlotsY()));
+			addSlotToContainer(new Slot(player.inventory, col, getPlayerHotbarSlotsX() + col * getSlotSize(), getPlayerHotbarSlotsY()));
 			counter++;
 		}
 
@@ -89,10 +86,11 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 	public void initScrollableSlots()
 	{
 		scrollInvBoundLeft = counter;
-		for (int i = 0; i < getVisibleSlotsAmounts(); i++)
+		System.out.println(getVisibleSlotsAmount());
+		for (int i = 0; i < getVisibleSlotsAmount(); i++)
 		{
-			this.addSlotToContainer(new EngramSlot(getScrollableInventory(), i,
-					getScrollableSlotsX() + i % getScrollableSlotsWidth() * getSlotSize(),
+			System.out.println("added");
+			this.addSlotToContainer(new EngramSlot(getScrollableInventory(), i, getScrollableSlotsX() + i % getScrollableSlotsWidth() * getSlotSize(),
 					getScrollableSlotsY() + i / getScrollableSlotsWidth() * getSlotSize(), this));
 			counter++;
 		}
@@ -117,7 +115,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 
 	public IInventory getIInventory()
 	{
-		return inventory;
+		return crafter.getIInventory();
 	}
 
 	@Override
@@ -147,18 +145,14 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 
 	public void craftOne()
 	{
-		if (FMLCommonHandler.instance().getSide()
-				.isClient()) ARKCraft.modChannel.sendToServer(new CraftMessage(false));
-		else if (FMLCommonHandler.instance().getSide()
-				.isServer() && selectedEngramId >= 0) inventory.startCraft(selectedEngramId);
+		if (FMLCommonHandler.instance().getSide().isClient()) ARKCraft.modChannel.sendToServer(new CraftMessage(false));
+		else if (FMLCommonHandler.instance().getSide().isServer() && selectedEngramId >= 0) crafter.startCraft(selectedEngramId);
 	}
 
 	public void craftAll()
 	{
-		if (FMLCommonHandler.instance().getSide()
-				.isClient()) ARKCraft.modChannel.sendToServer(new CraftMessage(true));
-		else if (FMLCommonHandler.instance().getSide()
-				.isServer() && selectedEngramId >= 0) inventory.startCraftAll(selectedEngramId);
+		if (FMLCommonHandler.instance().getSide().isClient()) ARKCraft.modChannel.sendToServer(new CraftMessage(true));
+		else if (FMLCommonHandler.instance().getSide().isServer() && selectedEngramId >= 0) crafter.startCraftAll(selectedEngramId);
 	}
 
 	@Override
@@ -236,8 +230,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 
 		@Override
 		public void setInventorySlotContents(int index, ItemStack stack)
-		{
-		}
+		{}
 
 		@Override
 		public int getInventoryStackLimit()
@@ -247,8 +240,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 
 		@Override
 		public void markDirty()
-		{
-		}
+		{}
 
 		@Override
 		public boolean isUseableByPlayer(EntityPlayer player)
@@ -258,13 +250,11 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 
 		@Override
 		public void openInventory(EntityPlayer player)
-		{
-		}
+		{}
 
 		@Override
 		public void closeInventory(EntityPlayer player)
-		{
-		}
+		{}
 
 		@Override
 		public boolean isItemValidForSlot(int index, ItemStack stack)
@@ -280,8 +270,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 
 		@Override
 		public void setField(int id, int value)
-		{
-		}
+		{}
 
 		@Override
 		public int getFieldCount()
@@ -291,7 +280,6 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 
 		@Override
 		public void clear()
-		{
-		}
+		{}
 	}
 }

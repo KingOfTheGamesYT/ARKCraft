@@ -1,6 +1,6 @@
 package com.uberverse.arkcraft.common.network;
 
-import com.uberverse.arkcraft.rework.ContainerEngramCrafting;
+import com.uberverse.arkcraft.rework.container.ContainerEngramCrafting;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;

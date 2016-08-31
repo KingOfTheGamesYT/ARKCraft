@@ -13,10 +13,10 @@ import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.container.ContainerEngram;
 import com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable;
 import com.uberverse.arkcraft.common.container.scrollable.IGuiScrollable;
-import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
 import com.uberverse.arkcraft.common.inventory.InventoryPlayerEngram;
 import com.uberverse.arkcraft.common.network.ScrollingMessage;
-import com.uberverse.arkcraft.common.network.UnlockEngramMessage;
+import com.uberverse.arkcraft.common.network.UnlockEngram;
+import com.uberverse.arkcraft.rework.arkplayer.ARKPlayer;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -117,7 +117,7 @@ public class GUIEngram extends GuiContainer implements IGuiScrollable
 		else if (button == learn)
 		{
 			ARKCraft.modChannel.sendToServer(
-					new UnlockEngramMessage(((ContainerEngram) inventorySlots).getSelected()));
+					new UnlockEngram(((ContainerEngram) inventorySlots).getSelected()));
 		}
 	}
 

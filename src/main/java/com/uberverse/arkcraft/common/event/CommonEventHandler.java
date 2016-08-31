@@ -3,8 +3,11 @@ package com.uberverse.arkcraft.common.event;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 
@@ -15,7 +18,7 @@ import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.item.tools.ARKCraftTool;
 import com.uberverse.arkcraft.common.network.ReloadFinished;
 import com.uberverse.arkcraft.init.ARKCraftItems;
-import com.uberverse.arkcraft.rework.ARKPlayer;
+import com.uberverse.arkcraft.rework.arkplayer.ARKPlayer;
 import com.uberverse.lib.LogHelper;
 
 import net.minecraft.block.state.IBlockState;
@@ -143,40 +146,28 @@ public class CommonEventHandler
 								LogHelper.info("Found an Entity in the world that is a book!");
 								remainingInputs.remove(Items.book);
 								foundEntityItems.add(entityItemInWorld);
-								AxisAlignedBB areaBound = entityItemInWorld.getEntityBoundingBox()
-										.expand(3, 3, 3);
-								List<Entity> entitiesWithinBound = world
-										.getEntitiesWithinAABBExcludingEntity(entityItemInWorld,
-												areaBound);
+								AxisAlignedBB areaBound = entityItemInWorld.getEntityBoundingBox().expand(3, 3, 3);
+								List<Entity> entitiesWithinBound = world.getEntitiesWithinAABBExcludingEntity(entityItemInWorld, areaBound);
 								for (Entity entityWithinBound : entitiesWithinBound)
 								{
 									if (entityWithinBound instanceof EntityItem)
 									{
 										EntityItem entityItemWithinBound = (EntityItem) entityWithinBound;
-										if (entityItemWithinBound.getEntityItem()
-												.getItem() == Items.bone)
+										if (entityItemWithinBound.getEntityItem().getItem() == Items.bone)
 										{
-											LogHelper.info(
-													"Found an Entity near the book that is a bone!");
+											LogHelper.info("Found an Entity near the book that is a bone!");
 											remainingInputs.remove(Items.bone);
-											if (!remainingInputs.contains(
-													entityItemWithinBound)) foundEntityItems
-															.add(entityItemWithinBound);
+											if (!remainingInputs.contains(entityItemWithinBound)) foundEntityItems.add(entityItemWithinBound);
 										}
-										else if (entityItemWithinBound.getEntityItem()
-												.getItem() == Items.wheat)
+										else if (entityItemWithinBound.getEntityItem().getItem() == Items.wheat)
 										{
-											LogHelper.info(
-													"Found an Entity near the book that is wheat!");
+											LogHelper.info("Found an Entity near the book that is wheat!");
 											remainingInputs.remove(Items.wheat);
-											if (!remainingInputs.contains(
-													entityItemWithinBound)) foundEntityItems
-															.add(entityItemWithinBound);
+											if (!remainingInputs.contains(entityItemWithinBound)) foundEntityItems.add(entityItemWithinBound);
 										}
 										if (remainingInputs.isEmpty())
 										{
-											LogHelper.info(
-													"All items have been found. The Items hashmap is empty.");
+											LogHelper.info("All items have been found. The Items hashmap is empty.");
 											for (EntityItem foundEntityItem : foundEntityItems)
 											{
 												Random random = new Random();
@@ -184,17 +175,11 @@ public class CommonEventHandler
 												foundEntityItem.getEntityItem().stackSize--;
 												if (foundEntityItem.getEntityItem().stackSize <= 0)
 												{
-													LogHelper
-															.info("Deleting the Item: " + foundEntityItem
-																	.getEntityItem().getItem()
-																	.toString());
+													LogHelper.info("Deleting the Item: " + foundEntityItem.getEntityItem().getItem().toString());
 													foundEntityItem.setDead();
 												}
-												itemToSpawn = new EntityItem(world,
-														entityItemInWorld.posX,
-														entityItemInWorld.posY,
-														entityItemInWorld.posZ,
-														new ItemStack(ARKCraftItems.info_book, 1));
+												itemToSpawn = new EntityItem(world, entityItemInWorld.posX, entityItemInWorld.posY,
+														entityItemInWorld.posZ, new ItemStack(ARKCraftItems.info_book, 1));
 
 											}
 										}
@@ -208,9 +193,8 @@ public class CommonEventHandler
 					}
 					if (itemToSpawn != null)
 					{
-						((WorldServer) world).spawnParticle(EnumParticleTypes.SMOKE_LARGE, false,
-								itemToSpawn.posX, itemToSpawn.posY + 0.5D, itemToSpawn.posZ, 5,
-								0.0D, 0.0D, 0.0D, 0.0D, new int[0]);
+						((WorldServer) world).spawnParticle(EnumParticleTypes.SMOKE_LARGE, false, itemToSpawn.posX, itemToSpawn.posY + 0.5D,
+								itemToSpawn.posZ, 5, 0.0D, 0.0D, 0.0D, 0.0D, new int[0]);
 						world.spawnEntityInWorld(itemToSpawn);
 					}
 
@@ -227,36 +211,51 @@ public class CommonEventHandler
 	// for (int z = -checkSize; z <= checkSize; z++) {
 	// for (int y = 0; y <= checkSize; y++) {
 
-	public void destroyBlocks(World world, BlockPos pos, boolean first)
+	private void destroyBlocks(World world, BlockPos pos)
 	{
+		// TODO Fix crash due to stackoverflow
 		// int checkSize = 1;
-		int i = pos.getX();
-		int j = pos.getY();
-		int k = pos.getZ();
-		for (int x = i - 1; x <= i + 1; x++)
+
+		Collection<BlockPos> done = new HashSet<>();
+		Queue<BlockPos> queue = new LinkedList<>();
+
+		queue.add(pos);
+
+		while (!queue.isEmpty())
 		{
-			for (int z = k - 1; z <= k + 1; z++)
+			pos = queue.remove();
+			int i = pos.getX();
+			int j = pos.getY();
+			int k = pos.getZ();
+
+			// world.destroyBlock(pos, true);
+
+			for (int x = i - 1; x <= i + 1; x++)
 			{
-				for (int y = j - 1; y <= j + 1; y++)
+				for (int z = k - 1; z <= k + 1; z++)
 				{
-					if (first || (x != i && y != j && k != z))
+					for (int y = j - 1; y <= j + 1; y++)
 					{
-						IBlockState blockState = world.getBlockState(new BlockPos(x, y, z));
-						if (blockState.getBlock() == Blocks.log || blockState
-								.getBlock() == Blocks.log2)
+						if (x != i && y != j && k != z)
 						{
-							// world.destroyBlock(new BlockPos(x, y, z), true);
-							count++;
-							this.destroyBlocks(world, new BlockPos(x, y, z), false);
+
+							BlockPos n = new BlockPos(x, y, z);
+							IBlockState blockState = world.getBlockState(new BlockPos(x, y, z));
+							if (blockState.getBlock() == Blocks.log || blockState.getBlock() == Blocks.log2)
+							{
+								if (!done.contains(n)) queue.add(n);
+							}
 						}
 					}
 				}
 			}
+			done.add(pos);
 		}
 	}
 
 	// TODO fix the issues with client and server side,
 	// (ClientEventhandler.arkMode()) is the issues
+	// --> basically keep arkmode as a player variable
 	public static boolean arkMode;
 
 	public boolean arkMode()
@@ -267,10 +266,9 @@ public class CommonEventHandler
 	@SubscribeEvent
 	public void breakSpeed(BreakSpeed event)
 	{
-		if (arkMode && event.entityPlayer.getHeldItem() != null && event.entityPlayer.getHeldItem()
-				.getItem() instanceof ARKCraftTool)
+		if (arkMode && event.entityPlayer.getHeldItem() != null && event.entityPlayer.getHeldItem().getItem() instanceof ARKCraftTool)
 		{
-			destroyBlocks(event.entityPlayer.worldObj, event.pos, true);
+			destroyBlocks(event.entityPlayer.worldObj, event.pos);
 			float f = count / 20F;
 			System.out.println(count + " " + f);
 			if (count > 0)

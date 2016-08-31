@@ -1,7 +1,7 @@
 package com.uberverse.arkcraft.common.proxy;
 
 import com.uberverse.arkcraft.client.book.proxy.BookCommon;
-import com.uberverse.arkcraft.rework.EngramManager;
+import com.uberverse.arkcraft.rework.engram.EngramManager;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.SidedProxy;

@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.rework;
+package com.uberverse.arkcraft.rework.container;
 
 import com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable;
 import com.uberverse.arkcraft.common.container.scrollable.SlotScrolling;
@@ -83,11 +83,11 @@ public abstract class ContainerScrollable extends Container implements IContaine
 	@Override
 	public boolean canScroll()
 	{
-		return getVisibleSlotsAmounts() < getTotalSlotsAmount();
+		return getVisibleSlotsAmount() < getTotalSlotsAmount();
 	}
 
 	@Override
-	public int getVisibleSlotsAmounts()
+	public int getVisibleSlotsAmount()
 	{
 		return getTotalSlotsAmount() < getScrollableSlotsCount() ? getTotalSlotsAmount() : getScrollableSlotsCount();
 	}

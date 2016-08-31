@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.rework;
+package com.uberverse.arkcraft.rework.gui;
 
 import java.io.IOException;
 
@@ -6,6 +6,7 @@ import org.lwjgl.input.Mouse;
 
 import com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable;
 import com.uberverse.arkcraft.common.container.scrollable.IGuiScrollable;
+import com.uberverse.arkcraft.rework.container.ContainerScrollable;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -14,6 +15,14 @@ import net.minecraft.util.ResourceLocation;
 
 public abstract class GUIScrollable extends GUIArkContainer implements IGuiScrollable
 {
+	public static final ResourceLocation scrollButtonCreativeResource = new ResourceLocation("textures/gui/container/creative_inventory/tabs.png");
+	public static final int scrollButtonCreativeWidth = 12;
+	public static final int scrollButtonCreativeHeight = 15;
+	public static final int scrollButtonCreativeU = 232;
+	public static final int scrollButtonCreativeV = 0;
+	public static final int scrollButtonCreativeDisabledU = scrollButtonCreativeU + scrollButtonCreativeWidth;
+	public static final int scrollButtonCreativeDisabledV = scrollButtonCreativeV;
+
 	public GUIScrollable(ContainerScrollable container)
 	{
 		super(container);
@@ -29,23 +38,20 @@ public abstract class GUIScrollable extends GUIArkContainer implements IGuiScrol
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		if (this.canScroll())
 		{
-			drawTexturedModalRect(guiLeft + getScrollBarStartX(),
-					guiTop + getScrollBarStartY() + getScrollPosition(), getScrollButtonU(),
+			drawTexturedModalRect(guiLeft + getScrollBarStartX(), guiTop + getScrollBarStartY() + getScrollPosition(), getScrollButtonU(),
 					getScrollButtonV(), getScrollButtonWidth(), getScrollButtonHeight());
 		}
 		else
 		{
-			drawTexturedModalRect(guiLeft + getScrollBarStartX(), guiTop + getScrollBarStartY(),
-					getScrollButtonDisabledU(), getScrollButtonDisabledV(), getScrollButtonWidth(),
-					getScrollButtonHeight());
+			drawTexturedModalRect(guiLeft + getScrollBarStartX(), guiTop + getScrollBarStartY(), getScrollButtonDisabledU(),
+					getScrollButtonDisabledV(), getScrollButtonWidth(), getScrollButtonHeight());
 		}
 	}
 
 	@Override
 	public int getScrollPosition()
 	{
-		return (int) (((IContainerScrollable) this.inventorySlots)
-				.getRelativeScrollingOffset() * (getScrollBarEndY() - getScrollBarStartY()));
+		return (int) (((IContainerScrollable) this.inventorySlots).getRelativeScrollingOffset() * (getScrollBarEndY() - getScrollBarStartY()));
 	}
 
 	private boolean scrollClicked;
@@ -72,19 +78,18 @@ public abstract class GUIScrollable extends GUIArkContainer implements IGuiScrol
 	{
 		if (mouseButton == 0)
 		{
-			if (isPointInRegion(getScrollBarStartX(), getScrollBarStartY() + getScrollPosition(),
-					getScrollButtonWidth(), getScrollButtonHeight(), mouseX, mouseY))
+			if (isPointInRegion(getScrollBarStartX(), getScrollBarStartY() + getScrollPosition(), getScrollButtonWidth(), getScrollButtonHeight(),
+					mouseX, mouseY))
 			{
 				scrollClicked = true;
 			}
 			if (isPointInRegion(getScrollBarStartX(), getScrollBarStartY(), getScrollButtonWidth(),
-					getScrollBarEndY() + getScrollButtonHeight() - getScrollBarStartY(), mouseX,
-					mouseY))
+					getScrollBarEndY() + getScrollButtonHeight() - getScrollBarStartY(), mouseX, mouseY))
 			{
 				adjustScrollFromMouseY(mouseY);
 			}
 		}
-		else super.mouseClicked(mouseX, mouseY, mouseButton);
+		super.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
 	@Override
@@ -99,7 +104,8 @@ public abstract class GUIScrollable extends GUIArkContainer implements IGuiScrol
 
 	private void adjustScrollFromMouseY(int mouseY)
 	{
-		float newScroll = (float) (mouseY - guiTop - getScrollBarStartY() + getScrollButtonHeight() / 2) / (float) (getScrollBarEndY() + getScrollButtonHeight() / 2 - getScrollBarStartY());
+		float newScroll = (float) (mouseY - guiTop - getScrollBarStartY() + getScrollButtonHeight() / 2)
+				/ (float) (getScrollBarEndY() + getScrollButtonHeight() / 2 - getScrollBarStartY());
 		newScroll = MathHelper.clamp_float(newScroll, 0.0F, 1.0F);
 		setScroll(newScroll);
 	}
@@ -120,19 +126,40 @@ public abstract class GUIScrollable extends GUIArkContainer implements IGuiScrol
 		return ((IContainerScrollable) this.inventorySlots).canScroll();
 	}
 
-	public abstract int getScrollButtonWidth();
+	public int getScrollButtonWidth()
+	{
+		return scrollButtonCreativeWidth;
+	}
 
-	public abstract int getScrollButtonHeight();
+	public int getScrollButtonHeight()
+	{
+		return scrollButtonCreativeHeight;
+	}
 
-	public abstract int getScrollButtonU();
+	public int getScrollButtonU()
+	{
+		return scrollButtonCreativeU;
+	}
 
-	public abstract int getScrollButtonV();
+	public int getScrollButtonV()
+	{
+		return scrollButtonCreativeV;
+	}
 
-	public abstract int getScrollButtonDisabledU();
+	public int getScrollButtonDisabledU()
+	{
+		return scrollButtonCreativeDisabledU;
+	}
 
-	public abstract int getScrollButtonDisabledV();
+	public int getScrollButtonDisabledV()
+	{
+		return scrollButtonCreativeDisabledV;
+	}
 
-	public abstract ResourceLocation getScrollButtonResource();
+	public ResourceLocation getScrollButtonResource()
+	{
+		return scrollButtonCreativeResource;
+	}
 
 	public abstract int getScrollBarStartX();
 

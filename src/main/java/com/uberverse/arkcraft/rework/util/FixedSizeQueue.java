@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.rework;
+package com.uberverse.arkcraft.rework.util;
 
 import java.util.Collection;
 import java.util.Iterator;

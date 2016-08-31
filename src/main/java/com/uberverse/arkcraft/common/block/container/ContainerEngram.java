@@ -130,11 +130,11 @@ public class ContainerEngram extends Container implements IContainerScrollable
 	@Override
 	public boolean canScroll()
 	{
-		return getVisibleSlotsAmounts() < getTotalSlotsAmount();
+		return getVisibleSlotsAmount() < getTotalSlotsAmount();
 	}
 
 	@Override
-	public int getVisibleSlotsAmounts()
+	public int getVisibleSlotsAmount()
 	{
 		return getTotalSlotsAmount() < getScrollableSlotsCount() ? getTotalSlotsAmount() : getScrollableSlotsCount();
 	}

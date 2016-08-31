@@ -1,6 +1,7 @@
 package com.uberverse.arkcraft.common.network;
 
-import com.uberverse.arkcraft.rework.ARKPlayer;
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.rework.arkplayer.ARKPlayer;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -8,19 +9,16 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 /**
- * 
  * @author Lewis_McReu
- *
  */
-public class UnlockEngramMessage implements IMessage
+public class UnlockEngram implements IMessage
 {
-	public UnlockEngramMessage()
-	{
-	}
+	public UnlockEngram()
+	{}
 
 	private short engramId;
 
-	public UnlockEngramMessage(short engramId)
+	public UnlockEngram(short engramId)
 	{
 		this.engramId = engramId;
 	}
@@ -37,14 +35,16 @@ public class UnlockEngramMessage implements IMessage
 		buf.writeShort(engramId);
 	}
 
-	public static class Handler implements IMessageHandler<UnlockEngramMessage, IMessage>
+	public static class Handler implements IMessageHandler<UnlockEngram, UpdateEngrams>
 	{
 		@Override
-		public IMessage onMessage(UnlockEngramMessage message, MessageContext ctx)
+		public UpdateEngrams onMessage(UnlockEngram message, MessageContext ctx)
 		{
 			if (ctx.side.isServer())
 			{
-				ARKPlayer.get(ctx.getServerHandler().playerEntity).learnEngram(message.engramId);
+				ARKPlayer p = ARKPlayer.get(ctx.getServerHandler().playerEntity);
+				p.learnEngram(message.engramId);
+				return new UpdateEngrams(p.getUnlockedEngrams(), p.getEngramPoints());
 			}
 			return null;
 		}

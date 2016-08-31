@@ -27,7 +27,7 @@ import com.uberverse.arkcraft.common.block.tile.TileInventoryCompostBin;
 import com.uberverse.arkcraft.common.block.tile.TileInventoryForge;
 import com.uberverse.arkcraft.common.block.tile.TileInventoryMP;
 import com.uberverse.arkcraft.common.tileentity.TileFlashlight;
-import com.uberverse.arkcraft.rework.TileEntitySmithy;
+import com.uberverse.arkcraft.rework.tileentity.TileEntitySmithy;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

@@ -1,24 +1,35 @@
-package com.uberverse.arkcraft.rework;
+package com.uberverse.arkcraft.rework.arkplayer;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 
 import com.google.common.collect.ImmutableList;
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.config.WeightsConfig;
 import com.uberverse.arkcraft.common.entity.IArkLeveling;
 import com.uberverse.arkcraft.common.entity.ITranquilizable;
+import com.uberverse.arkcraft.common.entity.data.CalcPlayerWeight;
 import com.uberverse.arkcraft.common.entity.event.ArkExperienceGainEvent;
+import com.uberverse.arkcraft.common.inventory.InventoryPlayerEngram;
 import com.uberverse.arkcraft.common.network.PlayerPoop;
-import com.uberverse.arkcraft.rework.EngramManager.Engram;
-import com.uberverse.arkcraft.rework.network.arkplayer.ARKPlayerUpdate;
-import com.uberverse.arkcraft.rework.network.arkplayer.ARKPlayerUpdateRequest;
-import com.uberverse.arkcraft.rework.network.arkplayer.PlayerEngramCrafterProgressUpdate;
-import com.uberverse.arkcraft.rework.network.arkplayer.PlayerEngramCrafterUpdate;
-import com.uberverse.lib.LogHelper;
+import com.uberverse.arkcraft.rework.arkplayer.network.ARKPlayerUpdate;
+import com.uberverse.arkcraft.rework.arkplayer.network.ARKPlayerUpdateRequest;
+import com.uberverse.arkcraft.rework.arkplayer.network.PlayerEngramCrafterProgressUpdate;
+import com.uberverse.arkcraft.rework.arkplayer.network.PlayerEngramCrafterUpdate;
+import com.uberverse.arkcraft.rework.container.ContainerPlayerCrafting;
+import com.uberverse.arkcraft.rework.engram.CraftingOrder;
+import com.uberverse.arkcraft.rework.engram.EngramManager;
+import com.uberverse.arkcraft.rework.engram.EngramManager.Engram;
+import com.uberverse.arkcraft.rework.engram.IEngramCrafter;
+import com.uberverse.arkcraft.rework.entity.IWeighable;
+import com.uberverse.arkcraft.rework.util.FixedSizeQueue;
+import com.uberverse.arkcraft.rework.util.NBTable;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -33,14 +44,14 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
- * 
  * @author Lewis_McReu Based on earlier concepts by wildbill22 and ERBF
- *
  */
-public class ARKPlayer
-		implements IExtendedEntityProperties, IArkLeveling, IWeighable, ITranquilizable
+public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeighable, ITranquilizable
 {
-	// STATIC
+	/*
+	 * methods to simplify registering and accessing
+	 * certain variables for static use
+	 */
 	public static final String propKey = "arkplayer";
 
 	public static ARKPlayer get(EntityPlayer p)
@@ -66,22 +77,74 @@ public class ARKPlayer
 	{
 		this.statMap = new HashMap<>();
 		initializeVariables();
+		unlockedEngrams = new ArrayList<>();
 	}
 
 	public ARKPlayer(EntityPlayer player)
 	{
 		this();
 		this.player = player;
-		engramCrafter = new PlayerEngramCrafter(player);
+		engramCrafter = new PlayerEngramCrafter(this.player);
+	}
+
+	public void update()
+	{
+		if (!player.worldObj.isRemote)
+		{
+			// Update crafting
+			if (engramCrafter.isCrafting())
+			{
+				engramCrafter.update();
+			}
+
+			sendSynchronization(false);
+		}
+		else
+		{
+			// Apply weight effects
+			if (WeightsConfig.isEnabled)
+			{
+				if (!player.capabilities.isCreativeMode || WeightsConfig.allowInCreative)
+				{
+					// Removes the updating when the player is in a inventory
+					if (Minecraft.getMinecraft().currentScreen == null)
+					{
+						// Weight rules
+						if (isOverEncumbered()) // value changed to match ARK; see isOverEncumbered()
+						{
+							player.motionX *= 0;
+							player.motionZ *= 0;
+						}
+						else if (isEncumbered()) // value changed to match ARK; see isEncumbered()
+						{
+							player.motionX *= WeightsConfig.encumberedSpeed;
+							player.motionY *= WeightsConfig.encumberedSpeed;
+							player.motionZ *= WeightsConfig.encumberedSpeed;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public InventoryPlayerEngram getEngramInventory()
+	{
+		return new InventoryPlayerEngram();
 	}
 
 	@SideOnly(Side.CLIENT)
 	public void requestSynchronization(boolean all)
 	{
-		ARKCraft.modChannel.sendToServer(new ARKPlayerUpdateRequest(false));
+		Minecraft.getMinecraft().addScheduledTask(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				ARKCraft.modChannel.sendToServer(new ARKPlayerUpdateRequest(all));
+			}
+		});
 	}
 
-	@SideOnly(Side.SERVER)
 	public void sendSynchronization(boolean all)
 	{
 		ARKCraft.modChannel.sendTo(new ARKPlayerUpdate(this, all), (EntityPlayerMP) player);
@@ -89,9 +152,8 @@ public class ARKPlayer
 
 	// max stats and stat increases
 
-	private static final int healthIncrease = 10, staminaIncrease = 10, oxygenIncrease = 20,
-			foodIncrease = 10, waterIncrease = 10, damageIncrease = 5, speedIncrease = 2,
-			weightIncrease = 10, maxTorpor = 200;
+	private static final int healthIncrease = 10, staminaIncrease = 10, oxygenIncrease = 20, foodIncrease = 10, waterIncrease = 10,
+			damageIncrease = 5, speedIncrease = 2, weightIncrease = 10, maxTorpor = 200;
 	private static final short maxLevel = 98;
 
 	// current stats
@@ -104,8 +166,8 @@ public class ARKPlayer
 	}
 
 	private Variable<Boolean> hasToGo;
-	private Variable<Integer> health, oxygen, food, water, damage, speed, stamina, torpor,
-			engramPoints, maxHealth, maxOxygen, maxFood, maxWater, maxDamage, maxSpeed, maxStamina;
+	private Variable<Integer> health, oxygen, food, water, damage, speed, stamina, torpor, engramPoints, maxHealth, maxOxygen, maxFood, maxWater,
+			maxDamage, maxSpeed, maxStamina;
 	private Variable<Short> level;
 	private Variable<Long> xp;
 	private Variable<Double> weight, maxWeight;
@@ -132,10 +194,8 @@ public class ARKPlayer
 			if (player.worldObj.isRemote)
 			{
 				player.playSound(ARKCraft.MODID + ":" + "dodo_defficating", 1.0F,
-						(player.worldObj.rand.nextFloat() - player.worldObj.rand
-								.nextFloat()) * 0.2F + 1.0F);
+						(player.worldObj.rand.nextFloat() - player.worldObj.rand.nextFloat()) * 0.2F + 1.0F);
 				ARKCraft.modChannel.sendToServer(new PlayerPoop(true));
-				LogHelper.info("Player is pooping!");
 			}
 			relief();
 		}
@@ -150,55 +210,14 @@ public class ARKPlayer
 		return health.get();
 	}
 
-	public int getOxygen()
-	{
-		return oxygen.get();
-	}
-
-	public int getFood()
-	{
-		return food.get();
-	}
-
-	public int getWater()
-	{
-		return water.get();
-	}
-
-	public int getDamage()
-	{
-		return damage.get();
-	}
-
-	public int getSpeed()
-	{
-		return speed.get();
-	}
-
-	public int getStamina()
-	{
-		return stamina.get();
-	}
-
-	public int getTorpor()
-	{
-		return torpor.get();
-	}
-
-	@Override
-	public void applyTorpor(int torpor)
-	{
-		this.torpor.set(getTorpor() + torpor);
-	}
-
-	public int getEngramPoints()
-	{
-		return engramPoints.get();
-	}
-
 	public int getMaxHealth()
 	{
 		return maxHealth.get();
+	}
+
+	public int getOxygen()
+	{
+		return oxygen.get();
 	}
 
 	public int getMaxOxygen()
@@ -206,9 +225,19 @@ public class ARKPlayer
 		return maxOxygen.get();
 	}
 
+	public int getFood()
+	{
+		return food.get();
+	}
+
 	public int getMaxFood()
 	{
 		return maxFood.get();
+	}
+
+	public int getWater()
+	{
+		return water.get();
 	}
 
 	public int getMaxWater()
@@ -216,9 +245,19 @@ public class ARKPlayer
 		return maxWater.get();
 	}
 
+	public int getDamage()
+	{
+		return damage.get();
+	}
+
 	public int getMaxDamage()
 	{
 		return maxDamage.get();
+	}
+
+	public int getSpeed()
+	{
+		return speed.get();
 	}
 
 	public int getMaxSpeed()
@@ -226,9 +265,30 @@ public class ARKPlayer
 		return maxSpeed.get();
 	}
 
+	public int getStamina()
+	{
+		return stamina.get();
+	}
+
 	public int getMaxStamina()
 	{
 		return maxStamina.get();
+	}
+
+	public int getTorpor()
+	{
+		return torpor.get();
+	}
+
+	public static int getMaxTorpor()
+	{
+		return maxTorpor;
+	}
+
+	@Override
+	public void applyTorpor(int torpor)
+	{
+		this.torpor.set(Math.min(getTorpor() + torpor, getMaxTorpor()));
 	}
 
 	public double getWeight()
@@ -239,6 +299,35 @@ public class ARKPlayer
 	public double getMaxWeight()
 	{
 		return maxWeight.get();
+	}
+
+	public double getRelativeWeight()
+	{
+		return getWeight() / getMaxWeight();
+	}
+
+	public boolean isEncumbered()
+	{
+		return getRelativeWeight() >= 0.85;
+	}
+
+	public boolean isOverEncumbered()
+	{
+		return getRelativeWeight() >= 1;
+	}
+
+	public void updateWeight()
+	{
+		if (!player.worldObj.isRemote)
+		{
+			weight.set(CalcPlayerWeight.getAsDouble(player));
+			sendSynchronization(false);
+		}
+	}
+
+	public int getEngramPoints()
+	{
+		return engramPoints.get();
 	}
 
 	private void initializeVariables()
@@ -252,7 +341,7 @@ public class ARKPlayer
 		speed = registerVariable("speed", 0);
 		stamina = registerVariable("stamina", 0);
 		torpor = registerVariable("torpor", 0);
-		level = registerVariable("level", (short) 0);
+		level = registerVariable("level", (short) 1);
 		engramPoints = registerVariable("engramPoints", 0);
 		maxHealth = registerVariable("maxHealth", 0);
 		maxOxygen = registerVariable("maxOxygen", 0);
@@ -261,7 +350,7 @@ public class ARKPlayer
 		maxDamage = registerVariable("maxDamage", 0);
 		maxSpeed = registerVariable("maxSpeed", 0);
 		maxStamina = registerVariable("maxStamina", 0);
-		xp = registerVariable("xp", 0L);
+		xp = registerVariable("xp", (long) 0);
 		weight = registerVariable("weight", 0d);
 		maxWeight = registerVariable("maxWeight", 0d);
 	}
@@ -289,8 +378,7 @@ public class ARKPlayer
 
 	public void levelUpVariable(String variableKey)
 	{
-		if (!variableKey.startsWith("max")) variableKey = "max"
-				.concat(variableKey.substring(0, 1).toUpperCase().concat(variableKey.substring(1)));
+		if (!variableKey.startsWith("max")) variableKey = "max".concat(variableKey.substring(0, 1).toUpperCase().concat(variableKey.substring(1)));
 		switch (variableKey)
 		{
 			case "maxHealth":
@@ -395,12 +483,15 @@ public class ARKPlayer
 		properties.setDouble("maxWeight", getMaxWeight());
 
 		properties.setLong("xp", getXP());
-		properties.setInteger("level", getLevel());
+		properties.setShort("level", getLevel());
 		properties.setInteger("engramPoints", getEngramPoints());
 
 		int[] c = new int[unlockedEngrams.size()];
 		for (int i = 0; i < unlockedEngrams.size(); i++)
+		{
 			c[i] = unlockedEngrams.get(i);
+			System.out.println(unlockedEngrams.get(i) + " to nbt");
+		}
 		properties.setIntArray("unlockedEngrams", c);
 
 		NBTTagCompound nbt = new NBTTagCompound();
@@ -429,7 +520,7 @@ public class ARKPlayer
 		speed.variable = properties.getInteger("speed");
 		stamina.variable = properties.getInteger("stamina");
 		torpor.variable = properties.getInteger("torpor");
-		weight.variable = properties.getInteger("weight");
+		weight.variable = properties.getDouble("weight");
 
 		maxHealth.variable = properties.getInteger("maxHealth");
 		maxOxygen.variable = properties.getInteger("maxOxygen");
@@ -438,15 +529,18 @@ public class ARKPlayer
 		maxDamage.variable = properties.getInteger("maxDamage");
 		maxSpeed.variable = properties.getInteger("maxSpeed");
 		maxStamina.variable = properties.getInteger("maxStamina");
-		maxWeight.variable = properties.getInteger("maxWeight");
+		maxWeight.variable = properties.getDouble("maxWeight");
 
 		xp.variable = properties.getLong("xp");
-		level.variable = properties.getInteger("level");
+		level.variable = properties.getShort("level");
 		engramPoints.variable = properties.getInteger("engramPoints");
 
 		unlockedEngrams.clear();
 		for (int i : properties.getIntArray("unlockedEngrams"))
+		{
+			System.out.println(i + " from nbt");
 			unlockedEngrams.add((short) i);
+		}
 
 		NBTTagCompound nbt = new NBTTagCompound();
 		getEngramCrafter().writeToNBT(nbt);
@@ -458,13 +552,10 @@ public class ARKPlayer
 
 	@Override
 	public void init(Entity entity, World world)
-	{
-		if (world.isRemote) requestSynchronization(true);
-	}
+	{}
 
 	/**
-	 * Copies additional player data from the given ExtendedPlayer instance
-	 * Avoids NBT disk I/O overhead when cloning a player after respawn
+	 * Copies additional player data from the given ExtendedPlayer instance Avoids NBT disk I/O overhead when cloning a player after respawn
 	 */
 	public void copy(ARKPlayer props)
 	{
@@ -517,8 +608,7 @@ public class ARKPlayer
 	}
 
 	/**
-	 * Class for keeping separate variables and whether they've been changed
-	 * recently
+	 * Class for keeping separate variables and whether they've been changed recently
 	 *
 	 * @param <E>
 	 */
@@ -536,7 +626,11 @@ public class ARKPlayer
 
 		public void set(Object variable)
 		{
-			if (this.variable.getClass() == variable.getClass()) this.variable = variable;
+			if (!this.variable.equals(variable) && this.variable.getClass() == variable.getClass())
+			{
+				this.changed = true;
+				this.variable = variable;
+			}
 		}
 
 		public E get()
@@ -674,6 +768,7 @@ public class ARKPlayer
 		{
 			this.progress = 0;
 			this.player = player;
+			this.craftingQueue = new FixedSizeQueue<>(5);
 		}
 
 		public EntityPlayer getPlayer()
@@ -696,21 +791,20 @@ public class ARKPlayer
 		@Override
 		public IInventory getIInventory()
 		{
-			return player.inventory;
+			return null;
 		}
 
 		@Override
 		public void syncProgress()
 		{
-			ARKCraft.modChannel.sendTo(new PlayerEngramCrafterProgressUpdate(progress),
-					(EntityPlayerMP) player);
+			if (player.openContainer instanceof ContainerPlayerCrafting)
+				ARKCraft.modChannel.sendTo(new PlayerEngramCrafterProgressUpdate(progress), (EntityPlayerMP) player);
 		}
 
 		@Override
 		public void sync()
 		{
-			ARKCraft.modChannel.sendTo(new PlayerEngramCrafterUpdate(this),
-					(EntityPlayerMP) player);
+			ARKCraft.modChannel.sendTo(new PlayerEngramCrafterUpdate(this), (EntityPlayerMP) player);
 		}
 
 		@Override
@@ -748,6 +842,17 @@ public class ARKPlayer
 		return ImmutableList.copyOf(unlockedEngrams);
 	}
 
+	public void updateUnlockedEngrams(Collection<Short> engrams, int points)
+	{
+		unlockedEngrams.clear();
+		for (short s : engrams)
+		{
+			unlockedEngrams.add(s);
+		}
+
+		engramPoints.variable = points;
+	}
+
 	public void learnEngram(short id)
 	{
 		if (!unlockedEngrams.contains(id))
@@ -755,9 +860,9 @@ public class ARKPlayer
 			Engram e = EngramManager.instance().getEngram(id);
 			if (e != null)
 			{
-				this.unlockedEngrams.add(id);
-				this.engramPoints.set(getEngramPoints() - e.getPoints());
-				sendSynchronization(false);
+				unlockedEngrams.add(id);
+				engramPoints.set(getEngramPoints() - e.getPoints());
+				engramPoints.setSynced();
 			}
 		}
 	}

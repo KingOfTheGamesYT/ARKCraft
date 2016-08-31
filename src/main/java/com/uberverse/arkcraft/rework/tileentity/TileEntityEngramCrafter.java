@@ -1,6 +1,10 @@
-package com.uberverse.arkcraft.rework;
+package com.uberverse.arkcraft.rework.tileentity;
 
 import java.util.Queue;
+
+import com.uberverse.arkcraft.rework.engram.CraftingOrder;
+import com.uberverse.arkcraft.rework.engram.IEngramCrafter;
+import com.uberverse.arkcraft.rework.util.FixedSizeQueue;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;

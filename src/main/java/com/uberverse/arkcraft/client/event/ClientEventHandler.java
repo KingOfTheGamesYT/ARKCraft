@@ -31,7 +31,7 @@ import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
 import com.uberverse.arkcraft.common.network.OpenPlayerCrafting;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.init.ARKCraftItems;
-import com.uberverse.arkcraft.rework.ARKPlayer;
+import com.uberverse.arkcraft.rework.arkplayer.ARKPlayer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -56,9 +56,7 @@ import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
@@ -68,7 +66,6 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class ClientEventHandler
 {
@@ -85,8 +82,7 @@ public class ClientEventHandler
 	public static int disabledEquippItemAnimationTime = 0;
 
 	private ItemStack selected;
-	private static final ResourceLocation OVERLAY_TEXTURE = new ResourceLocation(ARKCraft.MODID,
-			"textures/gui/scope.png");
+	private static final ResourceLocation OVERLAY_TEXTURE = new ResourceLocation(ARKCraft.MODID, "textures/gui/scope.png");
 	public boolean showScopeOverlap = false;
 	private int ticks = 0;
 
@@ -102,8 +98,7 @@ public class ClientEventHandler
 		playerPooping = new KeyBinding("key.arkcraft.playerPooping", Keyboard.KEY_Z, ARKCraft.NAME);
 		ClientRegistry.registerKeyBinding(playerPooping);
 
-		playerCrafting = new KeyBinding("key.arkcraft.playerCrafting", Keyboard.KEY_I,
-				ARKCraft.NAME);
+		playerCrafting = new KeyBinding("key.arkcraft.playerCrafting", Keyboard.KEY_I, ARKCraft.NAME);
 		ClientRegistry.registerKeyBinding(playerCrafting);
 
 		attachment = new KeyBinding("key.attachment", Keyboard.KEY_M, ARKCraft.NAME);
@@ -111,26 +106,6 @@ public class ClientEventHandler
 
 		harvestOverlay = new KeyBinding("key.harvestOverlay", Keyboard.KEY_P, ARKCraft.NAME);
 		ClientRegistry.registerKeyBinding(harvestOverlay);
-	}
-
-	@SubscribeEvent
-	public void onClientTick(TickEvent.ClientTickEvent event)
-	{
-		// Reduces the disabledEquippItemAnimationTime value
-		/*
-		 * if(disabledEquippItemAnimationTime>0)disabledEquippItemAnimationTime-
-		 * -; else
-		 * if(disabledEquippItemAnimationTime<0)disabledEquippItemAnimationTime=
-		 * 0;
-		 */
-	}
-
-	@SubscribeEvent
-	public void onClientTick(RenderHandEvent event)
-	{
-		// TODO TEST
-		EntityPlayerSP p = Minecraft.getMinecraft().thePlayer;
-		p.renderArmPitch += 0.5;
 	}
 
 	@SuppressWarnings("static-access")
@@ -144,78 +119,10 @@ public class ClientEventHandler
 		{
 			if (eventAction.RIGHT_CLICK_BLOCK != null & eventAction.RIGHT_CLICK_AIR != null)
 			{
-				ObfuscationReflectionHelper.setPrivateValue(ItemRenderer.class,
-						Minecraft.getMinecraft().getItemRenderer(), 1F, "equippedProgress",
+				ObfuscationReflectionHelper.setPrivateValue(ItemRenderer.class, Minecraft.getMinecraft().getItemRenderer(), 1F, "equippedProgress",
 						"field_78454_c");
 			}
 		}
-
-	}
-
-	@SubscribeEvent
-	public void onPlayerTickEvent(TickEvent.PlayerTickEvent event)
-	{
-		// TODO reimplement with new ARKPlayer
-		// Update CraftingInventory
-		// if
-		// (ARKPlayer.get(event.player).getInventoryBlueprints().isCrafting())
-		// {
-		// ARKPlayer.get(event.player).getInventoryBlueprints().update();
-		// }
-		//
-		// // Calculate item weight and update when the player updates
-		// if (WeightsConfig.isEnabled)
-		// {
-		// if (!event.player.capabilities.isCreativeMode ||
-		// WeightsConfig.allowInCreative)
-		// {
-		// // Removes the updating when the player is in a inventory
-		// if (Minecraft.getMinecraft().currentScreen == null)
-		// {
-		// // So there isnt as many packet leaks...
-		// if (ARKPlayer.get(event.player).getCarryWeight() != CalcPlayerWeight
-		// .getAsDouble(event.player))
-		// {
-		// ARKPlayer.get(event.player)
-		// .setCarryWeight(CalcPlayerWeight.getAsDouble(event.player));
-		// }
-		//
-		// // Weight rules
-		// if (ARKPlayer.get(event.player).getCarryWeightRatio() >= 0.85)
-		// {
-		// event.player.motionX *= 0;
-		// event.player.motionZ *= 0;
-		// }
-		// else if (ARKPlayer.get(event.player).getCarryWeightRatio() >= 0.75)
-		// {
-		// event.player.motionX *= WeightsConfig.encumberedSpeed;
-		// event.player.motionY *= WeightsConfig.encumberedSpeed;
-		// event.player.motionZ *= WeightsConfig.encumberedSpeed;
-		// }
-		// }
-		// }
-		// }
-
-	}
-
-	@SubscribeEvent
-	public void onPlayerJump(LivingJumpEvent event)
-	{
-		// TODO reimplement with new ARKPlayer
-		// if (event.entity instanceof EntityPlayer)
-		// {
-		// EntityPlayer player = (EntityPlayer) event.entityLiving;
-		// if (!player.capabilities.isCreativeMode ||
-		// WeightsConfig.allowInCreative)
-		// {
-		// if (ARKPlayer.get(player).getCarryWeightRatio() >= 0.85)
-		// {
-		// player.motionY *= 0;
-		// player.addChatComponentMessage(
-		// new ChatComponentTranslation("ark.splash.noJump"));
-		// }
-		// }
-		// }
 	}
 
 	@SubscribeEvent
@@ -227,8 +134,7 @@ public class ClientEventHandler
 			if (!(stack.getItem() instanceof Engram))
 			{
 				double weight = CalcPlayerWeight.getWeight(stack);
-				event.toolTip.add(
-						EnumChatFormatting.BOLD + "" + EnumChatFormatting.WHITE + "Weight: " + weight);
+				event.toolTip.add(EnumChatFormatting.BOLD + "" + EnumChatFormatting.WHITE + "Weight: " + weight);
 				if (stack.stackSize > 1)
 				{
 					event.toolTip.add("Stack Weight: " + (weight * stack.stackSize));
@@ -246,8 +152,7 @@ public class ClientEventHandler
 		else
 		{
 			double d0 = player.prevPosX + (player.posX - player.prevPosX) * partialTick;
-			double d1 = player.prevPosY + (player.posY - player.prevPosY) * partialTick + player
-					.getEyeHeight();
+			double d1 = player.prevPosY + (player.posY - player.prevPosY) * partialTick + player.getEyeHeight();
 			double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * partialTick;
 			return new Vec3(d0, d1, d2);
 		}
@@ -257,8 +162,7 @@ public class ClientEventHandler
 	{
 		Vec3 vec3 = getPositionEyes(player, partialTick);
 		Vec3 vec31 = player.getLook(partialTick);
-		Vec3 vec32 = vec3.addVector(vec31.xCoord * distance, vec31.yCoord * distance,
-				vec31.zCoord * distance);
+		Vec3 vec32 = vec3.addVector(vec31.xCoord * distance, vec31.yCoord * distance, vec31.zCoord * distance);
 		return player.worldObj.rayTraceBlocks(vec3, vec32, false, false, true);
 	}
 
@@ -302,26 +206,13 @@ public class ClientEventHandler
 		}
 	}
 
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void renderWorldLast(RenderWorldLastEvent e)
-	{
-		// EntityPlayer player = mc.thePlayer;
-		// Calling the hack for the Item Swap animation
-		/*
-		 * if(disabledEquippItemAnimationTime>0){
-		 * Utils.setItemRendererEquippProgress(1, false);
-		 * player.isSwingInProgress=false; }
-		 */
-	}
-
 	@SubscribeEvent(priority = EventPriority.NORMAL)
 	public void onRender(RenderGameOverlayEvent evt)
 	{
 		Minecraft mc = Minecraft.getMinecraft();
 		int ticksOld = ticks;
 		if (evt.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS) ticks = 0;
-		if (showScopeOverlap && (mc.thePlayer.getCurrentEquippedItem() != selected || !Mouse
-				.isButtonDown(0)))
+		if (showScopeOverlap && (mc.thePlayer.getCurrentEquippedItem() != selected || !Mouse.isButtonDown(0)))
 		{
 			showScopeOverlap = false;
 		}
@@ -337,8 +228,7 @@ public class ClientEventHandler
 				}
 			}
 			// Remove crosshairs
-			else if (evt.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS && showScopeOverlap) evt
-					.setCanceled(true);
+			else if (evt.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS && showScopeOverlap) evt.setCanceled(true);
 		}
 		else if (evt.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS)
 		{
@@ -364,8 +254,7 @@ public class ClientEventHandler
 					OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 					GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 					GL11.glDisable(GL11.GL_ALPHA_TEST);
-					com.uberverse.arkcraft.ClientUtils.drawHoveringText(list, width / 2, height / 2,
-							mc.fontRendererObj, width, height);
+					com.uberverse.arkcraft.ClientUtils.drawHoveringText(list, width / 2, height / 2, mc.fontRendererObj, width, height);
 					GL11.glPopMatrix();
 				}
 			}
@@ -466,8 +355,7 @@ public class ClientEventHandler
 		}
 		else if (playerCrafting.isPressed())
 		{
-			player.openGui(ARKCraft.instance(), ARKCraft.GUI.PLAYER.getID(), player.worldObj, 0, 0,
-					0);
+			player.openGui(ARKCraft.instance(), ARKCraft.GUI.PLAYER.getID(), player.worldObj, 0, 0, 0);
 			ARKCraft.modChannel.sendToServer(new OpenPlayerCrafting(true));
 		}
 		else if (reload.isPressed())
@@ -476,12 +364,10 @@ public class ClientEventHandler
 		}
 		else if (attachment.isPressed())
 		{
-			if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem()
-					.getItem() instanceof ItemRangedWeapon && !(player.getCurrentEquippedItem()
-							.getItem() instanceof NonSupporting))
+			if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof ItemRangedWeapon
+					&& !(player.getCurrentEquippedItem().getItem() instanceof NonSupporting))
 			{
-				player.openGui(ARKCraft.instance, ARKCraft.GUI.ATTACHMENT_GUI.getID(),
-						player.worldObj, 0, 0, 0);
+				player.openGui(ARKCraft.instance, ARKCraft.GUI.ATTACHMENT_GUI.getID(), player.worldObj, 0, 0, 0);
 				ARKCraft.modChannel.sendToServer(new OpenAttachmentInventory());
 			}
 		}
@@ -502,6 +388,8 @@ public class ClientEventHandler
 	@SubscribeEvent
 	public void onTooltip(ItemTooltipEvent event)
 	{
+		// Move to drawForeground in gui code
+
 		if (mc.currentScreen instanceof GUISmithy)
 		{
 			TileInventorySmithy te = ((GUISmithy) mc.currentScreen).tileEntity;
@@ -520,9 +408,8 @@ public class ClientEventHandler
 							for (int j = 0; j < r.recipeItems.size(); j++)
 							{
 								ItemStack cStack = ((ItemStack) r.recipeItems.get(j));
-								event.toolTip.add(EnumChatFormatting.GOLD + I18n.format(
-										"arkcraft.tooltip.ingredient",
-										I18n.format(cStack.getDisplayName()), cStack.stackSize));
+								event.toolTip.add(EnumChatFormatting.GOLD
+										+ I18n.format("arkcraft.tooltip.ingredient", I18n.format(cStack.getDisplayName()), cStack.stackSize));
 							}
 							break;
 						}
@@ -548,8 +435,7 @@ public class ClientEventHandler
 							for (int j = 0; j < r.recipeItems.size(); j++)
 							{
 								ItemStack cStack = ((ItemStack) r.recipeItems.get(j));
-								event.toolTip.add(I18n.format("arkcraft.tooltip.ingredient",
-										I18n.format(cStack.getDisplayName()), cStack.stackSize));
+								event.toolTip.add(I18n.format("arkcraft.tooltip.ingredient", I18n.format(cStack.getDisplayName()), cStack.stackSize));
 							}
 							break;
 						}
@@ -571,8 +457,7 @@ public class ClientEventHandler
 						for (int j = 0; j < r.recipeItems.size(); j++)
 						{
 							ItemStack cStack = ((ItemStack) r.recipeItems.get(j));
-							event.toolTip.add(I18n.format("arkcraft.tooltip.ingredient",
-									I18n.format(cStack.getDisplayName()), cStack.stackSize));
+							event.toolTip.add(I18n.format("arkcraft.tooltip.ingredient", I18n.format(cStack.getDisplayName()), cStack.stackSize));
 						}
 						break;
 					}

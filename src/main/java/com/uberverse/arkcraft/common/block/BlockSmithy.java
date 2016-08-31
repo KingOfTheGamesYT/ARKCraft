@@ -1,7 +1,7 @@
 package com.uberverse.arkcraft.common.block;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.rework.TileEntitySmithy;
+import com.uberverse.arkcraft.rework.tileentity.TileEntitySmithy;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;

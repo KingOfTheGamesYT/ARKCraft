@@ -9,7 +9,6 @@ import com.uberverse.arkcraft.client.net.ClientReloadFinishedHandler;
 import com.uberverse.arkcraft.common.config.CoreConfig;
 import com.uberverse.arkcraft.common.config.ModuleItemConfig;
 import com.uberverse.arkcraft.common.config.WeightsConfig;
-import com.uberverse.arkcraft.common.entity.data.ARKPlayer;
 import com.uberverse.arkcraft.common.event.CommonEventHandler;
 import com.uberverse.arkcraft.common.gen.WorldGeneratorBushes;
 import com.uberverse.arkcraft.common.handlers.GuiHandler;
@@ -33,7 +32,8 @@ import com.uberverse.arkcraft.common.network.ReloadFinished;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.common.network.ScrollingMessage;
 import com.uberverse.arkcraft.common.network.SyncPlayerData;
-import com.uberverse.arkcraft.common.network.UnlockEngramMessage;
+import com.uberverse.arkcraft.common.network.UnlockEngram;
+import com.uberverse.arkcraft.common.network.UpdateEngrams;
 import com.uberverse.arkcraft.common.network.UpdateMPToCraftItem;
 import com.uberverse.arkcraft.common.network.UpdatePlayerCrafting;
 import com.uberverse.arkcraft.common.network.UpdateSmithyToCraftItem;
@@ -41,8 +41,9 @@ import com.uberverse.arkcraft.common.proxy.CommonProxy;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
-import com.uberverse.arkcraft.rework.network.arkplayer.ARKPlayerUpdate;
-import com.uberverse.arkcraft.rework.network.arkplayer.ARKPlayerUpdateRequest;
+import com.uberverse.arkcraft.rework.arkplayer.ARKPlayer;
+import com.uberverse.arkcraft.rework.arkplayer.network.ARKPlayerUpdate;
+import com.uberverse.arkcraft.rework.arkplayer.network.ARKPlayerUpdateRequest;
 import com.uberverse.arkcraft.server.net.ServerReloadFinishedHandler;
 
 import net.minecraft.command.CommandException;
@@ -241,40 +242,25 @@ public class ARKCraft
 		int id = 0;
 		// The handler (usually in the packet class), the packet class, unique
 		modChannel.registerMessage(PlayerPoop.Handler.class, PlayerPoop.class, id++, Side.SERVER);
-		modChannel.registerMessage(UpdateMPToCraftItem.Handler.class, UpdateMPToCraftItem.class,
-				id++, Side.SERVER);
-		modChannel.registerMessage(UpdateSmithyToCraftItem.Handler.class,
-				UpdateSmithyToCraftItem.class, id++, Side.SERVER);
-		modChannel.registerMessage(OpenPlayerCrafting.Handler.class, OpenPlayerCrafting.class, id++,
-				Side.SERVER);
-		modChannel.registerMessage(UpdatePlayerCrafting.Handler.class, UpdatePlayerCrafting.class,
-				id++, Side.SERVER);
-		modChannel.registerMessage(OpenAttachmentInventory.Handler.class,
-				OpenAttachmentInventory.class, id++, Side.SERVER);
-		modChannel.registerMessage(ReloadStarted.Handler.class, ReloadStarted.class, id++,
-				Side.SERVER);
-		if (event.getSide().isClient()) modChannel.registerMessage(
-				ClientReloadFinishedHandler.class, ReloadFinished.class, id++, Side.CLIENT);
-		else modChannel.registerMessage(ServerReloadFinishedHandler.class, ReloadFinished.class,
-				id++, Side.CLIENT);
-		modChannel.registerMessage(ScrollingMessage.Handler.class, ScrollingMessage.class, id++,
-				Side.SERVER);
+		modChannel.registerMessage(UpdateMPToCraftItem.Handler.class, UpdateMPToCraftItem.class, id++, Side.SERVER);
+		modChannel.registerMessage(UpdateSmithyToCraftItem.Handler.class, UpdateSmithyToCraftItem.class, id++, Side.SERVER);
+		modChannel.registerMessage(OpenPlayerCrafting.Handler.class, OpenPlayerCrafting.class, id++, Side.SERVER);
+		modChannel.registerMessage(UpdatePlayerCrafting.Handler.class, UpdatePlayerCrafting.class, id++, Side.SERVER);
+		modChannel.registerMessage(OpenAttachmentInventory.Handler.class, OpenAttachmentInventory.class, id++, Side.SERVER);
+		modChannel.registerMessage(ReloadStarted.Handler.class, ReloadStarted.class, id++, Side.SERVER);
+		if (event.getSide().isClient()) modChannel.registerMessage(ClientReloadFinishedHandler.class, ReloadFinished.class, id++, Side.CLIENT);
+		else modChannel.registerMessage(ServerReloadFinishedHandler.class, ReloadFinished.class, id++, Side.CLIENT);
+		modChannel.registerMessage(ScrollingMessage.Handler.class, ScrollingMessage.class, id++, Side.SERVER);
 		modChannel.registerMessage(MessageHover.class, MessageHover.class, id++, Side.CLIENT);
 		modChannel.registerMessage(MessageHoverReq.class, MessageHoverReq.class, id++, Side.SERVER);
-		modChannel.registerMessage(CampfireToggleMessage.Handler.class, CampfireToggleMessage.class,
-				id++, Side.SERVER);
-		modChannel.registerMessage(ForgeToggleMessage.Handler.class, ForgeToggleMessage.class, id++,
-				Side.SERVER);
-		modChannel.registerMessage(SyncPlayerData.Handler.class, SyncPlayerData.class, id++,
-				Side.CLIENT);
-		modChannel.registerMessage(CraftMessage.Handler.class, CraftMessage.class, id++,
-				Side.SERVER);
-		modChannel.registerMessage(UnlockEngramMessage.Handler.class, UnlockEngramMessage.class,
-				id++, Side.SERVER);
-		modChannel.registerMessage(ARKPlayerUpdateRequest.Handler.class,
-				ARKPlayerUpdateRequest.class, id++, Side.SERVER);
-		modChannel.registerMessage(ARKPlayerUpdate.Handler.class, ARKPlayerUpdate.class, id++,
-				Side.CLIENT);
+		modChannel.registerMessage(CampfireToggleMessage.Handler.class, CampfireToggleMessage.class, id++, Side.SERVER);
+		modChannel.registerMessage(ForgeToggleMessage.Handler.class, ForgeToggleMessage.class, id++, Side.SERVER);
+		modChannel.registerMessage(SyncPlayerData.Handler.class, SyncPlayerData.class, id++, Side.CLIENT);
+		modChannel.registerMessage(CraftMessage.Handler.class, CraftMessage.class, id++, Side.SERVER);
+		modChannel.registerMessage(UnlockEngram.Handler.class, UnlockEngram.class, id++, Side.SERVER);
+		modChannel.registerMessage(UpdateEngrams.Handler.class, UpdateEngrams.class, id++, Side.CLIENT);
+		modChannel.registerMessage(ARKPlayerUpdateRequest.Handler.class, ARKPlayerUpdateRequest.class, id++, Side.SERVER);
+		modChannel.registerMessage(ARKPlayerUpdate.Handler.class, ARKPlayerUpdate.class, id++, Side.CLIENT);
 		DescriptionHandler.init();
 	}
 

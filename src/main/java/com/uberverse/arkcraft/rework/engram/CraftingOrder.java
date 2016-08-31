@@ -1,6 +1,6 @@
-package com.uberverse.arkcraft.rework;
+package com.uberverse.arkcraft.rework.engram;
 
-import com.uberverse.arkcraft.rework.EngramManager.Engram;
+import com.uberverse.arkcraft.rework.engram.EngramManager.Engram;
 
 public class CraftingOrder
 {

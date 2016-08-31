@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.rework;
+package com.uberverse.arkcraft.rework.engram;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,10 +9,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import com.uberverse.arkcraft.init.ARKCraftItems;
+import com.uberverse.arkcraft.rework.arkplayer.ARKPlayer;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -30,17 +32,20 @@ public class EngramManager
 
 	public static void init()
 	{
+		instance().registerEngram(new Engram("stone_pick", ARKCraftItems.stone_pick, 0, 1, 10, EngramType.PLAYER,
+				new EngramRecipe(ARKCraftItems.wood, 1, ARKCraftItems.stone, 1, ARKCraftItems.thatch, 10)));
 		for (int i = 0; i < 50; i++)
-			instance().registerEngram(new Engram("stone_pick" + i, ARKCraftItems.stone_pick, 0, 1,
-					10, EngramType.SMITHY, new EngramRecipe(ARKCraftItems.wood, 1,
-							ARKCraftItems.stone, 1, ARKCraftItems.thatch, 10)));
+			instance().registerEngram(new Engram("stone_pick" + i, ARKCraftItems.stone_pick, 0, 1, 10, EngramType.SMITHY,
+					new EngramRecipe(ARKCraftItems.wood, 1, ARKCraftItems.stone, 1, ARKCraftItems.thatch, 10)));
 	}
 
+	private Map<String, Engram> engramMap;
 	private Set<Engram> engrams;
 
 	private EngramManager()
 	{
-		engrams = new HashSet<>();
+		engrams = new TreeSet<>();
+		engramMap = new HashMap<>();
 	}
 
 	public Set<Engram> getEngrams()
@@ -50,12 +55,22 @@ public class EngramManager
 
 	public boolean registerEngram(Engram engram)
 	{
-		return engrams.add(engram);
+		if (engrams.add(engram))
+		{
+			engramMap.put(engram.name, engram);
+			return true;
+		}
+		return false;
 	}
 
 	public Engram getEngram(short id)
 	{
 		return (Engram) engrams.toArray()[id];
+	}
+
+	public Engram getEngram(String name)
+	{
+		return engramMap.get(name);
 	}
 
 	public List<Engram> getUnlockedEngrams(EntityPlayer player)
@@ -278,14 +293,12 @@ public class EngramManager
 				{
 					for (int j = 0; j < items.size(); j++)
 					{
-						Entry<Item, Integer> e = (Entry<Item, Integer>) items.entrySet()
-								.toArray()[j];
+						Entry<Item, Integer> e = (Entry<Item, Integer>) items.entrySet().toArray()[j];
 						if (s.getItem() == e.getKey())
 						{
 							if (!consumed[j])
 							{
-								if (s.stackSize > e.getValue() - yetFound[j]) s.stackSize -= e
-										.getValue() - yetFound[j];
+								if (s.stackSize > e.getValue() - yetFound[j]) s.stackSize -= e.getValue() - yetFound[j];
 								else
 								{
 									inv.setInventorySlotContents(i, null);
@@ -351,8 +364,7 @@ public class EngramManager
 				boolean out = true;
 				for (Entry<Item, Integer> e : items.entrySet())
 				{
-					out = r.items.containsKey(
-							e.getKey()) ? r.items.get(e.getKey()) == e.getValue() : false;
+					out = r.items.containsKey(e.getKey()) ? r.items.get(e.getKey()) == e.getValue() : false;
 					if (!out) return out;
 				}
 				return out;

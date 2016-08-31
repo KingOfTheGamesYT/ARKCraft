@@ -1,6 +1,7 @@
 package com.uberverse.arkcraft.common.entity.data;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
@@ -12,8 +13,8 @@ import com.uberverse.arkcraft.common.inventory.InventoryPlayerCrafting;
 import com.uberverse.arkcraft.common.inventory.InventoryPlayerEngram;
 import com.uberverse.arkcraft.common.network.PlayerPoop;
 import com.uberverse.arkcraft.common.network.SyncPlayerData;
-import com.uberverse.arkcraft.rework.EngramManager;
-import com.uberverse.arkcraft.rework.EngramManager.Engram;
+import com.uberverse.arkcraft.rework.engram.EngramManager;
+import com.uberverse.arkcraft.rework.engram.EngramManager.Engram;
 import com.uberverse.lib.LogHelper;
 
 import net.minecraft.entity.Entity;

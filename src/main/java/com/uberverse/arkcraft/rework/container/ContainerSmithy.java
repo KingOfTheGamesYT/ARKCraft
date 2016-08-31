@@ -1,6 +1,7 @@
-package com.uberverse.arkcraft.rework;
+package com.uberverse.arkcraft.rework.container;
 
-import com.uberverse.arkcraft.rework.EngramManager.EngramType;
+import com.uberverse.arkcraft.rework.engram.EngramManager.EngramType;
+import com.uberverse.arkcraft.rework.tileentity.TileEntitySmithy;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;

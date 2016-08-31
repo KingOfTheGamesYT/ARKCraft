@@ -1,9 +1,10 @@
-package com.uberverse.arkcraft.rework;
+package com.uberverse.arkcraft.rework.engram;
 
 import java.util.Iterator;
 import java.util.Queue;
 
-import com.uberverse.arkcraft.rework.EngramManager.Engram;
+import com.uberverse.arkcraft.rework.engram.EngramManager.Engram;
+import com.uberverse.arkcraft.rework.util.NBTable;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;
@@ -187,6 +188,11 @@ public interface IEngramCrafter extends NBTable
 			if (c.getEngram().equals(e)) return c.getCount();
 		}
 		return 0;
+	}
+
+	public default boolean isCrafting()
+	{
+		return !getCraftingQueue().isEmpty();
 	}
 
 	public void syncProgress();

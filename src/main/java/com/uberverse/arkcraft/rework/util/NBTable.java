@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.rework;
+package com.uberverse.arkcraft.rework.util;
 
 import net.minecraft.nbt.NBTTagCompound;
 
