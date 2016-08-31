@@ -222,7 +222,7 @@ public class ARKCraftItems
 	public static ARKCraftFeces addFecesItem(String name, int maxDamageIn)
 	{
 		ARKCraftFeces i = new ARKCraftFeces();
-		i.setMaxDamage(maxDamageIn);
+		i.setMaxDamage(maxDamageIn * 20);
 		registerItem(name, i);
 		return i;
 	}

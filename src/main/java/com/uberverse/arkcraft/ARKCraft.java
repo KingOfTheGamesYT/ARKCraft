@@ -5,6 +5,33 @@ import java.util.List;
 
 import org.apache.logging.log4j.Logger;
 
+import net.minecraft.command.CommandException;
+import net.minecraft.command.ICommand;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.BlockPos;
+
+import net.minecraftforge.common.ForgeVersion;
+import net.minecraftforge.common.ForgeVersion.CheckResult;
+import net.minecraftforge.common.ForgeVersion.Status;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.ModContainer;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.eventhandler.EventBus;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+
 import com.uberverse.arkcraft.client.net.ClientReloadFinishedHandler;
 import com.uberverse.arkcraft.common.config.CoreConfig;
 import com.uberverse.arkcraft.common.config.ModuleItemConfig;
@@ -46,34 +73,14 @@ import com.uberverse.arkcraft.rework.arkplayer.network.ARKPlayerUpdate;
 import com.uberverse.arkcraft.rework.arkplayer.network.ARKPlayerUpdateRequest;
 import com.uberverse.arkcraft.server.net.ServerReloadFinishedHandler;
 
-import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommand;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.Mod.Instance;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.eventhandler.EventBus;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-
 @SuppressWarnings("rawtypes")
-@Mod(modid = ARKCraft.MODID, name = ARKCraft.NAME, version = ARKCraft.VERSION)
+@Mod(modid = ARKCraft.MODID, name = ARKCraft.NAME, version = ARKCraft.VERSION, updateJSON = ARKCraft.UPDATE_JSON)
 public class ARKCraft
 {
 	public static final String MODID = "arkcraft", VERSION = "0.1.3-Alpha", NAME = "ARKCraft";
 
 	public static final String descriptionPacketChannel = MODID + ":descPacket";
+	public static final String UPDATE_JSON = "https://raw.githubusercontent.com/BubbleTrouble14/ARKCraft/master/version-check.json";
 
 	@Instance(ARKCraft.MODID)
 	public static ARKCraft instance;
@@ -85,6 +92,7 @@ public class ARKCraft
 	public static SimpleNetworkWrapper modChannel;
 	public static Logger logger;
 	public static EventBus bus;
+	public static CheckResult versionCheckResult;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
@@ -121,6 +129,7 @@ public class ARKCraft
 		proxy.preInit();
 
 		logger = new com.uberverse.lib.Logger(event.getModLog());
+		mc = Loader.instance().activeModContainer();
 	}
 
 	@EventHandler
@@ -132,6 +141,7 @@ public class ARKCraft
 		proxy.registerRenderers();
 		proxy.init();
 		proxy.registerEventHandlers();
+		updateCheckResult();
 	}
 
 	@EventHandler
@@ -140,6 +150,15 @@ public class ARKCraft
 		// if (event.getSide().isClient()) System.out
 		// .println(Minecraft.getMinecraft().fontRendererObj.getStringWidth("
 		// "));
+		updateCheckResult();
+	}
+	private static ModContainer mc;
+	public static void updateCheckResult(){
+		if(versionCheckResult == null){
+			CheckResult r = ForgeVersion.getResult(mc);
+			if(r != null && r.status != Status.PENDING)
+				versionCheckResult = r;
+		}
 	}
 
 	@EventHandler
