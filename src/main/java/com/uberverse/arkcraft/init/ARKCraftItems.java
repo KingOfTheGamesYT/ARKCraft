@@ -58,7 +58,7 @@ public class ARKCraftItems
 	// Misc
 	public static ARKCraftItem stone, fiber, thatch, wood, flint, metal, spark_powder, hide,
 	charcoal, metal_ingot, cementing_paste, crystal, spy_glass, narcotics, gunpowder,
-	chitin, keratin;
+	chitin, keratin, pelt;
 	public static ARKCraftFeces small_feces, medium_feces, large_feces, fertilizer, player_feces;
 	public static ARKCraftBook info_book;
 
@@ -112,6 +112,7 @@ public class ARKCraftItems
 		gunpowder = addItem("gunpowder");
 		chitin = addItem("chitin");
 		keratin = addItem("keratin");
+		pelt = addItem("pelt");
 
 		// Tools
 		metal_pick = addMetalPick("metal_pick", METAL);
@@ -222,7 +223,7 @@ public class ARKCraftItems
 	public static ARKCraftFeces addFecesItem(String name, int maxDamageIn)
 	{
 		ARKCraftFeces i = new ARKCraftFeces();
-		i.setMaxDamage(maxDamageIn);
+		i.setMaxDamage(maxDamageIn * 20);
 		registerItem(name, i);
 		return i;
 	}

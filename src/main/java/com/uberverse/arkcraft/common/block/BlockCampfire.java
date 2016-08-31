@@ -78,8 +78,6 @@ public class BlockCampfire extends BlockContainer
 		double d0 = (double) pos.getX() + 0.5D;
 		double d1 = (double) pos.getY() + 0.7D;
 		double d2 = (double) pos.getZ() + 0.5D;
-		double d3 = 0.22D;
-		double d4 = 0.27D;
 		IBlockState blockState = getActualState(getDefaultState(), worldIn, pos);
 		boolean burning = (Boolean) blockState.getValue(BURNING);
 

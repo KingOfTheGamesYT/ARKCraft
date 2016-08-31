@@ -35,7 +35,7 @@ import com.uberverse.lib.LogHelper;
 import com.uberverse.lib.Utils;
 
 public class TileEntityCropPlotNew extends TileEntityArkCraft
-		implements IInventory, IUpdatePlayerListBox, IHoverInfo
+implements IInventory, IUpdatePlayerListBox, IHoverInfo
 {
 	private ItemStack[] stack = new ItemStack[this.getSizeInventory()];
 	private int growthTime = 0;
@@ -219,7 +219,7 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft
 							if (fertilizer < 100)
 							{
 								fertilizer += 40;
-								stack[i].setItemDamage(stack[i].getItemDamage() + 1);
+								stack[i].setItemDamage(stack[i].getItemDamage() + 20);
 								if (stack[i].getMaxDamage() == stack[i].getItemDamage())
 								{
 									decrStackSize(i, 1);
@@ -234,7 +234,7 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft
 								growthTime = CROP_PLOT.SEEDLING_TIME_FOR_BERRY * 20;
 								if (LOG) LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos
 										.getY() + ", " + pos
-												.getZ() + "]: Started Growing: " + stack[i]);
+										.getZ() + "]: Started Growing: " + stack[i]);
 								growing = decrStackSize(i, 1);
 								state = CropPlotState.SEEDED;
 							}
@@ -261,28 +261,28 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft
 						{
 							growthTime--;
 							water -= (worldObj.getDifficulty().ordinal() + 1);
-							fertilizer -= (state == CropPlotState.FRUITING ? (worldObj
+							fertilizer -= (state == CropPlotState.FRUITLING ? (worldObj
 									.getDifficulty()
 									.ordinal() + 1) : (worldObj.getDifficulty().ordinal() + 1) * 2);
 						}
 						else
 						{
 							int rand = worldObj.rand.nextInt(100);// 5% chance
-																	// if plant
-																	// dies to
-																	// return
-																	// the seed
+							// if plant
+							// dies to
+							// return
+							// the seed
 							boolean ret = false;
 							if (rand % (worldObj
 									.getDifficulty() == EnumDifficulty.NORMAL ? 40 : (worldObj
 											.getDifficulty() == EnumDifficulty.EASY ? 30 : 20)) == 0 && worldObj
-													.getDifficulty() != EnumDifficulty.HARD)
+											.getDifficulty() != EnumDifficulty.HARD)
 							{
 								ret = TileEntityHopper.func_174918_a(this, growing, null) == null;
 							}
 							if (LOG) LogHelper.info(
 									"[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos
-											.getZ() + "]: Crop died: " + growing + "Seed return: " + ret);
+									.getZ() + "]: Crop died: " + growing + "Seed return: " + ret);
 							growing = null;
 							state = CropPlotState.EMPTY;
 							setState(0);
@@ -290,7 +290,7 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft
 					}
 					if (growthTime < 0)
 					{
-						if (state == CropPlotState.FRUITING)
+						if (state == CropPlotState.FRUITLING)
 						{
 							int d = worldObj.getDifficulty().ordinal();
 							boolean success = d == 0 ? true : worldObj.rand.nextInt(d + 1) == 1;
@@ -299,14 +299,14 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft
 								ItemStack r = ARKCraftSeed.getBerryForSeed(growing);
 								if (LOG) LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos
 										.getY() + ", " + pos
-												.getZ() + "]: Growing Successful: " + growing + ", output: " + r);
+										.getZ() + "]: Growing Successful: " + growing + ", output: " + r);
 								TileEntityHopper.func_174918_a(this, r, null);
 							}
 							else
 							{
 								if (LOG) LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos
 										.getY() + ", " + pos
-												.getZ() + "]: Growing Failed: " + growing);
+										.getZ() + "]: Growing Failed: " + growing);
 							}
 							growthTime = MathHelper.floor_double(
 									CROP_PLOT.FRUIT_OUTPUT_TIME_FOR_BERRY * (20D * ((worldObj
@@ -317,8 +317,8 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft
 							state = state.next();
 							if (LOG) LogHelper.info(
 									"[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos
-											.getZ() + "]: Growing State Updated! Growing: " + growing + ", state: " + state
-													.name());
+									.getZ() + "]: Growing State Updated! Growing: " + growing + ", state: " + state
+									.name());
 							if (state.getTime() > 0) growthTime = MathHelper
 									.floor_double(state.getTime() * (20D * ((worldObj
 											.getDifficulty().ordinal() * 0.5D) + 1)));
@@ -476,7 +476,7 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft
 				return CROP_PLOT.MIDLING_TIME_FOR_BERRY;
 			}
 		},
-		GROWTHING(3)
+		GROWTHLING(3)
 		{
 			@Override
 			public int getTime()
@@ -484,7 +484,7 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft
 				return CROP_PLOT.GROWTHING_TIME_FOR_BERRY;
 			}
 		},
-		FRUITING(4)
+		FRUITLING(4)
 		{
 			@Override
 			public int getTime()
@@ -522,12 +522,12 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft
 		String water = synced ? (getField(0) > 0 ? getField(0) > (getType()
 				.getMaxWater() / 3) ? EnumChatFormatting.GREEN : EnumChatFormatting.YELLOW : EnumChatFormatting.RED) + "" + (getField(
 						0) / 20) + "/" + getType().getMaxWater() / 20 : "...";
-		text.add(EnumChatFormatting.BLUE + I18n.format("arkcraft.water",
-				I18n.format("tile.water.name"), water,
-				synced ? (getField(0) > 0 ? I18n.format("arkcraft.cropPlotWater.irrigated") : I18n
-						.format("arkcraft.cropPlotWater.notIrrigated")) : "?"));
-		text.add("#8B4513" + I18n.format("arkcraft.gui.fertilizer",
-				synced ? fertilizerClient / (difficultyClient + 1) : "?"));
+						text.add(EnumChatFormatting.BLUE + I18n.format("arkcraft.water",
+								I18n.format("tile.water.name"), water,
+								synced ? (getField(0) > 0 ? I18n.format("arkcraft.cropPlotWater.irrigated") : I18n
+										.format("arkcraft.cropPlotWater.notIrrigated")) : "?"));
+						text.add("#8B4513" + I18n.format("arkcraft.gui.fertilizer",
+								synced ? fertilizerClient / (difficultyClient + 1) : "?"));
 	}
 
 	private String seedName = "arkcraft.empty", stateName = "...", stringType = "...";
@@ -557,7 +557,7 @@ public class TileEntityCropPlotNew extends TileEntityArkCraft
 				Item item = stack[i].getItem();
 				if (item instanceof ARKCraftFeces)
 				{
-					f += (stack[i].getMaxDamage() - stack[i].getItemDamage());
+					f += (stack[i].getMaxDamage() - stack[i].getItemDamage()) / 20;
 				}
 			}
 		}

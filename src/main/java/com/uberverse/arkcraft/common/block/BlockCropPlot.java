@@ -77,6 +77,9 @@ public class BlockCropPlot extends BlockContainer
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
+		System.out.println(state.getValue(TYPE));
+		System.out.println(state.getBlock());
+		System.out.println(this.getBlockById(this.ID));
 		if (!playerIn.isSneaking())
 		{
 			TileEntityCropPlotNew te = (TileEntityCropPlotNew) worldIn.getTileEntity(pos);
