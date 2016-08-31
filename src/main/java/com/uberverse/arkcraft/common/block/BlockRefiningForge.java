@@ -1,5 +1,10 @@
 package com.uberverse.arkcraft.common.block;
 
+import java.util.Random;
+
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.block.tile.TileInventoryForge;
+
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -16,6 +21,7 @@ import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.MathHelper;
@@ -23,9 +29,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.block.tile.TileInventoryForge;
 
 public class BlockRefiningForge extends BlockContainer
 {
@@ -99,6 +102,21 @@ public class BlockRefiningForge extends BlockContainer
 		if (state.getValue(PART).equals(EnumPart.TOP)) pos = pos.down();
 		playerIn.openGui(ARKCraft.instance(), ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		return true;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+		if (!worldIn.isRemote) {
+			double d0 = (double) pos.getX() + 0.5D;
+			double d1 = (double) pos.getY() + 1D;
+			double d2 = (double) pos.getZ() + 0.75D;
+			IBlockState blockState = getActualState(getDefaultState(), worldIn, pos);
+			boolean burning = (Boolean) blockState.getValue(BURNING);
+			if (burning) {
+				worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
+			}
+		}
 	}
 
 	// This is where you can do something when the block is broken. In this case

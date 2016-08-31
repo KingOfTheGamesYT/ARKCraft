@@ -261,7 +261,7 @@ implements IInventory, IUpdatePlayerListBox, IHoverInfo
 						{
 							growthTime--;
 							water -= (worldObj.getDifficulty().ordinal() + 1);
-							fertilizer -= (state == CropPlotState.FRUITING ? (worldObj
+							fertilizer -= (state == CropPlotState.FRUITLING ? (worldObj
 									.getDifficulty()
 									.ordinal() + 1) : (worldObj.getDifficulty().ordinal() + 1) * 2);
 						}
@@ -290,7 +290,7 @@ implements IInventory, IUpdatePlayerListBox, IHoverInfo
 					}
 					if (growthTime < 0)
 					{
-						if (state == CropPlotState.FRUITING)
+						if (state == CropPlotState.FRUITLING)
 						{
 							int d = worldObj.getDifficulty().ordinal();
 							boolean success = d == 0 ? true : worldObj.rand.nextInt(d + 1) == 1;
@@ -476,7 +476,7 @@ implements IInventory, IUpdatePlayerListBox, IHoverInfo
 				return CROP_PLOT.MIDLING_TIME_FOR_BERRY;
 			}
 		},
-		GROWTHING(3)
+		GROWTHLING(3)
 		{
 			@Override
 			public int getTime()
@@ -484,7 +484,7 @@ implements IInventory, IUpdatePlayerListBox, IHoverInfo
 				return CROP_PLOT.GROWTHING_TIME_FOR_BERRY;
 			}
 		},
-		FRUITING(4)
+		FRUITLING(4)
 		{
 			@Override
 			public int getTime()

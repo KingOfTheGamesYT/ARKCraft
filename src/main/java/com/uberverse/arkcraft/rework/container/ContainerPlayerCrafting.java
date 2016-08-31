@@ -15,7 +15,7 @@ public class ContainerPlayerCrafting extends ContainerEngramCrafting
 	@Override
 	public int getScrollableSlotsWidth()
 	{
-		return 5;
+		return 4;
 	}
 
 	@Override
