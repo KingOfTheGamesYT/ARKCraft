@@ -50,18 +50,18 @@ public class EngramManager
 		instance().registerEngram(new Engram("spear", ARKCraftItems.spear, 3, 2, 5, EngramType.PLAYER,
 				new EngramRecipe(ARKCraftItems.wood, 8, ARKCraftItems.fiber, 12, ARKCraftItems.flint, 2)));
 		instance().registerEngram(
-				new Engram("cloth_pants", ARKCraftItems.clothLegs, 3, 2, 5, EngramType.PLAYER, new EngramRecipe(ARKCraftItems.fiber, 50)));
+				new Engram("cloth_legs", ARKCraftItems.cloth_legs, 3, 2, 5, EngramType.PLAYER, new EngramRecipe(ARKCraftItems.fiber, 50)));
 		instance().registerEngram(
-				new Engram("cloth_chest", ARKCraftItems.clothChest, 3, 2, 5, EngramType.PLAYER, new EngramRecipe(ARKCraftItems.fiber, 40)));
+				new Engram("cloth_chest", ARKCraftItems.cloth_chest, 3, 2, 5, EngramType.PLAYER, new EngramRecipe(ARKCraftItems.fiber, 40)));
 
 		// lvl 3
-		instance().registerEngram(new Engram("cloth_boots", ARKCraftItems.clothBoots, 3, 3, 5, EngramType.PLAYER,
+		instance().registerEngram(new Engram("cloth_boots", ARKCraftItems.cloth_boots, 3, 3, 5, EngramType.PLAYER,
 				new EngramRecipe(ARKCraftItems.fiber, 25, ARKCraftItems.hide, 6)));
 		instance().registerEngram(
-				new Engram("cloth_hat", ARKCraftItems.clothHelm, 3, 3, 5, EngramType.PLAYER, new EngramRecipe(ARKCraftItems.fiber, 10)));
+				new Engram("cloth_helm", ARKCraftItems.cloth_helm, 3, 3, 5, EngramType.PLAYER, new EngramRecipe(ARKCraftItems.fiber, 10)));
 
 		// lvl 5
-		instance().registerEngram(new Engram("sling_shot", ARKCraftRangedWeapons.slingshot, 6, 5, 5, EngramType.PLAYER,
+		instance().registerEngram(new Engram("slingshot", ARKCraftRangedWeapons.slingshot, 6, 5, 5, EngramType.PLAYER,
 				new EngramRecipe(ARKCraftItems.fiber, 20, ARKCraftItems.hide, 1, ARKCraftItems.wood, 5)));
 		instance().registerEngram(new Engram("mortar_and_pestle", Item.getItemFromBlock(ARKCraftBlocks.pestle), 6, 5, 10, EngramType.PLAYER,
 				new EngramRecipe(ARKCraftItems.stone, 65, ARKCraftItems.hide, 15)));
@@ -74,7 +74,7 @@ public class EngramManager
 		instance().registerEngram(new Engram("cementing_paste", ARKCraftItems.cementing_paste, 3, 10, 5, EngramType.MORTAR_AND_PESTLE,
 				new EngramRecipe(ARKCraftItems.chitin, 4, ARKCraftItems.stone, 8),
 				new EngramRecipe(ARKCraftItems.keratin, 4, ARKCraftItems.stone, 8)));
-		instance().registerEngram(new Engram("gun_powder", ARKCraftItems.gunpowder, 2, 10, 1, EngramType.MORTAR_AND_PESTLE,
+		instance().registerEngram(new Engram("gunpowder", ARKCraftItems.gunpowder, 2, 10, 1, EngramType.MORTAR_AND_PESTLE,
 				new EngramRecipe(ARKCraftItems.spark_powder, 1, ARKCraftItems.chitin, 1)));
 		instance().registerEngram(new Engram("spy_glass", ARKCraftItems.spy_glass, 2, 10, 5, EngramType.PLAYER,
 				new EngramRecipe(ARKCraftItems.wood, 5, ARKCraftItems.hide, 10, ARKCraftItems.fiber, 10, ARKCraftItems.crystal, 2)));
@@ -83,15 +83,15 @@ public class EngramManager
 				new EngramRecipe(ARKCraftItems.stone, 25, ARKCraftItems.wood, 20, ARKCraftItems.fiber, 15, ARKCraftItems.thatch, 10)));
 
 		// lvl 15
-		instance().registerEngram(new Engram("hide_chest", ARKCraftItems.hideChest, 6, 15, 5, EngramType.PLAYER,
+		instance().registerEngram(new Engram("hide_chest", ARKCraftItems.hide_chest, 6, 15, 5, EngramType.PLAYER,
 				new EngramRecipe(ARKCraftItems.hide, 20, ARKCraftItems.fiber, 8)));
-		instance().registerEngram(new Engram("hide_legs", ARKCraftItems.hideLegs, 9, 15, 5, EngramType.PLAYER,
+		instance().registerEngram(new Engram("hide_legs", ARKCraftItems.hide_legs, 9, 15, 5, EngramType.PLAYER,
 				new EngramRecipe(ARKCraftItems.hide, 25, ARKCraftItems.fiber, 8)));
 
 		// lvl 20
-		instance().registerEngram(new Engram("hide_boots", ARKCraftItems.hideBoots, 7, 20, 5, EngramType.PLAYER,
+		instance().registerEngram(new Engram("hide_boots", ARKCraftItems.hide_boots, 7, 20, 5, EngramType.PLAYER,
 				new EngramRecipe(ARKCraftItems.hide, 20, ARKCraftItems.fiber, 8)));
-		instance().registerEngram(new Engram("hide_hat", ARKCraftItems.hideHelm, 9, 20, 5, EngramType.PLAYER,
+		instance().registerEngram(new Engram("hide_helm", ARKCraftItems.hide_helm, 9, 20, 5, EngramType.PLAYER,
 				new EngramRecipe(ARKCraftItems.hide, 25, ARKCraftItems.fiber, 8)));
 		instance().registerEngram(
 				new Engram("refining_forge", Item.getItemFromBlock(ARKCraftBlocks.refining_forge), 21, 20, 10, EngramType.PLAYER, new EngramRecipe(
@@ -107,23 +107,23 @@ public class EngramManager
 				new EngramRecipe(ARKCraftItems.metal_ingot, 8, ARKCraftItems.wood, 1, ARKCraftItems.hide, 10)));
 		instance().registerEngram(new Engram("pike", ARKCraftItems.pike, 10, 25, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.metal_ingot, 10, ARKCraftItems.wood, 10, ARKCraftItems.hide, 20)));
-		instance().registerEngram(new Engram("fur_boots", ARKCraftItems.furBoots, 12, 25, 10, EngramType.SMITHY,
+		instance().registerEngram(new Engram("fur_boots", ARKCraftItems.fur_boots, 12, 25, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.pelt, 48, ARKCraftItems.metal_ingot, 8, ARKCraftItems.hide, 6, ARKCraftItems.fiber, 4)));
-		instance().registerEngram(new Engram("fur_cap", ARKCraftItems.furHelm, 14, 25, 10, EngramType.SMITHY,
+		instance().registerEngram(new Engram("fur_helm", ARKCraftItems.fur_helm, 14, 25, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.pelt, 56, ARKCraftItems.metal_ingot, 10, ARKCraftItems.hide, 7, ARKCraftItems.fiber, 3)));
-		instance().registerEngram(new Engram("fur_legs", ARKCraftItems.furLegs, 16, 25, 10, EngramType.SMITHY,
+		instance().registerEngram(new Engram("fur_legs", ARKCraftItems.fur_legs, 16, 25, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.pelt, 96, ARKCraftItems.metal_ingot, 16, ARKCraftItems.hide, 12, ARKCraftItems.fiber, 5)));
-		instance().registerEngram(new Engram("fur_chest", ARKCraftItems.furChest, 16, 25, 10, EngramType.SMITHY,
+		instance().registerEngram(new Engram("fur_chest", ARKCraftItems.fur_chest, 16, 25, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.pelt, 80, ARKCraftItems.metal_ingot, 13, ARKCraftItems.hide, 10, ARKCraftItems.fiber, 4)));
 		// instance().registerEngram(new Engram("medium_crop_plot",ItemCropPlot.getByNameOrId(("tile.crop_plot.medium")), 12, 25, 10, EngramType.PLAYER,
 		// new EngramRecipe(ARKCraftItems.stone, 50, ARKCraftItems.wood, 40, ARKCraftItems.fiber, 30, ARKCraftItems.thatch, 20)));
 
 		// lvl 30
-		instance().registerEngram(new Engram("chitin_leggings", ARKCraftItems.chitinLegs, 15, 30, 10, EngramType.SMITHY,
+		instance().registerEngram(new Engram("chitin_legs", ARKCraftItems.chitin_legs, 15, 30, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.chitin, 25, ARKCraftItems.hide, 12, ARKCraftItems.fiber, 5)));
-		instance().registerEngram(new Engram("chitin_chest", ARKCraftItems.chitinChest, 18, 30, 10, EngramType.SMITHY,
+		instance().registerEngram(new Engram("chitin_chest", ARKCraftItems.chitin_chest, 18, 30, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.chitin, 20, ARKCraftItems.hide, 10, ARKCraftItems.fiber, 4)));
-		instance().registerEngram(new Engram("chitin_helm", ARKCraftItems.chitinHelm, 18, 30, 10, EngramType.SMITHY,
+		instance().registerEngram(new Engram("chitin_helm", ARKCraftItems.chitin_helm, 18, 30, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.chitin, 15, ARKCraftItems.hide, 7, ARKCraftItems.fiber, 3)));
 		instance().registerEngram(new Engram("simple_pistol", ARKCraftRangedWeapons.simple_pistol, 15, 30, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.metal, 60, ARKCraftItems.hide, 15, ARKCraftItems.wood, 5)));
@@ -135,7 +135,7 @@ public class EngramManager
 				new EngramRecipe(ARKCraftItems.metal, 18, ARKCraftItems.wood, 4, ARKCraftItems.hide, 16)));
 
 		// lvl 35
-		instance().registerEngram(new Engram("chitin_boots", ARKCraftItems.chitinBoots, 15, 35, 10, EngramType.SMITHY,
+		instance().registerEngram(new Engram("chitin_boots", ARKCraftItems.chitin_boots, 15, 35, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.chitin, 12, ARKCraftItems.hide, 6, ARKCraftItems.fiber, 4)));
 		instance().registerEngram(new Engram("longneck_rifle", ARKCraftRangedWeapons.longneck_rifle, 18, 35, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.metal, 95, ARKCraftItems.hide, 25, ARKCraftItems.wood, 20)));

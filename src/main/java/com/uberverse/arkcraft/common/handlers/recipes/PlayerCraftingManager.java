@@ -98,34 +98,5 @@ public class PlayerCraftingManager extends ARKCraftingManager
 		// ItemStack(ARKCraftItems.thatch, 2),
 		// new ItemStack(ARKCraftItems.flint, 1));
 
-		// Cloth Armor
-		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.clothChest, 1),
-				new ItemStack(ARKCraftItems.fiber, 40));
-		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.clothLegs, 1),
-				new ItemStack(ARKCraftItems.fiber, 50));
-		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.clothHelm, 1),
-				new ItemStack(ARKCraftItems.fiber, 10));
-		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.clothBoots, 1),
-				new ItemStack(ARKCraftItems.fiber, 25), new ItemStack(ARKCraftItems.hide, 6));
-
-		// Hide Armor
-		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.hideBoots, 1),
-				new ItemStack(ARKCraftItems.hide, 12), new ItemStack(ARKCraftItems.fiber, 5));
-		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.hideLegs, 1),
-				new ItemStack(ARKCraftItems.hide, 25), new ItemStack(ARKCraftItems.fiber, 10));
-		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.hideChest, 1),
-				new ItemStack(ARKCraftItems.hide, 20), new ItemStack(ARKCraftItems.fiber, 8));
-		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.hideHelm, 1),
-				new ItemStack(ARKCraftItems.hide, 15), new ItemStack(ARKCraftItems.fiber, 6));
-
-		// Stone Pick
-		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.stone_pick, 1),
-				new ItemStack(ARKCraftItems.stone, 1), new ItemStack(ARKCraftItems.wood, 1),
-				new ItemStack(ARKCraftItems.thatch, 10));
-
-		// Stone Hatchet
-		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.stone_hatchet, 1),
-				new ItemStack(ARKCraftItems.thatch, 10), new ItemStack(ARKCraftItems.flint, 1),
-				new ItemStack(ARKCraftItems.wood, 1));
 	}
 }

@@ -44,10 +44,10 @@ public class ARKCraftItems
 	public static ItemMetalSickle metal_sickle;
 
 	// Armor
-	public static ItemARKArmor chitinHelm, chitinChest, chitinLegs, chitinBoots;
-	public static ItemARKArmor clothHelm, clothChest, clothLegs, clothBoots;
-	public static ItemARKArmor hideHelm, hideChest, hideLegs, hideBoots;
-	public static ItemARKArmor furHelm, furChest, furLegs, furBoots;
+	public static ItemARKArmor chitin_helm, chitin_chest, chitin_legs, chitin_boots;
+	public static ItemARKArmor cloth_helm, cloth_chest, cloth_legs, cloth_boots;
+	public static ItemARKArmor hide_helm, hide_chest, hide_legs, hide_boots;
+	public static ItemARKArmor fur_helm, fur_chest, fur_legs, fur_boots;
 
 	// Food
 	public static ARKCraftFood tintoBerry, amarBerry, azulBerry, mejoBerry, narcoBerry, stimBerry,
@@ -126,25 +126,25 @@ public class ARKCraftItems
 		pike = addPike("pike", METAL);
 
 		// Armor
-		chitinHelm = addArmorItem("chitin_helm", CHITIN, "chitinArmor", 0, false);
-		chitinChest = addArmorItem("chitin_chest", CHITIN, "chitinArmor", 1, false);
-		chitinLegs = addArmorItem("chitin_legs", CHITIN, "chitinArmor", 2, false);
-		chitinBoots = addArmorItem("chitin_boots", CHITIN, "chitinArmor", 3, false);
+		chitin_helm = addArmorItem("chitin_helm", CHITIN, "chitinArmor", 0, false);
+		chitin_chest = addArmorItem("chitin_chest", CHITIN, "chitinArmor", 1, false);
+		chitin_legs = addArmorItem("chitin_legs", CHITIN, "chitinArmor", 2, false);
+		chitin_boots = addArmorItem("chitin_boots", CHITIN, "chitinArmor", 3, false);
 
-		clothHelm = addArmorItem("cloth_helm", CLOTH, "clothArmor", 0, false);
-		clothChest = addArmorItem("cloth_chest", CLOTH, "clothArmor", 1, false);
-		clothLegs = addArmorItem("cloth_legs", CLOTH, "clothArmor", 2, false);
-		clothBoots = addArmorItem("cloth_boots", CLOTH, "clothArmor", 3, false);
+		cloth_helm = addArmorItem("cloth_helm", CLOTH, "clothArmor", 0, false);
+		cloth_chest = addArmorItem("cloth_chest", CLOTH, "clothArmor", 1, false);
+		cloth_legs = addArmorItem("cloth_legs", CLOTH, "clothArmor", 2, false);
+		cloth_boots = addArmorItem("cloth_boots", CLOTH, "clothArmor", 3, false);
 
-		hideHelm = addArmorItem("hide_helm", HIDE, "hideArmor", 0, false);
-		hideChest = addArmorItem("hide_chest", HIDE, "hideArmor", 1, false);
-		hideLegs = addArmorItem("hide_legs", HIDE, "hideArmor", 2, false);
-		hideBoots = addArmorItem("hide_boots", HIDE, "hideArmor", 3, false);
+		hide_helm = addArmorItem("hide_helm", HIDE, "hideArmor", 0, false);
+		hide_chest = addArmorItem("hide_chest", HIDE, "hideArmor", 1, false);
+		hide_legs = addArmorItem("hide_legs", HIDE, "hideArmor", 2, false);
+		hide_boots = addArmorItem("hide_boots", HIDE, "hideArmor", 3, false);
 
-		furHelm = addArmorItem("fur_helm", FUR, "furArmor", 0, false);
-		furChest = addArmorItem("fur_chest", FUR, "furArmor", 1, false);
-		furLegs = addArmorItem("fur_legs", FUR, "furArmor", 2, false);
-		furBoots = addArmorItem("fur_boots", FUR, "furArmor", 3, false);
+		fur_helm = addArmorItem("fur_helm", FUR, "furArmor", 0, false);
+		fur_chest = addArmorItem("fur_chest", FUR, "furArmor", 1, false);
+		fur_legs = addArmorItem("fur_legs", FUR, "furArmor", 2, false);
+		fur_boots = addArmorItem("fur_boots", FUR, "furArmor", 3, false);
 
 		EntityHandler.registerModEntity(EntitySpear.class, "spear", ARKCraft.instance, 16, 20,
 				true);
