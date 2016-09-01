@@ -36,7 +36,6 @@ public class ARKPlayerUpdate implements IMessage
 		if (all)
 		{
 			nbt = ByteBufUtils.readTag(buf);
-			System.out.println(nbt == null);
 		}
 		else
 		{

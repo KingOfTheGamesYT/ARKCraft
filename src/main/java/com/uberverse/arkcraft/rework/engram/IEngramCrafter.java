@@ -3,9 +3,11 @@ package com.uberverse.arkcraft.rework.engram;
 import java.util.Iterator;
 import java.util.Queue;
 
+import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.rework.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.rework.util.NBTable;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -22,32 +24,46 @@ public interface IEngramCrafter extends NBTable
 	{
 		if (!getWorld().isRemote)
 		{
-			Queue<CraftingOrder> craftingQueue = getCraftingQueue();
-			if (getProgress() > 0)
+			if ((getWorld().getTotalWorldTime() % 20) == 0)
 			{
-				decreaseProgress();
-				if (getProgress() == 0 && !craftingQueue.isEmpty())
+				Queue<CraftingOrder> craftingQueue = getCraftingQueue();
+				if (getProgress() > 0)
+				{
+					decreaseProgress();
+					if (getProgress() == 0 && !craftingQueue.isEmpty())
+					{
+						CraftingOrder c = craftingQueue.peek();
+						c.decreaseCount(1);
+						Item i = c.getEngram().getItem();
+						int amount = c.getEngram().getAmount();
+						ItemStack out = new ItemStack(i, amount);
+						addOrDrop(out);
+						if (c.getCount() == 0) craftingQueue.remove();
+						sync();
+						return;
+					}
+					syncProgress();
+				}
+				else if (!craftingQueue.isEmpty())
 				{
 					CraftingOrder c = craftingQueue.peek();
-					c.decreaseCount(1);
-					Item i = c.getEngram().getItem();
-					int amount = c.getEngram().getAmount();
-					ItemStack out = new ItemStack(i, amount);
-					addOrDrop(out);
-					if (c.getCount() == 0) craftingQueue.remove();
+					while (c != null)
+					{
+						if (!c.canCraft(getConsumedInventory()))
+						{
+							craftingQueue.poll();
+							c = craftingQueue.peek();
+						}
+						else break;
+					}
+					if (c != null)
+					{
+						setProgress(c.getEngram().getCraftingTime());
+						c.getEngram().consume(getConsumedInventory());
+					}
 					sync();
-					return;
 				}
-				syncProgress();
 			}
-			else if (!craftingQueue.isEmpty())
-			{
-				CraftingOrder c = craftingQueue.peek();
-				setProgress(c.getEngram().getCraftingTime());
-				c.getEngram().consume(getIInventory());
-				sync();
-			}
-
 		}
 	}
 
@@ -99,8 +115,7 @@ public interface IEngramCrafter extends NBTable
 		for (int i = 0; i < inventory.tagCount(); i++)
 		{
 			NBTTagCompound n = inventory.getCompoundTagAt(i);
-			if (n.getBoolean("null")) this.getInventory()[i] = null;
-			else ItemStack.loadItemStackFromNBT(n);
+			this.getIInventory().setInventorySlotContents(i, n.getBoolean("null") ? null : ItemStack.loadItemStackFromNBT(n));
 		}
 
 		NBTTagList queue = compound.getTagList("queue", NBT.TAG_COMPOUND);
@@ -157,13 +172,17 @@ public interface IEngramCrafter extends NBTable
 			while (it.hasNext())
 			{
 				CraftingOrder c = it.next();
-				if (c.getEngram().equals(e))
+				if (c.getEngram().equals(e) && c.canCraft(getConsumedInventory(), c.getCount() + amount))
 				{
 					c.increaseCount(amount);
 					return true;
 				}
 			}
-			return craftingQueue.add(new CraftingOrder(e, amount));
+			if (e.canCraft(getConsumedInventory(), amount))
+			{
+				craftingQueue.add(new CraftingOrder(e, amount));
+				return true;
+			}
 		}
 		return false;
 	}
@@ -175,9 +194,7 @@ public interface IEngramCrafter extends NBTable
 
 	default boolean startCraft(short engramId)
 	{
-		if (EngramManager.instance().getEngram(engramId).canCraft(getConsumedInventory(), 1 + getCraftingAmount(engramId)))
-			return startCraft(engramId, 1);
-		return false;
+		return startCraft(engramId, 1);
 	}
 
 	public IInventory getConsumedInventory();

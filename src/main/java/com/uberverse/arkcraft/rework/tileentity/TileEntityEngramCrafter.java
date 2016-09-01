@@ -1,8 +1,10 @@
 package com.uberverse.arkcraft.rework.tileentity;
 
+import java.util.Collections;
 import java.util.Queue;
 
 import com.uberverse.arkcraft.rework.engram.CraftingOrder;
+import com.uberverse.arkcraft.rework.engram.EngramManager;
 import com.uberverse.arkcraft.rework.engram.IEngramCrafter;
 import com.uberverse.arkcraft.rework.util.FixedSizeQueue;
 
@@ -35,6 +37,20 @@ public abstract class TileEntityEngramCrafter extends TileEntity implements IInv
 		this.progress = 0;
 		this.name = name;
 		craftingQueue = new FixedSizeQueue<>(5);
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound compound)
+	{
+		super.readFromNBT(compound);
+		IEngramCrafter.super.readFromNBT(compound);
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound compound)
+	{
+		super.writeToNBT(compound);
+		IEngramCrafter.super.writeToNBT(compound);
 	}
 
 	@Override
@@ -131,17 +147,48 @@ public abstract class TileEntityEngramCrafter extends TileEntity implements IInv
 	@Override
 	public int getField(int id)
 	{
-		return 0;
+		switch (id)
+		{
+			case 0:
+				return progress;
+			default:
+				int t = (id - 1) / 2;
+				CraftingOrder c = craftingQueue.toArray(new CraftingOrder[0])[t];
+				return (t % 2) == 1 ? c.getCount() : c.getEngram().getId();
+		}
 	}
 
 	@Override
 	public void setField(int id, int value)
-	{}
+	{
+		switch (id)
+		{
+			case 0:
+				progress = value;
+				break;
+			default:
+				int t = (id - 1) / 2;
+				CraftingOrder[] q = craftingQueue.toArray(new CraftingOrder[0]);
+				CraftingOrder c = q[t];
+				if (c == null)
+				{
+					if ((t % 2) == 1) q[t] = new CraftingOrder(null, value);
+					else q[t] = new CraftingOrder(EngramManager.instance().getEngram((short) value));
+					craftingQueue.clear();
+					Collections.addAll(craftingQueue, q);
+				}
+				else
+				{
+					if ((t % 2) == 1) c.setCount(value);
+					else c.setEngram(EngramManager.instance().getEngram((short) value));
+				}
+		}
+	}
 
 	@Override
 	public int getFieldCount()
 	{
-		return 0;
+		return 1 + craftingQueue.size() * 2;
 	}
 
 	@Override

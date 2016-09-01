@@ -7,6 +7,7 @@ import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.I18n;
 import com.uberverse.arkcraft.rework.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.rework.container.ContainerPlayerCrafting;
+import com.uberverse.arkcraft.rework.network.OpenEngrams;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -29,7 +30,7 @@ public class GUIPlayerCrafting extends GUIEngramCrafting
 	public void initGui()
 	{
 		super.initGui();
-		this.openEngrams = new GuiTexturedButton(buttonCounter++, guiLeft + 110, guiTop + 134, 47, 14, buttons, 0, 84);
+		this.openEngrams = new GuiTexturedButton(buttonCounter++, guiLeft + 113, guiTop + 134, 47, 14, buttons, 0, 84);
 		buttonList.add(openEngrams);
 	}
 
@@ -51,6 +52,7 @@ public class GUIPlayerCrafting extends GUIEngramCrafting
 		{
 			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 			player.openGui(ARKCraft.instance, ARKCraft.GUI.ENGRAM_GUI.getID(), player.worldObj, 0, 0, 0);
+			ARKCraft.modChannel.sendToServer(new OpenEngrams());
 		}
 		else super.actionPerformed(button);
 	}

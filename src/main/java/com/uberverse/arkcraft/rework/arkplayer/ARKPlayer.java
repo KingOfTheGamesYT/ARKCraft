@@ -13,7 +13,7 @@ import com.uberverse.arkcraft.common.entity.IArkLeveling;
 import com.uberverse.arkcraft.common.entity.ITranquilizable;
 import com.uberverse.arkcraft.common.entity.data.CalcPlayerWeight;
 import com.uberverse.arkcraft.common.entity.event.ArkExperienceGainEvent;
-import com.uberverse.arkcraft.common.inventory.InventoryPlayerEngram;
+import com.uberverse.arkcraft.common.inventory.InventoryEngram;
 import com.uberverse.arkcraft.common.network.PlayerPoop;
 import com.uberverse.arkcraft.rework.arkplayer.network.ARKPlayerUpdate;
 import com.uberverse.arkcraft.rework.arkplayer.network.ARKPlayerUpdateRequest;
@@ -127,9 +127,9 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 		}
 	}
 
-	public InventoryPlayerEngram getEngramInventory()
+	public InventoryEngram getEngramInventory()
 	{
-		return new InventoryPlayerEngram();
+		return new InventoryEngram();
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -879,5 +879,12 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 				engramPoints.setSynced();
 			}
 		}
+	}
+
+	public boolean canLearnEngram(short s)
+	{
+		Engram e = EngramManager.instance().getEngram(s);
+		if (e == null) return false;
+		return !unlockedEngrams.contains(s) && level.get() >= e.getLevel() && engramPoints.get() >= e.getPoints();
 	}
 }

@@ -11,14 +11,19 @@ public abstract class ContainerScrollable extends Container implements IContaine
 {
 	private int scrollingOffset;
 
+	public ContainerScrollable()
+	{
+		super();
+	}
+
 	@Override
 	public void initScrollableSlots()
 	{
 		for (int i = 0; i < getScrollableInventory().getSizeInventory(); i++)
 		{
-			this.addSlotToContainer(new SlotScrolling(getScrollableInventory(), i,
-					getScrollableSlotsX() + i % getScrollableSlotsWidth() * getSlotSize(),
-					getScrollableSlotsY() + i / getScrollableSlotsWidth() * getSlotSize(), this));
+			this.addSlotToContainer(
+					new SlotScrolling(getScrollableInventory(), i, getScrollableSlotsX() + i % getScrollableSlotsWidth() * getSlotSize(),
+							getScrollableSlotsY() + i / getScrollableSlotsWidth() * getSlotSize(), this));
 		}
 	}
 
@@ -102,5 +107,11 @@ public abstract class ContainerScrollable extends Container implements IContaine
 	public boolean canInteractWith(EntityPlayer playerIn)
 	{
 		return true;
+	}
+
+	@Override
+	public int getSlotSize()
+	{
+		return 20;
 	}
 }

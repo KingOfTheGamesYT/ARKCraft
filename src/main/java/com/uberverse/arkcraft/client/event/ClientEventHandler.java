@@ -9,17 +9,11 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.client.gui.GUIMortarPestle;
 import com.uberverse.arkcraft.common.block.tile.IHoverInfo;
-import com.uberverse.arkcraft.common.block.tile.TileInventoryMP;
 import com.uberverse.arkcraft.common.config.WeightsConfig;
 import com.uberverse.arkcraft.common.container.inventory.InventoryAttachment;
 import com.uberverse.arkcraft.common.entity.data.CalcPlayerWeight;
 import com.uberverse.arkcraft.common.event.CommonEventHandler;
-import com.uberverse.arkcraft.common.handlers.ARKShapelessRecipe;
-import com.uberverse.arkcraft.common.handlers.recipes.PestleCraftingManager;
-import com.uberverse.arkcraft.common.handlers.recipes.PlayerCraftingManager;
-import com.uberverse.arkcraft.common.handlers.recipes.SmithyCraftingManager;
 import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
 import com.uberverse.arkcraft.common.item.engram.Engram;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
@@ -28,10 +22,7 @@ import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
 import com.uberverse.arkcraft.common.network.OpenPlayerCrafting;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.init.ARKCraftItems;
-import com.uberverse.arkcraft.old.TileInventorySmithy;
 import com.uberverse.arkcraft.rework.arkplayer.ARKPlayer;
-import com.uberverse.arkcraft.rework.gui.GUIPlayerCrafting;
-import com.uberverse.arkcraft.rework.gui.GUISmithy;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -41,7 +32,6 @@ import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -369,8 +359,8 @@ public class ClientEventHandler
 		}
 		else if (playerCrafting.isPressed())
 		{
-			player.openGui(ARKCraft.instance(), ARKCraft.GUI.PLAYER.getID(), player.worldObj, 0, 0, 0);
-			ARKCraft.modChannel.sendToServer(new OpenPlayerCrafting(true));
+			// player.openGui(ARKCraft.instance(), ARKCraft.GUI.PLAYER.getID(), player.worldObj, 0, 0, 0);
+			ARKCraft.modChannel.sendToServer(new OpenPlayerCrafting());
 		}
 		else if (reload.isPressed())
 		{
@@ -381,7 +371,7 @@ public class ClientEventHandler
 			if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof ItemRangedWeapon
 					&& !(player.getCurrentEquippedItem().getItem() instanceof NonSupporting))
 			{
-				player.openGui(ARKCraft.instance, ARKCraft.GUI.ATTACHMENT_GUI.getID(), player.worldObj, 0, 0, 0);
+				// player.openGui(ARKCraft.instance, ARKCraft.GUI.ATTACHMENT_GUI.getID(), player.worldObj, 0, 0, 0);
 				ARKCraft.modChannel.sendToServer(new OpenAttachmentInventory());
 			}
 		}
@@ -402,7 +392,7 @@ public class ClientEventHandler
 	@SubscribeEvent
 	public void onTooltip(ItemTooltipEvent event)
 	{
-		// Move to drawForeground in gui code
+		// TODO Move to drawForeground in gui code
 
 		// if (mc.currentScreen instanceof GUISmithy)
 		// {

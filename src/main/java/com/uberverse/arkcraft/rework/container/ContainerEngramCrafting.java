@@ -3,10 +3,8 @@ package com.uberverse.arkcraft.rework.container;
 import java.util.Collections;
 import java.util.List;
 
-import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable;
 import com.uberverse.arkcraft.common.container.scrollable.SlotScrolling;
-import com.uberverse.arkcraft.common.network.CraftMessage;
 import com.uberverse.arkcraft.rework.engram.EngramManager;
 import com.uberverse.arkcraft.rework.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.rework.engram.EngramManager.EngramType;
@@ -17,7 +15,6 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IChatComponent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public abstract class ContainerEngramCrafting extends ContainerScrollable
 {
@@ -87,7 +84,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		scrollInvBoundLeft = counter;
 		for (int i = 0; i < getVisibleSlotsAmount(); i++)
 		{
-			this.addSlotToContainer(new EngramSlot(getScrollableInventory(), i, getScrollableSlotsX() + i % getScrollableSlotsWidth() * getSlotSize(),
+			this.addSlotToContainer(new EngramSlot(engramInventory, i, getScrollableSlotsX() + i % getScrollableSlotsWidth() * getSlotSize(),
 					getScrollableSlotsY() + i / getScrollableSlotsWidth() * getSlotSize(), this));
 			counter++;
 		}
@@ -141,7 +138,6 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 
 	public void craftOne()
 	{
-		System.out.println(selectedEngramId);
 		if (selectedEngramId >= 0)
 		{
 			// if (FMLCommonHandler.instance().getSide().isClient()) ARKCraft.modChannel.sendToServer(new CraftMessage(false));
@@ -152,7 +148,6 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 
 	public void craftAll()
 	{
-		System.out.println(selectedEngramId);
 		if (selectedEngramId >= 0)
 		{
 			// if (FMLCommonHandler.instance().getSide().isClient()) ARKCraft.modChannel.sendToServer(new CraftMessage(true));
@@ -185,17 +180,27 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 			craftAll();
 			return true;
 		}
-		else if (id > 1)
-		{
-			this.selectedEngramId = (short) (id - 2);
-			return true;
-		}
 		else return super.enchantItem(playerIn, id);
+	}
+
+	@Override
+	public ItemStack slotClick(int slotId, int clickedButton, int mode, EntityPlayer playerIn)
+	{
+		if (slotId >= 0)
+		{
+			Slot s = getSlot(slotId);
+			if (s instanceof EngramSlot)
+			{
+				s.onPickupFromSlot(playerIn, player.inventory.getCurrentItem());
+				return player.inventory.getCurrentItem();
+			}
+		}
+		return super.slotClick(slotId, clickedButton, mode, playerIn);
 	}
 
 	public static class EngramSlot extends SlotScrolling
 	{
-		public EngramSlot(IInventory inventoryIn, int index, int xPosition, int yPosition, IContainerScrollable container)
+		public EngramSlot(EngramInventory inventoryIn, int index, int xPosition, int yPosition, IContainerScrollable container)
 		{
 			super(inventoryIn, index, xPosition, yPosition, container);
 		}
@@ -203,7 +208,8 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		@Override
 		public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack)
 		{
-			((ContainerEngramCrafting) getContainer()).selectEngram((short) getSlotIndex());
+			Engram e = ((EngramInventory) inventory).getEngram(getSlotIndex());
+			((ContainerEngramCrafting) getContainer()).selectEngram(e.getId());
 		}
 	}
 
@@ -215,6 +221,11 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		{
 			this.engrams = engrams;
 			Collections.sort(this.engrams);
+		}
+
+		public Engram getEngram(int index)
+		{
+			return engrams.get(index);
 		}
 
 		@Override

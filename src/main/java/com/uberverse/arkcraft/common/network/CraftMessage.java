@@ -16,7 +16,6 @@ public class CraftMessage implements IMessage
 
 	public CraftMessage(boolean state)
 	{
-		System.out.println("craft " + (state ? "all" : "one"));
 		this.craftAll = state;
 	}
 
@@ -41,7 +40,6 @@ public class CraftMessage implements IMessage
 			{
 				if (ctx.getServerHandler().playerEntity.openContainer instanceof ContainerEngramCrafting)
 				{
-					System.out.println("Arrived");
 					ContainerEngramCrafting c = (ContainerEngramCrafting) ctx.getServerHandler().playerEntity.openContainer;
 					if (message.craftAll) c.craftAll();
 					else c.craftOne();

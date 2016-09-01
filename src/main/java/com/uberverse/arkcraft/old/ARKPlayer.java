@@ -10,7 +10,7 @@ import com.uberverse.arkcraft.common.entity.event.ArkExperienceGainEvent;
 import com.uberverse.arkcraft.common.handlers.recipes.PlayerCraftingManager;
 import com.uberverse.arkcraft.common.inventory.InventoryBlueprints;
 import com.uberverse.arkcraft.common.inventory.InventoryPlayerCrafting;
-import com.uberverse.arkcraft.common.inventory.InventoryPlayerEngram;
+import com.uberverse.arkcraft.common.inventory.InventoryEngram;
 import com.uberverse.arkcraft.common.network.PlayerPoop;
 import com.uberverse.arkcraft.common.network.SyncPlayerData;
 import com.uberverse.arkcraft.rework.engram.EngramManager;
@@ -250,9 +250,9 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 		return engramPoints;
 	}
 
-	public InventoryPlayerEngram getEngramInventory()
+	public InventoryEngram getEngramInventory()
 	{
-		return new InventoryPlayerEngram();
+		return new InventoryEngram();
 	}
 
 	/**

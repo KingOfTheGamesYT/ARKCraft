@@ -13,33 +13,20 @@ import com.uberverse.arkcraft.ARKCraft;
  * Used so the player can open the Crafting GUI
  *
  * @author William
+ * @author Lewis_McReu
  */
 public class OpenPlayerCrafting implements IMessage
 {
-	boolean doIt; // Not used yet
-
-	/**
-	 * Don't use
-	 */
 	public OpenPlayerCrafting()
-	{
-	}
-
-	public OpenPlayerCrafting(boolean doIt)
-	{
-		this.doIt = doIt;
-	}
+	{}
 
 	@Override
 	public void fromBytes(ByteBuf buf)
-	{
-		this.doIt = buf.readBoolean();
-	}
+	{}
 
 	@Override
 	public void toBytes(ByteBuf buf)
 	{
-		buf.writeBoolean(this.doIt);
 	}
 
 	public static class Handler implements IMessageHandler<OpenPlayerCrafting, IMessage>
@@ -69,8 +56,7 @@ public class OpenPlayerCrafting implements IMessage
 	{
 		if (player != null)
 		{
-			player.openGui(ARKCraft.instance(), ARKCraft.GUI.PLAYER.getID(), player.worldObj, 0, 0,
-					0);
+			player.openGui(ARKCraft.instance(), ARKCraft.GUI.PLAYER.getID(), player.worldObj, 0, 0, 0);
 		}
 	}
 }

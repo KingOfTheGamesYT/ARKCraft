@@ -15,19 +15,16 @@ import net.minecraft.util.IChatComponent;
 
 /**
  * @author ERBF | Aug 10, 2016
- *
  */
 
-public class InventoryPlayerEngram implements IInventory
+public class InventoryEngram implements IInventory
 {
 
 	private final String name = "Engram Inventory";
-	private final String tagName = "inventoryPlayerEngram";
 	public static int size = 64;
 
-	public InventoryPlayerEngram()
-	{
-	}
+	public InventoryEngram()
+	{}
 
 	@Override
 	public int getSizeInventory()
@@ -57,8 +54,7 @@ public class InventoryPlayerEngram implements IInventory
 
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack stack)
-	{
-	}
+	{}
 
 	@Override
 	public String getName()
@@ -96,13 +92,11 @@ public class InventoryPlayerEngram implements IInventory
 
 	@Override
 	public void openInventory(EntityPlayer player)
-	{
-	}
+	{}
 
 	@Override
 	public void closeInventory(EntityPlayer player)
-	{
-	}
+	{}
 
 	/**
 	 * This method doesn't seem to do what it claims to do, as items can still
@@ -120,12 +114,10 @@ public class InventoryPlayerEngram implements IInventory
 	}
 
 	public void writeToNBT(NBTTagCompound compound)
-	{
-	}
+	{}
 
 	public void readFromNBT(NBTTagCompound compound)
-	{
-	}
+	{}
 
 	@Override
 	public int getField(int id)
@@ -135,8 +127,7 @@ public class InventoryPlayerEngram implements IInventory
 
 	@Override
 	public void setField(int id, int value)
-	{
-	}
+	{}
 
 	@Override
 	public int getFieldCount()
@@ -146,8 +137,7 @@ public class InventoryPlayerEngram implements IInventory
 
 	@Override
 	public void clear()
-	{
-	}
+	{}
 
 	@Override
 	public IChatComponent getDisplayName()

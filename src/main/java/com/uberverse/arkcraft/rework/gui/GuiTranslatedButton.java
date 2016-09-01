@@ -13,4 +13,12 @@ public class GuiTranslatedButton extends GuiButtonExt
 		super(buttonId, x, y, Minecraft.getMinecraft().fontRendererObj.getStringWidth(I18n.format(textKey)) + spacing,
 				Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT + spacing, I18n.format(textKey));
 	}
+
+	public static class GuiCenteredTranslatedButton extends GuiTranslatedButton
+	{
+		public GuiCenteredTranslatedButton(int buttonId, int x, int y, String textKey, int spacing)
+		{
+			super(buttonId, x - (Minecraft.getMinecraft().fontRendererObj.getStringWidth(I18n.translate(textKey)) / 2), y, textKey, spacing);
+		}
+	}
 }
