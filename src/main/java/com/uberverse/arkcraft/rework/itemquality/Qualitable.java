@@ -2,7 +2,7 @@ package com.uberverse.arkcraft.rework.itemquality;
 
 import java.util.List;
 
-import com.sun.org.apache.xml.internal.security.utils.I18n;
+import com.uberverse.arkcraft.I18n;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
