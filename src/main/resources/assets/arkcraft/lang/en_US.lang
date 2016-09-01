@@ -1,4 +1,4 @@
-# Tiles
+#Tiles
 tile.berryBush.name=Berry Bush
 tile.smithy.name=Smithy
 tile.mortar_and_pestle.name=Mortar and Pestle
@@ -12,17 +12,17 @@ tile.crop_plot.medium.name=Medium Crop Plot
 tile.crop_plot.large.name=Large Crop Plot
 tile.campfire.name=Campfire
 
-# Containers
+#Containers
 container.inventory_refining_forge.name=Refining Forge
 container.inventory_campfire.name=Campfire
 container.crop_plot.name=Crop Plot 
 
-# World Types
+#World Types
 generator.island=ARK: The Island
 
-# Items
+#Items
 
-## seeds
+##seeds
 item.narcoBerrySeed.name=Narcoberry Seed
 item.amarBerrySeed.name=Amarberry Seed
 item.mejoBerrySeed.name=Mejoberry Seed
@@ -30,7 +30,7 @@ item.azulBerrySeed.name=Azulberry Seed
 item.tintoBerrySeed.name=Tintoberry Seed
 item.stimBerrySeed.name=Stimberry Seed
 
-## berries
+##berries
 item.narco.name=Narcoberry
 item.amar.name=Amarberry
 item.mejo.name=Mejoberry
@@ -38,7 +38,7 @@ item.azul.name=Azulberry
 item.tinto.name=Tintoberry
 item.stim.name=Stimberry
 
-## resources
+##resources
 item.fiber.name=Fiber
 item.chitin.name=Chitin
 item.crystal.name=Crystal
@@ -50,7 +50,7 @@ item.metal.name=Metal
 item.hide.name=Hide
 item.metal_ingot.name=Metal Ingot
 
-## armor
+##armor
 item.chitin_helm.name=Chitin Helmet
 item.chitin_chest.name=Chitin Chestplate
 item.chitin_legs.name=Chitin Leggings
@@ -71,7 +71,7 @@ item.fur_chest.name=Fur Chestplate
 item.fur_legs.name=Fur Leggings
 item.fur_boots.name=Fur Boots
 
-## craftables
+##craftables
 item.narcotics.name=Narcotics
 item.gunpowder.name=Gunpowder
 item.gun_powder.name=Gunpowder
@@ -79,7 +79,7 @@ item.fertilizer.name=Fertilizer
 item.spark_powder.name=Spark Powder
 item.cementing_paste.name=Cementing Paste
 
-## weapons
+##weapons
 item.tranq_arrow.name=Tranquilizer Arrow
 item.slingshot.name=Slingshot
 item.pike.name=Stone Pike
@@ -104,89 +104,89 @@ item.crossbow.name=Crossbow
 item.wooden_club.name=Wooden Club
 item.grenade.name=Grenade
 
-## attachments
+##attachments
 item.scope.name=Scope
 item.laser.name=Laser
 item.silencer.name=Silencer
 item.holo_scope.name=Holo-Scope
 item.flash_light.name=Flashlight
 
-## saddles
+##saddles
 item.saddle_small.name=Small Saddle
 item.saddle_medium.name=Medium Saddle
 item.saddle_large.name=Large Saddle
 
-## blocks
+##blocks
 item.mortar_and_pestle.name=Mortar and Pestle
 item.item_refining_forge.name=Refining Forge
 
-## meat
+##meat
 item.meat_cooked.name=Cooked Meat
 item.meat_raw.name=Raw Meat
 item.primemeat_cooked.name=Cooked Prime Meat
 item.primemeat_raw.name=Raw Prime Meat
 item.spoiled_meat.name=Spoiled Meat
 
-## eggs
+##eggs
 item.dodo_bag.name=Dodo Bag
 item.dodo_feather.name=Dodo Feather
 item.dodo_egg.name=Dodo Egg
 
-## misc
+##misc
 item.dossier.name=Dino Dossier
 item.info_book.name=The ARKCraft Compendium
 
-## feces
+##feces
 item.small_feces.name=Small Feces
 item.medium_feces.name=Medium Feces
 item.large_feces.name=Large Feces
 item.player_feces.name=Player Feces
 
-## tools
-### misc
+##tools
+###misc
 item.spy_glass.name=Spy Glass
-### metal
+###metal
 item.metal_pick.name=Metal Pickaxe
 item.metal_hatchet.name=Metal Hatchet
 item.metal_sickle.name=Metal 
-### stone
+###stone
 item.stone_pick.name=Stone Pickaxe
 item.stone_hatchet.name=Stone HatchetSickle
 
-# Miscellaneous
+#Miscellaneous
 itemGroup.arkcraft=ARKCraft
 
-# Configuration GUI
+#Configuration GUI
 category.arkcraft.mod1_balance=Entity & World Gen Balance Settings
 category.arkcraft.mod2_balance=Item, Block, and Player Balance Settings
 category.arkcraft.balance.tooltip=Balance settings
 
-# Entities
+#Entities
 entity.arkcraft.raptor.name=Raptor
 entity.arkcraft.dodo.name=Dodo
 entity.arkcraft.brontosaurus.name=Brontosaurus
 
-# Key Bindings
+#Key Bindings
 key.playerPoop=Player Pooping Function
 key.playerScope=Player Scoping Function
 key.playerCraft=Open Player Crafting 
 
-# Chat Messages
+#Chat Messages
 chat.canNotPoop=Can't poop right now
 chat.ammo= ammo
 
-# Splash Text
+#Splash Text
 ark.splash.encumbered=You are encumbered!
 ark.splash.overEncumbered=You are over encumbered!
 ark.splash.noJump=You are over encumbered! You cannot jump!
 
-# Book Descriptions
+#Book Descriptions
 ark.book.utahraptor.description=Utahraptor Prime is an incredibly aggressive sub-species of Utahraptor.\n It tends to travel in small hunting packs, attacking smaller prey with its sharp teeth or enlarged foreclaws.\n\nOne of the faster creatures around, Utahraptor Prime often uses hit-and-run tactics against larger opponents. The large curved talon on the second toe of this sub-species seems particularly suited for attacking while jumping.
 
-# Attributes
+#Attributes
 attribute.name.arkcraft.reloadTime=Reload Time
 
-# Tooltips
+#Tooltips
 item.narcotics.tooltip=%12A Knockout of a Drink
 item.rock.tooltip=%6A Rocky Road to Victory
 item.explosive_ball.tooltip=%12A Rocky Road to Destruction
@@ -238,13 +238,17 @@ arkcraft.tooltip.ingredient=* %s * %d
 arkcraft.toolLevel.primitive=Primitive
 arkcraft.toolLevel.ascendant=Ascendant
 
-# Gui
+#Gui
 gui.playercrafting.level=Lvl: %s
 gui.engram.text.engrampoints=Engram Points: %s
 gui.engramcrafting.engram.tooltip.ingredient= %s * %d
 
 
-# Engrams
+#Engrams
+engram.metal_hatchet.title=Metal Hatchet
+engram.metal_hatchet.description=For hatching plans
+
+
 ark.engram.learn=Learn Engram
 ark.engram.learn.true=Learned
 ark.engram.learn.false=Unlearned
