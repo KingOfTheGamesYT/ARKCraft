@@ -331,15 +331,18 @@ public class EngramManager
 			Map<Item, Integer> map = convertIInventoryToMap(inventory);
 			while (amount > 0)
 			{
+				boolean found = false;
 				for (EngramRecipe r : this.recipes)
 				{
 					if (r.canCraft(map))
 					{
 						r.consume(map);
 						amount--;
+						found = true;
 						if (amount <= 0) return true;
 					}
 				}
+				if (!found) return false;
 			}
 			return false;
 		}
