@@ -25,7 +25,7 @@ public interface IEngramCrafter extends NBTable
 	{
 		if (!getWorld().isRemote)
 		{
-			if ((getWorld().getTotalWorldTime() % 20) == 0)
+			//if ((getWorld().getTotalWorldTime() % 20) == 0)
 			{
 				Queue<CraftingOrder> craftingQueue = getCraftingQueue();
 				if (getProgress() > 0)
@@ -40,7 +40,10 @@ public interface IEngramCrafter extends NBTable
 						ItemStack out = new ItemStack(i, amount);
 						if (c.isQualitable()) Qualitable.set(out, c.getItemQuality());
 						addOrDrop(out);
-						if (c.getCount() == 0) craftingQueue.remove();
+						if (c.getCount() == 0)
+						{
+							craftingQueue.remove();
+						}
 						sync();
 						return;
 					}
@@ -61,12 +64,19 @@ public interface IEngramCrafter extends NBTable
 					if (c != null)
 					{
 						setProgress(c.getEngram().getCraftingTime());
+						setCraftingDuration(c.getEngram().getCraftingTime());
 						c.getEngram().consume(getConsumedInventory());
 					}
 					sync();
 				}
 			}
 		}
+	}
+
+	public default double getRelativeProgress()
+	{
+		if (getCraftingDuration() == 0) return 0;
+		return (double) (getCraftingDuration() - getProgress()) / (double) getCraftingDuration();
 	}
 
 	public default void decreaseProgress()
@@ -112,6 +122,7 @@ public interface IEngramCrafter extends NBTable
 	public default void readFromNBT(NBTTagCompound compound)
 	{
 		setProgress(compound.getInteger("progress"));
+		setCraftingDuration(compound.getInteger("duration"));
 
 		NBTTagList inventory = compound.getTagList("inventory", NBT.TAG_COMPOUND);
 		for (int i = 0; i < inventory.tagCount(); i++)
@@ -137,6 +148,7 @@ public interface IEngramCrafter extends NBTable
 	public default void writeToNBT(NBTTagCompound compound)
 	{
 		compound.setInteger("progress", getProgress());
+		compound.setInteger("duration", getCraftingDuration());
 
 		NBTTagList l = new NBTTagList();
 		for (ItemStack s : getInventory())
@@ -239,10 +251,12 @@ public interface IEngramCrafter extends NBTable
 		{
 			case 0:
 				return getProgress();
+			case 1:
+				return getCraftingDuration();
 			default:
-				int t = (id - 1) / 2;
+				int t = (id - 2) / 3;
 				CraftingOrder c = craftingQueue.toArray(new CraftingOrder[0])[t];
-				return (t % 2) == 1 ? c.getCount() : c.getEngram().getId();
+				return (t % 3) == 1 ? c.getCount() : (t % 3) == 2 ? c.getItemQuality().id : c.getEngram().getId();
 		}
 	}
 
@@ -254,28 +268,34 @@ public interface IEngramCrafter extends NBTable
 			case 0:
 				setProgress(value);
 				break;
+			case 1:
+				setCraftingDuration(value);
+				break;
 			default:
-				int t = (id - 1) / 2;
+				int t = (id - 2) / 3;
 				CraftingOrder[] q = craftingQueue.toArray(new CraftingOrder[0]);
 				CraftingOrder c = q[t];
 				if (c == null)
 				{
-					if ((t % 2) == 1) q[t] = new CraftingOrder(null, value);
+					if ((t % 3) == 1) q[t] = new CraftingOrder(null, value);
+					else if ((t % 3) == 2) q[t] = new CraftingOrder(null, 0, ItemQuality.get((byte) value));
 					else q[t] = new CraftingOrder(EngramManager.instance().getEngram((short) value));
 					craftingQueue.clear();
 					Collections.addAll(craftingQueue, q);
 				}
 				else
 				{
-					if ((t % 2) == 1) c.setCount(value);
+					if ((t % 3) == 1) c.setCount(value);
+					else if ((t % 3) == 2) c.setItemQuality(ItemQuality.get((byte) value));
 					else c.setEngram(EngramManager.instance().getEngram((short) value));
 				}
+				break;
 		}
 	}
 
 	public default int getFieldCount()
 	{
-		return 1 + getCraftingQueue().size() * 2;
+		return 2 + getCraftingQueue().size() * 3;
 	}
 
 	public void syncProgress();
@@ -289,6 +309,10 @@ public interface IEngramCrafter extends NBTable
 	public int getProgress();
 
 	public void setProgress(int progress);
+
+	public int getCraftingDuration();
+
+	public void setCraftingDuration(int craftingDuration);
 
 	public BlockPos getPosition();
 

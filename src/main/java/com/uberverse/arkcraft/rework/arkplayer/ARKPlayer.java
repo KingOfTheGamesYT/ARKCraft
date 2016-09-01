@@ -771,11 +771,13 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 	{
 		private EntityPlayer player;
 		private int progress;
+		private int craftingDuration;
 		private Queue<CraftingOrder> craftingQueue;
 
 		public PlayerEngramCrafter(EntityPlayer player)
 		{
 			this.progress = 0;
+			this.craftingDuration = 0;
 			this.player = player;
 			this.craftingQueue = new FixedSizeQueue<>(5);
 		}
@@ -944,6 +946,18 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 		public void setField(int id, int value)
 		{
 			IEngramCrafter.super.setField(id, value);
+		}
+
+		@Override
+		public int getCraftingDuration()
+		{
+			return craftingDuration;
+		}
+
+		@Override
+		public void setCraftingDuration(int craftingDuration)
+		{
+			this.craftingDuration = craftingDuration;
 		}
 	}
 

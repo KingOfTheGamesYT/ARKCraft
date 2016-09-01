@@ -25,7 +25,7 @@ public class FixedSizeQueue<E> implements Queue<E>
 	@Override
 	public boolean isEmpty()
 	{
-		return size() <= 0;
+		return queue.isEmpty();
 	}
 
 	@Override

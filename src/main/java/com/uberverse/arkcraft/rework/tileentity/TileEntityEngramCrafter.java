@@ -27,12 +27,15 @@ public abstract class TileEntityEngramCrafter extends TileEntity implements IInv
 
 	private int progress;
 
+	private int craftingDuration;
+
 	private String name;
 
 	public TileEntityEngramCrafter(int size, String name)
 	{
 		inventory = new ItemStack[size];
 		this.progress = 0;
+		this.craftingDuration = 0;
 		this.name = name;
 		craftingQueue = new FixedSizeQueue<>(5);
 	}
@@ -276,5 +279,17 @@ public abstract class TileEntityEngramCrafter extends TileEntity implements IInv
 	public void setField(int id, int value)
 	{
 		IEngramCrafter.super.setField(id, value);
+	}
+
+	@Override
+	public int getCraftingDuration()
+	{
+		return craftingDuration;
+	}
+
+	@Override
+	public void setCraftingDuration(int craftingDuration)
+	{
+		this.craftingDuration = craftingDuration;
 	}
 }

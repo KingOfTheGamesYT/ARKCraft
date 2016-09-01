@@ -1,11 +1,14 @@
 package com.uberverse.arkcraft.rework.gui;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.util.List;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.rework.container.ContainerEngramCrafting;
 import com.uberverse.arkcraft.rework.container.ContainerEngramCrafting.EngramSlot;
+import com.uberverse.arkcraft.rework.engram.EngramManager.Engram;
+import com.uberverse.arkcraft.rework.engram.IEngramCrafter;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -50,6 +53,40 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 	}
 
 	@Override
+	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
+	{
+		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+		ContainerEngramCrafting c = (ContainerEngramCrafting) inventorySlots;
+		for (Object o : inventorySlots.inventorySlots)
+		{
+			if (o instanceof EngramSlot)
+			{
+				EngramSlot e = (EngramSlot) o;
+				IEngramCrafter ec = c.getCrafter();
+				if (ec.isCrafting() && !ec.getCraftingQueue().isEmpty() && c.progress > 0)
+				{
+					if (e.getEngram().getId() == ec.getCraftingQueue().peek().getEngram().getId())
+					{
+						double fraction = ec.getRelativeProgress();
+						if (fraction == 0) { return; }
+						int x = e.xDisplayPosition;
+						int y = e.yDisplayPosition + 16;
+
+						int red = (int) (255 * (1 - fraction));
+						int green = (int) (255 * fraction);
+						int blue = 0;
+						int alpha = 96;
+
+						int color = new Color(red, green, blue, alpha).getRGB();
+
+						drawRect(x, (int) (y - (fraction * 16)), x + 16, y, color);
+					}
+				}
+			}
+		}
+	}
+
+	@Override
 	protected void drawHoveringText(List textLines, int x, int y, FontRenderer font)
 	{
 		for (Object o : inventorySlots.inventorySlots)
@@ -57,11 +94,16 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 			if (o instanceof EngramSlot)
 			{
 				EngramSlot e = (EngramSlot) o;
+				if (isPointInRegion(e.xDisplayPosition, e.yDisplayPosition, 18, 18, x, y))
+				{
+					Engram engram = e.getEngram();
+					textLines.clear();
+					textLines.add(engram.getTitle());
+					textLines.add(engram.getDescription());
+				}
 			}
 		}
-		Object o1 = textLines.remove(0);
-		textLines.clear();
-		textLines.add(o1);
+
 		super.drawHoveringText(textLines, x, y, font);
 	}
 

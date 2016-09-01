@@ -12,7 +12,6 @@ import com.uberverse.arkcraft.rework.network.OpenEngrams;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIPlayerCrafting extends GUIEngramCrafting

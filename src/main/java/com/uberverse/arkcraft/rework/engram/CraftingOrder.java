@@ -11,6 +11,9 @@ public class CraftingOrder
 	private int count;
 	private ItemQuality itemQuality;
 
+	public CraftingOrder()
+	{}
+
 	public CraftingOrder(Engram engram, int count, ItemQuality itemQuality)
 	{
 		this.engram = engram;
@@ -38,14 +41,14 @@ public class CraftingOrder
 		return engram;
 	}
 
-	public int getCount()
-	{
-		return count;
-	}
-
 	public void setEngram(Engram engram)
 	{
 		this.engram = engram;
+	}
+
+	public int getCount()
+	{
+		return count;
 	}
 
 	public void setCount(int count)

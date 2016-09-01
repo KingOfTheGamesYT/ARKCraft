@@ -13,6 +13,8 @@ import com.uberverse.arkcraft.rework.itemquality.Qualitable;
 import com.uberverse.arkcraft.rework.itemquality.Qualitable.ItemQuality;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -38,10 +40,12 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		this.engramInventory = new EngramInventory(EngramManager.instance().getUnlockedEngramsOfType(player, type));
 		initPlayerSlots();
 		initInventorySlots();
+		initQueue();
 		initScrollableSlots();
+		if (player instanceof EntityPlayerMP) detectAndSendChanges();
 	}
 
-	protected void initInventorySlots()
+	protected final void initInventorySlots()
 	{
 		invBoundLeft = counter;
 		for (int row = 0; row < getInventorySlotsHeight(); row++)
@@ -55,6 +59,11 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 			}
 		}
 		invBoundRight = counter;
+	}
+
+	private final void initQueue()
+	{
+
 	}
 
 	private final void initPlayerSlots()
@@ -114,6 +123,11 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		return crafter.getIInventory();
 	}
 
+	public IEngramCrafter getCrafter()
+	{
+		return crafter;
+	}
+
 	@Override
 	public int getSlotSize()
 	{
@@ -147,6 +161,62 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		if (selectedEngramId >= 0)
 		{
 			if (crafter.startCraftAll(selectedEngramId, targetQuality)) detectAndSendChanges();
+		}
+	}
+
+	public int progress;
+
+	@Override
+	public void updateProgressBar(int id, int data)
+	{
+		if (id == 0) progress = data;
+		crafter.setField(id, data);
+		super.updateProgressBar(id, data);
+	}
+
+	private int[] cachedFields;
+	private int fieldCount = -1;
+
+	@Override
+	public void detectAndSendChanges()
+	{
+		super.detectAndSendChanges();
+
+		boolean allFieldsHaveChanged = false;
+		boolean fieldHasChanged[] = new boolean[crafter.getFieldCount()];
+		if (cachedFields == null)
+		{
+			cachedFields = new int[crafter.getFieldCount()];
+			allFieldsHaveChanged = true;
+		}
+		if (fieldCount != crafter.getFieldCount())
+		{
+			fieldCount = crafter.getFieldCount();
+			allFieldsHaveChanged = true;
+		}
+		for (int i = 0; i < cachedFields.length; ++i)
+		{
+			if (allFieldsHaveChanged || cachedFields[i] != crafter.getField(i))
+			{
+				cachedFields[i] = crafter.getField(i);
+				fieldHasChanged[i] = true;
+			}
+		}
+
+		// go through the list of crafters (players using this container) and
+		// update them if necessary
+		for (int i = 0; i < this.crafters.size(); ++i)
+		{
+			ICrafting icrafting = (ICrafting) this.crafters.get(i);
+			for (int fieldID = 0; fieldID < crafter.getFieldCount(); ++fieldID)
+			{
+				if (fieldHasChanged[fieldID])
+				{
+					// Note that although sendProgressBarUpdate takes 2 ints on
+					// a server these are truncated to shorts
+					icrafting.sendProgressBarUpdate(this, fieldID, cachedFields[fieldID]);
+				}
+			}
 		}
 	}
 

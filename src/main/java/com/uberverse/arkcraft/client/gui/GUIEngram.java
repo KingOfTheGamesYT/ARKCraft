@@ -87,7 +87,7 @@ public class GUIEngram extends GUIScrollable
 					Color base = Color.black;
 					int opacity = 255 / 2; // value from 0 - 255 ; O is completely invisible, 255 is completely opaque
 					Color over = new Color(base.getRed(), base.getGreen(), base.getBlue(), opacity);
-					drawGradientRect(x, y, x + size, y + size, over.getRGB(), over.getRGB());
+					drawRect(x, y, x + size, y + size, over.getRGB());
 				}
 			}
 		}

@@ -249,7 +249,7 @@ public class EngramManager
 			this.amount = amount;
 			this.points = points;
 			this.level = level;
-			this.craftingTime = craftingTime;
+			this.craftingTime = craftingTime*20;
 			this.type = type;
 			for (EngramRecipe r : recipes)
 				addRecipe(r);
@@ -415,7 +415,7 @@ public class EngramManager
 				if (recipe.canCraft(map))
 				{
 					recipe.consume(inv);
-					break;
+					return;
 				}
 			}
 		}
@@ -437,21 +437,29 @@ public class EngramManager
 			Arrays.fill(consumed, false);
 			Arrays.fill(yetFound, 0);
 
+			Item[] items = this.items.keySet().toArray(new Item[0]);
+			Integer[] required = this.items.values().toArray(new Integer[0]);
+
 			for (int i = 0; i < inv.getSizeInventory(); i++)
 			{
 				ItemStack s = inv.getStackInSlot(i);
 				if (s != null)
 				{
-					for (int j = 0; j < items.size(); j++)
+					for (int j = 0; j < items.length; j++)
 					{
-						Entry<Item, Integer> e = (Entry<Item, Integer>) items.entrySet().toArray()[j];
-						if (s.getItem() == e.getKey())
+						if (s.getItem() == items[j])
 						{
 							if (!consumed[j])
 							{
-								if (s.stackSize > e.getValue() - yetFound[j]) s.stackSize -= e.getValue() - yetFound[j];
+								int stillRequired = required[j] - yetFound[j];
+								if (s.stackSize > stillRequired)
+								{
+									s.stackSize -= stillRequired;
+									required[j] = 0;
+								}
 								else
 								{
+									required[j] -= s.stackSize;
 									inv.setInventorySlotContents(i, null);
 								}
 							}
