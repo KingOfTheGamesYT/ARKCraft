@@ -124,8 +124,12 @@ public interface IEngramCrafter extends NBTable
 		for (int i = 0; i < inventory.tagCount(); i++)
 		{
 			NBTTagCompound n = queue.getCompoundTagAt(i);
-			if (n.getBoolean("load")) this.getCraftingQueue().add(new CraftingOrder(EngramManager.instance().getEngram(n.getShort("id")),
-					n.getInteger("count"), ItemQuality.get(n.getByte("quality"))));
+			if (n.getBoolean("load"))
+			{
+				CraftingOrder c = new CraftingOrder(EngramManager.instance().getEngram(n.getShort("id")), n.getInteger("count"));
+				if (c.isQualitable()) c.setItemQuality(ItemQuality.get(n.getByte("quality")));
+				this.getCraftingQueue().add(c);
+			}
 		}
 	}
 
@@ -153,13 +157,10 @@ public interface IEngramCrafter extends NBTable
 		NBTTagList l2 = new NBTTagList();
 		for (CraftingOrder c : getCraftingQueue())
 		{
-			int count = c.getCount();
-			short id = c.getEngram().getId();
-			byte q = c.getItemQuality().id;
 			NBTTagCompound n = new NBTTagCompound();
-			n.setShort("id", id);
-			n.setInteger("count", count);
-			n.setByte("quality", q);
+			n.setShort("id", c.getEngram().getId());
+			n.setInteger("count", c.getCount());
+			if (c.isQualitable()) n.setByte("quality", c.getItemQuality().id);
 			n.setBoolean("load", true);
 			l2.appendTag(n);
 		}
