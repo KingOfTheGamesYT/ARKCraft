@@ -234,7 +234,7 @@ arkcraft.cropPlotState.fruitling=Fruitling
 arkcraft.water=%s: %s (%s)
 arkcraft.cropPlotWater.irrigated=Irrigated
 arkcraft.cropPlotWater.notIrrigated=Not Irrigated
-arkcraft.tooltip.ingredient=* %s * %d
+arkcraft.tooltip.ingredient=* %s x %d
 arkcraft.toolLevel.primitive=Primitive
 arkcraft.toolLevel.ascendant=Ascendant
 

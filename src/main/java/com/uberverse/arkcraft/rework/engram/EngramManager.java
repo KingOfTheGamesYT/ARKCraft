@@ -249,7 +249,7 @@ public class EngramManager
 			this.amount = amount;
 			this.points = points;
 			this.level = level;
-			this.craftingTime = craftingTime*20;
+			this.craftingTime = craftingTime * 20;
 			this.type = type;
 			for (EngramRecipe r : recipes)
 				addRecipe(r);
@@ -375,6 +375,11 @@ public class EngramManager
 			return recipes.add(recipe);
 		}
 
+		public Collection<EngramRecipe> getRecipes()
+		{
+			return recipes;
+		}
+
 		@Override
 		public boolean equals(Object obj)
 		{
@@ -430,6 +435,30 @@ public class EngramManager
 			this.items = new HashMap<>();
 		}
 
+		public EngramRecipe(Object... objects)
+		{
+			this();
+			if (objects.length % 2 == 0)
+			{
+				for (int i = 0; i < objects.length; i += 2)
+				{
+					Object o1 = objects[i];
+					Object o2 = objects[i + 1];
+					if (o1 instanceof Item && o2 instanceof Integer)
+					{
+						Item item = (Item) o1;
+						Integer amount = (Integer) o2;
+						this.addItem(item, amount);
+					}
+				}
+			}
+		}
+		
+		public Map<Item, Integer> getItems()
+		{
+			return items;
+		}
+
 		void consume(IInventory inv)
 		{
 			boolean[] consumed = new boolean[items.size()];
@@ -470,30 +499,12 @@ public class EngramManager
 			}
 		}
 
-		public EngramRecipe(Object... objects)
-		{
-			this();
-			if (objects.length % 2 == 0)
-			{
-				for (int i = 0; i < objects.length; i += 2)
-				{
-					Object o1 = objects[i];
-					Object o2 = objects[i + 1];
-					if (o1 instanceof Item && o2 instanceof Integer)
-					{
-						Item item = (Item) o1;
-						Integer amount = (Integer) o2;
-						this.addItem(item, amount);
-					}
-				}
-			}
-		}
-
 		public void consume(Map<Item, Integer> map)
 		{
-			for (Item i : items.keySet())
+			// changed items reference to map : correct ? TODO
+			for (Item i : map.keySet())
 			{
-				items.put(i, map.getOrDefault(i, 0) - items.get(i));
+				map.put(i, map.getOrDefault(i, 0) - items.get(i));
 			}
 		}
 
