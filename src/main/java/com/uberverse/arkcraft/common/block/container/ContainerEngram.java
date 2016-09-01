@@ -3,6 +3,8 @@ package com.uberverse.arkcraft.common.block.container;
 import com.uberverse.arkcraft.common.container.scrollable.SlotScrolling;
 import com.uberverse.arkcraft.common.inventory.InventoryEngram;
 import com.uberverse.arkcraft.rework.container.ContainerScrollable;
+import com.uberverse.arkcraft.rework.engram.EngramManager;
+import com.uberverse.arkcraft.rework.engram.EngramManager.Engram;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -15,6 +17,7 @@ import net.minecraft.item.ItemStack;
 public class ContainerEngram extends ContainerScrollable
 {
 	private short selection = -1;
+	private Engram selected;
 	private InventoryEngram inventory;
 
 	public ContainerEngram(InventoryEngram inventory, EntityPlayer player)
@@ -43,12 +46,17 @@ public class ContainerEngram extends ContainerScrollable
 			super(inventoryIn, index, xPosition, yPosition, container);
 		}
 
+		public Engram getEngram()
+		{
+			return EngramManager.instance().getEngram((short) getSlotIndex());
+		}
+
 		@Override
 		public int getSlotStackLimit()
 		{
 			return 1;
 		}
-		
+
 		@Override
 		public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack)
 		{
@@ -59,6 +67,7 @@ public class ContainerEngram extends ContainerScrollable
 	public void setSelected(short index)
 	{
 		this.selection = index;
+		selected = EngramManager.instance().getEngram(index);
 	}
 
 	public short getSelected()
@@ -100,5 +109,10 @@ public class ContainerEngram extends ContainerScrollable
 	public IInventory getScrollableInventory()
 	{
 		return inventory;
+	}
+
+	public Engram getSelectedEngram()
+	{
+		return selected;
 	}
 }

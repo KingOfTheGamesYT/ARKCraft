@@ -3,14 +3,19 @@
  */
 package com.uberverse.arkcraft.client.gui;
 
+import java.awt.Color;
+
 import org.lwjgl.input.Keyboard;
 
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.I18n;
 import com.uberverse.arkcraft.common.block.container.ContainerEngram;
+import com.uberverse.arkcraft.common.block.container.ContainerEngram.EngramSlot;
 import com.uberverse.arkcraft.common.inventory.InventoryEngram;
 import com.uberverse.arkcraft.common.network.OpenPlayerCrafting;
 import com.uberverse.arkcraft.common.network.UnlockEngram;
 import com.uberverse.arkcraft.rework.arkplayer.ARKPlayer;
+import com.uberverse.arkcraft.rework.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.rework.gui.GUIScrollable;
 import com.uberverse.arkcraft.rework.gui.GuiTranslatedButton;
 import com.uberverse.arkcraft.rework.gui.GuiTranslatedButton.GuiCenteredTranslatedButton;
@@ -34,9 +39,6 @@ public class GUIEngram extends GUIScrollable
 	private GuiButton learn, close;
 
 	private EntityPlayer player;
-
-	private static String engramTitle = "(null)";
-	private static String engramDesc = "(null)";
 
 	public GUIEngram(EntityPlayer player)
 	{
@@ -72,6 +74,23 @@ public class GUIEngram extends GUIScrollable
 	{
 		this.drawWorldBackground(8);
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
+
+		// Draw background layer for engram slots (learned or not)
+		for (Object o : inventorySlots.inventorySlots)
+		{
+			if (o instanceof EngramSlot)
+			{
+				EngramSlot slot = (EngramSlot) o;
+				if (!ARKPlayer.get(player).hasLearnedEngram((short) slot.getSlotIndex()))
+				{
+					int x = guiLeft + slot.xDisplayPosition, y = guiTop + slot.yDisplayPosition, size = 18;
+					Color base = Color.black;
+					int opacity = 255 / 2; // value from 0 - 255 ; O is completely invisible, 255 is completely opaque
+					Color over = new Color(base.getRed(), base.getGreen(), base.getBlue(), opacity);
+					drawGradientRect(x, y, x + size, y + size, over.getRGB(), over.getRGB());
+				}
+			}
+		}
 	}
 
 	@Override
@@ -86,10 +105,19 @@ public class GUIEngram extends GUIScrollable
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-		String s = "Engram Points: " + ARKPlayer.get(player).getEngramPoints();
-		fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, -10, 4210752);
-		fontRendererObj.drawString(engramTitle, drawHalfWidth(engramTitle, fontRendererObj, xSize), 6, 4210752);
-		fontRendererObj.drawString(engramDesc, drawHalfWidth(engramDesc, fontRendererObj, xSize), 18, 4210752);
+
+		// draw text
+
+		String s = I18n.format("gui.engram.text.engrampoints", ARKPlayer.get(player).getEngramPoints());
+		fontRendererObj.drawString(s, getCenteredStringOffset(s, fontRendererObj, 80), -10, Color.gray.getRGB());
+
+		int descColor = Color.white.getRGB();
+		String title = getEngramTitle();
+		title = title != null ? title : "";
+		String description = getEngramDescription();
+		description = description != null ? description : "";
+		fontRendererObj.drawString(title, getCenteredStringOffset(title, fontRendererObj, 80), 6, descColor);
+		fontRendererObj.drawString(description, getCenteredStringOffset(description, fontRendererObj, 80), 18, descColor);// 4210752 original value
 	}
 
 	@Override
@@ -105,29 +133,24 @@ public class GUIEngram extends GUIScrollable
 		}
 	}
 
-	private static int drawHalfWidth(String string, FontRenderer renderer, int xSize)
+	private static int getCenteredStringOffset(String string, FontRenderer renderer, int center)
 	{
-		return xSize / 2 - renderer.getStringWidth(string);
+		return center - renderer.getStringWidth(string) / 2;
 	}
 
-	public static String getEngramTitle()
+	public String getEngramTitle()
 	{
-		return engramTitle;
+		return getEngram() != null ? getEngram().getTitle() : "";
 	}
 
-	public static void setEngramTitle(String newTitle)
+	public Engram getEngram()
 	{
-		engramTitle = newTitle;
+		return ((ContainerEngram) inventorySlots).getSelectedEngram();
 	}
 
-	public static String getEngramDescription()
+	public String getEngramDescription()
 	{
-		return engramDesc;
-	}
-
-	public static void setEngramDescription(String newDesc)
-	{
-		engramDesc = newDesc;
+		return getEngram() != null ? getEngram().getDescription() : "";
 	}
 
 	public InventoryEngram getInventory()

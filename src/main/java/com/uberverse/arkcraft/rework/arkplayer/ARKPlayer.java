@@ -38,6 +38,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.fml.relauncher.Side;
@@ -766,7 +767,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 		return engramCrafter;
 	}
 
-	public class PlayerEngramCrafter implements IEngramCrafter, NBTable
+	public class PlayerEngramCrafter implements IEngramCrafter, NBTable, IInventory
 	{
 		private EntityPlayer player;
 		private int progress;
@@ -799,7 +800,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 		@Override
 		public IInventory getIInventory()
 		{
-			return null;
+			return this;
 		}
 
 		@Override
@@ -818,7 +819,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 		@Override
 		public ItemStack[] getInventory()
 		{
-			return player.getInventory();
+			return player.inventory.mainInventory;
 		}
 
 		@Override
@@ -843,6 +844,106 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 		public IInventory getConsumedInventory()
 		{
 			return player.inventory;
+		}
+
+		@Override
+		public int getField(int id)
+		{
+			return IEngramCrafter.super.getField(id);
+		}
+
+		@Override
+		public String getName()
+		{
+			return null;
+		}
+
+		@Override
+		public boolean hasCustomName()
+		{
+			return false;
+		}
+
+		@Override
+		public IChatComponent getDisplayName()
+		{
+			return null;
+		}
+
+		@Override
+		public int getSizeInventory()
+		{
+			return 0;
+		}
+
+		@Override
+		public ItemStack getStackInSlot(int index)
+		{
+			return null;
+		}
+
+		@Override
+		public ItemStack decrStackSize(int index, int count)
+		{
+			return null;
+		}
+
+		@Override
+		public ItemStack getStackInSlotOnClosing(int index)
+		{
+			return null;
+		}
+
+		@Override
+		public void setInventorySlotContents(int index, ItemStack stack)
+		{}
+
+		@Override
+		public int getInventoryStackLimit()
+		{
+			return 0;
+		}
+
+		@Override
+		public void markDirty()
+		{}
+
+		@Override
+		public boolean isUseableByPlayer(EntityPlayer player)
+		{
+			return false;
+		}
+
+		@Override
+		public void openInventory(EntityPlayer player)
+		{}
+
+		@Override
+		public void closeInventory(EntityPlayer player)
+		{}
+
+		@Override
+		public boolean isItemValidForSlot(int index, ItemStack stack)
+		{
+			return false;
+		}
+
+		@Override
+		public void clear()
+		{
+
+		}
+
+		@Override
+		public int getFieldCount()
+		{
+			return IEngramCrafter.super.getFieldCount();
+		}
+
+		@Override
+		public void setField(int id, int value)
+		{
+			IEngramCrafter.super.setField(id, value);
 		}
 	}
 
@@ -881,10 +982,13 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 		}
 	}
 
-	public boolean canLearnEngram(short s)
+	public boolean canLearnEngram(short id)
 	{
-		Engram e = EngramManager.instance().getEngram(s);
-		if (e == null) return false;
-		return !unlockedEngrams.contains(s) && level.get() >= e.getLevel() && engramPoints.get() >= e.getPoints();
+		return EngramManager.instance().canPlayerLearn(player, id);
+	}
+
+	public boolean hasLearnedEngram(short id)
+	{
+		return unlockedEngrams.contains(id);
 	}
 }

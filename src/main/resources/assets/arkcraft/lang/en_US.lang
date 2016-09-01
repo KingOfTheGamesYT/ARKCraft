@@ -15,71 +15,78 @@ tile.campfire.name=Campfire
 # Containers
 container.inventory_refining_forge.name=Refining Forge
 container.inventory_campfire.name=Campfire
+container.crop_plot.name=Crop Plot 
 
 # World Types
 generator.island=ARK: The Island
 
 # Items
+
+## seeds
 item.narcoBerrySeed.name=Narcoberry Seed
 item.amarBerrySeed.name=Amarberry Seed
 item.mejoBerrySeed.name=Mejoberry Seed
 item.azulBerrySeed.name=Azulberry Seed
 item.tintoBerrySeed.name=Tintoberry Seed
 item.stimBerrySeed.name=Stimberry Seed
+
+## berries
 item.narco.name=Narcoberry
 item.amar.name=Amarberry
 item.mejo.name=Mejoberry
 item.azul.name=Azulberry
 item.tinto.name=Tintoberry
 item.stim.name=Stimberry
+
+## resources
 item.fiber.name=Fiber
 item.chitin.name=Chitin
+item.crystal.name=Crystal
+item.item_crystal.name=Crystal
+item.stone.name=Stone
+item.thatch.name=Thatch
+item.wood.name=Wood
+item.metal.name=Metal
+item.hide.name=Hide
+item.metal_ingot.name=Metal Ingot
+
+## armor
 item.chitin_helm.name=Chitin Helmet
 item.chitin_chest.name=Chitin Chestplate
 item.chitin_legs.name=Chitin Leggings
 item.chitin_boots.name=Chitin Boots
-item.narcotics.name=Narcotics
+
 item.cloth_helm.name=Cloth Hat
 item.cloth_chest.name=Cloth Shirt
 item.cloth_legs.name=Cloth Pants
 item.cloth_boots.name=Cloth Shoes
-item.crystal.name=Crystals
+
 item.hide_helm.name=Hide Helmet
 item.hide_chest.name=Hide Chestplate
 item.hide_legs.name=Hide Leggings
 item.hide_boots.name=Hide Boots
+
 item.fur_helm.name=Fur Helmet
 item.fur_chest.name=Fur Chestplate
 item.fur_legs.name=Fur Leggings
 item.fur_boots.name=Fur Boots
+
+## craftables
+item.narcotics.name=Narcotics
 item.gunpowder.name=Gunpowder
+item.gun_powder.name=Gunpowder
+item.fertilizer.name=Fertilizer
+item.spark_powder.name=Spark Powder
+item.cementing_paste.name=Cementing Paste
+
+## weapons
 item.tranq_arrow.name=Tranquilizer Arrow
 item.slingshot.name=Slingshot
 item.pike.name=Stone Pike
 item.ironPike.name=Iron Pike
 item.spear.name=Stone Spear
-item.saddle_small.name=Small Saddle
-item.saddle_medium.name=Medium Saddle
-item.saddle_large.name=Large Saddle
-item.rock.name=Rock
-item.explosive_ball.name=Explosive Cobblestone Ball
-item.mortar_and_pestle.name=Mortar and Pestle
-item.meat_cooked.name=Cooked Meat
-item.meat_raw.name=Raw Meat
-item.primemeat_cooked.name=Cooked Prime Meat
-item.primemeat_raw.name=Raw Prime Meat
-item.dodo_bag.name=Dodo Bag
-item.dodo_feather.name=Dodo Feather
-item.dodo_egg.name=Dodo Egg
-item.dossier.name=Dino Dossier
-item.small_feces.name=Small Feces
-item.medium_feces.name=Medium Feces
-item.large_feces.name=Large Feces
-item.player_feces.name=Player Feces
-item.fertilizer.name=Fertilizer
 item.tranq_gun.name=Tranquilizer Gun
 item.simple_pistol.name=Simple Pistol
-item.stone.name=Stone
 item.tranquilizer.name=Tranquilizer
 item.simple_bullet.name=Simple Bullet
 item.advanced_bullet.name=Advanced Bullet
@@ -94,36 +101,57 @@ item.rocket_launcher.name=Rocket Launcher
 item.rocket_propelled_grenade.name=Rocket Propelled Grenade
 item.compound_bow.name=Compound Bow
 item.crossbow.name=Crossbow
-item.thatch.name=Thatch
-item.gun_powder.name=Gunpowder
-item.spark_powder.name=Spark Powder
-item.spy_glass.name=Spy Glass
-item.wood.name=Wood
-item.metal.name=Metal
-item.hide.name=Hide
-item.metal_ingot.name=Metal Ingot
 item.wooden_club.name=Wooden Club
 item.grenade.name=Grenade
-item.cementing_paste.name=Cementing Paste
+
+## attachments
 item.scope.name=Scope
 item.laser.name=Laser
 item.silencer.name=Silencer
 item.holo_scope.name=Holo-Scope
 item.flash_light.name=Flashlight
-item.item_crystal.name=Crystal
+
+## saddles
+item.saddle_small.name=Small Saddle
+item.saddle_medium.name=Medium Saddle
+item.saddle_large.name=Large Saddle
+
+## blocks
+item.mortar_and_pestle.name=Mortar and Pestle
+item.item_refining_forge.name=Refining Forge
+
+## meat
+item.meat_cooked.name=Cooked Meat
+item.meat_raw.name=Raw Meat
+item.primemeat_cooked.name=Cooked Prime Meat
+item.primemeat_raw.name=Raw Prime Meat
+item.spoiled_meat.name=Spoiled Meat
+
+## eggs
+item.dodo_bag.name=Dodo Bag
+item.dodo_feather.name=Dodo Feather
+item.dodo_egg.name=Dodo Egg
+
+## misc
+item.dossier.name=Dino Dossier
+item.info_book.name=The ARKCraft Compendium
+
+## feces
+item.small_feces.name=Small Feces
+item.medium_feces.name=Medium Feces
+item.large_feces.name=Large Feces
+item.player_feces.name=Player Feces
+
+## tools
+### misc
+item.spy_glass.name=Spy Glass
+### metal
 item.metal_pick.name=Metal Pickaxe
 item.metal_hatchet.name=Metal Hatchet
+item.metal_sickle.name=Metal 
+### stone
 item.stone_pick.name=Stone Pickaxe
-item.stone_hatchet.name=Stone Hatchet
-item.item_refining_forge.name=Refining Forge
-item.metal_pick_primitive.name=Metal Pickaxe
-item.metal_hatchet_primitive.name=Metal Hatchet
-item.metal_sickle_primitive.name=Metal Sickle
-item.metal_pick_ascendant.name=Metal Pickaxe
-item.metal_hatchet_ascendant.name=Metal Hatchet
-item.metal_sickle_ascendant.name=Metal Sickle
-item.spoiled_meat.name=Spoiled Meat
-item.info_book.name=The ARKCraft Compendium
+item.stone_hatchet.name=Stone HatchetSickle
 
 # Miscellaneous
 itemGroup.arkcraft=ARKCraft
@@ -145,23 +173,18 @@ key.playerCraft=Open Player Crafting
 
 # Chat Messages
 chat.canNotPoop=Can't poop right now
-
-# Book Descriptions
-ark.book.utahraptor.description=Utahraptor Prime is an incredibly aggressive sub-species of Utahraptor.\n It tends to travel in small hunting packs, attacking smaller prey with its sharp teeth or enlarged foreclaws.\n\nOne of the faster creatures around, Utahraptor Prime often uses hit-and-run tactics against larger opponents. The large curved talon on the second toe of this sub-species seems particularly suited for attacking while jumping.
-
-# Containers
-container.crop_plot.name=Crop Plot 
-
-#Chat Messages
 chat.ammo= ammo
-
-# Attributes
-attribute.name.arkcraft.reloadTime=Reload Time
 
 # Splash Text
 ark.splash.encumbered=You are encumbered!
 ark.splash.overEncumbered=You are over encumbered!
 ark.splash.noJump=You are over encumbered! You cannot jump!
+
+# Book Descriptions
+ark.book.utahraptor.description=Utahraptor Prime is an incredibly aggressive sub-species of Utahraptor.\n It tends to travel in small hunting packs, attacking smaller prey with its sharp teeth or enlarged foreclaws.\n\nOne of the faster creatures around, Utahraptor Prime often uses hit-and-run tactics against larger opponents. The large curved talon on the second toe of this sub-species seems particularly suited for attacking while jumping.
+
+# Attributes
+attribute.name.arkcraft.reloadTime=Reload Time
 
 # Tooltips
 item.narcotics.tooltip=%12A Knockout of a Drink
@@ -216,7 +239,10 @@ arkcraft.toolLevel.primitive=Primitive
 arkcraft.toolLevel.ascendant=Ascendant
 
 # Gui
-gui.text.level=Lvl: %s
+gui.playercrafting.level=Lvl: %s
+gui.engram.text.engrampoints=Engram Points: %s
+gui.engramcrafting.engram.tooltip.ingredient= %s * %d
+
 
 # Engrams
 ark.engram.learn=Learn Engram
@@ -225,16 +251,7 @@ ark.engram.learn.false=Unlearned
 ark.engram.close=Close
 ark.engram.consume=Consumes EP
 
-# Engram Items
-item.engramStonePick.name=Stone Pick
-item.engramTorch.name=Torch
-item.engramCampfire.name=Campfire
-item.engramStoneHatchet.name=Stone Hatchet
-item.engramSpear.name=Spear
-item.engramNote.name=Note
-item.engramClothPants.name=Cloth Pants
-item.engramClothShirt.name=Cloth Shirt
-
-# Engram Item Description
-engram.engramStonePick.desc=For harvesting.
-engram.engramTorch.desc=Provides light, and some warmth. 
+engram.stone_pick.title=Stone pick
+engram.stone_pick.description=For harvesting.
+engram.torch.title=Torch
+engram.torch.description=Provides light, and some warmth.

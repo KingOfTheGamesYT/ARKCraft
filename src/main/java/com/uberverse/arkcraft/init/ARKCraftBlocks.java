@@ -16,6 +16,7 @@ import com.uberverse.arkcraft.common.block.BlockMortarAndPestle;
 import com.uberverse.arkcraft.common.block.BlockRefiningForge;
 import com.uberverse.arkcraft.common.block.BlockSmithy;
 import com.uberverse.arkcraft.common.block.BlockSpikes;
+import com.uberverse.arkcraft.common.block.itemblock.ItemCampfire;
 import com.uberverse.arkcraft.common.block.itemblock.ItemCompostBin;
 import com.uberverse.arkcraft.common.block.itemblock.ItemCropPlot;
 import com.uberverse.arkcraft.common.block.itemblock.ItemMortarAndPestle;

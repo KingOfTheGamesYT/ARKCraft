@@ -59,7 +59,6 @@ public abstract class ARKCraftTool extends ItemTool
 		}
 	};
 
-	@SuppressWarnings("rawtypes")
 	public ARKCraftTool(float attackDamage, ToolMaterial material, Set effectiveBlocks, ToolType toolType)
 	{
 		super(attackDamage, material, effectiveBlocks);
@@ -68,14 +67,10 @@ public abstract class ARKCraftTool extends ItemTool
 		initToolClasses();
 	}
 
-	@SuppressWarnings("rawtypes")
 	public ARKCraftTool(String name, float attackDamage, ToolMaterial material, Set effectiveBlocks, ToolType toolType)
 	{
-		super(attackDamage, material, effectiveBlocks);
+		this(attackDamage, material, effectiveBlocks, toolType);
 		this.setUnlocalizedName(name);
-		setHasSubtypes(true);
-		this.toolType = toolType;
-		initToolClasses();
 	}
 
 	private void initToolClasses()
@@ -347,45 +342,6 @@ public abstract class ARKCraftTool extends ItemTool
 		subItems.add(new ItemStack(itemIn, 1, ToolLevel.VALUES.length - 1));
 	}
 
-	@Override
-	public String getItemStackDisplayName(ItemStack stack)
-	{
-		/*
-		 * ClientProxy p = ((ClientProxy)ARKCraft.proxy); List<ItemStack> list =
-		 * new ArrayList<ItemStack>(); getSubItems(this, getCreativeTab(),
-		 * list); for(int i = 0;i<list.size();i++){
-		 */
-		switch (ToolLevel.VALUES[stack.getMetadata() % ToolLevel.VALUES.length])
-		{
-			case PRIMITIVE:
-				return ("" + StatCollector
-						.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name"))
-								.trim();
-			case RAMSCHACKLE:
-				return (EnumChatFormatting.GREEN + "" + StatCollector
-						.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name"))
-								.trim();
-			case APPRENTICE:
-				return (EnumChatFormatting.BLUE + "" + StatCollector
-						.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name"))
-								.trim();
-			case JOURNEYMAN:
-				return (EnumChatFormatting.DARK_PURPLE + "" + StatCollector
-						.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name"))
-								.trim();
-			case MASTERCRAFT:
-				return (EnumChatFormatting.YELLOW + "" + StatCollector
-						.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name"))
-								.trim();
-			case ASCENDANT:
-				return (EnumChatFormatting.RED + "" + StatCollector
-						.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name"))
-								.trim();
-			default:
-				break;
-		}
-		return super.getItemStackDisplayName(stack);
-	}
 
 	@SideOnly(Side.CLIENT)
 	public void registerModels()
@@ -417,7 +373,7 @@ public abstract class ARKCraftTool extends ItemTool
 		}
 	}
 
-	public int getDurrability(ItemStack stack)
+	public int getDurability(ItemStack stack)
 	{
 		return ToolLevel.VALUES[stack.getMetadata() % ToolLevel.VALUES.length]
 				.getDurrability(toolMaterial.getMaxUses());
@@ -439,7 +395,7 @@ public abstract class ARKCraftTool extends ItemTool
 	{
 		int newValue = getToolDamage(toolStack) + 1;
 		setToolDamage(toolStack, newValue);
-		if (newValue >= getDurrability(toolStack))
+		if (newValue >= getDurability(toolStack))
 		{
 			entityIn.renderBrokenItemStack(toolStack);
 			--toolStack.stackSize;
@@ -468,14 +424,7 @@ public abstract class ARKCraftTool extends ItemTool
 	@Override
 	public double getDurabilityForDisplay(ItemStack stack)
 	{
-		return ((double) getToolDamage(stack)) / getDurrability(stack);
-	}
-
-	@Override
-	public String getUnlocalizedName(ItemStack stack)
-	{
-		return super.getUnlocalizedName(
-				stack) + "_" + ToolLevel.VALUES[stack.getMetadata() % ToolLevel.VALUES.length].name;
+		return ((double) getToolDamage(stack)) / getDurability(stack);
 	}
 
 	@Override

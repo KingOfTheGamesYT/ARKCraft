@@ -1,10 +1,8 @@
 package com.uberverse.arkcraft.rework.tileentity;
 
-import java.util.Collections;
 import java.util.Queue;
 
 import com.uberverse.arkcraft.rework.engram.CraftingOrder;
-import com.uberverse.arkcraft.rework.engram.EngramManager;
 import com.uberverse.arkcraft.rework.engram.IEngramCrafter;
 import com.uberverse.arkcraft.rework.util.FixedSizeQueue;
 
@@ -145,53 +143,6 @@ public abstract class TileEntityEngramCrafter extends TileEntity implements IInv
 	}
 
 	@Override
-	public int getField(int id)
-	{
-		switch (id)
-		{
-			case 0:
-				return progress;
-			default:
-				int t = (id - 1) / 2;
-				CraftingOrder c = craftingQueue.toArray(new CraftingOrder[0])[t];
-				return (t % 2) == 1 ? c.getCount() : c.getEngram().getId();
-		}
-	}
-
-	@Override
-	public void setField(int id, int value)
-	{
-		switch (id)
-		{
-			case 0:
-				progress = value;
-				break;
-			default:
-				int t = (id - 1) / 2;
-				CraftingOrder[] q = craftingQueue.toArray(new CraftingOrder[0]);
-				CraftingOrder c = q[t];
-				if (c == null)
-				{
-					if ((t % 2) == 1) q[t] = new CraftingOrder(null, value);
-					else q[t] = new CraftingOrder(EngramManager.instance().getEngram((short) value));
-					craftingQueue.clear();
-					Collections.addAll(craftingQueue, q);
-				}
-				else
-				{
-					if ((t % 2) == 1) c.setCount(value);
-					else c.setEngram(EngramManager.instance().getEngram((short) value));
-				}
-		}
-	}
-
-	@Override
-	public int getFieldCount()
-	{
-		return 1 + craftingQueue.size() * 2;
-	}
-
-	@Override
 	public void clear()
 	{
 		for (int i = 0; i < inventory.length; i++)
@@ -258,5 +209,72 @@ public abstract class TileEntityEngramCrafter extends TileEntity implements IInv
 	public Queue<CraftingOrder> getCraftingQueue()
 	{
 		return craftingQueue;
+	}
+	//
+	// @Override
+	// public int getField(int id)
+	// {
+	// Queue<CraftingOrder> craftingQueue = getCraftingQueue();
+	// switch (id)
+	// {
+	// case 0:
+	// return getProgress();
+	// default:
+	// int t = (id - 1) / 2;
+	// CraftingOrder c = craftingQueue.toArray(new CraftingOrder[0])[t];
+	// return (t % 2) == 1 ? c.getCount() : c.getEngram().getId();
+	// }
+	// }
+	//
+	// @Override
+	// public void setField(int id, int value)
+	// {
+	// Queue<CraftingOrder> craftingQueue = getCraftingQueue();
+	// switch (id)
+	// {
+	// case 0:
+	// setProgress(value);
+	// break;
+	// default:
+	// int t = (id - 1) / 2;
+	// CraftingOrder[] q = craftingQueue.toArray(new CraftingOrder[0]);
+	// CraftingOrder c = q[t];
+	// if (c == null)
+	// {
+	// if ((t % 2) == 1) q[t] = new CraftingOrder(null, value);
+	// else q[t] = new CraftingOrder(EngramManager.instance().getEngram((short) value));
+	// craftingQueue.clear();
+	// Collections.addAll(craftingQueue, q);
+	// }
+	// else
+	// {
+	// if ((t % 2) == 1) c.setCount(value);
+	// else c.setEngram(EngramManager.instance().getEngram((short) value));
+	// }
+	// }
+	// }
+	//
+	// @Override
+	// public int getFieldCount()
+	// {
+	// return 1 + getCraftingQueue().size() * 2;
+	// }
+
+	@Override
+	public int getField(int id)
+	{
+		return IEngramCrafter.super.getField(id);
+	}
+
+	@Override
+	public int getFieldCount()
+	{
+		return IEngramCrafter.super.getFieldCount();
+	}
+
+	@Override
+	public void setField(int id, int value)
+	{
+		IEngramCrafter.super.setField(id, value);
 	}
 }

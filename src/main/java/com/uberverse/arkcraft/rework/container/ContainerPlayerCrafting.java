@@ -4,6 +4,8 @@ import com.uberverse.arkcraft.rework.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.rework.engram.EngramManager.EngramType;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 
 public class ContainerPlayerCrafting extends ContainerEngramCrafting
 {

@@ -1,10 +1,13 @@
 package com.uberverse.arkcraft.rework.gui;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.rework.container.ContainerEngramCrafting;
+import com.uberverse.arkcraft.rework.container.ContainerEngramCrafting.EngramSlot;
 
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.ResourceLocation;
 
@@ -38,14 +41,28 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 		if (button == craft)
 		{
 			mc.playerController.sendEnchantPacket(inventorySlots.windowId, 0);
-			// ((ContainerEngramCrafting) inventorySlots).craftOne();
 		}
 		else if (button == craftall)
 		{
 			mc.playerController.sendEnchantPacket(inventorySlots.windowId, 1);
-			// ((ContainerEngramCrafting) inventorySlots).craftAll();
 		}
 		else super.actionPerformed(button);
+	}
+
+	@Override
+	protected void drawHoveringText(List textLines, int x, int y, FontRenderer font)
+	{
+		for (Object o : inventorySlots.inventorySlots)
+		{
+			if (o instanceof EngramSlot)
+			{
+				EngramSlot e = (EngramSlot) o;
+			}
+		}
+		Object o1 = textLines.remove(0);
+		textLines.clear();
+		textLines.add(o1);
+		super.drawHoveringText(textLines, x, y, font);
 	}
 
 	public abstract int getC1ButtonX();

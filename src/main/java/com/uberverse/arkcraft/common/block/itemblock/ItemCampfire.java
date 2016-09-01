@@ -1,4 +1,6 @@
-package com.uberverse.arkcraft.init;
+package com.uberverse.arkcraft.common.block.itemblock;
+
+import com.uberverse.arkcraft.init.ARKCraftBlocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;

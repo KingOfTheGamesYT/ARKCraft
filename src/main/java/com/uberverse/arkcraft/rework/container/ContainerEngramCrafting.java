@@ -9,6 +9,8 @@ import com.uberverse.arkcraft.rework.engram.EngramManager;
 import com.uberverse.arkcraft.rework.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.rework.engram.EngramManager.EngramType;
 import com.uberverse.arkcraft.rework.engram.IEngramCrafter;
+import com.uberverse.arkcraft.rework.itemquality.Qualitable;
+import com.uberverse.arkcraft.rework.itemquality.Qualitable.ItemQuality;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -130,19 +132,13 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 	}
 
 	private short selectedEngramId = -1;
-
-	public void selectEngram(short engramId)
-	{
-		this.selectedEngramId = engramId;
-	}
+	private ItemQuality targetQuality;
 
 	public void craftOne()
 	{
 		if (selectedEngramId >= 0)
 		{
-			// if (FMLCommonHandler.instance().getSide().isClient()) ARKCraft.modChannel.sendToServer(new CraftMessage(false));
-			// if (FMLCommonHandler.instance().getSide().isServer())
-			if (crafter.startCraft(selectedEngramId)) detectAndSendChanges();
+			if (crafter.startCraft(selectedEngramId, targetQuality)) detectAndSendChanges();
 		}
 	}
 
@@ -150,22 +146,9 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 	{
 		if (selectedEngramId >= 0)
 		{
-			// if (FMLCommonHandler.instance().getSide().isClient()) ARKCraft.modChannel.sendToServer(new CraftMessage(true));
-			// if (FMLCommonHandler.instance().getSide().isServer())
-			if (crafter.startCraftAll(selectedEngramId)) detectAndSendChanges();
+			if (crafter.startCraftAll(selectedEngramId, targetQuality)) detectAndSendChanges();
 		}
 	}
-
-	// public void craftOne()
-	// {
-	// if (selectedEngramId >= 0) crafter.startCraft(selectedEngramId);
-	// }
-	//
-	// public void craftAll()
-	// {
-	// if (FMLCommonHandler.instance().getSide().isClient()) ARKCraft.modChannel.sendToServer(new CraftMessage(true));
-	// else if (FMLCommonHandler.instance().getSide().isServer() && selectedEngramId >= 0) crafter.startCraftAll(selectedEngramId);
-	// }
 
 	@Override
 	public boolean enchantItem(EntityPlayer playerIn, int id)
@@ -198,18 +181,118 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		return super.slotClick(slotId, clickedButton, mode, playerIn);
 	}
 
-	public static class EngramSlot extends SlotScrolling
+	@Override
+	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index)
+	{
+		if (getPlayerInventory() != null)
+		{
+			if (getIInventory() != null && getIInventory().getSizeInventory() > 0)
+			{
+				ItemStack itemstack = null;
+				Slot slot = (Slot) this.inventorySlots.get(index);
+
+				if (slot != null && slot.getHasStack())
+				{
+					ItemStack itemstack1 = slot.getStack();
+					itemstack = itemstack1.copy();
+					if (slot.inventory == getIInventory())
+					{
+						if (!this.mergeItemStack(itemstack1, playerInvBoundLeft, playerInvBoundRight, false)) return null;
+					}
+					else if (slot.inventory == getPlayerInventory())
+						if (!this.mergeItemStack(itemstack1, invBoundLeft, invBoundRight, false)) return null;
+					if (itemstack1.stackSize == 0)
+					{
+						slot.putStack((ItemStack) null);
+					}
+					else
+					{
+						slot.onSlotChanged();
+					}
+				}
+
+				return itemstack;
+			}
+			else
+			{
+				ItemStack itemstack = null;
+				Slot slot = (Slot) this.inventorySlots.get(index);
+
+				if (slot != null && slot.getHasStack())
+				{
+					ItemStack itemstack1 = slot.getStack();
+					itemstack = itemstack1.copy();
+
+					if (index >= 0 && index < 27)
+					{
+						if (!this.mergeItemStack(itemstack1, 27, 36, false)) { return null; }
+					}
+					else if (index >= 27 && index < 36)
+					{
+						if (!this.mergeItemStack(itemstack1, 0, 27, false)) { return null; }
+					}
+
+					if (itemstack1.stackSize == 0)
+					{
+						slot.putStack((ItemStack) null);
+					}
+					else
+					{
+						slot.onSlotChanged();
+					}
+
+					if (itemstack1.stackSize == itemstack.stackSize) { return null; }
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public class EngramSlot extends SlotScrolling
 	{
 		public EngramSlot(EngramInventory inventoryIn, int index, int xPosition, int yPosition, IContainerScrollable container)
 		{
 			super(inventoryIn, index, xPosition, yPosition, container);
 		}
 
+		public Engram getEngram()
+		{
+			return ContainerEngramCrafting.this.engramInventory.getEngram(getSlotIndex());
+		}
+
 		@Override
 		public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack)
 		{
-			Engram e = ((EngramInventory) inventory).getEngram(getSlotIndex());
-			((ContainerEngramCrafting) getContainer()).selectEngram(e.getId());
+			ContainerEngramCrafting.this.selectedEngramId = getEngram().getId();
+			ContainerEngramCrafting.this.targetQuality = ItemQuality.PRIMITIVE;
+		}
+	}
+
+	public class BluePrintSlot extends Slot
+	{
+		public BluePrintSlot(IInventory inventoryIn, int index, int xPosition, int yPosition)
+		{
+			super(inventoryIn, index, xPosition, yPosition);
+		}
+
+		public Engram getEngram()
+		{
+			return ContainerEngramCrafting.this.engramInventory.getEngram(getSlotIndex());
+		}
+
+		public ItemQuality getItemQuality()
+		{
+			ItemStack stack = getStack();
+			if (stack != null && stack.getItem() instanceof Qualitable) { return Qualitable.get(stack); }
+			return null;
+		}
+
+		@Override
+		public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack)
+		{
+			ContainerEngramCrafting.this.selectedEngramId = getEngram().getId();
+			ContainerEngramCrafting.this.targetQuality = getItemQuality();
 		}
 	}
 

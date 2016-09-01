@@ -85,35 +85,4 @@ public class ContainerSmithy extends ContainerEngramCrafting
 	{
 		return 6;
 	}
-
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index)
-	{
-		ItemStack itemstack = null;
-		Slot slot = (Slot) this.inventorySlots.get(index);
-
-		if (slot != null && slot.getHasStack())
-		{
-			ItemStack itemstack1 = slot.getStack();
-			itemstack = itemstack1.copy();
-			if (slot.inventory == getIInventory())
-			{
-
-				if (!this.mergeItemStack(itemstack1, playerInvBoundLeft, playerInvBoundRight,
-						false)) return null;
-
-			}
-			else if (slot.inventory == getPlayerInventory()) if (!this.mergeItemStack(itemstack1,
-					invBoundLeft, invBoundRight, false)) return null;
-			if (itemstack1.stackSize == 0)
-			{
-				slot.putStack((ItemStack) null);
-			}
-			else
-			{
-				slot.onSlotChanged();
-			}
-		}
-
-		return itemstack;
-	}
 }

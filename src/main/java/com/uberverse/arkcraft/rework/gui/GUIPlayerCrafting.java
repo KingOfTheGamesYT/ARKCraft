@@ -41,7 +41,7 @@ public class GUIPlayerCrafting extends GUIEngramCrafting
 
 		GuiInventory.drawEntityOnScreen(136, 100, 30, 0, 0, this.mc.thePlayer);
 
-		String level = I18n.format("gui.text.level", ARKPlayer.get(Minecraft.getMinecraft().thePlayer).getLevel());
+		String level = I18n.format("gui.playercrafting.level", ARKPlayer.get(Minecraft.getMinecraft().thePlayer).getLevel());
 		this.drawString(mc.fontRendererObj, level, 136 - mc.fontRendererObj.getStringWidth(level) / 2, 25, Color.white.getRGB());
 	}
 
@@ -50,8 +50,6 @@ public class GUIPlayerCrafting extends GUIEngramCrafting
 	{
 		if (button == openEngrams)
 		{
-			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-			player.openGui(ARKCraft.instance, ARKCraft.GUI.ENGRAM_GUI.getID(), player.worldObj, 0, 0, 0);
 			ARKCraft.modChannel.sendToServer(new OpenEngrams());
 		}
 		else super.actionPerformed(button);

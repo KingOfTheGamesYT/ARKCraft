@@ -13,10 +13,13 @@ import java.util.TreeSet;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import com.uberverse.arkcraft.I18n;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
 import com.uberverse.arkcraft.rework.arkplayer.ARKPlayer;
+import com.uberverse.arkcraft.rework.itemquality.Qualitable;
+import com.uberverse.arkcraft.rework.itemquality.Qualitable.ItemQuality;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -136,13 +139,13 @@ public class EngramManager
 				new EngramRecipe(ARKCraftItems.chitin, 12, ARKCraftItems.hide, 6, ARKCraftItems.fiber, 4)));
 		instance().registerEngram(new Engram("longneck_rifle", ARKCraftRangedWeapons.longneck_rifle, 18, 35, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.metal, 95, ARKCraftItems.hide, 25, ARKCraftItems.wood, 20)));
-		instance().registerEngram(new Engram("simple_rilfe_ammo", ARKCraftRangedWeapons.simple_rifle_ammo, 6, 35, 10, EngramType.SMITHY,
+		instance().registerEngram(new Engram("simple_rifle_ammo", ARKCraftRangedWeapons.simple_rifle_ammo, 6, 35, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.metal, 2, ARKCraftItems.gunpowder, 12)));
 		// instance().registerEngram(new Engram("medium_crop_plot",ItemCropPlot.getByNameOrId(("tile.crop_plot.medium")), 12, 25, 10, EngramType.PLAYER,
 		// new EngramRecipe(ARKCraftItems.stone, 50, ARKCraftItems.wood, 40, ARKCraftItems.fiber, 30, ARKCraftItems.thatch, 20)));
 		instance().registerEngram(new Engram("shotgun", ARKCraftRangedWeapons.shotgun, 18, 35, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.metal, 80, ARKCraftItems.hide, 25, ARKCraftItems.wood, 20)));
-		instance().registerEngram(new Engram("simple_rilfe_ammo", ARKCraftRangedWeapons.simple_rifle_ammo, 6, 35, 10, EngramType.SMITHY,
+		instance().registerEngram(new Engram("simple_shotgun_ammo", ARKCraftRangedWeapons.simple_shotgun_ammo, 6, 35, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.metal, 1, ARKCraftItems.gunpowder, 3, ARKCraftRangedWeapons.simple_bullet, 3)));
 
 		// lvl 40
@@ -215,6 +218,13 @@ public class EngramManager
 		return in;
 	}
 
+	public boolean canPlayerLearn(EntityPlayer player, short engramId)
+	{
+		Engram e = getEngram(engramId);
+		ARKPlayer p = ARKPlayer.get(player);
+		return e != null && !p.getUnlockedEngrams().contains(engramId) && p.getLevel() >= e.getLevel() && p.getEngramPoints() >= e.getPoints();
+	}
+
 	public static class Engram implements Comparable<Engram>
 	{
 		private static short idCounter = 0;
@@ -247,7 +257,7 @@ public class EngramManager
 
 		public Engram(String name, Item item, int points, int level, int craftingTime, EngramType type, EngramRecipe... recipes)
 		{
-			this(name, item, 1, points, craftingTime, level, type, recipes);
+			this(name, item, 1, points, level, craftingTime, type, recipes);
 		}
 
 		public short getId()
@@ -285,12 +295,38 @@ public class EngramManager
 			return craftingTime;
 		}
 
+		public String getTitle()
+		{
+			return I18n.translate("engram." + getName() + ".title");
+		}
+
+		public String getDescription()
+		{
+			return I18n.translate("engram." + getName() + ".description");
+		}
+
+		public boolean isQualitable()
+		{
+			return getItem() instanceof Qualitable;
+		}
+
 		public boolean canCraft(IInventory inventory)
 		{
-			return canCraft(inventory, 1);
+			return canCraft(inventory, null);
 		}
 
 		public boolean canCraft(IInventory inventory, int amount)
+		{
+			return canCraft(inventory, amount, null);
+		}
+
+		public boolean canCraft(IInventory inventory, ItemQuality quality)
+		{
+			return canCraft(inventory, 1, quality);
+		}
+
+		// TODO implement ItemQuality modifiers (also checks to see if something can have quality
+		public boolean canCraft(IInventory inventory, int amount, ItemQuality quality)
 		{
 			Map<Item, Integer> map = convertIInventoryToMap(inventory);
 			while (amount > 0)
