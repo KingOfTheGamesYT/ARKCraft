@@ -2,17 +2,23 @@ package com.uberverse.arkcraft.rework.gui;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.I18n;
 import com.uberverse.arkcraft.rework.container.ContainerEngramCrafting;
 import com.uberverse.arkcraft.rework.container.ContainerEngramCrafting.EngramSlot;
 import com.uberverse.arkcraft.rework.engram.EngramManager.Engram;
+import com.uberverse.arkcraft.rework.engram.EngramManager.EngramRecipe;
 import com.uberverse.arkcraft.rework.engram.IEngramCrafter;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.item.Item;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 
 public abstract class GUIEngramCrafting extends GUIScrollable
 {
@@ -86,6 +92,11 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 		}
 	}
 
+	private Engram tooltipped;
+	private List<EngramRecipe> recipes = new ArrayList<>();
+	private int shown;
+	private int ticker;
+
 	@Override
 	protected void drawHoveringText(List textLines, int x, int y, FontRenderer font)
 	{
@@ -96,10 +107,26 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 				EngramSlot e = (EngramSlot) o;
 				if (isPointInRegion(e.xDisplayPosition, e.yDisplayPosition, 18, 18, x, y))
 				{
-					Engram engram = e.getEngram();
+					ticker++;
+					if (tooltipped != e.getEngram())
+					{
+						tooltipped = e.getEngram();
+						recipes.clear();
+						recipes.addAll(tooltipped.getRecipes());
+						shown = 0;
+						ticker = 0;
+					}
+					if (ticker == 30)
+					{
+						ticker = 0;
+						shown = (shown + 1 == recipes.size()) ? 0 : shown + 1;
+					}
 					textLines.clear();
-					textLines.add(engram.getTitle());
-					textLines.add(engram.getDescription());
+					textLines.add(tooltipped.getTitle());
+					EngramRecipe er = recipes.get(shown);
+					for (Item i : er.getItems().keySet())
+						textLines.add(EnumChatFormatting.GOLD + I18n.format("gui.engramcrafting.engram.tooltip.ingredient",
+								StatCollector.translateToLocal(i.getUnlocalizedName() + ".name"), er.getItems().get(i)));
 				}
 			}
 		}
