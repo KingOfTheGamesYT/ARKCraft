@@ -47,6 +47,16 @@ public abstract class ContainerScrollable extends Container implements IContaine
 	}
 
 	@Override
+	public void scroll(int amount)
+	{
+		if (isValidOffset(scrollingOffset + amount))
+		{
+			scrollingOffset += amount;
+			refreshScrollableSlotContents();
+		}
+	}
+
+	@Override
 	public int getScrollableSlotsCount()
 	{
 		return getScrollableSlotsWidth() * getScrollableSlotsHeight();

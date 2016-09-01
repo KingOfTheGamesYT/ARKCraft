@@ -61,16 +61,22 @@ public abstract class GUIScrollable extends GUIArkContainer implements IGuiScrol
 		((IContainerScrollable) this.inventorySlots).scroll(newScroll);
 	}
 
+	private void scrollByRows(int scroll)
+	{
+		((IContainerScrollable) this.inventorySlots).scroll(scroll);
+	}
+
 	@Override
 	public void handleMouseInput() throws IOException
 	{
 		super.handleMouseInput();
 		int scrollAmount = Mouse.getEventDWheel();
+		System.out.println(scrollAmount);
 		if (scrollAmount != 0 && canScroll())
 		{
 			if (scrollAmount > 0) scrollAmount = -1;
 			else if (scrollAmount < 0) scrollAmount = 1;
-			setScroll(scrollAmount);
+			scrollByRows(scrollAmount);
 		}
 	}
 
