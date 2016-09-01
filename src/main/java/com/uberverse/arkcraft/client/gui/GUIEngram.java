@@ -173,7 +173,7 @@ public class GUIEngram extends GUIScrollable
 	@Override
 	public int getScrollBarEndY()
 	{
-		return 120 - getScrollButtonHeight();
+		return 122;
 	}
 
 	@Override

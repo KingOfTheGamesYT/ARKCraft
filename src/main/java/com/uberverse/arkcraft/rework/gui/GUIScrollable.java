@@ -8,7 +8,6 @@ import com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable;
 import com.uberverse.arkcraft.common.container.scrollable.IGuiScrollable;
 import com.uberverse.arkcraft.rework.container.ContainerScrollable;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
@@ -34,34 +33,23 @@ public abstract class GUIScrollable extends GUIArkContainer implements IGuiScrol
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 
 		// Scroll button
-		Minecraft.getMinecraft().getTextureManager().bindTexture(getScrollButtonResource());
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		if (this.canScroll())
-		{
-			drawTexturedModalRect(guiLeft + getScrollBarStartX(), guiTop + getScrollBarStartY() + getScrollPosition(), getScrollButtonU(),
-					getScrollButtonV(), getScrollButtonWidth(), getScrollButtonHeight());
-		}
-		else
-		{
-			drawTexturedModalRect(guiLeft + getScrollBarStartX(), guiTop + getScrollBarStartY(), getScrollButtonDisabledU(),
-					getScrollButtonDisabledV(), getScrollButtonWidth(), getScrollButtonHeight());
-		}
-	}
+		mc.getTextureManager().bindTexture(getScrollButtonResource());
 
-	@Override
-	public int getScrollPosition()
-	{
-		return (int) (((IContainerScrollable) this.inventorySlots).getRelativeScrollingOffset() * (getScrollBarEndY() - getScrollBarStartY()));
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		int y = guiTop + getScrollBarStartY() + (int) ((float) (getScrollBarEndY() - getScrollBarStartY() - 17) * getScrollPosition());
+
+		this.drawTexturedModalRect(guiLeft + getScrollBarStartX(), y, canScroll() ? getScrollButtonU() : getScrollButtonDisabledU(),
+				canScroll() ? getScrollButtonV() : getScrollButtonDisabledV(), getScrollButtonWidth(), getScrollButtonHeight());
 	}
 
 	private boolean scrollClicked;
 
-	private void setScroll(float newScroll)
+	private void scroll(float newScroll)
 	{
 		((IContainerScrollable) this.inventorySlots).scroll(newScroll);
 	}
 
-	private void scrollByRows(int scroll)
+	private void scroll(int scroll)
 	{
 		((IContainerScrollable) this.inventorySlots).scroll(scroll);
 	}
@@ -71,12 +59,12 @@ public abstract class GUIScrollable extends GUIArkContainer implements IGuiScrol
 	{
 		super.handleMouseInput();
 		int scrollAmount = Mouse.getEventDWheel();
-		System.out.println(scrollAmount);
 		if (scrollAmount != 0 && canScroll())
 		{
 			if (scrollAmount > 0) scrollAmount = -1;
 			else if (scrollAmount < 0) scrollAmount = 1;
-			scrollByRows(scrollAmount);
+			scroll(scrollAmount);
+			scrollPosition = ((ContainerScrollable) inventorySlots).getRelativeScrollingOffset();
 		}
 	}
 
@@ -84,15 +72,18 @@ public abstract class GUIScrollable extends GUIArkContainer implements IGuiScrol
 	{
 		if (mouseButton == 0)
 		{
-			if (isPointInRegion(getScrollBarStartX(), getScrollBarStartY() + getScrollPosition(), getScrollButtonWidth(), getScrollButtonHeight(),
-					mouseX, mouseY))
+			if (canScroll())
 			{
-				scrollClicked = true;
-			}
-			if (isPointInRegion(getScrollBarStartX(), getScrollBarStartY(), getScrollButtonWidth(),
-					getScrollBarEndY() + getScrollButtonHeight() - getScrollBarStartY(), mouseX, mouseY))
-			{
-				adjustScrollFromMouseY(mouseY);
+				if (isPointInRegion(getScrollBarStartX(), (int) (getScrollBarStartY() + getScrollPosition()), getScrollButtonWidth(),
+						getScrollButtonHeight(), mouseX, mouseY))
+				{
+					scrollClicked = true;
+				}
+				if (isPointInRegion(getScrollBarStartX(), getScrollBarStartY(), getScrollButtonWidth(),
+						getScrollBarEndY() + getScrollButtonHeight() - getScrollBarStartY(), mouseX, mouseY))
+				{
+					adjustScrollFromMouseY(mouseY);
+				}
 			}
 		}
 		super.mouseClicked(mouseX, mouseY, mouseButton);
@@ -108,12 +99,22 @@ public abstract class GUIScrollable extends GUIArkContainer implements IGuiScrol
 		else super.mouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick);
 	}
 
+	private float scrollPosition = 0;
+
+	@Override
+	public float getScrollPosition()
+	{
+		return scrollPosition;
+	}
+
 	private void adjustScrollFromMouseY(int mouseY)
 	{
-		float newScroll = (float) (mouseY - guiTop - getScrollBarStartY() + getScrollButtonHeight() / 2)
-				/ (float) (getScrollBarEndY() + getScrollButtonHeight() / 2 - getScrollBarStartY());
-		newScroll = MathHelper.clamp_float(newScroll, 0.0F, 1.0F);
-		setScroll(newScroll);
+		int top = guiTop + getScrollBarStartY();
+		int bot = guiTop + getScrollBarEndY();
+
+		this.scrollPosition = ((float) (mouseY - top) - 7.5F) / ((float) (bot - top) - 15.0F);
+		this.scrollPosition = MathHelper.clamp_float(this.scrollPosition, 0.0F, 1.0F);
+		scroll(scrollPosition);
 	}
 
 	@Override

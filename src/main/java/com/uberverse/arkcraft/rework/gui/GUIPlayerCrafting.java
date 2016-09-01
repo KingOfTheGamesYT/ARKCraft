@@ -93,7 +93,7 @@ public class GUIPlayerCrafting extends GUIEngramCrafting
 	@Override
 	public int getScrollBarEndY()
 	{
-		return 124 - getScrollButtonHeight();
+		return 126;
 	}
 
 	@Override

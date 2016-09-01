@@ -502,9 +502,9 @@ public class EngramManager
 		public void consume(Map<Item, Integer> map)
 		{
 			// changed items reference to map : correct ? TODO
-			for (Item i : map.keySet())
+			for (Item i : items.keySet())
 			{
-				map.put(i, map.getOrDefault(i, 0) - items.get(i));
+				items.put(i, map.getOrDefault(i, 0) - items.get(i));
 			}
 		}
 

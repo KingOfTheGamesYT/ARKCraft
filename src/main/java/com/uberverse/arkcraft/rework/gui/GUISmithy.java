@@ -64,7 +64,7 @@ public class GUISmithy extends GUIEngramCrafting
 	@Override
 	public int getScrollBarEndY()
 	{
-		return 106 - getScrollButtonHeight();
+		return 108;
 	}
 
 	@Override
