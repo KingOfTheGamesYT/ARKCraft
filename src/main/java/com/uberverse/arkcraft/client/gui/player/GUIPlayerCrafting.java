@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.lwjgl.input.Mouse;
 
+import com.google.common.collect.Lists;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.gui.component.GuiTexturedButton;
 import com.uberverse.arkcraft.client.gui.engram.GUIEngramCrafting;
@@ -30,7 +31,7 @@ public class GUIPlayerCrafting extends GUIEngramCrafting
 	private static final int barU = 0;
 	private static final int barV = 136;
 	private static final int barWidth = 141;
-	private static final int barHeight = 5;
+	private static final int barHeight = 6;
 
 	private GuiButton openEngrams;
 
@@ -105,6 +106,13 @@ public class GUIPlayerCrafting extends GUIEngramCrafting
 
 		String level = I18n.format("gui.playercrafting.level", ARKPlayer.get(Minecraft.getMinecraft().thePlayer).getLevel());
 		this.drawString(mc.fontRendererObj, level, 151 - mc.fontRendererObj.getStringWidth(level) / 2, 40, Color.white.getRGB());
+
+		if (isPointInRegion(barX, barY, barX + barWidth, barY + barHeight, mouseX, mouseY))
+		{
+			ARKPlayer p = ARKPlayer.get(mc.thePlayer);
+			String xp = p.getXP() + "/" + p.getRequiredXP();
+			drawHoveringText(Lists.newArrayList(new String[] { xp }), mouseX - guiLeft, mouseY - guiTop, fontRendererObj);
+		}
 	}
 
 	@Override

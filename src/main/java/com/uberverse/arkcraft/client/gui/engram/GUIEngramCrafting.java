@@ -99,7 +99,6 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 			}
 		}
 
-		
 		// Item Rendering!
 		// GlStateManager.enableDepth();
 		// GlStateManager.scale(0.5, 0.5, 0.5);
@@ -115,7 +114,7 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 	private int ticker;
 
 	@Override
-	protected void drawHoveringText(List textLines, int x, int y, FontRenderer font)
+	protected void drawHoveringText(List textLines, int x, int y, FontRenderer fontRendererObj)
 	{
 		for (Object o : inventorySlots.inventorySlots)
 		{
@@ -148,7 +147,7 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 			}
 		}
 
-		super.drawHoveringText(textLines, x, y, font);
+		super.drawHoveringText(textLines, x, y, fontRendererObj);
 	}
 
 	public abstract int getC1ButtonX();

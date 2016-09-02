@@ -39,6 +39,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.fml.relauncher.Side;
@@ -413,7 +414,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 
 	public float getRelativeXP()
 	{
-		return (float) getXP() / (float) getRequiredXP();
+		return MathHelper.clamp_float((float) getXP() / (float) getRequiredXP(), 0, 1);
 	}
 
 	public long getRequiredXP()
