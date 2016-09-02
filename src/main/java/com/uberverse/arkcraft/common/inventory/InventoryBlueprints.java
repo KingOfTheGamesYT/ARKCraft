@@ -16,6 +16,7 @@ import com.uberverse.arkcraft.common.handlers.ARKCraftingManager;
 import com.uberverse.arkcraft.common.handlers.IARKRecipe;
 import com.uberverse.arkcraft.common.network.UpdatePlayerCrafting;
 import com.uberverse.arkcraft.deprecated.ARKPlayer;
+import com.uberverse.arkcraft.deprecated.InventoryPlayerCrafting;
 import com.uberverse.lib.LogHelper;
 
 /**

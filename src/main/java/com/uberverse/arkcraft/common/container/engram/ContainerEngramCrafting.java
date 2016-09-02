@@ -10,9 +10,9 @@ import com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable;
 import com.uberverse.arkcraft.common.container.scrollable.SlotScrolling;
 import com.uberverse.arkcraft.common.engram.CraftingOrder;
 import com.uberverse.arkcraft.common.engram.EngramManager;
-import com.uberverse.arkcraft.common.engram.IEngramCrafter;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.common.engram.EngramManager.EngramType;
+import com.uberverse.arkcraft.common.engram.IEngramCrafter;
 import com.uberverse.arkcraft.wip.itemquality.Qualitable;
 import com.uberverse.arkcraft.wip.itemquality.Qualitable.ItemQuality;
 
@@ -262,7 +262,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 	@Override
 	public ItemStack slotClick(int slotId, int clickedButton, int mode, EntityPlayer playerIn)
 	{
-		if (slotId >= 0)
+		if (slotId >= 0 && playerIn.inventory.getCurrentItem() == null)
 		{
 			Slot s = getSlot(slotId);
 			if (s instanceof EngramSlot && clickedButton == 0)
@@ -277,9 +277,12 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 				if (clickedButton == 1)
 				{
 					CraftingOrder c = q.getCraftingOrder();
-					if (c.isQualitable()) crafter.cancelCraftAll(c.getEngram(), c.getItemQuality());
-					else crafter.cancelCraftAll(c.getEngram());
-					return playerIn.inventory.getCurrentItem();
+					if (c != null)
+					{
+						if (c.isQualitable()) crafter.cancelCraftAll(c.getEngram(), c.getItemQuality());
+						else crafter.cancelCraftAll(c.getEngram());
+						return playerIn.inventory.getCurrentItem();
+					}
 				}
 				else if (clickedButton == 0)
 				{
@@ -426,7 +429,13 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		@Override
 		public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack)
 		{
-			ContainerEngramCrafting.this.crafter.cancelCraftOne(getEngram());
+			CraftingOrder c = getCraftingOrder();
+			if (c != null)
+			{
+				Engram e = c.getEngram();
+				if (c.isQualitable()) ContainerEngramCrafting.this.crafter.cancelCraftOne(e, c.getItemQuality());
+				else ContainerEngramCrafting.this.crafter.cancelCraftOne(e);
+			}
 		}
 	}
 

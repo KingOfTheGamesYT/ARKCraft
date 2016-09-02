@@ -165,11 +165,6 @@ public abstract class TileEntityEngramCrafter extends TileEntity implements IInv
 	@Override
 	public void sync()
 	{
-		System.out.println("sync");
-		for (CraftingOrder c : craftingQueue)
-		{
-			System.out.println(c.getCount());
-		}
 		worldObj.markBlockForUpdate(pos);
 		markDirty();
 	}

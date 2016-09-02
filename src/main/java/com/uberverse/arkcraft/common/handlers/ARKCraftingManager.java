@@ -14,7 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
 
 import com.google.common.collect.Lists;
-import com.uberverse.arkcraft.common.inventory.InventoryPlayerCrafting;
+import com.uberverse.arkcraft.deprecated.InventoryPlayerCrafting;
 
 /**
  * @author wildbill22

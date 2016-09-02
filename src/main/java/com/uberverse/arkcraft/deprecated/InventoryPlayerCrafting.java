@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.common.inventory;
+package com.uberverse.arkcraft.deprecated;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;

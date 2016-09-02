@@ -11,7 +11,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.uberverse.arkcraft.common.inventory.InventoryBlueprints;
-import com.uberverse.arkcraft.common.inventory.InventoryPlayerCrafting;
 import com.uberverse.lib.LogHelper;
 
 public class ContainerInventoryPlayerCrafting extends Container

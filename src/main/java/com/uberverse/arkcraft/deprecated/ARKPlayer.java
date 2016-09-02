@@ -11,7 +11,6 @@ import com.uberverse.arkcraft.common.entity.IArkLeveling;
 import com.uberverse.arkcraft.common.entity.event.ArkExperienceGainEvent;
 import com.uberverse.arkcraft.common.handlers.recipes.PlayerCraftingManager;
 import com.uberverse.arkcraft.common.inventory.InventoryBlueprints;
-import com.uberverse.arkcraft.common.inventory.InventoryPlayerCrafting;
 import com.uberverse.arkcraft.common.inventory.InventoryEngram;
 import com.uberverse.arkcraft.common.network.SyncPlayerData;
 import com.uberverse.arkcraft.common.network.player.PlayerPoop;

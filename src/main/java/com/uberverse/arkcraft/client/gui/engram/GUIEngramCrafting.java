@@ -99,6 +99,8 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 			}
 		}
 
+		
+		// Item Rendering!
 		// GlStateManager.enableDepth();
 		// GlStateManager.scale(0.5, 0.5, 0.5);
 		// ItemStack itemstack = new ItemStack(ARKCraftItems.amarBerry);
