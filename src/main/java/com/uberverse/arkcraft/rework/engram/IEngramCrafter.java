@@ -1,9 +1,10 @@
 package com.uberverse.arkcraft.rework.engram;
 
-import java.util.Collections;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Queue;
 
+import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.rework.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.rework.itemquality.Qualitable;
 import com.uberverse.arkcraft.rework.itemquality.Qualitable.ItemQuality;
@@ -31,10 +32,10 @@ public interface IEngramCrafter extends NBTable
 			if ((getWorld().getTotalWorldTime() % 20) == 0)
 			{
 				Queue<CraftingOrder> craftingQueue = getCraftingQueue();
-				if (getProgress() > 0)
+				if (isCrafting())
 				{
 					decreaseProgress();
-					if (getProgress() == 0 && !craftingQueue.isEmpty())
+					if (getProgress() == 0)
 					{
 						CraftingOrder c = craftingQueue.peek();
 						c.decreaseCount(1);
@@ -48,11 +49,9 @@ public interface IEngramCrafter extends NBTable
 							craftingQueue.remove();
 						}
 						sync();
-						return;
 					}
-					syncProgress();
 				}
-				else if (!craftingQueue.isEmpty())
+				if (!isCrafting() && !craftingQueue.isEmpty())
 				{
 					CraftingOrder c = craftingQueue.peek();
 					while (c != null)
@@ -67,7 +66,6 @@ public interface IEngramCrafter extends NBTable
 					if (c != null)
 					{
 						setProgress(c.getEngram().getCraftingTime());
-						setCraftingDuration(c.getEngram().getCraftingTime());
 						c.getEngram().consume(getConsumedInventory());
 					}
 					sync();
@@ -125,7 +123,31 @@ public interface IEngramCrafter extends NBTable
 	public default void readFromNBT(NBTTagCompound compound)
 	{
 		setProgress(compound.getInteger("progress"));
-		setCraftingDuration(compound.getInteger("duration"));
+
+		Queue<CraftingOrder> craftingQueue = getCraftingQueue();
+
+		craftingQueue.clear();
+
+		NBTTagCompound queue = compound.getCompoundTag("queue");
+
+		int[] engrams = queue.getIntArray("engrams");
+		int[] counts = queue.getIntArray("counts");
+		byte[] qualities = queue.getByteArray("qualities");
+
+		if (engrams.length == counts.length && engrams.length == qualities.length)
+		{
+			for (int i = 0; i < engrams.length; i++)
+			{
+				Engram e = EngramManager.instance().getEngram((short) engrams[i]);
+				int count = counts[i];
+				if (e.isQualitable())
+				{
+					craftingQueue.add(new CraftingOrder(e, count, ItemQuality.get(qualities[i])));
+				}
+				else craftingQueue.add(new CraftingOrder(e, count));
+			}
+		}
+		else ARKCraft.logger.warn("NBT CraftingQueue was inconsistent in length and could not be loaded.");
 
 		NBTTagList inventory = compound.getTagList("inventory", NBT.TAG_COMPOUND);
 		for (int i = 0; i < inventory.tagCount(); i++)
@@ -133,27 +155,14 @@ public interface IEngramCrafter extends NBTable
 			NBTTagCompound n = inventory.getCompoundTagAt(i);
 			this.getIInventory().setInventorySlotContents(i, n.getBoolean("null") ? null : ItemStack.loadItemStackFromNBT(n));
 		}
-
-		NBTTagList queue = compound.getTagList("queue", NBT.TAG_COMPOUND);
-		for (int i = 0; i < inventory.tagCount(); i++)
-		{
-			NBTTagCompound n = queue.getCompoundTagAt(i);
-			if (n.getBoolean("load"))
-			{
-				CraftingOrder c = new CraftingOrder(EngramManager.instance().getEngram(n.getShort("id")), n.getInteger("count"));
-				if (c.isQualitable()) c.setItemQuality(ItemQuality.get(n.getByte("quality")));
-				this.getCraftingQueue().add(c);
-			}
-		}
 	}
 
 	@Override
 	public default void writeToNBT(NBTTagCompound compound)
 	{
 		compound.setInteger("progress", getProgress());
-		compound.setInteger("duration", getCraftingDuration());
 
-		NBTTagList l = new NBTTagList();
+		NBTTagList inventory = new NBTTagList();
 		for (ItemStack s : getInventory())
 		{
 			NBTTagCompound n = new NBTTagCompound();
@@ -162,97 +171,128 @@ public interface IEngramCrafter extends NBTable
 			{
 				s.writeToNBT(n);
 				n.setBoolean("null", false);
-				l.appendTag(n);
+				inventory.appendTag(n);
 				continue;
 			}
-			l.appendTag(n);
+			inventory.appendTag(n);
 		}
-		compound.setTag("inventory", l);
+		compound.setTag("inventory", inventory);
 
-		NBTTagList l2 = new NBTTagList();
-		for (CraftingOrder c : getCraftingQueue())
+		NBTTagCompound queue = new NBTTagCompound();
+
+		Queue<CraftingOrder> craftingQueue = getCraftingQueue();
+
+		int size = craftingQueue.size();
+
+		int[] engrams = new int[size], counts = new int[size];
+		byte[] qualities = new byte[size];
+
+		int i = 0;
+
+		for (CraftingOrder c : craftingQueue)
 		{
-			NBTTagCompound n = new NBTTagCompound();
-			n.setShort("id", c.getEngram().getId());
-			n.setInteger("count", c.getCount());
-			if (c.isQualitable()) n.setByte("quality", c.getItemQuality().id);
-			n.setBoolean("load", true);
-			l2.appendTag(n);
+			engrams[i] = c.getEngram().getId();
+			counts[i] = c.getCount();
+			if (c.isQualitable()) qualities[i] = c.getItemQuality().id;
+			i++;
 		}
-		compound.setTag("queue", l2);
+
+		queue.setIntArray("engrams", engrams);
+		queue.setIntArray("counts", counts);
+		queue.setByteArray("qualities", qualities);
+
+		compound.setTag("queue", queue);
 	}
 
-	default boolean startCraft(short engramId, int amount, ItemQuality quality)
+	default boolean startCraft(Engram engram, int amount, ItemQuality quality)
 	{
 		Queue<CraftingOrder> craftingQueue = getCraftingQueue();
 		if (amount > 0)
 		{
-			Engram e = EngramManager.instance().getEngram(engramId);
-			Iterator<CraftingOrder> it = craftingQueue.iterator();
-			while (it.hasNext())
+			if (canCraft(engram, quality, amount))
 			{
-				CraftingOrder c = it.next();
-				if (c.getEngram().equals(e) && (!c.isQualitable() || c.getItemQuality().equals(quality))
-						&& c.canCraft(getConsumedInventory(), c.getCount() + amount))
+				System.out.println("can");
+				Iterator<CraftingOrder> it = craftingQueue.iterator();
+				while (it.hasNext())
 				{
-					c.increaseCount(amount);
+					CraftingOrder c = it.next();
+					if (c.getEngram().equals(engram) && (!c.isQualitable() || c.getItemQuality().equals(quality))
+							&& canCraft(engram, quality, amount))
+					{
+						c.increaseCount(amount);
+						return true;
+					}
+				}
+				if (engram.canCraft(getConsumedInventory(), amount, quality))
+				{
+					craftingQueue.add(new CraftingOrder(engram, amount, quality));
 					return true;
 				}
-			}
-			if (e.canCraft(getConsumedInventory(), amount, quality))
-			{
-				craftingQueue.add(new CraftingOrder(e, amount, quality));
-				return true;
 			}
 		}
 		return false;
 	}
 
-	default boolean startCraftAll(short engramId, ItemQuality quality)
+	default boolean startCraft(Engram engram)
 	{
-		return startCraft(engramId, EngramManager.instance().getEngram(engramId).getCraftableAmount(getIInventory()) - getCraftingAmount(engramId),
-				quality);
+		ItemQuality i = engram.isQualitable() ? ItemQuality.PRIMITIVE : null;
+		return startCraft(engram, 1, i);
 	}
 
-	default boolean startCraft(short engramId)
+	default boolean startCraft(Engram engram, ItemQuality quality)
 	{
-		return startCraft(engramId, 1, ItemQuality.PRIMITIVE);
+		return startCraft(engram, 1, quality);
 	}
 
-	default boolean startCraftAll(short engramId)
+	default boolean startCraftAll(Engram engram)
 	{
-		return startCraft(engramId, EngramManager.instance().getEngram(engramId).getCraftableAmount(getIInventory()) - getCraftingAmount(engramId),
-				ItemQuality.PRIMITIVE);
+		ItemQuality i = engram.isQualitable() ? ItemQuality.PRIMITIVE : null;
+		return startCraftAll(engram, i);
 	}
 
-	default boolean startCraft(short engramId, ItemQuality quality)
+	default boolean startCraftAll(Engram engram, ItemQuality quality)
 	{
-		return startCraft(engramId, 1, quality);
+		return startCraft(engram, getCraftableAmount(engram, quality), quality);
 	}
 
 	public default void cancelCraftOne(Engram engram)
 	{
-		cancelCraftOne(engram, ItemQuality.PRIMITIVE);
+		cancelCraftOne(engram, engram.isQualitable() ? ItemQuality.PRIMITIVE : null);
 	}
 
 	public default void cancelCraftAll(Engram engram)
 	{
-		cancelCraftAll(engram, ItemQuality.PRIMITIVE);
+		cancelCraftAll(engram, engram.isQualitable() ? ItemQuality.PRIMITIVE : null);
 	}
 
 	public default void cancelCraftOne(Engram engram, ItemQuality itemQuality)
 	{
-		for (CraftingOrder c : getCraftingQueue())
+		CraftingOrder c = getCraftingQueue().peek();
+		if (c != null && c.matches(engram, itemQuality))
 		{
-			if (c.matches(engram, itemQuality))
+			if (c.getCount() > 1) c.decreaseCount(1);
+			return;
+		}
+
+		for (CraftingOrder co : getCraftingQueue())
+		{
+			if (co.matches(engram, itemQuality))
 			{
-				c.decreaseCount(1);
+				co.decreaseCount(1);
+				return;
 			}
 		}
 	}
 
 	public default void cancelCraftAll(Engram engram, ItemQuality itemQuality)
 	{
+		CraftingOrder c = getCraftingQueue().peek();
+		if (c != null && c.matches(engram, itemQuality))
+		{
+			c.decreaseCount(c.getCount() - 1);
+			return;
+		}
+
 		Iterator<CraftingOrder> it = getCraftingQueue().iterator();
 		while (it.hasNext())
 		{
@@ -263,79 +303,67 @@ public interface IEngramCrafter extends NBTable
 		}
 	}
 
+	public default boolean canCraft(Engram engram, ItemQuality itemQuality, int amount)
+	{
+		return getCraftableAmount(engram, itemQuality) >= amount;
+	}
+
 	public IInventory getConsumedInventory();
 
-	default int getCraftingAmount(short engramId)
+	default int getCraftingAmount(Engram engram, ItemQuality itemQuality)
 	{
-		Engram e = EngramManager.instance().getEngram(engramId);
 		for (CraftingOrder c : getCraftingQueue())
 		{
-			if (c.getEngram().equals(e)) return c.getCount();
+			if (c.matches(engram, itemQuality)) return c.getCount();
 		}
 		return 0;
 	}
 
+	public default int getCraftableAmount(Engram engram, ItemQuality itemQuality)
+	{
+		Map<Item, Integer> inv = EngramManager.Engram.convertIInventoryToMap(getConsumedInventory());
+		for (CraftingOrder c : getCraftingQueue())
+		{
+			int i = c.getCount();
+			while (i > 0)
+			{
+				c.getEngram().consume(inv);
+				i--;
+			}
+		}
+
+		return engram.getCraftableAmount(inv) - getCraftingAmount(engram, itemQuality);
+	}
+
 	public default boolean isCrafting()
 	{
-		return !getCraftingQueue().isEmpty();
+		return !getCraftingQueue().isEmpty() && getProgress() > 0;
 	}
 
 	public default int getField(int id)
 	{
-		Queue<CraftingOrder> craftingQueue = getCraftingQueue();
 		switch (id)
 		{
 			case 0:
 				return getProgress();
-			case 1:
-				return getCraftingDuration();
 			default:
-				int t = (id - 2) / 3;
-				CraftingOrder c = craftingQueue.toArray(new CraftingOrder[0])[t];
-				return (t % 3) == 1 ? c.getCount() : (t % 3) == 2 ? c.getItemQuality().id : c.getEngram().getId();
+				return 0;
 		}
 	}
 
 	public default void setField(int id, int value)
 	{
-		Queue<CraftingOrder> craftingQueue = getCraftingQueue();
 		switch (id)
 		{
 			case 0:
-				System.out.println("progress");
 				setProgress(value);
-				break;
-			case 1:
-				setCraftingDuration(value);
-				break;
-			default:
-				int t = (id - 2) / 3;
-				if (t < getCraftingQueue().size())
-				{
-					CraftingOrder[] q = craftingQueue.toArray(new CraftingOrder[0]);
-					CraftingOrder c = q[t];
-					if (c == null)
-					{
-						if ((t % 3) == 1) q[t] = new CraftingOrder(null, value);
-						else if ((t % 3) == 2) q[t] = new CraftingOrder(null, 0, ItemQuality.get((byte) value));
-						else q[t] = new CraftingOrder(EngramManager.instance().getEngram((short) value));
-						craftingQueue.clear();
-						Collections.addAll(craftingQueue, q);
-					}
-					else
-					{
-						if ((t % 3) == 1) c.setCount(value);
-						else if ((t % 3) == 2) c.setItemQuality(ItemQuality.get((byte) value));
-						else c.setEngram(EngramManager.instance().getEngram((short) value));
-					}
-				}
 				break;
 		}
 	}
 
 	public default int getFieldCount()
 	{
-		return 2 + getCraftingQueue().size() * 3;
+		return 1;
 	}
 
 	public void syncProgress();
@@ -350,14 +378,15 @@ public interface IEngramCrafter extends NBTable
 
 	public void setProgress(int progress);
 
-	public int getCraftingDuration();
-
-	public void setCraftingDuration(int craftingDuration);
+	public default int getCraftingDuration()
+	{
+		if (getCraftingQueue().isEmpty()) return 0;
+		else return getCraftingQueue().peek().getCraftingDuration();
+	}
 
 	public BlockPos getPosition();
 
 	public World getWorld();
 
 	public Queue<CraftingOrder> getCraftingQueue();
-
 }

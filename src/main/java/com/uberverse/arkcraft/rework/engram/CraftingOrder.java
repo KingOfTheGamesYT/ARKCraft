@@ -11,9 +11,6 @@ public class CraftingOrder
 	private int count;
 	private ItemQuality itemQuality;
 
-	public CraftingOrder()
-	{}
-
 	public CraftingOrder(Engram engram, int count, ItemQuality itemQuality)
 	{
 		this.engram = engram;
@@ -103,5 +100,11 @@ public class CraftingOrder
 	public boolean matches(Engram engram, ItemQuality itemQuality)
 	{
 		return this.engram == engram && (!isQualitable() || this.itemQuality == itemQuality);
+	}
+
+	public int getCraftingDuration()
+	{
+		// TODO change itemquality multiplier
+		return (int) (engram.getCraftingTime() * (isQualitable() ? itemQuality.durabilityMultiplier : 1));
 	}
 }

@@ -347,15 +347,14 @@ public class EngramManager
 			return false;
 		}
 
-		public int getCraftableAmount(IInventory inventory)
+		public int getCraftableAmount(Map<Item, Integer> inv)
 		{
-			Map<Item, Integer> map = convertIInventoryToMap(inventory);
 			int amount = 0;
 			for (EngramRecipe r : this.recipes)
 			{
-				while (r.canCraft(map))
+				while (r.canCraft(inv))
 				{
-					r.consume(map);
+					r.consume(inv);
 					amount++;
 				}
 			}
@@ -416,6 +415,18 @@ public class EngramManager
 				if (recipe.canCraft(map))
 				{
 					recipe.consume(inv);
+					return;
+				}
+			}
+		}
+
+		void consume(Map<Item, Integer> inv)
+		{
+			for (EngramRecipe r : recipes)
+			{
+				if (r.canCraft(inv))
+				{
+					r.consume(inv);
 					return;
 				}
 			}

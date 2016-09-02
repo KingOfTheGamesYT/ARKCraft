@@ -176,31 +176,28 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		return player.inventory;
 	}
 
-	private short selectedEngramId = -1;
+	private Engram selectedEngram = null;
 	private ItemQuality targetQuality;
 
 	public void craftOne()
 	{
-		if (selectedEngramId >= 0)
+		if (selectedEngram != null)
 		{
-			if (crafter.startCraft(selectedEngramId, targetQuality)) detectAndSendChanges();
+			if (crafter.startCraft(selectedEngram, targetQuality)) detectAndSendChanges();
 		}
 	}
 
 	public void craftAll()
 	{
-		if (selectedEngramId >= 0)
+		if (selectedEngram != null)
 		{
-			if (crafter.startCraftAll(selectedEngramId, targetQuality)) detectAndSendChanges();
+			if (crafter.startCraftAll(selectedEngram, targetQuality)) detectAndSendChanges();
 		}
 	}
-
-	public int progress;
 
 	@Override
 	public void updateProgressBar(int id, int data)
 	{
-		if (id == 0) progress = data;
 		crafter.setField(id, data);
 		super.updateProgressBar(id, data);
 	}
@@ -223,7 +220,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		{
 			cachedFields = Arrays.copyOf(cachedFields, crafter.getFieldCount());
 		}
-		for (int i = 0; i < cachedFields.length; ++i)
+		for (int i = 0; i < cachedFields.length; i++)
 		{
 			if (allFieldsHaveChanged || cachedFields[i] != crafter.getField(i))
 			{
@@ -232,8 +229,6 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 			}
 		}
 
-		// go through the list of crafters (players using this container) and
-		// update them if necessary
 		for (int i = 0; i < this.crafters.size(); ++i)
 		{
 			ICrafting icrafting = (ICrafting) this.crafters.get(i);
@@ -241,9 +236,6 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 			{
 				if (fieldHasChanged[fieldID])
 				{
-					System.out.println("send " + fieldID + " " + cachedFields[fieldID]);
-					// Note that although sendProgressBarUpdate takes 2 ints on
-					// a server these are truncated to shorts
 					icrafting.sendProgressBarUpdate(this, fieldID, cachedFields[fieldID]);
 				}
 			}
@@ -283,7 +275,6 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 				QueueSlot q = (QueueSlot) s;
 				if (clickedButton == 1)
 				{
-					System.out.println("right");
 					CraftingOrder c = q.getCraftingOrder();
 					if (c.isQualitable()) crafter.cancelCraftAll(c.getEngram(), c.getItemQuality());
 					else crafter.cancelCraftAll(c.getEngram());
@@ -382,7 +373,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		@Override
 		public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack)
 		{
-			ContainerEngramCrafting.this.selectedEngramId = getEngram().getId();
+			ContainerEngramCrafting.this.selectedEngram = getEngram();
 			ContainerEngramCrafting.this.targetQuality = ItemQuality.PRIMITIVE;
 		}
 	}
@@ -409,7 +400,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		@Override
 		public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack)
 		{
-			ContainerEngramCrafting.this.selectedEngramId = getEngram().getId();
+			ContainerEngramCrafting.this.selectedEngram = getEngram();
 			ContainerEngramCrafting.this.targetQuality = getItemQuality();
 		}
 	}
@@ -585,11 +576,13 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 
 		private CraftingOrder getCraftingOrder(int index)
 		{
+			if (index >= queue.size()) return null;
 			return queue.toArray(new CraftingOrder[0])[index];
 		}
 
 		private Engram getEngram(int index)
 		{
+			if (index >= queue.size()) return null;
 			return getCraftingOrder(index).getEngram();
 		}
 
@@ -604,6 +597,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 				{
 					Qualitable.set(s, c.getItemQuality());
 				}
+				// System.out.println(s);
 				return s;
 			}
 			return null;
