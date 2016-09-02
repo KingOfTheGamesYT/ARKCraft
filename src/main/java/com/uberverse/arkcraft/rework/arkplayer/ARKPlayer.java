@@ -372,6 +372,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 		boolean canceled = ARKCraft.bus.post(event);
 		if (!canceled)
 		{
+			System.out.println("xp!");
 			this.xp.set(event.getXp() + this.xp.get());
 			updateLevel();
 			this.sendSynchronization(false);
@@ -416,6 +417,16 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 		return xp.get();
 	}
 
+	public float getRelativeXP()
+	{
+		return (float) getXP() / (float) getRequiredXP();
+	}
+
+	public long getRequiredXP()
+	{
+		return Math.round(Math.pow((getLevel() + 1) * 5, 3) / 2);
+	}
+
 	public void updateLevel()
 	{
 		while (getLevel() < getMaxLevel() && getXP() > getRequiredXP())
@@ -423,11 +434,6 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 			increaseLevel();
 			engramPoints.set(engramPoints.get() + getReceivedEngramPoints(getLevel()));
 		}
-	}
-
-	public long getRequiredXP()
-	{
-		return Math.round(Math.pow((getLevel() + 1) * 5, 3) / 2);
 	}
 
 	// Calculate engrampoints / level
@@ -622,7 +628,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 	 *
 	 * @param <E>
 	 */
-	public static class Variable<E>
+	public class Variable<E>
 	{
 		private Object variable;
 		private boolean changed;
