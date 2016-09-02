@@ -77,7 +77,7 @@ public interface IEngramCrafter extends NBTable
 	public default double getRelativeProgress()
 	{
 		if (getCraftingDuration() == 0) return 0;
-		return (double) (getCraftingDuration() - getProgress()) / (double) getCraftingDuration();
+		return (double) (getCraftingDuration() - getProgress()) / (double) (getCraftingDuration()-1);
 	}
 
 	public default void decreaseProgress()

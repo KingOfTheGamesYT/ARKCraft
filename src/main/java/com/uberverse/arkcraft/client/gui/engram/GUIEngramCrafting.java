@@ -91,6 +91,8 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 
 						int color = new Color(red, green, blue, alpha).getRGB();
 
+						
+						
 						drawRect(x, (int) (y - (fraction * 16)), x + 16, y, color);
 						GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 					}

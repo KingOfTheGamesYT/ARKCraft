@@ -775,10 +775,10 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 		private int progress;
 		private Queue<CraftingOrder> craftingQueue;
 
-		public PlayerEngramCrafter(EntityPlayer player)
+		public PlayerEngramCrafter()
 		{
 			this.progress = 0;
-			this.player = player;
+			this.player = ARKPlayer.this.player;
 			this.craftingQueue = new FixedSizeQueue<>(5);
 		}
 
@@ -827,7 +827,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 		@Override
 		public BlockPos getPosition()
 		{
-			return player.playerLocation;
+			return new BlockPos(player.posX, player.posY, player.posZ);
 		}
 
 		@Override
