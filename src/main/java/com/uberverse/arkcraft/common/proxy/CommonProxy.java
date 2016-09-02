@@ -1,8 +1,8 @@
 package com.uberverse.arkcraft.common.proxy;
 
 import com.uberverse.arkcraft.client.book.proxy.BookCommon;
-import com.uberverse.arkcraft.rework.arkplayer.event.PlayerCommonEventHandler;
-import com.uberverse.arkcraft.rework.engram.EngramManager;
+import com.uberverse.arkcraft.common.arkplayer.event.PlayerCommonEventHandler;
+import com.uberverse.arkcraft.common.engram.EngramManager;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;

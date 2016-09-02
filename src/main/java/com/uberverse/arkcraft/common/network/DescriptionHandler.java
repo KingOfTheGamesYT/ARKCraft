@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.block.tile.TileEntityArkCraft;
+import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityArkCraft;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler.Sharable;

@@ -6,7 +6,7 @@ import java.util.Set;
 import com.google.common.collect.Multimap;
 import com.uberverse.arkcraft.common.event.CommonEventHandler;
 import com.uberverse.arkcraft.init.ARKCraftItems;
-import com.uberverse.arkcraft.rework.itemquality.Qualitable;
+import com.uberverse.arkcraft.wip.itemquality.Qualitable;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;

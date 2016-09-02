@@ -9,20 +9,20 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.block.tile.IHoverInfo;
+import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.common.config.WeightsConfig;
-import com.uberverse.arkcraft.common.container.inventory.InventoryAttachment;
 import com.uberverse.arkcraft.common.entity.data.CalcPlayerWeight;
 import com.uberverse.arkcraft.common.event.CommonEventHandler;
+import com.uberverse.arkcraft.common.inventory.InventoryAttachment;
 import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
 import com.uberverse.arkcraft.common.item.engram.Engram;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
-import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
-import com.uberverse.arkcraft.common.network.OpenPlayerCrafting;
+import com.uberverse.arkcraft.common.network.gui.OpenAttachmentInventory;
+import com.uberverse.arkcraft.common.network.gui.OpenPlayerCrafting;
+import com.uberverse.arkcraft.common.tileentity.IHoverInfo;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.init.ARKCraftItems;
-import com.uberverse.arkcraft.rework.arkplayer.ARKPlayer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;

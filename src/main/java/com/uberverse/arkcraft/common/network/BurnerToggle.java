@@ -1,6 +1,6 @@
 package com.uberverse.arkcraft.common.network;
 
-import com.uberverse.arkcraft.common.block.container.IBurner;
+import com.uberverse.arkcraft.common.container.block.IBurner;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.inventory.Container;

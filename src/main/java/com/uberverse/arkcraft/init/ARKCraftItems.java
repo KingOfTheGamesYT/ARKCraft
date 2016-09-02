@@ -12,8 +12,7 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.block.BlockCropPlot.BerryColor;
-import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew.CropPlotType;
+import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot.BerryColor;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance.PLAYER;
 import com.uberverse.arkcraft.common.entity.EntitySpear;
@@ -32,6 +31,7 @@ import com.uberverse.arkcraft.common.item.tools.ItemMetalPick;
 import com.uberverse.arkcraft.common.item.tools.ItemMetalSickle;
 import com.uberverse.arkcraft.common.item.tools.ItemStoneHatchet;
 import com.uberverse.arkcraft.common.item.tools.ItemStonePick;
+import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlotNew.CropPlotType;
 
 public class ARKCraftItems
 {

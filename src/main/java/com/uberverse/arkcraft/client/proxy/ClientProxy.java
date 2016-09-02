@@ -15,8 +15,8 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.event.ClientEventHandler;
-import com.uberverse.arkcraft.client.gui.GUIOverlayGetResources;
-import com.uberverse.arkcraft.client.gui.GUIOverlayReloading;
+import com.uberverse.arkcraft.client.gui.overlay.GUIOverlayGetResources;
+import com.uberverse.arkcraft.client.gui.overlay.GUIOverlayReloading;
 import com.uberverse.arkcraft.client.render.RenderAdvancedBullet;
 import com.uberverse.arkcraft.client.render.RenderSimpleBullet;
 import com.uberverse.arkcraft.client.render.RenderSimpleRifleAmmo;

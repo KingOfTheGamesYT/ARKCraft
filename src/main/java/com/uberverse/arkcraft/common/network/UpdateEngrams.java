@@ -3,7 +3,7 @@ package com.uberverse.arkcraft.common.network;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.uberverse.arkcraft.rework.arkplayer.ARKPlayer;
+import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;

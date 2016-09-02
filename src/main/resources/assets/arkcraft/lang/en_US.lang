@@ -48,6 +48,7 @@ item.thatch.name=Thatch
 item.wood.name=Wood
 item.metal.name=Metal
 item.hide.name=Hide
+item.pelt.name=Pelt
 item.metal_ingot.name=Metal Ingot
 
 ##armor

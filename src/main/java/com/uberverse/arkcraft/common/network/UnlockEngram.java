@@ -1,7 +1,7 @@
 package com.uberverse.arkcraft.common.network;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.rework.arkplayer.ARKPlayer;
+import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;

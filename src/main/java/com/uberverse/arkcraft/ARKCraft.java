@@ -5,7 +5,10 @@ import java.util.List;
 
 import org.apache.logging.log4j.Logger;
 
-import com.uberverse.arkcraft.client.net.ClientReloadFinishedHandler;
+import com.uberverse.arkcraft.client.network.ClientReloadFinishedHandler;
+import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
+import com.uberverse.arkcraft.common.arkplayer.network.ARKPlayerUpdate;
+import com.uberverse.arkcraft.common.arkplayer.network.ARKPlayerUpdateRequest;
 import com.uberverse.arkcraft.common.config.CoreConfig;
 import com.uberverse.arkcraft.common.config.ModuleItemConfig;
 import com.uberverse.arkcraft.common.config.WeightsConfig;
@@ -20,31 +23,25 @@ import com.uberverse.arkcraft.common.handlers.recipes.RecipeHandler;
 import com.uberverse.arkcraft.common.handlers.recipes.SmithyCraftingManager;
 import com.uberverse.arkcraft.common.item.engram.ARKCraftEngrams;
 import com.uberverse.arkcraft.common.network.BurnerToggle;
-import com.uberverse.arkcraft.common.network.CraftMessage;
 import com.uberverse.arkcraft.common.network.DescriptionHandler;
 import com.uberverse.arkcraft.common.network.MessageHover;
 import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
-import com.uberverse.arkcraft.common.network.OpenAttachmentInventory;
-import com.uberverse.arkcraft.common.network.OpenPlayerCrafting;
-import com.uberverse.arkcraft.common.network.PlayerPoop;
 import com.uberverse.arkcraft.common.network.ReloadFinished;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
-import com.uberverse.arkcraft.common.network.ScrollingMessage;
 import com.uberverse.arkcraft.common.network.SyncPlayerData;
 import com.uberverse.arkcraft.common.network.UnlockEngram;
 import com.uberverse.arkcraft.common.network.UpdateEngrams;
 import com.uberverse.arkcraft.common.network.UpdateMPToCraftItem;
 import com.uberverse.arkcraft.common.network.UpdatePlayerCrafting;
 import com.uberverse.arkcraft.common.network.UpdateSmithyToCraftItem;
+import com.uberverse.arkcraft.common.network.gui.OpenAttachmentInventory;
+import com.uberverse.arkcraft.common.network.gui.OpenPlayerCrafting;
+import com.uberverse.arkcraft.common.network.player.PlayerPoop;
 import com.uberverse.arkcraft.common.proxy.CommonProxy;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
-import com.uberverse.arkcraft.rework.arkplayer.ARKPlayer;
-import com.uberverse.arkcraft.rework.arkplayer.network.ARKPlayerUpdate;
-import com.uberverse.arkcraft.rework.arkplayer.network.ARKPlayerUpdateRequest;
-import com.uberverse.arkcraft.rework.network.OpenEngrams;
-import com.uberverse.arkcraft.server.net.ServerReloadFinishedHandler;
+import com.uberverse.arkcraft.server.network.ServerReloadFinishedHandler;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
@@ -272,17 +269,14 @@ public class ARKCraft
 		modChannel.registerMessage(ReloadStarted.Handler.class, ReloadStarted.class, id++, Side.SERVER);
 		if (event.getSide().isClient()) modChannel.registerMessage(ClientReloadFinishedHandler.class, ReloadFinished.class, id++, Side.CLIENT);
 		else modChannel.registerMessage(ServerReloadFinishedHandler.class, ReloadFinished.class, id++, Side.CLIENT);
-		modChannel.registerMessage(ScrollingMessage.Handler.class, ScrollingMessage.class, id++, Side.SERVER);
 		modChannel.registerMessage(MessageHover.class, MessageHover.class, id++, Side.CLIENT);
 		modChannel.registerMessage(MessageHoverReq.class, MessageHoverReq.class, id++, Side.SERVER);
 		modChannel.registerMessage(BurnerToggle.Handler.class, BurnerToggle.class, id++, Side.SERVER);
 		modChannel.registerMessage(SyncPlayerData.Handler.class, SyncPlayerData.class, id++, Side.CLIENT);
-		modChannel.registerMessage(CraftMessage.Handler.class, CraftMessage.class, id++, Side.SERVER);
 		modChannel.registerMessage(UnlockEngram.Handler.class, UnlockEngram.class, id++, Side.SERVER);
 		modChannel.registerMessage(UpdateEngrams.Handler.class, UpdateEngrams.class, id++, Side.CLIENT);
 		modChannel.registerMessage(ARKPlayerUpdateRequest.Handler.class, ARKPlayerUpdateRequest.class, id++, Side.SERVER);
 		modChannel.registerMessage(ARKPlayerUpdate.Handler.class, ARKPlayerUpdate.class, id++, Side.CLIENT);
-		modChannel.registerMessage(OpenEngrams.Handler.class, OpenEngrams.class, id++, Side.SERVER);
 		DescriptionHandler.init();
 	}
 

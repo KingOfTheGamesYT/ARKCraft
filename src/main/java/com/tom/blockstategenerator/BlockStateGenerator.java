@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
-import com.uberverse.arkcraft.common.block.BlockCropPlot.BerryColor;
-import com.uberverse.arkcraft.common.block.tile.TileEntityCropPlotNew.CropPlotType;
+import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot.BerryColor;
+import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlotNew.CropPlotType;
 
 public class BlockStateGenerator
 {

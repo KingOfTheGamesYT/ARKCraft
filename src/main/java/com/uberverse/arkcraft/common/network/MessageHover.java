@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.block.tile.IHoverInfo;
+import com.uberverse.arkcraft.common.tileentity.IHoverInfo;
 
 import io.netty.buffer.ByteBuf;
 

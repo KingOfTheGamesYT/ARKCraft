@@ -1,5 +1,7 @@
 package com.uberverse.arkcraft.common.network;
 
+import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryMP;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.BlockPos;
@@ -7,8 +9,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
-
-import com.uberverse.arkcraft.common.block.tile.TileInventoryMP;
 
 /**
  * Used so server side tileEntity for Mortar and Pestle can craft items

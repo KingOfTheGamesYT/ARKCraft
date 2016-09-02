@@ -3,8 +3,8 @@
  */
 package com.uberverse.arkcraft.common.inventory;
 
+import com.uberverse.arkcraft.common.engram.EngramManager;
 import com.uberverse.arkcraft.common.item.engram.Engram;
-import com.uberverse.arkcraft.rework.engram.EngramManager;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;

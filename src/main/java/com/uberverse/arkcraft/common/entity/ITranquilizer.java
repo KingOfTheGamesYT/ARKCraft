@@ -1,6 +1,6 @@
 package com.uberverse.arkcraft.common.entity;
 
-import com.uberverse.arkcraft.rework.arkplayer.ARKPlayer;
+import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
