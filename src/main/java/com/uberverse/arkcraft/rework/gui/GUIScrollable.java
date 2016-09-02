@@ -36,7 +36,7 @@ public abstract class GUIScrollable extends GUIArkContainer implements IGuiScrol
 		mc.getTextureManager().bindTexture(getScrollButtonResource());
 
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		int y = guiTop + getScrollBarStartY() + (int) ((float) (getScrollBarEndY() - getScrollBarStartY() - 17) * getScrollPosition());
+		int y = guiTop + getScrollBarStartY() + getActualScrollPosition();
 
 		this.drawTexturedModalRect(guiLeft + getScrollBarStartX(), y, canScroll() ? getScrollButtonU() : getScrollButtonDisabledU(),
 				canScroll() ? getScrollButtonV() : getScrollButtonDisabledV(), getScrollButtonWidth(), getScrollButtonHeight());
@@ -74,7 +74,7 @@ public abstract class GUIScrollable extends GUIArkContainer implements IGuiScrol
 		{
 			if (canScroll() && mc.thePlayer.inventory.getCurrentItem() == null)
 			{
-				if (isPointInRegion(getScrollBarStartX(), (int) (getScrollBarStartY() + getScrollPosition()), getScrollButtonWidth(),
+				if (isPointInRegion(getScrollBarStartX(), (int) (getScrollBarStartY() + getActualScrollPosition()), getScrollButtonWidth(),
 						getScrollButtonHeight(), mouseX, mouseY))
 				{
 					scrollClicked = true;
@@ -105,6 +105,11 @@ public abstract class GUIScrollable extends GUIArkContainer implements IGuiScrol
 	public float getScrollPosition()
 	{
 		return scrollPosition;
+	}
+
+	public int getActualScrollPosition()
+	{
+		return (int) ((float) (getScrollBarEndY() - getScrollBarStartY() - 17) * getScrollPosition());
 	}
 
 	private void adjustScrollFromMouseY(int mouseY)
