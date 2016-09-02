@@ -30,7 +30,6 @@ import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
 import com.uberverse.arkcraft.common.network.ReloadFinished;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.common.network.SyncPlayerData;
-import com.uberverse.arkcraft.common.network.UnlockEngram;
 import com.uberverse.arkcraft.common.network.UpdateEngrams;
 import com.uberverse.arkcraft.common.network.UpdateMPToCraftItem;
 import com.uberverse.arkcraft.common.network.UpdatePlayerCrafting;
@@ -274,7 +273,6 @@ public class ARKCraft
 		modChannel.registerMessage(MessageHoverReq.class, MessageHoverReq.class, id++, Side.SERVER);
 		modChannel.registerMessage(BurnerToggle.Handler.class, BurnerToggle.class, id++, Side.SERVER);
 		modChannel.registerMessage(SyncPlayerData.Handler.class, SyncPlayerData.class, id++, Side.CLIENT);
-		modChannel.registerMessage(UnlockEngram.Handler.class, UnlockEngram.class, id++, Side.SERVER);
 		modChannel.registerMessage(UpdateEngrams.Handler.class, UpdateEngrams.class, id++, Side.CLIENT);
 		modChannel.registerMessage(ARKPlayerUpdateRequest.Handler.class, ARKPlayerUpdateRequest.class, id++, Side.SERVER);
 		modChannel.registerMessage(ARKPlayerUpdate.Handler.class, ARKPlayerUpdate.class, id++, Side.CLIENT);

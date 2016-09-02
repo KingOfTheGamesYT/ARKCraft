@@ -7,8 +7,10 @@ import com.uberverse.arkcraft.common.container.scrollable.SlotScrolling;
 import com.uberverse.arkcraft.common.engram.EngramManager;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.common.inventory.InventoryEngram;
+import com.uberverse.arkcraft.common.network.UpdateEngrams;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
@@ -21,11 +23,13 @@ public class ContainerEngram extends ContainerScrollable
 	private short selection = -1;
 	private Engram selected = null;
 	private InventoryEngram inventory;
+	private EntityPlayer player;
 
 	public ContainerEngram(InventoryEngram inventory, EntityPlayer player)
 	{
 		super();
 		this.inventory = inventory;
+		this.player = player;
 		initScrollableSlots();
 	}
 
@@ -50,7 +54,9 @@ public class ContainerEngram extends ContainerScrollable
 		}
 		else if (id == 1)
 		{
-			ARKPlayer.get(playerIn).learnEngram(selection);
+			ARKPlayer p = ARKPlayer.get(playerIn);
+			p.learnEngram(selection);
+			ARKCraft.modChannel.sendTo(new UpdateEngrams(p.getUnlockedEngrams(), p.getEngramPoints()), (EntityPlayerMP) playerIn);
 			return true;
 		}
 		return super.enchantItem(playerIn, id);

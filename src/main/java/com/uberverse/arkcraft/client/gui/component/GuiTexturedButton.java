@@ -5,6 +5,11 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
+/**
+ * 
+ * @author Lewis_McReu
+ *
+ */
 public class GuiTexturedButton extends GuiButton
 {
 	private ResourceLocation resource;

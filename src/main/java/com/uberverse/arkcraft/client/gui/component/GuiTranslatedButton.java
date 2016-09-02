@@ -5,6 +5,9 @@ import com.uberverse.arkcraft.util.I18n;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.client.config.GuiButtonExt;
 
+/**
+ * @author Lewis_McReu
+ */
 public class GuiTranslatedButton extends GuiButtonExt
 {
 	// TODO maybe change current buttons to translated ones (display issues with overlap)

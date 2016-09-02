@@ -993,4 +993,12 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 	{
 		return unlockedEngrams.contains(id);
 	}
+
+	/**
+	 * @param data
+	 */
+	public void setEngramPoints(int data)
+	{
+		engramPoints.variable = data;
+	}
 }

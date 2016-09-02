@@ -26,6 +26,7 @@ import net.minecraft.util.ResourceLocation;
 
 /**
  * @author ERBF
+ * @author Lewis_McReu
  */
 
 public class GUIEngram extends GUIScrollable

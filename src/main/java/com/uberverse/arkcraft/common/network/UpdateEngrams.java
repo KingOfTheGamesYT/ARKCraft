@@ -10,7 +10,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-
+/**
+ * 
+ * @author Lewis_McReu
+ *
+ */
 public class UpdateEngrams implements IMessage
 {
 	private Collection<Short> engrams;

@@ -15,6 +15,7 @@ import net.minecraft.util.IChatComponent;
 
 /**
  * @author ERBF | Aug 10, 2016
+ * @author Lewis_McReu
  */
 
 public class InventoryEngram implements IInventory
