@@ -10,13 +10,15 @@ import com.uberverse.arkcraft.client.gui.component.GuiTexturedButton;
 import com.uberverse.arkcraft.client.gui.scrollable.GUIScrollable;
 import com.uberverse.arkcraft.common.container.engram.ContainerEngramCrafting;
 import com.uberverse.arkcraft.common.container.engram.ContainerEngramCrafting.EngramSlot;
-import com.uberverse.arkcraft.common.engram.IEngramCrafter;
+import com.uberverse.arkcraft.common.container.engram.ContainerEngramCrafting.QueueSlot;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.common.engram.EngramManager.EngramRecipe;
+import com.uberverse.arkcraft.common.engram.IEngramCrafter;
 import com.uberverse.arkcraft.util.I18n;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.Item;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
@@ -69,9 +71,9 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 		ContainerEngramCrafting c = (ContainerEngramCrafting) inventorySlots;
 		for (Object o : inventorySlots.inventorySlots)
 		{
-			if (o instanceof EngramSlot)
+			if (o instanceof QueueSlot)
 			{
-				EngramSlot e = (EngramSlot) o;
+				QueueSlot e = (QueueSlot) o;
 				IEngramCrafter ec = c.getCrafter();
 				if (ec.isCrafting())
 				{
@@ -90,8 +92,10 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 						int color = new Color(red, green, blue, alpha).getRGB();
 
 						drawRect(x, (int) (y - (fraction * 16)), x + 16, y, color);
+						GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 					}
 				}
+				break;
 			}
 		}
 

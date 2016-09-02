@@ -52,7 +52,6 @@ public class GUIPlayerCrafting extends GUIEngramCrafting
 	{
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		mc.getTextureManager().bindTexture(xpBar);
-		System.out.println(ARKPlayer.get(mc.thePlayer).getRelativeXP());
 		drawTexturedModalRect(guiLeft + barX, guiTop + barY, barU, barV, (int) (barWidth * ARKPlayer.get(mc.thePlayer).getRelativeXP()), barHeight);
 	}
 

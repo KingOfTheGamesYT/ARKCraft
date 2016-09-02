@@ -418,7 +418,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 			return ContainerEngramCrafting.this.queueInventory.getCraftingOrder(getSlotIndex());
 		}
 
-		private Engram getEngram()
+		public Engram getEngram()
 		{
 			return ContainerEngramCrafting.this.queueInventory.getEngram(getSlotIndex());
 		}

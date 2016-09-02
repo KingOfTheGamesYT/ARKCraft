@@ -211,7 +211,6 @@ public interface IEngramCrafter extends NBTable
 		{
 			if (canCraft(engram, quality, amount))
 			{
-				System.out.println("can");
 				Iterator<CraftingOrder> it = craftingQueue.iterator();
 				while (it.hasNext())
 				{

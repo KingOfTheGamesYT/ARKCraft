@@ -9,6 +9,7 @@ import com.uberverse.arkcraft.client.network.ClientReloadFinishedHandler;
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.common.arkplayer.network.ARKPlayerUpdate;
 import com.uberverse.arkcraft.common.arkplayer.network.ARKPlayerUpdateRequest;
+import com.uberverse.arkcraft.common.arkplayer.network.PlayerEngramCrafterUpdate;
 import com.uberverse.arkcraft.common.config.CoreConfig;
 import com.uberverse.arkcraft.common.config.ModuleItemConfig;
 import com.uberverse.arkcraft.common.config.WeightsConfig;
@@ -277,6 +278,7 @@ public class ARKCraft
 		modChannel.registerMessage(UpdateEngrams.Handler.class, UpdateEngrams.class, id++, Side.CLIENT);
 		modChannel.registerMessage(ARKPlayerUpdateRequest.Handler.class, ARKPlayerUpdateRequest.class, id++, Side.SERVER);
 		modChannel.registerMessage(ARKPlayerUpdate.Handler.class, ARKPlayerUpdate.class, id++, Side.CLIENT);
+		modChannel.registerMessage(PlayerEngramCrafterUpdate.Handler.class, PlayerEngramCrafterUpdate.class, id++, Side.CLIENT);
 		DescriptionHandler.init();
 	}
 

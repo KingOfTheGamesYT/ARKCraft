@@ -16,8 +16,8 @@ import com.uberverse.arkcraft.common.config.WeightsConfig;
 import com.uberverse.arkcraft.common.container.player.ContainerPlayerCrafting;
 import com.uberverse.arkcraft.common.engram.CraftingOrder;
 import com.uberverse.arkcraft.common.engram.EngramManager;
-import com.uberverse.arkcraft.common.engram.IEngramCrafter;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
+import com.uberverse.arkcraft.common.engram.IEngramCrafter;
 import com.uberverse.arkcraft.common.entity.IArkLeveling;
 import com.uberverse.arkcraft.common.entity.ITranquilizable;
 import com.uberverse.arkcraft.common.entity.data.CalcPlayerWeight;
@@ -92,13 +92,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 	{
 		if (!player.worldObj.isRemote)
 		{
-			if (player.worldObj.getWorldTime() % 20 == 0)
-				// Update crafting
-				if (engramCrafter.isCrafting())
-				{
-				engramCrafter.update();
-				}
-
+			engramCrafter.update();
 			sendSynchronization(false);
 		}
 		else

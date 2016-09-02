@@ -16,6 +16,9 @@ public class PlayerEngramCrafterUpdate implements IMessage
 	private IEngramCrafter crafter;
 	private NBTTagCompound nbt;
 
+	public PlayerEngramCrafterUpdate()
+	{}
+
 	public PlayerEngramCrafterUpdate(IEngramCrafter crafter)
 	{
 		this.crafter = crafter;
@@ -42,8 +45,7 @@ public class PlayerEngramCrafterUpdate implements IMessage
 		{
 			if (ctx.side.isClient())
 			{
-				ARKPlayer.get(Minecraft.getMinecraft().thePlayer).getEngramCrafter()
-						.readFromNBT(message.nbt);
+				ARKPlayer.get(Minecraft.getMinecraft().thePlayer).getEngramCrafter().readFromNBT(message.nbt);
 			}
 			return null;
 		}
