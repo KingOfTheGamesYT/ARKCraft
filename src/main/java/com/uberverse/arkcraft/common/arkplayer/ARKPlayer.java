@@ -86,7 +86,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 	{
 		this();
 		this.player = player;
-		engramCrafter = new PlayerEngramCrafter(this.player);
+		engramCrafter = new PlayerEngramCrafter();
 	}
 
 	public void update()
