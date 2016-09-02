@@ -1,10 +1,13 @@
 package com.uberverse.arkcraft.rework.container;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Queue;
 
 import com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable;
 import com.uberverse.arkcraft.common.container.scrollable.SlotScrolling;
+import com.uberverse.arkcraft.rework.engram.CraftingOrder;
 import com.uberverse.arkcraft.rework.engram.EngramManager;
 import com.uberverse.arkcraft.rework.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.rework.engram.EngramManager.EngramType;
@@ -26,6 +29,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 
 	private EntityPlayer player;
 	private EngramInventory engramInventory;
+	private QueueInventory queueInventory;
 	private IEngramCrafter crafter;
 
 	protected int playerInvBoundLeft, playerInvBoundRight, invBoundLeft, invBoundRight, scrollInvBoundLeft, scrollInvBoundRight;
@@ -38,11 +42,16 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		this.player = player;
 		this.crafter = crafter;
 		this.engramInventory = new EngramInventory(EngramManager.instance().getUnlockedEngramsOfType(player, type));
+		this.queueInventory = new QueueInventory(crafter.getCraftingQueue());
 		initPlayerSlots();
 		initInventorySlots();
 		initQueue();
 		initScrollableSlots();
-		if (player instanceof EntityPlayerMP) detectAndSendChanges();
+		if (player instanceof EntityPlayerMP)
+		{
+			((EntityPlayerMP) player).func_175173_a(this, engramInventory);
+			((EntityPlayerMP) player).func_175173_a(this, queueInventory);
+		}
 	}
 
 	protected final void initInventorySlots()
@@ -63,7 +72,16 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 
 	private final void initQueue()
 	{
-
+		for (int row = 0; row < getQueueSlotsHeight(); row++)
+		{
+			for (int col = 0; col < getQueueSlotsWidth(); col++)
+			{
+				int index = col + row * getQueueSlotsWidth();
+				this.addSlotToContainer(
+						new QueueSlot(getQueueInventory(), index, getQueueSlotsX() + col * getSlotSize(), getQueueSlotsY() + row * getSlotSize()));
+				counter++;
+			}
+		}
 	}
 
 	private final void initPlayerSlots()
@@ -118,9 +136,22 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 
 	public abstract int getInventorySlotsHeight();
 
+	public abstract int getQueueSlotsWidth();
+
+	public abstract int getQueueSlotsHeight();
+
+	public abstract int getQueueSlotsX();
+
+	public abstract int getQueueSlotsY();
+
 	public IInventory getIInventory()
 	{
 		return crafter.getIInventory();
+	}
+
+	public IInventory getQueueInventory()
+	{
+		return queueInventory;
 	}
 
 	public IEngramCrafter getCrafter()
@@ -175,7 +206,6 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 	}
 
 	private int[] cachedFields;
-	private int fieldCount = -1;
 
 	@Override
 	public void detectAndSendChanges()
@@ -189,10 +219,9 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 			cachedFields = new int[crafter.getFieldCount()];
 			allFieldsHaveChanged = true;
 		}
-		if (fieldCount != crafter.getFieldCount())
+		else if (cachedFields.length != crafter.getFieldCount())
 		{
-			fieldCount = crafter.getFieldCount();
-			allFieldsHaveChanged = true;
+			cachedFields = Arrays.copyOf(cachedFields, crafter.getFieldCount());
 		}
 		for (int i = 0; i < cachedFields.length; ++i)
 		{
@@ -212,6 +241,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 			{
 				if (fieldHasChanged[fieldID])
 				{
+					System.out.println("send " + fieldID + " " + cachedFields[fieldID]);
 					// Note that although sendProgressBarUpdate takes 2 ints on
 					// a server these are truncated to shorts
 					icrafting.sendProgressBarUpdate(this, fieldID, cachedFields[fieldID]);
@@ -242,10 +272,28 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		if (slotId >= 0)
 		{
 			Slot s = getSlot(slotId);
-			if (s instanceof EngramSlot)
+			if (s instanceof EngramSlot && clickedButton == 0)
 			{
-				s.onPickupFromSlot(playerIn, player.inventory.getCurrentItem());
-				return player.inventory.getCurrentItem();
+				s.onPickupFromSlot(playerIn, playerIn.inventory.getCurrentItem());
+				if (mode == 6) craftOne();
+				return playerIn.inventory.getCurrentItem();
+			}
+			else if (s instanceof QueueSlot)
+			{
+				QueueSlot q = (QueueSlot) s;
+				if (clickedButton == 1)
+				{
+					System.out.println("right");
+					CraftingOrder c = q.getCraftingOrder();
+					if (c.isQualitable()) crafter.cancelCraftAll(c.getEngram(), c.getItemQuality());
+					else crafter.cancelCraftAll(c.getEngram());
+					return playerIn.inventory.getCurrentItem();
+				}
+				else if (clickedButton == 0)
+				{
+					s.onPickupFromSlot(playerIn, playerIn.inventory.getCurrentItem());
+					return playerIn.inventory.getCurrentItem();
+				}
 			}
 		}
 		return super.slotClick(slotId, clickedButton, mode, playerIn);
@@ -366,7 +414,31 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		}
 	}
 
-	public static class EngramInventory implements IInventory
+	public class QueueSlot extends Slot
+	{
+		public QueueSlot(IInventory inventoryIn, int index, int xPosition, int yPosition)
+		{
+			super(inventoryIn, index, xPosition, yPosition);
+		}
+
+		private CraftingOrder getCraftingOrder()
+		{
+			return ContainerEngramCrafting.this.queueInventory.getCraftingOrder(getSlotIndex());
+		}
+
+		private Engram getEngram()
+		{
+			return ContainerEngramCrafting.this.queueInventory.getEngram(getSlotIndex());
+		}
+
+		@Override
+		public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack)
+		{
+			ContainerEngramCrafting.this.crafter.cancelCraftOne(getEngram());
+		}
+	}
+
+	public class EngramInventory implements IInventory
 	{
 		private List<Engram> engrams;
 
@@ -431,6 +503,132 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		public int getInventoryStackLimit()
 		{
 			return Integer.MAX_VALUE;
+		}
+
+		@Override
+		public void markDirty()
+		{}
+
+		@Override
+		public boolean isUseableByPlayer(EntityPlayer player)
+		{
+			return false;
+		}
+
+		@Override
+		public void openInventory(EntityPlayer player)
+		{}
+
+		@Override
+		public void closeInventory(EntityPlayer player)
+		{}
+
+		@Override
+		public boolean isItemValidForSlot(int index, ItemStack stack)
+		{
+			return false;
+		}
+
+		@Override
+		public int getField(int id)
+		{
+			return 0;
+		}
+
+		@Override
+		public void setField(int id, int value)
+		{}
+
+		@Override
+		public int getFieldCount()
+		{
+			return 0;
+		}
+
+		@Override
+		public void clear()
+		{}
+	}
+
+	public class QueueInventory implements IInventory
+	{
+		private Queue<CraftingOrder> queue;
+
+		public QueueInventory(Queue<CraftingOrder> queue)
+		{
+			this.queue = queue;
+		}
+
+		@Override
+		public String getName()
+		{
+			return null;
+		}
+
+		@Override
+		public boolean hasCustomName()
+		{
+			return false;
+		}
+
+		@Override
+		public IChatComponent getDisplayName()
+		{
+			return null;
+		}
+
+		@Override
+		public int getSizeInventory()
+		{
+			return queue.size();
+		}
+
+		private CraftingOrder getCraftingOrder(int index)
+		{
+			return queue.toArray(new CraftingOrder[0])[index];
+		}
+
+		private Engram getEngram(int index)
+		{
+			return getCraftingOrder(index).getEngram();
+		}
+
+		@Override
+		public ItemStack getStackInSlot(int index)
+		{
+			if (index < getSizeInventory())
+			{
+				CraftingOrder c = getCraftingOrder(index);
+				ItemStack s = new ItemStack(c.getEngram().getItem(), c.getCount() * c.getEngram().getAmount());
+				if (c.isQualitable())
+				{
+					Qualitable.set(s, c.getItemQuality());
+				}
+				return s;
+			}
+			return null;
+		}
+
+		@Override
+		public ItemStack decrStackSize(int index, int count)
+		{
+			return null;
+		}
+
+		@Override
+		public ItemStack getStackInSlotOnClosing(int index)
+		{
+			return null;
+		}
+
+		@Override
+		public void setInventorySlotContents(int index, ItemStack stack)
+		{}
+
+		@Override
+		public int getInventoryStackLimit()
+		{
+			return 0;
 		}
 
 		@Override

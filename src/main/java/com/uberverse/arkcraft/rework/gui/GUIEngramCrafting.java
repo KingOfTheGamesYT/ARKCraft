@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.I18n;
+import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.rework.container.ContainerEngramCrafting;
 import com.uberverse.arkcraft.rework.container.ContainerEngramCrafting.EngramSlot;
 import com.uberverse.arkcraft.rework.engram.EngramManager.Engram;
@@ -15,7 +16,9 @@ import com.uberverse.arkcraft.rework.engram.IEngramCrafter;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
@@ -90,6 +93,13 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 				}
 			}
 		}
+
+//		GlStateManager.enableDepth();
+//		GlStateManager.scale(0.5, 0.5, 0.5);
+//		ItemStack itemstack = new ItemStack(ARKCraftItems.amarBerry);
+//		this.itemRender.renderItemAndEffectIntoGUI(itemstack, 100,100);
+//		this.itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, itemstack, 100, 100, "64");
+//		GlStateManager.scale(2, 2, 2);
 	}
 
 	private Engram tooltipped;

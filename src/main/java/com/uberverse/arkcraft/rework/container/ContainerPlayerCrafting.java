@@ -4,8 +4,6 @@ import com.uberverse.arkcraft.rework.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.rework.engram.EngramManager.EngramType;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
 
 public class ContainerPlayerCrafting extends ContainerEngramCrafting
 {
@@ -41,7 +39,7 @@ public class ContainerPlayerCrafting extends ContainerEngramCrafting
 	@Override
 	public int getPlayerInventorySlotsX()
 	{
-		return 8;
+		return 24;
 	}
 
 	@Override
@@ -53,13 +51,13 @@ public class ContainerPlayerCrafting extends ContainerEngramCrafting
 	@Override
 	public int getPlayerHotbarSlotsX()
 	{
-		return 8;
+		return getPlayerInventorySlotsX();
 	}
 
 	@Override
 	public int getPlayerHotbarSlotsY()
 	{
-		return 232;
+		return getPlayerInventorySlotsY()+58;
 	}
 
 	@Override
@@ -84,5 +82,29 @@ public class ContainerPlayerCrafting extends ContainerEngramCrafting
 	public int getInventorySlotsHeight()
 	{
 		return 0;
+	}
+
+	@Override
+	public int getQueueSlotsWidth()
+	{
+		return 5;
+	}
+
+	@Override
+	public int getQueueSlotsHeight()
+	{
+		return 1;
+	}
+
+	@Override
+	public int getQueueSlotsX()
+	{
+		return 106;
+	}
+
+	@Override
+	public int getQueueSlotsY()
+	{
+		return 133;
 	}
 }

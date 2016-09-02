@@ -17,7 +17,8 @@ public class PlayerCommonEventHandler
 	public void onPlayerTickEvent(TickEvent.PlayerTickEvent event)
 	{
 		// Update ARKPlayer
-		if (event.phase.equals(Phase.END)) ARKPlayer.get(event.player).update();
+		
+		if (event.phase.equals(Phase.END)) {ARKPlayer.get(event.player).update();}
 	}
 
 	@SubscribeEvent

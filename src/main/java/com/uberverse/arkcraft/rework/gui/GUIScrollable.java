@@ -72,7 +72,7 @@ public abstract class GUIScrollable extends GUIArkContainer implements IGuiScrol
 	{
 		if (mouseButton == 0)
 		{
-			if (canScroll())
+			if (canScroll() && mc.thePlayer.inventory.getCurrentItem() == null)
 			{
 				if (isPointInRegion(getScrollBarStartX(), (int) (getScrollBarStartY() + getScrollPosition()), getScrollButtonWidth(),
 						getScrollButtonHeight(), mouseX, mouseY))

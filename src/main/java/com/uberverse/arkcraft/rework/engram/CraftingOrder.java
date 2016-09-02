@@ -99,4 +99,9 @@ public class CraftingOrder
 	{
 		return engram.canCraft(inventory, 1);
 	}
+
+	public boolean matches(Engram engram, ItemQuality itemQuality)
+	{
+		return this.engram == engram && (!isQualitable() || this.itemQuality == itemQuality);
+	}
 }

@@ -4,8 +4,6 @@ import com.uberverse.arkcraft.rework.engram.EngramManager.EngramType;
 import com.uberverse.arkcraft.rework.tileentity.TileEntitySmithy;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
 
 public class ContainerSmithy extends ContainerEngramCrafting
 {
@@ -29,7 +27,7 @@ public class ContainerSmithy extends ContainerEngramCrafting
 	@Override
 	public int getScrollableSlotsX()
 	{
-		return 98;
+		return 124;
 	}
 
 	@Override
@@ -41,7 +39,7 @@ public class ContainerSmithy extends ContainerEngramCrafting
 	@Override
 	public int getPlayerInventorySlotsX()
 	{
-		return 8;
+		return 20;
 	}
 
 	@Override
@@ -53,7 +51,7 @@ public class ContainerSmithy extends ContainerEngramCrafting
 	@Override
 	public int getPlayerHotbarSlotsX()
 	{
-		return 8;
+		return getPlayerInventorySlotsX();
 	}
 
 	@Override
@@ -84,5 +82,29 @@ public class ContainerSmithy extends ContainerEngramCrafting
 	public int getInventorySlotsHeight()
 	{
 		return 6;
+	}
+
+	@Override
+	public int getQueueSlotsWidth()
+	{
+		return 1;
+	}
+
+	@Override
+	public int getQueueSlotsHeight()
+	{
+		return 5;
+	}
+
+	@Override
+	public int getQueueSlotsX()
+	{
+		return 93;
+	}
+
+	@Override
+	public int getQueueSlotsY()
+	{
+		return 18;
 	}
 }

@@ -249,7 +249,7 @@ public class EngramManager
 			this.amount = amount;
 			this.points = points;
 			this.level = level;
-			this.craftingTime = craftingTime * 20;
+			this.craftingTime = craftingTime;
 			this.type = type;
 			for (EngramRecipe r : recipes)
 				addRecipe(r);
@@ -351,15 +351,12 @@ public class EngramManager
 		{
 			Map<Item, Integer> map = convertIInventoryToMap(inventory);
 			int amount = 0;
-			while (amount > 0)
+			for (EngramRecipe r : this.recipes)
 			{
-				for (EngramRecipe r : this.recipes)
+				while (r.canCraft(map))
 				{
-					if (r.canCraft(map))
-					{
-						r.consume(map);
-						amount++;
-					}
+					r.consume(map);
+					amount++;
 				}
 			}
 			return amount;
@@ -408,7 +405,6 @@ public class EngramManager
 					out.put(s.getItem(), out.get(s.getItem()) + s.stackSize);
 				}
 			}
-
 			return out;
 		}
 
@@ -453,7 +449,7 @@ public class EngramManager
 				}
 			}
 		}
-		
+
 		public Map<Item, Integer> getItems()
 		{
 			return items;
@@ -504,7 +500,7 @@ public class EngramManager
 			// changed items reference to map : correct ? TODO
 			for (Item i : items.keySet())
 			{
-				items.put(i, map.getOrDefault(i, 0) - items.get(i));
+				map.put(i, map.get(i) - items.get(i));
 			}
 		}
 

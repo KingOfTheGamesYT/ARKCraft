@@ -19,13 +19,16 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.NBT;
 
+/**
+ * @author Lewis_McReu
+ */
 public interface IEngramCrafter extends NBTable
 {
 	public default void update()
 	{
 		if (!getWorld().isRemote)
 		{
-			//if ((getWorld().getTotalWorldTime() % 20) == 0)
+			if ((getWorld().getTotalWorldTime() % 20) == 0)
 			{
 				Queue<CraftingOrder> craftingQueue = getCraftingQueue();
 				if (getProgress() > 0)
@@ -227,6 +230,39 @@ public interface IEngramCrafter extends NBTable
 		return startCraft(engramId, 1, quality);
 	}
 
+	public default void cancelCraftOne(Engram engram)
+	{
+		cancelCraftOne(engram, ItemQuality.PRIMITIVE);
+	}
+
+	public default void cancelCraftAll(Engram engram)
+	{
+		cancelCraftAll(engram, ItemQuality.PRIMITIVE);
+	}
+
+	public default void cancelCraftOne(Engram engram, ItemQuality itemQuality)
+	{
+		for (CraftingOrder c : getCraftingQueue())
+		{
+			if (c.matches(engram, itemQuality))
+			{
+				c.decreaseCount(1);
+			}
+		}
+	}
+
+	public default void cancelCraftAll(Engram engram, ItemQuality itemQuality)
+	{
+		Iterator<CraftingOrder> it = getCraftingQueue().iterator();
+		while (it.hasNext())
+		{
+			if (it.next().matches(engram, itemQuality))
+			{
+				it.remove();
+			}
+		}
+	}
+
 	public IInventory getConsumedInventory();
 
 	default int getCraftingAmount(short engramId)
@@ -266,6 +302,7 @@ public interface IEngramCrafter extends NBTable
 		switch (id)
 		{
 			case 0:
+				System.out.println("progress");
 				setProgress(value);
 				break;
 			case 1:
@@ -273,21 +310,24 @@ public interface IEngramCrafter extends NBTable
 				break;
 			default:
 				int t = (id - 2) / 3;
-				CraftingOrder[] q = craftingQueue.toArray(new CraftingOrder[0]);
-				CraftingOrder c = q[t];
-				if (c == null)
+				if (t < getCraftingQueue().size())
 				{
-					if ((t % 3) == 1) q[t] = new CraftingOrder(null, value);
-					else if ((t % 3) == 2) q[t] = new CraftingOrder(null, 0, ItemQuality.get((byte) value));
-					else q[t] = new CraftingOrder(EngramManager.instance().getEngram((short) value));
-					craftingQueue.clear();
-					Collections.addAll(craftingQueue, q);
-				}
-				else
-				{
-					if ((t % 3) == 1) c.setCount(value);
-					else if ((t % 3) == 2) c.setItemQuality(ItemQuality.get((byte) value));
-					else c.setEngram(EngramManager.instance().getEngram((short) value));
+					CraftingOrder[] q = craftingQueue.toArray(new CraftingOrder[0]);
+					CraftingOrder c = q[t];
+					if (c == null)
+					{
+						if ((t % 3) == 1) q[t] = new CraftingOrder(null, value);
+						else if ((t % 3) == 2) q[t] = new CraftingOrder(null, 0, ItemQuality.get((byte) value));
+						else q[t] = new CraftingOrder(EngramManager.instance().getEngram((short) value));
+						craftingQueue.clear();
+						Collections.addAll(craftingQueue, q);
+					}
+					else
+					{
+						if ((t % 3) == 1) c.setCount(value);
+						else if ((t % 3) == 2) c.setItemQuality(ItemQuality.get((byte) value));
+						else c.setEngram(EngramManager.instance().getEngram((short) value));
+					}
 				}
 				break;
 		}
@@ -319,4 +359,5 @@ public interface IEngramCrafter extends NBTable
 	public World getWorld();
 
 	public Queue<CraftingOrder> getCraftingQueue();
+
 }

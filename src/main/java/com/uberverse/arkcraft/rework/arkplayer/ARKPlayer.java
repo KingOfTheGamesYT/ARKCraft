@@ -92,11 +92,12 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 	{
 		if (!player.worldObj.isRemote)
 		{
-			// Update crafting
-			if (engramCrafter.isCrafting())
-			{
+			if (player.worldObj.getWorldTime() % 20 == 0)
+				// Update crafting
+				if (engramCrafter.isCrafting())
+				{
 				engramCrafter.update();
-			}
+				}
 
 			sendSynchronization(false);
 		}

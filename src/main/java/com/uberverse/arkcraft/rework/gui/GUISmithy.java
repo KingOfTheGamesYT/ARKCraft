@@ -28,31 +28,31 @@ public class GUISmithy extends GUIEngramCrafting
 	@Override
 	public int getC1ButtonX()
 	{
-		return 84;
+		return 92;
 	}
 
 	@Override
 	public int getC1ButtonY()
 	{
-		return 111;
+		return 116;
 	}
 
 	@Override
 	public int getCAButtonX()
 	{
-		return 120;
+		return 130;
 	}
 
 	@Override
 	public int getCAButtonY()
 	{
-		return 111;
+		return 116;
 	}
 
 	@Override
 	public int getScrollBarStartX()
 	{
-		return 154;
+		return 180;
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class GUISmithy extends GUIEngramCrafting
 	@Override
 	public int getBackgroundWidth()
 	{
-		return 176;
+		return 200;
 	}
 
 	@Override
