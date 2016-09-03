@@ -180,6 +180,14 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 	private Engram selectedEngram = null;
 	private ItemQuality targetQuality;
 
+	/**
+	 * @return the selectedEngram
+	 */
+	public Engram getSelectedEngram()
+	{
+		return selectedEngram;
+	}
+
 	public void craftOne()
 	{
 		if (selectedEngram != null)
