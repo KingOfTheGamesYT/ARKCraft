@@ -12,6 +12,7 @@ import com.uberverse.arkcraft.common.network.UpdateEngrams;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -23,13 +24,11 @@ public class ContainerEngram extends ContainerScrollable
 	private short selection = -1;
 	private Engram selected = null;
 	private InventoryEngram inventory;
-	private EntityPlayer player;
 
-	public ContainerEngram(InventoryEngram inventory, EntityPlayer player)
+	public ContainerEngram(InventoryEngram inventory)
 	{
 		super();
 		this.inventory = inventory;
-		this.player = player;
 		initScrollableSlots();
 	}
 
@@ -42,6 +41,25 @@ public class ContainerEngram extends ContainerScrollable
 					getScrollableSlotsX() + i % getScrollableSlotsWidth() * getSlotSize(),
 					getScrollableSlotsY() + i / getScrollableSlotsWidth() * getSlotSize(), this));
 		}
+	}
+
+	@Override
+	public ItemStack slotClick(int slotId, int clickedButton, int mode, EntityPlayer playerIn)
+	{
+		if (slotId >= 0)
+		{
+			Slot s = getSlot(slotId);
+			if (s instanceof EngramSlot && clickedButton == 0)
+			{
+				s.onPickupFromSlot(playerIn, playerIn.inventory.getCurrentItem());
+				if (mode == 6 && ARKPlayer.get(playerIn).canLearnEngram(selection) && !playerIn.worldObj.isRemote)
+				{
+					enchantItem(playerIn, 1);
+				}
+				return playerIn.inventory.getCurrentItem();
+			}
+		}
+		return super.slotClick(slotId, clickedButton, mode, playerIn);
 	}
 
 	@Override

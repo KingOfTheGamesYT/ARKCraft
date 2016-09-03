@@ -118,7 +118,7 @@ public class GuiHandler implements IGuiHandler
 				LogHelper.info("GuiHandler - getServerGuiElement: TileEntityCampfire not found!");
 			}
 		}
-		else if (id == ARKCraft.GUI.ENGRAM_GUI.getID()) return new ContainerEngram(ARKPlayer.get(player).getEngramInventory(), player);
+		else if (id == ARKCraft.GUI.ENGRAM_GUI.getID()) return new ContainerEngram(ARKPlayer.get(player).getEngramInventory());
 		else if (id == ARKCraft.GUI.CROP_PLOT.getID())
 		{
 			BlockPos xyz = new BlockPos(x, y, z);

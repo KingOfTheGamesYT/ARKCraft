@@ -41,7 +41,7 @@ public class GUIEngram extends GUIScrollable
 
 	public GUIEngram(EntityPlayer player)
 	{
-		super(new ContainerEngram(ARKPlayer.get(player).getEngramInventory(), player));
+		super(new ContainerEngram(ARKPlayer.get(player).getEngramInventory()));
 		this.inventory = ARKPlayer.get(player).getEngramInventory();
 		this.player = player;
 	}

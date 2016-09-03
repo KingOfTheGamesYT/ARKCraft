@@ -262,7 +262,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 	@Override
 	public ItemStack slotClick(int slotId, int clickedButton, int mode, EntityPlayer playerIn)
 	{
-		if (slotId >= 0 && playerIn.inventory.getCurrentItem() == null)
+		if (slotId >= 0)
 		{
 			Slot s = getSlot(slotId);
 			if (s instanceof EngramSlot && clickedButton == 0)
