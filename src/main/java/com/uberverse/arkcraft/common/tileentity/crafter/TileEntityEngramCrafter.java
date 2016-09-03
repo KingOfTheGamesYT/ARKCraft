@@ -18,6 +18,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.world.World;
 
 public abstract class TileEntityEngramCrafter extends TileEntity implements IInventory, IUpdatePlayerListBox, IEngramCrafter
 {
@@ -210,55 +211,6 @@ public abstract class TileEntityEngramCrafter extends TileEntity implements IInv
 	{
 		return craftingQueue;
 	}
-	//
-	// @Override
-	// public int getField(int id)
-	// {
-	// Queue<CraftingOrder> craftingQueue = getCraftingQueue();
-	// switch (id)
-	// {
-	// case 0:
-	// return getProgress();
-	// default:
-	// int t = (id - 1) / 2;
-	// CraftingOrder c = craftingQueue.toArray(new CraftingOrder[0])[t];
-	// return (t % 2) == 1 ? c.getCount() : c.getEngram().getId();
-	// }
-	// }
-	//
-	// @Override
-	// public void setField(int id, int value)
-	// {
-	// Queue<CraftingOrder> craftingQueue = getCraftingQueue();
-	// switch (id)
-	// {
-	// case 0:
-	// setProgress(value);
-	// break;
-	// default:
-	// int t = (id - 1) / 2;
-	// CraftingOrder[] q = craftingQueue.toArray(new CraftingOrder[0]);
-	// CraftingOrder c = q[t];
-	// if (c == null)
-	// {
-	// if ((t % 2) == 1) q[t] = new CraftingOrder(null, value);
-	// else q[t] = new CraftingOrder(EngramManager.instance().getEngram((short) value));
-	// craftingQueue.clear();
-	// Collections.addAll(craftingQueue, q);
-	// }
-	// else
-	// {
-	// if ((t % 2) == 1) c.setCount(value);
-	// else c.setEngram(EngramManager.instance().getEngram((short) value));
-	// }
-	// }
-	// }
-	//
-	// @Override
-	// public int getFieldCount()
-	// {
-	// return 1 + getCraftingQueue().size() * 2;
-	// }
 
 	@Override
 	public int getField(int id)
@@ -276,5 +228,11 @@ public abstract class TileEntityEngramCrafter extends TileEntity implements IInv
 	public void setField(int id, int value)
 	{
 		IEngramCrafter.super.setField(id, value);
+	}
+
+	@Override
+	public World getWorldEC()
+	{
+		return getWorld();
 	}
 }

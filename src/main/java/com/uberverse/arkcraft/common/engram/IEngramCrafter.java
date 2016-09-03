@@ -27,9 +27,9 @@ public interface IEngramCrafter extends NBTable
 {
 	public default void update()
 	{
-		if (!getWorld().isRemote)
+		if (!getWorldEC().isRemote)
 		{
-			if ((getWorld().getTotalWorldTime() % 20) == 0)
+			if ((getWorldEC().getTotalWorldTime() % 20) == 0)
 			{
 				Queue<CraftingOrder> craftingQueue = getCraftingQueue();
 				if (isCrafting())
@@ -116,7 +116,7 @@ public interface IEngramCrafter extends NBTable
 	public default void addOrDrop(ItemStack stack)
 	{
 		if (!add(stack))
-			getWorld().spawnEntityInWorld(new EntityItem(getWorld(), getPosition().getX(), getPosition().getY(), getPosition().getZ(), stack));
+			getWorldEC().spawnEntityInWorld(new EntityItem(getWorldEC(), getPosition().getX(), getPosition().getY(), getPosition().getZ(), stack));
 	}
 
 	@Override
@@ -385,7 +385,7 @@ public interface IEngramCrafter extends NBTable
 
 	public BlockPos getPosition();
 
-	public World getWorld();
+	public World getWorldEC();
 
 	public Queue<CraftingOrder> getCraftingQueue();
 }
