@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.logging.log4j.Logger;
 
-import com.uberverse.arkcraft.client.network.ClientReloadFinishedHandler;
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.common.arkplayer.network.ARKPlayerUpdate;
 import com.uberverse.arkcraft.common.arkplayer.network.ARKPlayerUpdateRequest;
@@ -42,7 +41,6 @@ import com.uberverse.arkcraft.common.proxy.CommonProxy;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
-import com.uberverse.arkcraft.server.network.ServerReloadFinishedHandler;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
@@ -268,8 +266,7 @@ public class ARKCraft
 		modChannel.registerMessage(UpdatePlayerCrafting.Handler.class, UpdatePlayerCrafting.class, id++, Side.SERVER);
 		modChannel.registerMessage(OpenAttachmentInventory.Handler.class, OpenAttachmentInventory.class, id++, Side.SERVER);
 		modChannel.registerMessage(ReloadStarted.Handler.class, ReloadStarted.class, id++, Side.SERVER);
-		if (event.getSide().isClient()) modChannel.registerMessage(ClientReloadFinishedHandler.class, ReloadFinished.class, id++, Side.CLIENT);
-		else modChannel.registerMessage(ServerReloadFinishedHandler.class, ReloadFinished.class, id++, Side.CLIENT);
+		modChannel.registerMessage(ReloadFinished.Handler.class, ReloadFinished.class, id++, Side.CLIENT);
 		modChannel.registerMessage(MessageHover.class, MessageHover.class, id++, Side.CLIENT);
 		modChannel.registerMessage(MessageHoverReq.class, MessageHoverReq.class, id++, Side.SERVER);
 		modChannel.registerMessage(BurnerToggle.Handler.class, BurnerToggle.class, id++, Side.SERVER);
@@ -286,5 +283,4 @@ public class ARKCraft
 	{
 		return "${version}".equals("${" + "version" + "}");
 	}
-
 }

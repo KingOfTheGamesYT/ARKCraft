@@ -1,10 +1,10 @@
 package com.uberverse.arkcraft.common.arkplayer.network;
 
+import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer.Variable;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -79,7 +79,7 @@ public class ARKPlayerUpdate implements IMessage
 		{
 			if (ctx.side.isClient())
 			{
-				message.store(ARKPlayer.get(Minecraft.getMinecraft().thePlayer));
+				message.store(ARKPlayer.get(ARKCraft.proxy.getPlayerFromContext(ctx)));
 			}
 			return null;
 		}

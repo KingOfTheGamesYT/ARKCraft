@@ -3,16 +3,6 @@ package com.uberverse.arkcraft.client.proxy;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.RenderSnowball;
-import net.minecraft.client.resources.model.ModelBakery;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
-
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.event.ClientEventHandler;
 import com.uberverse.arkcraft.client.gui.overlay.GUIOverlayGetResources;
@@ -39,9 +29,19 @@ import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
 import com.uberverse.lib.LogHelper;
 
+import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.RenderSnowball;
+import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+
 public class ClientProxy extends CommonProxy
 {
-
 	boolean initDone = false;
 
 	@Override
@@ -132,6 +132,7 @@ public class ClientProxy extends CommonProxy
 		ModelBakery.addVariantName(item, ARKCraft.MODID + ":" + name);
 	}
 
+	@Override
 	public EntityPlayer getPlayer()
 	{
 		return Minecraft.getMinecraft().thePlayer;
@@ -140,29 +141,23 @@ public class ClientProxy extends CommonProxy
 	private static void registerEntityModels()
 	{
 		RenderingRegistry.registerEntityRenderingHandler(EntityStone.class,
-				new RenderSnowball(Minecraft.getMinecraft().getRenderManager(), ARKCraftItems.stone,
-						Minecraft.getMinecraft().getRenderItem()));
+				new RenderSnowball(Minecraft.getMinecraft().getRenderManager(), ARKCraftItems.stone, Minecraft.getMinecraft().getRenderItem()));
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class,
-				new RenderSnowball(Minecraft.getMinecraft().getRenderManager(),
-						ARKCraftItems.grenade, Minecraft.getMinecraft().getRenderItem()));
+				new RenderSnowball(Minecraft.getMinecraft().getRenderManager(), ARKCraftItems.grenade, Minecraft.getMinecraft().getRenderItem()));
 
 		if (ModuleItemBalance.WEAPONS.SIMPLE_PISTOL)
 		{
-			RenderingRegistry.registerEntityRenderingHandler(EntitySimpleBullet.class,
-					new RenderSimpleBullet());
+			RenderingRegistry.registerEntityRenderingHandler(EntitySimpleBullet.class, new RenderSimpleBullet());
 		}
 		if (ModuleItemBalance.WEAPONS.SHOTGUN)
 		{
-			RenderingRegistry.registerEntityRenderingHandler(EntitySimpleShotgunAmmo.class,
-					new RenderSimpleShotgunAmmo());
+			RenderingRegistry.registerEntityRenderingHandler(EntitySimpleShotgunAmmo.class, new RenderSimpleShotgunAmmo());
 		}
 		if (ModuleItemBalance.WEAPONS.LONGNECK_RIFLE)
 		{
-			RenderingRegistry.registerEntityRenderingHandler(EntitySimpleRifleAmmo.class,
-					new RenderSimpleRifleAmmo());
-			RenderingRegistry.registerEntityRenderingHandler(EntityTranquilizer.class,
-					new RenderTranquilizer());
+			RenderingRegistry.registerEntityRenderingHandler(EntitySimpleRifleAmmo.class, new RenderSimpleRifleAmmo());
+			RenderingRegistry.registerEntityRenderingHandler(EntityTranquilizer.class, new RenderTranquilizer());
 		}
 		if (ModuleItemBalance.WEAPONS.SPEAR)
 		{
@@ -170,48 +165,40 @@ public class ClientProxy extends CommonProxy
 		}
 		if (ModuleItemBalance.WEAPONS.FABRICATED_PISTOL)
 		{
-			RenderingRegistry.registerEntityRenderingHandler(EntityAdvancedBullet.class,
-					new RenderAdvancedBullet());
+			RenderingRegistry.registerEntityRenderingHandler(EntityAdvancedBullet.class, new RenderAdvancedBullet());
 		}
 	}
 
 	public static void registerItemVariants()
 	{
-		ModelBakery.addVariantName(ARKCraftRangedWeapons.slingshot, "arkcraft:slingshot",
-				"arkcraft:slingshot_pulled");
-		ModelBakery.addVariantName(ARKCraftRangedWeapons.shotgun, "arkcraft:weapons/shotgun",
-				"arkcraft:weapons/shotgun_reload");
-		ModelBakery.addVariantName(ARKCraftRangedWeapons.longneck_rifle,
-				"arkcraft:weapons/longneck_rifle", "arkcraft:weapons/longneck_rifle_scope",
-				"arkcraft:weapons/longneck_rifle_scope_reload",
-				"arkcraft:weapons/longneck_rifle_reload",
-				"arkcraft:weapons/longneck_rifle_flashlight",
-				"arkcraft:weapons/longneck_rifle_flashlight_reload",
-				"arkcraft:weapons/longneck_rifle_laser",
-				"arkcraft:weapons/longneck_rifle_laser_reload",
-				"arkcraft:weapons/longneck_rifle_silencer",
+		ModelBakery.addVariantName(ARKCraftRangedWeapons.slingshot, "arkcraft:slingshot", "arkcraft:slingshot_pulled");
+		ModelBakery.addVariantName(ARKCraftRangedWeapons.shotgun, "arkcraft:weapons/shotgun", "arkcraft:weapons/shotgun_reload");
+		ModelBakery.addVariantName(ARKCraftRangedWeapons.longneck_rifle, "arkcraft:weapons/longneck_rifle", "arkcraft:weapons/longneck_rifle_scope",
+				"arkcraft:weapons/longneck_rifle_scope_reload", "arkcraft:weapons/longneck_rifle_reload",
+				"arkcraft:weapons/longneck_rifle_flashlight", "arkcraft:weapons/longneck_rifle_flashlight_reload",
+				"arkcraft:weapons/longneck_rifle_laser", "arkcraft:weapons/longneck_rifle_laser_reload", "arkcraft:weapons/longneck_rifle_silencer",
 				"arkcraft:weapons/longneck_rifle_silencer_reload");
-		ModelBakery.addVariantName(ARKCraftRangedWeapons.simple_pistol,
-				"arkcraft:weapons/simple_pistol", "arkcraft:weapons/simple_pistol_scope",
-				"arkcraft:weapons/simple_pistol_reload",
-				"arkcraft:weapons/simple_pistol_scope_reload",
-				"arkcraft:weapons/simple_pistol_flashlight",
-				"arkcraft:weapons/simple_pistol_flashlight_reload",
-				"arkcraft:weapons/simple_pistol_laser",
-				"arkcraft:weapons/simple_pistol_laser_reload",
-				"arkcraft:weapons/simple_pistol_silencer",
+		ModelBakery.addVariantName(ARKCraftRangedWeapons.simple_pistol, "arkcraft:weapons/simple_pistol", "arkcraft:weapons/simple_pistol_scope",
+				"arkcraft:weapons/simple_pistol_reload", "arkcraft:weapons/simple_pistol_scope_reload", "arkcraft:weapons/simple_pistol_flashlight",
+				"arkcraft:weapons/simple_pistol_flashlight_reload", "arkcraft:weapons/simple_pistol_laser",
+				"arkcraft:weapons/simple_pistol_laser_reload", "arkcraft:weapons/simple_pistol_silencer",
 				"arkcraft:weapons/simple_pistol_silencer_reload");
-		ModelBakery.addVariantName(ARKCraftRangedWeapons.fabricated_pistol,
-				"arkcraft:weapons/fabricated_pistol", "arkcraft:weapons/fabricated_pistol_scope",
-				"arkcraft:weapons/fabricated_pistol_reload",
-				"arkcraft:weapons/fabricated_pistol_scope_reload",
-				"arkcraft:weapons/fabricated_pistol_flashlight",
-				"arkcraft:weapons/fabricated_pistol_flashlight_reload",
-				"arkcraft:weapons/fabricated_pistol_laser",
-				"arkcraft:weapons/fabricated_pistol_laser_reload",
-				"arkcraft:weapons/fabricated_pistol_silencer",
-				"arkcraft:weapons/fabricated_pistol_silencer_reload",
-				"arkcraft:weapons/fabricated_pistol_holo_scope",
+		ModelBakery.addVariantName(ARKCraftRangedWeapons.fabricated_pistol, "arkcraft:weapons/fabricated_pistol",
+				"arkcraft:weapons/fabricated_pistol_scope", "arkcraft:weapons/fabricated_pistol_reload",
+				"arkcraft:weapons/fabricated_pistol_scope_reload", "arkcraft:weapons/fabricated_pistol_flashlight",
+				"arkcraft:weapons/fabricated_pistol_flashlight_reload", "arkcraft:weapons/fabricated_pistol_laser",
+				"arkcraft:weapons/fabricated_pistol_laser_reload", "arkcraft:weapons/fabricated_pistol_silencer",
+				"arkcraft:weapons/fabricated_pistol_silencer_reload", "arkcraft:weapons/fabricated_pistol_holo_scope",
 				"arkcraft:weapons/fabricated_pistol_holo_scope_reload");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.uberverse.arkcraft.common.proxy.CommonProxy#getPlayerFromContext(net.minecraftforge.fml.common.network.simpleimpl.MessageContext)
+	 */
+	@Override
+	public EntityPlayer getPlayerFromContext(MessageContext ctx)
+	{
+		return Minecraft.getMinecraft().thePlayer;
 	}
 }

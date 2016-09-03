@@ -3,17 +3,16 @@ package com.uberverse.arkcraft.common.network;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+
 /**
- * 
  * @author Lewis_McReu
- *
  */
 public class UpdateEngrams implements IMessage
 {
@@ -60,7 +59,7 @@ public class UpdateEngrams implements IMessage
 		{
 			if (ctx.side.isClient())
 			{
-				ARKPlayer p = ARKPlayer.get(Minecraft.getMinecraft().thePlayer);
+				ARKPlayer p = ARKPlayer.get(ARKCraft.proxy.getPlayerFromContext(ctx));
 				p.updateUnlockedEngrams(message.engrams, message.points);
 			}
 			return null;

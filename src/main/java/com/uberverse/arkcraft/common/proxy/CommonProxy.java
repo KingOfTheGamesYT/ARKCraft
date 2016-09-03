@@ -8,8 +8,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class CommonProxy
+public abstract class CommonProxy
 {
 	@SidedProxy(clientSide = "com.uberverse.arkcraft.client.book.proxy.BookClient",
 			serverSide = "com.uberverse.arkcraft.client.book.proxy.BookCommon")
@@ -22,6 +23,8 @@ public class CommonProxy
 	{
 		EngramManager.init();
 	}
+
+	public abstract EntityPlayer getPlayerFromContext(MessageContext ctx);
 
 	public void init()
 	{}

@@ -1,10 +1,10 @@
 package com.uberverse.arkcraft.common.arkplayer.network;
 
+import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.common.engram.IEngramCrafter;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -45,7 +45,7 @@ public class PlayerEngramCrafterUpdate implements IMessage
 		{
 			if (ctx.side.isClient())
 			{
-				ARKPlayer.get(Minecraft.getMinecraft().thePlayer).getEngramCrafter().readFromNBT(message.nbt);
+				ARKPlayer.get(ARKCraft.proxy.getPlayerFromContext(ctx)).getEngramCrafter().readFromNBT(message.nbt);
 			}
 			return null;
 		}
