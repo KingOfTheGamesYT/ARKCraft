@@ -11,6 +11,7 @@ import com.uberverse.arkcraft.client.gui.scrollable.GUIScrollable;
 import com.uberverse.arkcraft.common.container.engram.ContainerEngramCrafting;
 import com.uberverse.arkcraft.common.container.engram.ContainerEngramCrafting.EngramSlot;
 import com.uberverse.arkcraft.common.container.engram.ContainerEngramCrafting.QueueSlot;
+import com.uberverse.arkcraft.common.engram.CraftingOrder;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.common.engram.EngramManager.EngramRecipe;
 import com.uberverse.arkcraft.common.engram.IEngramCrafter;
@@ -77,7 +78,8 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 				IEngramCrafter ec = c.getCrafter();
 				if (ec.isCrafting())
 				{
-					if (e.getEngram().getId() == ec.getCraftingQueue().peek().getEngram().getId())
+					CraftingOrder co = e.getCraftingOrder();
+					if (ec.getCraftingQueue().peek() != null && ec.getCraftingQueue().peek() == co)
 					{
 						double fraction = ec.getRelativeProgress();
 						if (fraction == 0) { return; }
@@ -95,7 +97,18 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 						GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 					}
 				}
-				break;
+			}
+			else if (o instanceof EngramSlot)
+			{
+				EngramSlot e = (EngramSlot) o;
+				if (((ContainerEngramCrafting) inventorySlots).getSelectedEngram() == e.getEngram())
+				{
+					int x = e.xDisplayPosition;
+					int y = e.yDisplayPosition;
+					drawRect(x, y, x + 16, y + 16, new Color(255, 20, 147, 255).getRGB());
+					GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+					break;
+				}
 			}
 		}
 
