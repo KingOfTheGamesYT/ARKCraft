@@ -11,16 +11,6 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 
-import com.google.common.collect.ImmutableSet;
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
-import com.uberverse.arkcraft.common.config.ModuleItemBalance;
-import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
-import com.uberverse.arkcraft.common.item.tools.ARKCraftTool;
-import com.uberverse.arkcraft.common.network.ReloadFinished;
-import com.uberverse.arkcraft.init.ARKCraftItems;
-import com.uberverse.lib.LogHelper;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -35,6 +25,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -42,8 +33,21 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
+
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
+import com.uberverse.arkcraft.common.config.ModuleItemBalance;
+import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
+import com.uberverse.arkcraft.common.item.tools.ARKCraftTool;
+import com.uberverse.arkcraft.common.network.ReloadFinished;
+import com.uberverse.arkcraft.init.ARKCraftItems;
+import com.uberverse.lib.LogHelper;
+import com.uberverse.lib.Utils;
+
+import com.google.common.collect.ImmutableSet;
 
 public class CommonEventHandler
 {
@@ -122,20 +126,20 @@ public class CommonEventHandler
 					for (Entity entityInWorld : entitiesInWorld)
 					{
 						final Set<Item> remainingInputs = new HashSet<Item>(INPUTS); // Create
-																						// a
-																						// mutable
-																						// copy
-																						// of
-																						// the
-																						// input
-																						// set
-																						// to
-																						// track
-																						// which
-																						// items
-																						// have
-																						// been
-																						// found
+						// a
+						// mutable
+						// copy
+						// of
+						// the
+						// input
+						// set
+						// to
+						// track
+						// which
+						// items
+						// have
+						// been
+						// found
 						ArrayList<EntityItem> foundEntityItems = new ArrayList<EntityItem>();
 						// LogHelper.info("Found an Entity in the world!");
 						if (entityInWorld instanceof EntityItem)
@@ -282,6 +286,7 @@ public class CommonEventHandler
 	public static int reloadTicks = 0;
 	public static int ticksExsisted = 0;
 	public static int ticksSwing = 0;
+	private int ticks = 0;
 
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent evt)
@@ -307,7 +312,14 @@ public class CommonEventHandler
 				}
 			}
 		}
-
+		if(!p.worldObj.isRemote && evt.phase == Phase.START){
+			if(ticks > 19){
+				ticks = 0;
+				Utils.checkInventoryForDecayable(p.inventory, 1);
+			}else{
+				ticks++;
+			}
+		}
 	}
 
 }

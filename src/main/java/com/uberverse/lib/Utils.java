@@ -6,10 +6,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+
+import com.uberverse.arkcraft.common.item.IDecayable;
 
 public class Utils
 {
@@ -61,6 +65,15 @@ public class Utils
 		catch (Exception e)
 		{
 			e.printStackTrace();
+		}
+	}
+	public static void checkInventoryForDecayable(IInventory inventory, double decayModifier){
+		for(int i = 0;i<inventory.getSizeInventory();i++){
+			ItemStack stack = inventory.getStackInSlot(i);
+			if(stack != null && stack.getItem() instanceof IDecayable){
+				IDecayable decayable = (IDecayable) stack.getItem();
+				decayable.decayTick(inventory, i, decayModifier, stack);
+			}
 		}
 	}
 }

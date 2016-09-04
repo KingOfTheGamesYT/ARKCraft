@@ -265,7 +265,7 @@ public class ARKCraftItems
 
 	protected static ARKCraftFood addFood(String name, int heal, float sat, boolean fav, boolean alwaysEdible)
 	{
-		ARKCraftFood f = new ARKCraftFood(heal, sat, fav, alwaysEdible, PLAYER.TICKS_BEFORE_FOOD_DECAY);
+		ARKCraftFood f = new ARKCraftFood(heal, sat, fav, alwaysEdible, PLAYER.SECONDS_BEFORE_FOOD_DECAY);
 		registerItem(name, f);
 		return f;
 	}

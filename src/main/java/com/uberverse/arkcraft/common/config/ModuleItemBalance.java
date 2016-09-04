@@ -20,8 +20,8 @@ public final class ModuleItemBalance
 		// minValue 1min, maxValue, 5mins, default value 2:30mins
 		@DefaultInt(value = 1500, minValue = 600, maxValue = 3000, name = "Ticks between player poops.", comment = "Ticks between the player poops inside the game")
 		public static int TICKS_BETWEEN_PLAYER_POOP;
-		@DefaultInt(value = 12000, minValue = 1000, maxValue = 100000, name = "Ticks before food decay", comment = "Ticks before food completely decay.")
-		public static int TICKS_BEFORE_FOOD_DECAY;
+		@DefaultInt(value = 600, minValue = 1, maxValue = 100000, name = "Seconds before food decay on player", comment = "Ticks before food completely decay in the players inventory")
+		public static int SECONDS_BEFORE_FOOD_DECAY;
 	}
 
 	public static class WEAPONS

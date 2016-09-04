@@ -2,11 +2,12 @@ package com.uberverse.arkcraft.common.item;
 
 import java.util.List;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 import net.minecraftforge.fml.relauncher.Side;
@@ -17,7 +18,7 @@ import com.uberverse.arkcraft.init.ARKCraftItems;
 /**
  * @author Vastatio
  */
-public class ARKCraftFood extends ItemFood
+public class ARKCraftFood extends ItemFood implements IDecayable
 {
 
 	private PotionEffect[] effects;
@@ -54,7 +55,7 @@ public class ARKCraftFood extends ItemFood
 		 */
 		globalHealAmount = healAmount;
 		this.decayTime = decayTime;
-		setMaxDamage(decayTime);
+		setMaxDamage(decayTime * 20);
 	}
 
 	@Override
@@ -144,14 +145,6 @@ public class ARKCraftFood extends ItemFood
 	{
 		return globalHealAmount / 2;
 	}
-	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		if(stack.getMetadata() > getMaxDecayTime(stack)){
-			entityIn.getInventory()[itemSlot] = null;
-		}else{
-			stack.setItemDamage(stack.getMetadata()+1);
-		}
-	}
 	public int getMaxDecayTime(ItemStack stack){
 		return decayTime;
 	}
@@ -176,5 +169,14 @@ public class ARKCraftFood extends ItemFood
 	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged)
 	{
 		return slotChanged || (oldStack != null && newStack != null && (oldStack.getItem() != newStack.getItem()));
+	}
+
+	@Override
+	public void decayTick(IInventory inventory, int itemSlot, double decayModifier, ItemStack stack) {
+		if(stack.getMetadata() > (getMaxDecayTime(stack) * 20)){
+			inventory.setInventorySlotContents(itemSlot, null);
+		}else{
+			stack.setItemDamage(MathHelper.floor_double(stack.getMetadata() + (20 * decayModifier)));
+		}
 	}
 }
