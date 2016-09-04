@@ -380,8 +380,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		public Engram getEngram()
 		{
 			int index = getSlotIndex();
-			return index < ContainerEngramCrafting.this.engramInventory.getSizeInventory()
-					? ContainerEngramCrafting.this.engramInventory.getEngram(index) : null;
+			return index < ContainerEngramCrafting.this.getTotalSlotsAmount() ? ContainerEngramCrafting.this.engramInventory.getEngram(index) : null;
 		}
 
 		@Override
@@ -394,6 +393,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 
 	public class BluePrintSlot extends Slot
 	{
+		// TODO assign these for inventory slots container blueprints instead of normal slots
 		public BluePrintSlot(IInventory inventoryIn, int index, int xPosition, int yPosition)
 		{
 			super(inventoryIn, index, xPosition, yPosition);
@@ -461,7 +461,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 
 		public Engram getEngram(int index)
 		{
-			return engrams.get(index);// engrams.size() > index ? engrams.get(index) : null; TODO test this
+			return engrams.get(index);
 		}
 
 		@Override

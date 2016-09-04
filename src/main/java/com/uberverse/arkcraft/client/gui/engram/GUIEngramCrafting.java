@@ -101,7 +101,8 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 			else if (o instanceof EngramSlot)
 			{
 				EngramSlot e = (EngramSlot) o;
-				if (((ContainerEngramCrafting) inventorySlots).getSelectedEngram() == e.getEngram())
+				if (((ContainerEngramCrafting) inventorySlots).getSelectedEngram() == e.getEngram()
+						&& e.getSlotIndex() < ((ContainerEngramCrafting) inventorySlots).getTotalSlotsAmount())
 				{
 					int x = e.xDisplayPosition;
 					int y = e.yDisplayPosition;
