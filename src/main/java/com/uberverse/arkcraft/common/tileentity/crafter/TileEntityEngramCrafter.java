@@ -231,6 +231,14 @@ public abstract class TileEntityEngramCrafter extends TileEntity implements IInv
 	}
 
 	@Override
+	public void openInventory(EntityPlayer player)
+	{}
+
+	@Override
+	public void closeInventory(EntityPlayer player)
+	{}
+
+	@Override
 	public World getWorldEC()
 	{
 		return getWorld();

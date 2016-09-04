@@ -8,14 +8,4 @@ public class TileEntitySmithy extends TileEntityEngramCrafter
 	{
 		super(24, "smithy");
 	}
-
-	@Override
-	public void openInventory(EntityPlayer player)
-	{
-	}
-
-	@Override
-	public void closeInventory(EntityPlayer player)
-	{
-	}
 }

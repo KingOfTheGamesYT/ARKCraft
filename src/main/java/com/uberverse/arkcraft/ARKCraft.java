@@ -159,66 +159,6 @@ public class ARKCraft
 		}
 	}
 
-	@EventHandler
-	public void serverStart(FMLServerStartingEvent event)
-	{
-		event.registerServerCommand(new ICommand()
-		{
-
-			@Override
-			public int compareTo(Object o)
-			{
-				return 0;
-			}
-
-			@Override
-			public String getName()
-			{
-				return "arkxp";
-			}
-
-			@Override
-			public String getCommandUsage(ICommandSender sender)
-			{
-				return "arkxp";
-			}
-
-			@Override
-			public List getAliases()
-			{
-				return Collections.EMPTY_LIST;
-			}
-
-			@Override
-			public void execute(ICommandSender sender, String[] args) throws CommandException
-			{
-				if (sender instanceof EntityPlayer)
-				{
-					if (args.length == 0) ARKPlayer.get((EntityPlayer) sender).addXP(100);
-					else if (args.length == 1) ARKPlayer.get((EntityPlayer) sender).addXP(Integer.parseInt(args[0]));
-				}
-			}
-
-			@Override
-			public boolean canCommandSenderUse(ICommandSender sender)
-			{
-				return true;
-			}
-
-			@Override
-			public List addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
-			{
-				return Collections.EMPTY_LIST;
-			}
-
-			@Override
-			public boolean isUsernameIndex(String[] args, int index)
-			{
-				return true;
-			}
-		});
-	}
-
 	public static ARKCraft instance()
 	{
 		return instance;
