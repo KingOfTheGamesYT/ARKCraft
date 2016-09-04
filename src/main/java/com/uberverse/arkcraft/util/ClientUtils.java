@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft;
+package com.uberverse.arkcraft.util;
 
 import java.util.Iterator;
 import java.util.List;

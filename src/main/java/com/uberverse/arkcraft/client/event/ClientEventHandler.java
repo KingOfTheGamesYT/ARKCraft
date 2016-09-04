@@ -18,11 +18,12 @@ import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
 import com.uberverse.arkcraft.common.item.engram.Engram;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
+import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.common.network.gui.OpenAttachmentInventory;
 import com.uberverse.arkcraft.common.network.gui.OpenPlayerCrafting;
 import com.uberverse.arkcraft.common.tileentity.IHoverInfo;
-import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.init.ARKCraftItems;
+import com.uberverse.arkcraft.util.ClientUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -59,7 +60,6 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class ClientEventHandler
 {
@@ -74,7 +74,6 @@ public class ClientEventHandler
 	private static float yawSway;
 	private static float pitchSway;
 	public static int disabledEquippItemAnimationTime = 0;
-	private static boolean playerAlerted = false;
 
 	private ItemStack selected;
 	private static final ResourceLocation OVERLAY_TEXTURE = new ResourceLocation(ARKCraft.MODID, "textures/gui/scope.png");
@@ -101,15 +100,6 @@ public class ClientEventHandler
 
 		harvestOverlay = new KeyBinding("key.harvestOverlay", Keyboard.KEY_P, ARKCraft.NAME);
 		ClientRegistry.registerKeyBinding(harvestOverlay);
-	}
-
-	@SubscribeEvent
-	public void onPlayerJoinWorld(EntityJoinWorldEvent event)
-	{
-		if (event.entity instanceof EntityPlayer && event.entity.worldObj.isRemote)
-		{
-			ARKPlayer.get((EntityPlayer) event.entity).requestSynchronization(true);
-		}
 	}
 
 	@SuppressWarnings("static-access")
@@ -258,7 +248,7 @@ public class ClientEventHandler
 					OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 					GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 					GL11.glDisable(GL11.GL_ALPHA_TEST);
-					com.uberverse.arkcraft.ClientUtils.drawHoveringText(list, width / 2, height / 2, mc.fontRendererObj, width, height);
+					ClientUtils.drawHoveringText(list, width / 2, height / 2, mc.fontRendererObj, width, height);
 					GL11.glPopMatrix();
 				}
 			}
@@ -390,90 +380,9 @@ public class ClientEventHandler
 	}
 
 	@SubscribeEvent
-	public void onTooltip(ItemTooltipEvent event)
+	public void onPlayerJoinWorld(EntityJoinWorldEvent event)
 	{
-		// TODO Move to drawForeground in gui code
-
-		// if (mc.currentScreen instanceof GUISmithy)
-		// {
-		// TileInventorySmithy te = ((GUISmithy) mc.currentScreen).tileEntity;
-		// ItemStack stack = te.inventoryBlueprints.getStackInSlot(0);
-		// if (event.itemStack == stack)
-		// {
-		// @SuppressWarnings("rawtypes")
-		// List recipeList = SmithyCraftingManager.getInstance().getRecipeList();
-		// for (int i = 0; i < recipeList.size(); i++)
-		// {
-		// if (recipeList.get(i) instanceof ARKShapelessRecipe)
-		// {
-		// ARKShapelessRecipe r = (ARKShapelessRecipe) recipeList.get(i);
-		// if (r.getRecipeOutput().isItemEqual(stack))
-		// {
-		// for (int j = 0; j < r.recipeItems.size(); j++)
-		// {
-		// ItemStack cStack = ((ItemStack) r.recipeItems.get(j));
-		// event.toolTip.add(EnumChatFormatting.GOLD
-		// + I18n.format("arkcraft.tooltip.ingredient", I18n.format(cStack.getDisplayName()), cStack.stackSize));
-		// }
-		// break;
-		// }
-		// }
-		// }
-		// }
-		// }
-		// else if (mc.currentScreen instanceof GUIMortarPestle)
-		// {
-		// TileInventoryMP te = ((GUIMortarPestle) mc.currentScreen).tileEntity;
-		// ItemStack stack = te.inventoryBlueprints.getStackInSlot(0);
-		// if (event.itemStack == stack)
-		// {
-		// @SuppressWarnings("rawtypes")
-		// List recipeList = PestleCraftingManager.getInstance().getRecipeList();
-		// for (int i = 0; i < recipeList.size(); i++)
-		// {
-		// if (recipeList.get(i) instanceof ARKShapelessRecipe)
-		// {
-		// ARKShapelessRecipe r = (ARKShapelessRecipe) recipeList.get(i);
-		// if (r.getRecipeOutput().isItemEqual(stack))
-		// {
-		// for (int j = 0; j < r.recipeItems.size(); j++)
-		// {
-		// ItemStack cStack = ((ItemStack) r.recipeItems.get(j));
-		// event.toolTip.add(I18n.format("arkcraft.tooltip.ingredient", I18n.format(cStack.getDisplayName()), cStack.stackSize));
-		// }
-		// break;
-		// }
-		// }
-		// }
-		// }
-		// }
-		// else if (mc.currentScreen instanceof GUIPlayerCrafting)
-		// {
-		// @SuppressWarnings("rawtypes")
-		// List recipeList = PlayerCraftingManager.getInstance().getRecipeList();
-		// for (int i = 0; i < recipeList.size(); i++)
-		// {
-		// if (recipeList.get(i) instanceof ARKShapelessRecipe)
-		// {
-		// ARKShapelessRecipe r = (ARKShapelessRecipe) recipeList.get(i);
-		// if (r.getRecipeOutput().isItemEqual(event.itemStack))
-		// {
-		// for (int j = 0; j < r.recipeItems.size(); j++)
-		// {
-		// ItemStack cStack = ((ItemStack) r.recipeItems.get(j));
-		// event.toolTip.add(I18n.format("arkcraft.tooltip.ingredient", I18n.format(cStack.getDisplayName()), cStack.stackSize));
-		// }
-		// break;
-		// }
-		// }
-		// }
-		// }
-	}
-
-	@SubscribeEvent
-	public void onTick(TickEvent.ClientTickEvent event)
-	{
-		if (!playerAlerted)
+		if (event.entity instanceof EntityPlayer)
 		{
 			if (ARKCraft.versionCheckResult == null) ARKCraft.updateCheckResult();
 			else if (ARKCraft.versionCheckResult.status == Status.OUTDATED || ARKCraft.versionCheckResult.status == Status.BETA_OUTDATED)
@@ -482,6 +391,10 @@ public class ClientEventHandler
 				{
 					mc.thePlayer.addChatComponentMessage(new ChatComponentText("ARKCraft is outdated!"));
 				}
+			}
+			if (event.entity.worldObj.isRemote)
+			{
+				ARKPlayer.get((EntityPlayer) event.entity).requestSynchronization(true);
 			}
 		}
 	}
