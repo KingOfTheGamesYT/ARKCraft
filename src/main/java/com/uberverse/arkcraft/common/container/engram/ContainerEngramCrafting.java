@@ -5,6 +5,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Queue;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.inventory.ICrafting;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.IChatComponent;
+
 import com.uberverse.arkcraft.common.container.scrollable.ContainerScrollable;
 import com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable;
 import com.uberverse.arkcraft.common.container.scrollable.SlotScrolling;
@@ -15,14 +23,6 @@ import com.uberverse.arkcraft.common.engram.EngramManager.EngramType;
 import com.uberverse.arkcraft.common.engram.IEngramCrafter;
 import com.uberverse.arkcraft.wip.itemquality.Qualitable;
 import com.uberverse.arkcraft.wip.itemquality.Qualitable.ItemQuality;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.inventory.ICrafting;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IChatComponent;
 
 public abstract class ContainerEngramCrafting extends ContainerScrollable
 {
@@ -459,7 +459,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 
 		public Engram getEngram(int index)
 		{
-			return engrams.get(index);
+			return engrams.size() > index ? engrams.get(index) : null;
 		}
 
 		@Override
