@@ -8,7 +8,7 @@ import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.gui.GUIArkContainer;
 import com.uberverse.arkcraft.common.container.scrollable.ContainerScrollable;
 import com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable;
-import com.uberverse.arkcraft.common.network.ScrollingMessage;
+import com.uberverse.arkcraft.common.network.ScrollGui;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.MathHelper;
@@ -49,13 +49,13 @@ public abstract class GUIScrollable extends GUIArkContainer implements IGuiScrol
 	private void scroll(float newScroll)
 	{
 		((IContainerScrollable) this.inventorySlots).scroll(newScroll);
-		ARKCraft.modChannel.sendToServer(new ScrollingMessage(newScroll));
+		ARKCraft.modChannel.sendToServer(new ScrollGui(newScroll));
 	}
 
 	private void scroll(int newScroll)
 	{
 		((IContainerScrollable) this.inventorySlots).scroll(newScroll);
-		ARKCraft.modChannel.sendToServer(new ScrollingMessage(newScroll));
+		ARKCraft.modChannel.sendToServer(new ScrollGui(newScroll));
 	}
 
 	@Override

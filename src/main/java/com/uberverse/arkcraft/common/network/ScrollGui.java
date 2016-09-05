@@ -14,23 +14,23 @@ import net.minecraftforge.fml.relauncher.Side;
 /**
  * @author Lewis_McReu
  */
-public class ScrollingMessage implements IMessage
+public class ScrollGui implements IMessage
 {
 	private int scrollInt = 0;
 	private float scrollFloat = 0;
 	private boolean bool;
 
-	public ScrollingMessage(float scrollAmount)
+	public ScrollGui(float scrollAmount)
 	{
 		this.scrollFloat = scrollAmount;
 	}
 
-	public ScrollingMessage(int scrollAmount)
+	public ScrollGui(int scrollAmount)
 	{
 		this.scrollInt = scrollAmount;
 	}
 
-	public ScrollingMessage()
+	public ScrollGui()
 	{}
 
 	@Override
@@ -49,10 +49,10 @@ public class ScrollingMessage implements IMessage
 		else buf.writeFloat(scrollFloat);
 	}
 
-	public static class Handler implements IMessageHandler<ScrollingMessage, IMessage>
+	public static class Handler implements IMessageHandler<ScrollGui, IMessage>
 	{
 		@Override
-		public IMessage onMessage(final ScrollingMessage message, MessageContext ctx)
+		public IMessage onMessage(final ScrollGui message, MessageContext ctx)
 		{
 			if (ctx.side != Side.SERVER)
 			{
@@ -64,7 +64,7 @@ public class ScrollingMessage implements IMessage
 		}
 	}
 
-	static void processMessage(ScrollingMessage message, EntityPlayer player)
+	static void processMessage(ScrollGui message, EntityPlayer player)
 	{
 		if (player != null)
 		{
