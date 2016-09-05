@@ -5,8 +5,16 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import com.google.common.base.Predicate;
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.client.proxy.ClientProxy;
+import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
+import com.uberverse.arkcraft.init.ARKCraftItems;
+import com.uberverse.lib.Utils;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -19,20 +27,11 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.google.common.base.Predicate;
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.client.proxy.ClientProxy;
-import com.uberverse.arkcraft.common.event.CommonEventHandler;
-import com.uberverse.arkcraft.init.ARKCraftItems;
-import com.uberverse.lib.Utils;
 
 public abstract class ARKCraftTool extends ItemTool
 {
@@ -108,10 +107,8 @@ public abstract class ARKCraftTool extends ItemTool
 	@Override
 	public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn)
 	{
-		if (arkMode != CommonEventHandler.arkMode)
+		if (ARKPlayer.isARKMode((EntityPlayer) playerIn) && playerIn instanceof EntityPlayer)
 		{
-			if (playerIn instanceof EntityPlayer)
-			{
 				EntityPlayer player = (EntityPlayer) playerIn;
 				IBlockState blockState = worldIn.getBlockState(pos);
 				if (WOOD_PREDICATE.apply(blockState))
@@ -278,8 +275,7 @@ public abstract class ARKCraftTool extends ItemTool
 					// entityDropItem(worldIn, pos, blockIn, player, new
 					// ItemStack(ARKCraftItems.metal, (int) (1 +
 					// itemRand.nextInt(100)/20.0*multiplier*toolType.getPrimaryModifier())));
-				}
-			}
+				}			
 		}
 		else
 		{
