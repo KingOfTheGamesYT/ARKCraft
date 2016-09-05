@@ -77,7 +77,7 @@ public interface IEngramCrafter extends NBTable
 	public default double getRelativeProgress()
 	{
 		if (getCraftingDuration() == 0) return 0;
-		return (double) (getCraftingDuration() - getProgress()) / (double) (getCraftingDuration()-1);
+		return (double) (getCraftingDuration() - getProgress()) / (double) (getCraftingDuration() - 1);
 	}
 
 	public default void decreaseProgress()
@@ -95,7 +95,11 @@ public interface IEngramCrafter extends NBTable
 				ItemStack in = inventory[i];
 				if (in.getItem() == stack.getItem())
 				{
-					if (in.stackSize + stack.stackSize < in.getMaxStackSize()) in.stackSize += stack.stackSize;
+					if (in.stackSize + stack.stackSize < in.getMaxStackSize())
+					{
+						in.stackSize += stack.stackSize;
+						return true;
+					}
 					else
 					{
 						stack.stackSize -= in.getMaxStackSize() - in.stackSize;
