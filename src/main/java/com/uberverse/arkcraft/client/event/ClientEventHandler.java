@@ -377,12 +377,17 @@ public class ClientEventHandler
 	{
 		if (event.entity instanceof EntityPlayer)
 		{
-			if (ARKCraft.versionCheckResult == null) ARKCraft.updateCheckResult();
+			if (ARKCraft.instance.isDebugger())
+			{
+				if (mc.thePlayer != null) mc.thePlayer
+						.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "You are running a decompiled version of ARKCraft!"));
+			}
+			else if (ARKCraft.versionCheckResult == null) ARKCraft.updateCheckResult();
 			else if (ARKCraft.versionCheckResult.status == Status.OUTDATED || ARKCraft.versionCheckResult.status == Status.BETA_OUTDATED)
 			{
 				if (mc.thePlayer != null)
 				{
-					mc.thePlayer.addChatComponentMessage(new ChatComponentText("ARKCraft is outdated!"));
+					mc.thePlayer.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "ARKCraft is outdated!"));
 				}
 			}
 			if (event.entity.worldObj.isRemote)

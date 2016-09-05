@@ -68,8 +68,8 @@ public class ARKCraftBlocks
 	{
 
 		// Misc
-		block_light = new BlockLight();
-		GameRegistry.registerBlock(block_light, "block_light");
+		 block_light = new BlockLight();
+		 GameRegistry.registerBlock(block_light, "block_light");
 		berryBush = (ARKCraftBerryBush) registerBlock(new ARKCraftBerryBush(0.4F), "berryBush");
 
 		greenScreen = (BlockGreenScreen) registerBlockNoTab(new BlockGreenScreen(Material.gourd), "greenScreen");

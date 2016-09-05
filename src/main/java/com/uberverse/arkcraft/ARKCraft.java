@@ -1,11 +1,7 @@
 package com.uberverse.arkcraft;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.logging.log4j.Logger;
 
-import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.common.arkplayer.network.ARKPlayerUpdate;
 import com.uberverse.arkcraft.common.arkplayer.network.ARKPlayerUpdateRequest;
 import com.uberverse.arkcraft.common.arkplayer.network.PlayerEngramCrafterUpdate;
@@ -42,12 +38,7 @@ import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
 
-import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommand;
-import net.minecraft.command.ICommandSender;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
 import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.common.ForgeVersion.CheckResult;
 import net.minecraftforge.common.ForgeVersion.Status;
@@ -61,7 +52,6 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.EventBus;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -69,10 +59,10 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
 @SuppressWarnings("rawtypes")
-@Mod(modid = ARKCraft.MODID, name = ARKCraft.NAME, version = ARKCraft.VERSION, updateJSON = ARKCraft.UPDATE_JSON)
+@Mod(modid = ARKCraft.MODID, name = ARKCraft.NAME, updateJSON = ARKCraft.UPDATE_JSON, useMetadata = true)
 public class ARKCraft
 {
-	public static final String MODID = "arkcraft", VERSION = "0.1.3-Alpha", NAME = "ARKCraft";
+	public static final String MODID = "arkcraft", NAME = "ARKCraft";
 
 	public static final String descriptionPacketChannel = MODID + ":descPacket";
 	public static final String UPDATE_JSON = "https://raw.githubusercontent.com/BubbleTrouble14/ARKCraft/master/version-check.json";
@@ -221,6 +211,22 @@ public class ARKCraft
 
 	public boolean isDebugger()
 	{
-		return "${version}".equals("${" + "version" + "}");
+		System.out.println(version());
+		return "".equals(version());
+	}
+
+	public String version()
+	{
+		return this.getClass().getAnnotation(Mod.class).version();
+	}
+
+	public String modid()
+	{
+		return this.getClass().getAnnotation(Mod.class).modid();
+	}
+
+	public String name()
+	{
+		return this.getClass().getAnnotation(Mod.class).name();
 	}
 }

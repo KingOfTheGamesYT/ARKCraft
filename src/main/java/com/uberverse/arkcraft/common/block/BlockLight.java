@@ -3,6 +3,7 @@ package com.uberverse.arkcraft.common.block;
 import java.util.Random;
 
 import net.minecraft.block.BlockAir;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
@@ -25,6 +26,12 @@ public class BlockLight extends BlockAir
 	}
 
 	@Override
+	public boolean isAir(IBlockAccess world, BlockPos pos)
+	{
+		return true;
+	}
+
+	@Override
 	public boolean isOpaqueCube()
 	{
 		return true;
@@ -33,6 +40,7 @@ public class BlockLight extends BlockAir
 	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
 	{
+		System.out.println("tick " + worldIn.getWorldTime());
 		int ticks = (int) worldIn.getBlockState(pos).getValue(TICKS);
 		if (ticks < 2)
 		{
