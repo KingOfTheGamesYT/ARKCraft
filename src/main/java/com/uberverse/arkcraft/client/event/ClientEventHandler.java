@@ -62,7 +62,7 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 
 public class ClientEventHandler
 {
-	private static KeyBinding reload, attachment, playerPooping, harvestOverlay, playerCrafting;
+	private static KeyBinding reload, attachment, playerPooping, arkmode, playerCrafting;
 
 	private static Minecraft mc = Minecraft.getMinecraft();
 
@@ -97,8 +97,8 @@ public class ClientEventHandler
 		attachment = new KeyBinding("key.attachment", Keyboard.KEY_M, ARKCraft.NAME);
 		ClientRegistry.registerKeyBinding(attachment);
 
-		harvestOverlay = new KeyBinding("key.harvestOverlay", Keyboard.KEY_P, ARKCraft.NAME);
-		ClientRegistry.registerKeyBinding(harvestOverlay);
+		arkmode = new KeyBinding("key.harvestOverlay", Keyboard.KEY_P, ARKCraft.NAME);
+		ClientRegistry.registerKeyBinding(arkmode);
 	}
 
 	@SuppressWarnings("static-access")
@@ -358,17 +358,18 @@ public class ClientEventHandler
 				ARKCraft.modChannel.sendToServer(new OpenAttachmentInventory());
 			}
 		}
-		else if (harvestOverlay.isPressed())
+		else if (arkmode.isPressed())
 		{
-			CommonEventHandler handler = new CommonEventHandler();
-			if (handler.arkMode() == false)
-			{
-				handler.arkMode = true;
-			}
-			else
-			{
-				handler.arkMode = false;
-			}
+			ARKCraft.modChannel.sendToServer(new ARKModeMessage());
+		//	CommonEventHandler handler = new CommonEventHandler();
+		//	if (handler.arkMode() == false)
+		//	{
+		//		handler.arkMode = true;
+		//	}
+		//	else
+		//	{
+		//		handler.arkMode = false;
+		//	}
 		}
 	}
 

@@ -1,5 +1,9 @@
 package com.uberverse.arkcraft.client.gui.overlay;
 
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.client.event.ClientEventHandler;
+import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -9,16 +13,11 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.client.event.ClientEventHandler;
-import com.uberverse.arkcraft.common.event.CommonEventHandler;
-
-public class GUIOverlayGetResources extends Gui
+public class GUIOverlayARKMode extends Gui
 {
 	private static final Minecraft mc = Minecraft.getMinecraft();
 	private static final TextureMap iconLocation = new TextureMap(
 			ARKCraft.MODID + "textures/items/azul.png");
-	public boolean allowGuiOpen;
 	public static int count = 0;
 
 	/*
@@ -32,8 +31,7 @@ public class GUIOverlayGetResources extends Gui
 	@SubscribeEvent
 	public void renderGUIOverlay(RenderGameOverlayEvent.Post e)
 	{
-
-		if (allowGuiOpen != CommonEventHandler.arkMode)
+		if (ARKPlayer.arkMode)
 		{
 			EntityPlayer p = mc.thePlayer;
 			ItemStack stack = p.getCurrentEquippedItem();

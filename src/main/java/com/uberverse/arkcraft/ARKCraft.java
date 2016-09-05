@@ -2,6 +2,7 @@ package com.uberverse.arkcraft;
 
 import org.apache.logging.log4j.Logger;
 
+import com.uberverse.arkcraft.client.event.ARKModeMessage;
 import com.uberverse.arkcraft.common.arkplayer.network.ARKPlayerUpdate;
 import com.uberverse.arkcraft.common.arkplayer.network.ARKPlayerUpdateRequest;
 import com.uberverse.arkcraft.common.arkplayer.network.PlayerEngramCrafterUpdate;
@@ -204,6 +205,8 @@ public class ARKCraft
 		modChannel.registerMessage(ARKPlayerUpdate.Handler.class, ARKPlayerUpdate.class, id++, Side.CLIENT);
 		modChannel.registerMessage(PlayerEngramCrafterUpdate.Handler.class, PlayerEngramCrafterUpdate.class, id++, Side.CLIENT);
 		modChannel.registerMessage(ScrollingMessage.Handler.class, ScrollingMessage.class, id++, Side.SERVER);
+		modChannel.registerMessage(ARKModeMessage.Handler.class, ARKModeMessage.class, id++, Side.SERVER);
+
 		DescriptionHandler.init();
 	}
 

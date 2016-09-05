@@ -54,6 +54,8 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 	 * methods to simplify registering and accessing
 	 * certain variables for static use
 	 */
+	public static boolean arkMode;
+	
 	public static final String propKey = "arkplayer";
 
 	public static ARKPlayer get(EntityPlayer p)
@@ -122,6 +124,15 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 				}
 			}
 		}
+	}
+	public void setARKMode(boolean arkMode)
+	{
+		this.arkMode = arkMode;
+	}
+	
+	public static boolean getARKMode()
+	{
+		return arkMode;
 	}
 
 	public InventoryEngram getEngramInventory()

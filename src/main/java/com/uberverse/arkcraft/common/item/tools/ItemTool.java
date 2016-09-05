@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.Multimap;
-import com.uberverse.arkcraft.common.event.CommonEventHandler;
+import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.wip.itemquality.Qualitable;
 
@@ -170,7 +170,8 @@ public class ItemTool extends Item implements Qualitable
 
 	public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn)
 	{
-		if (arkMode != CommonEventHandler.arkMode)
+		System.out.println(ARKPlayer.arkMode);
+		if (ARKPlayer.arkMode)
 		{
 			IBlockState blockState = worldIn.getBlockState(pos);
 			Float offset = worldIn.rand.nextFloat();

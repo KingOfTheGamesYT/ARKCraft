@@ -5,7 +5,7 @@ import java.util.Map.Entry;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.event.ClientEventHandler;
-import com.uberverse.arkcraft.client.gui.overlay.GUIOverlayGetResources;
+import com.uberverse.arkcraft.client.gui.overlay.GUIOverlayARKMode;
 import com.uberverse.arkcraft.client.gui.overlay.GUIOverlayReloading;
 import com.uberverse.arkcraft.client.render.RenderAdvancedBullet;
 import com.uberverse.arkcraft.client.render.RenderSimpleBullet;
@@ -55,7 +55,7 @@ public class ClientProxy extends CommonProxy
 
 		// 1 MinecraftForge.EVENT_BUS.register(new GuiOverlay());
 		MinecraftForge.EVENT_BUS.register(new GUIOverlayReloading());
-		MinecraftForge.EVENT_BUS.register(new GUIOverlayGetResources());
+		MinecraftForge.EVENT_BUS.register(new GUIOverlayARKMode());
 
 		// KeyBindings.preInit();
 		// dossierProxy.init();
