@@ -38,8 +38,8 @@ public class BlockRefiningForge extends BlockContainer
 	{
 		super(material);
 		this.setCreativeTab(CreativeTabs.tabBlock);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH)
-				.withProperty(BURNING, false).withProperty(PART, EnumPart.BOTTOM));
+		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(BURNING, false).withProperty(PART,
+				EnumPart.BOTTOM));
 		this.ID = ID;
 	}
 
@@ -82,17 +82,18 @@ public class BlockRefiningForge extends BlockContainer
 	}
 
 	@Override
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta,
+			EntityLivingBase placer)
 	{
-		return this.getDefaultState().withProperty(FACING,
-				placer.getHorizontalFacing().getOpposite());
+		return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
 	}
 
 	// Called when the block is right clicked
 	// In this block it is used to open the blocks gui when right clicked by a
 	// player
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY,
+			float hitZ)
 	{
 		// Uses the gui handler registered to your mod to open the gui for the
 		// given gui id
@@ -103,17 +104,19 @@ public class BlockRefiningForge extends BlockContainer
 		playerIn.openGui(ARKCraft.instance(), ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-			double d0 = (double) pos.getX() + 0.8D;
-			double d1 = (double) pos.getY() + 1.9D;
-			double d2 = (double) pos.getZ() + 0.5D;
-			IBlockState blockState = getActualState(getDefaultState(), worldIn, pos);
-			boolean burning = (Boolean) blockState.getValue(BURNING);
-			if (burning) {
-				worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
+	public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
+	{
+		double d0 = (double) pos.getX() + 0.8D;
+		double d1 = (double) pos.getY() + 1.9D;
+		double d2 = (double) pos.getZ() + 0.5D;
+		IBlockState blockState = getActualState(getDefaultState(), worldIn, pos);
+		boolean burning = (Boolean) blockState.getValue(BURNING);
+		if (burning)
+		{
+			worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
 		}
 	}
 
@@ -208,8 +211,7 @@ public class BlockRefiningForge extends BlockContainer
 	}
 
 	public static final PropertyBool BURNING = PropertyBool.create("burning");
-	public static final PropertyDirection FACING = PropertyDirection.create("facing",
-			EnumFacing.Plane.HORIZONTAL);
+	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	public static final PropertyEnum PART = PropertyEnum.create("part", EnumPart.class);
 
 	public static enum EnumPart implements IStringSerializable
@@ -247,6 +249,7 @@ public class BlockRefiningForge extends BlockContainer
 		}
 		else
 		{
+			// TODO
 			// linearly interpolate the light value depending on how many slots
 			// are burning
 			lightValue = 0;

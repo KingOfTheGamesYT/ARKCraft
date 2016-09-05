@@ -15,7 +15,6 @@ import com.uberverse.arkcraft.common.entity.data.CalcPlayerWeight;
 import com.uberverse.arkcraft.common.event.CommonEventHandler;
 import com.uberverse.arkcraft.common.inventory.InventoryAttachment;
 import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
-import com.uberverse.arkcraft.common.item.engram.Engram;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
@@ -125,14 +124,11 @@ public class ClientEventHandler
 		if (WeightsConfig.isEnabled)
 		{
 			ItemStack stack = event.itemStack;
-			if (!(stack.getItem() instanceof Engram))
+			double weight = CalcPlayerWeight.getWeight(stack);
+			event.toolTip.add(EnumChatFormatting.BOLD + "" + EnumChatFormatting.WHITE + "Weight: " + weight);
+			if (stack.stackSize > 1)
 			{
-				double weight = CalcPlayerWeight.getWeight(stack);
-				event.toolTip.add(EnumChatFormatting.BOLD + "" + EnumChatFormatting.WHITE + "Weight: " + weight);
-				if (stack.stackSize > 1)
-				{
-					event.toolTip.add("Stack Weight: " + (weight * stack.stackSize));
-				}
+				event.toolTip.add("Stack Weight: " + (weight * stack.stackSize));
 			}
 		}
 	}
@@ -185,10 +181,7 @@ public class ClientEventHandler
 	@SubscribeEvent
 	public void onFOVUpdate(FOVUpdateEvent evt)
 	{
-		if (mc.gameSettings.thirdPersonView == 0 && showScopeOverlap)
-		{
-			evt.newfov = 1 / 6.0F;
-		}
+		if (mc.gameSettings.thirdPersonView == 0 && showScopeOverlap) evt.newfov /= 6.0F;
 	}
 
 	@SubscribeEvent

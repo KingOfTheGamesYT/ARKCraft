@@ -5,8 +5,8 @@ import java.util.Map;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.ARKCraftBerryBush;
-import com.uberverse.arkcraft.common.block.BlockFlashlight;
 import com.uberverse.arkcraft.common.block.BlockGreenScreen;
+import com.uberverse.arkcraft.common.block.BlockLight;
 import com.uberverse.arkcraft.common.block.BlockSpikes;
 import com.uberverse.arkcraft.common.block.crafter.BlockCampfire;
 import com.uberverse.arkcraft.common.block.crafter.BlockCompostBin;
@@ -22,7 +22,6 @@ import com.uberverse.arkcraft.common.item.itemblock.ItemCropPlot;
 import com.uberverse.arkcraft.common.item.itemblock.ItemMortarAndPestle;
 import com.uberverse.arkcraft.common.item.itemblock.ItemRefiningForge;
 import com.uberverse.arkcraft.common.item.itemblock.ItemSmithy;
-import com.uberverse.arkcraft.common.tileentity.TileFlashlight;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlotNew;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntitySmithy;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryCampfire;
@@ -39,7 +38,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class ARKCraftBlocks
 {
 
-	public static BlockFlashlight block_flashlight;
+	public static BlockLight block_light;
 	public static ARKCraftBerryBush berryBush;
 
 	public static BlockARKBase oreSurface;
@@ -69,26 +68,19 @@ public class ARKCraftBlocks
 	{
 
 		// Misc
-		block_flashlight = new BlockFlashlight();
-		GameRegistry.registerBlock(block_flashlight, "block_flashlight");
+		 block_light = new BlockLight();
+		 GameRegistry.registerBlock(block_light, "block_light");
 		berryBush = (ARKCraftBerryBush) registerBlock(new ARKCraftBerryBush(0.4F), "berryBush");
 
-		greenScreen = (BlockGreenScreen) registerBlockNoTab(new BlockGreenScreen(Material.gourd),
-				"greenScreen");
+		greenScreen = (BlockGreenScreen) registerBlockNoTab(new BlockGreenScreen(Material.gourd), "greenScreen");
 
 		// Containers
-		smithy = registerSmithy("smithy", Material.wood, ARKCraft.GUI.SMITHY.getID(), false, false,
-				3);
-		pestle = registerMortarAndPestle("mortar_and_pestle", Material.rock,
-				ARKCraft.GUI.PESTLE_AND_MORTAR.getID(), false, false, 3);
-		crop_plot = registerCropPlot("crop_plot", Material.wood, ARKCraft.GUI.CROP_PLOT.getID(),
-				false, 3);
-		compost_bin = registerCompostBin("compost_bin", Material.wood,
-				ARKCraft.GUI.COMPOST_BIN.getID(), false, false, 3);
-		refining_forge = registerRefiningForge("refining_forge", Material.rock, false,
-				ARKCraft.GUI.FORGE_GUI.getID(), false, false, 3);
-		campfire = registerCampfire("campfire", Material.wood, ARKCraft.GUI.CAMPFIRE_GUI.getID(),
-				false, 3);
+		smithy = registerSmithy("smithy", Material.wood, ARKCraft.GUI.SMITHY.getID(), false, false, 3);
+		pestle = registerMortarAndPestle("mortar_and_pestle", Material.rock, ARKCraft.GUI.PESTLE_AND_MORTAR.getID(), false, false, 3);
+		crop_plot = registerCropPlot("crop_plot", Material.wood, ARKCraft.GUI.CROP_PLOT.getID(), false, 3);
+		compost_bin = registerCompostBin("compost_bin", Material.wood, ARKCraft.GUI.COMPOST_BIN.getID(), false, false, 3);
+		refining_forge = registerRefiningForge("refining_forge", Material.rock, false, ARKCraft.GUI.FORGE_GUI.getID(), false, false, 3);
+		campfire = registerCampfire("campfire", Material.wood, ARKCraft.GUI.CAMPFIRE_GUI.getID(), false, 3);
 
 		// Tile Entities
 		GameRegistry.registerTileEntity(TileEntityCropPlotNew.class, ARKCraft.MODID + "cropPlot");
@@ -97,8 +89,6 @@ public class ARKCraftBlocks
 		GameRegistry.registerTileEntity(TileEntitySmithy.class, "TileEntitySmithy");
 		GameRegistry.registerTileEntity(TileInventoryForge.class, "TileInventoryForge");
 		GameRegistry.registerTileEntity(TileInventoryCampfire.class, "TileInventoryCampfire");
-		GameRegistry.registerTileEntity(TileFlashlight.class, "TileFlashlight");
-
 	}
 
 	private static Block registerBlock(Block block, String name)
@@ -146,14 +136,16 @@ public class ARKCraftBlocks
 		return container;
 	}
 
-	protected static BlockMortarAndPestle registerMortarAndPestle(String name, Material mat, int ID, boolean renderAsNormalBlock, boolean isOpaque, int renderType)
+	protected static BlockMortarAndPestle registerMortarAndPestle(String name, Material mat, int ID, boolean renderAsNormalBlock, boolean isOpaque,
+			int renderType)
 	{
 		BlockMortarAndPestle container = new BlockMortarAndPestle(mat, ID);
 		registerBlockWithItemBlock(container, ItemMortarAndPestle.class, name);
 		return container;
 	}
 
-	protected static BlockRefiningForge registerRefiningForge(String name, Material mat, boolean isBurning, int ID, boolean renderAsNormalBlock, boolean isOpaque, int renderType)
+	protected static BlockRefiningForge registerRefiningForge(String name, Material mat, boolean isBurning, int ID, boolean renderAsNormalBlock,
+			boolean isOpaque, int renderType)
 	{
 		BlockRefiningForge container = new BlockRefiningForge(mat, ID);
 		registerBlockWithItemBlock(container, ItemRefiningForge.class, name);
@@ -174,7 +166,8 @@ public class ARKCraftBlocks
 		return container;
 	}
 
-	protected static BlockCompostBin registerCompostBin(String name, Material mat, int ID, boolean renderAsNormalBlock, boolean isOpaque, int renderType)
+	protected static BlockCompostBin registerCompostBin(String name, Material mat, int ID, boolean renderAsNormalBlock, boolean isOpaque,
+			int renderType)
 	{
 		BlockCompostBin container = new BlockCompostBin(mat, ID);
 		registerBlockWithItemBlock(container, ItemCompostBin.class, name);
