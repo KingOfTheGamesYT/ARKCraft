@@ -220,7 +220,7 @@ public class ClientEventHandler
 		else if (evt.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS)
 		{
 			MovingObjectPosition mop = rayTrace(mc.thePlayer, 8, evt.partialTicks);
-			if (mop.typeOfHit == MovingObjectType.BLOCK)
+			if (mop !=null && mop.typeOfHit == MovingObjectType.BLOCK)
 			{
 				TileEntity tile = mc.theWorld.getTileEntity(mop.getBlockPos());
 				if (tile instanceof IHoverInfo)
