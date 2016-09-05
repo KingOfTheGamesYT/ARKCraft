@@ -1,22 +1,16 @@
 package com.uberverse.arkcraft.common.item;
 
-import java.util.List;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-public class ARKCraftFeces extends Item
+public class ARKCraftFeces extends Item 
 {
-
+//	public int decayTime;
+	
 	public ARKCraftFeces()
 	{
 		this.setMaxStackSize(1);
+//		this.decayTime = decayTime;
 	}
 
 	// seconds that this fertilizer will grow a crop
@@ -35,6 +29,7 @@ public class ARKCraftFeces extends Item
 	 * @param advanced
 	 *            Whether the setting "Advanced tooltips" is enabled
 	 */
+	/*
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@SideOnly(Side.CLIENT)
 	@Override
@@ -49,5 +44,30 @@ public class ARKCraftFeces extends Item
 		}else{
 			stack.setItemDamage(stack.getMetadata()+1);
 		}
+	}	
+	public int getMaxDecayTime(ItemStack stack){
+	//	return decayTime;
+	//}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void addInformation(ItemStack itemStack, EntityPlayer playerIn, List tooltip, boolean advanced)
+	{
+		tooltip.add("Decomposes in " + ((getMaxDamage() - itemStack.getItemDamage()) / 20) + " seconds");
 	}
+	@Override
+	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged)
+	{
+		return slotChanged || (oldStack != null && newStack != null && (oldStack.getItem() != newStack.getItem()));
+	}
+
+	@Override
+	public void decayTick(IInventory inventory, int itemSlot, double decayModifier, ItemStack stack) {
+		if(stack.getMetadata() > (getMaxDecayTime(stack) * 20)){
+			inventory.setInventorySlotContents(itemSlot, null);
+		}else{
+			stack.setItemDamage(MathHelper.floor_double(stack.getMetadata() + (20 * decayModifier)));
+		}
+	} */
 }
