@@ -23,11 +23,11 @@ import com.uberverse.arkcraft.common.item.itemblock.ItemMortarAndPestle;
 import com.uberverse.arkcraft.common.item.itemblock.ItemRefiningForge;
 import com.uberverse.arkcraft.common.item.itemblock.ItemSmithy;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlotNew;
+import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityMP;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntitySmithy;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryCampfire;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryCompostBin;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryForge;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryMP;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -68,8 +68,8 @@ public class ARKCraftBlocks
 	{
 
 		// Misc
-		 block_light = new BlockLight();
-		 GameRegistry.registerBlock(block_light, "block_light");
+		block_light = new BlockLight();
+		GameRegistry.registerBlock(block_light, "block_light");
 		berryBush = (ARKCraftBerryBush) registerBlock(new ARKCraftBerryBush(0.4F), "berryBush");
 
 		greenScreen = (BlockGreenScreen) registerBlockNoTab(new BlockGreenScreen(Material.gourd), "greenScreen");
@@ -84,7 +84,7 @@ public class ARKCraftBlocks
 
 		// Tile Entities
 		GameRegistry.registerTileEntity(TileEntityCropPlotNew.class, ARKCraft.MODID + "cropPlot");
-		GameRegistry.registerTileEntity(TileInventoryMP.class, "TileInventoryMP");
+		GameRegistry.registerTileEntity(TileEntityMP.class, "TileInventoryMP");
 		GameRegistry.registerTileEntity(TileInventoryCompostBin.class, "TileEntityCompostBin");
 		GameRegistry.registerTileEntity(TileEntitySmithy.class, "TileEntitySmithy");
 		GameRegistry.registerTileEntity(TileInventoryForge.class, "TileInventoryForge");
