@@ -115,8 +115,12 @@ public class GUIEngram extends GUIScrollable
 		title = title != null ? title : "";
 		String description = getEngramDescription();
 		description = description != null ? description : "";
+		String points =  getEngramPoints();
+		points = points != null ? points : "";
 		fontRendererObj.drawString(title, getCenteredStringOffset(title, fontRendererObj, 80), 6, descColor);
-		fontRendererObj.drawString(description, getCenteredStringOffset(description, fontRendererObj, 80), 18, descColor);// 4210752 original value
+		fontRendererObj.drawString(description, getCenteredStringOffset(description, fontRendererObj, 80), 18, descColor);
+		fontRendererObj.drawString("Cost: " + points, getCenteredStringOffset("Cost: " + points, fontRendererObj, 80), 29, descColor);// 4210752 original value
+		
 	}
 
 	@Override
@@ -140,6 +144,11 @@ public class GUIEngram extends GUIScrollable
 	public String getEngramTitle()
 	{
 		return getEngram() != null ? getEngram().getTitle() : "";
+	}
+	
+	public String getEngramPoints()
+	{
+		return getEngram() != null ? getEngram().getPoints() + "" : ""; 
 	}
 
 	public Engram getEngram()
