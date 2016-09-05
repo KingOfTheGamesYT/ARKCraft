@@ -291,11 +291,15 @@ public interface IEngramCrafter extends NBTable
 			return;
 		}
 
-		for (CraftingOrder co : getCraftingQueue())
+		Iterator<CraftingOrder> it = getCraftingQueue().iterator();
+
+		while (it.hasNext())
 		{
+			CraftingOrder co = it.next();
 			if (co.matches(engram, itemQuality))
 			{
 				co.decreaseCount(1);
+				if (co.getCount() == 0) it.remove();
 				return;
 			}
 		}
