@@ -110,13 +110,17 @@ public class GUIEngram extends GUIScrollable
 		String s = I18n.format("gui.engram.text.engrampoints", ARKPlayer.get(player).getEngramPoints());
 		fontRendererObj.drawString(s, getCenteredStringOffset(s, fontRendererObj, 80), -10, Color.gray.getRGB());
 
-		int descColor = Color.white.getRGB();
-		String title = getEngramTitle();
-		title = title != null ? title : "";
-		String description = getEngramDescription();
-		description = description != null ? description : "";
-		fontRendererObj.drawString(title, getCenteredStringOffset(title, fontRendererObj, 80), 6, descColor);
-		fontRendererObj.drawString(description, getCenteredStringOffset(description, fontRendererObj, 80), 18, descColor);// 4210752 original value
+		if (getEngram() != null) {
+			int descColor = Color.white.getRGB();
+			String title = getEngram().getTitle();
+			String description = getEngram().getDescription();
+			String points = "Cost: " + getEngram().getPoints();
+			fontRendererObj.drawString(title, getCenteredStringOffset(title, fontRendererObj, 80), 6, descColor);
+			fontRendererObj.drawString(description, getCenteredStringOffset(description, fontRendererObj, 80), 18,
+					descColor);
+			fontRendererObj.drawString(points, getCenteredStringOffset(points, fontRendererObj, 80), 29, descColor);// 4210752 original value
+		} // 4210752 original value
+
 	}
 
 	@Override
@@ -137,21 +141,11 @@ public class GUIEngram extends GUIScrollable
 		return center - renderer.getStringWidth(string) / 2;
 	}
 
-	public String getEngramTitle()
-	{
-		return getEngram() != null ? getEngram().getTitle() : "";
-	}
-
 	public Engram getEngram()
 	{
 		return ((ContainerEngram) inventorySlots).getSelectedEngram();
 	}
-
-	public String getEngramDescription()
-	{
-		return getEngram() != null ? getEngram().getDescription() : "";
-	}
-
+	
 	public InventoryEngram getInventory()
 	{
 		return inventory;
