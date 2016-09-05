@@ -170,8 +170,7 @@ public class ItemTool extends Item implements Qualitable
 
 	public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn)
 	{
-		System.out.println(ARKPlayer.arkMode);
-		if (ARKPlayer.arkMode)
+		if (playerIn instanceof EntityPlayer && ARKPlayer.isARKMode((EntityPlayer) playerIn))
 		{
 			IBlockState blockState = worldIn.getBlockState(pos);
 			Float offset = worldIn.rand.nextFloat();

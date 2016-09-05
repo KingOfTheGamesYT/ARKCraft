@@ -2,7 +2,6 @@ package com.uberverse.arkcraft;
 
 import org.apache.logging.log4j.Logger;
 
-import com.uberverse.arkcraft.client.event.ARKModeMessage;
 import com.uberverse.arkcraft.common.arkplayer.network.ARKPlayerUpdate;
 import com.uberverse.arkcraft.common.arkplayer.network.ARKPlayerUpdateRequest;
 import com.uberverse.arkcraft.common.arkplayer.network.PlayerEngramCrafterUpdate;
@@ -18,6 +17,7 @@ import com.uberverse.arkcraft.common.handlers.recipes.PestleCraftingManager;
 import com.uberverse.arkcraft.common.handlers.recipes.PlayerCraftingManager;
 import com.uberverse.arkcraft.common.handlers.recipes.RecipeHandler;
 import com.uberverse.arkcraft.common.handlers.recipes.SmithyCraftingManager;
+import com.uberverse.arkcraft.common.network.ARKModeToggle;
 import com.uberverse.arkcraft.common.network.BurnerToggle;
 import com.uberverse.arkcraft.common.network.DescriptionHandler;
 import com.uberverse.arkcraft.common.network.MessageHover;
@@ -205,7 +205,7 @@ public class ARKCraft
 		modChannel.registerMessage(ARKPlayerUpdate.Handler.class, ARKPlayerUpdate.class, id++, Side.CLIENT);
 		modChannel.registerMessage(PlayerEngramCrafterUpdate.Handler.class, PlayerEngramCrafterUpdate.class, id++, Side.CLIENT);
 		modChannel.registerMessage(ScrollingMessage.Handler.class, ScrollingMessage.class, id++, Side.SERVER);
-		modChannel.registerMessage(ARKModeMessage.Handler.class, ARKModeMessage.class, id++, Side.SERVER);
+		modChannel.registerMessage(ARKModeToggle.Handler.class, ARKModeToggle.class, id++, Side.SERVER);
 
 		DescriptionHandler.init();
 	}

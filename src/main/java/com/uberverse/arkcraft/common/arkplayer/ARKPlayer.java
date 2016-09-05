@@ -50,12 +50,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeighable, ITranquilizable
 {
-	/*
-	 * methods to simplify registering and accessing
-	 * certain variables for static use
-	 */
-	public static boolean arkMode;
-
 	public static final String propKey = "arkplayer";
 
 	public static ARKPlayer get(EntityPlayer p)
@@ -124,16 +118,6 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 				}
 			}
 		}
-	}
-
-	public void setARKMode(boolean arkMode)
-	{
-		this.arkMode = arkMode;
-	}
-
-	public static boolean getARKMode()
-	{
-		return arkMode;
 	}
 
 	public InventoryEngram getEngramInventory()
@@ -1033,5 +1017,31 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 	public void setEngramPoints(int data)
 	{
 		engramPoints.variable = data;
+	}
+
+	private boolean arkmode;
+
+	public void toggleARKMode()
+	{
+		setARKMode(!isARKMode());
+	}
+
+	private void setARKMode(boolean arkMode)
+	{
+		this.arkmode = arkMode;
+	}
+
+	public boolean isARKMode()
+	{
+		return arkmode;
+	}
+
+	/**
+	 * @param playerIn
+	 * @return
+	 */
+	public static boolean isARKMode(EntityPlayer playerIn)
+	{
+		return get(playerIn).isARKMode();
 	}
 }

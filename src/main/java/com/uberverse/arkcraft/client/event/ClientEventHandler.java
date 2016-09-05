@@ -17,6 +17,7 @@ import com.uberverse.arkcraft.common.inventory.InventoryAttachment;
 import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
+import com.uberverse.arkcraft.common.network.ARKModeToggle;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.common.network.gui.OpenAttachmentInventory;
 import com.uberverse.arkcraft.common.network.gui.OpenPlayerCrafting;
@@ -360,7 +361,7 @@ public class ClientEventHandler
 		}
 		else if (arkmode.isPressed())
 		{
-			ARKCraft.modChannel.sendToServer(new ARKModeMessage());
+			ARKCraft.modChannel.sendToServer(new ARKModeToggle());
 		//	CommonEventHandler handler = new CommonEventHandler();
 		//	if (handler.arkMode() == false)
 		//	{
