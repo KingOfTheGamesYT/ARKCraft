@@ -240,7 +240,7 @@ public interface IEngramCrafter extends NBTable
 				{
 					add = craftingQueue.add(new CraftingOrder(engram, amount, quality));
 				}
-				if (add)
+				if (add && !getWorldEC().isRemote)
 				{
 					selectNextCraftingOrder();
 					return true;
