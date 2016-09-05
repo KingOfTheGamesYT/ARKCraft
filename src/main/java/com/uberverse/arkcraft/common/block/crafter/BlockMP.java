@@ -2,6 +2,10 @@ package com.uberverse.arkcraft.common.block.crafter;
 
 import java.util.Random;
 
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityMP;
+import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryMP;
+
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -14,20 +18,17 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryMP;
-
 /**
  * @author wildbill22
  */
-public class BlockMortarAndPestle extends BlockContainer
+public class BlockMP extends BlockContainer
 {
 	private int renderType = 3; // default value
 	private boolean isOpaque = false;
 	private int ID;
 	private boolean render = false;
 
-	public BlockMortarAndPestle(Material mat, int ID)
+	public BlockMP(Material mat, int ID)
 	{
 		super(mat);
 		this.setHardness(0.5F);
@@ -39,7 +40,7 @@ public class BlockMortarAndPestle extends BlockContainer
 
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{
-		return new TileInventoryMP();
+		return new TileEntityMP();
 	}
 
 	@Override
@@ -105,6 +106,7 @@ public class BlockMortarAndPestle extends BlockContainer
 	/**
 	 * Returns randomly, about 1/2 of the recipe items
 	 */
+	/*
 	@Override
 	public java.util.List<ItemStack> getDrops(net.minecraft.world.IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
 	{
@@ -123,5 +125,5 @@ public class BlockMortarAndPestle extends BlockContainer
 			}
 		}
 		return ret;
-	}
+	}	*/
 }

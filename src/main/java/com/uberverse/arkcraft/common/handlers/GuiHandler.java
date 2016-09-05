@@ -18,18 +18,18 @@ import com.uberverse.arkcraft.common.container.block.ContainerCropPlotNew;
 import com.uberverse.arkcraft.common.container.block.ContainerInventoryCampfire;
 import com.uberverse.arkcraft.common.container.block.ContainerInventoryCompostBin;
 import com.uberverse.arkcraft.common.container.block.ContainerInventoryForge;
-import com.uberverse.arkcraft.common.container.block.ContainerInventoryMP;
+import com.uberverse.arkcraft.common.container.block.ContainerMP;
 import com.uberverse.arkcraft.common.container.block.ContainerSmithy;
 import com.uberverse.arkcraft.common.container.item.ContainerInventoryAttachment;
 import com.uberverse.arkcraft.common.container.player.ContainerEngram;
 import com.uberverse.arkcraft.common.container.player.ContainerPlayerCrafting;
 import com.uberverse.arkcraft.common.inventory.InventoryAttachment;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlotNew;
+import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityMP;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntitySmithy;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryCampfire;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryCompostBin;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryForge;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryMP;
 import com.uberverse.lib.LogHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -70,9 +70,9 @@ public class GuiHandler implements IGuiHandler
 		{
 			BlockPos xyz = new BlockPos(x, y, z);
 			TileEntity tileEntity = world.getTileEntity(xyz);
-			if (tileEntity instanceof TileInventoryMP)
+			if (tileEntity instanceof TileEntityMP)
 			{
-				return new ContainerInventoryMP(player.inventory, (TileInventoryMP) tileEntity);
+				return new ContainerMP(player, (TileEntityMP) tileEntity);
 			}
 			else
 			{
@@ -169,9 +169,9 @@ public class GuiHandler implements IGuiHandler
 		{
 			BlockPos xyz = new BlockPos(x, y, z);
 			TileEntity tileEntity = world.getTileEntity(xyz);
-			if (tileEntity instanceof TileInventoryMP)
+			if (tileEntity instanceof TileEntityMP)
 			{
-				return new GUIMortarPestle(player.inventory, (TileInventoryMP) tileEntity);
+				return new GUIMortarPestle(player, (TileEntityMP) tileEntity);
 			}
 			else
 			{

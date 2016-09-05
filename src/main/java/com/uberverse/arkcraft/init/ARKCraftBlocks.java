@@ -11,7 +11,7 @@ import com.uberverse.arkcraft.common.block.BlockSpikes;
 import com.uberverse.arkcraft.common.block.crafter.BlockCampfire;
 import com.uberverse.arkcraft.common.block.crafter.BlockCompostBin;
 import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot;
-import com.uberverse.arkcraft.common.block.crafter.BlockMortarAndPestle;
+import com.uberverse.arkcraft.common.block.crafter.BlockMP;
 import com.uberverse.arkcraft.common.block.crafter.BlockRefiningForge;
 import com.uberverse.arkcraft.common.block.crafter.BlockSmithy;
 import com.uberverse.arkcraft.common.block.unused.ARKContainerBlock;
@@ -24,11 +24,11 @@ import com.uberverse.arkcraft.common.item.itemblock.ItemRefiningForge;
 import com.uberverse.arkcraft.common.item.itemblock.ItemSmithy;
 import com.uberverse.arkcraft.common.tileentity.TileFlashlight;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlotNew;
+import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityMP;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntitySmithy;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryCampfire;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryCompostBin;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryForge;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryMP;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -46,7 +46,7 @@ public class ARKCraftBlocks
 	public static BlockSpikes wooden_spikes;
 	public static BlockCompostBin compost_bin;
 	public static BlockSmithy smithy;
-	public static BlockMortarAndPestle pestle;
+	public static BlockMP pestle;
 	public static BlockCropPlot crop_plot;
 	public static BlockRefiningForge refining_forge;
 	public static BlockCampfire campfire;
@@ -92,7 +92,7 @@ public class ARKCraftBlocks
 
 		// Tile Entities
 		GameRegistry.registerTileEntity(TileEntityCropPlotNew.class, ARKCraft.MODID + "cropPlot");
-		GameRegistry.registerTileEntity(TileInventoryMP.class, "TileInventoryMP");
+		GameRegistry.registerTileEntity(TileEntityMP.class, "TileInventoryMP");
 		GameRegistry.registerTileEntity(TileInventoryCompostBin.class, "TileEntityCompostBin");
 		GameRegistry.registerTileEntity(TileEntitySmithy.class, "TileEntitySmithy");
 		GameRegistry.registerTileEntity(TileInventoryForge.class, "TileInventoryForge");
@@ -146,9 +146,9 @@ public class ARKCraftBlocks
 		return container;
 	}
 
-	protected static BlockMortarAndPestle registerMortarAndPestle(String name, Material mat, int ID, boolean renderAsNormalBlock, boolean isOpaque, int renderType)
+	protected static BlockMP registerMortarAndPestle(String name, Material mat, int ID, boolean renderAsNormalBlock, boolean isOpaque, int renderType)
 	{
-		BlockMortarAndPestle container = new BlockMortarAndPestle(mat, ID);
+		BlockMP container = new BlockMP(mat, ID);
 		registerBlockWithItemBlock(container, ItemMortarAndPestle.class, name);
 		return container;
 	}
