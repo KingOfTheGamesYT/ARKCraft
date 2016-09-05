@@ -1,12 +1,12 @@
 package com.uberverse.arkcraft.common.item.melee;
 
+import com.uberverse.arkcraft.common.entity.EntitySpear;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
-
-import com.uberverse.arkcraft.common.entity.EntitySpear;
 
 public class ItemSpear extends ItemSword
 {
@@ -37,15 +37,12 @@ public class ItemSpear extends ItemSword
 			crit = true;
 		}
 
-		if (entityplayer.capabilities.isCreativeMode || entityplayer.inventory
-				.consumeInventoryItem(this))
+		if (entityplayer.capabilities.isCreativeMode || entityplayer.inventory.consumeInventoryItem(this))
 		{
-			world.playSoundAtEntity(entityplayer, "random.bow", 1.0F,
-					1.0F / (itemRand.nextFloat() * 0.4F + 0.8F));
+			world.playSoundAtEntity(entityplayer, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 0.8F));
 			if (!world.isRemote)
 			{
-				EntitySpear entitySpear = new EntitySpear(world, entityplayer,
-						f * (1.0F + (crit ? 0.5F : 0F)));
+				EntitySpear entitySpear = new EntitySpear(world, entityplayer, f * (1.0F + (crit ? 0.5F : 0F)));
 				entitySpear.setIsCritical(crit);
 				world.spawnEntityInWorld(entitySpear);
 			}

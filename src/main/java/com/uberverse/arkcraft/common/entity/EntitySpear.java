@@ -45,7 +45,6 @@ public class EntitySpear extends EntityProjectile
 		motionZ = MathHelper.cos((rotationYaw / 180F) * 3.141593F) * MathHelper
 				.cos((rotationPitch / 180F) * 3.141593F);
 		setThrowableHeading(motionX, motionY, motionZ, speed * 1.2F, 2.0F);
-
 	}
 
 	@Override

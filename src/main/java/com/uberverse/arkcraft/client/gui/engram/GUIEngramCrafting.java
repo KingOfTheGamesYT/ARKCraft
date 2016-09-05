@@ -22,8 +22,8 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.Item;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 
 public abstract class GUIEngramCrafting extends GUIScrollable
 {
@@ -82,6 +82,9 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 					if (ec.getCraftingQueue().peek() != null && ec.getCraftingQueue().peek() == co)
 					{
 						double fraction = ec.getRelativeProgress();
+						if (Double.isNaN(fraction)) fraction = 1;
+						System.out.println(fraction);
+						fraction = MathHelper.clamp_double(fraction, 0, 1);
 						if (fraction == 0) { return; }
 						int x = e.xDisplayPosition;
 						int y = e.yDisplayPosition + 16;
@@ -98,7 +101,7 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 					}
 				}
 			}
-			else if (o instanceof EngramSlot)
+			if (o instanceof EngramSlot)
 			{
 				EngramSlot e = (EngramSlot) o;
 				if (((ContainerEngramCrafting) inventorySlots).getSelectedEngram() == e.getEngram()
@@ -106,7 +109,7 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 				{
 					int x = e.xDisplayPosition;
 					int y = e.yDisplayPosition;
-					drawRect(x, y, x + 16, y + 16, new Color(0, 128,128,128).getRGB());
+					drawRect(x, y, x + 16, y + 16, new Color(0, 128, 128, 128).getRGB());
 					GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 					break;
 				}
@@ -146,17 +149,17 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 						shown = 0;
 						ticker = 0;
 					}
-					if (ticker == 30)
+					if (ticker == 20)
 					{
 						ticker = 0;
 						shown = (shown + 1 == recipes.size()) ? 0 : shown + 1;
 					}
 					textLines.clear();
-					textLines.add(tooltipped.getTitle());
+					textLines.add(tooltipped.getTitle() + (tooltipped.getAmount() > 1 ? " x " + tooltipped.getAmount() : ""));
 					EngramRecipe er = recipes.get(shown);
 					for (Item i : er.getItems().keySet())
 						textLines.add(EnumChatFormatting.GOLD + I18n.format("gui.engramcrafting.engram.tooltip.ingredient",
-								StatCollector.translateToLocal(i.getUnlocalizedName() + ".name"), er.getItems().get(i)));
+								I18n.translate(i.getUnlocalizedName() + ".name"), er.getItems().get(i)));
 				}
 			}
 		}

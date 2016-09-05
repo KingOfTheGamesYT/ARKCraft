@@ -372,23 +372,29 @@ public class ClientEventHandler
 		}
 	}
 
+	private boolean shown = false;
+
 	@SubscribeEvent
 	public void onPlayerJoinWorld(EntityJoinWorldEvent event)
 	{
 		if (event.entity instanceof EntityPlayer)
 		{
-			if (ARKCraft.instance.isDebugger())
+			if (!shown)
 			{
-				if (mc.thePlayer != null) mc.thePlayer
-						.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "You are running a decompiled version of ARKCraft!"));
-			}
-			else if (ARKCraft.versionCheckResult == null) ARKCraft.updateCheckResult();
-			else if (ARKCraft.versionCheckResult.status == Status.OUTDATED || ARKCraft.versionCheckResult.status == Status.BETA_OUTDATED)
-			{
-				if (mc.thePlayer != null)
+				if (ARKCraft.instance.isDebugger())
 				{
-					mc.thePlayer.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "ARKCraft is outdated!"));
+					if (mc.thePlayer != null) mc.thePlayer.addChatComponentMessage(
+							new ChatComponentText(EnumChatFormatting.RED + "You are running a decompiled version of ARKCraft!"));
 				}
+				else if (ARKCraft.versionCheckResult == null) ARKCraft.updateCheckResult();
+				else if (ARKCraft.versionCheckResult.status == Status.OUTDATED || ARKCraft.versionCheckResult.status == Status.BETA_OUTDATED)
+				{
+					if (mc.thePlayer != null)
+					{
+						mc.thePlayer.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "ARKCraft is outdated!"));
+					}
+				}
+				shown = true;
 			}
 			if (event.entity.worldObj.isRemote)
 			{
