@@ -39,33 +39,33 @@ public class GuiCropPlotNew extends GuiContainer
 		fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6,
 				4210752);
 		fontRendererObj.drawString(I18n.format("container.inventory"), 8, ySize - 96 + 2, 4210752);
-		fontRendererObj.drawString(
-				I18n.format("arkcraft.water", I18n.format("tile.water.name"),
-						(te.getField(0) / 20) + "/" + te.getType().getMaxWater() / 20,
-						te.getField(0) > 0 ? I18n.format("arkcraft.cropPlotWater.irrigated") : I18n
-								.format("arkcraft.cropPlotWater.notIrrigated")),
-				8, 15, te.getField(0) < 1 ? 0xFF0000 : 4210752);
-		fontRendererObj.drawString(
-				I18n.format("arkcraft.gui.fertilizer", te.getField(2) / (te.getField(-20) + 1)), 8,
-				63, te.getField(1) < 1 ? 0xFF0000 : 4210752);
+//		fontRendererObj.drawString(
+//				I18n.format("arkcraft.water", I18n.format("tile.water.name"),
+//						(te.getField(0) / 20) + "/" + te.getType().getMaxWater() / 20,
+//						te.getField(0) > 0 ? I18n.format("arkcraft.cropPlotWater.irrigated") : I18n
+//								.format("arkcraft.cropPlotWater.notIrrigated")),
+//				8, 15, te.getField(0) < 1 ? 0xFF0000 : 4210752);
+//		fontRendererObj.drawString(
+//				I18n.format("arkcraft.gui.fertilizer", te.getField(2) / (te.getField(-20) + 1)), 8,
+//				63, te.getField(1) < 1 ? 0xFF0000 : 4210752);
 	}
-
-	@Override
-	public void updateScreen()
-	{
-		super.updateScreen();
-		int f = te.getField(1) / 20;
-		for (int i = 0; i < 10; i++)
-		{
-			if (te.getStack()[i] != null)
-			{
-				Item item = te.getStack()[i].getItem();
-				if (item instanceof ARKCraftFeces)
-				{
-					f += (te.getStack()[i].getMaxDamage() - te.getStack()[i].getItemDamage());
-				}
-			}
-		}
-		te.setField(2, f);
-	}
+//	
+//	@Override
+//	public void updateScreen()
+//	{
+//		super.updateScreen();
+//		int f = te.getField(1) / 20;
+//		for (int i = 0; i < 10; i++)
+//		{
+//			if (te.getStack()[i] != null)
+//			{
+//				Item item = te.getStack()[i].getItem();
+//				if (item instanceof ARKCraftFeces)
+//				{
+//					f += (te.getStack()[i].getMaxDamage() - te.getStack()[i].getItemDamage());
+//				}
+//			}
+//		}
+//		te.setField(2, f);
+//	}
 }
