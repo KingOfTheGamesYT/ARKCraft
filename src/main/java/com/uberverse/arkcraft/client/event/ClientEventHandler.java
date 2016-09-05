@@ -12,12 +12,11 @@ import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.common.config.WeightsConfig;
 import com.uberverse.arkcraft.common.entity.data.CalcPlayerWeight;
-import com.uberverse.arkcraft.common.event.CommonEventHandler;
 import com.uberverse.arkcraft.common.inventory.InventoryAttachment;
 import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
-import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
 import com.uberverse.arkcraft.common.network.ARKModeToggle;
+import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.common.network.gui.OpenAttachmentInventory;
 import com.uberverse.arkcraft.common.network.gui.OpenPlayerCrafting;
@@ -343,7 +342,6 @@ public class ClientEventHandler
 		}
 		else if (playerCrafting.isPressed())
 		{
-			// player.openGui(ARKCraft.instance(), ARKCraft.GUI.PLAYER.getID(), player.worldObj, 0, 0, 0);
 			ARKCraft.modChannel.sendToServer(new OpenPlayerCrafting());
 		}
 		else if (reload.isPressed())
@@ -355,22 +353,13 @@ public class ClientEventHandler
 			if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof ItemRangedWeapon
 					&& !(player.getCurrentEquippedItem().getItem() instanceof NonSupporting))
 			{
-				// player.openGui(ARKCraft.instance, ARKCraft.GUI.ATTACHMENT_GUI.getID(), player.worldObj, 0, 0, 0);
 				ARKCraft.modChannel.sendToServer(new OpenAttachmentInventory());
 			}
 		}
 		else if (arkmode.isPressed())
 		{
+			ARKPlayer.get(Minecraft.getMinecraft().thePlayer).toggleARKMode();
 			ARKCraft.modChannel.sendToServer(new ARKModeToggle());
-		//	CommonEventHandler handler = new CommonEventHandler();
-		//	if (handler.arkMode() == false)
-		//	{
-		//		handler.arkMode = true;
-		//	}
-		//	else
-		//	{
-		//		handler.arkMode = false;
-		//	}
 		}
 	}
 
