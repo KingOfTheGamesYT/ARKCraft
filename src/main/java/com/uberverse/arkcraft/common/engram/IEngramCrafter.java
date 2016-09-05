@@ -29,7 +29,7 @@ public interface IEngramCrafter extends NBTable
 	{
 		if (!getWorldEC().isRemote)
 		{
-			if ((getWorldEC().getTotalWorldTime() % 20) == 0)
+			if ((getWorldEC().getTotalWorldTime() % 20) == getTimeOffset())
 			{
 				Queue<CraftingOrder> craftingQueue = getCraftingQueue();
 				if (isCrafting())
@@ -51,25 +51,31 @@ public interface IEngramCrafter extends NBTable
 						sync();
 					}
 				}
-				if (!isCrafting() && !craftingQueue.isEmpty())
+				selectNextCraftingOrder();
+			}
+		}
+	}
+
+	public int getTimeOffset();
+
+	public void setTimeOffset(int offset);
+
+	public default void selectNextCraftingOrder()
+	{
+		if (!isCrafting() && !getCraftingQueue().isEmpty())
+		{
+			CraftingOrder c = getCraftingQueue().peek();
+			while (c != null)
+			{
+				if (!c.canCraft(getConsumedInventory()))
 				{
-					CraftingOrder c = craftingQueue.peek();
-					while (c != null)
-					{
-						if (!c.canCraft(getConsumedInventory()))
-						{
-							craftingQueue.poll();
-							c = craftingQueue.peek();
-						}
-						else break;
-					}
-					if (c != null)
-					{
-						setProgress(c.getEngram().getCraftingTime());
-						c.getEngram().consume(getConsumedInventory());
-					}
-					sync();
+					getCraftingQueue().poll();
+					c = getCraftingQueue().peek();
 				}
+				else break;
+			if (c != null)
+			{
+				setProgress(c.getEngram().getCraftingTime());
 			}
 		}
 	}
@@ -219,16 +225,11 @@ public interface IEngramCrafter extends NBTable
 				while (it.hasNext())
 				{
 					CraftingOrder c = it.next();
-					if (c.getEngram().equals(engram) && (!c.isQualitable() || c.getItemQuality().equals(quality))
-							&& canCraft(engram, quality, amount))
 					{
 						c.increaseCount(amount);
-						return true;
 					}
 				}
-				if (engram.canCraft(getConsumedInventory(), amount, quality))
 				{
-					craftingQueue.add(new CraftingOrder(engram, amount, quality));
 					return true;
 				}
 			}

@@ -101,7 +101,7 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 					}
 				}
 			}
-			if (o instanceof EngramSlot)
+			else if (o instanceof EngramSlot)
 			{
 				EngramSlot e = (EngramSlot) o;
 				if (((ContainerEngramCrafting) inventorySlots).getSelectedEngram() == e.getEngram()
@@ -111,7 +111,6 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 					int y = e.yDisplayPosition;
 					drawRect(x, y, x + 16, y + 16, new Color(0, 128, 128, 128).getRGB());
 					GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-					break;
 				}
 			}
 		}

@@ -28,6 +28,8 @@ public abstract class TileEntityEngramCrafter extends TileEntity implements IInv
 
 	private int progress;
 
+	private int timeOffset;
+
 	private String name;
 
 	public TileEntityEngramCrafter(int size, String name)
@@ -242,5 +244,17 @@ public abstract class TileEntityEngramCrafter extends TileEntity implements IInv
 	public World getWorldEC()
 	{
 		return getWorld();
+	}
+
+	@Override
+	public int getTimeOffset()
+	{
+		return timeOffset;
+	}
+
+	@Override
+	public void setTimeOffset(int offset)
+	{
+		timeOffset = offset;
 	}
 }

@@ -55,7 +55,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 	 * certain variables for static use
 	 */
 	public static boolean arkMode;
-	
+
 	public static final String propKey = "arkplayer";
 
 	public static ARKPlayer get(EntityPlayer p)
@@ -125,11 +125,12 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 			}
 		}
 	}
+
 	public void setARKMode(boolean arkMode)
 	{
 		this.arkMode = arkMode;
 	}
-	
+
 	public static boolean getARKMode()
 	{
 		return arkMode;
@@ -785,6 +786,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 		private EntityPlayer player;
 		private int progress;
 		private Queue<CraftingOrder> craftingQueue;
+		private int timeOffset;
 
 		public PlayerEngramCrafter()
 		{
@@ -957,6 +959,26 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 		public void setField(int id, int value)
 		{
 			IEngramCrafter.super.setField(id, value);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see com.uberverse.arkcraft.common.engram.IEngramCrafter#getTimeOffset()
+		 */
+		@Override
+		public int getTimeOffset()
+		{
+			return timeOffset;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see com.uberverse.arkcraft.common.engram.IEngramCrafter#setTimeOffset(int)
+		 */
+		@Override
+		public void setTimeOffset(int offset)
+		{
+			timeOffset = offset;
 		}
 	}
 
