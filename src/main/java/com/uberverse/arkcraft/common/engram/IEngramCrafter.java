@@ -73,9 +73,13 @@ public interface IEngramCrafter extends NBTable
 					c = getCraftingQueue().peek();
 				}
 				else break;
+			}
 			if (c != null)
 			{
 				setProgress(c.getEngram().getCraftingTime());
+				setTimeOffset((int) (getWorldEC().getTotalWorldTime() % 20));
+				c.getEngram().consume(getConsumedInventory());
+				sync();
 			}
 		}
 	}
@@ -222,14 +226,23 @@ public interface IEngramCrafter extends NBTable
 			if (canCraft(engram, quality, amount))
 			{
 				Iterator<CraftingOrder> it = craftingQueue.iterator();
+				boolean add = false;
 				while (it.hasNext())
 				{
 					CraftingOrder c = it.next();
+					if (c.matches(engram, quality))
 					{
 						c.increaseCount(amount);
+						add = true;
 					}
 				}
+				if (!add)
 				{
+					add = craftingQueue.add(new CraftingOrder(engram, amount, quality));
+				}
+				if (add)
+				{
+					selectNextCraftingOrder();
 					return true;
 				}
 			}
