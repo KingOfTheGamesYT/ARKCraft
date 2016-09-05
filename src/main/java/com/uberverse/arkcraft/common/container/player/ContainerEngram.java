@@ -58,10 +58,6 @@ public class ContainerEngram extends ContainerScrollable
 				}
 				return playerIn.inventory.getCurrentItem();
 			}
-			else if(s instanceof EngramSlot && clickedButton == 2)
-			{
-				return null;
-			}
 		}
 		return super.slotClick(slotId, clickedButton, mode, playerIn);
 	}
