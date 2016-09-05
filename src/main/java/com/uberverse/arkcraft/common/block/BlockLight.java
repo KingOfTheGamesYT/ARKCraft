@@ -9,7 +9,6 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockLight extends BlockAir
@@ -20,40 +19,27 @@ public class BlockLight extends BlockAir
 	{
 		super();
 		this.setLightLevel(0.8F);
-		this.setBlockBounds(0, 0, 0, 0, 0, 0);
 		setDefaultState(getDefaultState().withProperty(TICKS, 0));
-		setTickRandomly(true);
 	}
 
 	@Override
-	public boolean isAir(IBlockAccess world, BlockPos pos)
+	public Material getMaterial()
 	{
-		return true;
-	}
-
-	@Override
-	public boolean isOpaqueCube()
-	{
-		return true;
+		return Material.grass;
 	}
 
 	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
 	{
-		System.out.println("tick " + worldIn.getWorldTime());
 		int ticks = (int) worldIn.getBlockState(pos).getValue(TICKS);
 		if (ticks < 2)
 		{
-			System.out.println("update tick");
-			System.out.println(Integer.valueOf(ticks));
-			worldIn.setBlockState(pos, state.withProperty(TICKS, ticks++));
+			worldIn.setBlockState(pos, state.withProperty(TICKS, ++ticks));
 			worldIn.markBlockForUpdate(pos);
-
-			System.out.println(worldIn.getBlockState(pos).getValue(TICKS));
+			worldIn.scheduleUpdate(pos, this, 2);
 		}
 		else
 		{
-			System.out.println("remove");
 			worldIn.setBlockToAir(pos);
 			worldIn.markBlockForUpdate(pos);
 		}
@@ -63,13 +49,6 @@ public class BlockLight extends BlockAir
 	protected BlockState createBlockState()
 	{
 		return new BlockState(this, new IProperty[] { TICKS });
-	}
-
-	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
-	{
-		System.out.println(state.getValue(TICKS));
-		return super.getActualState(state, worldIn, pos);
 	}
 
 	@Override

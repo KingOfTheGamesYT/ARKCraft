@@ -224,12 +224,12 @@ public abstract class ItemRangedWeapon extends ItemBow
 			if (world.isAirBlock(pos))
 			{
 				world.setBlockState(pos, ARKCraftBlocks.block_light.getDefaultState());
-				world.markBlockForUpdate(pos);
+				world.scheduleUpdate(pos, ARKCraftBlocks.block_light, 2);
 			}
 		}
 	}
 
-	public Vec3 getPositionEyes(Entity player, float partialTick)
+	public static Vec3 getPositionEyes(Entity player, float partialTick)
 	{
 		if (partialTick == 1.0F)
 		{
@@ -244,7 +244,7 @@ public abstract class ItemRangedWeapon extends ItemBow
 		}
 	}
 
-	public MovingObjectPosition rayTrace(Entity player, double distance, float partialTick)
+	public static MovingObjectPosition rayTrace(Entity player, double distance, float partialTick)
 	{
 		Vec3 vec3 = getPositionEyes(player, partialTick);
 		Vec3 vec31 = player.getLook(partialTick);
