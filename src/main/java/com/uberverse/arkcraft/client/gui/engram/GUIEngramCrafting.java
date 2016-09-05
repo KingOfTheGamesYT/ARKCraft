@@ -148,7 +148,7 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 						shown = 0;
 						ticker = 0;
 					}
-					if (ticker == 20)
+					if (ticker == 80)
 					{
 						ticker = 0;
 						shown = (shown + 1 == recipes.size()) ? 0 : shown + 1;
@@ -157,8 +157,10 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 					textLines.add(tooltipped.getTitle() + (tooltipped.getAmount() > 1 ? " x " + tooltipped.getAmount() : ""));
 					EngramRecipe er = recipes.get(shown);
 					for (Item i : er.getItems().keySet())
+					{
 						textLines.add(EnumChatFormatting.GOLD + I18n.format("gui.engramcrafting.engram.tooltip.ingredient",
 								I18n.translate(i.getUnlocalizedName() + ".name"), er.getItems().get(i)));
+					}
 				}
 			}
 		}

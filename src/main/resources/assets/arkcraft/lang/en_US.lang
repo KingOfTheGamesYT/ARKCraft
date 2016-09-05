@@ -41,6 +41,7 @@ item.stim.name=Stimberry
 ##resources
 item.fiber.name=Fiber
 item.chitin.name=Chitin
+item.keratin.name=Keratin
 item.crystal.name=Crystal
 item.item_crystal.name=Crystal
 item.stone.name=Stone

@@ -1,6 +1,5 @@
 package com.uberverse.arkcraft.common.engram;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -10,13 +9,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
+import com.uberverse.arkcraft.util.CollectionUtil;
 import com.uberverse.arkcraft.util.I18n;
 import com.uberverse.arkcraft.wip.itemquality.Qualitable;
 import com.uberverse.arkcraft.wip.itemquality.Qualitable.ItemQuality;
@@ -191,31 +189,17 @@ public class EngramManager
 	public List<Engram> getUnlockedEngrams(EntityPlayer player)
 	{
 		final Collection<Short> col = ARKPlayer.get(player).getUnlockedEngrams();
-		final List<Engram> out = new ArrayList<>();
-		engrams.forEach(new Consumer<Engram>()
-		{
-			@Override
-			public void accept(Engram t)
-			{
-				if (col.contains(t.id)) out.add(t);
-			}
+		return CollectionUtil.filter(engrams, (Engram e) -> {
+			return col.contains(e.id);
 		});
-
-		return out;
 	}
 
 	public List<Engram> getUnlockedEngramsOfType(EntityPlayer player, final EngramType type)
 	{
-		List<Engram> in = getUnlockedEngrams(player);
-		in.removeIf(new Predicate<Engram>()
-		{
-			@Override
-			public boolean test(Engram t)
-			{
-				return t.type != type;
-			}
+		final Collection<Short> ue = ARKPlayer.get(player).getUnlockedEngrams();
+		return CollectionUtil.filter(engrams, (Engram e) -> {
+			return e.type == type && ue.contains(e.id);
 		});
-		return in;
 	}
 
 	public boolean canPlayerLearn(EntityPlayer player, short engramId)
@@ -228,22 +212,17 @@ public class EngramManager
 	public static class Engram implements Comparable<Engram>
 	{
 		private static short idCounter = 0;
-		private short id;
-		private String name;
-		private Item item;
-		private int amount, points, level, craftingTime;
-		private EngramType type;
-		private Collection<EngramRecipe> recipes;
-
-		private Engram()
-		{
-			this.recipes = new HashSet<>();
-			this.id = idCounter++;
-		}
+		private final short id;
+		private final String name;
+		private final Item item;
+		private final int amount, points, level, craftingTime;
+		private final EngramType type;
+		private final Collection<EngramRecipe> recipes;
 
 		public Engram(String name, Item item, int amount, int points, int level, int craftingTime, EngramType type, EngramRecipe... recipes)
 		{
-			this();
+			this.recipes = new HashSet<>();
+			this.id = idCounter++;
 			this.name = name;
 			this.item = item;
 			this.amount = amount;
