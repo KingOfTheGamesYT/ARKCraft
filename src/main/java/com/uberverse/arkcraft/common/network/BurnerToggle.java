@@ -1,6 +1,6 @@
 package com.uberverse.arkcraft.common.network;
 
-import com.uberverse.arkcraft.common.container.block.IBurner;
+import com.uberverse.arkcraft.wip.burners.IBurnerContainer;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.inventory.Container;
@@ -26,7 +26,7 @@ public class BurnerToggle implements IMessage
 			if (ctx.side.isServer())
 			{
 				Container c = ctx.getServerHandler().playerEntity.openContainer;
-				if (c instanceof IBurner) ((IBurner) c).toggleBurning();
+				if (c instanceof IBurnerContainer) ((IBurnerContainer) c).toggleBurning();
 			}
 			return null;
 		}

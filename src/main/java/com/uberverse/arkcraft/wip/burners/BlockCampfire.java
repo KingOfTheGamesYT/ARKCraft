@@ -1,20 +1,16 @@
-package com.uberverse.arkcraft.common.block.crafter;
+package com.uberverse.arkcraft.wip.burners;
 
 import java.util.Random;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryForge;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
@@ -23,23 +19,23 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.EnumWorldBlockLayer;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockRefiningForge extends BlockContainer
+public class BlockCampfire extends BlockContainer
 {
 	private int ID;
 
-	public BlockRefiningForge(Material material, int ID)
+	public BlockCampfire(Material material, int ID)
 	{
 		super(material);
 		this.setCreativeTab(CreativeTabs.tabBlock);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(BURNING, false).withProperty(PART,
-				EnumPart.BOTTOM));
+		this.setDefaultState(this.blockState.getBaseState().withProperty(BURNING, false));
+		float f = 0.65F; // Height
+		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, f, 1.0F);
 		this.ID = ID;
 	}
 
@@ -49,30 +45,7 @@ public class BlockRefiningForge extends BlockContainer
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{
-		IBlockState state = getStateFromMeta(meta);
-		if (state.getValue(PART).equals(EnumPart.BOTTOM)) return new TileInventoryForge();
-		return null;
-	}
-
-	@Override
-	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player)
-	{
-		if (player.capabilities.isCreativeMode && state.getValue(PART) == EnumPart.BOTTOM)
-		{
-			BlockPos blockpos1 = pos.up();
-			if (worldIn.getBlockState(blockpos1).getBlock() == this)
-			{
-				worldIn.setBlockToAir(blockpos1);
-			}
-		}
-		else if (player.capabilities.isCreativeMode && state.getValue(PART) == EnumPart.TOP)
-		{
-			BlockPos blockpos1 = pos.down();
-			if (worldIn.getBlockState(blockpos1).getBlock() == this)
-			{
-				worldIn.setBlockToAir(blockpos1);
-			}
-		}
+		return new TileInventoryCampfire();
 	}
 
 	@Override
@@ -81,26 +54,18 @@ public class BlockRefiningForge extends BlockContainer
 		return null;
 	}
 
-	@Override
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta,
-			EntityLivingBase placer)
-	{
-		return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
-	}
-
 	// Called when the block is right clicked
 	// In this block it is used to open the blocks gui when right clicked by a
 	// player
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY,
-			float hitZ)
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
 		// Uses the gui handler registered to your mod to open the gui for the
 		// given gui id
 		// open on the server side only (not sure why you shouldn't open client
 		// side too... vanilla doesn't, so we better not either)
 		if (worldIn.isRemote) return true;
-		if (state.getValue(PART).equals(EnumPart.TOP)) pos = pos.down();
+
 		playerIn.openGui(ARKCraft.instance(), ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
@@ -109,15 +74,25 @@ public class BlockRefiningForge extends BlockContainer
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
 	{
-		double d0 = (double) pos.getX() + 0.8D;
-		double d1 = (double) pos.getY() + 1.9D;
+		double d0 = (double) pos.getX() + 0.5D;
+		double d1 = (double) pos.getY() + 0.7D;
 		double d2 = (double) pos.getZ() + 0.5D;
 		IBlockState blockState = getActualState(getDefaultState(), worldIn, pos);
 		boolean burning = (Boolean) blockState.getValue(BURNING);
+
 		if (burning)
 		{
-			worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
+			worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D,
+					new int[0]);
+			worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D,
+					new int[0]);
 		}
+
+		// worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4 * 1, d1
+		// + d3, d2 + d4 * 1, 0.0D, 0.0D, 0.0D, new int[0]);
+		// worldIn.spawnParticle(EnumParticleTypes.FLAME, d0 + d4 * 1, d1 + d3,
+		// d2 + d4 * 1, 0.0D, 0.0D, 0.0D, new int[0]);
+
 	}
 
 	// This is where you can do something when the block is broken. In this case
@@ -125,7 +100,6 @@ public class BlockRefiningForge extends BlockContainer
 	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
 	{
-		if (state.getValue(PART).equals(EnumPart.TOP)) pos = pos.down();
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
 		if (tileEntity instanceof IInventory)
 		{
@@ -173,11 +147,10 @@ public class BlockRefiningForge extends BlockContainer
 	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
 	{
-		if (state.getValue(PART).equals(EnumPart.TOP)) pos = pos.down();
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
-		if (tileEntity instanceof TileInventoryForge)
+		if (tileEntity instanceof TileInventoryCampfire)
 		{
-			TileInventoryForge tileInventoryForge = (TileInventoryForge) tileEntity;
+			TileInventoryCampfire tileInventoryForge = (TileInventoryCampfire) tileEntity;
 			return state.withProperty(BURNING, tileInventoryForge.isBurning());
 		}
 		return state;
@@ -186,19 +159,13 @@ public class BlockRefiningForge extends BlockContainer
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		EnumFacing enumfacing = EnumFacing.getHorizontal(meta);
-		int metaOld = meta;
-		EnumPart part = (metaOld & 8) > 0 ? EnumPart.TOP : EnumPart.BOTTOM;
-		return this.getDefaultState().withProperty(FACING, enumfacing).withProperty(PART, part);
+		return this.getDefaultState();
 	}
 
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
-		byte b0 = 0;
-		int i = b0 | ((EnumFacing) state.getValue(FACING)).getHorizontalIndex();
-		if (state.getValue(PART).equals(EnumPart.TOP)) i |= 8;
-		return i;
+		return 0;
 	}
 
 	// necessary to define which properties your blocks use
@@ -207,34 +174,10 @@ public class BlockRefiningForge extends BlockContainer
 	@Override
 	protected BlockState createBlockState()
 	{
-		return new BlockState(this, new IProperty[] { BURNING, FACING, PART });
+		return new BlockState(this, new IProperty[] { BURNING });
 	}
 
 	public static final PropertyBool BURNING = PropertyBool.create("burning");
-	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-	public static final PropertyEnum PART = PropertyEnum.create("part", EnumPart.class);
-
-	public static enum EnumPart implements IStringSerializable
-	{
-		TOP("top"), BOTTOM("bottom");
-
-		private final String name;
-
-		private EnumPart(String name)
-		{
-			this.name = name;
-		}
-
-		public String toString()
-		{
-			return this.name;
-		}
-
-		public String getName()
-		{
-			return this.name;
-		}
-	}
 
 	@Override
 	public int getLightValue(IBlockAccess world, BlockPos pos)
@@ -249,7 +192,6 @@ public class BlockRefiningForge extends BlockContainer
 		}
 		else
 		{
-			// TODO
 			// linearly interpolate the light value depending on how many slots
 			// are burning
 			lightValue = 0;
@@ -264,7 +206,7 @@ public class BlockRefiningForge extends BlockContainer
 	@SideOnly(Side.CLIENT)
 	public EnumWorldBlockLayer getBlockLayer()
 	{
-		return EnumWorldBlockLayer.SOLID;
+		return EnumWorldBlockLayer.CUTOUT;
 	}
 
 	// used by the renderer to control lighting and visibility of other blocks.

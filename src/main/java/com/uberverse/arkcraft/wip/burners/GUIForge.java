@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.client.gui.block;
+package com.uberverse.arkcraft.wip.burners;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -6,9 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.container.block.ContainerInventoryForge;
 import com.uberverse.arkcraft.common.network.BurnerToggle;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryForge;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;

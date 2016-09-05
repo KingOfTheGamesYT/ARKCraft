@@ -1,6 +1,5 @@
-package com.uberverse.arkcraft.common.container.block;
+package com.uberverse.arkcraft.wip.burners;
 
-import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryCampfire;
 import com.uberverse.lib.LogHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ContainerInventoryCampfire extends Container implements IBurner
+public class ContainerInventoryCampfire extends Container implements IBurnerContainer
 {
 
 	// Stores the tile entity instance for later use
@@ -62,16 +61,14 @@ public class ContainerInventoryCampfire extends Container implements IBurner
 		// Add the tile fuel slots
 		for (int x = 0; x < CAMPFIRE_SLOT_COUNT; x++)
 		{
-			addSlotToContainer(new Slot(tileInventoryFurnace, x,
-					FURNACE_SLOTS_XPOS + SLOT_X_SPACING * x, FURNACE_SLOTS_YPOS));
+			addSlotToContainer(new Slot(tileInventoryFurnace, x, FURNACE_SLOTS_XPOS + SLOT_X_SPACING * x, FURNACE_SLOTS_YPOS));
 		}
 
 		// Add the players hotbar to the gui - the [xpos, ypos] location of each
 		// item
 		for (int x = 0; x < HOTBAR_SLOT_COUNT; x++)
 		{
-			addSlotToContainer(new Slot(invPlayer, x, PLAYER_INVENTORY_XPOS + SLOT_X_SPACING * x,
-					HOTBAR_YPOS));
+			addSlotToContainer(new Slot(invPlayer, x, PLAYER_INVENTORY_XPOS + SLOT_X_SPACING * x, HOTBAR_YPOS));
 		}
 
 		// Add the rest of the players inventory to the gui
@@ -123,8 +120,7 @@ public class ContainerInventoryCampfire extends Container implements IBurner
 			// the furnace slots
 			// If the stack is smeltable try to merge merge the stack into the
 			// input slots
-			if (!mergeItemStack(sourceStack, FIRST_CAMPFIRE_SLOT_INDEX,
-					FIRST_CAMPFIRE_SLOT_INDEX + CAMPFIRE_SLOT_COUNT, false)) { return null; }
+			if (!mergeItemStack(sourceStack, FIRST_CAMPFIRE_SLOT_INDEX, FIRST_CAMPFIRE_SLOT_INDEX + CAMPFIRE_SLOT_COUNT, false)) { return null; }
 		}
 		else if (sourceSlotIndex >= FIRST_CAMPFIRE_SLOT_INDEX && sourceSlotIndex < FIRST_CAMPFIRE_SLOT_INDEX + CAMPFIRE_SLOT_COUNT)
 		{
@@ -132,8 +128,7 @@ public class ContainerInventoryCampfire extends Container implements IBurner
 			// inventory: try the hotbar first and then the main inventory
 			// because the main inventory slots are immediately after the hotbar
 			// slots, we can just merge with a single call
-			if (!mergeItemStack(sourceStack, VANILLA_FIRST_SLOT_INDEX,
-					VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) { return null; }
+			if (!mergeItemStack(sourceStack, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) { return null; }
 		}
 		else
 		{

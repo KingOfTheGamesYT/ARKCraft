@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.common.tileentity;
+package com.uberverse.arkcraft.wip.burners;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.server.gui.IUpdatePlayerListBox;

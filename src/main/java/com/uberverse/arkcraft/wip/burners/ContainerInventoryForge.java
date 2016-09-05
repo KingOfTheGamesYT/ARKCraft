@@ -1,6 +1,5 @@
-package com.uberverse.arkcraft.common.container.block;
+package com.uberverse.arkcraft.wip.burners;
 
-import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryForge;
 import com.uberverse.lib.LogHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ContainerInventoryForge extends Container implements IBurner
+public class ContainerInventoryForge extends Container implements IBurnerContainer
 {
 
 	// Stores the tile entity instance for later use
