@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.uberverse.arkcraft.common.item.engram;
+package com.uberverse.arkcraft.deprecated;
 
 /**
  * @author ERBF | Aug 9, 2016

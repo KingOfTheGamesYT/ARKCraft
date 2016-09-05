@@ -17,7 +17,6 @@ import com.uberverse.arkcraft.common.handlers.recipes.PestleCraftingManager;
 import com.uberverse.arkcraft.common.handlers.recipes.PlayerCraftingManager;
 import com.uberverse.arkcraft.common.handlers.recipes.RecipeHandler;
 import com.uberverse.arkcraft.common.handlers.recipes.SmithyCraftingManager;
-import com.uberverse.arkcraft.common.item.engram.ARKCraftEngrams;
 import com.uberverse.arkcraft.common.network.BurnerToggle;
 import com.uberverse.arkcraft.common.network.DescriptionHandler;
 import com.uberverse.arkcraft.common.network.MessageHover;
@@ -97,7 +96,6 @@ public class ARKCraft
 		ARKCraftBlocks.init();
 		ARKCraftItems.init();
 		ARKCraftRangedWeapons.init();
-		ARKCraftEngrams.init();
 		NetworkRegistry.INSTANCE.registerGuiHandler(ARKCraft.instance, new GuiHandler());
 
 		RecipeHandler.registerVanillaCraftingRecipes();

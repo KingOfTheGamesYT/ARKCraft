@@ -4,7 +4,6 @@
 package com.uberverse.arkcraft.common.inventory;
 
 import com.uberverse.arkcraft.common.engram.EngramManager;
-import com.uberverse.arkcraft.common.item.engram.Engram;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -99,19 +98,10 @@ public class InventoryEngram implements IInventory
 	public void closeInventory(EntityPlayer player)
 	{}
 
-	/**
-	 * This method doesn't seem to do what it claims to do, as items can still
-	 * be left-clicked and placed in the inventory even when this returns false
-	 */
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack itemstack)
 	{
-		// If you have different kinds of slots, then check them here:
-		// if (slot == SLOT_SHIELD && itemstack.getItem() instanceof ItemShield)
-		// return true;
-
-		// For now, only ItemUseMana items can be stored in these slots
-		return itemstack.getItem() instanceof Engram;
+		return false;
 	}
 
 	public void writeToNBT(NBTTagCompound compound)

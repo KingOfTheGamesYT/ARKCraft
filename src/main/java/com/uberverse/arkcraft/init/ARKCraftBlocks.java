@@ -66,7 +66,6 @@ public class ARKCraftBlocks
 
 	public static void init()
 	{
-
 		// Misc
 		 block_light = new BlockLight();
 		 GameRegistry.registerBlock(block_light, "block_light");
