@@ -57,7 +57,7 @@ public abstract class GUIBurner extends GUIArkContainer
 			{
 				hoveringText.add(EnumChatFormatting.RED + "Press to ignite");
 			}
-			drawHoveringText(hoveringText, mouseX - guiLeft, mouseY - guiTop, fontRendererObj);
+			drawHoveringText(hoveringText, mouseX - guiLeft, mouseY - guiTop + 25, fontRendererObj);
 		}
 	}
 

@@ -7,7 +7,6 @@ import com.uberverse.arkcraft.common.tileentity.crafter.burner.TileEntityRefinin
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockState;
@@ -15,15 +14,12 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -35,8 +31,7 @@ public class BlockRefiningForge extends BlockBurner
 	{
 		super(material);
 		this.setCreativeTab(CreativeTabs.tabBlock);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(BURNING, false).withProperty(PART,
-				EnumPart.BOTTOM));
+		this.setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.NORTH).withProperty(PART, EnumPart.BOTTOM));
 	}
 
 	@Override
@@ -63,6 +58,7 @@ public class BlockRefiningForge extends BlockBurner
 			{
 				worldIn.setBlockToAir(blockpos1);
 			}
+			super.onBlockHarvested(worldIn, blockpos1, state, player);
 		}
 		else if (player.capabilities.isCreativeMode && state.getValue(PART) == EnumPart.TOP)
 		{
@@ -71,7 +67,15 @@ public class BlockRefiningForge extends BlockBurner
 			{
 				worldIn.setBlockToAir(blockpos1);
 			}
+			super.onBlockHarvested(worldIn, blockpos1, state, player);
 		}
+	}
+
+	@Override
+	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
+	{
+		if (state.getValue(PART) == EnumPart.TOP) pos = pos.down();
+		return super.getActualState(state, worldIn, pos);
 	}
 
 	@Override
@@ -101,78 +105,19 @@ public class BlockRefiningForge extends BlockBurner
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
 	{
-		double d0 = (double) pos.getX() + 0.8D;
-		double d1 = (double) pos.getY() + 1.9D;
-		double d2 = (double) pos.getZ() + 0.5D;
+		double x = (double) pos.getX();
+		double y = (double) pos.getY();
+		double z = (double) pos.getZ();
+		EnumFacing f = (EnumFacing) state.getValue(FACING);
+		double xOffset = f == EnumFacing.WEST ? 0.75d : f == EnumFacing.EAST ? 0.25d : 0.5d;
+		double yOffset = 1.9d;
+		double zOffset = f == EnumFacing.NORTH ? 0.75d : f == EnumFacing.SOUTH ? 0.25d : 0.5d;
 		IBlockState blockState = getActualState(getDefaultState(), worldIn, pos);
 		boolean burning = (Boolean) blockState.getValue(BURNING);
 		if (burning)
 		{
-			worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
+			worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE, x + xOffset, y + yOffset, z + zOffset, 0, 0.05, 0);
 		}
-	}
-
-	// This is where you can do something when the block is broken. In this case
-	// drop the inventory's contents
-	@Override
-	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
-	{
-		if (state.getValue(PART).equals(EnumPart.TOP)) pos = pos.down();
-		TileEntity tileEntity = worldIn.getTileEntity(pos);
-		if (tileEntity instanceof IInventory)
-		{
-			InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) tileEntity);
-		}
-
-		// if (inventory != null){
-		// // For each slot in the inventory
-		// for (int i = 0; i < inventory.getSizeInventory(); i++){
-		// // If the slot is not empty
-		// if (inventory.getStackInSlot(i) != null)
-		// {
-		// // Create a new entity item with the item stack in the slot
-		// EntityItem item = new EntityItem(worldIn, pos.getX() + 0.5,
-		// pos.getY() + 0.5, pos.getZ() + 0.5, inventory.getStackInSlot(i));
-		//
-		// // Apply some random motion to the item
-		// float multiplier = 0.1f;
-		// float motionX = worldIn.rand.nextFloat() - 0.5f;
-		// float motionY = worldIn.rand.nextFloat() - 0.5f;
-		// float motionZ = worldIn.rand.nextFloat() - 0.5f;
-		//
-		// item.motionX = motionX * multiplier;
-		// item.motionY = motionY * multiplier;
-		// item.motionZ = motionZ * multiplier;
-		//
-		// // Spawn the item in the world
-		// worldIn.spawnEntityInWorld(item);
-		// }
-		// }
-		//
-		// // Clear the inventory so nothing else (such as another mod) can do
-		// anything with the items
-		// inventory.clear();
-		// }
-
-		// Super MUST be called last because it removes the tile entity
-		super.breakBlock(worldIn, pos, state);
-	}
-
-	// ------------------------------------------------------------
-	// The code below isn't necessary for illustrating the Inventory Furnace
-	// concepts, it's just used for rendering.
-	// For more background information see MBE03
-	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
-	{
-		if (state.getValue(PART).equals(EnumPart.TOP)) pos = pos.down();
-		TileEntity tileEntity = worldIn.getTileEntity(pos);
-		if (tileEntity instanceof TileEntityRefiningForge)
-		{
-			TileEntityRefiningForge tileEntityRefiningForge = (TileEntityRefiningForge) tileEntity;
-			return state.withProperty(BURNING, tileEntityRefiningForge.isBurning());
-		}
-		return state;
 	}
 
 	@Override
@@ -193,16 +138,12 @@ public class BlockRefiningForge extends BlockBurner
 		return i;
 	}
 
-	// necessary to define which properties your blocks use
-	// will also affect the variants listed in the blockstates model file. See
-	// MBE03 for more info.
 	@Override
 	protected BlockState createBlockState()
 	{
 		return new BlockState(this, new IProperty[] { BURNING, FACING, PART });
 	}
 
-	public static final PropertyBool BURNING = PropertyBool.create("burning");
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	public static final PropertyEnum PART = PropertyEnum.create("part", EnumPart.class);
 
@@ -222,64 +163,28 @@ public class BlockRefiningForge extends BlockBurner
 	}
 
 	@Override
-	public int getLightValue(IBlockAccess world, BlockPos pos)
-	{
-		int lightValue = 0;
-		IBlockState blockState = getActualState(getDefaultState(), world, pos);
-		boolean burning = (Boolean) blockState.getValue(BURNING);
-
-		if (burning)
-		{
-			lightValue = 15;
-		}
-		else
-		{
-			lightValue = 0;
-		}
-		lightValue = MathHelper.clamp_int(lightValue, 0, 15);
-		return lightValue;
-	}
-
-	@Override
 	public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side)
 	{
 		IBlockState state = worldIn.getBlockState(pos);
 		return state.getValue(PART) != EnumPart.TOP;
 	}
 
-	// the block will render in the SOLID layer. See
-	// http://greyminecraftcoder.blogspot.co.at/2014/12/block-rendering-18.html
-	// for more information.
+	@Override
 	@SideOnly(Side.CLIENT)
 	public EnumWorldBlockLayer getBlockLayer()
 	{
 		return EnumWorldBlockLayer.SOLID;
 	}
 
-	// used by the renderer to control lighting and visibility of other blocks.
-	// set to false because this block doesn't fill the entire 1x1x1 space
 	@Override
 	public boolean isOpaqueCube()
 	{
 		return false;
 	}
 
-	// used by the renderer to control lighting and visibility of other blocks,
-	// also by
-	// (eg) wall or fence to control whether the fence joins itself to this
-	// block
-	// set to false because this block doesn't fill the entire 1x1x1 space
 	@Override
 	public boolean isFullCube()
 	{
 		return false;
-	}
-
-	// render using a BakedModel
-	// not strictly required because the default (super method) is 3.
-	@Override
-	public int getRenderType()
-	{
-		return 3;
 	}
 }

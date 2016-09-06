@@ -3,14 +3,19 @@ package com.uberverse.arkcraft.common.tileentity.crafter.burner;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.uberverse.arkcraft.common.block.crafter.BlockBurner;
 import com.uberverse.arkcraft.common.burner.BurnerManager.BurnerFuel;
 import com.uberverse.arkcraft.common.burner.BurnerManager.BurnerRecipe;
 import com.uberverse.arkcraft.common.burner.IBurner;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
@@ -35,6 +40,12 @@ public abstract class TileEntityBurner extends TileEntity implements IInventory,
 		super();
 		inventory = new ItemStack[getSizeInventory()];
 		burning = false;
+	}
+
+	@Override
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
+	{
+		return oldState.getValue(BlockBurner.BURNING) != newState.getValue(BlockBurner.BURNING);
 	}
 
 	@Override
@@ -92,6 +103,20 @@ public abstract class TileEntityBurner extends TileEntity implements IInventory,
 	{
 		super.readFromNBT(compound);
 		IBurner.super.readFromNBT(compound);
+	}
+
+	@Override
+	public Packet getDescriptionPacket()
+	{
+		NBTTagCompound nbtTagCompound = new NBTTagCompound();
+		writeToNBT(nbtTagCompound);
+		return new S35PacketUpdateTileEntity(this.pos, 0, nbtTagCompound);
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
+	{
+		readFromNBT(pkt.getNbtCompound());
 	}
 
 	@Override

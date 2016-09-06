@@ -42,6 +42,7 @@ public interface IBurner extends IInventoryAdder, NBTable
 			possibleRecipes = CollectionUtil.filter(possibleRecipes, (BurnerRecipe r) -> {
 				return canCook(r);
 			});
+
 			if (this.isBurning() && possibleRecipes.size() > 0)
 			{
 				Map<BurnerRecipe, Integer> activeRecipes = getActiveRecipes();
@@ -71,14 +72,34 @@ public interface IBurner extends IInventoryAdder, NBTable
 
 	public default boolean canCook(BurnerRecipe r)
 	{
-		int found = 0;
+		Item[] items = r.getItems().keySet().toArray(new Item[0]);
+		Integer[] required = r.getItems().values().toArray(new Integer[0]);
+		int[] found = new int[items.length];
+		boolean[] done = new boolean[items.length];
 		for (ItemStack s : getInventory())
 		{
-			if (s != null && r.getItem() == s.getItem())
+			if (s != null)
 			{
-				found += r.getAmount() > s.stackSize ? s.stackSize : r.getAmount();
+				for (int i = 0; i < items.length; i++)
+				{
+					if (items[i] == s.getItem() && !done[i])
+					{
+						found[i] += required[i] > s.stackSize ? s.stackSize : required[i];
+						done[i] = required[i] == found[i];
+					}
+				}
+				boolean x = false;
+				for (boolean b : done)
+				{
+					if (!b)
+					{
+						x = true;
+						break;
+					}
+				}
+				if (x) continue;
+				return true;
 			}
-			if (found == r.getAmount()) return true;
 		}
 		return false;
 	}
@@ -92,27 +113,43 @@ public interface IBurner extends IInventoryAdder, NBTable
 			e.setValue(e.getValue() + 1);
 			if (e.getValue() == e.getKey().getCraftingTime())
 			{
-				List<ItemStack> l = new ArrayList<>();
-
-				Iterator<Entry<Item, Integer>> iter = e.getKey().getItems().entrySet().iterator();
-				while (iter.hasNext())
+				for (Entry<Item, Integer> i : e.getKey().getItems().entrySet())
 				{
-					Entry<Item, Integer> entry = iter.next();
-					Item item = entry.getKey();
-					int val = entry.getValue();
-					while (val > item.getItemStackLimit())
-					{
-						l.add(new ItemStack(item, item.getItemStackLimit()));
-						val -= item.getItemStackLimit();
-					}
-					l.add(new ItemStack(item, val));
+					consume(new ItemStack(i.getKey(), i.getValue()));
 				}
-
-				for (ItemStack s : l)
-				{
-					addOrDrop(s);
-				}
+				addOrDrop(new ItemStack(e.getKey().getItem(), e.getKey().getAmount()));
 				it.remove();
+			}
+		}
+	}
+
+	public default void consume(ItemStack... itemStacks)
+	{
+		for (ItemStack stack : itemStacks)
+			consume(stack);
+	}
+
+	public default void consume(ItemStack stack)
+	{
+		if (stack != null)
+		{
+			ItemStack[] inv = getInventory();
+			for (int i = 0; i < inv.length; i++)
+			{
+				ItemStack in = inv[i];
+				if (in != null && in.getItem() == stack.getItem())
+				{
+
+					if (in.stackSize > stack.stackSize)
+					{
+						in.stackSize -= stack.stackSize;
+					}
+					else
+					{
+						inv[i] = null;
+						stack.stackSize -= in.stackSize;
+					}
+				}
 			}
 		}
 	}

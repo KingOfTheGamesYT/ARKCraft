@@ -12,8 +12,6 @@ import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -42,9 +40,6 @@ public class BlockCampfire extends BlockBurner
 		return ARKCraft.GUI.CAMPFIRE.id;
 	}
 
-	// Called when the block is placed or loaded client side to get the tile
-	// entity for the block
-	// Should return a new instance of the tile entity for the block
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{
@@ -79,45 +74,23 @@ public class BlockCampfire extends BlockBurner
 
 		if (burning)
 		{
-			worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
-			worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
+			worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.05D, 0.0D);
+			worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D);
 		}
-
-		// worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4 * 1, d1
-		// + d3, d2 + d4 * 1, 0.0D, 0.0D, 0.0D, new int[0]);
-		// worldIn.spawnParticle(EnumParticleTypes.FLAME, d0 + d4 * 1, d1 + d3,
-		// d2 + d4 * 1, 0.0D, 0.0D, 0.0D, new int[0]);
-
-	}
-
-	// This is where you can do something when the block is broken. In this case
-	// drop the inventory's contents
-	@Override
-	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
-	{
-		TileEntity tileEntity = worldIn.getTileEntity(pos);
-		if (tileEntity instanceof IInventory)
-		{
-			InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) tileEntity);
-		}
-		super.breakBlock(worldIn, pos, state);
 	}
 
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		return this.getDefaultState();
+		return this.getDefaultState().withProperty(BURNING, meta == 1 ? true : false);
 	}
 
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
-		return 0;
+		return (Boolean) state.getValue(BURNING) ? 1 : 0;
 	}
 
-	// necessary to define which properties your blocks use
-	// will also affect the variants listed in the blockstates model file. See
-	// MBE03 for more info.
 	@Override
 	protected BlockState createBlockState()
 	{
@@ -126,60 +99,23 @@ public class BlockCampfire extends BlockBurner
 
 	public static final PropertyBool BURNING = PropertyBool.create("burning");
 
-	@Override
-	public int getLightValue(IBlockAccess world, BlockPos pos)
-	{
-		int lightValue = 0;
-		IBlockState blockState = getActualState(getDefaultState(), world, pos);
-		boolean burning = (Boolean) blockState.getValue(BURNING);
 
-		if (burning)
-		{
-			lightValue = 15;
-		}
-		else
-		{
-			// linearly interpolate the light value depending on how many slots
-			// are burning
-			lightValue = 0;
-		}
-		lightValue = MathHelper.clamp_int(lightValue, 0, 15);
-		return lightValue;
-	}
 
-	// the block will render in the SOLID layer. See
-	// http://greyminecraftcoder.blogspot.co.at/2014/12/block-rendering-18.html
-	// for more information.
 	@SideOnly(Side.CLIENT)
 	public EnumWorldBlockLayer getBlockLayer()
 	{
 		return EnumWorldBlockLayer.CUTOUT;
 	}
 
-	// used by the renderer to control lighting and visibility of other blocks.
-	// set to false because this block doesn't fill the entire 1x1x1 space
 	@Override
 	public boolean isOpaqueCube()
 	{
 		return false;
 	}
 
-	// used by the renderer to control lighting and visibility of other blocks,
-	// also by
-	// (eg) wall or fence to control whether the fence joins itself to this
-	// block
-	// set to false because this block doesn't fill the entire 1x1x1 space
 	@Override
 	public boolean isFullCube()
 	{
 		return false;
-	}
-
-	// render using a BakedModel
-	// not strictly required because the default (super method) is 3.
-	@Override
-	public int getRenderType()
-	{
-		return 3;
 	}
 }
