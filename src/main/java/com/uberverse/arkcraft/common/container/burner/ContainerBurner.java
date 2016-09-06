@@ -39,6 +39,7 @@ public abstract class ContainerBurner extends Container implements IBurnerContai
 		}
 
 		slotEnd = slotCounter;
+		playerSlotStart = slotCounter+1;
 		// Player hotbar
 		for (int x = 0; x < 9; x++)
 		{
