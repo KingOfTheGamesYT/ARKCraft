@@ -828,7 +828,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 		}
 
 		@Override
-		public World getWorldEC()
+		public World getWorldIA()
 		{
 			return player.worldObj;
 		}

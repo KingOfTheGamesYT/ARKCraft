@@ -15,7 +15,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.container.block.ContainerInventoryCropPlot;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryCropPlot;
+import com.uberverse.arkcraft.deprecated.TileInventoryCropPlot;
 
 /**
  * @author wildbill22

@@ -35,7 +35,7 @@ import com.uberverse.arkcraft.common.tileentity.IHoverInfo;
 import com.uberverse.lib.LogHelper;
 import com.uberverse.lib.Utils;
 
-public class TileEntityCropPlotNew extends TileEntityArkCraft
+public class TileEntityCropPlot extends TileEntityArkCraft
 implements IInventory, IUpdatePlayerListBox, IHoverInfo
 {
 	private ItemStack[] stack = new ItemStack[this.getSizeInventory()];
@@ -75,7 +75,7 @@ implements IInventory, IUpdatePlayerListBox, IHoverInfo
 	@Override
 	public ItemStack getStackInSlot(int index)
 	{
-		TileEntityCropPlotNew te = (TileEntityCropPlotNew) worldObj
+		TileEntityCropPlot te = (TileEntityCropPlot) worldObj
 				.getTileEntity(part.offset(pos, true));
 		return te.stack[index];
 	}
@@ -83,7 +83,7 @@ implements IInventory, IUpdatePlayerListBox, IHoverInfo
 	@Override
 	public ItemStack decrStackSize(int slot, int par2)
 	{
-		TileEntityCropPlotNew te = (TileEntityCropPlotNew) worldObj
+		TileEntityCropPlot te = (TileEntityCropPlot) worldObj
 				.getTileEntity(part.offset(pos, true));
 		if (te.stack[slot] != null)
 		{
@@ -119,7 +119,7 @@ implements IInventory, IUpdatePlayerListBox, IHoverInfo
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack)
 	{
-		TileEntityCropPlotNew te = (TileEntityCropPlotNew) worldObj
+		TileEntityCropPlot te = (TileEntityCropPlot) worldObj
 				.getTileEntity(part.offset(pos, true));
 		te.stack[index] = stack;
 	}
@@ -179,7 +179,7 @@ implements IInventory, IUpdatePlayerListBox, IHoverInfo
 	@Override
 	public void clear()
 	{
-		TileEntityCropPlotNew te = (TileEntityCropPlotNew) worldObj
+		TileEntityCropPlot te = (TileEntityCropPlot) worldObj
 				.getTileEntity(part.offset(pos, true));
 		te.stack = new ItemStack[this.getSizeInventory()];
 	}
@@ -201,9 +201,9 @@ implements IInventory, IUpdatePlayerListBox, IHoverInfo
 					else
 					{
 						TileEntity tile = worldObj.getTileEntity(part.offset(pos, true));
-						if (tile instanceof TileEntityCropPlotNew && tile.hasWorldObj())
+						if (tile instanceof TileEntityCropPlot && tile.hasWorldObj())
 						{
-							((TileEntityCropPlotNew) tile).fillWithRain(false);
+							((TileEntityCropPlot) tile).fillWithRain(false);
 						}
 					}
 				}
@@ -539,9 +539,9 @@ implements IInventory, IUpdatePlayerListBox, IHoverInfo
 	public void writeToNBTPacket(NBTTagCompound tag)
 	{
 		TileEntity tile = worldObj.getTileEntity(part.offset(pos, true));
-		if (tile instanceof TileEntityCropPlotNew)
+		if (tile instanceof TileEntityCropPlot)
 		{
-			((TileEntityCropPlotNew) tile).writeToNBTPacket_p(tag);
+			((TileEntityCropPlot) tile).writeToNBTPacket_p(tag);
 		}
 	}
 

@@ -31,7 +31,7 @@ import com.uberverse.arkcraft.common.item.tools.ItemMetalPick;
 import com.uberverse.arkcraft.common.item.tools.ItemMetalSickle;
 import com.uberverse.arkcraft.common.item.tools.ItemStoneHatchet;
 import com.uberverse.arkcraft.common.item.tools.ItemStonePick;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlotNew.CropPlotType;
+import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot.CropPlotType;
 
 public class ARKCraftItems
 {

@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.common.tileentity.crafter;
+package com.uberverse.arkcraft.common.tileentity.crafter.engram;
 
 import java.util.Queue;
 
@@ -241,7 +241,7 @@ public abstract class TileEntityEngramCrafter extends TileEntity implements IInv
 	{}
 
 	@Override
-	public World getWorldEC()
+	public World getWorldIA()
 	{
 		return getWorld();
 	}

@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.wip.burners;
+package com.uberverse.arkcraft.deprecated;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -17,32 +17,25 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * 
- * @author BubbleTrouble
- *
- */
 @SideOnly(Side.CLIENT)
-public class GUICampfire extends GuiContainer
+public class GUIForge extends GuiContainer
 {
 
 	// This is the resource location for the background image
-	public static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID,
-			"textures/gui/campfire_gui.png");
-	public static final ResourceLocation textureFlame = new ResourceLocation(
-			"textures/gui/container/furnace.png");
+	public static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID, "textures/gui/forge_gui.png");
+	public static final ResourceLocation textureFlame = new ResourceLocation("textures/gui/container/furnace.png");
 
-	private TileInventoryCampfire tileEntity;
+	private TileInventoryForge tileEntity;
 
-	public GUICampfire(InventoryPlayer invPlayer, TileInventoryCampfire tileInventoryCampfire)
+	public GUIForge(InventoryPlayer invPlayer, TileInventoryForge tileInventoryFurnace)
 	{
-		super(new ContainerInventoryCampfire(invPlayer, tileInventoryCampfire));
+		super(new ContainerInventoryForge(invPlayer, tileInventoryFurnace));
 
 		// Set the width and height of the gui
 		xSize = 176;
 		ySize = 207;
 
-		this.tileEntity = tileInventoryCampfire;
+		this.tileEntity = tileInventoryFurnace;
 	}
 
 	// some [x,y] coordinates of graphical elements
@@ -68,9 +61,10 @@ public class GUICampfire extends GuiContainer
 		// Draw the image
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+
 		Minecraft.getMinecraft().getTextureManager().bindTexture(textureFlame);
-		if (tileEntity.isBurning()) drawTexturedModalRect(guiLeft + FLAME_XPOS, guiTop + FLAME_YPOS,
-				FLAME_ICON_U, FLAME_ICON_V, FLAME_WIDTH, FLAME_HEIGHT);
+		if (tileEntity.isBurning())
+			drawTexturedModalRect(guiLeft + FLAME_XPOS, guiTop + FLAME_YPOS, FLAME_ICON_U, FLAME_ICON_V, FLAME_WIDTH, FLAME_HEIGHT);
 	}
 
 	@Override
@@ -78,18 +72,28 @@ public class GUICampfire extends GuiContainer
 	{
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
-		final int LABEL_XPOS = xSize / 2 - fontRendererObj
-				.getStringWidth(tileEntity.getDisplayName().getUnformattedText()) / 2;
+		final int LABEL_XPOS = xSize / 2 - fontRendererObj.getStringWidth(tileEntity.getDisplayName().getUnformattedText()) / 2;
 		final int LABEL_YPOS = 5;
-		fontRendererObj.drawString(tileEntity.getDisplayName().getUnformattedText(), LABEL_XPOS,
-				LABEL_YPOS, Color.darkGray.getRGB());
+		fontRendererObj.drawString(tileEntity.getDisplayName().getUnformattedText(), LABEL_XPOS, LABEL_YPOS, Color.darkGray.getRGB());
 
 		List<String> hoveringText = new ArrayList<String>();
+		//
+		// // If the mouse is over the progress bar add the progress bar
+		// hovering
+		// // text
+		// if (isInRect(guiLeft + COOK_BAR_XPOS, guiTop + COOK_BAR_YPOS,
+		// COOK_BAR_WIDTH,
+		// COOK_BAR_HEIGHT, mouseX, mouseY))
+		// {
+		// hoveringText.add("Progress:");
+		// int cookPercentage = (int) (tileEntity.fractionOfCookTimeComplete() *
+		// 100);
+		// hoveringText.add(cookPercentage + "%");
+		// }
 
 		// If the mouse is over one of the burn time indicator add the burn time
 		// indicator hovering text
-		if (isInRect(guiLeft + FLAME_XPOS, guiTop + FLAME_YPOS, FLAME_WIDTH, FLAME_HEIGHT, mouseX,
-				mouseY))
+		if (isInRect(guiLeft + FLAME_XPOS, guiTop + FLAME_YPOS, FLAME_WIDTH, FLAME_HEIGHT, mouseX, mouseY))
 		{
 			hoveringText.add("Fuel Time:");
 			hoveringText.add(tileEntity.secondsOfFuelRemaining() + "s");
@@ -115,10 +119,10 @@ public class GUICampfire extends GuiContainer
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
 	{
-		if (isInRect(guiLeft + FLAME_XPOS, guiTop + FLAME_YPOS, FLAME_WIDTH, FLAME_HEIGHT, mouseX,
-				mouseY))
+		if (isInRect(guiLeft + FLAME_XPOS, guiTop + FLAME_YPOS, FLAME_WIDTH, FLAME_HEIGHT, mouseX, mouseY))
 		{
 			ARKCraft.modChannel.sendToServer(new BurnerToggle());
+			return;
 		}
 
 		super.mouseClicked(mouseX, mouseY, mouseButton);

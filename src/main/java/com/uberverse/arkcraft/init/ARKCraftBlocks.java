@@ -8,9 +8,11 @@ import com.uberverse.arkcraft.common.block.ARKCraftBerryBush;
 import com.uberverse.arkcraft.common.block.BlockGreenScreen;
 import com.uberverse.arkcraft.common.block.BlockLight;
 import com.uberverse.arkcraft.common.block.BlockSpikes;
+import com.uberverse.arkcraft.common.block.crafter.BlockCampfire;
 import com.uberverse.arkcraft.common.block.crafter.BlockCompostBin;
 import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot;
 import com.uberverse.arkcraft.common.block.crafter.BlockMortarAndPestle;
+import com.uberverse.arkcraft.common.block.crafter.BlockRefiningForge;
 import com.uberverse.arkcraft.common.block.crafter.BlockSmithy;
 import com.uberverse.arkcraft.common.block.unused.ARKContainerBlock;
 import com.uberverse.arkcraft.common.block.unused.BlockARKBase;
@@ -20,14 +22,12 @@ import com.uberverse.arkcraft.common.item.itemblock.ItemCropPlot;
 import com.uberverse.arkcraft.common.item.itemblock.ItemMortarAndPestle;
 import com.uberverse.arkcraft.common.item.itemblock.ItemRefiningForge;
 import com.uberverse.arkcraft.common.item.itemblock.ItemSmithy;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlotNew;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityMP;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileEntitySmithy;
+import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryCompostBin;
-import com.uberverse.arkcraft.wip.burners.BlockCampfire;
-import com.uberverse.arkcraft.wip.burners.BlockRefiningForge;
-import com.uberverse.arkcraft.wip.burners.TileInventoryCampfire;
-import com.uberverse.arkcraft.wip.burners.TileInventoryForge;
+import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntityMP;
+import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntitySmithy;
+import com.uberverse.arkcraft.deprecated.TileInventoryCampfire;
+import com.uberverse.arkcraft.deprecated.TileInventoryForge;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -74,15 +74,15 @@ public class ARKCraftBlocks
 		greenScreen = (BlockGreenScreen) registerBlockNoTab(new BlockGreenScreen(Material.gourd), "greenScreen");
 
 		// Containers
-		smithy = registerSmithy("smithy", Material.wood, ARKCraft.GUI.SMITHY.getID(), false, false, 3);
-		pestle = registerMortarAndPestle("mortar_and_pestle", Material.rock, ARKCraft.GUI.PESTLE_AND_MORTAR.getID(), false, false, 3);
-		crop_plot = registerCropPlot("crop_plot", Material.wood, ARKCraft.GUI.CROP_PLOT.getID(), false, 3);
-		compost_bin = registerCompostBin("compost_bin", Material.wood, ARKCraft.GUI.COMPOST_BIN.getID(), false, false, 3);
-		refining_forge = registerRefiningForge("refining_forge", Material.rock, false, ARKCraft.GUI.FORGE_GUI.getID(), false, false, 3);
-		campfire = registerCampfire("campfire", Material.wood, ARKCraft.GUI.CAMPFIRE_GUI.getID(), false, 3);
+		smithy = registerSmithy("smithy", Material.wood, ARKCraft.GUI.SMITHY.id, false, false, 3);
+		pestle = registerMortarAndPestle("mortar_and_pestle", Material.rock, ARKCraft.GUI.MORTAR_AND_PESTLE.id, false, false, 3);
+		crop_plot = registerCropPlot("crop_plot", Material.wood, ARKCraft.GUI.CROP_PLOT.id, false, 3);
+		compost_bin = registerCompostBin("compost_bin", Material.wood, ARKCraft.GUI.COMPOST_BIN.id, false, false, 3);
+		refining_forge = registerRefiningForge("refining_forge", Material.rock, false, false, false, 3);
+		campfire = registerCampfire("campfire", Material.wood, false, 3);
 
 		// Tile Entities
-		GameRegistry.registerTileEntity(TileEntityCropPlotNew.class, ARKCraft.MODID + "cropPlot");
+		GameRegistry.registerTileEntity(TileEntityCropPlot.class, ARKCraft.MODID + "cropPlot");
 		GameRegistry.registerTileEntity(TileEntityMP.class, "TileInventoryMP");
 		GameRegistry.registerTileEntity(TileInventoryCompostBin.class, "TileEntityCompostBin");
 		GameRegistry.registerTileEntity(TileEntitySmithy.class, "TileEntitySmithy");
@@ -143,17 +143,17 @@ public class ARKCraftBlocks
 		return container;
 	}
 
-	protected static BlockRefiningForge registerRefiningForge(String name, Material mat, boolean isBurning, int ID, boolean renderAsNormalBlock,
+	protected static BlockRefiningForge registerRefiningForge(String name, Material mat, boolean isBurning, boolean renderAsNormalBlock,
 			boolean isOpaque, int renderType)
 	{
-		BlockRefiningForge container = new BlockRefiningForge(mat, ID);
+		BlockRefiningForge container = new BlockRefiningForge(mat);
 		registerBlockWithItemBlock(container, ItemRefiningForge.class, name);
 		return container;
 	}
 
-	protected static BlockCampfire registerCampfire(String name, Material mat, int ID, boolean isOpaque, int renderType)
+	protected static BlockCampfire registerCampfire(String name, Material mat, boolean isOpaque, int renderType)
 	{
-		BlockCampfire container = new BlockCampfire(mat, ID);
+		BlockCampfire container = new BlockCampfire(mat);
 		registerBlockWithItemBlock(container, ItemCampfire.class, name);
 		return container;
 	}

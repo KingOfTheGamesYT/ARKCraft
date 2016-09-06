@@ -36,7 +36,7 @@ public class ARKCraftBook extends Item
 	@SideOnly(Side.CLIENT)
 	public void openBook(ItemStack stack, World world, EntityPlayer player)
 	{
-		player.openGui(ARKCraft.instance, ARKCraft.GUI.BOOK_GUI.getID(), world, 0, 0, 0);
+		player.openGui(ARKCraft.instance, ARKCraft.GUI.BOOK.id, world, 0, 0, 0);
 		FMLClientHandler.instance().displayGuiScreen(player,
 				new GuiInfoBook(stack, BookClient.bookInfo.bd));
 	}

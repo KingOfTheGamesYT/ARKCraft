@@ -3,7 +3,7 @@ package com.uberverse.arkcraft.client.gui.block;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.gui.engram.GUIEngramCrafting;
 import com.uberverse.arkcraft.common.container.block.ContainerMP;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityMP;
+import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntityMP;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;

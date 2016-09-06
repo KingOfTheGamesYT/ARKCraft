@@ -6,6 +6,7 @@ import java.util.Queue;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
+import com.uberverse.arkcraft.util.IInventoryAdder;
 import com.uberverse.arkcraft.util.NBTable;
 import com.uberverse.arkcraft.wip.itemquality.Qualitable;
 import com.uberverse.arkcraft.wip.itemquality.Qualitable.ItemQuality;
@@ -23,13 +24,13 @@ import net.minecraftforge.common.util.Constants.NBT;
 /**
  * @author Lewis_McReu
  */
-public interface IEngramCrafter extends NBTable
+public interface IEngramCrafter extends NBTable, IInventoryAdder
 {
 	public default void update()
 	{
-		if (!getWorldEC().isRemote)
+		if (!getWorldIA().isRemote)
 		{
-			if ((getWorldEC().getTotalWorldTime() % 20) == getTimeOffset())
+			if ((getWorldIA().getTotalWorldTime() % 20) == getTimeOffset())
 			{
 				Queue<CraftingOrder> craftingQueue = getCraftingQueue();
 				if (isCrafting())
@@ -77,7 +78,7 @@ public interface IEngramCrafter extends NBTable
 			if (c != null)
 			{
 				setProgress(c.getEngram().getCraftingTime());
-				setTimeOffset((int) (getWorldEC().getTotalWorldTime() % 20));
+				setTimeOffset((int) (getWorldIA().getTotalWorldTime() % 20));
 				c.getEngram().consume(getConsumedInventory());
 				sync();
 			}
@@ -93,44 +94,6 @@ public interface IEngramCrafter extends NBTable
 	public default void decreaseProgress()
 	{
 		setProgress(getProgress() - 1);
-	}
-
-	public default boolean add(ItemStack stack)
-	{
-		ItemStack[] inventory = getInventory();
-		for (int i = 0; i < inventory.length; i++)
-		{
-			if (inventory[i] != null)
-			{
-				ItemStack in = inventory[i];
-				if (in.getItem() == stack.getItem())
-				{
-					if (in.stackSize + stack.stackSize < in.getMaxStackSize())
-					{
-						in.stackSize += stack.stackSize;
-						return true;
-					}
-					else
-					{
-						stack.stackSize -= in.getMaxStackSize() - in.stackSize;
-						in.stackSize = in.getMaxStackSize();
-						if (stack.stackSize <= 0) return true;
-					}
-				}
-			}
-			else
-			{
-				inventory[i] = stack;
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public default void addOrDrop(ItemStack stack)
-	{
-		if (!add(stack))
-			getWorldEC().spawnEntityInWorld(new EntityItem(getWorldEC(), getPosition().getX(), getPosition().getY(), getPosition().getZ(), stack));
 	}
 
 	@Override
@@ -240,7 +203,7 @@ public interface IEngramCrafter extends NBTable
 				{
 					add = craftingQueue.add(new CraftingOrder(engram, amount, quality));
 				}
-				if (add && !getWorldEC().isRemote)
+				if (add && !getWorldIA().isRemote)
 				{
 					selectNextCraftingOrder();
 					return true;
@@ -406,8 +369,6 @@ public interface IEngramCrafter extends NBTable
 	}
 
 	public BlockPos getPosition();
-
-	public World getWorldEC();
 
 	public Queue<CraftingOrder> getCraftingQueue();
 }

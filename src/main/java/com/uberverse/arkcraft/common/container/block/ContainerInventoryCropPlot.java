@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryCropPlot;
+import com.uberverse.arkcraft.deprecated.TileInventoryCropPlot;
 import com.uberverse.lib.LogHelper;
 
 /**

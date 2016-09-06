@@ -1,6 +1,6 @@
 package com.uberverse.arkcraft.common.container.block;
 
-import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlotNew;
+import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -15,10 +15,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ContainerCropPlotNew extends Container
 {
-	private TileEntityCropPlotNew te;
+	private TileEntityCropPlot te;
 	private int waterLast = -1, fertilizerLast = -1;
 
-	public ContainerCropPlotNew(InventoryPlayer inventory, TileEntityCropPlotNew tileEntity)
+	public ContainerCropPlotNew(InventoryPlayer inventory, TileEntityCropPlot tileEntity)
 	{
 		this.te = tileEntity;
 		int id = 0;

@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
@@ -414,7 +415,7 @@ public class EngramManager
 
 	public static class EngramRecipe
 	{
-		private Map<Item, Integer> items;
+		private final Map<Item, Integer> items;
 
 		private EngramRecipe()
 		{
@@ -436,8 +437,15 @@ public class EngramManager
 						Integer amount = (Integer) o2;
 						this.addItem(item, amount);
 					}
+					else
+					{
+						ARKCraft.logger.error("Invalid parameters for EngramRecipe. Pairs of Item and Integer are expected.");
+						throw new IllegalArgumentException("Invalid parameters for EngramRecipe. Pairs of Item and Integer are expected.");
+					}
 				}
+				return;
 			}
+			ARKCraft.logger.error("Invalid parameters for EngramRecipe. Pairs of Item and Integer are expected.");
 		}
 
 		public Map<Item, Integer> getItems()

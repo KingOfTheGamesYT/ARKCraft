@@ -6,6 +6,7 @@ package com.uberverse.arkcraft.util;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -69,5 +70,30 @@ public class CollectionUtil
 			else p = p.and(pr);
 		}
 		return p;
+	}
+
+	public static <E, T> E find(Collection<E> col, Function<E, T> converter, T sought)
+	{
+		List<E> l = filter(col, (E e) -> {
+			return converter.apply(e).equals(sought);
+		});
+		return l.isEmpty() ? null : l.get(0);
+	}
+
+	public static <E> void process(Collection<E> col, Consumer<E> consumer)
+	{
+		for (E e : col)
+		{
+			consumer.accept(e);
+		}
+	}
+
+	public static <E, T> List<T> convert(Collection<E> col, Function<E, T> converter)
+	{
+		List<T> l = new ArrayList<>();
+
+		for (E e : col)
+			l.add(converter.apply(e));
+		return l;
 	}
 }

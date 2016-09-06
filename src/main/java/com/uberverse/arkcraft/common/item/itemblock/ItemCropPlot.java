@@ -8,8 +8,8 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
-import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlotNew.CropPlotType;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlotNew.Part;
+import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot.CropPlotType;
+import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot.Part;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 
 public class ItemCropPlot extends ItemBlockARK

@@ -36,9 +36,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.item.ARKCraftSeed;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlotNew;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlotNew.CropPlotType;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlotNew.Part;
+import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot;
+import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot.CropPlotType;
+import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot.Part;
 import com.uberverse.lib.LogHelper;
 
 /**
@@ -71,7 +71,7 @@ public class BlockCropPlot extends BlockContainer
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{
-		return new TileEntityCropPlotNew();
+		return new TileEntityCropPlot();
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class BlockCropPlot extends BlockContainer
 		System.out.println(this.getBlockById(this.ID));
 		if (!playerIn.isSneaking())
 		{
-			TileEntityCropPlotNew te = (TileEntityCropPlotNew) worldIn.getTileEntity(pos);
+			TileEntityCropPlot te = (TileEntityCropPlot) worldIn.getTileEntity(pos);
 			if (te.part != Part.MIDDLE)
 			{
 				BlockPos pos2 = te.part.offset(pos, true);
@@ -117,12 +117,12 @@ public class BlockCropPlot extends BlockContainer
 				{
 					LogHelper.info("Player's water bucket is a filled container!");
 					TileEntity entity = worldIn.getTileEntity(pos);
-					if (entity instanceof TileEntityCropPlotNew && entity != null)
+					if (entity instanceof TileEntityCropPlot && entity != null)
 					{
 						LogHelper.info(
 								"A TileEntityCropPlotNew is found at the place the player right clicked!");
-						TileEntityCropPlotNew target = (TileEntityCropPlotNew) entity;
-						int water = TileEntityCropPlotNew.getItemWaterValue(container) + target
+						TileEntityCropPlot target = (TileEntityCropPlot) entity;
+						int water = TileEntityCropPlot.getItemWaterValue(container) + target
 								.getField(0);
 						// The currentWater + addedWater needs to be smaller or
 						// equal to the max water.
@@ -240,7 +240,7 @@ public class BlockCropPlot extends BlockContainer
 	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
 	{
-		TileEntityCropPlotNew tile = (TileEntityCropPlotNew) worldIn.getTileEntity(pos);
+		TileEntityCropPlot tile = (TileEntityCropPlot) worldIn.getTileEntity(pos);
 		if (tile != null) InventoryHelper.dropInventoryItems(worldIn, pos, tile);
 		CropPlotType t = (CropPlotType) state.getValue(TYPE);
 		if (tile.part == Part.MIDDLE)
@@ -284,7 +284,7 @@ public class BlockCropPlot extends BlockContainer
 				{
 					BlockPos pos2 = p.offset(pos, false);
 					worldIn.setBlockState(pos2, state);
-					TileEntityCropPlotNew te = (TileEntityCropPlotNew) worldIn.getTileEntity(pos2);
+					TileEntityCropPlot te = (TileEntityCropPlot) worldIn.getTileEntity(pos2);
 					te.part = p;
 				}
 			}
@@ -318,9 +318,9 @@ public class BlockCropPlot extends BlockContainer
 		IBlockState state = worldIn.getBlockState(pos);
 		CropPlotType t = (CropPlotType) state.getValue(TYPE);
 		TileEntity tile = worldIn.getTileEntity(pos);
-		if (tile instanceof TileEntityCropPlotNew)
+		if (tile instanceof TileEntityCropPlot)
 		{
-			TileEntityCropPlotNew te = (TileEntityCropPlotNew) tile;
+			TileEntityCropPlot te = (TileEntityCropPlot) tile;
 			BlockPos p = new BlockPos(0, 0, 0);
 			p = te.part.offset(p, true);
 			if (t == CropPlotType.SMALL) return new AxisAlignedBB(pos.getX(), pos.getY(),
@@ -359,9 +359,9 @@ public class BlockCropPlot extends BlockContainer
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
 	{
 		TileEntity tile = worldIn.getTileEntity(pos);
-		if (tile instanceof TileEntityCropPlotNew)
+		if (tile instanceof TileEntityCropPlot)
 		{
-			TileEntityCropPlotNew te = (TileEntityCropPlotNew) tile;
+			TileEntityCropPlot te = (TileEntityCropPlot) tile;
 			return state.withProperty(BERRY, te.getGrowingColor()).withProperty(TRANSPARENT,
 					te.isTransparent());
 		}
@@ -371,7 +371,7 @@ public class BlockCropPlot extends BlockContainer
 	@Override
 	public void fillWithRain(World worldIn, BlockPos pos)
 	{
-		TileEntityCropPlotNew te = (TileEntityCropPlotNew) worldIn.getTileEntity(pos);
+		TileEntityCropPlot te = (TileEntityCropPlot) worldIn.getTileEntity(pos);
 		if (te.part == Part.MIDDLE)
 		{
 			te.fillWithRain(true);
@@ -379,9 +379,9 @@ public class BlockCropPlot extends BlockContainer
 		else
 		{
 			TileEntity tile = worldIn.getTileEntity(te.part.offset(pos, true));
-			if (tile instanceof TileEntityCropPlotNew)
+			if (tile instanceof TileEntityCropPlot)
 			{
-				te = (TileEntityCropPlotNew) tile;
+				te = (TileEntityCropPlot) tile;
 				te.fillWithRain(true);
 			}
 		}

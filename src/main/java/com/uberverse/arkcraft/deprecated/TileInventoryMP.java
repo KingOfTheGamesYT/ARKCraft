@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.common.tileentity.crafter;
+package com.uberverse.arkcraft.deprecated;
 
 import java.util.Arrays;
 import java.util.Iterator;

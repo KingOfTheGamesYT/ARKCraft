@@ -11,7 +11,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.uberverse.arkcraft.common.inventory.InventoryBlueprints;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryMP;
+import com.uberverse.arkcraft.deprecated.TileInventoryMP;
 import com.uberverse.lib.LogHelper;
 
 public class ContainerInventoryMP extends Container

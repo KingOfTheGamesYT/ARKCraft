@@ -3,8 +3,8 @@ package com.uberverse.arkcraft.common.block.crafter;
 import java.util.Random;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityMP;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryMP;
+import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntityMP;
+import com.uberverse.arkcraft.deprecated.TileInventoryMP;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;

@@ -155,30 +155,20 @@ public class ARKCraft
 
 	public enum GUI
 	{
-		SMITHY(0),
-		PESTLE_AND_MORTAR(1),
-		INV_DODO(2),
-		BOOK_GUI(3),
-		CROP_PLOT(4),
-		TAMING_GUI(5),
-		COMPOST_BIN(6),
-		SCOPE(7),
-		PLAYER(8),
-		TAMED_DINO(9),
-		FORGE_GUI(10),
-		ATTACHMENT_GUI(11),
-		ENGRAM_GUI(12),
-		CAMPFIRE_GUI(13);
-		int id;
+		SMITHY, MORTAR_AND_PESTLE, BOOK, CROP_PLOT, TAMING, COMPOST_BIN, SCOPE, PLAYER, TAMED_DINO, REFINING_FORGE, ATTACHMENTS, ENGRAMS, CAMPFIRE;
 
-		GUI(int id)
+		public final int id;
+
+		GUI()
 		{
-			this.id = id;
+			this.id = getNextId();
 		}
 
-		public int getID()
+		static int idCounter = 0;
+
+		private static int getNextId()
 		{
-			return id;
+			return idCounter++;
 		}
 	}
 
@@ -187,7 +177,7 @@ public class ARKCraft
 		modChannel = NetworkRegistry.INSTANCE.newSimpleChannel(ARKCraft.MODID);
 
 		int id = 0;
-		// The handler (usually in the packet class), the packet class, unique
+		// The handler (usually in the packet class), the packet class, unique identifier, side to be handled
 		modChannel.registerMessage(PlayerPoop.Handler.class, PlayerPoop.class, id++, Side.SERVER);
 		modChannel.registerMessage(UpdateMPToCraftItem.Handler.class, UpdateMPToCraftItem.class, id++, Side.SERVER);
 		modChannel.registerMessage(UpdateSmithyToCraftItem.Handler.class, UpdateSmithyToCraftItem.class, id++, Side.SERVER);

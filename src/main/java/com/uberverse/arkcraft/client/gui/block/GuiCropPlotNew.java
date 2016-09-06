@@ -10,13 +10,13 @@ import net.minecraft.util.ResourceLocation;
 
 import com.uberverse.arkcraft.common.container.block.ContainerCropPlotNew;
 import com.uberverse.arkcraft.common.item.ARKCraftFeces;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlotNew;
+import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot;
 
 public class GuiCropPlotNew extends GuiContainer
 {
-	private TileEntityCropPlotNew te;
+	private TileEntityCropPlot te;
 
-	public GuiCropPlotNew(InventoryPlayer inventory, TileEntityCropPlotNew tileEntity)
+	public GuiCropPlotNew(InventoryPlayer inventory, TileEntityCropPlot tileEntity)
 	{
 		super(new ContainerCropPlotNew(inventory, tileEntity));
 		this.te = tileEntity;

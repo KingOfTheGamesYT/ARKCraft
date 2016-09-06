@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.common.tileentity.crafter;
+package com.uberverse.arkcraft.common.tileentity.crafter.engram;
 
 public class TileEntityMP extends TileEntityEngramCrafter
 {

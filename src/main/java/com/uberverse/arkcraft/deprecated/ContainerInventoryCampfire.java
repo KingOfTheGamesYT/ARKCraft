@@ -1,5 +1,7 @@
-package com.uberverse.arkcraft.wip.burners;
+package com.uberverse.arkcraft.deprecated;
 
+import com.uberverse.arkcraft.common.burner.IBurner;
+import com.uberverse.arkcraft.common.burner.IBurnerContainer;
 import com.uberverse.lib.LogHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -220,5 +222,12 @@ public class ContainerInventoryCampfire extends Container implements IBurnerCont
 	public void toggleBurning()
 	{
 		tileInventoryCampfire.setBurning(!tileInventoryCampfire.isBurning());
+	}
+
+	@Override
+	public IBurner getBurner()
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

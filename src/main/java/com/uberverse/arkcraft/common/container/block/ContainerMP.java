@@ -2,7 +2,7 @@ package com.uberverse.arkcraft.common.container.block;
 
 import com.uberverse.arkcraft.common.container.engram.ContainerEngramCrafting;
 import com.uberverse.arkcraft.common.engram.EngramManager.EngramType;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityMP;
+import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntityMP;
 
 import net.minecraft.entity.player.EntityPlayer;
 

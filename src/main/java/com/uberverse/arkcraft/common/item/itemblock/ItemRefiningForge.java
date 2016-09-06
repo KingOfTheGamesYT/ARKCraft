@@ -8,8 +8,8 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
+import com.uberverse.arkcraft.common.block.crafter.BlockRefiningForge;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
-import com.uberverse.arkcraft.wip.burners.BlockRefiningForge;
 
 public class ItemRefiningForge extends ItemBlockARK
 {
