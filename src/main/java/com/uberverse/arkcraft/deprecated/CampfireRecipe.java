@@ -1,18 +1,18 @@
-package com.uberverse.arkcraft.common.handlers;
+package com.uberverse.arkcraft.deprecated;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.item.Item;
 
-public class ForgeRecipe
+public class CampfireRecipe
 {
 	private List<Item> input;
 	private Item output;
 	private double burnTime;
 	private final String id;
 
-	public ForgeRecipe(String id)
+	public CampfireRecipe(String id)
 	{
 		this.id = id;
 		input = new ArrayList<Item>();

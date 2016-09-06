@@ -143,9 +143,9 @@ public interface IBurner extends IInventoryAdder, NBTable
 		BurnerFuel fuel = getCurrentFuel();
 		if (fuel != null)
 		{
-			if (!getWorldIA().isRemote)
+			if (!getWorldIA().isRemote && fuel.hasOutput())
 			{
-				ItemStack s = new ItemStack(fuel.getOutput());
+				ItemStack s = new ItemStack(fuel.getOutput(), fuel.getOutputAmount());
 				addOrDrop(s);
 			}
 			setCurrentFuel(null);

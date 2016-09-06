@@ -1,6 +1,5 @@
-package com.uberverse.arkcraft.common.handlers.recipes;
+package com.uberverse.arkcraft.deprecated;
 
-import com.uberverse.arkcraft.common.handlers.ARKCraftingManager;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
 

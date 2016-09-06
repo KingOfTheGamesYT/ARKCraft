@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.common.handlers.recipes;
+package com.uberverse.arkcraft.deprecated;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +9,6 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-import com.uberverse.arkcraft.common.handlers.ForgeRecipe;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 
 public class ForgeCraftingHandler

@@ -1,5 +1,6 @@
 package com.uberverse.arkcraft.client.gui.burner;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +64,17 @@ public abstract class GUIBurner extends GUIArkContainer
 	private boolean onFlame(int mouseX, int mouseY)
 	{
 		return isPointInRegion(guiLeft + getFlamePosX(), guiTop + getFlamePosY(), flameSize, flameSize, mouseX, mouseY);
+	}
+
+	@Override
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
+	{
+		if (isPointInRegion(guiLeft + getFlamePosX(), guiTop + getFlamePosY(), flameSize, flameSize, mouseX, mouseY) && mouseButton == 0)
+		{
+			mc.playerController.sendEnchantPacket(inventorySlots.windowId, 0);
+			return;
+		}
+		super.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
 	public abstract int getFlamePosX();

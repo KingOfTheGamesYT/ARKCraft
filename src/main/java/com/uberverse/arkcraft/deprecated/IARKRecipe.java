@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.common.handlers;
+package com.uberverse.arkcraft.deprecated;
 
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;

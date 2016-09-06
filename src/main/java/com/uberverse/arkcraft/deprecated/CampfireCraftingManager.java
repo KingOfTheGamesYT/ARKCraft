@@ -1,11 +1,10 @@
-package com.uberverse.arkcraft.common.handlers.recipes;
+package com.uberverse.arkcraft.deprecated;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.uberverse.arkcraft.common.handlers.CampfireRecipe;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 
 import net.minecraft.inventory.IInventory;

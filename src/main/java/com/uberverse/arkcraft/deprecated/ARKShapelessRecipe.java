@@ -1,6 +1,7 @@
-package com.uberverse.arkcraft.common.handlers;
+package com.uberverse.arkcraft.deprecated;
 
 import com.google.common.collect.Lists;
+
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 

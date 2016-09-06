@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.common.handlers.recipes;
+package com.uberverse.arkcraft.deprecated;
 
 public class RecipeHandler
 {

@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.util.CollectionUtil;
 
 import net.minecraft.item.Item;
@@ -25,7 +26,16 @@ public class BurnerManager
 
 	public static void init()
 	{
+		// Fuels
+		instance.registerFuel(new BurnerFuel(ARKCraftItems.wood, 600, BurnerType.CAMPFIRE, BurnerType.REFINING_FORGE));
+		instance.registerFuel(new BurnerFuel(ARKCraftItems.thatch, 140, BurnerType.CAMPFIRE, BurnerType.REFINING_FORGE));
+		instance.registerFuel(new BurnerFuel(ARKCraftItems.spark_powder, 1200, BurnerType.CAMPFIRE, BurnerType.REFINING_FORGE));
 
+		// Recipes
+		//TODO add more recipes and patch times of the existing recipes
+		instance.registerRecipe(new BurnerRecipe(ARKCraftItems.metal_ingot, 1, 1, BurnerType.REFINING_FORGE, ARKCraftItems.metal, 2));
+		instance.registerRecipe(new BurnerRecipe(ARKCraftItems.meat_cooked, 1, 1, BurnerType.CAMPFIRE, ARKCraftItems.meat_raw, 1));
+		instance.registerRecipe(new BurnerRecipe(ARKCraftItems.primemeat_cooked, 1, 1, BurnerType.CAMPFIRE, ARKCraftItems.primemeat_raw, 1));
 	}
 
 	private Set<BurnerRecipe> recipes;
@@ -105,6 +115,16 @@ public class BurnerManager
 			this.output = output;
 			this.outputAmount = outputAmount;
 			this.supportedBurnerTypes = Arrays.asList(supportedBurnerTypes);
+		}
+
+		public BurnerFuel(Item item, int burnTime, Item output, BurnerType... supportedBurnerTypes)
+		{
+			this(item, burnTime, output, 1, supportedBurnerTypes);
+		}
+
+		public BurnerFuel(Item item, int burnTime, BurnerType... supportedBurnerTypes)
+		{
+			this(item, burnTime, null, 0, supportedBurnerTypes);
 		}
 
 		public int getBurnTime()

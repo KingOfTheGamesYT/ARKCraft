@@ -8,9 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.uberverse.arkcraft.common.handlers.ForgeRecipe;
-import com.uberverse.arkcraft.common.handlers.recipes.ForgeCraftingHandler;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
