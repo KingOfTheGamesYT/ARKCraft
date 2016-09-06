@@ -3,6 +3,7 @@ package com.uberverse.arkcraft.common.burner;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -32,7 +33,7 @@ public class BurnerManager
 		instance.registerFuel(new BurnerFuel(ARKCraftItems.spark_powder, 1200, BurnerType.CAMPFIRE, BurnerType.REFINING_FORGE));
 
 		// Recipes
-		//TODO add more recipes and patch times of the existing recipes
+		// TODO add more recipes and patch times of the existing recipes
 		instance.registerRecipe(new BurnerRecipe(ARKCraftItems.metal_ingot, 1, 1, BurnerType.REFINING_FORGE, ARKCraftItems.metal, 2));
 		instance.registerRecipe(new BurnerRecipe(ARKCraftItems.meat_cooked, 1, 1, BurnerType.CAMPFIRE, ARKCraftItems.meat_raw, 1));
 		instance.registerRecipe(new BurnerRecipe(ARKCraftItems.primemeat_cooked, 1, 1, BurnerType.CAMPFIRE, ARKCraftItems.primemeat_raw, 1));
@@ -44,7 +45,7 @@ public class BurnerManager
 	private BurnerManager()
 	{
 		recipes = new TreeSet<>();
-		fuels = new TreeSet<>();
+		fuels = new HashSet<>();
 	}
 
 	public Set<BurnerRecipe> getEngrams()

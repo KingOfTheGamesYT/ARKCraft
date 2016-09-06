@@ -57,19 +57,19 @@ public abstract class GUIBurner extends GUIArkContainer
 			{
 				hoveringText.add(EnumChatFormatting.RED + "Press to ignite");
 			}
-			drawHoveringText(hoveringText, mouseX - guiLeft, mouseY - guiTop);
+			drawHoveringText(hoveringText, mouseX - guiLeft, mouseY - guiTop, fontRendererObj);
 		}
 	}
 
 	private boolean onFlame(int mouseX, int mouseY)
 	{
-		return isPointInRegion(guiLeft + getFlamePosX(), guiTop + getFlamePosY(), flameSize, flameSize, mouseX, mouseY);
+		return isPointInRegion(getFlamePosX(), getFlamePosY(), flameSize, flameSize, mouseX, mouseY);
 	}
 
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
 	{
-		if (isPointInRegion(guiLeft + getFlamePosX(), guiTop + getFlamePosY(), flameSize, flameSize, mouseX, mouseY) && mouseButton == 0)
+		if (onFlame(mouseX, mouseY))
 		{
 			mc.playerController.sendEnchantPacket(inventorySlots.windowId, 0);
 			return;

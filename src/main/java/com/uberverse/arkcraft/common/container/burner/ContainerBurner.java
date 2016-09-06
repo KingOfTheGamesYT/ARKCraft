@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 
 public abstract class ContainerBurner extends Container implements IBurnerContainer
 {
@@ -22,14 +23,22 @@ public abstract class ContainerBurner extends Container implements IBurnerContai
 		init();
 	}
 
+	private int slotStart;
+	private int slotEnd;
+	private int playerSlotStart;
+
 	private void init()
 	{
+		int slotCounter = 0;
+		slotStart = slotCounter;
 		// Burner slots
 		for (int i = 0; i < burner.getIInventory().getSizeInventory(); i++)
 		{
-			addSlotToContainer(new Slot(burner.getIInventory(), i, getSlotsX() + 18 * i, getSlotsY() + i / getSlotsWidth() * 18));
+			addSlotToContainer(new Slot(burner.getIInventory(), i, getSlotsX() + 18 * (i % getSlotsWidth()), getSlotsY() + i / getSlotsWidth() * 18));
+			slotCounter++;
 		}
 
+		slotEnd = slotCounter;
 		// Player hotbar
 		for (int x = 0; x < 9; x++)
 		{
@@ -47,6 +56,41 @@ public abstract class ContainerBurner extends Container implements IBurnerContai
 				addSlotToContainer(new Slot(player.inventory, slotIndex, xpos, ypos));
 			}
 		}
+	}
+
+	@Override
+	public ItemStack transferStackInSlot(EntityPlayer player, int sourceSlotIndex)
+	{
+		Slot sourceSlot = (Slot) inventorySlots.get(sourceSlotIndex);
+		if (sourceSlot == null || !sourceSlot.getHasStack()) return null;
+		ItemStack sourceStack = sourceSlot.getStack();
+		ItemStack copyOfSourceStack = sourceStack.copy();
+
+		if (sourceSlotIndex >= playerSlotStart && sourceSlotIndex < playerSlotStart + 36)
+		{
+			if (!mergeItemStack(sourceStack, slotStart, slotEnd + 1, false)) { return null; }
+		}
+		else if (sourceSlotIndex >= slotStart && sourceSlotIndex < slotEnd + 1)
+		{
+			if (!mergeItemStack(sourceStack, playerSlotStart, playerSlotStart + 36, false)) { return null; }
+		}
+		else
+		{
+			System.err.print("Invalid slotIndex:" + sourceSlotIndex);
+			return null;
+		}
+
+		if (sourceStack.stackSize == 0)
+		{
+			sourceSlot.putStack(null);
+		}
+		else
+		{
+			sourceSlot.onSlotChanged();
+		}
+
+		sourceSlot.onPickupFromSlot(player, sourceStack);
+		return copyOfSourceStack;
 	}
 
 	private int[] cachedFields;

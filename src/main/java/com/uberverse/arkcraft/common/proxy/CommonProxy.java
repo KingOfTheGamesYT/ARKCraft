@@ -2,6 +2,7 @@ package com.uberverse.arkcraft.common.proxy;
 
 import com.uberverse.arkcraft.client.book.proxy.BookCommon;
 import com.uberverse.arkcraft.common.arkplayer.event.PlayerCommonEventHandler;
+import com.uberverse.arkcraft.common.burner.BurnerManager;
 import com.uberverse.arkcraft.common.engram.EngramManager;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,6 +23,7 @@ public abstract class CommonProxy
 	public void preInit()
 	{
 		EngramManager.init();
+		BurnerManager.init();
 	}
 
 	public abstract EntityPlayer getPlayerFromContext(MessageContext ctx);

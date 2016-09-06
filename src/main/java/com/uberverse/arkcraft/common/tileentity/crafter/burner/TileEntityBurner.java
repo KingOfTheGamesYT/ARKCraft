@@ -3,9 +3,9 @@ package com.uberverse.arkcraft.common.tileentity.crafter.burner;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.uberverse.arkcraft.common.burner.IBurner;
 import com.uberverse.arkcraft.common.burner.BurnerManager.BurnerFuel;
 import com.uberverse.arkcraft.common.burner.BurnerManager.BurnerRecipe;
+import com.uberverse.arkcraft.common.burner.IBurner;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -149,19 +149,27 @@ public abstract class TileEntityBurner extends TileEntity implements IInventory,
 	@Override
 	public int getField(int id)
 	{
-		return burningTicks;
+		return id == 0 ? burningTicks : id == 1 ? burning ? 1 : 0 : 0;
 	}
 
 	@Override
 	public void setField(int id, int value)
 	{
-		burningTicks = value;
+		switch (id)
+		{
+			case 0:
+				burningTicks = value;
+				break;
+			case 1:
+				burning = value == 0 ? false : true;
+				break;
+		}
 	}
 
 	@Override
 	public int getFieldCount()
 	{
-		return 1;
+		return 2;
 	}
 
 	@Override

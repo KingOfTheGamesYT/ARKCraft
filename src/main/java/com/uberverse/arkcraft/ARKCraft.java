@@ -99,13 +99,6 @@ public class ARKCraft
 		ARKCraftRangedWeapons.init();
 		NetworkRegistry.INSTANCE.registerGuiHandler(ARKCraft.instance, new GuiHandler());
 
-		RecipeHandler.registerVanillaCraftingRecipes();
-		PestleCraftingManager.registerPestleCraftingRecipes();
-		SmithyCraftingManager.registerSmithyCraftingRecipes();
-		PlayerCraftingManager.registerPlayerCraftingRecipes();
-		ForgeCraftingHandler.registerForgeRecipes();
-		CampfireCraftingManager.registerCampfireRecipes();
-
 		// This has to be here so it can create weights for our items and blocks
 		// as well
 		WeightsConfig.init(event.getModConfigurationDirectory());

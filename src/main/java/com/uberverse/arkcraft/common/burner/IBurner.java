@@ -39,6 +39,9 @@ public interface IBurner extends IInventoryAdder, NBTable
 		if (!world.isRemote)
 		{
 			Collection<BurnerRecipe> possibleRecipes = BurnerManager.instance().getRecipes(getBurnerType());
+			possibleRecipes = CollectionUtil.filter(possibleRecipes, (BurnerRecipe r) -> {
+				return canCook(r);
+			});
 			if (this.isBurning() && possibleRecipes.size() > 0)
 			{
 				Map<BurnerRecipe, Integer> activeRecipes = getActiveRecipes();
@@ -64,6 +67,20 @@ public interface IBurner extends IInventoryAdder, NBTable
 			else clearActiveRecipes();
 		}
 		world.checkLightFor(EnumSkyBlock.BLOCK, getPosition());
+	}
+
+	public default boolean canCook(BurnerRecipe r)
+	{
+		int found = 0;
+		for (ItemStack s : getInventory())
+		{
+			if (s != null && r.getItem() == s.getItem())
+			{
+				found += r.getAmount() > s.stackSize ? s.stackSize : r.getAmount();
+			}
+			if (found == r.getAmount()) return true;
+		}
+		return false;
 	}
 
 	public default void updateCookTimes()

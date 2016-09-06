@@ -24,10 +24,10 @@ import com.uberverse.arkcraft.common.item.itemblock.ItemRefiningForge;
 import com.uberverse.arkcraft.common.item.itemblock.ItemSmithy;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryCompostBin;
+import com.uberverse.arkcraft.common.tileentity.crafter.burner.TileEntityCampfire;
+import com.uberverse.arkcraft.common.tileentity.crafter.burner.TileEntityRefiningForge;
 import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntityMP;
 import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntitySmithy;
-import com.uberverse.arkcraft.deprecated.TileInventoryCampfire;
-import com.uberverse.arkcraft.deprecated.TileInventoryForge;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -67,8 +67,8 @@ public class ARKCraftBlocks
 	public static void init()
 	{
 		// Misc
-		 block_light = new BlockLight();
-		 GameRegistry.registerBlock(block_light, "block_light");
+		block_light = new BlockLight();
+		GameRegistry.registerBlock(block_light, "block_light");
 		berryBush = (ARKCraftBerryBush) registerBlock(new ARKCraftBerryBush(0.4F), "berryBush");
 
 		greenScreen = (BlockGreenScreen) registerBlockNoTab(new BlockGreenScreen(Material.gourd), "greenScreen");
@@ -83,11 +83,11 @@ public class ARKCraftBlocks
 
 		// Tile Entities
 		GameRegistry.registerTileEntity(TileEntityCropPlot.class, ARKCraft.MODID + "cropPlot");
-		GameRegistry.registerTileEntity(TileEntityMP.class, "TileInventoryMP");
-		GameRegistry.registerTileEntity(TileInventoryCompostBin.class, "TileEntityCompostBin");
-		GameRegistry.registerTileEntity(TileEntitySmithy.class, "TileEntitySmithy");
-		GameRegistry.registerTileEntity(TileInventoryForge.class, "TileInventoryForge");
-		GameRegistry.registerTileEntity(TileInventoryCampfire.class, "TileInventoryCampfire");
+		GameRegistry.registerTileEntity(TileEntityMP.class, ARKCraft.MODID + "TileInventoryMP");
+		GameRegistry.registerTileEntity(TileInventoryCompostBin.class, ARKCraft.MODID + "TileEntityCompostBin");
+		GameRegistry.registerTileEntity(TileEntitySmithy.class, ARKCraft.MODID + "TileEntitySmithy");
+		GameRegistry.registerTileEntity(TileEntityRefiningForge.class, ARKCraft.MODID + "TileEntityRefiningForge");
+		GameRegistry.registerTileEntity(TileEntityCampfire.class, ARKCraft.MODID + "TileEntityCampfire");
 	}
 
 	private static Block registerBlock(Block block, String name)

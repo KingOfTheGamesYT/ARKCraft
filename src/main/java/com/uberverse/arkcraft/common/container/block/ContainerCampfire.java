@@ -20,7 +20,7 @@ public class ContainerCampfire extends ContainerBurner
 	@Override
 	public int getSlotsY()
 	{
-		return 26;
+		return 35;
 	}
 
 	@Override
