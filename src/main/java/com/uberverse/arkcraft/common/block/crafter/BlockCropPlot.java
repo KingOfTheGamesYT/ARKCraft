@@ -134,7 +134,7 @@ public class BlockCropPlot extends BlockContainer
 							if (drainedContainer != null)
 							{
 								if (!playerIn.capabilities.isCreativeMode) container
-										.setItem(drainedContainer.getItem());
+								.setItem(drainedContainer.getItem());
 								LogHelper.info(
 										"The drained container is not null, the bucket has been replaced with a new itemstack.");
 							}
@@ -269,9 +269,10 @@ public class BlockCropPlot extends BlockContainer
 	{
 		TileEntity tile = worldIn.getTileEntity(pos);
 		CropPlotType t = CropPlotType.VALUES[stack.getMetadata() % 3];
+		state = getDefaultState();
 		state = state.withProperty(TYPE, t);
 		worldIn.setBlockState(pos, state);
-		if (tile != null)
+		if (tile != null && tile instanceof TileEntityCropPlotNew)
 		{
 			tile.validate();
 			worldIn.setTileEntity(pos, tile);
@@ -284,8 +285,13 @@ public class BlockCropPlot extends BlockContainer
 				{
 					BlockPos pos2 = p.offset(pos, false);
 					worldIn.setBlockState(pos2, state);
-					TileEntityCropPlotNew te = (TileEntityCropPlotNew) worldIn.getTileEntity(pos2);
-					te.part = p;
+					TileEntity tileNew = worldIn.getTileEntity(pos2);
+					if(tileNew instanceof TileEntityCropPlotNew){
+						TileEntityCropPlotNew te = (TileEntityCropPlotNew) tileNew;
+						te.part = p;
+					}else{
+						ARKCraft.logger.error("Invalid tile entity at " + pos2.toString() + " tile entity: " + tileNew);
+					}
 				}
 			}
 		}
