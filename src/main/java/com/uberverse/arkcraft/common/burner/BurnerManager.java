@@ -28,7 +28,7 @@ public class BurnerManager
 	public static void init()
 	{
 		// Fuels
-		instance.registerFuel(new BurnerFuel(ARKCraftItems.wood, 600, BurnerType.CAMPFIRE, BurnerType.REFINING_FORGE));
+		instance.registerFuel(new BurnerFuel(ARKCraftItems.wood, 600, ARKCraftItems.charcoal, BurnerType.CAMPFIRE, BurnerType.REFINING_FORGE));
 		instance.registerFuel(new BurnerFuel(ARKCraftItems.thatch, 140, BurnerType.CAMPFIRE, BurnerType.REFINING_FORGE));
 		instance.registerFuel(new BurnerFuel(ARKCraftItems.spark_powder, 1200, BurnerType.CAMPFIRE, BurnerType.REFINING_FORGE));
 
