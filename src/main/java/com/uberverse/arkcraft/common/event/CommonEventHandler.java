@@ -315,7 +315,7 @@ public class CommonEventHandler
 		if(!p.worldObj.isRemote && evt.phase == Phase.START){
 			if(ticks > 19){
 				ticks = 0;
-				Utils.checkInventoryForDecayable(p.inventory, 1);
+				Utils.checkInventoryForDecayable(p.inventory);
 			}else{
 				ticks++;
 			}

@@ -14,6 +14,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import com.uberverse.arkcraft.common.item.IDecayable;
+import com.uberverse.arkcraft.common.tileentity.ICustomDecayModifier;
 
 public class Utils
 {
@@ -67,11 +68,16 @@ public class Utils
 			e.printStackTrace();
 		}
 	}
-	public static void checkInventoryForDecayable(IInventory inventory, double decayModifier){
+	public static void checkInventoryForDecayable(IInventory inventory){
+
 		for(int i = 0;i<inventory.getSizeInventory();i++){
 			ItemStack stack = inventory.getStackInSlot(i);
 			if(stack != null && stack.getItem() instanceof IDecayable){
 				IDecayable decayable = (IDecayable) stack.getItem();
+				double decayModifier = 1;
+				if(inventory instanceof ICustomDecayModifier){
+					decayModifier = ((ICustomDecayModifier)inventory).getDecayModifier(i);
+				}
 				decayable.decayTick(inventory, i, decayModifier, stack);
 			}
 		}
