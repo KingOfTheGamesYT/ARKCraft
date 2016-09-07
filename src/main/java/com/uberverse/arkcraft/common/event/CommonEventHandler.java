@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
@@ -18,6 +20,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
@@ -203,8 +206,31 @@ public class CommonEventHandler
 					}
 
 				}
+
+
+				if(event.phase == Phase.START){
+					TickStorage t = tick.get(event.world.provider.getDimensionId());
+					if(t == null){
+						t = new TickStorage();
+						tick.put(event.world.provider.getDimensionId(), t);
+					}
+					if(t.tick > 20){
+						t.tick = 0;
+						for(int i = 0;i<event.world.loadedTileEntityList.size();i++){
+							if(event.world.loadedTileEntityList.get(i) instanceof IInventory){//Check for inventories every second
+								Utils.checkInventoryForDecayable((IInventory) event.world.loadedTileEntityList.get(i));
+							}
+						}
+					}else{
+						t.tick++;
+					}
+				}
 			}
 		}
+	}
+	private Map<Integer, TickStorage> tick = new HashMap<Integer, TickStorage>();
+	public static class TickStorage{
+		private int tick;
 	}
 
 	public static int bookSpawnDelay = 0;
@@ -321,5 +347,4 @@ public class CommonEventHandler
 			}
 		}
 	}
-
 }
