@@ -21,7 +21,6 @@ import net.minecraft.item.ItemStack;
  */
 public class ContainerEngram extends ContainerScrollable
 {
-	private short selection = -1;
 	private Engram selected = null;
 	private InventoryEngram inventory;
 
@@ -52,7 +51,7 @@ public class ContainerEngram extends ContainerScrollable
 			if (s instanceof EngramSlot && clickedButton == 0)
 			{
 				s.onPickupFromSlot(playerIn, playerIn.inventory.getCurrentItem());
-				if (mode == 6 && ARKPlayer.get(playerIn).canLearnEngram(selection) && !playerIn.worldObj.isRemote)
+				if (mode == 6 && ARKPlayer.get(playerIn).canLearnEngram(selected.getId()) && !playerIn.worldObj.isRemote)
 				{
 					enchantItem(playerIn, 1);
 				}
@@ -73,7 +72,7 @@ public class ContainerEngram extends ContainerScrollable
 		else if (id == 1)
 		{
 			ARKPlayer p = ARKPlayer.get(playerIn);
-			p.learnEngram(selection);
+			p.learnEngram(selected.getId());
 			ARKCraft.modChannel.sendTo(new UpdateEngrams(p.getUnlockedEngrams(), p.getEngramPoints()), (EntityPlayerMP) playerIn);
 			return true;
 		}
@@ -90,7 +89,8 @@ public class ContainerEngram extends ContainerScrollable
 
 		public Engram getEngram()
 		{
-			return EngramManager.instance().getEngram((short) getSlotIndex());
+			if (getSlotIndex() < inventory.getSizeInventory()) return EngramManager.instance().getEngram((short) getSlotIndex());
+			return null;
 		}
 
 		@Override
@@ -102,19 +102,13 @@ public class ContainerEngram extends ContainerScrollable
 		@Override
 		public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack)
 		{
-			setSelected((short) getSlotIndex());
+			ContainerEngram.this.setSelected(getEngram());
 		}
 	}
 
-	public void setSelected(short index)
+	public void setSelected(Engram engram)
 	{
-		this.selection = index;
-		selected = EngramManager.instance().getEngram(index);
-	}
-
-	public short getSelected()
-	{
-		return selection;
+		selected = engram;
 	}
 
 	public Engram getSelectedEngram()

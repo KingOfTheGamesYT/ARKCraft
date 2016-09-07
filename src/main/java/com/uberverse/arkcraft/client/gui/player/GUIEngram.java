@@ -95,7 +95,7 @@ public class GUIEngram extends GUIScrollable
 	@Override
 	public void updateScreen()
 	{
-		short s = ((ContainerEngram) inventorySlots).getSelected();
+		short s = ((ContainerEngram) inventorySlots).getSelectedEngram().getId();
 		learn.enabled = ARKPlayer.get(Minecraft.getMinecraft().thePlayer).canLearnEngram(s);
 		super.updateScreen();
 	}
@@ -110,14 +110,14 @@ public class GUIEngram extends GUIScrollable
 		String s = I18n.format("gui.engram.text.engrampoints", ARKPlayer.get(player).getEngramPoints());
 		fontRendererObj.drawString(s, getCenteredStringOffset(s, fontRendererObj, 80), -10, Color.gray.getRGB());
 
-		if (getEngram() != null) {
+		if (getEngram() != null)
+		{
 			int descColor = Color.white.getRGB();
 			String title = getEngram().getTitle();
 			String description = getEngram().getDescription();
 			String points = "Cost: " + getEngram().getPoints();
 			fontRendererObj.drawString(title, getCenteredStringOffset(title, fontRendererObj, 80), 6, descColor);
-			fontRendererObj.drawString(description, getCenteredStringOffset(description, fontRendererObj, 80), 18,
-					descColor);
+			fontRendererObj.drawString(description, getCenteredStringOffset(description, fontRendererObj, 80), 18, descColor);
 			fontRendererObj.drawString(points, getCenteredStringOffset(points, fontRendererObj, 80), 29, descColor);// 4210752 original value
 		} // 4210752 original value
 
@@ -145,7 +145,7 @@ public class GUIEngram extends GUIScrollable
 	{
 		return ((ContainerEngram) inventorySlots).getSelectedEngram();
 	}
-	
+
 	public InventoryEngram getInventory()
 	{
 		return inventory;
