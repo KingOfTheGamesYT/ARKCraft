@@ -34,9 +34,9 @@ public class BurnerManager
 
 		// Recipes
 		// TODO add more recipes and patch times of the existing recipes
-		instance.registerRecipe(new BurnerRecipe(ARKCraftItems.metal_ingot, 1, 1, BurnerType.REFINING_FORGE, ARKCraftItems.metal, 2));
-		instance.registerRecipe(new BurnerRecipe(ARKCraftItems.meat_cooked, 1, 1, BurnerType.CAMPFIRE, ARKCraftItems.meat_raw, 1));
-		instance.registerRecipe(new BurnerRecipe(ARKCraftItems.primemeat_cooked, 1, 1, BurnerType.CAMPFIRE, ARKCraftItems.primemeat_raw, 1));
+		instance.registerRecipe(new BurnerRecipe(ARKCraftItems.metal_ingot, 1, 400, BurnerType.REFINING_FORGE, ARKCraftItems.metal, 2));
+		instance.registerRecipe(new BurnerRecipe(ARKCraftItems.meat_cooked, 1, 400, BurnerType.CAMPFIRE, ARKCraftItems.meat_raw, 1));
+		instance.registerRecipe(new BurnerRecipe(ARKCraftItems.primemeat_cooked, 1, 400, BurnerType.CAMPFIRE, ARKCraftItems.primemeat_raw, 1));
 	}
 
 	private Set<BurnerRecipe> recipes;
