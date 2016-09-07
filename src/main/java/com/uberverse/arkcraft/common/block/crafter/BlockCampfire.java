@@ -17,8 +17,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.EnumWorldBlockLayer;
-import net.minecraft.util.MathHelper;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -28,6 +26,7 @@ public class BlockCampfire extends BlockBurner
 	public BlockCampfire(Material material)
 	{
 		super(material);
+		setHardness(1.5f);
 		this.setCreativeTab(CreativeTabs.tabBlock);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(BURNING, false));
 		float f = 0.65F; // Height
@@ -49,7 +48,7 @@ public class BlockCampfire extends BlockBurner
 	@Override
 	public String getHarvestTool(IBlockState state)
 	{
-		return null;
+		return "axe";
 	}
 
 	@Override
@@ -98,8 +97,6 @@ public class BlockCampfire extends BlockBurner
 	}
 
 	public static final PropertyBool BURNING = PropertyBool.create("burning");
-
-
 
 	@SideOnly(Side.CLIENT)
 	public EnumWorldBlockLayer getBlockLayer()

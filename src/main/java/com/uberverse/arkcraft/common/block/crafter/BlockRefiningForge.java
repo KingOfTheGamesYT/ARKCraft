@@ -30,6 +30,7 @@ public class BlockRefiningForge extends BlockBurner
 	public BlockRefiningForge(Material material)
 	{
 		super(material);
+		setHardness(2.0f);
 		this.setCreativeTab(CreativeTabs.tabBlock);
 		this.setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.NORTH).withProperty(PART, EnumPart.BOTTOM));
 	}
@@ -51,7 +52,7 @@ public class BlockRefiningForge extends BlockBurner
 	@Override
 	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player)
 	{
-		if (player.capabilities.isCreativeMode && state.getValue(PART) == EnumPart.BOTTOM)
+		if (state.getValue(PART) == EnumPart.BOTTOM)
 		{
 			BlockPos blockpos1 = pos.up();
 			if (worldIn.getBlockState(blockpos1).getBlock() == this)
@@ -60,7 +61,7 @@ public class BlockRefiningForge extends BlockBurner
 			}
 			super.onBlockHarvested(worldIn, blockpos1, state, player);
 		}
-		else if (player.capabilities.isCreativeMode && state.getValue(PART) == EnumPart.TOP)
+		else if (state.getValue(PART) == EnumPart.TOP)
 		{
 			BlockPos blockpos1 = pos.down();
 			if (worldIn.getBlockState(blockpos1).getBlock() == this)
@@ -81,7 +82,7 @@ public class BlockRefiningForge extends BlockBurner
 	@Override
 	public String getHarvestTool(IBlockState state)
 	{
-		return null;
+		return "pick";
 	}
 
 	@Override
@@ -117,6 +118,9 @@ public class BlockRefiningForge extends BlockBurner
 		if (burning)
 		{
 			worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE, x + xOffset, y + yOffset, z + zOffset, 0, 0.05, 0);
+			for (int i = 0; i < 5; i++)
+				if (rand.nextBoolean()) worldIn.spawnParticle(EnumParticleTypes.FLAME, x + xOffset + ((double) rand.nextInt(2) - 1) / 10, y + yOffset,
+						z + zOffset + ((double) rand.nextInt(2) - 1) / 10, 0, 0.05, 0);
 		}
 	}
 

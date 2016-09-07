@@ -11,14 +11,12 @@ import com.uberverse.arkcraft.util.NBTable;
 import com.uberverse.arkcraft.wip.itemquality.Qualitable;
 import com.uberverse.arkcraft.wip.itemquality.Qualitable.ItemQuality;
 
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.NBT;
 
 /**
@@ -30,7 +28,7 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder
 	{
 		if (!getWorldIA().isRemote)
 		{
-			if ((getWorldIA().getTotalWorldTime() % 20) == getTimeOffset())
+			// if ((getWorldIA().getTotalWorldTime() % 20) == getTimeOffset())
 			{
 				Queue<CraftingOrder> craftingQueue = getCraftingQueue();
 				if (isCrafting())
@@ -88,7 +86,7 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder
 	public default double getRelativeProgress()
 	{
 		if (getCraftingDuration() == 0) return 0;
-		return (double) (getCraftingDuration() - getProgress()) / (double) (getCraftingDuration() - 1);
+		return (double) (getCraftingDuration() - getProgress()) / (double) (getCraftingDuration());
 	}
 
 	public default void decreaseProgress()

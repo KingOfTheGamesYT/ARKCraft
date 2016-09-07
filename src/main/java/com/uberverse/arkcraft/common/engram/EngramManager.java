@@ -229,7 +229,7 @@ public class EngramManager
 			this.amount = amount;
 			this.points = points;
 			this.level = level;
-			this.craftingTime = craftingTime;
+			this.craftingTime = craftingTime*20;
 			this.type = type;
 			for (EngramRecipe r : recipes)
 				addRecipe(r);

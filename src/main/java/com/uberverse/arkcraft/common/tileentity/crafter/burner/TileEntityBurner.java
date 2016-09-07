@@ -3,12 +3,10 @@ package com.uberverse.arkcraft.common.tileentity.crafter.burner;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.uberverse.arkcraft.common.block.crafter.BlockBurner;
 import com.uberverse.arkcraft.common.burner.BurnerManager.BurnerFuel;
 import com.uberverse.arkcraft.common.burner.BurnerManager.BurnerRecipe;
 import com.uberverse.arkcraft.common.burner.IBurner;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -40,12 +38,6 @@ public abstract class TileEntityBurner extends TileEntity implements IInventory,
 		super();
 		inventory = new ItemStack[getSizeInventory()];
 		burning = false;
-	}
-
-	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
-	{
-		return oldState.getValue(BlockBurner.BURNING) != newState.getValue(BlockBurner.BURNING);
 	}
 
 	@Override

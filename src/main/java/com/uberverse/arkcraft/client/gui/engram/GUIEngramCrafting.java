@@ -83,7 +83,6 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 					{
 						double fraction = ec.getRelativeProgress();
 						if (Double.isNaN(fraction)) fraction = 1;
-						System.out.println(fraction);
 						fraction = MathHelper.clamp_double(fraction, 0, 1);
 						if (fraction == 0) { return; }
 						int x = e.xDisplayPosition;
