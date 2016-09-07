@@ -10,7 +10,7 @@ import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.proxy.ClientProxy;
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.init.ARKCraftItems;
-import com.uberverse.lib.Utils;
+import com.uberverse.arkcraft.util.Utils;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;

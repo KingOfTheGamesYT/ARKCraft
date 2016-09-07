@@ -47,9 +47,8 @@ import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.item.tools.ARKCraftTool;
 import com.uberverse.arkcraft.common.network.ReloadFinished;
 import com.uberverse.arkcraft.init.ARKCraftItems;
+import com.uberverse.arkcraft.util.Utils;
 import com.uberverse.lib.LogHelper;
-import com.uberverse.lib.Utils;
-
 import com.google.common.collect.ImmutableSet;
 
 public class CommonEventHandler

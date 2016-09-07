@@ -32,8 +32,8 @@ import com.uberverse.arkcraft.common.config.ModuleItemBalance.CROP_PLOT;
 import com.uberverse.arkcraft.common.item.ARKCraftFeces;
 import com.uberverse.arkcraft.common.item.ARKCraftSeed;
 import com.uberverse.arkcraft.common.tileentity.IHoverInfo;
+import com.uberverse.arkcraft.util.Utils;
 import com.uberverse.lib.LogHelper;
-import com.uberverse.lib.Utils;
 
 public class TileEntityCropPlot extends TileEntityArkCraft
 implements IInventory, IUpdatePlayerListBox, IHoverInfo
