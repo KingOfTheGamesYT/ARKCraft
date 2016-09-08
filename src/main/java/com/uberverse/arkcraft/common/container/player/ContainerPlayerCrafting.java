@@ -6,6 +6,7 @@ import com.uberverse.arkcraft.common.container.engram.ContainerEngramCrafting;
 import com.uberverse.arkcraft.common.engram.EngramManager.EngramType;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 
 public class ContainerPlayerCrafting extends ContainerEngramCrafting
 {
@@ -119,5 +120,11 @@ public class ContainerPlayerCrafting extends ContainerEngramCrafting
 	public int getQueueSlotsY()
 	{
 		return 133;
+	}
+
+	@Override
+	protected IInventory getBlueprintInventory()
+	{
+		return getPlayerInventory();
 	}
 }

@@ -66,7 +66,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 			{
 				int index = col + row * getInventorySlotsWidth();
 				Slot slot = new Slot(getIInventory(), index, getInventorySlotsX() + col * getSlotSize(), getInventorySlotsY() + row * getSlotSize());
-				if (!(this instanceof ContainerPlayerCrafting))
+				if (getPlayerInventory() == getBlueprintInventory())
 					slot = new BlueprintSlot(slot.inventory, slot.getSlotIndex(), slot.xDisplayPosition, slot.yDisplayPosition);
 				this.addSlotToContainer(slot);
 				counter++;
@@ -89,7 +89,6 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		}
 	}
 
-	// TODO no instanceofs!
 	private final void initPlayerSlots()
 	{
 		playerInvBoundLeft = counter;
@@ -100,7 +99,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 				int slotIndex = col + row * 9 + 9;
 				Slot slot = new Slot(getPlayerInventory(), slotIndex, getPlayerInventorySlotsX() + col * getSlotSize(),
 						getPlayerInventorySlotsY() + row * getSlotSize());
-				if (this instanceof ContainerPlayerCrafting)
+				if (getPlayerInventory() == getBlueprintInventory())
 					slot = new BlueprintSlot(slot.inventory, slot.getSlotIndex(), slot.xDisplayPosition, slot.yDisplayPosition);
 				addSlotToContainer(slot);
 				counter++;
@@ -118,6 +117,8 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 
 		playerInvBoundRight = counter;
 	}
+
+	protected abstract IInventory getBlueprintInventory();
 
 	@Override
 	public void initScrollableSlots()
@@ -314,7 +315,6 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 				BlueprintSlot b = (BlueprintSlot) s;
 				if (listenPutDown)
 				{
-					System.out.println("listen!");
 					selectedBlueprintIndex = b.slotNumber;
 					listenPutDown = false;
 					return super.slotClick(slotId, clickedButton, mode, playerIn);
@@ -400,7 +400,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		return null;
 	}
 
-	public class EngramSlot extends SlotScrolling
+	public class EngramSlot extends SlotScrolling implements EngramCraftingSlot
 	{
 		public EngramSlot(EngramInventory inventoryIn, int index, int xPosition, int yPosition, IContainerScrollable container)
 		{
@@ -417,8 +417,14 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack)
 		{
 			ContainerEngramCrafting.this.selectedEngram = getEngram();
-			ContainerEngramCrafting.this.targetQuality = ItemQuality.PRIMITIVE;
+			ContainerEngramCrafting.this.targetQuality = getItemQuality();
 			ContainerEngramCrafting.this.selectedBlueprintIndex = -1;
+		}
+
+		@Override
+		public ItemQuality getItemQuality()
+		{
+			return ItemQuality.PRIMITIVE;
 		}
 	}
 
@@ -431,7 +437,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 
 	private boolean listenPutDown = false;
 
-	public class BlueprintSlot extends Slot
+	public class BlueprintSlot extends Slot implements EngramCraftingSlot
 	{
 		public BlueprintSlot(IInventory inventoryIn, int index, int xPosition, int yPosition)
 		{
@@ -466,6 +472,13 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 				ContainerEngramCrafting.this.selectedBlueprintIndex = slotNumber;
 			}
 		}
+	}
+
+	public interface EngramCraftingSlot
+	{
+		public Engram getEngram();
+
+		public ItemQuality getItemQuality();
 	}
 
 	public class QueueSlot extends Slot

@@ -10,6 +10,7 @@ import com.uberverse.arkcraft.client.gui.component.GuiTexturedButton;
 import com.uberverse.arkcraft.client.gui.scrollable.GUIScrollable;
 import com.uberverse.arkcraft.common.container.engram.ContainerEngramCrafting;
 import com.uberverse.arkcraft.common.container.engram.ContainerEngramCrafting.BlueprintSlot;
+import com.uberverse.arkcraft.common.container.engram.ContainerEngramCrafting.EngramCraftingSlot;
 import com.uberverse.arkcraft.common.container.engram.ContainerEngramCrafting.EngramSlot;
 import com.uberverse.arkcraft.common.container.engram.ContainerEngramCrafting.QueueSlot;
 import com.uberverse.arkcraft.common.engram.CraftingOrder;
@@ -144,10 +145,11 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 	{
 		for (Object o : inventorySlots.inventorySlots)
 		{
-			if (o instanceof EngramSlot)
+			if (o instanceof EngramCraftingSlot)
 			{
-				EngramSlot e = (EngramSlot) o;
-				if (isPointInRegion(e.xDisplayPosition, e.yDisplayPosition, 18, 18, x, y))
+				EngramCraftingSlot e = (EngramCraftingSlot) o;
+				Slot slot = (Slot) o;
+				if (e.getEngram() != null && isPointInRegion(slot.xDisplayPosition, slot.yDisplayPosition, 18, 18, x, y))
 				{
 					ticker++;
 					if (tooltipped != e.getEngram())

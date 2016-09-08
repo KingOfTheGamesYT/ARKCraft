@@ -5,6 +5,7 @@ import com.uberverse.arkcraft.common.engram.EngramManager.EngramType;
 import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntitySmithy;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 
 public class ContainerSmithy extends ContainerEngramCrafting
 {
@@ -107,5 +108,11 @@ public class ContainerSmithy extends ContainerEngramCrafting
 	public int getQueueSlotsY()
 	{
 		return 18;
+	}
+
+	@Override
+	protected IInventory getBlueprintInventory()
+	{
+		return getIInventory();
 	}
 }
