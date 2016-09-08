@@ -1,6 +1,7 @@
 package com.uberverse.arkcraft.common.network.gui;
 
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.proxy.CommonProxy;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -12,18 +13,15 @@ import net.minecraftforge.fml.relauncher.Side;
 public class OpenAttachmentInventory implements IMessage
 {
 	public OpenAttachmentInventory()
-	{
-	}
+	{}
 
 	@Override
 	public void fromBytes(ByteBuf buf)
-	{
-	}
+	{}
 
 	@Override
 	public void toBytes(ByteBuf buf)
-	{
-	}
+	{}
 
 	public static class Handler implements IMessageHandler<OpenAttachmentInventory, IMessage>
 	{
@@ -52,8 +50,7 @@ public class OpenAttachmentInventory implements IMessage
 	{
 		if (player != null)
 		{
-			player.openGui(ARKCraft.instance, ARKCraft.GUI.ATTACHMENTS.id, player.worldObj,
-					0, 0, 0);
+			player.openGui(ARKCraft.instance, CommonProxy.GUI.ATTACHMENTS.id, player.worldObj, 0, 0, 0);
 		}
 	}
 }

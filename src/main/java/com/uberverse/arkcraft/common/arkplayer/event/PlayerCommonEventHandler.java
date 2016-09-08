@@ -5,7 +5,9 @@ import com.uberverse.arkcraft.common.config.WeightsConfig;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentTranslation;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -13,12 +15,21 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 
 public class PlayerCommonEventHandler
 {
+	public static void init()
+	{
+		PlayerCommonEventHandler p = new PlayerCommonEventHandler();
+		FMLCommonHandler.instance().bus().register(p);
+		MinecraftForge.EVENT_BUS.register(p);
+	}
+
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onPlayerTickEvent(TickEvent.PlayerTickEvent event)
 	{
 		// Update ARKPlayer
-		
-		if (event.phase.equals(Phase.END)) {ARKPlayer.get(event.player).update();}
+		if (event.phase.equals(Phase.END))
+		{
+			ARKPlayer.get(event.player).update();
+		}
 	}
 
 	@SubscribeEvent

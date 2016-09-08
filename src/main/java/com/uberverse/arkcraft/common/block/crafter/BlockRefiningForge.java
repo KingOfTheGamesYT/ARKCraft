@@ -3,6 +3,7 @@ package com.uberverse.arkcraft.common.block.crafter;
 import java.util.Random;
 
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.proxy.CommonProxy;
 import com.uberverse.arkcraft.common.tileentity.crafter.burner.TileEntityRefiningForge;
 
 import net.minecraft.block.material.Material;
@@ -38,7 +39,7 @@ public class BlockRefiningForge extends BlockBurner
 	@Override
 	public int getId()
 	{
-		return ARKCraft.GUI.REFINING_FORGE.id;
+		return CommonProxy.GUI.REFINING_FORGE.id;
 	}
 
 	@Override

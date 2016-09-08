@@ -3,6 +3,7 @@ package com.uberverse.arkcraft.common.block.crafter;
 import java.util.Random;
 
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.proxy.CommonProxy;
 import com.uberverse.arkcraft.common.tileentity.crafter.burner.TileEntityCampfire;
 
 import net.minecraft.block.material.Material;
@@ -36,7 +37,7 @@ public class BlockCampfire extends BlockBurner
 	@Override
 	public int getId()
 	{
-		return ARKCraft.GUI.CAMPFIRE.id;
+		return CommonProxy.GUI.CAMPFIRE.id;
 	}
 
 	@Override

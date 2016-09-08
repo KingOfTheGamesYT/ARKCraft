@@ -5,6 +5,7 @@ import java.util.List;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.book.GuiInfoBook;
 import com.uberverse.arkcraft.client.book.proxy.BookClient;
+import com.uberverse.arkcraft.common.proxy.CommonProxy;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -36,9 +37,8 @@ public class ARKCraftBook extends Item
 	@SideOnly(Side.CLIENT)
 	public void openBook(ItemStack stack, World world, EntityPlayer player)
 	{
-		player.openGui(ARKCraft.instance, ARKCraft.GUI.BOOK.id, world, 0, 0, 0);
-		FMLClientHandler.instance().displayGuiScreen(player,
-				new GuiInfoBook(stack, BookClient.bookInfo.bd));
+		player.openGui(ARKCraft.instance, CommonProxy.GUI.BOOK.id, world, 0, 0, 0);
+		FMLClientHandler.instance().displayGuiScreen(player, new GuiInfoBook(stack, BookClient.bookInfo.bd));
 	}
 
 	@Override
