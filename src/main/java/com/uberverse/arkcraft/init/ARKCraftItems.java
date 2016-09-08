@@ -177,6 +177,7 @@ public class ARKCraftItems
 
 		blueprint = registerItem("blueprint", new ItemBlueprint());
 		blueprint.setCreativeTab(ARKCraft.tabARKBlueprints);
+		allItems.remove(blueprint);
 
 		tabItem = new Item().setUnlocalizedName("tabItem");
 		registerItem("tabItem", tabItem);

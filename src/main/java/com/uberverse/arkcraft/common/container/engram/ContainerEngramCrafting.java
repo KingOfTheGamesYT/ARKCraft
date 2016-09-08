@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Queue;
 
+import com.uberverse.arkcraft.common.container.player.ContainerPlayerCrafting;
 import com.uberverse.arkcraft.common.container.scrollable.ContainerScrollable;
 import com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable;
 import com.uberverse.arkcraft.common.container.scrollable.SlotScrolling;
@@ -13,6 +14,7 @@ import com.uberverse.arkcraft.common.engram.EngramManager;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.common.engram.EngramManager.EngramType;
 import com.uberverse.arkcraft.common.engram.IEngramCrafter;
+import com.uberverse.arkcraft.wip.blueprint.ItemBlueprint;
 import com.uberverse.arkcraft.wip.itemquality.Qualitable;
 import com.uberverse.arkcraft.wip.itemquality.Qualitable.ItemQuality;
 
@@ -55,7 +57,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		}
 	}
 
-	protected final void initInventorySlots()
+	private final void initInventorySlots()
 	{
 		invBoundLeft = counter;
 		for (int row = 0; row < getInventorySlotsHeight(); row++)
@@ -63,8 +65,10 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 			for (int col = 0; col < getInventorySlotsWidth(); col++)
 			{
 				int index = col + row * getInventorySlotsWidth();
-				this.addSlotToContainer(
-						new Slot(getIInventory(), index, getInventorySlotsX() + col * getSlotSize(), getInventorySlotsY() + row * getSlotSize()));
+				Slot slot = new Slot(getIInventory(), index, getInventorySlotsX() + col * getSlotSize(), getInventorySlotsY() + row * getSlotSize());
+				if (!(this instanceof ContainerPlayerCrafting))
+					slot = new BlueprintSlot(slot.inventory, slot.getSlotIndex(), slot.xDisplayPosition, slot.yDisplayPosition);
+				this.addSlotToContainer(slot);
 				counter++;
 			}
 		}
@@ -85,6 +89,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		}
 	}
 
+	// TODO no instanceofs!
 	private final void initPlayerSlots()
 	{
 		playerInvBoundLeft = counter;
@@ -93,15 +98,21 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 			for (int col = 0; col < 9; col++)
 			{
 				int slotIndex = col + row * 9 + 9;
-				addSlotToContainer(new Slot(player.inventory, slotIndex, getPlayerInventorySlotsX() + col * getSlotSize(),
-						getPlayerInventorySlotsY() + row * getSlotSize()));
+				Slot slot = new Slot(getPlayerInventory(), slotIndex, getPlayerInventorySlotsX() + col * getSlotSize(),
+						getPlayerInventorySlotsY() + row * getSlotSize());
+				if (this instanceof ContainerPlayerCrafting)
+					slot = new BlueprintSlot(slot.inventory, slot.getSlotIndex(), slot.xDisplayPosition, slot.yDisplayPosition);
+				addSlotToContainer(slot);
 				counter++;
 			}
 		}
 
 		for (int col = 0; col < 9; col++)
 		{
-			addSlotToContainer(new Slot(player.inventory, col, getPlayerHotbarSlotsX() + col * getSlotSize(), getPlayerHotbarSlotsY()));
+			Slot slot = new Slot(player.inventory, col, getPlayerHotbarSlotsX() + col * getSlotSize(), getPlayerHotbarSlotsY());
+			if (this instanceof ContainerPlayerCrafting)
+				slot = new BlueprintSlot(slot.inventory, slot.getSlotIndex(), slot.xDisplayPosition, slot.yDisplayPosition);
+			addSlotToContainer(slot);
 			counter++;
 		}
 
@@ -298,6 +309,25 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 					return playerIn.inventory.getCurrentItem();
 				}
 			}
+			else if (s instanceof BlueprintSlot)
+			{
+				BlueprintSlot b = (BlueprintSlot) s;
+				if (listenPutDown)
+				{
+					System.out.println("listen!");
+					selectedBlueprintIndex = b.slotNumber;
+					listenPutDown = false;
+					return super.slotClick(slotId, clickedButton, mode, playerIn);
+				}
+				if (b.hasBlueprint() && clickedButton == 0)
+				{
+					b.onPickupFromSlot(playerIn, playerIn.inventory.getCurrentItem());
+					if (mode == 6) craftOne();
+					return null;
+				}
+				else if (clickedButton == 1) clickedButton = 0;
+				if (b.slotNumber == selectedBlueprintIndex) listenPutDown = b.hasBlueprint();
+			}
 		}
 		return super.slotClick(slotId, clickedButton, mode, playerIn);
 	}
@@ -388,34 +418,53 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		{
 			ContainerEngramCrafting.this.selectedEngram = getEngram();
 			ContainerEngramCrafting.this.targetQuality = ItemQuality.PRIMITIVE;
+			ContainerEngramCrafting.this.selectedBlueprintIndex = -1;
 		}
 	}
 
-	public class BluePrintSlot extends Slot
+	private int selectedBlueprintIndex = -1;
+
+	public int getSelectedBlueprintIndex()
 	{
-		// TODO assign these for inventory slots container blueprints instead of normal slots
-		public BluePrintSlot(IInventory inventoryIn, int index, int xPosition, int yPosition)
+		return selectedBlueprintIndex;
+	}
+
+	private boolean listenPutDown = false;
+
+	public class BlueprintSlot extends Slot
+	{
+		public BlueprintSlot(IInventory inventoryIn, int index, int xPosition, int yPosition)
 		{
 			super(inventoryIn, index, xPosition, yPosition);
 		}
 
+		public boolean hasBlueprint()
+		{
+			return getStack() != null ? getStack().getItem() instanceof ItemBlueprint : false;
+		}
+
 		public Engram getEngram()
 		{
-			return ContainerEngramCrafting.this.engramInventory.getEngram(getSlotIndex());
+			if (hasBlueprint() && getStack() != null) return ItemBlueprint.getEngram(getStack());
+			return null;
 		}
 
 		public ItemQuality getItemQuality()
 		{
-			ItemStack stack = getStack();
-			if (stack != null && stack.getItem() instanceof Qualitable) { return Qualitable.get(stack); }
+			Engram e = getEngram();
+			if (e != null && e.isQualitable()) return ItemBlueprint.getItemQuality(getStack());
 			return null;
 		}
 
 		@Override
 		public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack)
 		{
-			ContainerEngramCrafting.this.selectedEngram = getEngram();
-			ContainerEngramCrafting.this.targetQuality = getItemQuality();
+			if (hasBlueprint())
+			{
+				ContainerEngramCrafting.this.selectedEngram = getEngram();
+				ContainerEngramCrafting.this.targetQuality = getItemQuality();
+				ContainerEngramCrafting.this.selectedBlueprintIndex = slotNumber;
+			}
 		}
 	}
 

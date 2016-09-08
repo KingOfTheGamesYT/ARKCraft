@@ -398,8 +398,8 @@ public class ClientEventHandler
 	}
 
 	@SubscribeEvent
-	public void onModelBakeEvent(ModelBakeEvent event)
+	public void onModelBake(ModelBakeEvent event)
 	{
-		event.modelRegistry.putObject(new ModelResourceLocation(ARKCraft.MODID + ":blueprint", "inventory"), new SmartBlueprintModel());
+		event.modelRegistry.putObject(new ModelResourceLocation("arkcraft:blueprint", "inventory"), new SmartBlueprintModel());
 	}
 }

@@ -1,72 +1,46 @@
 package com.uberverse.arkcraft.wip.blueprint;
 
-import java.util.List;
-
+import com.uberverse.arkcraft.client.util.SmartReplacingItemModel;
 import com.uberverse.arkcraft.common.engram.EngramManager;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.IBakedModel;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.client.model.ISmartItemModel;
 
-public class SmartBlueprintModel implements ISmartItemModel
+public class SmartBlueprintModel extends SmartReplacingItemModel
 {
-	private IBakedModel bakedModel;
+	public static final ModelResourceLocation modelResourceLocation = new ModelResourceLocation("arkcraft:items/blueprint", "inventory");
+	public static final TextureAtlasSprite texture = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("arkcraft:items/blueprint");
+
+	private static final float delta = 0.001f;
+	private static final float thickness = 1 / 32.0F;
+	private static final float zCentre = 0.25F;
+	private static final float zMax = zCentre + thickness / 2.0F;
+	private static final float zMin = zCentre - thickness / 2.0F;
+	private static final float southFacePos = 1.0F;
+	private static final float northFacePos = 0.0F;
+	private static final float distBehindSouth = southFacePos - zMax;
+	private static final float distBehindNorth = zMin - northFacePos;
+
+	public static final BakedQuad bpNorth =
+			BakedModelUtil.createBakedQuadForFace(0.5f, 1f, 0.5f, 1f, -distBehindSouth + delta, 0, texture, EnumFacing.SOUTH);
+	public static final BakedQuad bpSouth =
+			BakedModelUtil.createBakedQuadForFace(0.5f, 1f, 0.5f, 1f, -distBehindNorth + delta, 0, texture, EnumFacing.NORTH);
 
 	@Override
-	public List getFaceQuads(EnumFacing facing)
-	{
-		return bakedModel.getFaceQuads(facing);
-	}
-
-	@Override
-	public List getGeneralQuads()
-	{
-		return bakedModel.getGeneralQuads();
-	}
-
-	@Override
-	public boolean isAmbientOcclusion()
-	{
-		return bakedModel.isAmbientOcclusion();
-	}
-
-	@Override
-	public boolean isGui3d()
-	{
-		return bakedModel.isGui3d();
-	}
-
-	@Override
-	public boolean isBuiltInRenderer()
-	{
-		return bakedModel.isBuiltInRenderer();
-	}
-
-	@Override
-	public TextureAtlasSprite getTexture()
-	{
-		return bakedModel.getTexture();
-	}
-
-	@Override
-	public ItemCameraTransforms getItemCameraTransforms()
-	{
-		return bakedModel.getItemCameraTransforms();
-	}
-
-	@Override
-	public IBakedModel handleItemState(ItemStack stack)
+	public IBakedModel getStackModel(ItemStack stack)
 	{
 		Engram e = EngramManager.instance().getEngram(stack.getTagCompound().getShort("engram"));
 		if (e != null)
 		{
-			bakedModel = Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getItemModel(new ItemStack(e.getItem()));
+			toRender = e.getItem();
+			return Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getItemModel(new ItemStack(e.getItem()));
 		}
-		return bakedModel;
+		return null;
 	}
 }

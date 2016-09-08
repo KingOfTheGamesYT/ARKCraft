@@ -119,7 +119,6 @@ public class ARKCraft
 
 		CommonEventHandler.init();
 
-		proxy.registerRenderers();
 		proxy.init();
 		proxy.registerEventHandlers();
 		updateCheckResult();
