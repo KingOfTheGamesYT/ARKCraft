@@ -51,7 +51,7 @@ public class ContainerEngram extends ContainerScrollable
 			if (s instanceof EngramSlot && clickedButton == 0)
 			{
 				s.onPickupFromSlot(playerIn, playerIn.inventory.getCurrentItem());
-				if (mode == 6 && ARKPlayer.get(playerIn).canLearnEngram(selected.getId()) && !playerIn.worldObj.isRemote)
+				if (mode == 6 && selected != null && ARKPlayer.get(playerIn).canLearnEngram(selected.getId()) && !playerIn.worldObj.isRemote)
 				{
 					enchantItem(playerIn, 1);
 				}

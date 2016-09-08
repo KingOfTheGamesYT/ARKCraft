@@ -178,7 +178,7 @@ public class EngramManager
 
 	public Engram getEngram(short id)
 	{
-		if (id >= 0) return (Engram) engrams.toArray()[id];
+		if (id >= 0 && id < engrams.size()) return (Engram) engrams.toArray()[id];
 		return null;
 	}
 
@@ -229,7 +229,7 @@ public class EngramManager
 			this.amount = amount;
 			this.points = points;
 			this.level = level;
-			this.craftingTime = craftingTime*20;
+			this.craftingTime = craftingTime * 20;
 			this.type = type;
 			for (EngramRecipe r : recipes)
 				addRecipe(r);
