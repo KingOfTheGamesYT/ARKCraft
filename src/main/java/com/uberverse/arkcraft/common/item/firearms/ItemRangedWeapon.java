@@ -291,7 +291,7 @@ public abstract class ItemRangedWeapon extends ItemBow
 			if (invStack != null) if (isValidProjectile(invStack.getItem()))
 			{
 				int stackSize = invStack.stackSize;
-				type = invStack.getItem().getUnlocalizedName();
+				type = invStack.getItem().getUnlocalizedName().substring(5);
 				int ammo = stackSize < this.getMaxAmmo() - ammoFinal ? stackSize : this.getMaxAmmo() - ammoFinal;
 				ammoFinal += ammo;
 

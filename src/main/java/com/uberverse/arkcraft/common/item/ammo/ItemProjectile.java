@@ -8,11 +8,4 @@ public class ItemProjectile extends Item
 	{
 		super();
 	}
-
-	@Override
-	public String getUnlocalizedName()
-	{
-		String s = super.getUnlocalizedName();
-		return s.substring(s.indexOf('.') + 1);
-	}
 }

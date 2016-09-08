@@ -120,8 +120,7 @@ public class GUIEngram extends GUIScrollable
 			fontRendererObj.drawString(title, getCenteredStringOffset(title, fontRendererObj, 80), 6, descColor);
 			fontRendererObj.drawString(description, getCenteredStringOffset(description, fontRendererObj, 80), 18, descColor);
 			fontRendererObj.drawString(points, getCenteredStringOffset(points, fontRendererObj, 80), 29, descColor);// 4210752 original value
-		} // 4210752 original value
-
+		}
 	}
 
 	@Override
