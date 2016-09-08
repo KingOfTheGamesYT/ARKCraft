@@ -12,6 +12,10 @@ tile.crop_plot.medium.name=Medium Crop Plot
 tile.crop_plot.large.name=Large Crop Plot
 tile.campfire.name=Campfire
 
+#Creative Tabs
+itemGroup.tabARKCraft=ARKCraft
+itemGroup.tabARKBlueprints=Blueprints
+
 #Containers
 container.inventory_refining_forge.name=Refining Forge
 container.inventory_campfire.name=Campfire
@@ -137,6 +141,7 @@ item.dodo_egg.name=Dodo Egg
 ##misc
 item.dossier.name=Dino Dossier
 item.info_book.name=The ARKCraft Compendium
+item.blueprint.name=Blueprint
 
 ##feces
 item.small_feces.name=Small Feces
@@ -154,9 +159,6 @@ item.metal_sickle.name=Sickle
 ###stone
 item.stone_pick.name=Stone Pickaxe
 item.stone_hatchet.name=Stone Hatchet
-
-#Miscellaneous
-itemGroup.arkcraft=ARKCraft
 
 #Configuration GUI
 category.arkcraft.mod1_balance=Entity & World Gen Balance Settings

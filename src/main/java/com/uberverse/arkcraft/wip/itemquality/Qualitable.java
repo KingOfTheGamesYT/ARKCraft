@@ -73,7 +73,7 @@ public interface Qualitable
 		public final double durabilityMultiplier;
 		private static byte idCounter = 0;
 		public final byte id;
-		private final EnumChatFormatting color;
+		public final EnumChatFormatting color;
 
 		private ItemQuality(double durabilityMultiplier, EnumChatFormatting color)
 		{

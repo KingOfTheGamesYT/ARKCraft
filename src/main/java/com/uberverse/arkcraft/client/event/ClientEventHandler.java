@@ -23,6 +23,7 @@ import com.uberverse.arkcraft.common.network.gui.OpenPlayerCrafting;
 import com.uberverse.arkcraft.common.tileentity.IHoverInfo;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.util.ClientUtils;
+import com.uberverse.arkcraft.wip.blueprint.SmartBlueprintModel;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -32,6 +33,7 @@ import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -43,6 +45,7 @@ import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.FOVUpdateEvent;
+import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
@@ -220,7 +223,7 @@ public class ClientEventHandler
 		else if (evt.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS)
 		{
 			MovingObjectPosition mop = rayTrace(mc.thePlayer, 8, evt.partialTicks);
-			if (mop !=null && mop.typeOfHit == MovingObjectType.BLOCK)
+			if (mop != null && mop.typeOfHit == MovingObjectType.BLOCK)
 			{
 				TileEntity tile = mc.theWorld.getTileEntity(mop.getBlockPos());
 				if (tile instanceof IHoverInfo)
@@ -392,5 +395,11 @@ public class ClientEventHandler
 				ARKPlayer.get((EntityPlayer) event.entity).requestSynchronization(true);
 			}
 		}
+	}
+
+	@SubscribeEvent
+	public void onModelBakeEvent(ModelBakeEvent event)
+	{
+		event.modelRegistry.putObject(new ModelResourceLocation(ARKCraft.MODID + ":blueprint", "inventory"), new SmartBlueprintModel());
 	}
 }

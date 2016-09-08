@@ -7,12 +7,11 @@ import net.minecraft.item.Item;
 
 public class ARKCreativeTab extends CreativeTabs
 {
-
 	public static ARKCreativeTab INSTANCE = new ARKCreativeTab();
 
 	public ARKCreativeTab()
 	{
-		super(ARKCraft.MODID);
+		super("tabARKCraft");
 		setBackgroundImageName("arkcraft.png");
 	}
 
@@ -27,5 +26,4 @@ public class ARKCreativeTab extends CreativeTabs
 	{
 		return true;
 	}
-
 }

@@ -3,14 +3,6 @@ package com.uberverse.arkcraft.init;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraft.potion.PotionEffect;
-
-import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot.BerryColor;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
@@ -32,6 +24,14 @@ import com.uberverse.arkcraft.common.item.tools.ItemMetalSickle;
 import com.uberverse.arkcraft.common.item.tools.ItemStoneHatchet;
 import com.uberverse.arkcraft.common.item.tools.ItemStonePick;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot.CropPlotType;
+import com.uberverse.arkcraft.wip.blueprint.ItemBlueprint;
+
+import net.minecraft.item.Item;
+import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.potion.PotionEffect;
+import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ARKCraftItems
 {
@@ -50,17 +50,17 @@ public class ARKCraftItems
 	public static ItemARKArmor fur_helm, fur_chest, fur_legs, fur_boots;
 
 	// Food
-	public static ARKCraftFood tintoBerry, amarBerry, azulBerry, mejoBerry, narcoBerry, stimBerry,
-	meat_raw, meat_cooked, primemeat_raw, primemeat_cooked, spoiled_meat;
-	public static ARKCraftSeed tintoBerrySeed, amarBerrySeed, azulBerrySeed, mejoBerrySeed,
-	narcoBerrySeed, stimBerrySeed;
+	public static ARKCraftFood tintoBerry, amarBerry, azulBerry, mejoBerry, narcoBerry, stimBerry, meat_raw, meat_cooked, primemeat_raw,
+			primemeat_cooked, spoiled_meat;
+	public static ARKCraftSeed tintoBerrySeed, amarBerrySeed, azulBerrySeed, mejoBerrySeed, narcoBerrySeed, stimBerrySeed;
 
 	// Misc
-	public static ARKCraftItem stone, fiber, thatch, wood, flint, metal, spark_powder, hide,
-	charcoal, metal_ingot, cementing_paste, crystal, spy_glass, narcotics, gunpowder,
-	chitin, keratin, pelt;
+	public static ARKCraftItem stone, fiber, thatch, wood, flint, metal, spark_powder, hide, charcoal, metal_ingot, cementing_paste, crystal,
+			spy_glass, narcotics, gunpowder, chitin, keratin, pelt;
 	public static ARKCraftFeces small_feces, medium_feces, large_feces, fertilizer, player_feces;
 	public static ARKCraftBook info_book;
+
+	public static ItemBlueprint blueprint;
 
 	public static ItemGrenade grenade;
 	public static ItemSpear spear;
@@ -68,20 +68,14 @@ public class ARKCraftItems
 	public static Item tabItem;
 
 	// Armor MAT
-	public static ArmorMaterial CLOTH = EnumHelper.addArmorMaterial("CLOTH_MAT", "CLOTH_MAT", 4,
-			new int[] { 1, 2, 1, 1 }, 15);
-	public static ArmorMaterial CHITIN = EnumHelper.addArmorMaterial("CHITIN_MAT", "CHITIN_MAT", 16,
-			new int[] { 3, 7, 6, 3 }, 10);
-	public static ArmorMaterial HIDE = EnumHelper.addArmorMaterial("HIDE_MAT", "HIDE_MAT", 40,
-			new int[] { 3, 8, 6, 3 }, 30);
-	public static ArmorMaterial FUR = EnumHelper.addArmorMaterial("FUR_MAT", "HIDE_MAT", 40,
-			new int[] { 3, 8, 6, 3 }, 30);
+	public static ArmorMaterial CLOTH = EnumHelper.addArmorMaterial("CLOTH_MAT", "CLOTH_MAT", 4, new int[] { 1, 2, 1, 1 }, 15);
+	public static ArmorMaterial CHITIN = EnumHelper.addArmorMaterial("CHITIN_MAT", "CHITIN_MAT", 16, new int[] { 3, 7, 6, 3 }, 10);
+	public static ArmorMaterial HIDE = EnumHelper.addArmorMaterial("HIDE_MAT", "HIDE_MAT", 40, new int[] { 3, 8, 6, 3 }, 30);
+	public static ArmorMaterial FUR = EnumHelper.addArmorMaterial("FUR_MAT", "HIDE_MAT", 40, new int[] { 3, 8, 6, 3 }, 30);
 
 	// Tool MAT
-	public static ToolMaterial METAL = EnumHelper.addToolMaterial("METAL_MAT", 3, 1500, 6.0F, 2.5F,
-			8);
-	public static ToolMaterial STONE = EnumHelper.addToolMaterial("STONE_MAT", 2, 500, 3.5F, 1.5F,
-			13);
+	public static ToolMaterial METAL = EnumHelper.addToolMaterial("METAL_MAT", 3, 1500, 6.0F, 2.5F, 8);
+	public static ToolMaterial STONE = EnumHelper.addToolMaterial("STONE_MAT", 2, 500, 3.5F, 1.5F, 13);
 	public static ToolMaterial WOOD = EnumHelper.addToolMaterial("WOOD_MAT", 1, 200, 2.5F, 1.0F, 3);
 
 	public static Map<String, Item> allItems = new HashMap<String, Item>();
@@ -146,8 +140,7 @@ public class ARKCraftItems
 		fur_legs = addArmorItem("fur_legs", FUR, "furArmor", 2, false);
 		fur_boots = addArmorItem("fur_boots", FUR, "furArmor", 3, false);
 
-		EntityHandler.registerModEntity(EntitySpear.class, "spear", ARKCraft.instance, 16, 20,
-				true);
+		EntityHandler.registerModEntity(EntitySpear.class, "spear", ARKCraft.instance, 16, 20, true);
 
 		// Food
 		tintoBerry = addFood("tinto", 4, 0.3F, false, true);
@@ -171,21 +164,19 @@ public class ARKCraftItems
 		stimBerrySeed = addSeedItem("stimBerrySeed", CropPlotType.SMALL, BerryColor.STIM);
 
 		// feces
-		small_feces = addFecesItem("small_feces",
-				ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE);
-		medium_feces = addFecesItem("medium_feces",
-				ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE);
-		large_feces = addFecesItem("large_feces",
-				ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE);
-		player_feces = addFecesItem("player_feces",
-				ModuleItemBalance.CROP_PLOT.SECONDS_FOR_PLAYER_FECES_TO_DECOMPOSE);
+		small_feces = addFecesItem("small_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE);
+		medium_feces = addFecesItem("medium_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE);
+		large_feces = addFecesItem("large_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE);
+		player_feces = addFecesItem("player_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_PLAYER_FECES_TO_DECOMPOSE);
 
 		// Technically not feces, but used in all situations the same
 		// (currently)
-		fertilizer = addFecesItem("fertilizer",
-				ModuleItemBalance.CROP_PLOT.SECONDS_FOR_FERTILIZER_TO_DECOMPOSE);
+		fertilizer = addFecesItem("fertilizer", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_FERTILIZER_TO_DECOMPOSE);
 
 		info_book = addBook("info_book");
+
+		blueprint = registerItem("blueprint", new ItemBlueprint());
+		blueprint.setCreativeTab(ARKCraft.tabARKBlueprints);
 
 		tabItem = new Item().setUnlocalizedName("tabItem");
 		registerItem("tabItem", tabItem);
@@ -305,12 +296,12 @@ public class ARKCraftItems
 		return item;
 	}
 
-	public static void registerItem(String name, Item item)
+	public static <E extends Item> E registerItem(String name, E item)
 	{
 		allItems.put(name, item);
 		item.setUnlocalizedName(name);
 		GameRegistry.registerItem(item, name);
 		item.setCreativeTab(ARKCraft.tabARK);
+		return item;
 	}
-
 }

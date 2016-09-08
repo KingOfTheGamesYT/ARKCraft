@@ -28,17 +28,12 @@ import com.uberverse.arkcraft.common.network.gui.OpenAttachmentInventory;
 import com.uberverse.arkcraft.common.network.gui.OpenPlayerCrafting;
 import com.uberverse.arkcraft.common.network.player.PlayerPoop;
 import com.uberverse.arkcraft.common.proxy.CommonProxy;
-import com.uberverse.arkcraft.deprecated.CampfireCraftingManager;
-import com.uberverse.arkcraft.deprecated.ForgeCraftingHandler;
-import com.uberverse.arkcraft.deprecated.PestleCraftingManager;
-import com.uberverse.arkcraft.deprecated.PlayerCraftingManager;
-import com.uberverse.arkcraft.deprecated.RecipeHandler;
-import com.uberverse.arkcraft.deprecated.SmithyCraftingManager;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.common.ForgeVersion.CheckResult;
 import net.minecraftforge.common.ForgeVersion.Status;
@@ -74,6 +69,7 @@ public class ARKCraft
 	public static CommonProxy proxy;
 
 	public static CreativeTabs tabARK;
+	public static CreativeTabs tabARKBlueprints;
 	public static SimpleNetworkWrapper modChannel;
 	public static Logger logger;
 	public static EventBus bus;
@@ -93,6 +89,14 @@ public class ARKCraft
 		GameRegistry.registerWorldGenerator(new WorldGeneratorBushes(), 0);
 
 		tabARK = ARKCreativeTab.INSTANCE;
+		tabARKBlueprints = new CreativeTabs("tabARKBlueprints")
+		{
+			@Override
+			public Item getTabIconItem()
+			{
+				return ARKCraftItems.tabItem;
+			}
+		};
 
 		ARKCraftBlocks.init();
 		ARKCraftItems.init();
