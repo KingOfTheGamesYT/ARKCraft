@@ -2,13 +2,11 @@ package com.uberverse.arkcraft.wip.blueprint;
 
 import java.util.List;
 
-import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.engram.EngramManager;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.common.item.ARKCraftItem;
 import com.uberverse.arkcraft.wip.itemquality.Qualitable.ItemQuality;
 
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -21,7 +19,7 @@ public class ItemBlueprint extends ARKCraftItem
 	{
 		super();
 		hasSubtypes = true;
-		setCreativeTab(ARKCraft.tabARKBlueprints);
+		setMaxStackSize(1);
 	}
 
 	@Override
@@ -62,13 +60,6 @@ public class ItemBlueprint extends ARKCraftItem
 		super.addInformation(stack, playerIn, tooltip, advanced);
 	}
 
-	@Override
-	public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int useRemaining)
-	{
-		Engram e = getEngram(stack);
-		return e.getItem().getModel(new ItemStack(e.getItem()), player, useRemaining);
-	}
-
 	public static Engram getEngram(ItemStack stack)
 	{
 		short id = stack.getTagCompound().getShort("engram");
@@ -84,5 +75,11 @@ public class ItemBlueprint extends ARKCraftItem
 	{
 		ItemQuality q = getItemQuality(stack);
 		return q != null ? q.color.toString() : "";
+	}
+
+	@Override
+	public boolean hasEffect(ItemStack stack)
+	{
+		return true;
 	}
 }

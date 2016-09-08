@@ -95,7 +95,8 @@ public class GUIEngram extends GUIScrollable
 	@Override
 	public void updateScreen()
 	{
-		short s = ((ContainerEngram) inventorySlots).getSelectedEngram().getId();
+		Engram e = ((ContainerEngram) inventorySlots).getSelectedEngram();
+		short s = e != null ? e.getId() : -1;
 		learn.enabled = ARKPlayer.get(Minecraft.getMinecraft().thePlayer).canLearnEngram(s);
 		super.updateScreen();
 	}

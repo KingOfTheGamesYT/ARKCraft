@@ -9,6 +9,7 @@ import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.gui.component.GuiTexturedButton;
 import com.uberverse.arkcraft.client.gui.scrollable.GUIScrollable;
 import com.uberverse.arkcraft.common.container.engram.ContainerEngramCrafting;
+import com.uberverse.arkcraft.common.container.engram.ContainerEngramCrafting.BlueprintSlot;
 import com.uberverse.arkcraft.common.container.engram.ContainerEngramCrafting.EngramSlot;
 import com.uberverse.arkcraft.common.container.engram.ContainerEngramCrafting.QueueSlot;
 import com.uberverse.arkcraft.common.engram.CraftingOrder;
@@ -20,6 +21,7 @@ import com.uberverse.arkcraft.util.I18n;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
@@ -103,24 +105,33 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 			else if (o instanceof EngramSlot)
 			{
 				EngramSlot e = (EngramSlot) o;
-				if (((ContainerEngramCrafting) inventorySlots).getSelectedEngram() == e.getEngram()
-						&& e.getSlotIndex() < ((ContainerEngramCrafting) inventorySlots).getTotalSlotsAmount())
+				if (c.getSelectedBlueprintIndex() < 0 && c.getSelectedEngram() == e.getEngram() && e.getSlotIndex() < c.getTotalSlotsAmount())
 				{
-					int x = e.xDisplayPosition;
-					int y = e.yDisplayPosition;
-					drawRect(x, y, x + 16, y + 16, new Color(0, 128, 128, 128).getRGB());
-					GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+					drawSelection(e);
 				}
+			}
+			else if (o instanceof BlueprintSlot)
+			{
+				BlueprintSlot b = (BlueprintSlot) o;
+				if (c.getSelectedBlueprintIndex() == b.slotNumber && b.hasBlueprint()) drawSelection(b);
 			}
 		}
 
-		// Item Rendering!
+		// Item Rendering! TODO
 		// GlStateManager.enableDepth();
 		// GlStateManager.scale(0.5, 0.5, 0.5);
 		// ItemStack itemstack = new ItemStack(ARKCraftItems.amarBerry);
 		// this.itemRender.renderItemAndEffectIntoGUI(itemstack, 100,100);
 		// this.itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, itemstack, 100, 100, "64");
 		// GlStateManager.scale(2, 2, 2);
+	}
+
+	private void drawSelection(Slot s)
+	{
+		int x = s.xDisplayPosition;
+		int y = s.yDisplayPosition;
+		drawRect(x, y, x + 16, y + 16, new Color(0, 128, 128, 128).getRGB());
+		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
 	private Engram tooltipped;

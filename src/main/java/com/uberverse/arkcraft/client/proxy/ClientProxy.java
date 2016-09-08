@@ -57,6 +57,29 @@ public class ClientProxy extends CommonProxy
 		MinecraftForge.EVENT_BUS.register(new GUIOverlayReloading());
 		MinecraftForge.EVENT_BUS.register(new GUIOverlayARKMode());
 
+		registerRenderers();
+
+		// Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(ARKCraftItems.blueprint, new ItemMeshDefinition()
+		// {
+		// @Override
+		// public ModelResourceLocation getModelLocation(ItemStack stack)
+		// {
+		// if (ItemBlueprint.getEngram(stack) != null)
+		// {
+		// Minecraft mc = Minecraft.getMinecraft();
+		// GlStateManager.pushMatrix();
+		// mc.getRenderItem().renderItem(new ItemStack(ARKCraftItems.blueprintDummy),
+		// mc.getRenderItem().getItemModelMesher().getItemModel(new ItemStack(ARKCraftItems.blueprintDummy)));
+		// GlStateManager.popMatrix();
+		// Item i = ItemBlueprint.getEngram(stack).getItem();
+		// return new ModelResourceLocation(
+		// ARKCraft.MODID + ":" + (i instanceof ItemRangedWeapon ? "weapons/" : "") + i.getUnlocalizedName().substring(5),
+		// "inventory");
+		// }
+		// return new ModelResourceLocation(ARKCraft.MODID + ":blueprintdummy", "inventory");
+		// }
+		// });
+
 		// KeyBindings.preInit();
 		// dossierProxy.init();
 		LogHelper.info("CommonProxy: Init run finished.");
@@ -77,7 +100,6 @@ public class ClientProxy extends CommonProxy
 	}
 
 	/* We register the block/item textures and models here */
-	@Override
 	public void registerRenderers()
 	{
 		for (Map.Entry<String, Block> e : ARKCraftBlocks.allBlocks.entrySet())
@@ -192,10 +214,6 @@ public class ClientProxy extends CommonProxy
 				"arkcraft:weapons/fabricated_pistol_holo_scope_reload");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see com.uberverse.arkcraft.common.proxy.CommonProxy#getPlayerFromContext(net.minecraftforge.fml.common.network.simpleimpl.MessageContext)
-	 */
 	@Override
 	public EntityPlayer getPlayerFromContext(MessageContext ctx)
 	{

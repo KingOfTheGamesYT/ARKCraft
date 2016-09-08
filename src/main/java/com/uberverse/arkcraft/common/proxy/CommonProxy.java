@@ -37,9 +37,6 @@ public abstract class CommonProxy
 	public void registerPreRenderers()
 	{}
 
-	public void registerRenderers()
-	{}
-
 	public void registerEventHandlers()
 	{
 		PlayerCommonEventHandler p = new PlayerCommonEventHandler();

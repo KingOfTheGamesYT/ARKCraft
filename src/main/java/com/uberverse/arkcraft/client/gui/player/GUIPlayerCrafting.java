@@ -65,7 +65,7 @@ public class GUIPlayerCrafting extends GUIEngramCrafting
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
 	{
-		int x = 112, y = 36, width = 49, height = 70;
+		int x = 127, y = 54, width = 49, height = 70;
 		if (mouseButton == 0 && mc.thePlayer.inventory.getItemStack() == null && isPointInRegion(x, y, width, height, mouseX, mouseY))
 			dragModel = true;
 		super.mouseClicked(mouseX, mouseY, mouseButton);
