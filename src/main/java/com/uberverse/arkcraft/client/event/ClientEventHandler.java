@@ -8,6 +8,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import com.sun.media.jfxmedia.events.PlayerEvent;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.common.config.WeightsConfig;
@@ -88,19 +89,19 @@ public class ClientEventHandler
 		FMLCommonHandler.instance().bus().register(handler);
 		MinecraftForge.EVENT_BUS.register(handler);
 
-		reload = new KeyBinding("key.arkcraft.reload", Keyboard.KEY_R, ARKCraft.NAME);
+		reload = new KeyBinding("key.arkcraft.reload", Keyboard.KEY_R, ARKCraft.instance().name());
 		ClientRegistry.registerKeyBinding(reload);
 
-		playerPooping = new KeyBinding("key.arkcraft.playerPooping", Keyboard.KEY_Z, ARKCraft.NAME);
+		playerPooping = new KeyBinding("key.arkcraft.playerPooping", Keyboard.KEY_Z, ARKCraft.instance().name());
 		ClientRegistry.registerKeyBinding(playerPooping);
 
-		playerCrafting = new KeyBinding("key.arkcraft.playerCrafting", Keyboard.KEY_I, ARKCraft.NAME);
+		playerCrafting = new KeyBinding("key.arkcraft.playerCrafting", Keyboard.KEY_I, ARKCraft.instance().name());
 		ClientRegistry.registerKeyBinding(playerCrafting);
 
-		attachment = new KeyBinding("key.attachment", Keyboard.KEY_M, ARKCraft.NAME);
+		attachment = new KeyBinding("key.attachment", Keyboard.KEY_M, ARKCraft.instance().name());
 		ClientRegistry.registerKeyBinding(attachment);
 
-		arkmode = new KeyBinding("key.harvestOverlay", Keyboard.KEY_P, ARKCraft.NAME);
+		arkmode = new KeyBinding("key.harvestOverlay", Keyboard.KEY_P, ARKCraft.instance().name());
 		ClientRegistry.registerKeyBinding(arkmode);
 	}
 
