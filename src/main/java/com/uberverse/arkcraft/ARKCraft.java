@@ -2,7 +2,6 @@ package com.uberverse.arkcraft;
 
 import org.apache.logging.log4j.Logger;
 
-import com.uberverse.arkcraft.client.achievement.ARKCraftAchievements;
 import com.uberverse.arkcraft.common.arkplayer.network.ARKPlayerUpdate;
 import com.uberverse.arkcraft.common.arkplayer.network.ARKPlayerUpdateRequest;
 import com.uberverse.arkcraft.common.arkplayer.network.PlayerEngramCrafterUpdate;
@@ -102,7 +101,6 @@ public class ARKCraft
 		ARKCraftBlocks.init();
 		ARKCraftItems.init();
 		ARKCraftRangedWeapons.init();
-		ARKCraftAchievements.init();
 		NetworkRegistry.INSTANCE.registerGuiHandler(ARKCraft.instance, new GuiHandler());
 
 		// This has to be here so it can create weights for our items and blocks
