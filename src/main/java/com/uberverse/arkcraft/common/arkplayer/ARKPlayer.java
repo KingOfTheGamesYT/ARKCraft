@@ -360,7 +360,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 	public void addXP(long xp)
 	{
 		ArkExperienceGainEvent event = new ArkExperienceGainEvent(this.player, xp);
-		boolean canceled = ARKCraft.bus.post(event);
+		boolean canceled = ARKCraft.EVENT_BUS.post(event);
 		if (!canceled)
 		{
 			System.out.println("xp!");

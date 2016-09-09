@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.inventory.InventoryBlueprints;
+import com.uberverse.arkcraft.common.proxy.CommonProxy;
 import com.uberverse.lib.LogHelper;
 
 import net.minecraft.client.Minecraft;
@@ -27,8 +28,7 @@ public class GUIPlayerCrafting extends GuiContainer
 {
 
 	public String name = "Built-in Crafting";
-	public static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID,
-			"textures/gui/player_inventory_gui.png");
+	public static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID, "textures/gui/player_inventory_gui.png");
 	public InventoryBlueprints inventoryBlueprints;
 	private GuiButton[] buttonCraftOne;
 	private GuiButton engramButton;
@@ -38,8 +38,7 @@ public class GUIPlayerCrafting extends GuiContainer
 	{
 		super(new ContainerInventoryPlayerCrafting(invPlayer, player));
 		inventoryBlueprints = ARKPlayer.get(player).getInventoryBlueprints();
-		LogHelper.info("GuiPlayerCrafting: Constructor called on " + FMLCommonHandler.instance()
-				.getEffectiveSide());
+		LogHelper.info("GuiPlayerCrafting: Constructor called on " + FMLCommonHandler.instance().getEffectiveSide());
 
 		this.player = player;
 		this.xSize = 175;
@@ -75,15 +74,13 @@ public class GUIPlayerCrafting extends GuiContainer
 				int i = col + row * ContainerInventoryPlayerCrafting.NUM_COLUMNS_BP;
 				int x = ContainerInventoryPlayerCrafting.BLUEPRINT_XPOS + col * 18;
 				int y = ContainerInventoryPlayerCrafting.BLUEPRINT_YPOS + row * 18;
-				buttonCraftOne[i] = new GuiButton(buttonId++, guiLeft + x, guiTop + y,
-						BLUEPRINT_WIDTH, BLUEPRINT_HEIGHT, "");
+				buttonCraftOne[i] = new GuiButton(buttonId++, guiLeft + x, guiTop + y, BLUEPRINT_WIDTH, BLUEPRINT_HEIGHT, "");
 				buttonList.add(buttonCraftOne[i]);
 			}
 		}
 
-		engramButton = new GuiButton(
-				ContainerInventoryPlayerCrafting.NUM_ROWS_BP * ContainerInventoryPlayerCrafting.NUM_COLUMNS_BP,
-				guiLeft + 119, guiTop + 9, 50, 10, "Engrams");
+		engramButton = new GuiButton(ContainerInventoryPlayerCrafting.NUM_ROWS_BP * ContainerInventoryPlayerCrafting.NUM_COLUMNS_BP, guiLeft + 119,
+				guiTop + 9, 50, 10, "Engrams");
 		this.buttonList.add(engramButton);
 	}
 
@@ -96,8 +93,7 @@ public class GUIPlayerCrafting extends GuiContainer
 		if (button == engramButton)
 		{
 			// Minecraft.getMinecraft().displayGuiScreen(null);
-			player.openGui(ARKCraft.instance, ARKCraft.GUI.ENGRAMS.id, player.worldObj, 0,
-					0, 0);
+			player.openGui(ARKCraft.instance, CommonProxy.GUI.ENGRAMS.id, player.worldObj, 0, 0, 0);
 		}
 		else
 		{
@@ -111,10 +107,8 @@ public class GUIPlayerCrafting extends GuiContainer
 						inventoryBlueprints.setCraftOnePressed(true, i, true); // and
 																				// update
 																				// server
-						inventoryBlueprints.setxButtonPressed(
-								ContainerInventoryPlayerCrafting.BLUEPRINT_XPOS + col * 18);
-						inventoryBlueprints.setyButtonPressed(
-								ContainerInventoryPlayerCrafting.BLUEPRINT_YPOS + row * 18);
+						inventoryBlueprints.setxButtonPressed(ContainerInventoryPlayerCrafting.BLUEPRINT_XPOS + col * 18);
+						inventoryBlueprints.setyButtonPressed(ContainerInventoryPlayerCrafting.BLUEPRINT_YPOS + row * 18);
 					}
 				}
 			}
@@ -154,13 +148,12 @@ public class GUIPlayerCrafting extends GuiContainer
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
 		// Name of GUI at top
-		this.fontRendererObj.drawString(name,
-				ContainerInventoryPlayerCrafting.BLUEPRINT_XPOS/*
-																 * (int) (xSize /
-																 * 2) -
-																 * (name.length(
-																 * ) * 5 / 2)
-																 */, 5, Color.darkGray.getRGB());
+		this.fontRendererObj.drawString(name, ContainerInventoryPlayerCrafting.BLUEPRINT_XPOS/*
+																								 * (int) (xSize /
+																								 * 2) -
+																								 * (name.length(
+																								 * ) * 5 / 2)
+																								 */, 5, Color.darkGray.getRGB());
 
 		List<String> hoveringText = new ArrayList<String>();
 
@@ -229,8 +222,7 @@ public class GUIPlayerCrafting extends GuiContainer
 			int color = 0x60EAA800;
 			int x = inventoryBlueprints.getxButtonPressed();
 			int y = inventoryBlueprints.getyButtonPressed();
-			drawRect(x, y + (int) (fraction * BLUEPRINT_HEIGHT), x + BLUEPRINT_WIDTH,
-					y + BLUEPRINT_HEIGHT, color);
+			drawRect(x, y + (int) (fraction * BLUEPRINT_HEIGHT), x + BLUEPRINT_WIDTH, y + BLUEPRINT_HEIGHT, color);
 		}
 	}
 

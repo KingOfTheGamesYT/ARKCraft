@@ -1,13 +1,14 @@
 package com.uberverse.arkcraft.common.network.gui;
 
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.proxy.CommonProxy;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
-
-import com.uberverse.arkcraft.ARKCraft;
 
 /**
  * Used so the player can open the Crafting GUI
@@ -23,8 +24,7 @@ public class OpenPlayerCrafting implements IMessage
 
 	@Override
 	public void toBytes(ByteBuf buf)
-	{
-	}
+	{}
 
 	public static class Handler implements IMessageHandler<OpenPlayerCrafting, IMessage>
 	{
@@ -53,7 +53,7 @@ public class OpenPlayerCrafting implements IMessage
 	{
 		if (player != null)
 		{
-			player.openGui(ARKCraft.instance(), ARKCraft.GUI.PLAYER.id, player.worldObj, 0, 0, 0);
+			player.openGui(ARKCraft.instance(), CommonProxy.GUI.PLAYER.id, player.worldObj, 0, 0, 0);
 		}
 	}
 }

@@ -1,6 +1,5 @@
 package com.uberverse.arkcraft.common.handlers;
 
-import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.book.GuiInfoBook;
 import com.uberverse.arkcraft.client.book.core.BookData;
 import com.uberverse.arkcraft.client.book.core.BookDataStore;
@@ -24,6 +23,7 @@ import com.uberverse.arkcraft.common.container.item.ContainerInventoryAttachment
 import com.uberverse.arkcraft.common.container.player.ContainerEngram;
 import com.uberverse.arkcraft.common.container.player.ContainerPlayerCrafting;
 import com.uberverse.arkcraft.common.inventory.InventoryAttachment;
+import com.uberverse.arkcraft.common.proxy.CommonProxy;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryCompostBin;
 import com.uberverse.arkcraft.common.tileentity.crafter.burner.TileEntityCampfire;
@@ -53,7 +53,7 @@ public class GuiHandler implements IGuiHandler
 			LogHelper.info("GuiHandler: getServerGuiElement called from server");
 		}
 
-		if (id == ARKCraft.GUI.SMITHY.id)
+		if (id == CommonProxy.GUI.SMITHY.id)
 		{
 			BlockPos xyz = new BlockPos(x, y, z);
 			TileEntity tileEntity = world.getTileEntity(xyz);
@@ -66,7 +66,7 @@ public class GuiHandler implements IGuiHandler
 				LogHelper.info("GuiHandler - getServerGuiElement: TileEntitySmithy not found!");
 			}
 		}
-		else if (id == ARKCraft.GUI.MORTAR_AND_PESTLE.id)
+		else if (id == CommonProxy.GUI.MORTAR_AND_PESTLE.id)
 		{
 			BlockPos xyz = new BlockPos(x, y, z);
 			TileEntity tileEntity = world.getTileEntity(xyz);
@@ -79,7 +79,7 @@ public class GuiHandler implements IGuiHandler
 				LogHelper.info("GuiHandler - getServerGuiElement: TileEntityMP not found!");
 			}
 		}
-		else if (id == ARKCraft.GUI.COMPOST_BIN.id)
+		else if (id == CommonProxy.GUI.COMPOST_BIN.id)
 		{
 			BlockPos xyz = new BlockPos(x, y, z);
 			TileEntity tileEntity = world.getTileEntity(xyz);
@@ -92,7 +92,7 @@ public class GuiHandler implements IGuiHandler
 				LogHelper.info("GuiHandler - getServerGuiElement: TileEntityCompostBin not found!");
 			}
 		}
-		else if (id == ARKCraft.GUI.REFINING_FORGE.id)
+		else if (id == CommonProxy.GUI.REFINING_FORGE.id)
 		{
 			BlockPos xyz = new BlockPos(x, y, z);
 			TileEntity tileEntity = world.getTileEntity(xyz);
@@ -105,7 +105,7 @@ public class GuiHandler implements IGuiHandler
 				LogHelper.info("GuiHandler - getServerGuiElement: TileEntityForge not found!");
 			}
 		}
-		else if (id == ARKCraft.GUI.CAMPFIRE.id)
+		else if (id == CommonProxy.GUI.CAMPFIRE.id)
 		{
 			BlockPos xyz = new BlockPos(x, y, z);
 			TileEntity tileEntity = world.getTileEntity(xyz);
@@ -118,8 +118,8 @@ public class GuiHandler implements IGuiHandler
 				LogHelper.info("GuiHandler - getServerGuiElement: TileEntityCampfire not found!");
 			}
 		}
-		else if (id == ARKCraft.GUI.ENGRAMS.id) return new ContainerEngram(ARKPlayer.get(player).getEngramInventory());
-		else if (id == ARKCraft.GUI.CROP_PLOT.id)
+		else if (id == CommonProxy.GUI.ENGRAMS.id) return new ContainerEngram(ARKPlayer.get(player).getEngramInventory());
+		else if (id == CommonProxy.GUI.CROP_PLOT.id)
 		{
 			BlockPos xyz = new BlockPos(x, y, z);
 			TileEntity tileEntity = world.getTileEntity(xyz);
@@ -132,11 +132,11 @@ public class GuiHandler implements IGuiHandler
 				LogHelper.info("GuiHandler - getServerGuiElement: TileEntityCropPlotNew not found!");
 			}
 		}
-		else if (id == ARKCraft.GUI.PLAYER.id)
+		else if (id == CommonProxy.GUI.PLAYER.id)
 		{
 			return new ContainerPlayerCrafting(player);
 		}
-		else if (id == ARKCraft.GUI.ATTACHMENTS.id)
+		else if (id == CommonProxy.GUI.ATTACHMENTS.id)
 			return new ContainerInventoryAttachment(player, player.inventory, InventoryAttachment.create(player.getHeldItem()));
 		return null;
 	}
@@ -152,7 +152,7 @@ public class GuiHandler implements IGuiHandler
 		{
 			LogHelper.info("GuiHandler: getClientGuiElement called from server");
 		}
-		if (id == ARKCraft.GUI.SMITHY.id)
+		if (id == CommonProxy.GUI.SMITHY.id)
 		{
 			BlockPos xyz = new BlockPos(x, y, z);
 			TileEntity tileEntity = world.getTileEntity(xyz);
@@ -165,7 +165,7 @@ public class GuiHandler implements IGuiHandler
 				LogHelper.info("GuiHandler - getClientGuiElement: TileEntitySmithy not found!");
 			}
 		}
-		else if (id == ARKCraft.GUI.MORTAR_AND_PESTLE.id)
+		else if (id == CommonProxy.GUI.MORTAR_AND_PESTLE.id)
 		{
 			BlockPos xyz = new BlockPos(x, y, z);
 			TileEntity tileEntity = world.getTileEntity(xyz);
@@ -178,7 +178,7 @@ public class GuiHandler implements IGuiHandler
 				LogHelper.info("GuiHandler - getClientGuiElement: TileEntityMP not found!");
 			}
 		}
-		else if (id == ARKCraft.GUI.CAMPFIRE.id)
+		else if (id == CommonProxy.GUI.CAMPFIRE.id)
 		{
 			BlockPos xyz = new BlockPos(x, y, z);
 			TileEntity tileEntity = world.getTileEntity(xyz);
@@ -191,7 +191,7 @@ public class GuiHandler implements IGuiHandler
 				LogHelper.info("GuiHandler - getClientGuiElement: TileEntityCampfire not found!");
 			}
 		}
-		else if (id == ARKCraft.GUI.CROP_PLOT.id)
+		else if (id == CommonProxy.GUI.CROP_PLOT.id)
 		{
 			BlockPos xyz = new BlockPos(x, y, z);
 			TileEntity tileEntity = world.getTileEntity(xyz);
@@ -204,7 +204,7 @@ public class GuiHandler implements IGuiHandler
 				LogHelper.info("GuiHandler - getClientGuiElement: TileEntityCropPlotNew not found!");
 			}
 		}
-		else if (id == ARKCraft.GUI.REFINING_FORGE.id)
+		else if (id == CommonProxy.GUI.REFINING_FORGE.id)
 		{
 			BlockPos xyz = new BlockPos(x, y, z);
 			TileEntity tileEntity = world.getTileEntity(xyz);
@@ -217,11 +217,11 @@ public class GuiHandler implements IGuiHandler
 				LogHelper.info("GuiHandler - getClientGuiElement: TileEntityForge not found!");
 			}
 		}
-		else if (id == ARKCraft.GUI.ENGRAMS.id)
+		else if (id == CommonProxy.GUI.ENGRAMS.id)
 		{
 			return new GUIEngram(player);
 		}
-		else if (id == ARKCraft.GUI.COMPOST_BIN.id)
+		else if (id == CommonProxy.GUI.COMPOST_BIN.id)
 		{
 			BlockPos xyz = new BlockPos(x, y, z);
 			TileEntity tileEntity = world.getTileEntity(xyz);
@@ -234,16 +234,16 @@ public class GuiHandler implements IGuiHandler
 				LogHelper.info("GuiHandler - getClientGuiElement: TileEntityCompostBin not found!");
 			}
 		}
-		else if (id == ARKCraft.GUI.BOOK.id)
+		else if (id == CommonProxy.GUI.BOOK.id)
 		{
 			ItemStack stack = player.getCurrentEquippedItem();
 			return new GuiInfoBook(stack, GuiHandler.getBookDataFromStack(stack));
 		}
-		else if (id == ARKCraft.GUI.PLAYER.id)
+		else if (id == CommonProxy.GUI.PLAYER.id)
 		{
 			return new GUIPlayerCrafting(new ContainerPlayerCrafting(player));
 		}
-		else if (id == ARKCraft.GUI.ATTACHMENTS.id) { return new GUIAttachment(player, player.inventory,
+		else if (id == CommonProxy.GUI.ATTACHMENTS.id) { return new GUIAttachment(player, player.inventory,
 				InventoryAttachment.create(player.getHeldItem())); }
 		return null;
 	}

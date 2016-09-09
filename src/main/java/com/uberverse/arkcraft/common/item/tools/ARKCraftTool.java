@@ -331,7 +331,8 @@ public abstract class ARKCraftTool extends ItemTool
 
 	@SideOnly(Side.CLIENT)
 	public void registerModels()
-	{// TODO: Call this from the Client proxy for each tool item.
+	{
+		// TODO: Call this from the Client proxy for each tool item.
 		ClientProxy p = ((ClientProxy) ARKCraft.proxy);
 		List<ItemStack> list = new ArrayList<ItemStack>();
 		getSubItems(this, getCreativeTab(), list);

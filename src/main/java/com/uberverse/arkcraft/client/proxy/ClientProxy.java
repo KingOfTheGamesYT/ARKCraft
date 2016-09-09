@@ -27,7 +27,6 @@ import com.uberverse.arkcraft.common.proxy.CommonProxy;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
-import com.uberverse.lib.LogHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -38,69 +37,34 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class ClientProxy extends CommonProxy
 {
-	boolean initDone = false;
-
 	@Override
-	public void init()
+	public void init(FMLInitializationEvent event)
 	{
-		if (initDone) { return; }
-		super.init();
+		super.init(event);
 
 		ClientEventHandler.init();
 		dossierProxy.init();
 
-		// 1 MinecraftForge.EVENT_BUS.register(new GuiOverlay());
 		MinecraftForge.EVENT_BUS.register(new GUIOverlayReloading());
 		MinecraftForge.EVENT_BUS.register(new GUIOverlayARKMode());
 
 		registerRenderers();
-
-		// Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(ARKCraftItems.blueprint, new ItemMeshDefinition()
-		// {
-		// @Override
-		// public ModelResourceLocation getModelLocation(ItemStack stack)
-		// {
-		// if (ItemBlueprint.getEngram(stack) != null)
-		// {
-		// Minecraft mc = Minecraft.getMinecraft();
-		// GlStateManager.pushMatrix();
-		// mc.getRenderItem().renderItem(new ItemStack(ARKCraftItems.blueprintDummy),
-		// mc.getRenderItem().getItemModelMesher().getItemModel(new ItemStack(ARKCraftItems.blueprintDummy)));
-		// GlStateManager.popMatrix();
-		// Item i = ItemBlueprint.getEngram(stack).getItem();
-		// return new ModelResourceLocation(
-		// ARKCraft.MODID + ":" + (i instanceof ItemRangedWeapon ? "weapons/" : "") + i.getUnlocalizedName().substring(5),
-		// "inventory");
-		// }
-		// return new ModelResourceLocation(ARKCraft.MODID + ":blueprintdummy", "inventory");
-		// }
-		// });
-
-		// KeyBindings.preInit();
-		// dossierProxy.init();
-		LogHelper.info("CommonProxy: Init run finished.");
-		initDone = true;
 	}
 
 	@Override
-	public void registerEventHandlers()
+	protected final void registerEventHandlers()
 	{
 		super.registerEventHandlers();
-
-		/*
-		 * CoreClientEventHandler mod1Eventhandler = new
-		 * CoreClientEventHandler();
-		 * FMLCommonHandler.instance().bus().register(mod1Eventhandler);
-		 * MinecraftForge.EVENT_BUS.register(mod1Eventhandler);
-		 */
+		ClientEventHandler.init();
 	}
 
 	/* We register the block/item textures and models here */
-	public void registerRenderers()
+	private void registerRenderers()
 	{
 		for (Map.Entry<String, Block> e : ARKCraftBlocks.allBlocks.entrySet())
 		{
@@ -131,17 +95,17 @@ public class ClientProxy extends CommonProxy
 		registerBlockTexture(ARKCraftBlocks.crop_plot, 2, "crop_plot");
 	}
 
-	public void registerBlockTexture(final Block block, final String blockName)
+	private void registerBlockTexture(final Block block, final String blockName)
 	{
 		registerBlockTexture(block, 0, blockName);
 	}
 
-	public void registerBlockTexture(final Block block, int meta, final String blockName)
+	private void registerBlockTexture(final Block block, int meta, final String blockName)
 	{
 		registerItemTexture(Item.getItemFromBlock(block), meta, blockName);
 	}
 
-	public void registerItemTexture(final Item item, final String name)
+	private void registerItemTexture(final Item item, final String name)
 	{
 		registerItemTexture(item, 0, name);
 	}
@@ -151,6 +115,15 @@ public class ClientProxy extends CommonProxy
 		if (item instanceof ItemRangedWeapon) name = "weapons/" + name;
 		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, meta,
 				new ModelResourceLocation(ARKCraft.MODID + ":" + name, "inventory"));
+		ModelBakery.addVariantName(item, ARKCraft.MODID + ":" + name);
+	}
+
+	public void registerItemTexture(final Item item, final int meta, final String name, final String namePrefix)
+	{
+		String fullPrefix = namePrefix.substring(namePrefix.length() - 1).equals("/") ? namePrefix : (namePrefix + "/");
+		String fullName = fullPrefix + name;
+		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, meta,
+				new ModelResourceLocation(ARKCraft.MODID + ":" + fullName, "inventory"));
 		ModelBakery.addVariantName(item, ARKCraft.MODID + ":" + name);
 	}
 
@@ -191,7 +164,7 @@ public class ClientProxy extends CommonProxy
 		}
 	}
 
-	public static void registerItemVariants()
+	private static void registerItemVariants()
 	{
 		ModelBakery.addVariantName(ARKCraftRangedWeapons.slingshot, "arkcraft:slingshot", "arkcraft:slingshot_pulled");
 		ModelBakery.addVariantName(ARKCraftRangedWeapons.shotgun, "arkcraft:weapons/shotgun", "arkcraft:weapons/shotgun_reload");

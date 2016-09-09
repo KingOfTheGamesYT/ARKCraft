@@ -8,6 +8,7 @@ import com.uberverse.arkcraft.common.engram.EngramManager;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.common.inventory.InventoryEngram;
 import com.uberverse.arkcraft.common.network.UpdateEngrams;
+import com.uberverse.arkcraft.common.proxy.CommonProxy;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -66,7 +67,7 @@ public class ContainerEngram extends ContainerScrollable
 	{
 		if (id == 0)
 		{
-			playerIn.openGui(ARKCraft.instance, ARKCraft.GUI.PLAYER.id, playerIn.worldObj, 0, 0, 0);
+			playerIn.openGui(ARKCraft.instance, CommonProxy.GUI.PLAYER.id, playerIn.worldObj, 0, 0, 0);
 			return true;
 		}
 		else if (id == 1)

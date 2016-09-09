@@ -19,7 +19,6 @@ import io.netty.channel.SimpleChannelInboundHandler;
 @Sharable
 public class DescriptionHandler extends SimpleChannelInboundHandler<FMLProxyPacket>
 {
-
 	static
 	{
 		NetworkRegistry.INSTANCE.newChannel(ARKCraft.descriptionPacketChannel,

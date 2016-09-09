@@ -22,6 +22,7 @@ import com.uberverse.arkcraft.common.item.itemblock.ItemCropPlot;
 import com.uberverse.arkcraft.common.item.itemblock.ItemMortarAndPestle;
 import com.uberverse.arkcraft.common.item.itemblock.ItemRefiningForge;
 import com.uberverse.arkcraft.common.item.itemblock.ItemSmithy;
+import com.uberverse.arkcraft.common.proxy.CommonProxy;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryCompostBin;
 import com.uberverse.arkcraft.common.tileentity.crafter.burner.TileEntityCampfire;
@@ -74,10 +75,10 @@ public class ARKCraftBlocks
 		greenScreen = (BlockGreenScreen) registerBlockNoTab(new BlockGreenScreen(Material.gourd), "greenScreen");
 
 		// Containers
-		smithy = registerSmithy("smithy", Material.wood, ARKCraft.GUI.SMITHY.id, false, false, 3);
-		pestle = registerMortarAndPestle("mortar_and_pestle", Material.rock, ARKCraft.GUI.MORTAR_AND_PESTLE.id, false, false, 3);
-		crop_plot = registerCropPlot("crop_plot", Material.wood, ARKCraft.GUI.CROP_PLOT.id, false, 3);
-		compost_bin = registerCompostBin("compost_bin", Material.wood, ARKCraft.GUI.COMPOST_BIN.id, false, false, 3);
+		smithy = registerSmithy("smithy", Material.wood, CommonProxy.GUI.SMITHY.id, false, false, 3);
+		pestle = registerMortarAndPestle("mortar_and_pestle", Material.rock, CommonProxy.GUI.MORTAR_AND_PESTLE.id, false, false, 3);
+		crop_plot = registerCropPlot("crop_plot", Material.wood, CommonProxy.GUI.CROP_PLOT.id, false, 3);
+		compost_bin = registerCompostBin("compost_bin", Material.wood, CommonProxy.GUI.COMPOST_BIN.id, false, false, 3);
 		refining_forge = registerRefiningForge("refining_forge", Material.rock, false, false, false, 3);
 		campfire = registerCampfire("campfire", Material.wood, false, 3);
 

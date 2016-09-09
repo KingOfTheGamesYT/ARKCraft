@@ -4,6 +4,7 @@ import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.common.container.engram.ContainerEngramCrafting;
 import com.uberverse.arkcraft.common.engram.EngramManager.EngramType;
+import com.uberverse.arkcraft.common.proxy.CommonProxy;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -20,7 +21,7 @@ public class ContainerPlayerCrafting extends ContainerEngramCrafting
 	{
 		if (id == 2)
 		{
-			playerIn.openGui(ARKCraft.instance, ARKCraft.GUI.ENGRAMS.id, playerIn.worldObj, 0, 0, 0);
+			playerIn.openGui(ARKCraft.instance, CommonProxy.GUI.ENGRAMS.id, playerIn.worldObj, 0, 0, 0);
 			return true;
 		}
 		return super.enchantItem(playerIn, id);
