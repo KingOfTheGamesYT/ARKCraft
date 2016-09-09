@@ -1,6 +1,7 @@
 package com.uberverse.arkcraft.common.proxy;
 
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.client.achievement.ARKCraftAchievements;
 import com.uberverse.arkcraft.client.book.proxy.BookCommon;
 import com.uberverse.arkcraft.common.arkplayer.event.PlayerCommonEventHandler;
 import com.uberverse.arkcraft.common.arkplayer.network.ARKPlayerUpdate;
@@ -86,6 +87,7 @@ public abstract class CommonProxy
 		ARKCraftBlocks.init();
 		ARKCraftItems.init();
 		ARKCraftRangedWeapons.init();
+		ARKCraftAchievements.init();
 		NetworkRegistry.INSTANCE.registerGuiHandler(ARKCraft.instance, new GuiHandler());
 
 		EngramManager.init();
