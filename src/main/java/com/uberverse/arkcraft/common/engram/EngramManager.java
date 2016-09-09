@@ -218,9 +218,10 @@ public class EngramManager
 		private final Item item;
 		private final int amount, points, level, craftingTime;
 		private final EngramType type;
+		private final boolean hasBlueprint;
 		private final Collection<EngramRecipe> recipes;
 
-		public Engram(String name, Item item, int amount, int points, int level, int craftingTime, EngramType type, EngramRecipe... recipes)
+		public Engram(String name, Item item, int amount, int points, int level, int craftingTime, EngramType type, boolean hasBlueprint, EngramRecipe... recipes)
 		{
 			this.recipes = new HashSet<>();
 			this.id = idCounter++;
@@ -231,13 +232,29 @@ public class EngramManager
 			this.level = level;
 			this.craftingTime = craftingTime * 20;
 			this.type = type;
+			this.hasBlueprint = hasBlueprint;
 			for (EngramRecipe r : recipes)
 				addRecipe(r);
 		}
 
+		public Engram(String name, Item item, int amount, int points, int level, int craftingTime, EngramType type, EngramRecipe... recipes)
+		{
+			this(name, item, amount, points, level, craftingTime, type, true, recipes);
+		}
+
+		public Engram(String name, Item item, int points, int level, int craftingTime, EngramType type, boolean hasBlueprint, EngramRecipe... recipes)
+		{
+			this(name, item, 1, points, level, craftingTime, type, hasBlueprint, recipes);
+		}
+
 		public Engram(String name, Item item, int points, int level, int craftingTime, EngramType type, EngramRecipe... recipes)
 		{
-			this(name, item, 1, points, level, craftingTime, type, recipes);
+			this(name, item, 1, points, level, craftingTime, type, true, recipes);
+		}
+
+		public boolean hasBlueprint()
+		{
+			return hasBlueprint;
 		}
 
 		public short getId()
@@ -495,7 +512,6 @@ public class EngramManager
 
 		public void consume(Map<Item, Integer> map)
 		{
-			// changed items reference to map : correct ? TODO
 			for (Item i : items.keySet())
 			{
 				map.put(i, map.get(i) - items.get(i));

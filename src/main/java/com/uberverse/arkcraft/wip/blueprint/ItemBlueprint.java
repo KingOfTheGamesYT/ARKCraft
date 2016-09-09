@@ -27,14 +27,17 @@ public class ItemBlueprint extends ARKCraftItem
 	{
 		for (Engram e : EngramManager.instance().getEngrams())
 		{
-			ItemStack s = new ItemStack(this);
-			if (!s.hasTagCompound()) s.setTagCompound(new NBTTagCompound());
-			s.getTagCompound().setShort("engram", e.getId());
-			if (e.isQualitable())
+			if (e.hasBlueprint())
 			{
-				s.getTagCompound().setByte("itemQuality", ItemQuality.PRIMITIVE.id);
+				ItemStack s = new ItemStack(this);
+				if (!s.hasTagCompound()) s.setTagCompound(new NBTTagCompound());
+				s.getTagCompound().setShort("engram", e.getId());
+				if (e.isQualitable())
+				{
+					s.getTagCompound().setByte("itemQuality", ItemQuality.PRIMITIVE.id);
+				}
+				subItems.add(s);
 			}
-			subItems.add(s);
 		}
 	}
 

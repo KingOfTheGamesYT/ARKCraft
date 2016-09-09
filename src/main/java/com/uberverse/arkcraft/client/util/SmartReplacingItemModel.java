@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.vecmath.Vector3f;
 
-import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
+import com.uberverse.arkcraft.common.item.firearms.ItemShotgun;
 
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ItemTransformVec3f;
@@ -76,9 +76,9 @@ public abstract class SmartReplacingItemModel implements ISmartItemModel
 		ItemTransformVec3f firstPerson =
 				new ItemTransformVec3f(new Vector3f(0, -135, 25), new Vector3f(0f, 0.25f, 0.125f), new Vector3f(1.7f, 1.7f, 1.7f));
 
-		if (toRender instanceof ItemRangedWeapon)
+		if (toRender instanceof ItemShotgun)
 		{
-			gui = new ItemTransformVec3f(new Vector3f(-25, 15, 45), new Vector3f(0, 0.30f, -0.20f), new Vector3f(1.8f, 1.8f, 1.8f));
+			gui = new ItemTransformVec3f(new Vector3f(-26, 16, 40), new Vector3f(0, 0.30f, -0.20f), new Vector3f(1.8f, 1.8f, 1.8f));
 		}
 		ItemCameraTransforms ictN = new ItemCameraTransforms(thirdPerson, firstPerson, head, gui);
 

@@ -1,14 +1,11 @@
 package com.uberverse.arkcraft.client.event;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-import com.sun.media.jfxmedia.events.PlayerEvent;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.achievement.ARKCraftAchievements;
 import com.uberverse.arkcraft.client.easter.Easter;
@@ -20,7 +17,6 @@ import com.uberverse.arkcraft.common.inventory.InventoryAttachment;
 import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.network.ARKModeToggle;
-import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.common.network.gui.OpenAttachmentInventory;
 import com.uberverse.arkcraft.common.network.gui.OpenPlayerCrafting;
@@ -43,7 +39,6 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
-import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -88,7 +83,6 @@ public class ClientEventHandler
 	private ItemStack selected;
 	private static final ResourceLocation OVERLAY_TEXTURE = new ResourceLocation(ARKCraft.MODID, "textures/gui/scope.png");
 	public boolean showScopeOverlap = false;
-	private int ticks = 0;
 
 	public static void init()
 	{
@@ -208,8 +202,6 @@ public class ClientEventHandler
 	public void onRender(RenderGameOverlayEvent evt)
 	{
 		Minecraft mc = Minecraft.getMinecraft();
-		int ticksOld = ticks;
-		if (evt.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS) ticks = 0;
 		if (showScopeOverlap && (mc.thePlayer.getCurrentEquippedItem() != selected || !Mouse.isButtonDown(0)))
 		{
 			showScopeOverlap = false;
@@ -228,7 +220,7 @@ public class ClientEventHandler
 			// Remove crosshairs
 			else if (evt.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS && showScopeOverlap) evt.setCanceled(true);
 		}
-		else if (evt.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS)
+		else if (evt.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS && !Minecraft.getMinecraft().isGamePaused())
 		{
 			MovingObjectPosition mop = rayTrace(mc.thePlayer, 8, evt.partialTicks);
 			if (mop != null && mop.typeOfHit == MovingObjectType.BLOCK)
@@ -236,24 +228,7 @@ public class ClientEventHandler
 				TileEntity tile = mc.theWorld.getTileEntity(mop.getBlockPos());
 				if (tile instanceof IHoverInfo)
 				{
-					ticks = ticksOld + 1;
-					if (ticks > 30)
-					{
-						ticks = 0;
-						ARKCraft.modChannel.sendToServer(new MessageHoverReq(mop.getBlockPos()));
-					}
-					List<String> list = new ArrayList<String>();
-					((IHoverInfo) tile).addInformation(list);
-					int width = evt.resolution.getScaledWidth();
-					int height = evt.resolution.getScaledHeight();
-					GL11.glPushMatrix();
-					mc.entityRenderer.setupOverlayRendering();
-					GL11.glEnable(GL11.GL_BLEND);
-					OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-					GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-					GL11.glDisable(GL11.GL_ALPHA_TEST);
-					ClientUtils.drawHoveringText(list, width / 2, height / 2, mc.fontRendererObj, width, height);
-					GL11.glPopMatrix();
+					ClientUtils.drawIHoverInfoTooltip((IHoverInfo) tile, mc.fontRendererObj, evt, mop.getBlockPos());
 				}
 			}
 		}
@@ -410,29 +385,31 @@ public class ClientEventHandler
 	{
 		event.modelRegistry.putObject(new ModelResourceLocation("arkcraft:blueprint", "inventory"), new SmartBlueprintModel());
 	}
-	
+
 	@SuppressWarnings("static-access")
 	@SubscribeEvent
 	public void easter(PlayerInteractEvent event)
 	{
 		Action action = event.action;
 		ItemStack item = event.entityPlayer.getCurrentEquippedItem();
-		
-		try 
+
+		try
 		{
-			if(!ARKCraftAchievements.page.getAchievements().contains(ARKCraftAchievements.achievementMichaelBay))
+			if (!ARKCraftAchievements.page.getAchievements().contains(ARKCraftAchievements.achievementMichaelBay))
 			{
 				AchievementPage page = ARKCraftAchievements.page;
 				Achievement achievement = ARKCraftAchievements.achievementMichaelBay;
-				if(event.world.getBlockState(event.pos).getBlock() instanceof BlockRefiningForge)
+				if (event.world.getBlockState(event.pos).getBlock() instanceof BlockRefiningForge)
 				{
-					if(item != null && item.getItem() == ARKCraftRangedWeapons.rocket_propelled_grenade)
+					if (item != null && item.getItem() == ARKCraftRangedWeapons.rocket_propelled_grenade)
 					{
-						if(action.RIGHT_CLICK_BLOCK != null && action.RIGHT_CLICK_AIR != null && item.getDisplayName().equals("Michael_Bay") && event.entityPlayer.isSneaking())
+						if (action.RIGHT_CLICK_BLOCK != null && action.RIGHT_CLICK_AIR != null && item.getDisplayName().equals("Michael_Bay")
+								&& event.entityPlayer.isSneaking())
 						{
 							EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-							
-							Easter.MICHAEL_BAY.createExplosionNoDamage(event.entityPlayer, event.world, 50, event.entityPlayer.posX, event.entityPlayer.posY, event.entityPlayer.posZ, 0, 1, 0);
+
+							Easter.MICHAEL_BAY.createExplosionNoDamage(event.entityPlayer, event.world, 50, event.entityPlayer.posX,
+									event.entityPlayer.posY, event.entityPlayer.posZ, 0, 1, 0);
 							page.getAchievements().add(achievement);
 							player.addStat(achievement, 1);
 							Minecraft.getMinecraft().guiAchievement.displayAchievement(achievement);
@@ -440,7 +417,9 @@ public class ClientEventHandler
 					}
 				}
 			}
-		} catch(NullPointerException e) {}
+		}
+		catch (NullPointerException e)
+		{}
 	}
-	
+
 }
