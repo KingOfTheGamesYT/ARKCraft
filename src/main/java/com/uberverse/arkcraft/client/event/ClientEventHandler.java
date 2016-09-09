@@ -43,6 +43,7 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
+import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -419,20 +420,21 @@ public class ClientEventHandler
 		
 		try 
 		{
-			if(event.world.getBlockState(event.pos).getBlock() instanceof BlockRefiningForge)
+			if(!ARKCraftAchievements.page.getAchievements().contains(ARKCraftAchievements.achievementMichaelBay))
 			{
-				if(item != null && item.getItem() == ARKCraftRangedWeapons.rocket_propelled_grenade)
+				AchievementPage page = ARKCraftAchievements.page;
+				Achievement achievement = ARKCraftAchievements.achievementMichaelBay;
+				if(event.world.getBlockState(event.pos).getBlock() instanceof BlockRefiningForge)
 				{
-					if(action.RIGHT_CLICK_BLOCK != null && action.RIGHT_CLICK_AIR != null && item.getDisplayName().equals("Michael_Bay") && event.entityPlayer.isSneaking())
+					if(item != null && item.getItem() == ARKCraftRangedWeapons.rocket_propelled_grenade)
 					{
-						Easter.MICHAEL_BAY.createExplosionNoDamage(event.entityPlayer, event.world, 50, event.entityPlayer.posX, event.entityPlayer.posY, event.entityPlayer.posZ, 0, 1, 0);
-						
-						AchievementPage page = ARKCraftAchievements.page;
-						Achievement achievement = ARKCraftAchievements.achievementMichaelBay;
-						if(!page.getAchievements().contains(achievement))
+						if(action.RIGHT_CLICK_BLOCK != null && action.RIGHT_CLICK_AIR != null && item.getDisplayName().equals("Michael_Bay") && event.entityPlayer.isSneaking())
 						{
+							EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+							
+							Easter.MICHAEL_BAY.createExplosionNoDamage(event.entityPlayer, event.world, 50, event.entityPlayer.posX, event.entityPlayer.posY, event.entityPlayer.posZ, 0, 1, 0);
 							page.getAchievements().add(achievement);
-							event.entityPlayer.addStat(achievement, 1);
+							player.addStat(achievement, 1);
 							Minecraft.getMinecraft().guiAchievement.displayAchievement(achievement);
 						}
 					}
