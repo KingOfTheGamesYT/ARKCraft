@@ -316,8 +316,7 @@ public class ClientEventHandler
 			}
 		}
 	}
-
-	@SuppressWarnings("static-access")
+	
 	@SubscribeEvent
 	public void onPlayerKeypressed(InputEvent.KeyInputEvent event)
 	{

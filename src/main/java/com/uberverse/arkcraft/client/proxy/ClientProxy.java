@@ -13,8 +13,10 @@ import com.uberverse.arkcraft.client.render.RenderSimpleRifleAmmo;
 import com.uberverse.arkcraft.client.render.RenderSimpleShotgunAmmo;
 import com.uberverse.arkcraft.client.render.RenderSpear;
 import com.uberverse.arkcraft.client.render.RenderTranquilizer;
+import com.uberverse.arkcraft.client.render.creature.RenderDodo;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.entity.EntityAdvancedBullet;
+import com.uberverse.arkcraft.common.entity.EntityDodo;
 import com.uberverse.arkcraft.common.entity.EntityGrenade;
 import com.uberverse.arkcraft.common.entity.EntitySimpleBullet;
 import com.uberverse.arkcraft.common.entity.EntitySimpleRifleAmmo;
@@ -22,7 +24,9 @@ import com.uberverse.arkcraft.common.entity.EntitySimpleShotgunAmmo;
 import com.uberverse.arkcraft.common.entity.EntitySpear;
 import com.uberverse.arkcraft.common.entity.EntityStone;
 import com.uberverse.arkcraft.common.entity.EntityTranquilizer;
+import com.uberverse.arkcraft.common.handlers.EntityHandler;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
+import com.uberverse.arkcraft.common.model.ModelDodo;
 import com.uberverse.arkcraft.common.proxy.CommonProxy;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
@@ -34,6 +38,7 @@ import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -53,6 +58,10 @@ public class ClientProxy extends CommonProxy
 		MinecraftForge.EVENT_BUS.register(new GUIOverlayReloading());
 		MinecraftForge.EVENT_BUS.register(new GUIOverlayARKMode());
 
+		EntityHandler.registerEntityEgg(EntityDodo.class, ARKCraft.MODID + ".dodo",
+				BiomeGenBase.beach, BiomeGenBase.desert, BiomeGenBase.forest,
+				BiomeGenBase.birchForest, BiomeGenBase.extremeHills);
+		
 		registerRenderers();
 	}
 
@@ -141,6 +150,9 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class,
 				new RenderSnowball(Minecraft.getMinecraft().getRenderManager(), ARKCraftItems.grenade, Minecraft.getMinecraft().getRenderItem()));
 
+		RenderingRegistry.registerEntityRenderingHandler(EntityDodo.class,
+				new RenderDodo(new ModelDodo(), 0.3F));
+		
 		if (ModuleItemBalance.WEAPONS.SIMPLE_PISTOL)
 		{
 			RenderingRegistry.registerEntityRenderingHandler(EntitySimpleBullet.class, new RenderSimpleBullet());

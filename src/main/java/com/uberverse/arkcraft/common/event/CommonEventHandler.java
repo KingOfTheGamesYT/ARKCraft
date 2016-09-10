@@ -106,6 +106,7 @@ public class CommonEventHandler
 		}
 	}
 
+	//Immutable Set (Not able to edit the set)
 	private static final Set<Item> INPUTS = ImmutableSet.of(Items.bone, Items.book, Items.wheat);
 
 	@SuppressWarnings("unchecked")
@@ -114,7 +115,6 @@ public class CommonEventHandler
 	{
 		if (event.side.isServer())
 		{
-			// LogHelper.info("[OnWorldTick] The Side is on the server!");
 			World world = event.world;
 
 			EntityItem itemToSpawn = null;
@@ -123,27 +123,12 @@ public class CommonEventHandler
 				if (bookSpawnDelay > 0) bookSpawnDelay--;
 				else
 				{
-					// LogHelper.info("The world is not remote.");
 					List<Entity> entitiesInWorld = world.loadedEntityList;
 					for (Entity entityInWorld : entitiesInWorld)
 					{
+						//Make the set mutable each for loop.
 						final Set<Item> remainingInputs = new HashSet<Item>(INPUTS); // Create
-						// a
-						// mutable
-						// copy
-						// of
-						// the
-						// input
-						// set
-						// to
-						// track
-						// which
-						// items
-						// have
-						// been
-						// found
 						ArrayList<EntityItem> foundEntityItems = new ArrayList<EntityItem>();
-						// LogHelper.info("Found an Entity in the world!");
 						if (entityInWorld instanceof EntityItem)
 						{
 							EntityItem entityItemInWorld = (EntityItem) entityInWorld;
@@ -199,6 +184,7 @@ public class CommonEventHandler
 					}
 					if (itemToSpawn != null)
 					{
+						//Spawn particle and item
 						((WorldServer) world).spawnParticle(EnumParticleTypes.SMOKE_LARGE, false, itemToSpawn.posX, itemToSpawn.posY + 0.5D,
 								itemToSpawn.posZ, 5, 0.0D, 0.0D, 0.0D, 0.0D, new int[0]);
 						world.spawnEntityInWorld(itemToSpawn);

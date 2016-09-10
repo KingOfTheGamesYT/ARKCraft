@@ -1,5 +1,8 @@
 package com.uberverse.arkcraft.common.handlers;
 
+import java.util.Iterator;
+import java.util.List;
+
 import com.uberverse.arkcraft.client.book.GuiInfoBook;
 import com.uberverse.arkcraft.client.book.core.BookData;
 import com.uberverse.arkcraft.client.book.core.BookDataStore;
@@ -9,6 +12,7 @@ import com.uberverse.arkcraft.client.gui.block.GUIMortarPestle;
 import com.uberverse.arkcraft.client.gui.block.GUIRefiningForge;
 import com.uberverse.arkcraft.client.gui.block.GUISmithy;
 import com.uberverse.arkcraft.client.gui.block.GuiCropPlotNew;
+import com.uberverse.arkcraft.client.gui.entity.GuiInventoryDodo;
 import com.uberverse.arkcraft.client.gui.item.GUIAttachment;
 import com.uberverse.arkcraft.client.gui.player.GUIEngram;
 import com.uberverse.arkcraft.client.gui.player.GUIPlayerCrafting;
@@ -19,9 +23,11 @@ import com.uberverse.arkcraft.common.container.block.ContainerInventoryCompostBi
 import com.uberverse.arkcraft.common.container.block.ContainerMP;
 import com.uberverse.arkcraft.common.container.block.ContainerRefiningForge;
 import com.uberverse.arkcraft.common.container.block.ContainerSmithy;
+import com.uberverse.arkcraft.common.container.entity.ContainerInventoryDodo;
 import com.uberverse.arkcraft.common.container.item.ContainerInventoryAttachment;
 import com.uberverse.arkcraft.common.container.player.ContainerEngram;
 import com.uberverse.arkcraft.common.container.player.ContainerPlayerCrafting;
+import com.uberverse.arkcraft.common.entity.EntityDodo;
 import com.uberverse.arkcraft.common.inventory.InventoryAttachment;
 import com.uberverse.arkcraft.common.proxy.CommonProxy;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot;
@@ -32,9 +38,11 @@ import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntityMP;
 import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntitySmithy;
 import com.uberverse.lib.LogHelper;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
@@ -138,6 +146,23 @@ public class GuiHandler implements IGuiHandler
 		}
 		else if (id == CommonProxy.GUI.ATTACHMENTS.id)
 			return new ContainerInventoryAttachment(player, player.inventory, InventoryAttachment.create(player.getHeldItem()));
+		
+		else if (id == CommonProxy.GUI.INV_DODO.id)
+		{
+			Entity entity = getEntityAt(player, x, y, z);
+			if (entity != null && entity instanceof EntityDodo)
+			{
+				return new ContainerInventoryDodo(player.inventory,
+						((EntityDodo) entity).invDodo, (EntityDodo) entity);
+			}
+			else
+			{
+				LogHelper
+						.error("GuiHandler - getServerGuiElement: Did not find entity with inventory!");
+			}
+		}
+		
+		
 		return null;
 	}
 
@@ -245,11 +270,50 @@ public class GuiHandler implements IGuiHandler
 		}
 		else if (id == CommonProxy.GUI.ATTACHMENTS.id) { return new GUIAttachment(player, player.inventory,
 				InventoryAttachment.create(player.getHeldItem())); }
+		
+		else if (id == CommonProxy.GUI.INV_DODO.id)
+		{
+			Entity entity = getEntityAt(player, x, y, z);
+			if (entity != null && entity instanceof EntityDodo)
+			{
+				return new GuiInventoryDodo(player.inventory,
+						((EntityDodo) entity).invDodo, (EntityDodo) entity);
+			}
+			else
+			{
+				LogHelper
+						.error("GuiHandler - getClientGuiElement: Did not find entity with inventory!");
+			}
+		}
 		return null;
+		
+		
 	}
 
 	private static BookData getBookDataFromStack(ItemStack stack)
 	{
 		return BookDataStore.getBookDataFromName(stack.getUnlocalizedName());
+	}
+	
+	private Entity getEntityAt(EntityPlayer player, int x, int y, int z)
+	{
+		AxisAlignedBB targetBox = new AxisAlignedBB(x - 1, y - 1, z - 1, x + 1,
+				y + 1, z + 1);
+		@SuppressWarnings("rawtypes")
+		List entities = player.worldObj.getEntitiesWithinAABBExcludingEntity(
+				player, targetBox);
+		@SuppressWarnings("rawtypes")
+		Iterator iterator = entities.iterator();
+		while (iterator.hasNext())
+		{
+			Entity entity = (Entity) iterator.next();
+			//TODO change to umbrella all the entities
+			if (entity instanceof EntityDodo)
+			{
+				LogHelper.info("GuiHandler: Found entity!");
+				return entity;
+			}
+		}
+		return null;
 	}
 }
