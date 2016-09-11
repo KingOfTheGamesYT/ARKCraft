@@ -67,6 +67,7 @@ public class ARKCraftBlocks
 
 	public static void init()
 	{
+		InitializationManager init = InitializationManager.instance();
 		// Misc
 		block_light = new BlockLight();
 		GameRegistry.registerBlock(block_light, "block_light");
@@ -75,7 +76,8 @@ public class ARKCraftBlocks
 		greenScreen = (BlockGreenScreen) registerBlockNoTab(new BlockGreenScreen(Material.gourd), "greenScreen");
 
 		// Containers
-		smithy = registerSmithy("smithy", Material.wood, CommonProxy.GUI.SMITHY.id, false, false, 3);
+		smithy = init.registerBlock("smithy", new BlockSmithy(), ItemSmithy.class);
+		// registerSmithy("smithy", Material.wood, CommonProxy.GUI.SMITHY.id, false, false, 3);
 		pestle = registerMortarAndPestle("mortar_and_pestle", Material.rock, CommonProxy.GUI.MORTAR_AND_PESTLE.id, false, false, 3);
 		crop_plot = registerCropPlot("crop_plot", Material.wood, CommonProxy.GUI.CROP_PLOT.id, false, 3);
 		compost_bin = registerCompostBin("compost_bin", Material.wood, CommonProxy.GUI.COMPOST_BIN.id, false, false, 3);
@@ -131,7 +133,7 @@ public class ARKCraftBlocks
 
 	protected static BlockSmithy registerSmithy(String name, Material mat, int ID, boolean renderAsNormalBlock, boolean isOpaque, int renderType)
 	{
-		BlockSmithy container = new BlockSmithy(mat, ID);
+		BlockSmithy container = new BlockSmithy();
 		registerBlockWithItemBlock(container, ItemSmithy.class, name);
 		return container;
 	}

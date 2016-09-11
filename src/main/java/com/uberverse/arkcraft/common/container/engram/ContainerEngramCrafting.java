@@ -13,8 +13,8 @@ import com.uberverse.arkcraft.common.engram.CraftingOrder;
 import com.uberverse.arkcraft.common.engram.EngramManager;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.common.engram.EngramManager.EngramType;
+import com.uberverse.arkcraft.common.item.ItemBlueprint;
 import com.uberverse.arkcraft.common.engram.IEngramCrafter;
-import com.uberverse.arkcraft.wip.blueprint.ItemBlueprint;
 import com.uberverse.arkcraft.wip.itemquality.Qualitable;
 import com.uberverse.arkcraft.wip.itemquality.Qualitable.ItemQuality;
 

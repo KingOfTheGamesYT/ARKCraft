@@ -28,7 +28,6 @@ import com.uberverse.arkcraft.common.item.firearms.ItemLongneckRifle;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.item.firearms.ItemShotgun;
 import com.uberverse.arkcraft.common.item.firearms.ItemSimplePistol;
-import com.uberverse.arkcraft.common.item.ranged.ItemCrossbow;
 import com.uberverse.arkcraft.common.item.ranged.ItemSlingshot;
 
 import net.minecraft.block.BlockDispenser;
@@ -41,8 +40,7 @@ public class ARKCraftRangedWeapons
 {
 
 	public static ItemAttachment scope, flash_light, silencer, laser, holo_scope;
-	public static ItemProjectile tranquilizer, simple_bullet, simple_rifle_ammo,
-			simple_shotgun_ammo, rocket_propelled_grenade, advanced_bullet;
+	public static ItemProjectile tranquilizer, simple_bullet, simple_rifle_ammo, simple_shotgun_ammo, rocket_propelled_grenade, advanced_bullet;
 	public static ItemRangedWeapon rocket_launcher, tranq_gun;
 	public static ItemRangedWeapon simple_pistol;
 	public static ItemRangedWeapon fabricated_pistol;
@@ -51,10 +49,8 @@ public class ARKCraftRangedWeapons
 	public static ItemRangedWeapon crossbow;
 	public static ItemSlingshot slingshot;
 
-	public static ToolMaterial METAL = EnumHelper.addToolMaterial("METAL_MAT", 3, 1500, 6.0F, 0.8F,
-			8);
-	public static ToolMaterial STONE = EnumHelper.addToolMaterial("STONE_MAT", 2, 500, 3.5F, 0.4F,
-			13);
+	public static ToolMaterial METAL = EnumHelper.addToolMaterial("METAL_MAT", 3, 1500, 6.0F, 0.8F, 8);
+	public static ToolMaterial STONE = EnumHelper.addToolMaterial("STONE_MAT", 2, 500, 3.5F, 0.4F, 13);
 
 	public static Map<String, Item> allWeaponItems = new HashMap<String, Item>();
 
@@ -65,6 +61,8 @@ public class ARKCraftRangedWeapons
 
 	public static void init()
 	{
+		InitializationManager init = InitializationManager.instance();
+
 		// weapon attachments
 		scope = addItemAttachment("scope", AttachmentType.SCOPE);
 		flash_light = addItemAttachment("flash_light", AttachmentType.FLASH);
@@ -72,9 +70,9 @@ public class ARKCraftRangedWeapons
 		laser = addItemAttachment("laser", AttachmentType.LASER);
 		silencer = addItemAttachment("silencer", AttachmentType.SILENCER);
 
-		slingshot = addSlingshot("slingshot");
-		EntityHandler.registerModEntity(EntityStone.class, "stone", ARKCraft.instance(), 64, 10,
-				true);
+		slingshot = init.registerItem("slingshot", new ItemSlingshot(), "slingshot", "slingshot_pulled");
+		// addSlingshot("slingshot");
+		EntityHandler.registerModEntity(EntityStone.class, "stone", ARKCraft.instance(), 64, 10, true);
 
 		registerDispenseBehavior();
 		registerWeaponEntities();
@@ -92,34 +90,28 @@ public class ARKCraftRangedWeapons
 	{
 		if (ModuleItemBalance.WEAPONS.SIMPLE_PISTOL)
 		{
-			EntityHandler.registerModEntity(EntitySimpleBullet.class, "simple_bullet",
-					ARKCraft.instance(), 16, 20, true);
+			EntityHandler.registerModEntity(EntitySimpleBullet.class, "simple_bullet", ARKCraft.instance(), 16, 20, true);
 		}
 
 		if (ModuleItemBalance.WEAPONS.SHOTGUN)
 		{
-			EntityHandler.registerModEntity(EntitySimpleShotgunAmmo.class, "simple_shotgun_ammo",
-					ARKCraft.instance(), 64, 10, true);
+			EntityHandler.registerModEntity(EntitySimpleShotgunAmmo.class, "simple_shotgun_ammo", ARKCraft.instance(), 64, 10, true);
 		}
 
 		if (ModuleItemBalance.WEAPONS.LONGNECK_RIFLE)
 		{
-			EntityHandler.registerModEntity(EntitySimpleRifleAmmo.class, "simple_rifle_ammo",
-					ARKCraft.instance(), 64, 10, true);
-			EntityHandler.registerModEntity(EntityTranquilizer.class, "tranquilizer_dart",
-					ARKCraft.instance(), 64, 10, true);
+			EntityHandler.registerModEntity(EntitySimpleRifleAmmo.class, "simple_rifle_ammo", ARKCraft.instance(), 64, 10, true);
+			EntityHandler.registerModEntity(EntityTranquilizer.class, "tranquilizer_dart", ARKCraft.instance(), 64, 10, true);
 		}
 
 		if (ModuleItemBalance.WEAPONS.FABRICATED_PISTOL)
 		{
-			EntityHandler.registerModEntity(EntityAdvancedBullet.class, "advanced_bullet",
-					ARKCraft.instance(), 64, 10, true);
+			EntityHandler.registerModEntity(EntityAdvancedBullet.class, "advanced_bullet", ARKCraft.instance(), 64, 10, true);
 		}
 
 		if (ModuleItemBalance.WEAPONS.ROCKET_LAUNCHER)
 		{
-			EntityHandler.registerModEntity(EntityRocketPropelledGrenade.class,
-					"rocket_propelled_grenade", ARKCraft.instance(), 64, 10, true);
+			EntityHandler.registerModEntity(EntityRocketPropelledGrenade.class, "rocket_propelled_grenade", ARKCraft.instance(), 64, 10, true);
 		}
 	}
 
@@ -167,28 +159,23 @@ public class ARKCraftRangedWeapons
 	{
 		if (simple_bullet != null)
 		{
-			BlockDispenser.dispenseBehaviorRegistry.putObject(simple_bullet,
-					new DispenseSimpleBullet());
+			BlockDispenser.dispenseBehaviorRegistry.putObject(simple_bullet, new DispenseSimpleBullet());
 		}
 		if (simple_shotgun_ammo != null)
 		{
-			BlockDispenser.dispenseBehaviorRegistry.putObject(simple_shotgun_ammo,
-					new DispenseSimpleShotgunAmmo());
+			BlockDispenser.dispenseBehaviorRegistry.putObject(simple_shotgun_ammo, new DispenseSimpleShotgunAmmo());
 		}
 		if (simple_rifle_ammo != null)
 		{
-			BlockDispenser.dispenseBehaviorRegistry.putObject(simple_rifle_ammo,
-					new DispenseSimpleRifleAmmo());
+			BlockDispenser.dispenseBehaviorRegistry.putObject(simple_rifle_ammo, new DispenseSimpleRifleAmmo());
 		}
 		if (tranquilizer != null)
 		{
-			BlockDispenser.dispenseBehaviorRegistry.putObject(tranquilizer,
-					new DispenseTranquilizer());
+			BlockDispenser.dispenseBehaviorRegistry.putObject(tranquilizer, new DispenseTranquilizer());
 		}
 		if (rocket_propelled_grenade != null)
 		{
-			BlockDispenser.dispenseBehaviorRegistry.putObject(rocket_propelled_grenade,
-					new DispenseRocketPropelledGrenade());
+			BlockDispenser.dispenseBehaviorRegistry.putObject(rocket_propelled_grenade, new DispenseRocketPropelledGrenade());
 		}
 	}
 

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 
 /**
  * @author Lewis_McReu
@@ -94,6 +95,15 @@ public class CollectionUtil
 
 		for (E e : col)
 			l.add(converter.apply(e));
+		return l;
+	}
+
+	public static <E> List<E> adapt(Collection<E> col, UnaryOperator<E> adapter)
+	{
+		List<E> l = new ArrayList<>();
+
+		for (E e : col)
+			l.add(adapter.apply(e));
 		return l;
 	}
 

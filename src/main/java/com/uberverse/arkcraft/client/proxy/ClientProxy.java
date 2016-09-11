@@ -31,6 +31,8 @@ import com.uberverse.arkcraft.common.proxy.CommonProxy;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
+import com.uberverse.arkcraft.init.InitializationManager;
+import com.uberverse.arkcraft.init.InitializationManager.RegistryEntry;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -74,6 +76,17 @@ public class ClientProxy extends CommonProxy
 	/* We register the block/item textures and models here */
 	private void registerRenderers()
 	{
+
+		// TODO update this a bit + make client component to init manager
+		InitializationManager.instance().getRegistry().forEachEntry((RegistryEntry<?> r) -> {
+			r.forEachMeta((Integer meta) -> {
+				Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(r.content, meta,
+						new ModelResourceLocation(ARKCraft.MODID + ":" + r.modelLocationPrefix + r.name, "inventory"));
+				ModelLoader.addVariantName(r.content, ARKCraft.MODID + ":" + r.name);
+			});
+			ModelLoader.addVariantName(r.content, r.getVariants());
+		});
+
 		for (Map.Entry<String, Block> e : ARKCraftBlocks.allBlocks.entrySet())
 		{
 			String name = e.getKey();
@@ -176,7 +189,7 @@ public class ClientProxy extends CommonProxy
 
 	private static void registerItemVariants()
 	{
-		ModelLoader.addVariantName(ARKCraftRangedWeapons.slingshot, "arkcraft:slingshot", "arkcraft:slingshot_pulled");
+		// ModelLoader.addVariantName(ARKCraftRangedWeapons.slingshot, "arkcraft:slingshot", "arkcraft:slingshot_pulled");
 		ModelLoader.addVariantName(ARKCraftRangedWeapons.shotgun, "arkcraft:weapons/shotgun", "arkcraft:weapons/shotgun_reload");
 		ModelLoader.addVariantName(ARKCraftRangedWeapons.longneck_rifle, "arkcraft:weapons/longneck_rifle", "arkcraft:weapons/longneck_rifle_scope",
 				"arkcraft:weapons/longneck_rifle_scope_reload", "arkcraft:weapons/longneck_rifle_reload",

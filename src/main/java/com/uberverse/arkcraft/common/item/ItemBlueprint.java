@@ -1,10 +1,9 @@
-package com.uberverse.arkcraft.wip.blueprint;
+package com.uberverse.arkcraft.common.item;
 
 import java.util.List;
 
 import com.uberverse.arkcraft.common.engram.EngramManager;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
-import com.uberverse.arkcraft.common.item.ARKCraftItem;
 import com.uberverse.arkcraft.wip.itemquality.Qualitable.ItemQuality;
 
 import net.minecraft.creativetab.CreativeTabs;

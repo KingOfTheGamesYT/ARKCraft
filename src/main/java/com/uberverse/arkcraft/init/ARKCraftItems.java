@@ -14,6 +14,7 @@ import com.uberverse.arkcraft.common.item.ARKCraftFeces;
 import com.uberverse.arkcraft.common.item.ARKCraftFood;
 import com.uberverse.arkcraft.common.item.ARKCraftItem;
 import com.uberverse.arkcraft.common.item.ARKCraftSeed;
+import com.uberverse.arkcraft.common.item.ItemBlueprint;
 import com.uberverse.arkcraft.common.item.armor.ItemARKArmor;
 import com.uberverse.arkcraft.common.item.explosives.ItemGrenade;
 import com.uberverse.arkcraft.common.item.melee.ItemPike;
@@ -24,7 +25,6 @@ import com.uberverse.arkcraft.common.item.tools.ItemMetalSickle;
 import com.uberverse.arkcraft.common.item.tools.ItemStoneHatchet;
 import com.uberverse.arkcraft.common.item.tools.ItemStonePick;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot.CropPlotType;
-import com.uberverse.arkcraft.wip.blueprint.ItemBlueprint;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;

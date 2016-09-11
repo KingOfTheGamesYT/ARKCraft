@@ -1,7 +1,9 @@
 package com.uberverse.arkcraft.common.block.crafter;
 
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.proxy.CommonProxy;
 import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntitySmithy;
+import com.uberverse.arkcraft.util.Identifiable;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -25,22 +27,18 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 /**
  * @author wildbill22
  */
-public class BlockSmithy extends BlockContainer
+public class BlockSmithy extends BlockContainer implements Identifiable
 {
 	private int renderType = 3; // default value
 	private boolean isOpaque = false;
-	private int ID;
 	private boolean render = false;
-	public static final PropertyEnum PART = PropertyEnum.create("part",
-			BlockSmithy.EnumPartType.class);
-	public static final PropertyDirection FACING = PropertyDirection.create("facing",
-			EnumFacing.Plane.HORIZONTAL);
+	public static final PropertyEnum PART = PropertyEnum.create("part", BlockSmithy.EnumPartType.class);
+	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
-	public BlockSmithy(Material mat, int ID)
+	public BlockSmithy()
 	{
-		super(mat);
+		super(Material.wood);
 		this.setHardness(0.5F);
-		this.ID = ID;
 	}
 
 	@Override
@@ -50,19 +48,19 @@ public class BlockSmithy extends BlockContainer
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos blockPos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(World worldIn, BlockPos blockPos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX,
+			float hitY, float hitZ)
 	{
 		if (!playerIn.isSneaking())
 		{
-			if (state.getValue(PART) == EnumPartType.RIGHT) playerIn.openGui(ARKCraft.instance(),
-					ID, worldIn, blockPos.getX(), blockPos.getY(), blockPos.getZ());
+			if (state.getValue(PART) == EnumPartType.RIGHT)
+				playerIn.openGui(ARKCraft.instance(), getId(), worldIn, blockPos.getX(), blockPos.getY(), blockPos.getZ());
 			else
 			{
 				EnumFacing f = (EnumFacing) state.getValue(FACING);
 				BlockPos pos = blockPos.offset(f.rotateY());
 				IBlockState oState = worldIn.getBlockState(pos);
-				oState.getBlock().onBlockActivated(worldIn, pos, oState, playerIn, side, hitX, hitY,
-						hitZ);
+				oState.getBlock().onBlockActivated(worldIn, pos, oState, playerIn, side, hitX, hitY, hitZ);
 			}
 			return true;
 		}
@@ -180,11 +178,8 @@ public class BlockSmithy extends BlockContainer
 	public IBlockState getStateFromMeta(int meta)
 	{
 		EnumFacing enumfacing = EnumFacing.getHorizontal(meta);
-		return (meta & 8) > 0 ? this.getDefaultState()
-				.withProperty(PART, BlockSmithy.EnumPartType.LEFT)
-				.withProperty(FACING, enumfacing) : this.getDefaultState()
-						.withProperty(PART, BlockSmithy.EnumPartType.RIGHT)
-						.withProperty(FACING, enumfacing);
+		return (meta & 8) > 0 ? this.getDefaultState().withProperty(PART, BlockSmithy.EnumPartType.LEFT).withProperty(FACING, enumfacing)
+				: this.getDefaultState().withProperty(PART, BlockSmithy.EnumPartType.RIGHT).withProperty(FACING, enumfacing);
 	}
 
 	/**
@@ -240,5 +235,11 @@ public class BlockSmithy extends BlockContainer
 		{
 			return this.name;
 		}
+	}
+
+	@Override
+	public int getId()
+	{
+		return CommonProxy.GUI.SMITHY.id;
 	}
 }
