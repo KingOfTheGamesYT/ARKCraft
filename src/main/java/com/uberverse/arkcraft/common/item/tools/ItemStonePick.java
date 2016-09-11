@@ -8,14 +8,15 @@ import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 
 import com.google.common.collect.ImmutableSet;
+import com.uberverse.arkcraft.ARKCraft;
 
 public class ItemStonePick extends ItemPickaxe
 {
 
 	public ItemStonePick(ToolMaterial material)
 	{
-
 		super(material);
+		this.setCreativeTab(ARKCraft.tabARK);
 	}
 
 	@Override

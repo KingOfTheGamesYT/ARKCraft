@@ -70,6 +70,7 @@ public abstract class ItemRangedWeapon extends ItemBow
 		this.setMaxDamage(durability);
 		this.setMaxStackSize(1);
 		this.projectiles = new HashSet<ItemProjectile>();
+		this.setCreativeTab(ARKCraft.tabARK);
 		this.setUnlocalizedName(name);
 	}
 

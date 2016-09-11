@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot.BerryColor;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot.CropPlotType;
@@ -26,6 +27,7 @@ public class ARKCraftSeed extends Item
 		this.setMaxDamage(ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SEED_TO_DECOMPOSE); // 5
 		this.type = type;
 		this.color = color;
+		this.setCreativeTab(ARKCraft.tabARK);
 		// minutes
 		// of
 		// damage

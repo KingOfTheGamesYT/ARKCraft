@@ -60,6 +60,7 @@ public abstract class ARKCraftTool extends ItemTool
 	public ARKCraftTool(float attackDamage, ToolMaterial material, Set effectiveBlocks, ToolType toolType)
 	{
 		super(attackDamage, material, effectiveBlocks);
+		this.setCreativeTab(ARKCraft.tabARK);
 		setHasSubtypes(true);
 		this.toolType = toolType;
 		initToolClasses();
@@ -68,6 +69,7 @@ public abstract class ARKCraftTool extends ItemTool
 	public ARKCraftTool(String name, float attackDamage, ToolMaterial material, Set effectiveBlocks, ToolType toolType)
 	{
 		this(attackDamage, material, effectiveBlocks, toolType);
+		this.setCreativeTab(ARKCraft.tabARK);
 		this.setUnlocalizedName(name);
 	}
 

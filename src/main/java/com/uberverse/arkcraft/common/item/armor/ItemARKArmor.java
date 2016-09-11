@@ -16,6 +16,7 @@ public class ItemARKArmor extends ItemArmor
 	public ItemARKArmor(ArmorMaterial mat, String texName, int type, boolean golden)
 	{
 		super(mat, 0, type);
+		this.setCreativeTab(ARKCraft.tabARK);
 		this.golden = golden;
 		this.texName = texName;
 	}

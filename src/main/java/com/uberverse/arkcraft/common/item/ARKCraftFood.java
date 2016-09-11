@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 
 /**
@@ -31,6 +32,7 @@ public class ARKCraftFood extends ItemFood implements IDecayable
 		super(healAmount, sat, fav);
 		this.effects = effects;
 		this.alwaysEdible = alwaysEdible;
+		this.setCreativeTab(ARKCraft.tabARK);
 		/**
 		 * FIXME: Please do not check in code with warnings A few things to note
 		 * about this: 1) The warning here, should not be ignored. I don't know
