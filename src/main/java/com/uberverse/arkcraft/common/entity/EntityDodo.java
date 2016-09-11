@@ -244,7 +244,7 @@ public class EntityDodo extends EntityTameable
 					{
 						if (!this.worldObj.isRemote)
 						{
-							player.openGui(ARKCraft.instance, GUI.INV_DODO.id, this.worldObj,
+							player.openGui(ARKCraft.instance(), GUI.INV_DODO.id, this.worldObj,
 									(int) Math.floor(this.posX), (int) this.posY,
 									(int) Math.floor(this.posZ));
 							LogHelper
