@@ -58,10 +58,9 @@ public class ClientProxy extends CommonProxy
 		MinecraftForge.EVENT_BUS.register(new GUIOverlayReloading());
 		MinecraftForge.EVENT_BUS.register(new GUIOverlayARKMode());
 
-		EntityHandler.registerEntityEgg(EntityDodo.class, ARKCraft.MODID + ".dodo",
-				BiomeGenBase.beach, BiomeGenBase.desert, BiomeGenBase.forest,
+		EntityHandler.registerEntityEgg(EntityDodo.class, ARKCraft.MODID + ".dodo", BiomeGenBase.beach, BiomeGenBase.desert, BiomeGenBase.forest,
 				BiomeGenBase.birchForest, BiomeGenBase.extremeHills);
-		
+
 		registerRenderers();
 	}
 
@@ -150,9 +149,8 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class,
 				new RenderSnowball(Minecraft.getMinecraft().getRenderManager(), ARKCraftItems.grenade, Minecraft.getMinecraft().getRenderItem()));
 
-		RenderingRegistry.registerEntityRenderingHandler(EntityDodo.class,
-				new RenderDodo(new ModelDodo(), 0.3F));
-		
+		RenderingRegistry.registerEntityRenderingHandler(EntityDodo.class, new RenderDodo(new ModelDodo(), 0.3F));
+
 		if (ModuleItemBalance.WEAPONS.SIMPLE_PISTOL)
 		{
 			RenderingRegistry.registerEntityRenderingHandler(EntitySimpleBullet.class, new RenderSimpleBullet());
@@ -201,7 +199,7 @@ public class ClientProxy extends CommonProxy
 
 	private static void registerBlueprintVariants()
 	{
-		//TODO do this
+		// TODO do this
 	}
 
 	@Override
