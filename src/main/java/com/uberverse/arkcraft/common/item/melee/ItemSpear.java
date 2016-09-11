@@ -1,5 +1,6 @@
 package com.uberverse.arkcraft.common.item.melee;
 
+import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.entity.EntitySpear;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,6 +16,7 @@ public class ItemSpear extends ItemSword
 		super(m);
 		this.setMaxStackSize(1);
 		this.setFull3D();
+		this.setCreativeTab(ARKCraft.tabARK);
 	}
 
 	@Override

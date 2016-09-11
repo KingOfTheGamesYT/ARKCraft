@@ -1,8 +1,5 @@
 package com.uberverse.arkcraft.init;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot.BerryColor;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
@@ -18,7 +15,6 @@ import com.uberverse.arkcraft.common.item.ARKCraftItem;
 import com.uberverse.arkcraft.common.item.ARKCraftSeed;
 import com.uberverse.arkcraft.common.item.ItemBlueprint;
 import com.uberverse.arkcraft.common.item.armor.ItemARKArmor;
-import com.uberverse.arkcraft.common.item.explosives.ItemGrenade;
 import com.uberverse.arkcraft.common.item.melee.ItemPike;
 import com.uberverse.arkcraft.common.item.melee.ItemSpear;
 import com.uberverse.arkcraft.common.item.tools.ItemMetalHatchet;
@@ -32,9 +28,7 @@ import com.uberverse.arkcraft.util.CollectionUtil;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ARKCraftItems
 {
@@ -65,7 +59,6 @@ public class ARKCraftItems
 
 	public static ItemBlueprint blueprint;
 
-	public static ItemGrenade grenade;
 	public static ItemSpear spear;
 	public static ItemPike pike;
 	public static Item tabItem;
@@ -81,15 +74,10 @@ public class ARKCraftItems
 	public static ToolMaterial STONE = EnumHelper.addToolMaterial("STONE_MAT", 2, 500, 3.5F, 1.5F, 13);
 	public static ToolMaterial WOOD = EnumHelper.addToolMaterial("WOOD_MAT", 1, 200, 2.5F, 1.0F, 3);
 
-	public static Map<String, Item> allItems = new HashMap<String, Item>();
-
-	public static Map<String, Item> getAllItems()
-	{
-		return allItems;
-	}
-
 	public static void init()
 	{
+		InitializationManager init = InitializationManager.instance();
+		
 		// Resources
 		cementing_paste = addItem("cementing_paste");
 		crystal = addItem("crystal");
@@ -111,15 +99,16 @@ public class ARKCraftItems
 		pelt = addItem("pelt");
 
 		// Tools
-		metal_pick = addMetalPick("metal_pick", METAL);
-		metal_hatchet = addMetalHatchet("metal_hatchet", METAL);
-		stone_hatchet = addStoneHatchet("stone_hatchet", STONE);
-		stone_pick = addStonePick("stone_pick", STONE);
-		metal_sickle = addMetalSickle("metal_sickle", METAL);
+		metal_pick = init.registerItem("metal_pick", new ItemMetalPick(METAL));
+		metal_hatchet = init.registerItem("metal_hatchet", new ItemMetalHatchet(METAL));
+		stone_hatchet = init.registerItem("stone_hatchet", new ItemStoneHatchet(STONE));
+		stone_pick = init.registerItem("stone_pick", new ItemStonePick(STONE));
+		metal_sickle = init.registerItem("metal_sickle", new ItemMetalSickle(METAL));
 
 		// Weapons
-		spear = addSpear("spear", WOOD);
-		pike = addPike("pike", METAL);
+		spear = init.registerItem("spear", new ItemSpear(WOOD));
+		EntityHandler.registerModEntity(EntitySpear.class, "spear", ARKCraft.instance(), 16, 20, true);
+		pike = init.registerItem("pike", new ItemPike(METAL));
 
 		// Armor
 		chitin_helm = addArmorItem("chitin_helm", CHITIN, "chitinArmor", 0, false);
@@ -141,8 +130,6 @@ public class ARKCraftItems
 		fur_chest = addArmorItem("fur_chest", FUR, "furArmor", 1, false);
 		fur_legs = addArmorItem("fur_legs", FUR, "furArmor", 2, false);
 		fur_boots = addArmorItem("fur_boots", FUR, "furArmor", 3, false);
-
-		EntityHandler.registerModEntity(EntitySpear.class, "spear", ARKCraft.instance(), 16, 20, true);
 
 		// Food
 		tintoBerry = addFood("tinto", 4, 0.3F, false, true);
@@ -166,20 +153,17 @@ public class ARKCraftItems
 		stimBerrySeed = addSeedItem("stimBerrySeed", CropPlotType.SMALL, BerryColor.STIM);
 
 		// feces
-		small_feces = addFecesItem("small_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE);
-		medium_feces = addFecesItem("medium_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE);
-		large_feces = addFecesItem("large_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE);
-		player_feces = addFecesItem("player_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_PLAYER_FECES_TO_DECOMPOSE);
-
+		small_feces = addFecesItem("small_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE * 20);
+		medium_feces = addFecesItem("medium_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE* 20);
+		large_feces = addFecesItem("large_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE* 20);
+		player_feces = addFecesItem("player_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_PLAYER_FECES_TO_DECOMPOSE* 20);
 		// Technically not feces, but used in all situations the same
 		// (currently)
-		fertilizer = addFecesItem("fertilizer", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_FERTILIZER_TO_DECOMPOSE);
+		fertilizer = addFecesItem("fertilizer", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_FERTILIZER_TO_DECOMPOSE* 20);
 
-		info_book = addBook("info_book");
+		info_book = init.registerItem("info_book", new ARKCraftBook("info_book"));
+		tabItem =  init.registerItem("tabItem", new Item());
 
-		tabItem = new Item().setUnlocalizedName("tabItem");
-		registerItem("tabItem", tabItem);
-		tabItem.setCreativeTab(null);
 	}
 
 	public static void initBlueprints()
@@ -191,127 +175,33 @@ public class ARKCraftItems
 				CollectionUtil.convert(EngramManager.instance().getBlueprintEngrams(), (Engram e) -> e.getName()).toArray(new String[0]));
 	}
 
-	protected static ItemGrenade addGrenade(String name)
-	{
-		ItemGrenade slingshot = new ItemGrenade();
-		registerItem(name, slingshot);
-		return slingshot;
-	}
-
-	public static ItemMetalPick addMetalPick(String name, ToolMaterial m)
-	{
-		ItemMetalPick i = new ItemMetalPick(m);
-		registerItem(name, i);
-		return i;
-	}
-
-	public static ItemStonePick addStonePick(String name, ToolMaterial m)
-	{
-		ItemStonePick i = new ItemStonePick(m);
-		registerItem(name, i);
-		return i;
-	}
-
-	public static ItemMetalSickle addMetalSickle(String name, ToolMaterial m)
-	{
-		ItemMetalSickle i = new ItemMetalSickle(m);
-		registerItem(name, i);
-		return i;
-	}
-
 	public static ARKCraftFeces addFecesItem(String name, int maxDamageIn)
 	{
-		ARKCraftFeces i = new ARKCraftFeces();
-		i.setMaxDamage(maxDamageIn * 20);
-		registerItem(name, i);
-		return i;
-	}
-
-	public static ItemStoneHatchet addStoneHatchet(String name, ToolMaterial m)
-	{
-		ItemStoneHatchet i = new ItemStoneHatchet(m);
-		registerItem(name, i);
-		return i;
-	}
-
-	public static ItemSpear addSpear(String name, ToolMaterial m)
-	{
-		ItemSpear i = new ItemSpear(m);
-		registerItem(name, i);
-		return i;
-	}
-
-	public static ItemPike addPike(String name, ToolMaterial m)
-	{
-		ItemPike i = new ItemPike(m);
-		registerItem(name, i);
-		return i;
-	}
-
-	public static ItemMetalHatchet addMetalHatchet(String name, ToolMaterial m)
-	{
-		ItemMetalHatchet i = new ItemMetalHatchet(m);
-		registerItem(name, i);
-		return i;
+	//	ARKCraftFeces i = new ARKCraftFeces();
+	//	i.setMaxDamage(maxDamageIn * 20);
+	//	registerItem(name, i);
+	//	return i;
+		return InitializationManager.instance().registerItem(name, new ARKCraftFeces());
 	}
 
 	public static ARKCraftItem addItem(String name)
 	{
-		ARKCraftItem i = new ARKCraftItem();
-		registerItem(name, i);
-		return i;
+		return InitializationManager.instance().registerItem(name, new ARKCraftItem());
 	}
 
 	protected static ARKCraftFood addFood(String name, int heal, float sat, boolean fav, boolean alwaysEdible)
 	{
-		ARKCraftFood f = new ARKCraftFood(heal, sat, fav, alwaysEdible, PLAYER.SECONDS_BEFORE_FOOD_DECAY);
-		registerItem(name, f);
-		return f;
-	}
-
-	protected static ARKCraftFood addFood(String name, int heal, float sat, boolean fav, boolean alwaysEdible, int decayTime)
-	{
-		ARKCraftFood f = new ARKCraftFood(heal, sat, fav, alwaysEdible, decayTime);
-		registerItem(name, f);
-		return f;
-	}
-
-	public static ARKCraftFood addFood(String name, int heal, float sat, boolean fav, boolean alwaysEdible, int decayTime, PotionEffect... effect)
-	{
-		ARKCraftFood f = new ARKCraftFood(heal, sat, fav, alwaysEdible, decayTime, effect);
-		registerItem(name, f);
-		return f;
+		return InitializationManager.instance().registerItem(name, new ARKCraftFood(heal, sat, fav, alwaysEdible, PLAYER.SECONDS_BEFORE_FOOD_DECAY));
 	}
 
 	protected static ARKCraftSeed addSeedItem(String name, CropPlotType type, BerryColor color)
 	{
-		ARKCraftSeed i = new ARKCraftSeed(type, color);
-		registerItem(name, i);
-		return i;
-	}
-
-	public static ARKCraftBook addBook(String name)
-	{
-		ARKCraftBook book = new ARKCraftBook(name);
-		registerItem(name, book);
-		return book;
+		return InitializationManager.instance().registerItem(name, new ARKCraftSeed(type, color));
 	}
 
 	public static ItemARKArmor addArmorItem(String name, ArmorMaterial mat, String armorTexName, int type, boolean golden)
 	{
-		ItemARKArmor item = new ItemARKArmor(mat, armorTexName, type, golden);
-		registerItem(name, item);
-		return item;
+		return InitializationManager.instance().registerItem(name, new ItemARKArmor(mat, armorTexName, type, golden));
 	}
 
-	public static <E extends Item> E registerItem(String name, E item)
-	{
-		allItems.put(name, item);
-		item.setUnlocalizedName(name);
-		GameRegistry.registerItem(item, name);
-		item.setCreativeTab(ARKCraft.tabARK);
-		return item;
-	}
-
-	// TODO new implementation with
 }
