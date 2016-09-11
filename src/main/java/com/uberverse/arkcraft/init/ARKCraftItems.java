@@ -168,10 +168,7 @@ public class ARKCraftItems
 
 	public static void initBlueprints()
 	{
-		for (String s : CollectionUtil.convert(EngramManager.instance().getBlueprintEngrams(), (Engram e) -> e.getTitle()).toArray(new String[0]))
-			System.out.println(s);
-
-		blueprint = InitializationManager.instance().registerItem("blueprint", "blueprint/", new ItemBlueprint(),
+		blueprint = InitializationManager.instance().registerItem("blueprint", "blueprint/", new ItemBlueprint(), false,
 				CollectionUtil.convert(EngramManager.instance().getBlueprintEngrams(), (Engram e) -> e.getName()).toArray(new String[0]));
 	}
 

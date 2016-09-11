@@ -79,6 +79,7 @@ public class ClientProxy extends CommonProxy
 	private void registerRenderers()
 	{
 		// TODO update this a bit + make client component to init manager
+
 		InitializationManager.instance().getRegistry().forEachEntry((RegistryEntry<?> r) -> {
 			if (r.standardRender)
 			{
