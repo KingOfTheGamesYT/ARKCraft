@@ -37,6 +37,7 @@ public class InitializationManager
 
 	private static final int[] defaultMeta = new int[] { 0 };
 	private static final String defaultPrefix = "";
+	private static final boolean defaultRender = true;
 
 	// Item register methods
 	public <E extends Item> E registerItem(String name, E item, String... variants)
@@ -56,9 +57,30 @@ public class InitializationManager
 
 	public <E extends Item> E registerItem(String name, E item, String modelLocationPrefix, int[] metas, String... variants)
 	{
+		return registerItem(name, item, modelLocationPrefix, metas, defaultRender, variants);
+	}
+
+	public <E extends Item> E registerItem(String name, E item, boolean standardRender, String... variants)
+	{
+		return this.registerItem(name, item, defaultPrefix, defaultMeta, standardRender, variants);
+	}
+
+	public <E extends Item> E registerItem(String name, String modelLocationPrefix, E item, boolean standardRender, String... variants)
+	{
+		return this.registerItem(name, item, modelLocationPrefix, defaultMeta, standardRender, variants);
+	}
+
+	public <E extends Item> E registerItem(String name, E item, int[] metas, boolean standardRender, String... variants)
+	{
+		return this.registerItem(name, item, defaultPrefix, metas, standardRender, variants);
+	}
+
+	public <E extends Item> E registerItem(String name, E item, String modelLocationPrefix, int[] metas, boolean standardRender, String... variants)
+	{
 		item.setUnlocalizedName(name);
 		GameRegistry.registerItem(item, name, ARKCraft.instance().modid());
-		registry.addEntry(new RegistryEntry<E>(name, item, modelLocationPrefix).addVariants(variants).addMetas(CollectionUtil.convert(metas)));
+		registry.addEntry(
+				new RegistryEntry<E>(name, item, modelLocationPrefix, standardRender).addVariants(variants).addMetas(CollectionUtil.convert(metas)));
 		return item;
 	}
 
@@ -169,8 +191,9 @@ public class InitializationManager
 		public final String modelLocationPrefix;
 		public final Collection<Integer> metas;
 		public final Collection<String> variants;
+		public final boolean standardRender;
 
-		private RegistryEntry(String name, E content, String modelLocationPrefix)
+		private RegistryEntry(String name, E content, String modelLocationPrefix, boolean standardRender)
 		{
 			super();
 			this.name = name;
@@ -178,6 +201,13 @@ public class InitializationManager
 			this.modelLocationPrefix = modelLocationPrefix;
 			this.metas = Lists.newArrayList();
 			this.variants = Lists.newArrayList();
+			this.standardRender = standardRender;
+		}
+
+		// TODO remove + fix with blocks
+		private RegistryEntry(String name, E content, String modelLocationPrefix)
+		{
+			this(name, content, modelLocationPrefix, true);
 		}
 
 		private RegistryEntry<E> addMetas(Integer... metas)

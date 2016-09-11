@@ -80,10 +80,4 @@ public class ItemBlueprint extends ARKCraftItem
 		ItemQuality q = getItemQuality(stack);
 		return q != null ? q.color.toString() : "";
 	}
-
-	@Override
-	public boolean hasEffect(ItemStack stack)
-	{
-		return true;
-	}
 }

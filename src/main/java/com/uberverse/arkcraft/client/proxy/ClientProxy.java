@@ -1,5 +1,8 @@
 package com.uberverse.arkcraft.client.proxy;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -25,6 +28,7 @@ import com.uberverse.arkcraft.common.entity.EntitySpear;
 import com.uberverse.arkcraft.common.entity.EntityStone;
 import com.uberverse.arkcraft.common.entity.EntityTranquilizer;
 import com.uberverse.arkcraft.common.handlers.EntityHandler;
+import com.uberverse.arkcraft.common.item.ItemBlueprint;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.model.ModelDodo;
 import com.uberverse.arkcraft.common.proxy.CommonProxy;
@@ -36,10 +40,12 @@ import com.uberverse.arkcraft.init.InitializationManager.RegistryEntry;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
@@ -76,23 +82,36 @@ public class ClientProxy extends CommonProxy
 	/* We register the block/item textures and models here */
 	private void registerRenderers()
 	{
-
 		// TODO update this a bit + make client component to init manager
 		InitializationManager.instance().getRegistry().forEachEntry((RegistryEntry<?> r) -> {
-			r.forEachMeta((Integer meta) -> {
-				Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(r.content, meta,
-						new ModelResourceLocation(ARKCraft.MODID + ":" + r.modelLocationPrefix + r.name, "inventory"));
-				ModelLoader.addVariantName(r.content, ARKCraft.MODID + ":" + r.name);
-			});
-			ModelLoader.addVariantName(r.content, r.getVariants());
+			if (r.standardRender)
+			{
+				r.forEachMeta((Integer meta) -> {
+					Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(r.content, meta,
+							new ModelResourceLocation(ARKCraft.MODID + ":" + r.modelLocationPrefix + r.name, "inventory"));
+				});
+			}
+			Collection<String> v = new ArrayList<>(Arrays.asList(r.getVariants()));
+			v.add(ARKCraft.MODID + ":" + r.modelLocationPrefix + r.name);
+			ModelLoader.addVariantName(r.content, v.toArray(new String[0]));
 		});
 
-	//	for (Map.Entry<String, Block> e : ARKCraftBlocks.allBlocks.entrySet())
-	//	{
-	//		String name = e.getKey();
-	//		Block b = e.getValue();
-	///		registerBlockTexture(b, name);
-	//	}
+		//TODO this can also render other item's models for this one!
+		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(ARKCraftItems.blueprint, new ItemMeshDefinition()
+		{
+			@Override
+			public ModelResourceLocation getModelLocation(ItemStack stack)
+			{
+				return new ModelResourceLocation(ARKCraft.instance().modid() + ":blueprint/" + ItemBlueprint.getEngram(stack).getName(), "inventory");
+			}
+		});
+
+		// for (Map.Entry<String, Block> e : ARKCraftBlocks.allBlocks.entrySet())
+		// {
+		// String name = e.getKey();
+		// Block b = e.getValue();
+		// registerBlockTexture(b, name);
+		// }
 
 		for (Map.Entry<String, Item> e : ARKCraftItems.allItems.entrySet())
 		{
@@ -115,7 +134,6 @@ public class ClientProxy extends CommonProxy
 		registerBlockTexture(ARKCraftBlocks.crop_plot, 1, "crop_plot");
 		registerBlockTexture(ARKCraftBlocks.crop_plot, 2, "crop_plot");
 	}
-
 
 	private void registerBlockTexture(final Block block, int meta, final String blockName)
 	{
