@@ -39,6 +39,7 @@ public class BlockSmithy extends BlockContainer implements Identifiable
 	{
 		super(Material.wood);
 		this.setHardness(0.5F);
+		this.setCreativeTab(ARKCraft.tabARK);
 	}
 
 	@Override

@@ -1,16 +1,14 @@
 package com.uberverse.arkcraft.common.block.crafter;
 
-import java.util.Random;
-
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.proxy.CommonProxy;
 import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntityMP;
-import com.uberverse.arkcraft.deprecated.TileInventoryMP;
+import com.uberverse.arkcraft.util.Identifiable;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
@@ -21,18 +19,17 @@ import net.minecraft.world.World;
 /**
  * @author wildbill22
  */
-public class BlockMortarAndPestle extends BlockContainer
+public class BlockMortarAndPestle extends BlockContainer implements Identifiable
 {
 	private int renderType = 3; // default value
 	private boolean isOpaque = false;
-	private int ID;
 	private boolean render = false;
 
-	public BlockMortarAndPestle(Material mat, int ID)
+	public BlockMortarAndPestle()
 	{
-		super(mat);
+		super(Material.rock);
 		this.setHardness(0.5F);
-		this.ID = ID;
+		this.setCreativeTab(ARKCraft.tabARK);
 		float f = 0.25F;
 		float f1 = 0.25F; // Height
 		this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f1, 0.5F + f);
@@ -66,7 +63,7 @@ public class BlockMortarAndPestle extends BlockContainer
 	{
 		if (!playerIn.isSneaking())
 		{
-			playerIn.openGui(ARKCraft.instance(), ID, worldIn, blockPos.getX(), blockPos.getY(),
+			playerIn.openGui(ARKCraft.instance(), getId(), worldIn, blockPos.getX(), blockPos.getY(),
 					blockPos.getZ());
 			return true;
 		}
@@ -103,6 +100,11 @@ public class BlockMortarAndPestle extends BlockContainer
 		return render;
 	}
 
+	@Override
+	public int getId()
+	{
+		return CommonProxy.GUI.MORTAR_AND_PESTLE.id;
+	}
 	/**
 	 * Returns randomly, about 1/2 of the recipe items
 	 */

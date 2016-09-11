@@ -87,12 +87,12 @@ public class ClientProxy extends CommonProxy
 			ModelLoader.addVariantName(r.content, r.getVariants());
 		});
 
-		for (Map.Entry<String, Block> e : ARKCraftBlocks.allBlocks.entrySet())
-		{
-			String name = e.getKey();
-			Block b = e.getValue();
-			registerBlockTexture(b, name);
-		}
+	//	for (Map.Entry<String, Block> e : ARKCraftBlocks.allBlocks.entrySet())
+	//	{
+	//		String name = e.getKey();
+	//		Block b = e.getValue();
+	///		registerBlockTexture(b, name);
+	//	}
 
 		for (Map.Entry<String, Item> e : ARKCraftItems.allItems.entrySet())
 		{
@@ -116,10 +116,6 @@ public class ClientProxy extends CommonProxy
 		registerBlockTexture(ARKCraftBlocks.crop_plot, 2, "crop_plot");
 	}
 
-	private void registerBlockTexture(final Block block, final String blockName)
-	{
-		registerBlockTexture(block, 0, blockName);
-	}
 
 	private void registerBlockTexture(final Block block, int meta, final String blockName)
 	{

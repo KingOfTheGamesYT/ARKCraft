@@ -2,6 +2,7 @@ package com.uberverse.arkcraft.common.block;
 
 import java.util.Random;
 
+import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 
@@ -39,6 +40,7 @@ public class ARKCraftBerryBush extends BlockBush
 		this.setStepSound(Block.soundTypeGrass);
 		this.setTickRandomly(true);
 		this.setHardness(hardness);
+		this.setCreativeTab(ARKCraft.tabARK);
 		this.setBlockBounds(0f, 0f, 0f, 1f, 1f, 1f);
 	}
 

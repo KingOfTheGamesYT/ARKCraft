@@ -2,6 +2,15 @@ package com.uberverse.arkcraft.common.block.crafter;
 
 import java.util.List;
 
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.item.ARKCraftSeed;
+import com.uberverse.arkcraft.common.proxy.CommonProxy;
+import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot;
+import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot.CropPlotType;
+import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot.Part;
+import com.uberverse.arkcraft.util.Identifiable;
+import com.uberverse.lib.LogHelper;
+
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -29,22 +38,14 @@ import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.item.ARKCraftSeed;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot.CropPlotType;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot.Part;
-import com.uberverse.lib.LogHelper;
-
 /**
  * @author wildbill22
  */
-public class BlockCropPlot extends BlockContainer
+public class BlockCropPlot extends BlockContainer implements Identifiable
 {
 	public static final int GROWTH_STAGES = 4; // 0 - 4
 	public static final PropertyInteger AGE = PropertyInteger.create("age", 0, GROWTH_STAGES);
@@ -53,17 +54,16 @@ public class BlockCropPlot extends BlockContainer
 	public static final PropertyBool TRANSPARENT = PropertyBool.create("transparent");
 	private int renderType = 3; // default value
 	private boolean isOpaque = false;
-	private int ID;
 
-	public BlockCropPlot(Material mat, int ID)
+	public BlockCropPlot()
 	{
-		super(mat);
+		super(Material.wood);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, Integer.valueOf(0)));
 		// this.setTickRandomly(true);
+		this.setCreativeTab(ARKCraft.tabARK);
 		float f = 0.35F; // Height
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, f, 1.0F);
 		this.setHardness(0.5F);
-		this.ID = ID;
 
 		this.disableStats();
 	}
@@ -78,9 +78,6 @@ public class BlockCropPlot extends BlockContainer
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY,
 			float hitZ)
 	{
-		System.out.println(state.getValue(TYPE));
-		System.out.println(state.getBlock());
-		System.out.println(this.getBlockById(this.ID));
 		if (!playerIn.isSneaking())
 		{
 			TileEntityCropPlot te = (TileEntityCropPlot) worldIn.getTileEntity(pos);
@@ -140,7 +137,7 @@ public class BlockCropPlot extends BlockContainer
 			}
 			else
 			{
-				playerIn.openGui(ARKCraft.instance(), ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
+				playerIn.openGui(ARKCraft.instance(), getId(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 			}
 
 			return true;
@@ -379,5 +376,11 @@ public class BlockCropPlot extends BlockContainer
 				te.fillWithRain(true);
 			}
 		}
+	}
+
+	@Override
+	public int getId()
+	{
+		return CommonProxy.GUI.CROP_PLOT.id;
 	}
 }

@@ -2,6 +2,11 @@ package com.uberverse.arkcraft.common.block.crafter;
 
 import java.util.Random;
 
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.proxy.CommonProxy;
+import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryCompostBin;
+import com.uberverse.arkcraft.util.Identifiable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -22,13 +27,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryCompostBin;
-
 /**
  * @author wildbill22
  */
-public class BlockCompostBin extends BlockContainer
+public class BlockCompostBin extends BlockContainer implements Identifiable
 {
 
 	public static final PropertyEnum PART = PropertyEnum.create("part",
@@ -37,13 +39,12 @@ public class BlockCompostBin extends BlockContainer
 			EnumFacing.Plane.HORIZONTAL);
 	private int renderType = 3; // Default (set when created normally)
 	private boolean isOpaque = false;
-	private int ID;
 	private boolean render = false;
 
-	public BlockCompostBin(Material mat, int ID)
+	public BlockCompostBin()
 	{
-		super(mat);
-		this.ID = ID;
+		super(Material.wood);
+		this.setCreativeTab(ARKCraft.tabARK);
 		this.setCompostBinBounds();
 		this.setDefaultState(this.blockState.getBaseState().withProperty(PART,
 				BlockCompostBin.EnumPartType.LEFT));
@@ -63,7 +64,7 @@ public class BlockCompostBin extends BlockContainer
 		}
 		if (!playerIn.isSneaking())
 		{
-			playerIn.openGui(ARKCraft.instance(), ID, worldIn, blockPos.getX(), blockPos.getY(),
+			playerIn.openGui(ARKCraft.instance(), getId(), worldIn, blockPos.getX(), blockPos.getY(),
 					blockPos.getZ());
 			return true;
 		}
@@ -285,5 +286,11 @@ public class BlockCompostBin extends BlockContainer
 		{
 			return this.name;
 		}
+	}
+
+	@Override
+	public int getId() 
+	{
+		return CommonProxy.GUI.COMPOST_BIN.id;	
 	}
 }

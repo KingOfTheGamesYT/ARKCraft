@@ -11,7 +11,6 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
@@ -24,11 +23,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockCampfire extends BlockBurner
 {
-	public BlockCampfire(Material material)
+	public BlockCampfire()
 	{
-		super(material);
+		super(Material.wood);
 		setHardness(1.5f);
-		this.setCreativeTab(CreativeTabs.tabBlock);
+		this.setCreativeTab(ARKCraft.tabARK);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(BURNING, false));
 		float f = 0.65F; // Height
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, f, 1.0F);

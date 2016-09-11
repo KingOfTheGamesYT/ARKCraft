@@ -6,9 +6,9 @@ import net.minecraft.block.material.Material;
 public class BlockGreenScreen extends Block
 {
 
-	public BlockGreenScreen(Material materialIn)
+	public BlockGreenScreen()
 	{
-		super(materialIn);
+		super(Material.ground);
 		this.setLightLevel(0.9F);
 	}
 }

@@ -12,7 +12,6 @@ import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -28,11 +27,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockRefiningForge extends BlockBurner
 {
-	public BlockRefiningForge(Material material)
+	public BlockRefiningForge()
 	{
-		super(material);
+		super(Material.rock);
 		setHardness(2.0f);
-		this.setCreativeTab(CreativeTabs.tabBlock);
+		this.setCreativeTab(ARKCraft.tabARK);
 		this.setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.NORTH).withProperty(PART, EnumPart.BOTTOM));
 	}
 
