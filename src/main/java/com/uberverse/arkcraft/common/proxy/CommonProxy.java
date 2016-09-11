@@ -52,7 +52,20 @@ public abstract class CommonProxy
 {
 	public enum GUI
 	{
-		SMITHY, MORTAR_AND_PESTLE, BOOK, CROP_PLOT, TAMING, COMPOST_BIN, SCOPE, PLAYER, TAMED_DINO, REFINING_FORGE, ATTACHMENTS, ENGRAMS, CAMPFIRE, INV_DODO;
+		SMITHY,
+		MORTAR_AND_PESTLE,
+		BOOK,
+		CROP_PLOT,
+		TAMING,
+		COMPOST_BIN,
+		SCOPE,
+		PLAYER,
+		TAMED_DINO,
+		REFINING_FORGE,
+		ATTACHMENTS,
+		ENGRAMS,
+		CAMPFIRE,
+		INV_DODO;
 
 		public final int id;
 
@@ -92,6 +105,7 @@ public abstract class CommonProxy
 		NetworkRegistry.INSTANCE.registerGuiHandler(ARKCraft.instance(), new GuiHandler());
 
 		EngramManager.init();
+		ARKCraftItems.initBlueprints();
 		BurnerManager.init();
 	}
 

@@ -557,4 +557,9 @@ public class EngramManager
 	{
 		PLAYER, SMITHY, MORTAR_AND_PESTLE, FABRICATOR;
 	}
+
+	public Collection<Engram> getBlueprintEngrams()
+	{
+		return CollectionUtil.filter(getEngrams(), (Engram e) -> e.hasBlueprint);
+	}
 }

@@ -7,6 +7,8 @@ import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot.BerryColor;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance.PLAYER;
+import com.uberverse.arkcraft.common.engram.EngramManager;
+import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.common.entity.EntitySpear;
 import com.uberverse.arkcraft.common.handlers.EntityHandler;
 import com.uberverse.arkcraft.common.item.ARKCraftBook;
@@ -25,6 +27,7 @@ import com.uberverse.arkcraft.common.item.tools.ItemMetalSickle;
 import com.uberverse.arkcraft.common.item.tools.ItemStoneHatchet;
 import com.uberverse.arkcraft.common.item.tools.ItemStonePick;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot.CropPlotType;
+import com.uberverse.arkcraft.util.CollectionUtil;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
@@ -174,13 +177,18 @@ public class ARKCraftItems
 
 		info_book = addBook("info_book");
 
-		blueprint = registerItem("blueprint", new ItemBlueprint());
-		blueprint.setCreativeTab(ARKCraft.tabARKBlueprints);
-		allItems.remove(blueprint);
-
 		tabItem = new Item().setUnlocalizedName("tabItem");
 		registerItem("tabItem", tabItem);
 		tabItem.setCreativeTab(null);
+	}
+
+	public static void initBlueprints()
+	{
+		for (String s : CollectionUtil.convert(EngramManager.instance().getBlueprintEngrams(), (Engram e) -> e.getTitle()).toArray(new String[0]))
+			System.out.println(s);
+
+		blueprint = InitializationManager.instance().registerItem("blueprint", "blueprint/", new ItemBlueprint(),
+				CollectionUtil.convert(EngramManager.instance().getBlueprintEngrams(), (Engram e) -> e.getName()).toArray(new String[0]));
 	}
 
 	protected static ItemGrenade addGrenade(String name)
@@ -304,7 +312,6 @@ public class ARKCraftItems
 		item.setCreativeTab(ARKCraft.tabARK);
 		return item;
 	}
-	
-	
-	// TODO new implementation with 
+
+	// TODO new implementation with
 }

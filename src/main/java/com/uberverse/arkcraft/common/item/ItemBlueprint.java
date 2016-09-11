@@ -2,6 +2,7 @@ package com.uberverse.arkcraft.common.item;
 
 import java.util.List;
 
+import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.engram.EngramManager;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.wip.itemquality.Qualitable.ItemQuality;
@@ -19,6 +20,7 @@ public class ItemBlueprint extends ARKCraftItem
 		super();
 		hasSubtypes = true;
 		setMaxStackSize(1);
+		setCreativeTab(ARKCraft.tabARKBlueprints);
 	}
 
 	@Override

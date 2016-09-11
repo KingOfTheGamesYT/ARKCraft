@@ -23,16 +23,19 @@ public class VersionDetectionHandler
 	public void onPlayerLoggedIn(PlayerLoggedInEvent event)
 	{
 		EntityPlayer player = event.player;
-		if (ARKCraft.instance().isDebugger())
+		if (player != null)
 		{
-			player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "You are running a decompiled version of ARKCraft!"));
-		}
-		if (ARKCraft.versionCheckResult != null && ARKCraft.versionCheckResult.status == Status.OUTDATED
-				|| ARKCraft.versionCheckResult.status == Status.BETA_OUTDATED)
-		{
-			player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + I18n.translate("chat.notification.outdated")));
-			player.addChatComponentMessage(
-					new ChatComponentText(EnumChatFormatting.RED + I18n.format("chat.notification.outdatedversion", ARKCraft.instance().version())));
+			if (ARKCraft.instance().isDebugger())
+			{
+				player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "You are running a decompiled version of ARKCraft!"));
+			}
+			if (ARKCraft.versionCheckResult != null && ARKCraft.versionCheckResult.status == Status.OUTDATED
+					|| ARKCraft.versionCheckResult.status == Status.BETA_OUTDATED)
+			{
+				player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + I18n.translate("chat.notification.outdated")));
+				player.addChatComponentMessage(new ChatComponentText(
+						EnumChatFormatting.RED + I18n.format("chat.notification.outdatedversion", ARKCraft.instance().version())));
+			}
 		}
 	}
 }
