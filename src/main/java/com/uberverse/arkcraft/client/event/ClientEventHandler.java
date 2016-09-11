@@ -7,7 +7,6 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.client.achievement.ARKCraftAchievements;
 import com.uberverse.arkcraft.client.easter.Easter;
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.common.block.crafter.BlockRefiningForge;
@@ -22,9 +21,7 @@ import com.uberverse.arkcraft.common.network.gui.OpenAttachmentInventory;
 import com.uberverse.arkcraft.common.network.gui.OpenPlayerCrafting;
 import com.uberverse.arkcraft.common.tileentity.IHoverInfo;
 import com.uberverse.arkcraft.init.ARKCraftItems;
-import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
 import com.uberverse.arkcraft.util.ClientUtils;
-import com.uberverse.arkcraft.util.I18n;
 import com.uberverse.arkcraft.wip.blueprint.SmartBlueprintModel;
 
 import net.minecraft.client.Minecraft;
@@ -39,9 +36,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.Achievement;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
@@ -53,8 +48,6 @@ import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.common.AchievementPage;
-import net.minecraftforge.common.ForgeVersion.Status;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -368,40 +361,16 @@ public class ClientEventHandler
 		event.modelRegistry.putObject(new ModelResourceLocation("arkcraft:blueprint", "inventory"), new SmartBlueprintModel());
 	}
 
-	@SuppressWarnings("static-access")
 	@SubscribeEvent
 	public void easter(PlayerInteractEvent event)
 	{
-		Action action = event.action;
-		ItemStack item = event.entityPlayer.getCurrentEquippedItem();
-
-		try
+		try 
 		{
-			if (!ARKCraftAchievements.page.getAchievements().contains(ARKCraftAchievements.achievementMichaelBay))
+			if(event.world.getBlockState(event.pos).getBlock() instanceof BlockRefiningForge)
 			{
-				AchievementPage page = ARKCraftAchievements.page;
-				Achievement achievement = ARKCraftAchievements.achievementMichaelBay;
-				if (event.world.getBlockState(event.pos).getBlock() instanceof BlockRefiningForge)
-				{
-					if (item != null && item.getItem() == ARKCraftRangedWeapons.rocket_propelled_grenade)
-					{
-						if (action.RIGHT_CLICK_BLOCK != null && action.RIGHT_CLICK_AIR != null && item.getDisplayName().equals("Michael_Bay")
-								&& event.entityPlayer.isSneaking())
-						{
-							EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-
-							Easter.MICHAEL_BAY.createExplosionNoDamage(event.entityPlayer, event.world, 50, event.entityPlayer.posX,
-									event.entityPlayer.posY, event.entityPlayer.posZ, 0, 1, 0);
-							page.getAchievements().add(achievement);
-							player.addStat(achievement, 1);
-							Minecraft.getMinecraft().guiAchievement.displayAchievement(achievement);
-						}
-					}
-				}
+				Easter.handleInteract(event);
 			}
-		}
-		catch (NullPointerException e)
-		{}
+		} catch(NullPointerException e) {}
 	}
 
 }
