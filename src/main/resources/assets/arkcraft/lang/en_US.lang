@@ -248,6 +248,10 @@ gui.engram.text.engrampoints=Engram Points: %s
 gui.engramcrafting.engram.tooltip.ingredient= %s * %d
 
 #Engrams
+engram.stone_pick.title=Stone pick
+engram.stone_pick.description=For harvesting.
+engram.torch.title=Torch
+engram.torch.description=Provides light, and some warmth.
 engram.campfire.title=Campfire
 engram.campfire.description=For keeping u warm.
 engram.stone_hatchet.title=Stone Hatchet
@@ -335,11 +339,10 @@ ark.engram.learn.false=Unlearned
 ark.engram.close=Close
 ark.engram.consume=Consumes EP
 
-engram.stone_pick.title=Stone pick
-engram.stone_pick.description=For harvesting.
-engram.torch.title=Torch
-engram.torch.description=Provides light, and some warmth.
-
 #Achievements
 achievement.theBigBang=MICHAEL BAY!
 achievement.theBigBang.desc=THE BIG BANG
+
+#Chat notifications
+chat.notification.outdated=ARKCraft is outdated!
+chat.notification.outdatedversion=You are running version %s.

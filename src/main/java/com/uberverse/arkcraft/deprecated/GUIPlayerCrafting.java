@@ -93,7 +93,7 @@ public class GUIPlayerCrafting extends GuiContainer
 		if (button == engramButton)
 		{
 			// Minecraft.getMinecraft().displayGuiScreen(null);
-			player.openGui(ARKCraft.instance, CommonProxy.GUI.ENGRAMS.id, player.worldObj, 0, 0, 0);
+			player.openGui(ARKCraft.instance(), CommonProxy.GUI.ENGRAMS.id, player.worldObj, 0, 0, 0);
 		}
 		else
 		{

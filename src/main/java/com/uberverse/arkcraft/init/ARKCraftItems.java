@@ -87,7 +87,6 @@ public class ARKCraftItems
 
 	public static void init()
 	{
-
 		// Resources
 		cementing_paste = addItem("cementing_paste");
 		crystal = addItem("crystal");
@@ -140,7 +139,7 @@ public class ARKCraftItems
 		fur_legs = addArmorItem("fur_legs", FUR, "furArmor", 2, false);
 		fur_boots = addArmorItem("fur_boots", FUR, "furArmor", 3, false);
 
-		EntityHandler.registerModEntity(EntitySpear.class, "spear", ARKCraft.instance, 16, 20, true);
+		EntityHandler.registerModEntity(EntitySpear.class, "spear", ARKCraft.instance(), 16, 20, true);
 
 		// Food
 		tintoBerry = addFood("tinto", 4, 0.3F, false, true);
@@ -305,4 +304,7 @@ public class ARKCraftItems
 		item.setCreativeTab(ARKCraft.tabARK);
 		return item;
 	}
+	
+	
+	// TODO new implementation with 
 }

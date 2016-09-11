@@ -22,17 +22,16 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventBus;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
-@SuppressWarnings("rawtypes")
-@Mod(modid = ARKCraft.MODID, name = ARKCraft.NAME, updateJSON = ARKCraft.UPDATE_JSON, useMetadata = true)
+@Mod(modid = ARKCraft.MODID, updateJSON = ARKCraft.UPDATE_JSON, useMetadata = true)
 public class ARKCraft
 {
-	public static final String MODID = "arkcraft", NAME = "ARKCraft";
+	public static final String MODID = "arkcraft";
 
 	public static final String descriptionPacketChannel = MODID + ":descPacket";
-	public static final String UPDATE_JSON = "https://raw.githubusercontent.com/BubbleTrouble14/ARKCraft/master/version-check.json";
+	protected static final String UPDATE_JSON = "https://raw.githubusercontent.com/BubbleTrouble14/ARKCraft/master/version-check.json";
 
 	@Instance(ARKCraft.MODID)
-	public static ARKCraft instance;
+	private static ARKCraft instance;
 
 	@SidedProxy(clientSide = "com.uberverse.arkcraft.client.proxy.ClientProxy", serverSide = "com.uberverse.arkcraft.server.proxy.ServerProxy")
 	public static CommonProxy proxy;
@@ -55,7 +54,6 @@ public class ARKCraft
 	public void init(FMLInitializationEvent event)
 	{
 		proxy.init(event);
-		updateCheckResult();
 	}
 
 	@EventHandler
@@ -69,11 +67,10 @@ public class ARKCraft
 
 	public static void updateCheckResult()
 	{
-		if (versionCheckResult == null)
-		{
-			CheckResult r = ForgeVersion.getResult(modContainer);
-			if (r != null && r.status != Status.PENDING) versionCheckResult = r;
-		}
+		CheckResult r = ForgeVersion.getResult(modContainer);
+		System.out.println(r.url);
+		System.out.println(r.status);
+		if (r != null && r.status != Status.PENDING) versionCheckResult = r;
 	}
 
 	public static ARKCraft instance()
@@ -81,24 +78,23 @@ public class ARKCraft
 		return instance;
 	}
 
-	// TODO fix this (not working)
 	public boolean isDebugger()
 	{
-		return "".equals(version());
+		return "${version}".equals(version());
 	}
 
 	public String version()
 	{
-		return this.getClass().getAnnotation(Mod.class).version();
+		return modContainer.getVersion();
 	}
 
 	public String modid()
 	{
-		return this.getClass().getAnnotation(Mod.class).modid();
+		return modContainer.getModId();
 	}
 
 	public String name()
 	{
-		return this.getClass().getAnnotation(Mod.class).name();
+		return modContainer.getName();
 	}
 }

@@ -67,7 +67,7 @@ public class ContainerEngram extends ContainerScrollable
 	{
 		if (id == 0)
 		{
-			playerIn.openGui(ARKCraft.instance, CommonProxy.GUI.PLAYER.id, playerIn.worldObj, 0, 0, 0);
+			playerIn.openGui(ARKCraft.instance(), CommonProxy.GUI.PLAYER.id, playerIn.worldObj, 0, 0, 0);
 			return true;
 		}
 		else if (id == 1)

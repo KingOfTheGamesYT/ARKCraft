@@ -73,7 +73,7 @@ public class ARKCraftRangedWeapons
 		silencer = addItemAttachment("silencer", AttachmentType.SILENCER);
 
 		slingshot = addSlingshot("slingshot");
-		EntityHandler.registerModEntity(EntityStone.class, "stone", ARKCraft.instance, 64, 10,
+		EntityHandler.registerModEntity(EntityStone.class, "stone", ARKCraft.instance(), 64, 10,
 				true);
 
 		registerDispenseBehavior();
@@ -93,33 +93,33 @@ public class ARKCraftRangedWeapons
 		if (ModuleItemBalance.WEAPONS.SIMPLE_PISTOL)
 		{
 			EntityHandler.registerModEntity(EntitySimpleBullet.class, "simple_bullet",
-					ARKCraft.instance, 16, 20, true);
+					ARKCraft.instance(), 16, 20, true);
 		}
 
 		if (ModuleItemBalance.WEAPONS.SHOTGUN)
 		{
 			EntityHandler.registerModEntity(EntitySimpleShotgunAmmo.class, "simple_shotgun_ammo",
-					ARKCraft.instance, 64, 10, true);
+					ARKCraft.instance(), 64, 10, true);
 		}
 
 		if (ModuleItemBalance.WEAPONS.LONGNECK_RIFLE)
 		{
 			EntityHandler.registerModEntity(EntitySimpleRifleAmmo.class, "simple_rifle_ammo",
-					ARKCraft.instance, 64, 10, true);
+					ARKCraft.instance(), 64, 10, true);
 			EntityHandler.registerModEntity(EntityTranquilizer.class, "tranquilizer_dart",
-					ARKCraft.instance, 64, 10, true);
+					ARKCraft.instance(), 64, 10, true);
 		}
 
 		if (ModuleItemBalance.WEAPONS.FABRICATED_PISTOL)
 		{
 			EntityHandler.registerModEntity(EntityAdvancedBullet.class, "advanced_bullet",
-					ARKCraft.instance, 64, 10, true);
+					ARKCraft.instance(), 64, 10, true);
 		}
 
 		if (ModuleItemBalance.WEAPONS.ROCKET_LAUNCHER)
 		{
 			EntityHandler.registerModEntity(EntityRocketPropelledGrenade.class,
-					"rocket_propelled_grenade", ARKCraft.instance, 64, 10, true);
+					"rocket_propelled_grenade", ARKCraft.instance(), 64, 10, true);
 		}
 	}
 

@@ -50,7 +50,7 @@ public class OpenAttachmentInventory implements IMessage
 	{
 		if (player != null)
 		{
-			player.openGui(ARKCraft.instance, CommonProxy.GUI.ATTACHMENTS.id, player.worldObj, 0, 0, 0);
+			player.openGui(ARKCraft.instance(), CommonProxy.GUI.ATTACHMENTS.id, player.worldObj, 0, 0, 0);
 		}
 	}
 }

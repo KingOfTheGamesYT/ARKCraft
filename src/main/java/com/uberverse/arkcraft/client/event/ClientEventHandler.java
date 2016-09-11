@@ -24,6 +24,7 @@ import com.uberverse.arkcraft.common.tileentity.IHoverInfo;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
 import com.uberverse.arkcraft.util.ClientUtils;
+import com.uberverse.arkcraft.util.I18n;
 import com.uberverse.arkcraft.wip.blueprint.SmartBlueprintModel;
 
 import net.minecraft.client.Minecraft;
@@ -348,33 +349,15 @@ public class ClientEventHandler
 		}
 	}
 
-	private boolean shown = false;
-
 	@SubscribeEvent
 	public void onPlayerJoinWorld(EntityJoinWorldEvent event)
 	{
 		if (event.entity instanceof EntityPlayer)
 		{
-			if (!shown)
-			{
-				if (ARKCraft.instance.isDebugger())
-				{
-					if (mc.thePlayer != null) mc.thePlayer.addChatComponentMessage(
-							new ChatComponentText(EnumChatFormatting.RED + "You are running a decompiled version of ARKCraft!"));
-				}
-				else if (ARKCraft.versionCheckResult == null) ARKCraft.updateCheckResult();
-				else if (ARKCraft.versionCheckResult.status == Status.OUTDATED || ARKCraft.versionCheckResult.status == Status.BETA_OUTDATED)
-				{
-					if (mc.thePlayer != null)
-					{
-						mc.thePlayer.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "ARKCraft is outdated!"));
-					}
-				}
-				shown = true;
-			}
+			EntityPlayer player = (EntityPlayer) event.entity;
 			if (event.entity.worldObj.isRemote)
 			{
-				ARKPlayer.get((EntityPlayer) event.entity).requestSynchronization(true);
+				ARKPlayer.get(player).requestSynchronization(true);
 			}
 		}
 	}

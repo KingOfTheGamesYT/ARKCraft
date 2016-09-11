@@ -13,6 +13,7 @@ import com.uberverse.arkcraft.common.config.ModuleItemConfig;
 import com.uberverse.arkcraft.common.config.WeightsConfig;
 import com.uberverse.arkcraft.common.engram.EngramManager;
 import com.uberverse.arkcraft.common.event.CommonEventHandler;
+import com.uberverse.arkcraft.common.event.VersionDetectionHandler;
 import com.uberverse.arkcraft.common.gen.WorldGeneratorBushes;
 import com.uberverse.arkcraft.common.handlers.GuiHandler;
 import com.uberverse.arkcraft.common.network.ARKModeToggle;
@@ -88,7 +89,7 @@ public abstract class CommonProxy
 		ARKCraftItems.init();
 		ARKCraftRangedWeapons.init();
 		ARKCraftAchievements.init();
-		NetworkRegistry.INSTANCE.registerGuiHandler(ARKCraft.instance, new GuiHandler());
+		NetworkRegistry.INSTANCE.registerGuiHandler(ARKCraft.instance(), new GuiHandler());
 
 		EngramManager.init();
 		BurnerManager.init();
@@ -104,6 +105,7 @@ public abstract class CommonProxy
 	{
 		CommonEventHandler.init();
 		PlayerCommonEventHandler.init();
+		VersionDetectionHandler.init();
 	}
 
 	private final void initializeWorldGeneration()

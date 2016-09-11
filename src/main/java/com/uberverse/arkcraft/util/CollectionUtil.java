@@ -96,4 +96,49 @@ public class CollectionUtil
 			l.add(converter.apply(e));
 		return l;
 	}
+
+	public static Integer[] convert(int[] arr)
+	{
+		Integer[] o = new Integer[arr.length];
+
+		for (int i = 0; i < arr.length; i++)
+			o[i] = Integer.valueOf(arr[i]);
+		return o;
+	}
+
+	public static Boolean[] convert(boolean[] arr)
+	{
+		Boolean[] o = new Boolean[arr.length];
+
+		for (int i = 0; i < arr.length; i++)
+			o[i] = Boolean.valueOf(arr[i]);
+		return o;
+	}
+
+	public static Byte[] convert(byte[] arr)
+	{
+		Byte[] o = new Byte[arr.length];
+
+		for (int i = 0; i < arr.length; i++)
+			o[i] = Byte.valueOf(arr[i]);
+		return o;
+	}
+
+	public static Long[] convert(long[] arr)
+	{
+		Long[] o = new Long[arr.length];
+
+		for (int i = 0; i < arr.length; i++)
+			o[i] = Long.valueOf(arr[i]);
+		return o;
+	}
+
+	public static Short[] convert(short[] arr)
+	{
+		Short[] o = new Short[arr.length];
+
+		for (int i = 0; i < arr.length; i++)
+			o[i] = Short.valueOf(arr[i]);
+		return o;
+	}
 }

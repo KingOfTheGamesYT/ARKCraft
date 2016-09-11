@@ -201,7 +201,7 @@ public class ClientProxy extends CommonProxy
 
 	private static void registerBlueprintVariants()
 	{
-
+		//TODO do this
 	}
 
 	@Override
