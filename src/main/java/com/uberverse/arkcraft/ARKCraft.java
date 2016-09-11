@@ -22,10 +22,10 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventBus;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
-@Mod(modid = ARKCraft.MODID, version = ARKCraft.VERSION, updateJSON = ARKCraft.UPDATE_JSON, useMetadata = true)
+@Mod(modid = ARKCraft.MODID, updateJSON = ARKCraft.UPDATE_JSON, useMetadata = true)
 public class ARKCraft
 {
-	public static final String MODID = "arkcraft", VERSION = "alpha-1.000-preview-6";
+	public static final String MODID = "arkcraft";
 
 	public static final String descriptionPacketChannel = MODID + ":descPacket";
 	protected static final String UPDATE_JSON = "https://raw.githubusercontent.com/BubbleTrouble14/ARKCraft/master/version-check.json";
