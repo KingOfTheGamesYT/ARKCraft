@@ -22,7 +22,6 @@ import com.uberverse.arkcraft.common.network.gui.OpenPlayerCrafting;
 import com.uberverse.arkcraft.common.tileentity.IHoverInfo;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.util.ClientUtils;
-import com.uberverse.arkcraft.wip.blueprint.SmartBlueprintModel;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -32,7 +31,6 @@ import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -43,7 +41,6 @@ import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.FOVUpdateEvent;
-import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
@@ -353,12 +350,6 @@ public class ClientEventHandler
 				ARKPlayer.get(player).requestSynchronization(true);
 			}
 		}
-	}
-
-	@SubscribeEvent
-	public void onModelBake(ModelBakeEvent event)
-	{
-		event.modelRegistry.putObject(new ModelResourceLocation("arkcraft:blueprint", "inventory"), new SmartBlueprintModel());
 	}
 
 	@SubscribeEvent

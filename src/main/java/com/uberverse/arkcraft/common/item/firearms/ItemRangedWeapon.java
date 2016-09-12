@@ -563,4 +563,10 @@ public abstract class ItemRangedWeapon extends ItemBow
 	{
 		return true;
 	}
+	
+	@Override
+	public int getItemEnchantability()
+	{
+		return 0;
+	}
 }

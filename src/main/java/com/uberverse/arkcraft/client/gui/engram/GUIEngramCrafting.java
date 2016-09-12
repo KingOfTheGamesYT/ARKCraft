@@ -14,6 +14,7 @@ import com.uberverse.arkcraft.common.container.engram.ContainerEngramCrafting.En
 import com.uberverse.arkcraft.common.container.engram.ContainerEngramCrafting.EngramSlot;
 import com.uberverse.arkcraft.common.container.engram.ContainerEngramCrafting.QueueSlot;
 import com.uberverse.arkcraft.common.engram.CraftingOrder;
+import com.uberverse.arkcraft.common.engram.EngramManager.AbstractItemStack;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.common.engram.EngramManager.EngramRecipe;
 import com.uberverse.arkcraft.common.engram.IEngramCrafter;
@@ -23,7 +24,6 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.Item;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
@@ -40,6 +40,7 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 		super(container);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initGui()
 	{
@@ -140,8 +141,9 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 	private int shown;
 	private int ticker;
 
+	@SuppressWarnings("unchecked")
 	@Override
-	protected void drawHoveringText(List textLines, int x, int y, FontRenderer fontRendererObj)
+	protected void drawHoveringText(@SuppressWarnings("rawtypes") List textLines, int x, int y, FontRenderer fontRendererObj)
 	{
 		for (Object o : inventorySlots.inventorySlots)
 		{
@@ -166,12 +168,12 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 						shown = (shown + 1 == recipes.size()) ? 0 : shown + 1;
 					}
 					textLines.clear();
-					textLines.add(tooltipped.getTitle() + (tooltipped.getAmount() > 1 ? " x " + tooltipped.getAmount() : ""));
+					textLines.add(tooltipped.getTitle() + (tooltipped.getOutput().getAmount() > 1 ? " x " + tooltipped.getOutput().getAmount() : ""));
 					EngramRecipe er = recipes.get(shown);
-					for (Item i : er.getItems().keySet())
+					for (AbstractItemStack i : er.getItems())
 					{
 						textLines.add(EnumChatFormatting.GOLD + I18n.format("gui.engramcrafting.engram.tooltip.ingredient",
-								I18n.translate(i.getUnlocalizedName() + ".name"), er.getItems().get(i)));
+								I18n.translate(i.item.getUnlocalizedName() + ".name"), i.getAmount()));
 					}
 				}
 			}

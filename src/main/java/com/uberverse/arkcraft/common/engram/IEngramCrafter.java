@@ -1,10 +1,11 @@
 package com.uberverse.arkcraft.common.engram;
 
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Queue;
 
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.engram.EngramManager.AbstractItemStack;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.util.IInventoryAdder;
 import com.uberverse.arkcraft.util.NBTable;
@@ -28,30 +29,26 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder
 	{
 		if (!getWorldIA().isRemote)
 		{
-			// if ((getWorldIA().getTotalWorldTime() % 20) == getTimeOffset())
+			Queue<CraftingOrder> craftingQueue = getCraftingQueue();
+			if (isCrafting())
 			{
-				Queue<CraftingOrder> craftingQueue = getCraftingQueue();
-				if (isCrafting())
+				decreaseProgress();
+				if (getProgress() == 0)
 				{
-					decreaseProgress();
-					if (getProgress() == 0)
+					CraftingOrder c = craftingQueue.peek();
+					c.decreaseCount(1);
+					AbstractItemStack i = c.getEngram().getOutput();
+					ItemStack out = i.toItemStack();
+					if (c.isQualitable()) Qualitable.set(out, c.getItemQuality());
+					addOrDrop(out);
+					if (c.getCount() == 0)
 					{
-						CraftingOrder c = craftingQueue.peek();
-						c.decreaseCount(1);
-						Item i = c.getEngram().getItem();
-						int amount = c.getEngram().getAmount();
-						ItemStack out = new ItemStack(i, amount);
-						if (c.isQualitable()) Qualitable.set(out, c.getItemQuality());
-						addOrDrop(out);
-						if (c.getCount() == 0)
-						{
-							craftingQueue.remove();
-						}
-						sync();
+						craftingQueue.remove();
 					}
+					sync();
 				}
-				selectNextCraftingOrder();
 			}
+			selectNextCraftingOrder();
 		}
 	}
 
@@ -303,18 +300,18 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder
 
 	public default int getCraftableAmount(Engram engram, ItemQuality itemQuality)
 	{
-		Map<Item, Integer> inv = EngramManager.Engram.convertIInventoryToMap(getConsumedInventory());
+		Collection<AbstractItemStack> is = EngramManager.Engram.convertIInventoryToAbstractInventory(getConsumedInventory());
 		for (CraftingOrder c : getCraftingQueue())
 		{
 			int i = c.getCount();
 			while (i > 0)
 			{
-				c.getEngram().consume(inv);
+				c.getEngram().consume(is);
 				i--;
 			}
 		}
 
-		return engram.getCraftableAmount(inv) - getCraftingAmount(engram, itemQuality);
+		return engram.getCraftableAmount(is) - getCraftingAmount(engram, itemQuality);
 	}
 
 	public default boolean isCrafting()

@@ -3,13 +3,13 @@ package com.uberverse.arkcraft.common.engram;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.uberverse.arkcraft.ARKCraft;
+import com.google.common.collect.Lists;
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
@@ -37,114 +37,119 @@ public class EngramManager
 	{
 		// Player
 		// lvl 1
-		instance().registerEngram(new Engram("stone_pick", ARKCraftItems.stone_pick, 0, 1, 5, EngramType.PLAYER,
+		instance().registerEngram(new Engram("stone_pick", new AbstractItemStack(ARKCraftItems.stone_pick), 0, 1, 5, EngramType.PLAYER,
 				new EngramRecipe(ARKCraftItems.wood, 1, ARKCraftItems.stone, 1, ARKCraftItems.thatch, 10)));
 
 		// lvl 2
-		instance().registerEngram(new Engram("campfire", Item.getItemFromBlock(ARKCraftBlocks.campfire), 3, 2, 10, EngramType.PLAYER,
-				new EngramRecipe(ARKCraftItems.wood, 2, ARKCraftItems.stone, 16, ARKCraftItems.thatch, 12, ARKCraftItems.flint, 1)));
-		instance().registerEngram(new Engram("stone_hatchet", ARKCraftItems.stone_hatchet, 3, 2, 5, EngramType.PLAYER,
+		instance().registerEngram(
+				new Engram("campfire", new AbstractItemStack(Item.getItemFromBlock(ARKCraftBlocks.campfire)), 3, 2, 10, EngramType.PLAYER,
+						new EngramRecipe(ARKCraftItems.wood, 2, ARKCraftItems.stone, 16, ARKCraftItems.thatch, 12, ARKCraftItems.flint, 1)));
+		instance().registerEngram(new Engram("stone_hatchet", new AbstractItemStack(ARKCraftItems.stone_hatchet), 3, 2, 5, EngramType.PLAYER,
 				new EngramRecipe(ARKCraftItems.wood, 1, ARKCraftItems.thatch, 10, ARKCraftItems.flint, 1)));
-		instance().registerEngram(new Engram("spear", ARKCraftItems.spear, 3, 2, 5, EngramType.PLAYER,
+		instance().registerEngram(new Engram("spear", new AbstractItemStack(ARKCraftItems.spear), 3, 2, 5, EngramType.PLAYER,
 				new EngramRecipe(ARKCraftItems.wood, 8, ARKCraftItems.fiber, 12, ARKCraftItems.flint, 2)));
-		instance().registerEngram(
-				new Engram("cloth_legs", ARKCraftItems.cloth_legs, 3, 2, 5, EngramType.PLAYER, new EngramRecipe(ARKCraftItems.fiber, 50)));
-		instance().registerEngram(
-				new Engram("cloth_chest", ARKCraftItems.cloth_chest, 3, 2, 5, EngramType.PLAYER, new EngramRecipe(ARKCraftItems.fiber, 40)));
+		instance().registerEngram(new Engram("cloth_legs", new AbstractItemStack(ARKCraftItems.cloth_legs), 3, 2, 5, EngramType.PLAYER,
+				new EngramRecipe(ARKCraftItems.fiber, 50)));
+		instance().registerEngram(new Engram("cloth_chest", new AbstractItemStack(ARKCraftItems.cloth_chest), 3, 2, 5, EngramType.PLAYER,
+				new EngramRecipe(ARKCraftItems.fiber, 40)));
 
 		// lvl 3
-		instance().registerEngram(new Engram("cloth_boots", ARKCraftItems.cloth_boots, 3, 3, 5, EngramType.PLAYER,
+		instance().registerEngram(new Engram("cloth_boots", new AbstractItemStack(ARKCraftItems.cloth_boots), 3, 3, 5, EngramType.PLAYER,
 				new EngramRecipe(ARKCraftItems.fiber, 25, ARKCraftItems.hide, 6)));
-		instance().registerEngram(
-				new Engram("cloth_helm", ARKCraftItems.cloth_helm, 3, 3, 5, EngramType.PLAYER, new EngramRecipe(ARKCraftItems.fiber, 10)));
+		instance().registerEngram(new Engram("cloth_helm", new AbstractItemStack(ARKCraftItems.cloth_helm), 3, 3, 5, EngramType.PLAYER,
+				new EngramRecipe(ARKCraftItems.fiber, 10)));
 
 		// lvl 5
-		instance().registerEngram(new Engram("slingshot", ARKCraftRangedWeapons.slingshot, 6, 5, 5, EngramType.PLAYER,
+		instance().registerEngram(new Engram("slingshot", new AbstractItemStack(ARKCraftRangedWeapons.slingshot), 6, 5, 5, EngramType.PLAYER,
 				new EngramRecipe(ARKCraftItems.fiber, 20, ARKCraftItems.hide, 1, ARKCraftItems.wood, 5)));
-		instance().registerEngram(new Engram("mortar_and_pestle", Item.getItemFromBlock(ARKCraftBlocks.pestle), 6, 5, 10, EngramType.PLAYER,
-				new EngramRecipe(ARKCraftItems.stone, 65, ARKCraftItems.hide, 15)));
-		instance().registerEngram(new Engram("spark_powder", ARKCraftItems.spark_powder, 2, 3, 5, 1, EngramType.MORTAR_AND_PESTLE,
-				new EngramRecipe(ARKCraftItems.flint, 2, ARKCraftItems.stone, 1)));
-		instance().registerEngram(new Engram("narcotics", ARKCraftItems.narcotics, 6, 5, 5, EngramType.MORTAR_AND_PESTLE,
+		instance().registerEngram(new Engram("mortar_and_pestle", new AbstractItemStack(Item.getItemFromBlock(ARKCraftBlocks.pestle)), 6, 5, 10,
+				EngramType.PLAYER, new EngramRecipe(ARKCraftItems.stone, 65, ARKCraftItems.hide, 15)));
+		instance().registerEngram(new Engram("spark_powder", new AbstractItemStack(ARKCraftItems.spark_powder, 2), 3, 5, 1,
+				EngramType.MORTAR_AND_PESTLE, new EngramRecipe(ARKCraftItems.flint, 2, ARKCraftItems.stone, 1)));
+		instance().registerEngram(new Engram("narcotics", new AbstractItemStack(ARKCraftItems.narcotics), 6, 5, 5, EngramType.MORTAR_AND_PESTLE,
 				new EngramRecipe(ARKCraftItems.narcoBerry, 5, ARKCraftItems.spoiled_meat, 1)));
 
 		// lvl 10
-		instance().registerEngram(new Engram("cementing_paste", ARKCraftItems.cementing_paste, 3, 10, 5, EngramType.MORTAR_AND_PESTLE,
-				new EngramRecipe(ARKCraftItems.chitin, 4, ARKCraftItems.stone, 8),
+		instance().registerEngram(new Engram("cementing_paste", new AbstractItemStack(ARKCraftItems.cementing_paste), 3, 10, 5,
+				EngramType.MORTAR_AND_PESTLE, new EngramRecipe(ARKCraftItems.chitin, 4, ARKCraftItems.stone, 8),
 				new EngramRecipe(ARKCraftItems.keratin, 4, ARKCraftItems.stone, 8)));
-		instance().registerEngram(new Engram("gunpowder", ARKCraftItems.gunpowder, 2, 10, 1, EngramType.MORTAR_AND_PESTLE,
+		instance().registerEngram(new Engram("gunpowder", new AbstractItemStack(ARKCraftItems.gunpowder), 2, 10, 1, EngramType.MORTAR_AND_PESTLE,
 				new EngramRecipe(ARKCraftItems.spark_powder, 1, ARKCraftItems.chitin, 1)));
-		instance().registerEngram(new Engram("spy_glass", ARKCraftItems.spy_glass, 2, 10, 5, EngramType.PLAYER,
+		instance().registerEngram(new Engram("spy_glass", new AbstractItemStack(ARKCraftItems.spy_glass), 2, 10, 5, EngramType.PLAYER,
 				new EngramRecipe(ARKCraftItems.wood, 5, ARKCraftItems.hide, 10, ARKCraftItems.fiber, 10, ARKCraftItems.crystal, 2)));
-		instance().registerEngram(new Engram("small_crop_plot", Item.getItemFromBlock(ARKCraftBlocks.crop_plot.getDefaultState().getBlock()), 9, 10,
-				10, EngramType.PLAYER,
-				new EngramRecipe(ARKCraftItems.stone, 25, ARKCraftItems.wood, 20, ARKCraftItems.fiber, 15, ARKCraftItems.thatch, 10)));
+		instance().registerEngram(
+				new Engram("small_crop_plot", new AbstractItemStack(Item.getItemFromBlock(ARKCraftBlocks.crop_plot)), 9, 10, 10, EngramType.PLAYER,
+						new EngramRecipe(ARKCraftItems.stone, 25, ARKCraftItems.wood, 20, ARKCraftItems.fiber, 15, ARKCraftItems.thatch, 10)));
 
 		// lvl 15
-		instance().registerEngram(new Engram("hide_chest", ARKCraftItems.hide_chest, 6, 15, 5, EngramType.PLAYER,
+		instance().registerEngram(new Engram("hide_chest", new AbstractItemStack(ARKCraftItems.hide_chest), 6, 15, 5, EngramType.PLAYER,
 				new EngramRecipe(ARKCraftItems.hide, 20, ARKCraftItems.fiber, 8)));
-		instance().registerEngram(new Engram("hide_legs", ARKCraftItems.hide_legs, 9, 15, 5, EngramType.PLAYER,
+		instance().registerEngram(new Engram("hide_legs", new AbstractItemStack(ARKCraftItems.hide_legs), 9, 15, 5, EngramType.PLAYER,
 				new EngramRecipe(ARKCraftItems.hide, 25, ARKCraftItems.fiber, 8)));
 
 		// lvl 20
-		instance().registerEngram(new Engram("hide_boots", ARKCraftItems.hide_boots, 7, 20, 5, EngramType.PLAYER,
+		instance().registerEngram(new Engram("hide_boots", new AbstractItemStack(ARKCraftItems.hide_boots), 7, 20, 5, EngramType.PLAYER,
 				new EngramRecipe(ARKCraftItems.hide, 20, ARKCraftItems.fiber, 8)));
-		instance().registerEngram(new Engram("hide_helm", ARKCraftItems.hide_helm, 9, 20, 5, EngramType.PLAYER,
+		instance().registerEngram(new Engram("hide_helm", new AbstractItemStack(ARKCraftItems.hide_helm), 9, 20, 5, EngramType.PLAYER,
 				new EngramRecipe(ARKCraftItems.hide, 25, ARKCraftItems.fiber, 8)));
-		instance().registerEngram(
-				new Engram("refining_forge", Item.getItemFromBlock(ARKCraftBlocks.refining_forge), 21, 20, 10, EngramType.PLAYER, new EngramRecipe(
-						ARKCraftItems.stone, 125, ARKCraftItems.wood, 20, ARKCraftItems.fiber, 40, ARKCraftItems.flint, 5, ARKCraftItems.hide, 65)));
+		instance().registerEngram(new Engram("refining_forge", new AbstractItemStack(Item.getItemFromBlock(ARKCraftBlocks.refining_forge)), 21, 20,
+				10, EngramType.PLAYER, new EngramRecipe(ARKCraftItems.stone, 125, ARKCraftItems.wood, 20, ARKCraftItems.fiber, 40,
+						ARKCraftItems.flint, 5, ARKCraftItems.hide, 65)));
 
 		// lvl 25
-		instance().registerEngram(new Engram("smithy", Item.getItemFromBlock(ARKCraftBlocks.smithy), 16, 25, 10, EngramType.PLAYER,
-				new EngramRecipe(ARKCraftItems.stone, 50, ARKCraftItems.wood, 30, ARKCraftItems.metal_ingot, 5, ARKCraftItems.hide, 20)));
+		instance().registerEngram(
+				new Engram("smithy", new AbstractItemStack(Item.getItemFromBlock(ARKCraftBlocks.smithy)), 16, 25, 10, EngramType.PLAYER,
+						new EngramRecipe(ARKCraftItems.stone, 50, ARKCraftItems.wood, 30, ARKCraftItems.metal_ingot, 5, ARKCraftItems.hide, 20)));
 
-		instance().registerEngram(new Engram("metal_pick", ARKCraftItems.metal_pick, 6, 25, 10, EngramType.SMITHY,
+		instance().registerEngram(new Engram("metal_pick", new AbstractItemStack(ARKCraftItems.metal_pick), 6, 25, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.metal_ingot, 1, ARKCraftItems.wood, 1, ARKCraftItems.hide, 10)));
-		instance().registerEngram(new Engram("metal_hatchet", ARKCraftItems.metal_hatchet, 6, 25, 10, EngramType.SMITHY,
+		instance().registerEngram(new Engram("metal_hatchet", new AbstractItemStack(ARKCraftItems.metal_hatchet), 6, 25, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.metal_ingot, 8, ARKCraftItems.wood, 1, ARKCraftItems.hide, 10)));
-		instance().registerEngram(new Engram("pike", ARKCraftItems.pike, 10, 25, 10, EngramType.SMITHY,
+		instance().registerEngram(new Engram("pike", new AbstractItemStack(ARKCraftItems.pike), 10, 25, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.metal_ingot, 10, ARKCraftItems.wood, 10, ARKCraftItems.hide, 20)));
-		instance().registerEngram(new Engram("fur_boots", ARKCraftItems.fur_boots, 12, 25, 10, EngramType.SMITHY,
+		instance().registerEngram(new Engram("fur_boots", new AbstractItemStack(ARKCraftItems.fur_boots), 12, 25, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.pelt, 48, ARKCraftItems.metal_ingot, 8, ARKCraftItems.hide, 6, ARKCraftItems.fiber, 4)));
-		instance().registerEngram(new Engram("fur_helm", ARKCraftItems.fur_helm, 14, 25, 10, EngramType.SMITHY,
+		instance().registerEngram(new Engram("fur_helm", new AbstractItemStack(ARKCraftItems.fur_helm), 14, 25, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.pelt, 56, ARKCraftItems.metal_ingot, 10, ARKCraftItems.hide, 7, ARKCraftItems.fiber, 3)));
-		instance().registerEngram(new Engram("fur_legs", ARKCraftItems.fur_legs, 16, 25, 10, EngramType.SMITHY,
+		instance().registerEngram(new Engram("fur_legs", new AbstractItemStack(ARKCraftItems.fur_legs), 16, 25, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.pelt, 96, ARKCraftItems.metal_ingot, 16, ARKCraftItems.hide, 12, ARKCraftItems.fiber, 5)));
-		instance().registerEngram(new Engram("fur_chest", ARKCraftItems.fur_chest, 16, 25, 10, EngramType.SMITHY,
+		instance().registerEngram(new Engram("fur_chest", new AbstractItemStack(ARKCraftItems.fur_chest), 16, 25, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.pelt, 80, ARKCraftItems.metal_ingot, 13, ARKCraftItems.hide, 10, ARKCraftItems.fiber, 4)));
-		// instance().registerEngram(new Engram("medium_crop_plot",ItemCropPlot.getByNameOrId(("tile.crop_plot.medium")), 12, 25, 10, EngramType.PLAYER,
-		// new EngramRecipe(ARKCraftItems.stone, 50, ARKCraftItems.wood, 40, ARKCraftItems.fiber, 30, ARKCraftItems.thatch, 20)));
+		instance().registerEngram(new Engram("medium_crop_plot", new AbstractItemStack(Item.getItemFromBlock(ARKCraftBlocks.crop_plot), 1, 1), 12, 25,
+				10, EngramType.PLAYER,
+				new EngramRecipe(ARKCraftItems.stone, 50, ARKCraftItems.wood, 40, ARKCraftItems.fiber, 30, ARKCraftItems.thatch, 20)));
 
 		// lvl 30
-		instance().registerEngram(new Engram("chitin_legs", ARKCraftItems.chitin_legs, 15, 30, 10, EngramType.SMITHY,
+		instance().registerEngram(new Engram("chitin_legs", new AbstractItemStack(ARKCraftItems.chitin_legs), 15, 30, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.chitin, 25, ARKCraftItems.hide, 12, ARKCraftItems.fiber, 5)));
-		instance().registerEngram(new Engram("chitin_chest", ARKCraftItems.chitin_chest, 18, 30, 10, EngramType.SMITHY,
+		instance().registerEngram(new Engram("chitin_chest", new AbstractItemStack(ARKCraftItems.chitin_chest), 18, 30, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.chitin, 20, ARKCraftItems.hide, 10, ARKCraftItems.fiber, 4)));
-		instance().registerEngram(new Engram("chitin_helm", ARKCraftItems.chitin_helm, 18, 30, 10, EngramType.SMITHY,
+		instance().registerEngram(new Engram("chitin_helm", new AbstractItemStack(ARKCraftItems.chitin_helm), 18, 30, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.chitin, 15, ARKCraftItems.hide, 7, ARKCraftItems.fiber, 3)));
-		instance().registerEngram(new Engram("simple_pistol", ARKCraftRangedWeapons.simple_pistol, 15, 30, 10, EngramType.SMITHY,
-				new EngramRecipe(ARKCraftItems.metal_ingot, 60, ARKCraftItems.hide, 15, ARKCraftItems.wood, 5)));
-		instance().registerEngram(new Engram("simple_bullet", ARKCraftRangedWeapons.simple_bullet, 6, 30, 10, EngramType.SMITHY,
-				new EngramRecipe(ARKCraftItems.metal_ingot, 1, ARKCraftItems.gunpowder, 6)));
-		instance().registerEngram(new Engram("scope", ARKCraftRangedWeapons.scope, 13, 30, 10, EngramType.SMITHY,
+		instance().registerEngram(new Engram("simple_pistol", new AbstractItemStack(ARKCraftRangedWeapons.simple_pistol), 15, 30, 10,
+				EngramType.SMITHY, new EngramRecipe(ARKCraftItems.metal_ingot, 60, ARKCraftItems.hide, 15, ARKCraftItems.wood, 5)));
+		instance().registerEngram(new Engram("simple_bullet", new AbstractItemStack(ARKCraftRangedWeapons.simple_bullet), 6, 30, 10,
+				EngramType.SMITHY, new EngramRecipe(ARKCraftItems.metal_ingot, 1, ARKCraftItems.gunpowder, 6)));
+		instance().registerEngram(new Engram("scope", new AbstractItemStack(ARKCraftRangedWeapons.scope), 13, 30, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.metal_ingot, 40, ARKCraftItems.stone, 5, ARKCraftItems.crystal, 20)));
-		instance().registerEngram(new Engram("sickle", ARKCraftItems.metal_sickle, 12, 30, 10, EngramType.SMITHY,
+		instance().registerEngram(new Engram("sickle", new AbstractItemStack(ARKCraftItems.metal_sickle), 12, 30, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.metal_ingot, 18, ARKCraftItems.wood, 4, ARKCraftItems.hide, 16)));
 
 		// lvl 35
-		instance().registerEngram(new Engram("chitin_boots", ARKCraftItems.chitin_boots, 15, 35, 10, EngramType.SMITHY,
+		instance().registerEngram(new Engram("chitin_boots", new AbstractItemStack(ARKCraftItems.chitin_boots), 15, 35, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.chitin, 12, ARKCraftItems.hide, 6, ARKCraftItems.fiber, 4)));
-		instance().registerEngram(new Engram("longneck_rifle", ARKCraftRangedWeapons.longneck_rifle, 18, 35, 10, EngramType.SMITHY,
-				new EngramRecipe(ARKCraftItems.metal_ingot, 95, ARKCraftItems.hide, 25, ARKCraftItems.wood, 20)));
-		instance().registerEngram(new Engram("simple_rifle_ammo", ARKCraftRangedWeapons.simple_rifle_ammo, 6, 35, 10, EngramType.SMITHY,
-				new EngramRecipe(ARKCraftItems.metal_ingot, 2, ARKCraftItems.gunpowder, 12)));
-		// instance().registerEngram(new Engram("medium_crop_plot",ItemCropPlot.getByNameOrId(("tile.crop_plot.medium")), 12, 25, 10, EngramType.PLAYER,
-		// new EngramRecipe(ARKCraftItems.stone, 50, ARKCraftItems.wood, 40, ARKCraftItems.fiber, 30, ARKCraftItems.thatch, 20)));
-		instance().registerEngram(new Engram("shotgun", ARKCraftRangedWeapons.shotgun, 18, 35, 10, EngramType.SMITHY,
+		instance().registerEngram(new Engram("longneck_rifle", new AbstractItemStack(ARKCraftRangedWeapons.longneck_rifle), 18, 35, 10,
+				EngramType.SMITHY, new EngramRecipe(ARKCraftItems.metal_ingot, 95, ARKCraftItems.hide, 25, ARKCraftItems.wood, 20)));
+		instance().registerEngram(new Engram("simple_rifle_ammo", new AbstractItemStack(ARKCraftRangedWeapons.simple_rifle_ammo), 6, 35, 10,
+				EngramType.SMITHY, new EngramRecipe(ARKCraftItems.metal_ingot, 2, ARKCraftItems.gunpowder, 12)));
+		instance().registerEngram(new Engram("large_crop_plot", new AbstractItemStack(Item.getItemFromBlock(ARKCraftBlocks.crop_plot), 1, 2), 12, 25,
+				10, EngramType.PLAYER,
+				new EngramRecipe(ARKCraftItems.stone, 100, ARKCraftItems.wood, 80, ARKCraftItems.fiber, 60, ARKCraftItems.thatch, 40)));
+		instance().registerEngram(new Engram("shotgun", new AbstractItemStack(ARKCraftRangedWeapons.shotgun), 18, 35, 10, EngramType.SMITHY,
 				new EngramRecipe(ARKCraftItems.metal_ingot, 80, ARKCraftItems.hide, 25, ARKCraftItems.wood, 20)));
-		instance().registerEngram(new Engram("simple_shotgun_ammo", ARKCraftRangedWeapons.simple_shotgun_ammo, 6, 35, 10, EngramType.SMITHY,
-				new EngramRecipe(ARKCraftItems.metal_ingot, 1, ARKCraftItems.gunpowder, 3, ARKCraftRangedWeapons.simple_bullet, 3)));
+		instance().registerEngram(
+				new Engram("simple_shotgun_ammo", new AbstractItemStack(ARKCraftRangedWeapons.simple_shotgun_ammo), 6, 35, 10, EngramType.SMITHY,
+						new EngramRecipe(ARKCraftItems.metal_ingot, 1, ARKCraftItems.gunpowder, 3, ARKCraftRangedWeapons.simple_bullet, 3)));
 
 		// lvl 40
 		// instance().registerEngram(new Engram("silencer",ARKCraftRangedWeapons.silencer, 13, 40, 10, EngramType.SMITHY,
@@ -220,20 +225,19 @@ public class EngramManager
 		private static short idCounter = 0;
 		private final short id;
 		private final String name;
-		private final Item item;
-		private final int amount, points, level, craftingTime;
+		private final AbstractItemStack output;
+		private final int points, level, craftingTime;
 		private final EngramType type;
 		private final boolean hasBlueprint;
 		private final boolean defaultUnlocked;
 		private final Collection<EngramRecipe> recipes;
 
-		public Engram(String name, Item item, int amount, int points, int level, int craftingTime, EngramType type, boolean hasBlueprint, boolean defaultUnlocked, EngramRecipe... recipes)
+		public Engram(String name, AbstractItemStack output, int points, int level, int craftingTime, EngramType type, boolean hasBlueprint, boolean defaultUnlocked, EngramRecipe... recipes)
 		{
 			this.recipes = new TreeSet<>();
 			this.id = idCounter++;
 			this.name = name;
-			this.item = item;
-			this.amount = amount;
+			this.output = output;
 			this.points = points;
 			this.level = level;
 			this.craftingTime = craftingTime * 20;
@@ -244,29 +248,14 @@ public class EngramManager
 				addRecipe(r);
 		}
 
-		public Engram(String name, Item item, int amount, int points, int level, int craftingTime, EngramType type, boolean hasBlueprint, EngramRecipe... recipes)
+		public Engram(String name, AbstractItemStack output, int points, int level, int craftingTime, EngramType type, boolean hasBlueprint, EngramRecipe... recipes)
 		{
-			this(name, item, amount, points, level, craftingTime, type, hasBlueprint, false, recipes);
+			this(name, output, points, level, craftingTime, type, hasBlueprint, false, recipes);
 		}
 
-		public Engram(String name, Item item, int amount, int points, int level, int craftingTime, EngramType type, EngramRecipe... recipes)
+		public Engram(String name, AbstractItemStack output, int points, int level, int craftingTime, EngramType type, EngramRecipe... recipes)
 		{
-			this(name, item, amount, points, level, craftingTime, type, true, false, recipes);
-		}
-
-		public Engram(String name, Item item, int points, int level, int craftingTime, EngramType type, boolean hasBlueprint, boolean defaultUnlocked, EngramRecipe... recipes)
-		{
-			this(name, item, 1, points, level, craftingTime, type, hasBlueprint, defaultUnlocked, recipes);
-		}
-
-		public Engram(String name, Item item, int points, int level, int craftingTime, EngramType type, boolean hasBlueprint, EngramRecipe... recipes)
-		{
-			this(name, item, 1, points, level, craftingTime, type, hasBlueprint, false, recipes);
-		}
-
-		public Engram(String name, Item item, int points, int level, int craftingTime, EngramType type, EngramRecipe... recipes)
-		{
-			this(name, item, 1, points, level, craftingTime, type, true, false, recipes);
+			this(name, output, points, level, craftingTime, type, true, false, recipes);
 		}
 
 		public boolean hasBlueprint()
@@ -284,14 +273,9 @@ public class EngramManager
 			return id;
 		}
 
-		public Item getItem()
+		public AbstractItemStack getOutput()
 		{
-			return item;
-		}
-
-		public int getAmount()
-		{
-			return amount;
+			return output;
 		}
 
 		public String getName()
@@ -326,7 +310,7 @@ public class EngramManager
 
 		public boolean isQualitable()
 		{
-			return getItem() instanceof Qualitable;
+			return output.item instanceof Qualitable;
 		}
 
 		public boolean canCraft(IInventory inventory)
@@ -347,15 +331,15 @@ public class EngramManager
 		// TODO implement ItemQuality modifiers (also checks to see if something can have quality
 		public boolean canCraft(IInventory inventory, int amount, ItemQuality quality)
 		{
-			Map<Item, Integer> map = convertIInventoryToMap(inventory);
+			Collection<AbstractItemStack> is = convertIInventoryToAbstractInventory(inventory);
 			while (amount > 0)
 			{
 				boolean found = false;
 				for (EngramRecipe r : this.recipes)
 				{
-					if (r.canCraft(map))
+					if (r.canCraft(is))
 					{
-						r.consume(map);
+						r.consume(is);
 						amount--;
 						found = true;
 						if (amount <= 0) return true;
@@ -366,7 +350,7 @@ public class EngramManager
 			return false;
 		}
 
-		public int getCraftableAmount(Map<Item, Integer> inv)
+		public int getCraftableAmount(Collection<AbstractItemStack> inv)
 		{
 			int amount = 0;
 			for (EngramRecipe r : this.recipes)
@@ -407,20 +391,18 @@ public class EngramManager
 			return id - o.id;
 		}
 
-		public static Map<Item, Integer> convertIInventoryToMap(IInventory inv)
+		public static Collection<AbstractItemStack> convertIInventoryToAbstractInventory(IInventory inv)
 		{
-			Map<Item, Integer> out = new HashMap<>();
+			Collection<AbstractItemStack> out = Lists.newArrayList();
 			for (int i = 0; i < inv.getSizeInventory(); i++)
 			{
 				ItemStack s = inv.getStackInSlot(i);
 				if (s != null)
 				{
-					if (!out.containsKey(s.getItem()))
-					{
-						out.put(s.getItem(), s.stackSize);
-						continue;
-					}
-					out.put(s.getItem(), out.get(s.getItem()) + s.stackSize);
+					List<AbstractItemStack> matched =
+							CollectionUtil.filter(out, (AbstractItemStack ais) -> ais.item == s.getItem() && ais.meta == s.getMetadata());
+					if (!matched.isEmpty()) matched.get(0).amount += s.stackSize;
+					else out.add(new AbstractItemStack(s.getItem(), s.stackSize, s.getMetadata()));
 				}
 			}
 			return out;
@@ -428,10 +410,10 @@ public class EngramManager
 
 		public void consume(IInventory inv)
 		{
-			Map<Item, Integer> map = convertIInventoryToMap(inv);
+			Collection<AbstractItemStack> is = convertIInventoryToAbstractInventory(inv);
 			for (EngramRecipe recipe : recipes)
 			{
-				if (recipe.canCraft(map))
+				if (recipe.canCraft(is))
 				{
 					recipe.consume(inv);
 					return;
@@ -439,7 +421,7 @@ public class EngramManager
 			}
 		}
 
-		void consume(Map<Item, Integer> inv)
+		void consume(Collection<AbstractItemStack> inv)
 		{
 			for (EngramRecipe r : recipes)
 			{
@@ -454,40 +436,48 @@ public class EngramManager
 
 	public static class EngramRecipe implements Comparable<EngramRecipe>
 	{
-		private final Map<Item, Integer> items;
+		private final Set<AbstractItemStack> items;
 
 		private EngramRecipe()
 		{
-			this.items = new HashMap<>();
+			this.items = new TreeSet<>();
 		}
 
-		public EngramRecipe(Object... objects)
+		public EngramRecipe(Object... objects) // TODO don't require Objects but AbstractItemStacks
 		{
 			this();
-			if (objects.length % 2 == 0)
+			for (int i = 0; i < objects.length;)
 			{
-				for (int i = 0; i < objects.length; i += 2)
+				Object o1 = objects[i];
+				Object o2 = objects[i + 1];
+				if (o1 instanceof Item && o2 instanceof Integer)
 				{
-					Object o1 = objects[i];
-					Object o2 = objects[i + 1];
-					if (o1 instanceof Item && o2 instanceof Integer)
+					Item item = (Item) o1;
+					Integer amount = (Integer) o2;
+
+					if (i + 2 < objects.length)
 					{
-						Item item = (Item) o1;
-						Integer amount = (Integer) o2;
-						this.addItem(item, amount);
+						Object o3 = objects[i + 2];
+						if (o3 instanceof Integer)
+						{
+							Integer meta = (Integer) o3;
+							addItem(item, amount, meta);
+							i += 3;
+							continue;
+						}
 					}
-					else
-					{
-						throw new IllegalArgumentException(
-								"Invalid parameters for EngramRecipe. Pairs of Item and Integer or triplets of Item, Integer and Integer are expected.");
-					}
+					this.addItem(item, amount);
+					i += 2;
 				}
-				return;
+				else
+				{
+					throw new IllegalArgumentException(
+							"Invalid parameters for EngramRecipe. Pairs of Item and Integer or triplets of Item, Integer and Integer are expected.");
+				}
 			}
-			ARKCraft.logger.error("Invalid parameters for EngramRecipe. Pairs of Item and Integer are expected.");
 		}
 
-		public Map<Item, Integer> getItems()
+		public Collection<AbstractItemStack> getItems()
 		{
 			return items;
 		}
@@ -499,8 +489,9 @@ public class EngramManager
 			Arrays.fill(consumed, false);
 			Arrays.fill(yetFound, 0);
 
-			Item[] items = this.items.keySet().toArray(new Item[0]);
-			Integer[] required = this.items.values().toArray(new Integer[0]);
+			Item[] items = CollectionUtil.convert(this.items, (AbstractItemStack i) -> i.item).toArray(new Item[0]);
+			Integer[] required = CollectionUtil.convert(this.items, (AbstractItemStack i) -> i.amount).toArray(new Integer[0]);
+			Integer[] meta = CollectionUtil.convert(this.items, (AbstractItemStack i) -> i.meta).toArray(new Integer[0]);
 
 			for (int i = 0; i < inv.getSizeInventory(); i++)
 			{
@@ -509,7 +500,7 @@ public class EngramManager
 				{
 					for (int j = 0; j < items.length; j++)
 					{
-						if (s.getItem() == items[j])
+						if (s.getItem() == items[j] && s.getMetadata() == meta[j])
 						{
 							if (!consumed[j])
 							{
@@ -532,20 +523,24 @@ public class EngramManager
 			}
 		}
 
-		public void consume(Map<Item, Integer> map)
+		public void consume(Collection<AbstractItemStack> is)
 		{
-			for (Item i : items.keySet())
-			{
-				map.put(i, map.get(i) - items.get(i));
-			}
+			for (AbstractItemStack i : items)
+				for (AbstractItemStack j : is)
+					if (i.matches(j))
+					{
+						j.amount -= i.amount;
+						break;
+					}
 		}
 
-		public boolean canCraft(Map<Item, Integer> map)
+		public boolean canCraft(Collection<AbstractItemStack> is)
 		{
-			for (Item i : items.keySet())
+			for (AbstractItemStack i : items)
 			{
-				int required = items.get(i);
-				int available = map.getOrDefault(i, 0);
+				int required = i.amount;
+				AbstractItemStack inIs = CollectionUtil.find(is, (AbstractItemStack ais) -> ais.item, i.item);
+				int available = inIs != null ? inIs.amount : 0;
 				if (required > available) return false;
 			}
 			return true;
@@ -553,8 +548,14 @@ public class EngramManager
 
 		private void addItem(Item i, int amount)
 		{
-			if (!this.items.containsKey(i)) this.items.put(i, amount);
-			else this.items.put(i, items.get(i) + amount);
+			addItem(i, amount, 0);
+		}
+
+		private void addItem(Item i, int amount, int meta)
+		{
+			List<AbstractItemStack> matched = CollectionUtil.filter(items, (AbstractItemStack ais) -> ais.item == i && ais.meta == meta);
+			if (!matched.isEmpty()) matched.get(0).amount += amount;
+			else items.add(new AbstractItemStack(i, amount, meta));
 		}
 
 		@Override
@@ -563,13 +564,16 @@ public class EngramManager
 			if (obj instanceof EngramRecipe)
 			{
 				EngramRecipe r = (EngramRecipe) obj;
-				boolean out = true;
-				for (Entry<Item, Integer> e : items.entrySet())
+
+				if (r.items.size() == items.size())
 				{
-					out = r.items.containsKey(e.getKey()) ? r.items.get(e.getKey()) == e.getValue() : false;
-					if (!out) return out;
+					Iterator<AbstractItemStack> it1 = items.iterator();
+					Iterator<AbstractItemStack> it2 = r.items.iterator();
+					while (it1.hasNext() && it2.hasNext())
+						if (!it1.next().equals(it2.next())) return false;
+
+					return true;
 				}
-				return out;
 			}
 			return false;
 		}
@@ -578,7 +582,15 @@ public class EngramManager
 		public int compareTo(EngramRecipe o)
 		{
 			if (o.items.size() != items.size()) return items.size() - o.items.size();
-
+			else
+			{
+				int comp = 0;
+				Iterator<AbstractItemStack> it1 = items.iterator();
+				Iterator<AbstractItemStack> it2 = o.items.iterator();
+				while (it1.hasNext() && it2.hasNext())
+					comp = it1.next().compareTo(it2.next());
+				if (comp != 0) return comp;
+			}
 			return 0;
 		}
 	}
@@ -586,5 +598,62 @@ public class EngramManager
 	public enum EngramType
 	{
 		PLAYER, SMITHY, MORTAR_AND_PESTLE, FABRICATOR;
+	}
+
+	public static class AbstractItemStack implements Comparable<AbstractItemStack>
+	{
+		public final Item item;
+		private int amount;
+		public final int meta;
+
+		public AbstractItemStack(Item item, int amount, int meta)
+		{
+			super();
+			this.item = item;
+			this.amount = amount;
+			this.meta = meta;
+		}
+
+		public AbstractItemStack(Item item, int amount)
+		{
+			this(item, amount, 0);
+		}
+
+		public AbstractItemStack(Item item)
+		{
+			this(item, 1, 0);
+		}
+
+		public int getAmount()
+		{
+			return amount;
+		}
+
+		public boolean matches(AbstractItemStack i)
+		{
+			return i.item == item && i.meta == meta;
+		}
+
+		@Override
+		public boolean equals(Object obj)
+		{
+			return obj instanceof AbstractItemStack ? compareTo((AbstractItemStack) obj) == 0 : false;
+		}
+
+		@Override
+		public int compareTo(AbstractItemStack o)
+		{
+			return o.item != item ? item.getUnlocalizedName().compareTo(o.item.getUnlocalizedName()) : meta - o.meta;
+		}
+
+		public ItemStack toItemStack()
+		{
+			return new ItemStack(item, amount, meta);
+		}
+
+		public static AbstractItemStack fromItemStack(ItemStack i)
+		{
+			return new AbstractItemStack(i.getItem(), i.stackSize, i.getMetadata());
+		}
 	}
 }
