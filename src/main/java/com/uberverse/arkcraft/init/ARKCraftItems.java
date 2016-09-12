@@ -1,11 +1,5 @@
 package com.uberverse.arkcraft.init;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
-
-import net.minecraftforge.common.util.EnumHelper;
-
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot.BerryColor;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
@@ -32,6 +26,11 @@ import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot.CropP
 import com.uberverse.arkcraft.util.CollectionUtil;
 import com.uberverse.arkcraft.wip.itemquality.ItemStonePickaxe;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraftforge.common.util.EnumHelper;
+
 public class ARKCraftItems
 {
 
@@ -50,12 +49,12 @@ public class ARKCraftItems
 
 	// Food
 	public static ARKCraftFood tintoBerry, amarBerry, azulBerry, mejoBerry, narcoBerry, stimBerry, meat_raw, meat_cooked, primemeat_raw,
-	primemeat_cooked, spoiled_meat;
+			primemeat_cooked, spoiled_meat;
 	public static ARKCraftSeed tintoBerrySeed, amarBerrySeed, azulBerrySeed, mejoBerrySeed, narcoBerrySeed, stimBerrySeed;
 
 	// Misc
 	public static ARKCraftItem stone, fiber, thatch, wood, flint, metal, spark_powder, hide, charcoal, metal_ingot, cementing_paste, crystal,
-	spy_glass, narcotics, gunpowder, chitin, keratin, pelt;
+			spy_glass, narcotics, gunpowder, chitin, keratin, pelt;
 	public static ARKCraftFeces small_feces, medium_feces, large_feces, fertilizer, player_feces;
 	public static ARKCraftBook info_book;
 
@@ -169,8 +168,8 @@ public class ARKCraftItems
 		info_book = init.registerItem("info_book", new ARKCraftBook("info_book"));
 		tabItem = init.registerItem("tabItem", new Item());
 
-		// TODO remove
-		// test = init.registerItem("test", new ItemStonePickaxe());
+		// TODO remove when done testing
+		test = init.registerItem("test", new ItemStonePickaxe());
 	}
 
 	public static void initBlueprints()
@@ -181,10 +180,10 @@ public class ARKCraftItems
 
 	public static ARKCraftFeces addFecesItem(String name, int maxDamageIn)
 	{
-		//	ARKCraftFeces i = new ARKCraftFeces();
-		//	i.setMaxDamage(maxDamageIn * 20);
-		//	registerItem(name, i);
-		//	return i;
+		// ARKCraftFeces i = new ARKCraftFeces();
+		// i.setMaxDamage(maxDamageIn * 20);
+		// registerItem(name, i);
+		// return i;
 		return InitializationManager.instance().registerItem(name, new ARKCraftFeces(maxDamageIn));
 	}
 

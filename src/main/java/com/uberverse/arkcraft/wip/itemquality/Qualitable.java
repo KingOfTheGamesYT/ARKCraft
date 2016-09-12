@@ -12,8 +12,7 @@ public interface Qualitable
 
 	public static ItemQuality get(ItemStack stack)
 	{
-		NBTTagCompound nbt = stack.getTagCompound();
-		if (nbt.hasKey(qualityKey)) return ItemQuality.get(nbt.getByte(qualityKey));
+		if (stack.getTagCompound().hasKey(qualityKey)) return ItemQuality.get(stack.getTagCompound().getByte(qualityKey));
 		return null;
 	}
 

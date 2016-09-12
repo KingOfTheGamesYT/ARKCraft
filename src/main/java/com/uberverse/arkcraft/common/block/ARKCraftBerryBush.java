@@ -28,7 +28,7 @@ import net.minecraft.world.biome.BiomeColorHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ARKCraftBerryBush extends BlockBush
+public class ARKCraftBerryBush extends BlockBush implements ARKMark
 {
 
 	public static final PropertyInteger HARVEST_COUNT = PropertyInteger.create("harvest", 0, 3);

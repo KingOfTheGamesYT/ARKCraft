@@ -11,12 +11,10 @@ import com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable;
 import com.uberverse.arkcraft.common.container.scrollable.SlotScrolling;
 import com.uberverse.arkcraft.common.engram.CraftingOrder;
 import com.uberverse.arkcraft.common.engram.EngramManager;
-import com.uberverse.arkcraft.common.engram.EngramManager.AbstractItemStack;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.common.engram.EngramManager.EngramType;
 import com.uberverse.arkcraft.common.engram.IEngramCrafter;
 import com.uberverse.arkcraft.common.item.ItemBlueprint;
-import com.uberverse.arkcraft.wip.itemquality.Qualitable;
 import com.uberverse.arkcraft.wip.itemquality.Qualitable.ItemQuality;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -554,8 +552,10 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		@Override
 		public ItemStack getStackInSlot(int index)
 		{
-			AbstractItemStack output = engrams.get(index).getOutput();
-			return new ItemStack(output.item, 1, output.meta);
+
+			ItemStack output = engrams.get(index).getOutputAsItemStack();
+			output.stackSize = 1;
+			return output;
 		}
 
 		@Override
@@ -676,10 +676,9 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 			if (index < getSizeInventory())
 			{
 				CraftingOrder c = getCraftingOrder(index);
-				AbstractItemStack output = c.getEngram().getOutput();
-				ItemStack s = new ItemStack(output.item, c.getCount() * output.getAmount(), output.meta);
-				if (c.isQualitable()) Qualitable.set(s, c.getItemQuality());
-				return s;
+				ItemStack output = c.getEngram().getOutputAsItemStack(c.getItemQuality());
+				output.stackSize *= c.getCount();
+				return output;
 			}
 			return null;
 		}

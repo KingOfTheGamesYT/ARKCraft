@@ -94,7 +94,7 @@ public class CraftingOrder
 
 	public boolean canCraft(IInventory inventory)
 	{
-		return engram.canCraft(inventory, 1);
+		return canCraft(inventory, 1);
 	}
 
 	public boolean matches(Engram engram, ItemQuality itemQuality)

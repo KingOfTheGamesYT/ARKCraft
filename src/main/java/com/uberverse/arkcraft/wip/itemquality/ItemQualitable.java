@@ -28,7 +28,8 @@ public abstract class ItemQualitable extends Item implements Qualitable
 	@Override
 	public int getMaxDamage(ItemStack stack)
 	{
-		return (int) (baseDurability + Qualitable.get(stack).multiplierTreshold);
+		ItemQuality q = Qualitable.get(stack);
+		return (int) (baseDurability * (q != null ? q.multiplierTreshold : 0));
 	}
 
 	public double getDurability(ItemStack stack)

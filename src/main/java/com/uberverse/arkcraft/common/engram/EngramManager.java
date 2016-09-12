@@ -284,6 +284,18 @@ public class EngramManager
 			return output;
 		}
 
+		public ItemStack getOutputAsItemStack()
+		{
+			return getOutputAsItemStack(ItemQuality.PRIMITIVE);
+		}
+
+		public ItemStack getOutputAsItemStack(ItemQuality q)
+		{
+			ItemStack s = getOutput().toItemStack();
+			if (isQualitable()) Qualitable.set(s, q);
+			return s;
+		}
+
 		public String getName()
 		{
 			return name;
@@ -508,6 +520,8 @@ public class EngramManager
 			int[] yetFound = new int[items.size()];
 			Arrays.fill(consumed, false);
 			Arrays.fill(yetFound, 0);
+
+			System.out.println(getResourceMultiplier(quality));
 
 			Item[] items = CollectionUtil.convert(this.items, (AbstractItemStack i) -> i.item).toArray(new Item[0]);
 			Integer[] required = CollectionUtil.convert(this.items, (AbstractItemStack i) -> (int) (i.amount * getResourceMultiplier(quality)))

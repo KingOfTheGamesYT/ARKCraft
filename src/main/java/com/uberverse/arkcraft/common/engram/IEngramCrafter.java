@@ -9,7 +9,6 @@ import com.uberverse.arkcraft.common.engram.EngramManager.AbstractItemStack;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.util.IInventoryAdder;
 import com.uberverse.arkcraft.util.NBTable;
-import com.uberverse.arkcraft.wip.itemquality.Qualitable;
 import com.uberverse.arkcraft.wip.itemquality.Qualitable.ItemQuality;
 
 import net.minecraft.inventory.IInventory;
@@ -36,9 +35,7 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder
 				{
 					CraftingOrder c = craftingQueue.peek();
 					c.decreaseCount(1);
-					AbstractItemStack i = c.getEngram().getOutput();
-					ItemStack out = i.toItemStack();
-					if (c.isQualitable()) Qualitable.set(out, c.getItemQuality());
+					ItemStack out = c.getEngram().getOutputAsItemStack(c.getItemQuality());
 					addOrDrop(out);
 					if (c.getCount() == 0)
 					{

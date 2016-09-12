@@ -19,11 +19,13 @@ import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.common.engram.EngramManager.EngramRecipe;
 import com.uberverse.arkcraft.common.engram.IEngramCrafter;
 import com.uberverse.arkcraft.util.I18n;
+import com.uberverse.arkcraft.wip.itemquality.Qualitable.ItemQuality;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
@@ -168,12 +170,24 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 						shown = (shown + 1 == recipes.size()) ? 0 : shown + 1;
 					}
 					textLines.clear();
-					textLines.add(tooltipped.getTitle() + (tooltipped.getOutput().getAmount() > 1 ? " x " + tooltipped.getOutput().getAmount() : ""));
+
+					ItemQuality out = ItemQuality.PRIMITIVE;
+					double multiplier = 1;
+					if (tooltipped.isQualitable() && slot instanceof BlueprintSlot)
+					{
+						BlueprintSlot b = (BlueprintSlot) slot;
+						out = b.getItemQuality();
+						multiplier = b.getItemQuality().resourceMultiplier;
+					}
+
+					ItemStack output = tooltipped.getOutputAsItemStack(out);
+					textLines.add(output.getItem().getItemStackDisplayName(output) + (output.stackSize > 1 ? " x " + output.stackSize : ""));
 					EngramRecipe er = recipes.get(shown);
+
 					for (AbstractItemStack i : er.getItems())
 					{
 						textLines.add(EnumChatFormatting.GOLD + I18n.format("gui.engramcrafting.engram.tooltip.ingredient",
-								I18n.translate(i.item.getUnlocalizedName() + ".name"), i.getAmount()));
+								I18n.translate(i.item.getUnlocalizedName() + ".name"), (int) (i.getAmount() * multiplier)));
 					}
 				}
 			}
