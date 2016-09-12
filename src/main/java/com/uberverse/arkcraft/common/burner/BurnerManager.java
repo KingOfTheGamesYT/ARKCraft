@@ -70,9 +70,7 @@ public class BurnerManager
 
 	public Collection<BurnerRecipe> getRecipes(BurnerType type)
 	{
-		return CollectionUtil.filter(recipes, (BurnerRecipe r) -> {
-			return r.type == type;
-		});
+		return CollectionUtil.filter(recipes, (BurnerRecipe r) -> r.type == type);
 	}
 
 	public Collection<BurnerFuel> getFuels()
@@ -82,23 +80,17 @@ public class BurnerManager
 
 	public Collection<BurnerFuel> getFuels(BurnerType type)
 	{
-		return CollectionUtil.filter(fuels, (BurnerFuel f) -> {
-			return f.isValidBurner(type);
-		});
+		return CollectionUtil.filter(fuels, (BurnerFuel f) -> f.isValidBurner(type));
 	}
 
 	public boolean isValidFuel(Item item, BurnerType type)
 	{
-		return !CollectionUtil.filter(fuels, (BurnerFuel f) -> {
-			return f.item == item && f.isValidBurner(type);
-		}).isEmpty();
+		return !CollectionUtil.filter(fuels, (BurnerFuel f) -> f.item == item && f.isValidBurner(type)).isEmpty();
 	}
 
 	public BurnerFuel getFuel(Item item)
 	{
-		return CollectionUtil.find(fuels, (BurnerFuel f) -> {
-			return f.item;
-		}, item);
+		return CollectionUtil.find(fuels, (BurnerFuel f) -> f.item, item);
 	}
 
 	public static class BurnerFuel

@@ -3,7 +3,6 @@ package com.uberverse.arkcraft.common.engram;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -190,17 +189,13 @@ public class EngramManager
 	public List<Engram> getUnlockedEngrams(EntityPlayer player)
 	{
 		final Collection<Short> col = ARKPlayer.get(player).getUnlockedEngrams();
-		return CollectionUtil.filter(engrams, (Engram e) -> {
-			return col.contains(e.id);
-		});
+		return CollectionUtil.filter(engrams, (Engram e) -> col.contains(e.id));
 	}
 
 	public List<Engram> getUnlockedEngramsOfType(EntityPlayer player, final EngramType type)
 	{
 		final Collection<Short> ue = ARKPlayer.get(player).getUnlockedEngrams();
-		return CollectionUtil.filter(engrams, (Engram e) -> {
-			return e.type == type && ue.contains(e.id);
-		});
+		return CollectionUtil.filter(engrams, (Engram e) -> e.type == type && ue.contains(e.id));
 	}
 
 	public boolean canPlayerLearn(EntityPlayer player, short engramId)
@@ -208,6 +203,16 @@ public class EngramManager
 		Engram e = getEngram(engramId);
 		ARKPlayer p = ARKPlayer.get(player);
 		return e != null && !p.getUnlockedEngrams().contains(engramId) && p.getLevel() >= e.getLevel() && p.getEngramPoints() >= e.getPoints();
+	}
+
+	public Collection<Engram> getBlueprintEngrams()
+	{
+		return CollectionUtil.filter(getEngrams(), (Engram e) -> e.hasBlueprint);
+	}
+
+	public Collection<Engram> getDefaultEngrams()
+	{
+		return CollectionUtil.filter(getEngrams(), (Engram e) -> e.defaultUnlocked);
 	}
 
 	public static class Engram implements Comparable<Engram>
@@ -219,11 +224,12 @@ public class EngramManager
 		private final int amount, points, level, craftingTime;
 		private final EngramType type;
 		private final boolean hasBlueprint;
+		private final boolean defaultUnlocked;
 		private final Collection<EngramRecipe> recipes;
 
-		public Engram(String name, Item item, int amount, int points, int level, int craftingTime, EngramType type, boolean hasBlueprint, EngramRecipe... recipes)
+		public Engram(String name, Item item, int amount, int points, int level, int craftingTime, EngramType type, boolean hasBlueprint, boolean defaultUnlocked, EngramRecipe... recipes)
 		{
-			this.recipes = new HashSet<>();
+			this.recipes = new TreeSet<>();
 			this.id = idCounter++;
 			this.name = name;
 			this.item = item;
@@ -233,28 +239,44 @@ public class EngramManager
 			this.craftingTime = craftingTime * 20;
 			this.type = type;
 			this.hasBlueprint = hasBlueprint;
+			this.defaultUnlocked = defaultUnlocked;
 			for (EngramRecipe r : recipes)
 				addRecipe(r);
 		}
 
+		public Engram(String name, Item item, int amount, int points, int level, int craftingTime, EngramType type, boolean hasBlueprint, EngramRecipe... recipes)
+		{
+			this(name, item, amount, points, level, craftingTime, type, hasBlueprint, false, recipes);
+		}
+
 		public Engram(String name, Item item, int amount, int points, int level, int craftingTime, EngramType type, EngramRecipe... recipes)
 		{
-			this(name, item, amount, points, level, craftingTime, type, true, recipes);
+			this(name, item, amount, points, level, craftingTime, type, true, false, recipes);
+		}
+
+		public Engram(String name, Item item, int points, int level, int craftingTime, EngramType type, boolean hasBlueprint, boolean defaultUnlocked, EngramRecipe... recipes)
+		{
+			this(name, item, 1, points, level, craftingTime, type, hasBlueprint, defaultUnlocked, recipes);
 		}
 
 		public Engram(String name, Item item, int points, int level, int craftingTime, EngramType type, boolean hasBlueprint, EngramRecipe... recipes)
 		{
-			this(name, item, 1, points, level, craftingTime, type, hasBlueprint, recipes);
+			this(name, item, 1, points, level, craftingTime, type, hasBlueprint, false, recipes);
 		}
 
 		public Engram(String name, Item item, int points, int level, int craftingTime, EngramType type, EngramRecipe... recipes)
 		{
-			this(name, item, 1, points, level, craftingTime, type, true, recipes);
+			this(name, item, 1, points, level, craftingTime, type, true, false, recipes);
 		}
 
 		public boolean hasBlueprint()
 		{
 			return hasBlueprint;
+		}
+
+		public boolean isDefaultUnlocked()
+		{
+			return defaultUnlocked;
 		}
 
 		public short getId()
@@ -430,7 +452,7 @@ public class EngramManager
 		}
 	}
 
-	public static class EngramRecipe
+	public static class EngramRecipe implements Comparable<EngramRecipe>
 	{
 		private final Map<Item, Integer> items;
 
@@ -456,8 +478,8 @@ public class EngramManager
 					}
 					else
 					{
-						ARKCraft.logger.error("Invalid parameters for EngramRecipe. Pairs of Item and Integer are expected.");
-						throw new IllegalArgumentException("Invalid parameters for EngramRecipe. Pairs of Item and Integer are expected.");
+						throw new IllegalArgumentException(
+								"Invalid parameters for EngramRecipe. Pairs of Item and Integer or triplets of Item, Integer and Integer are expected.");
 					}
 				}
 				return;
@@ -551,15 +573,18 @@ public class EngramManager
 			}
 			return false;
 		}
+
+		@Override
+		public int compareTo(EngramRecipe o)
+		{
+			if (o.items.size() != items.size()) return items.size() - o.items.size();
+
+			return 0;
+		}
 	}
 
 	public enum EngramType
 	{
 		PLAYER, SMITHY, MORTAR_AND_PESTLE, FABRICATOR;
-	}
-
-	public Collection<Engram> getBlueprintEngrams()
-	{
-		return CollectionUtil.filter(getEngrams(), (Engram e) -> e.hasBlueprint);
 	}
 }

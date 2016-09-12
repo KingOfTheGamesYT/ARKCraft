@@ -39,9 +39,7 @@ public interface IBurner extends IInventoryAdder, NBTable
 		if (!world.isRemote)
 		{
 			Collection<BurnerRecipe> possibleRecipes = BurnerManager.instance().getRecipes(getBurnerType());
-			possibleRecipes = CollectionUtil.filter(possibleRecipes, (BurnerRecipe r) -> {
-				return canCook(r);
-			});
+			possibleRecipes = CollectionUtil.filter(possibleRecipes, (BurnerRecipe r) -> canCook(r));
 
 			if (this.isBurning() && possibleRecipes.size() > 0)
 			{
@@ -253,9 +251,7 @@ public interface IBurner extends IInventoryAdder, NBTable
 		for (int i = 0; i < inventory.tagCount(); i++)
 			out.add(inventory.getCompoundTagAt(i));
 
-		List<ItemStack> in = CollectionUtil.convert(out, (NBTTagCompound n) -> {
-			return n.getBoolean("null") ? null : ItemStack.loadItemStackFromNBT(n);
-		});
+		List<ItemStack> in = CollectionUtil.convert(out, (NBTTagCompound n) -> n.getBoolean("null") ? null : ItemStack.loadItemStackFromNBT(n));
 
 		for (int i = 0; i < getInventory().length; i++)
 			getInventory()[i] = in.get(i);

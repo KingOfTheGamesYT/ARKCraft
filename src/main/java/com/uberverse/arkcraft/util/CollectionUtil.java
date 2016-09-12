@@ -75,9 +75,7 @@ public class CollectionUtil
 
 	public static <E, T> E find(Collection<E> col, Function<E, T> converter, T sought)
 	{
-		List<E> l = filter(col, (E e) -> {
-			return converter.apply(e).equals(sought);
-		});
+		List<E> l = filter(col, (E e) -> converter.apply(e).equals(sought));
 		return l.isEmpty() ? null : l.get(0);
 	}
 
