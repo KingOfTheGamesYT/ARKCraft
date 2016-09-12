@@ -66,12 +66,14 @@ public class ItemBlueprint extends ARKCraftItem
 
 	public static Engram getEngram(ItemStack stack)
 	{
+		if (!stack.hasTagCompound()) return null;
 		short id = stack.getTagCompound().getShort("engram");
 		return id < EngramManager.instance().getEngrams().size() && id >= 0 ? EngramManager.instance().getEngram(id) : null;
 	}
 
 	public static ItemQuality getItemQuality(ItemStack stack)
 	{
+		if (!stack.hasTagCompound()) return null;
 		return ItemQuality.get(stack.getTagCompound().getByte("itemQuality"));
 	}
 

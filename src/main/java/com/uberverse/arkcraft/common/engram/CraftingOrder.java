@@ -105,6 +105,6 @@ public class CraftingOrder
 	public int getCraftingDuration()
 	{
 		// TODO change itemquality multiplier
-		return (int) (engram.getCraftingTime() * (isQualitable() ? itemQuality.durabilityMultiplier : 1));
+		return (int) (engram.getCraftingTime() * (isQualitable() ? itemQuality.multiplierTreshold : 1));
 	}
 }

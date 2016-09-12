@@ -13,7 +13,6 @@ import com.uberverse.arkcraft.wip.itemquality.Qualitable;
 import com.uberverse.arkcraft.wip.itemquality.Qualitable.ItemQuality;
 
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -74,7 +73,7 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder
 			{
 				setProgress(c.getEngram().getCraftingTime());
 				setTimeOffset((int) (getWorldIA().getTotalWorldTime() % 20));
-				c.getEngram().consume(getConsumedInventory());
+				c.getEngram().consume(getConsumedInventory(), c.getItemQuality());
 				sync();
 			}
 		}
@@ -306,12 +305,12 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder
 			int i = c.getCount();
 			while (i > 0)
 			{
-				c.getEngram().consume(is);
+				c.getEngram().consume(is, c.getItemQuality());
 				i--;
 			}
 		}
 
-		return engram.getCraftableAmount(is) - getCraftingAmount(engram, itemQuality);
+		return engram.getCraftableAmount(is, itemQuality) - getCraftingAmount(engram, itemQuality);
 	}
 
 	public default boolean isCrafting()

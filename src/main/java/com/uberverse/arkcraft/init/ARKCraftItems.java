@@ -24,6 +24,7 @@ import com.uberverse.arkcraft.common.item.tools.ItemStoneHatchet;
 import com.uberverse.arkcraft.common.item.tools.ItemStonePick;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot.CropPlotType;
 import com.uberverse.arkcraft.util.CollectionUtil;
+import com.uberverse.arkcraft.wip.itemquality.ItemStonePickaxe;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
@@ -74,10 +75,13 @@ public class ARKCraftItems
 	public static ToolMaterial STONE = EnumHelper.addToolMaterial("STONE_MAT", 2, 500, 3.5F, 1.5F, 13);
 	public static ToolMaterial WOOD = EnumHelper.addToolMaterial("WOOD_MAT", 1, 200, 2.5F, 1.0F, 3);
 
+	// TODO remove after testing
+	public static ItemStonePickaxe test;
+
 	public static void init()
 	{
 		InitializationManager init = InitializationManager.instance();
-		
+
 		// Resources
 		cementing_paste = addItem("cementing_paste");
 		crystal = addItem("crystal");
@@ -154,16 +158,18 @@ public class ARKCraftItems
 
 		// feces
 		small_feces = addFecesItem("small_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE * 20);
-		medium_feces = addFecesItem("medium_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE* 20);
-		large_feces = addFecesItem("large_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE* 20);
-		player_feces = addFecesItem("player_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_PLAYER_FECES_TO_DECOMPOSE* 20);
+		medium_feces = addFecesItem("medium_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE * 20);
+		large_feces = addFecesItem("large_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE * 20);
+		player_feces = addFecesItem("player_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_PLAYER_FECES_TO_DECOMPOSE * 20);
 		// Technically not feces, but used in all situations the same
 		// (currently)
-		fertilizer = addFecesItem("fertilizer", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_FERTILIZER_TO_DECOMPOSE* 20);
+		fertilizer = addFecesItem("fertilizer", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_FERTILIZER_TO_DECOMPOSE * 20);
 
 		info_book = init.registerItem("info_book", new ARKCraftBook("info_book"));
-		tabItem =  init.registerItem("tabItem", new Item());
+		tabItem = init.registerItem("tabItem", new Item());
 
+		// TODO remove
+		// test = init.registerItem("test", new ItemStonePickaxe());
 	}
 
 	public static void initBlueprints()
@@ -174,10 +180,10 @@ public class ARKCraftItems
 
 	public static ARKCraftFeces addFecesItem(String name, int maxDamageIn)
 	{
-	//	ARKCraftFeces i = new ARKCraftFeces();
-	//	i.setMaxDamage(maxDamageIn * 20);
-	//	registerItem(name, i);
-	//	return i;
+		// ARKCraftFeces i = new ARKCraftFeces();
+		// i.setMaxDamage(maxDamageIn * 20);
+		// registerItem(name, i);
+		// return i;
 		return InitializationManager.instance().registerItem(name, new ARKCraftFeces());
 	}
 

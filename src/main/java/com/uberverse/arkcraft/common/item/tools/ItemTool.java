@@ -6,11 +6,9 @@ import java.util.Set;
 import com.google.common.collect.Multimap;
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.init.ARKCraftItems;
-import com.uberverse.arkcraft.wip.itemquality.Qualitable;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -26,7 +24,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemTool extends Item implements Qualitable
+public class ItemTool extends Item
 {
 	public String[] toolQuality = { "primitive", "ramshackle", "apprentice", "journeyman", "mastercraft", "ascendant" };
 	private Set effectiveBlocks;
@@ -65,12 +63,6 @@ public class ItemTool extends Item implements Qualitable
 	 * playerIn) { getNBTTag(stack, myTag); System.out.println(getNBTTag(stack,
 	 * myTag)); }
 	 */
-
-	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item item, CreativeTabs tab, List itemList)
-	{
-		Qualitable.super.getSubItems(item, tab, itemList);
-	}
 
 	/*
 	 * public void setNBData(ItemStack stack) { NBTTagCompound data = new
@@ -469,9 +461,4 @@ public class ItemTool extends Item implements Qualitable
 	 * =================================
 	 */
 
-	@Override
-	public String getItemStackDisplayNameAppendage(ItemStack stack)
-	{
-		return super.getItemStackDisplayName(stack);
-	}
 }

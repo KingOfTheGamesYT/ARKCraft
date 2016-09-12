@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.function.Function;
 
 import com.google.common.collect.Lists;
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
@@ -37,13 +38,15 @@ public class EngramManager
 	{
 		// Player
 		// lvl 1
-		instance().registerEngram(new Engram("stone_pick", new AbstractItemStack(ARKCraftItems.stone_pick), 0, 1, 5, EngramType.PLAYER,
-				new EngramRecipe(ARKCraftItems.wood, 1, ARKCraftItems.stone, 1, ARKCraftItems.thatch, 10)));
+		instance().registerEngram(new Engram("stone_pick", new AbstractItemStack(ARKCraftItems.test), 0, 1, 5, EngramType.PLAYER,
+				new EngramRecipe(new AbstractItemStack(ARKCraftItems.wood, 1), new AbstractItemStack(ARKCraftItems.stone, 1),
+						new AbstractItemStack(ARKCraftItems.thatch, 10))));
 
 		// lvl 2
-		instance().registerEngram(
-				new Engram("campfire", new AbstractItemStack(Item.getItemFromBlock(ARKCraftBlocks.campfire)), 3, 2, 10, EngramType.PLAYER,
-						new EngramRecipe(ARKCraftItems.wood, 2, ARKCraftItems.stone, 16, ARKCraftItems.thatch, 12, ARKCraftItems.flint, 1)));
+		instance().registerEngram(new Engram("campfire", new AbstractItemStack(Item.getItemFromBlock(ARKCraftBlocks.campfire)), 3, 2, 10,
+				EngramType.PLAYER, new EngramRecipe(new AbstractItemStack(ARKCraftItems.wood, 2), new AbstractItemStack(ARKCraftItems.stone, 16),
+						new AbstractItemStack(ARKCraftItems.thatch, 12), new AbstractItemStack(ARKCraftItems.flint, 1))));
+		// TODO from here on replace EngramRecipe constructors with newer (and simpler) AbstractItemStack one
 		instance().registerEngram(new Engram("stone_hatchet", new AbstractItemStack(ARKCraftItems.stone_hatchet), 3, 2, 5, EngramType.PLAYER,
 				new EngramRecipe(ARKCraftItems.wood, 1, ARKCraftItems.thatch, 10, ARKCraftItems.flint, 1)));
 		instance().registerEngram(new Engram("spear", new AbstractItemStack(ARKCraftItems.spear), 3, 2, 5, EngramType.PLAYER,
@@ -245,7 +248,10 @@ public class EngramManager
 			this.hasBlueprint = hasBlueprint;
 			this.defaultUnlocked = defaultUnlocked;
 			for (EngramRecipe r : recipes)
+			{
 				addRecipe(r);
+				r.getResourceMultiplier = (ItemQuality q) -> isQualitable() ? q.resourceMultiplier : 1;
+			}
 		}
 
 		public Engram(String name, AbstractItemStack output, int points, int level, int craftingTime, EngramType type, boolean hasBlueprint, EngramRecipe... recipes)
@@ -328,7 +334,6 @@ public class EngramManager
 			return canCraft(inventory, 1, quality);
 		}
 
-		// TODO implement ItemQuality modifiers (also checks to see if something can have quality
 		public boolean canCraft(IInventory inventory, int amount, ItemQuality quality)
 		{
 			Collection<AbstractItemStack> is = convertIInventoryToAbstractInventory(inventory);
@@ -337,9 +342,9 @@ public class EngramManager
 				boolean found = false;
 				for (EngramRecipe r : this.recipes)
 				{
-					if (r.canCraft(is))
+					if (r.canCraft(is, quality))
 					{
-						r.consume(is);
+						r.consume(is, quality);
 						amount--;
 						found = true;
 						if (amount <= 0) return true;
@@ -350,14 +355,14 @@ public class EngramManager
 			return false;
 		}
 
-		public int getCraftableAmount(Collection<AbstractItemStack> inv)
+		public int getCraftableAmount(Collection<AbstractItemStack> inv, ItemQuality quality)
 		{
 			int amount = 0;
 			for (EngramRecipe r : this.recipes)
 			{
-				while (r.canCraft(inv))
+				while (r.canCraft(inv, quality))
 				{
-					r.consume(inv);
+					r.consume(inv, quality);
 					amount++;
 				}
 			}
@@ -408,26 +413,26 @@ public class EngramManager
 			return out;
 		}
 
-		public void consume(IInventory inv)
+		public void consume(IInventory inv, ItemQuality quality)
 		{
 			Collection<AbstractItemStack> is = convertIInventoryToAbstractInventory(inv);
 			for (EngramRecipe recipe : recipes)
 			{
-				if (recipe.canCraft(is))
+				if (recipe.canCraft(is, quality))
 				{
-					recipe.consume(inv);
+					recipe.consume(inv, quality);
 					return;
 				}
 			}
 		}
 
-		void consume(Collection<AbstractItemStack> inv)
+		void consume(Collection<AbstractItemStack> inv, ItemQuality quality)
 		{
 			for (EngramRecipe r : recipes)
 			{
-				if (r.canCraft(inv))
+				if (r.canCraft(inv, quality))
 				{
-					r.consume(inv);
+					r.consume(inv, quality);
 					return;
 				}
 			}
@@ -437,13 +442,23 @@ public class EngramManager
 	public static class EngramRecipe implements Comparable<EngramRecipe>
 	{
 		private final Set<AbstractItemStack> items;
+		private Function<ItemQuality, Double> getResourceMultiplier;
 
 		private EngramRecipe()
 		{
 			this.items = new TreeSet<>();
 		}
 
-		public EngramRecipe(Object... objects) // TODO don't require Objects but AbstractItemStacks
+		public EngramRecipe(AbstractItemStack... stacks)
+		{
+			this();
+			for (AbstractItemStack ais : stacks)
+			{
+				items.add(ais);
+			}
+		}
+
+		public EngramRecipe(Object... objects) // TODO stop using this in favour of above
 		{
 			this();
 			for (int i = 0; i < objects.length;)
@@ -482,7 +497,12 @@ public class EngramManager
 			return items;
 		}
 
-		void consume(IInventory inv)
+		private double getResourceMultiplier(ItemQuality quality)
+		{
+			return getResourceMultiplier.apply(quality);
+		}
+
+		void consume(IInventory inv, ItemQuality quality)
 		{
 			boolean[] consumed = new boolean[items.size()];
 			int[] yetFound = new int[items.size()];
@@ -490,7 +510,8 @@ public class EngramManager
 			Arrays.fill(yetFound, 0);
 
 			Item[] items = CollectionUtil.convert(this.items, (AbstractItemStack i) -> i.item).toArray(new Item[0]);
-			Integer[] required = CollectionUtil.convert(this.items, (AbstractItemStack i) -> i.amount).toArray(new Integer[0]);
+			Integer[] required = CollectionUtil.convert(this.items, (AbstractItemStack i) -> (int) (i.amount * getResourceMultiplier(quality)))
+					.toArray(new Integer[0]);
 			Integer[] meta = CollectionUtil.convert(this.items, (AbstractItemStack i) -> i.meta).toArray(new Integer[0]);
 
 			for (int i = 0; i < inv.getSizeInventory(); i++)
@@ -523,23 +544,24 @@ public class EngramManager
 			}
 		}
 
-		public void consume(Collection<AbstractItemStack> is)
+		public void consume(Collection<AbstractItemStack> is, ItemQuality quality)
 		{
 			for (AbstractItemStack i : items)
 				for (AbstractItemStack j : is)
 					if (i.matches(j))
 					{
-						j.amount -= i.amount;
+						j.amount -= (i.amount * getResourceMultiplier(quality));
 						break;
 					}
 		}
 
-		public boolean canCraft(Collection<AbstractItemStack> is)
+		public boolean canCraft(Collection<AbstractItemStack> is, ItemQuality quality)
 		{
 			for (AbstractItemStack i : items)
 			{
-				int required = i.amount;
-				AbstractItemStack inIs = CollectionUtil.find(is, (AbstractItemStack ais) -> ais.item, i.item);
+				int required = (int) (i.amount * getResourceMultiplier(quality));
+				List<AbstractItemStack> found = CollectionUtil.filter(is, (AbstractItemStack ais) -> ais.matches(i));
+				AbstractItemStack inIs = !found.isEmpty() ? found.get(0) : null;
 				int available = inIs != null ? inIs.amount : 0;
 				if (required > available) return false;
 			}

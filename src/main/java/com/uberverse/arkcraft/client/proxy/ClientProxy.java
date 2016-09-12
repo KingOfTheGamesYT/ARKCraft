@@ -103,30 +103,8 @@ public class ClientProxy extends CommonProxy
 			}
 		});
 
-		// for (Map.Entry<String, Block> e : ARKCraftBlocks.allBlocks.entrySet())
-		// {
-		// String name = e.getKey();
-		// Block b = e.getValue();
-		// registerBlockTexture(b, name);
-		// }
-
-		// for (Map.Entry<String, Item> e : ARKCraftItems.allItems.entrySet())
-		// {
-		// String name = e.getKey();
-		// Item item = e.getValue();
-		// registerItemTexture(item, name);
-		// }
-		//
-		// for (Entry<String, Item> i : ARKCraftRangedWeapons.allWeaponItems.entrySet())
-		// {
-		// registerItemTexture(i.getValue(), 0, i.getKey());
-		// }
-
 		// Register models for entities
 		registerEntityModels();
-
-		// Register variant models for all weapon items
-		registerItemVariants();
 
 		registerBlockTexture(ARKCraftBlocks.crop_plot, 1, "crop_plot");
 		registerBlockTexture(ARKCraftBlocks.crop_plot, 2, "crop_plot");
