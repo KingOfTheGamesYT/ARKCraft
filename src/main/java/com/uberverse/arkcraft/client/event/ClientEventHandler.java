@@ -310,7 +310,7 @@ public class ClientEventHandler
 			}
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void onPlayerKeypressed(InputEvent.KeyInputEvent event)
 	{
@@ -364,13 +364,9 @@ public class ClientEventHandler
 	@SubscribeEvent
 	public void easter(PlayerInteractEvent event)
 	{
-		try 
+		if (event.pos != null && event.world.getBlockState(event.pos).getBlock() instanceof BlockRefiningForge)
 		{
-			if(event.world.getBlockState(event.pos).getBlock() instanceof BlockRefiningForge)
-			{
-				Easter.handleInteract(event);
-			}
-		} catch(NullPointerException e) {}
+			Easter.handleInteract(event);
+		}
 	}
-
 }

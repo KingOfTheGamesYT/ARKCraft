@@ -60,6 +60,7 @@ public class ARKCraft
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
+		modContainer.setEnabledState(false);
 		proxy.postInit(event);
 		updateCheckResult();
 	}
