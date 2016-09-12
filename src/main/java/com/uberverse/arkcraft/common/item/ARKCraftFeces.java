@@ -1,19 +1,26 @@
 package com.uberverse.arkcraft.common.item;
 
-import com.uberverse.arkcraft.ARKCraft;
+import java.util.List;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class ARKCraftFeces extends Item 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import com.uberverse.arkcraft.ARKCraft;
+
+public class ARKCraftFeces extends Item
 {
-//	public int decayTime;
-	
-	public ARKCraftFeces()
+	//	public int decayTime;
+
+	public ARKCraftFeces(int maxDamageIn)
 	{
 		this.setMaxStackSize(1);
 		this.setCreativeTab(ARKCraft.tabARK);
-//		this.decayTime = decayTime;
+		setMaxDamage(maxDamageIn);
+		//		this.decayTime = decayTime;
 	}
 
 	// seconds that this fertilizer will grow a crop
@@ -32,7 +39,7 @@ public class ARKCraftFeces extends Item
 	 * @param advanced
 	 *            Whether the setting "Advanced tooltips" is enabled
 	 */
-	/*
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@SideOnly(Side.CLIENT)
 	@Override
@@ -40,6 +47,7 @@ public class ARKCraftFeces extends Item
 	{
 		tooltip.add("Decomposes in " + ((getMaxDamage() - itemStack.getItemDamage()) / 20) + " seconds");
 	}
+	/*
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		if(stack.getMetadata() > getMaxDamage(stack)){
@@ -47,11 +55,11 @@ public class ARKCraftFeces extends Item
 		}else{
 			stack.setItemDamage(stack.getMetadata()+1);
 		}
-	}	
+	}
 	public int getMaxDecayTime(ItemStack stack){
 	//	return decayTime;
 	//}
-	
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@SideOnly(Side.CLIENT)
 	@Override
