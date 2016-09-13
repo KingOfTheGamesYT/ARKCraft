@@ -228,9 +228,6 @@ public class CommonEventHandler
 
 	private void destroyBlocks(World world, BlockPos pos)
 	{
-		// TODO Fix crash due to stackoverflow
-		// int checkSize = 1;
-
 		Collection<BlockPos> done = new HashSet<>();
 		Queue<BlockPos> queue = new LinkedList<>();
 
