@@ -1,12 +1,13 @@
 package com.uberverse.arkcraft.wip.itemquality;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-import com.uberverse.arkcraft.common.block.ARKMark;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 
 import net.minecraft.block.Block;
@@ -28,20 +29,25 @@ public abstract class ItemToolBase extends ItemQualitable
 	private final double baseBreakSpeed;
 	private final double baseDamage;
 	private final ToolType toolType;
-	private final Block[] effectiveBlocks;
+	private static final Collection<Block> effectiveBlocks = Lists.newArrayList();
 
-	public ItemToolBase(int baseDurability, double baseBreakSpeed, double baseDamage, ItemType type, ToolType toolType, Block... effectiveBlocks)
+	private static void registerEffectiveBlocks(Block... blocks)
+	{
+		Collections.addAll(effectiveBlocks, blocks);
+	}
+
+	public ItemToolBase(int baseDurability, double baseBreakSpeed, double baseDamage, ItemType type, ToolType toolType)
 	{
 		super(baseDurability, type);
 		this.baseBreakSpeed = baseBreakSpeed;
 		this.baseDamage = baseDamage;
 		this.toolType = toolType;
-		this.effectiveBlocks = effectiveBlocks;
 	}
 
 	@Override
 	public float getDigSpeed(ItemStack itemstack, IBlockState state)
 	{
+		if (!effectiveBlocks.contains(state.getBlock())) return 0;
 		float base = 10f * (float) getBreakSpeed(itemstack);
 		return MathHelper.clamp_float(base * getSpeedDivider(itemstack), 0.1f, base);
 	}
@@ -66,20 +72,11 @@ public abstract class ItemToolBase extends ItemQualitable
 	{
 		if (entityLiving instanceof EntityPlayer)
 		{
-			// MovingObjectPosition mop = getMovingObjectPositionFromPlayer(entityLiving.worldObj, (EntityPlayer) entityLiving, false);
 			MovingObjectPosition mop = ItemRangedWeapon.rayTrace(entityLiving, 5, 0);
 			if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
 			{
 				IBlockState bs = entityLiving.worldObj.getBlockState(mop.getBlockPos());
-				Block target = null;
-				for (Block b : effectiveBlocks)
-				{
-					if (b == bs.getBlock())
-					{
-						target = bs.getBlock();
-						break;
-					}
-				}
+				Block target = effectiveBlocks.contains(bs.getBlock()) ? bs.getBlock() : null;
 				if (target != null)
 				{
 					World w = entityLiving.worldObj;
@@ -183,33 +180,12 @@ public abstract class ItemToolBase extends ItemQualitable
 	@Override
 	public boolean onBlockDestroyed(ItemStack stack, World world, Block block, BlockPos pos, EntityLivingBase player)
 	{
-		boolean found = false;
-		for (Block b : effectiveBlocks)
-		{
-			if (b == block)
-			{
-				found = true;
-				break;
-			}
-		}
-		if (found)
+		if (effectiveBlocks.contains(block))
 		{
 			countOre(world, pos, block, true);
 			return true;
 		}
 		return super.onBlockDestroyed(stack, world, block, pos, player);
-	}
-
-	@Override
-	public boolean canHarvestBlock(Block block)
-	{
-		return block instanceof ARKMark;
-	}
-
-	@Override
-	public boolean canHarvestBlock(Block block, ItemStack itemStack)
-	{
-		return canHarvestBlock(block);
 	}
 
 	public double getAttackDamage(ItemStack stack)
