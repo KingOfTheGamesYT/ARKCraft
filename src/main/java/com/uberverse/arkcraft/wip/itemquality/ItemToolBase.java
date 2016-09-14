@@ -8,6 +8,7 @@ import java.util.Queue;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import com.uberverse.arkcraft.common.engram.EngramManager.AbstractItemStack;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 
 import net.minecraft.block.Block;
@@ -70,7 +71,7 @@ public abstract class ItemToolBase extends ItemQualitable
 	@Override
 	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack)
 	{
-		if (entityLiving instanceof EntityPlayer)
+		if (entityLiving instanceof EntityPlayer && !entityLiving.isSwingInProgress)
 		{
 			MovingObjectPosition mop = ItemRangedWeapon.rayTrace(entityLiving, 5, 0);
 			if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
@@ -89,7 +90,6 @@ public abstract class ItemToolBase extends ItemQualitable
 				return false;
 			}
 		}
-		// TODO else do harvesting (give stuff based on stack and block)
 		return super.onEntitySwing(entityLiving, stack);
 	}
 
@@ -132,10 +132,10 @@ public abstract class ItemToolBase extends ItemQualitable
 
 	private int countOre(World world, final BlockPos start, Block target)
 	{
-		return countOre(world, start, target, false);
+		return countOre(world, start, target, false, null);
 	}
 
-	private int countOre(World world, final BlockPos start, Block target, boolean shouldBreak)
+	private int countOre(World world, final BlockPos start, Block target, boolean shouldBreak, EntityPlayer player)
 	{
 		BlockPos pos = start;
 		Collection<BlockPos> done = new HashSet<>();
@@ -172,7 +172,16 @@ public abstract class ItemToolBase extends ItemQualitable
 		}
 
 		if (shouldBreak) for (BlockPos p : done)
+		{
+			Block b = world.getBlockState(p).getBlock();
+			Collection<AbstractItemStack> drops = null;
+			if (b instanceof ARKResourceBlock)
+			{
+				b.harvestBlock(world, player, pos, world.getBlockState(p), world.getTileEntity(p));
+			}
+
 			world.destroyBlock(p, false);
+		}
 
 		return done.size();
 	}
@@ -182,7 +191,7 @@ public abstract class ItemToolBase extends ItemQualitable
 	{
 		if (effectiveBlocks.contains(block))
 		{
-			countOre(world, pos, block, true);
+			countOre(world, pos, block, true, (EntityPlayer) player);
 			return true;
 		}
 		return super.onBlockDestroyed(stack, world, block, pos, player);

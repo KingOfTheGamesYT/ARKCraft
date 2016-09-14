@@ -60,6 +60,7 @@ public class BlockRefiningForge extends BlockBurner
 				worldIn.setBlockToAir(blockpos1);
 			}
 			super.onBlockHarvested(worldIn, blockpos1, state, player);
+			dropBlockAsItem(worldIn, pos, state, 0);
 		}
 		else if (state.getValue(PART) == EnumPart.TOP)
 		{

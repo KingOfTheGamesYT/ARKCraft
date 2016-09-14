@@ -7,7 +7,7 @@ import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.engram.EngramManager;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
-import com.uberverse.arkcraft.common.entity.IArkLeveling;
+import com.uberverse.arkcraft.common.entity.IArkLevelable;
 import com.uberverse.arkcraft.common.entity.event.ArkExperienceGainEvent;
 import com.uberverse.arkcraft.common.inventory.InventoryBlueprints;
 import com.uberverse.arkcraft.common.inventory.InventoryEngram;
@@ -26,7 +26,7 @@ import net.minecraftforge.common.IExtendedEntityProperties;
 /**
  * @author wildbill22, Lewis_McReu, ERBF
  */
-public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
+public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable
 {
 	// TODO
 	private static final int healthIncrease = 10, staminaIncrease = 10, oxygenIncrease = 20,
@@ -363,22 +363,11 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 		}
 	}
 
-	public long getRequiredXP()
-	{
-		return Math.round(Math.pow(level + 1, 3) / 2);
-	}
-
 	private static int getReceivedEngramPoints(int level)
 	{
 		if (level < 60) return level / 10 * 4 + 8;
 		if (level < 100) return (level / 10 - 6) * 10 + 40;
 		return 0;
-	}
-
-	@Override
-	public long getXP()
-	{
-		return xp;
 	}
 
 	@Override
@@ -391,5 +380,26 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling
 	public short getMaxLevel()
 	{
 		return maxLevel;
+	}
+
+	@Override
+	public void addXP(double xp)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public double getXP()
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getRequiredXP()
+	{
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

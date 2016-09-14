@@ -7,20 +7,20 @@ import net.minecraftforge.fml.common.eventhandler.Cancelable;
 @Cancelable
 public class ArkExperienceGainEvent extends EntityEvent
 {
-	private long xp;
+	private double xp;
 
-	public ArkExperienceGainEvent(Entity entity, long xp)
+	public ArkExperienceGainEvent(Entity entity, double xp)
 	{
 		super(entity);
 		this.xp = xp;
 	}
 
-	public long getXp()
+	public double getXp()
 	{
 		return xp;
 	}
 
-	public void setXp(long xp)
+	public void setXp(double xp)
 	{
 		this.xp = xp;
 	}

@@ -1,8 +1,8 @@
 package com.uberverse.arkcraft.common.arkplayer;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Queue;
 
@@ -18,12 +18,13 @@ import com.uberverse.arkcraft.common.engram.CraftingOrder;
 import com.uberverse.arkcraft.common.engram.EngramManager;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.common.engram.IEngramCrafter;
-import com.uberverse.arkcraft.common.entity.IArkLeveling;
+import com.uberverse.arkcraft.common.entity.IArkLevelable;
 import com.uberverse.arkcraft.common.entity.ITranquilizable;
 import com.uberverse.arkcraft.common.entity.data.CalcPlayerWeight;
 import com.uberverse.arkcraft.common.entity.event.ArkExperienceGainEvent;
 import com.uberverse.arkcraft.common.inventory.InventoryEngram;
 import com.uberverse.arkcraft.common.network.player.PlayerPoop;
+import com.uberverse.arkcraft.util.CollectionUtil;
 import com.uberverse.arkcraft.util.FixedSizeQueue;
 import com.uberverse.arkcraft.util.NBTable;
 import com.uberverse.arkcraft.wip.entity.IWeighable;
@@ -48,7 +49,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 /**
  * @author Lewis_McReu Based on earlier concepts by wildbill22 and ERBF
  */
-public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeighable, ITranquilizable
+public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable, IWeighable, ITranquilizable
 {
 	public static final String propKey = "arkplayer";
 
@@ -75,7 +76,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 	{
 		this.statMap = new HashMap<>();
 		initializeVariables();
-		unlockedEngrams = new ArrayList<>();
+		unlockedEngrams = CollectionUtil.convert(EngramManager.instance().getDefaultEngrams(), e -> e.getId());
 	}
 
 	public ARKPlayer(EntityPlayer player)
@@ -162,7 +163,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 	private Variable<Integer> health, oxygen, food, water, damage, speed, stamina, torpor, engramPoints, maxHealth, maxOxygen, maxFood, maxWater,
 			maxDamage, maxSpeed, maxStamina;
 	private Variable<Short> level;
-	private Variable<Long> xp;
+	private Variable<Double> xp;
 	private Variable<Double> weight, maxWeight;
 
 	public boolean hasToGo()
@@ -343,7 +344,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 		maxDamage = registerVariable("maxDamage", 0);
 		maxSpeed = registerVariable("maxSpeed", 0);
 		maxStamina = registerVariable("maxStamina", 0);
-		xp = registerVariable("xp", (long) 0);
+		xp = registerVariable("xp", 0d);
 		weight = registerVariable("weight", 0d);
 		maxWeight = registerVariable("maxWeight", 0d);
 	}
@@ -357,7 +358,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 
 	// IArkLeveling
 
-	public void addXP(long xp)
+	public void addXP(double xp)
 	{
 		ArkExperienceGainEvent event = new ArkExperienceGainEvent(this.player, xp);
 		boolean canceled = ARKCraft.EVENT_BUS.post(event);
@@ -403,19 +404,19 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 	}
 
 	@Override
-	public long getXP()
+	public double getXP()
 	{
 		return xp.get();
 	}
 
-	public float getRelativeXP()
+	public double getRelativeXP()
 	{
-		return MathHelper.clamp_float((float) getXP() / (float) getRequiredXP(), 0, 1);
+		return MathHelper.clamp_double(getXP() / getRequiredXP(), 0, 1);
 	}
 
-	public long getRequiredXP()
+	public double getRequiredXP()
 	{
-		return Math.round(Math.pow((getLevel() + 1) * 5, 3) / 2);
+		return Math.round(Math.pow(getLevel() * 4, 2) / (getLevel() < 20 ? 5 : 1));
 	}
 
 	public void updateLevel()
@@ -431,8 +432,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 	private static int getReceivedEngramPoints(int level)
 	{
 		if (level < 60) return level / 10 * 4 + 8;
-		if (level < 100) return (level / 10 - 6) * 10 + 40;
-		return 0;
+		else return (level / 10 - 2) * 10;
 	}
 
 	@Override
@@ -481,14 +481,15 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 		properties.setInteger("maxStamina", getMaxStamina());
 		properties.setDouble("maxWeight", getMaxWeight());
 
-		properties.setLong("xp", getXP());
+		properties.setDouble("xp", getXP());
 		properties.setShort("level", getLevel());
 		properties.setInteger("engramPoints", getEngramPoints());
 
 		int[] c = new int[unlockedEngrams.size()];
+		Iterator<Short> it = unlockedEngrams.iterator();
 		for (int i = 0; i < unlockedEngrams.size(); i++)
 		{
-			c[i] = unlockedEngrams.get(i);
+			c[i] = it.next();
 		}
 		properties.setIntArray("unlockedEngrams", c);
 
@@ -554,12 +555,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 
 	@Override
 	public void init(Entity entity, World world)
-	{
-		// if (world.isRemote)
-		// {
-		// requestSynchronization(true);
-		// }
-	}
+	{}
 
 	/**
 	 * Copies additional player data from the given ExtendedPlayer instance Avoids NBT disk I/O overhead when cloning a player after respawn
@@ -969,7 +965,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLeveling, IWeig
 	// Engrams
 
 	// Unlocked Engrams
-	private ArrayList<Short> unlockedEngrams;
+	private Collection<Short> unlockedEngrams;
 
 	public ImmutableList<Short> getUnlockedEngrams()
 	{
