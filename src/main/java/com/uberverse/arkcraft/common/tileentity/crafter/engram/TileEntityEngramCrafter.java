@@ -1,9 +1,13 @@
 package com.uberverse.arkcraft.common.tileentity.crafter.engram;
 
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.Queue;
 
+import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.common.engram.CraftingOrder;
 import com.uberverse.arkcraft.common.engram.IEngramCrafter;
+import com.uberverse.arkcraft.common.entity.IArkLevelable;
 import com.uberverse.arkcraft.util.FixedSizeQueue;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,7 +24,8 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 
-public abstract class TileEntityEngramCrafter extends TileEntity implements IInventory, IUpdatePlayerListBox, IEngramCrafter
+public abstract class TileEntityEngramCrafter extends TileEntity implements
+		IInventory, IUpdatePlayerListBox, IEngramCrafter
 {
 	private ItemStack[] inventory;
 
@@ -256,5 +261,48 @@ public abstract class TileEntityEngramCrafter extends TileEntity implements IInv
 	public void setTimeOffset(int offset)
 	{
 		timeOffset = offset;
+	}
+
+	@Override
+	public IArkLevelable getLevelable()
+	{
+		Comparator<BlockPos> hor = new Comparator<BlockPos>()
+		{
+			@Override
+			public int compare(BlockPos o1, BlockPos o2)
+			{
+				int diff = (int) Math.sqrt(Math.pow(o1.getX() - o2.getX(), 2)
+						+ Math.pow(o1.getZ() - o2.getZ(), 2));
+				return diff;
+			}
+		};
+
+		Comparator<BlockPos> ver = new Comparator<BlockPos>()
+		{
+			@Override
+			public int compare(BlockPos o1, BlockPos o2)
+			{
+				return Math.abs(o1.getY() - o2.getY());
+			}
+		};
+
+		EntityPlayer closest = null;
+		int lasthordiff = -1;
+		int lastverdiff = -1;
+
+		Collection<EntityPlayer> ps = worldObj.playerEntities;
+
+		for (EntityPlayer p : ps)
+		{
+			int hordiff = hor.compare(pos, p.playerLocation);
+			int verdiff = ver.compare(pos, p.playerLocation);
+			if (closest != null && (hordiff > lasthordiff
+					|| (hordiff == lasthordiff && verdiff > lastverdiff)))
+				continue;
+			lasthordiff = hordiff;
+			lastverdiff = verdiff;
+			closest = p;
+		}
+		return ARKPlayer.get(closest);
 	}
 }

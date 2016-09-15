@@ -1,5 +1,6 @@
 package com.uberverse.arkcraft.init;
 
+import com.google.common.collect.Lists;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot.BerryColor;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
@@ -23,9 +24,12 @@ import com.uberverse.arkcraft.common.item.tools.ItemMetalSickle;
 import com.uberverse.arkcraft.common.item.tools.ItemStoneHatchet;
 import com.uberverse.arkcraft.common.item.tools.ItemStonePick;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot.CropPlotType;
+import com.uberverse.arkcraft.util.AbstractItemStack;
 import com.uberverse.arkcraft.util.CollectionUtil;
 import com.uberverse.arkcraft.wip.itemquality.ItemStonePickaxe;
+import com.uberverse.arkcraft.wip.itemquality.ItemToolBase;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
@@ -48,13 +52,14 @@ public class ARKCraftItems
 	public static ItemARKArmor fur_helm, fur_chest, fur_legs, fur_boots;
 
 	// Food
-	public static ARKCraftFood tintoBerry, amarBerry, azulBerry, mejoBerry, narcoBerry, stimBerry, meat_raw, meat_cooked, primemeat_raw,
-			primemeat_cooked, spoiled_meat;
-	public static ARKCraftSeed tintoBerrySeed, amarBerrySeed, azulBerrySeed, mejoBerrySeed, narcoBerrySeed, stimBerrySeed;
+	public static ARKCraftFood tintoBerry, amarBerry, azulBerry, mejoBerry, narcoBerry, stimBerry, meat_raw,
+			meat_cooked, primemeat_raw, primemeat_cooked, spoiled_meat;
+	public static ARKCraftSeed tintoBerrySeed, amarBerrySeed, azulBerrySeed, mejoBerrySeed, narcoBerrySeed,
+			stimBerrySeed;
 
 	// Misc
-	public static ARKCraftItem stone, fiber, thatch, wood, flint, metal, spark_powder, hide, charcoal, metal_ingot, cementing_paste, crystal,
-			spy_glass, narcotics, gunpowder, chitin, keratin, pelt;
+	public static ARKCraftItem stone, fiber, thatch, wood, flint, metal, spark_powder, hide, charcoal, metal_ingot,
+			cementing_paste, crystal, spy_glass, narcotics, gunpowder, chitin, keratin, pelt;
 	public static ARKCraftFeces small_feces, medium_feces, large_feces, fertilizer, player_feces;
 	public static ARKCraftBook info_book;
 
@@ -65,10 +70,14 @@ public class ARKCraftItems
 	public static Item tabItem;
 
 	// Armor MAT
-	public static ArmorMaterial CLOTH = EnumHelper.addArmorMaterial("CLOTH_MAT", "CLOTH_MAT", 4, new int[] { 1, 2, 1, 1 }, 15);
-	public static ArmorMaterial CHITIN = EnumHelper.addArmorMaterial("CHITIN_MAT", "CHITIN_MAT", 16, new int[] { 3, 7, 6, 3 }, 10);
-	public static ArmorMaterial HIDE = EnumHelper.addArmorMaterial("HIDE_MAT", "HIDE_MAT", 40, new int[] { 3, 8, 6, 3 }, 30);
-	public static ArmorMaterial FUR = EnumHelper.addArmorMaterial("FUR_MAT", "HIDE_MAT", 40, new int[] { 3, 8, 6, 3 }, 30);
+	public static ArmorMaterial CLOTH = EnumHelper.addArmorMaterial("CLOTH_MAT", "CLOTH_MAT", 4, new int[] { 1, 2, 1,
+			1 }, 15);
+	public static ArmorMaterial CHITIN = EnumHelper.addArmorMaterial("CHITIN_MAT", "CHITIN_MAT", 16, new int[] { 3, 7,
+			6, 3 }, 10);
+	public static ArmorMaterial HIDE = EnumHelper.addArmorMaterial("HIDE_MAT", "HIDE_MAT", 40, new int[] { 3, 8, 6, 3 },
+			30);
+	public static ArmorMaterial FUR = EnumHelper.addArmorMaterial("FUR_MAT", "HIDE_MAT", 40, new int[] { 3, 8, 6, 3 },
+			30);
 
 	// Tool MAT
 	public static ToolMaterial METAL = EnumHelper.addToolMaterial("METAL_MAT", 3, 1500, 6.0F, 2.5F, 8);
@@ -157,10 +166,14 @@ public class ARKCraftItems
 		stimBerrySeed = addSeedItem("stimBerrySeed", CropPlotType.SMALL, BerryColor.STIM);
 
 		// feces
-		small_feces = addFecesItem("small_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE * 20);
-		medium_feces = addFecesItem("medium_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE * 20);
-		large_feces = addFecesItem("large_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE * 20);
-		player_feces = addFecesItem("player_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_PLAYER_FECES_TO_DECOMPOSE * 20);
+		small_feces = addFecesItem("small_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE
+				* 20);
+		medium_feces = addFecesItem("medium_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE
+				* 20);
+		large_feces = addFecesItem("large_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE
+				* 20);
+		player_feces = addFecesItem("player_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_PLAYER_FECES_TO_DECOMPOSE
+				* 20);
 		// Technically not feces, but used in all situations the same
 		// (currently)
 		fertilizer = addFecesItem("fertilizer", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_FERTILIZER_TO_DECOMPOSE * 20);
@@ -170,12 +183,18 @@ public class ARKCraftItems
 
 		// TODO remove when done testing
 		test = init.registerItem("test", new ItemStonePickaxe());
+		ItemToolBase.registerEffectiveBlocks(Blocks.log, Blocks.log2);
+		ItemToolBase.registerBlockDrops(Blocks.log, Lists.newArrayList(new AbstractItemStack[] { new AbstractItemStack(
+				wood, 2), new AbstractItemStack(thatch, 2) }));
+		ItemToolBase.registerBlockDrops(Blocks.log2, Lists.newArrayList(new AbstractItemStack[] { new AbstractItemStack(
+				wood, 2), new AbstractItemStack(thatch, 2) }));
 	}
 
 	public static void initBlueprints()
 	{
 		blueprint = InitializationManager.instance().registerItem("blueprint", "blueprint/", new ItemBlueprint(), false,
-				CollectionUtil.convert(EngramManager.instance().getBlueprintEngrams(), (Engram e) -> e.getName()).toArray(new String[0]));
+				CollectionUtil.convert(EngramManager.instance().getBlueprintEngrams(), (Engram e) -> e.getName())
+						.toArray(new String[0]));
 	}
 
 	public static ARKCraftFeces addFecesItem(String name, int maxDamageIn)
@@ -194,7 +213,8 @@ public class ARKCraftItems
 
 	protected static ARKCraftFood addFood(String name, int heal, float sat, boolean fav, boolean alwaysEdible)
 	{
-		return InitializationManager.instance().registerItem(name, new ARKCraftFood(heal, sat, fav, alwaysEdible, PLAYER.SECONDS_BEFORE_FOOD_DECAY));
+		return InitializationManager.instance().registerItem(name, new ARKCraftFood(heal, sat, fav, alwaysEdible,
+				PLAYER.SECONDS_BEFORE_FOOD_DECAY));
 	}
 
 	protected static ARKCraftSeed addSeedItem(String name, CropPlotType type, BerryColor color)
@@ -202,7 +222,8 @@ public class ARKCraftItems
 		return InitializationManager.instance().registerItem(name, new ARKCraftSeed(type, color));
 	}
 
-	public static ItemARKArmor addArmorItem(String name, ArmorMaterial mat, String armorTexName, int type, boolean golden)
+	public static ItemARKArmor addArmorItem(String name, ArmorMaterial mat, String armorTexName, int type,
+			boolean golden)
 	{
 		return InitializationManager.instance().registerItem(name, new ItemARKArmor(mat, armorTexName, type, golden));
 	}

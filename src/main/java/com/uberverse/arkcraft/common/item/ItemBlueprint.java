@@ -23,6 +23,7 @@ public class ItemBlueprint extends ARKCraftItem
 		setCreativeTab(ARKCraft.tabARKBlueprints);
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void getSubItems(Item itemIn, CreativeTabs tab, List subItems)
 	{
@@ -48,6 +49,7 @@ public class ItemBlueprint extends ARKCraftItem
 		return getColor(stack) + super.getItemStackDisplayName(stack);
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced)
 	{

@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.wip.itemquality;
+package com.uberverse.arkcraft.wip.oregen;
 
 import com.uberverse.arkcraft.common.entity.IArkLevelable;
 

@@ -402,4 +402,11 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public void addXPWithoutPass(double xp)
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

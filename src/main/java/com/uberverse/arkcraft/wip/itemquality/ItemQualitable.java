@@ -37,6 +37,7 @@ public abstract class ItemQualitable extends Item implements Qualitable
 		return Qualitable.get(stack).multiplierTreshold * itemType.durabilityModifier * baseDurability;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void getSubItems(Item item, CreativeTabs tab, List itemList)
 	{

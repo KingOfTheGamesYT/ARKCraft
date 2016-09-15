@@ -5,11 +5,13 @@ import java.util.Iterator;
 import java.util.Queue;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.engram.EngramManager.AbstractItemStack;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
+import com.uberverse.arkcraft.common.entity.IArkLevelable;
+import com.uberverse.arkcraft.util.AbstractItemStack;
 import com.uberverse.arkcraft.util.IInventoryAdder;
 import com.uberverse.arkcraft.util.NBTable;
 import com.uberverse.arkcraft.wip.itemquality.Qualitable.ItemQuality;
+import com.uberverse.arkcraft.wip.oregen.IExperienceSource;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -21,7 +23,8 @@ import net.minecraftforge.common.util.Constants.NBT;
 /**
  * @author Lewis_McReu
  */
-public interface IEngramCrafter extends NBTable, IInventoryAdder
+public interface IEngramCrafter extends NBTable, IInventoryAdder,
+		IExperienceSource
 {
 	public default void update()
 	{
@@ -35,8 +38,10 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder
 				{
 					CraftingOrder c = craftingQueue.peek();
 					c.decreaseCount(1);
-					ItemStack out = c.getEngram().getOutputAsItemStack(c.getItemQuality());
+					ItemStack out = c.getEngram().getOutputAsItemStack(c
+							.getItemQuality());
 					addOrDrop(out);
+					grantXP(getLevelable());
 					if (c.getCount() == 0)
 					{
 						craftingQueue.remove();
@@ -46,6 +51,16 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder
 			}
 			selectNextCraftingOrder();
 		}
+	}
+
+	public IArkLevelable getLevelable();
+
+	@Override
+	default void grantXP(IArkLevelable leveling)
+	{
+		CraftingOrder co = getCraftingQueue().peek();
+		leveling.addXP(co.getEngram().getExperience() * co
+				.getItemQuality().multiplierTreshold);
 	}
 
 	public int getTimeOffset();
@@ -70,7 +85,8 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder
 			{
 				setProgress(c.getEngram().getCraftingTime());
 				setTimeOffset((int) (getWorldIA().getTotalWorldTime() % 20));
-				c.getEngram().consume(getConsumedInventory(), c.getItemQuality());
+				c.getEngram().consume(getConsumedInventory(), c
+						.getItemQuality());
 				sync();
 			}
 		}
@@ -79,7 +95,8 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder
 	public default double getRelativeProgress()
 	{
 		if (getCraftingDuration() == 0) return 0;
-		return (double) (getCraftingDuration() - getProgress()) / (double) (getCraftingDuration());
+		return (double) (getCraftingDuration() - getProgress())
+				/ (double) (getCraftingDuration());
 	}
 
 	public default void decreaseProgress()
@@ -102,26 +119,32 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder
 		int[] counts = queue.getIntArray("counts");
 		byte[] qualities = queue.getByteArray("qualities");
 
-		if (engrams.length == counts.length && engrams.length == qualities.length)
+		if (engrams.length == counts.length
+				&& engrams.length == qualities.length)
 		{
 			for (int i = 0; i < engrams.length; i++)
 			{
-				Engram e = EngramManager.instance().getEngram((short) engrams[i]);
+				Engram e = EngramManager.instance().getEngram(
+						(short) engrams[i]);
 				int count = counts[i];
 				if (e.isQualitable())
 				{
-					craftingQueue.add(new CraftingOrder(e, count, ItemQuality.get(qualities[i])));
+					craftingQueue.add(new CraftingOrder(e, count, ItemQuality
+							.get(qualities[i])));
 				}
 				else craftingQueue.add(new CraftingOrder(e, count));
 			}
 		}
-		else ARKCraft.logger.warn("NBT CraftingQueue was inconsistent in length and could not be loaded.");
+		else ARKCraft.logger.warn(
+				"NBT CraftingQueue was inconsistent in length and could not be loaded.");
 
-		NBTTagList inventory = compound.getTagList("inventory", NBT.TAG_COMPOUND);
+		NBTTagList inventory = compound.getTagList("inventory",
+				NBT.TAG_COMPOUND);
 		for (int i = 0; i < inventory.tagCount(); i++)
 		{
 			NBTTagCompound n = inventory.getCompoundTagAt(i);
-			this.getIInventory().setInventorySlotContents(i, n.getBoolean("null") ? null : ItemStack.loadItemStackFromNBT(n));
+			this.getIInventory().setInventorySlotContents(i, n.getBoolean(
+					"null") ? null : ItemStack.loadItemStackFromNBT(n));
 		}
 	}
 
@@ -192,7 +215,8 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder
 				}
 				if (!add)
 				{
-					add = craftingQueue.add(new CraftingOrder(engram, amount, quality));
+					add = craftingQueue.add(new CraftingOrder(engram, amount,
+							quality));
 				}
 				if (add && !getWorldIA().isRemote)
 				{
@@ -228,12 +252,14 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder
 
 	public default void cancelCraftOne(Engram engram)
 	{
-		cancelCraftOne(engram, engram.isQualitable() ? ItemQuality.PRIMITIVE : null);
+		cancelCraftOne(engram, engram.isQualitable() ? ItemQuality.PRIMITIVE
+				: null);
 	}
 
 	public default void cancelCraftAll(Engram engram)
 	{
-		cancelCraftAll(engram, engram.isQualitable() ? ItemQuality.PRIMITIVE : null);
+		cancelCraftAll(engram, engram.isQualitable() ? ItemQuality.PRIMITIVE
+				: null);
 	}
 
 	public default void cancelCraftOne(Engram engram, ItemQuality itemQuality)
@@ -278,7 +304,8 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder
 		}
 	}
 
-	public default boolean canCraft(Engram engram, ItemQuality itemQuality, int amount)
+	public default boolean canCraft(Engram engram, ItemQuality itemQuality,
+			int amount)
 	{
 		return getCraftableAmount(engram, itemQuality) >= amount;
 	}
@@ -294,9 +321,11 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder
 		return 0;
 	}
 
-	public default int getCraftableAmount(Engram engram, ItemQuality itemQuality)
+	public default int getCraftableAmount(Engram engram,
+			ItemQuality itemQuality)
 	{
-		Collection<AbstractItemStack> is = EngramManager.Engram.convertIInventoryToAbstractInventory(getConsumedInventory());
+		Collection<AbstractItemStack> is = EngramManager.Engram
+				.convertIInventoryToAbstractInventory(getConsumedInventory());
 		for (CraftingOrder c : getCraftingQueue())
 		{
 			int i = c.getCount();
@@ -307,7 +336,8 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder
 			}
 		}
 
-		return engram.getCraftableAmount(is, itemQuality) - getCraftingAmount(engram, itemQuality);
+		return engram.getCraftableAmount(is, itemQuality) - getCraftingAmount(
+				engram, itemQuality);
 	}
 
 	public default boolean isCrafting()

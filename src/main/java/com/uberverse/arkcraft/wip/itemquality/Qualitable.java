@@ -32,7 +32,7 @@ public interface Qualitable
 		MASTERCRAFT(7, 2.5, EnumChatFormatting.YELLOW),
 		ASCENDANT(10, 3.5, EnumChatFormatting.RED);
 
-		//TODO add other multipliers (f.e. efficiency (for harvesting speed and maybe harvest numbers))
+		// TODO add other multipliers (f.e. efficiency (for harvesting speed and maybe harvest numbers)) & remove current uses of multiplierTreshold
 		public final double multiplierTreshold;
 		public final double resourceMultiplier;
 		private static byte idCounter = 0;

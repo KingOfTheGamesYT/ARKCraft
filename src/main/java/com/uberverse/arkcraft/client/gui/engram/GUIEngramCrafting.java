@@ -14,10 +14,10 @@ import com.uberverse.arkcraft.common.container.engram.ContainerEngramCrafting.En
 import com.uberverse.arkcraft.common.container.engram.ContainerEngramCrafting.EngramSlot;
 import com.uberverse.arkcraft.common.container.engram.ContainerEngramCrafting.QueueSlot;
 import com.uberverse.arkcraft.common.engram.CraftingOrder;
-import com.uberverse.arkcraft.common.engram.EngramManager.AbstractItemStack;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.common.engram.EngramManager.EngramRecipe;
 import com.uberverse.arkcraft.common.engram.IEngramCrafter;
+import com.uberverse.arkcraft.util.AbstractItemStack;
 import com.uberverse.arkcraft.util.I18n;
 import com.uberverse.arkcraft.wip.itemquality.Qualitable.ItemQuality;
 
