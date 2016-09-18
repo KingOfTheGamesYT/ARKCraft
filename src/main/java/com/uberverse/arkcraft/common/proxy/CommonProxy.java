@@ -35,6 +35,7 @@ import com.uberverse.arkcraft.common.network.player.PlayerPoop;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
+import com.uberverse.arkcraft.init.ARKCraftWorldGen;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -99,6 +100,7 @@ public abstract class CommonProxy
 		WeightsConfig.init(event.getModConfigurationDirectory());
 
 		ARKCraftBlocks.init();
+
 		ARKCraftItems.init();
 		ARKCraftRangedWeapons.init();
 		ARKCraftAchievements.init();
@@ -125,6 +127,7 @@ public abstract class CommonProxy
 	private final void initializeWorldGeneration()
 	{
 		GameRegistry.registerWorldGenerator(new WorldGeneratorBushes(), 0);
+		ARKCraftWorldGen.init();
 	}
 
 	private final void initializeConfiguration(FMLPreInitializationEvent event)
@@ -144,10 +147,12 @@ public abstract class CommonProxy
 		// The handler (usually in the packet class), the packet class, unique identifier, side to be handled
 		modChannel.registerMessage(PlayerPoop.Handler.class, PlayerPoop.class, id++, Side.SERVER);
 		modChannel.registerMessage(UpdateMPToCraftItem.Handler.class, UpdateMPToCraftItem.class, id++, Side.SERVER);
-		modChannel.registerMessage(UpdateSmithyToCraftItem.Handler.class, UpdateSmithyToCraftItem.class, id++, Side.SERVER);
+		modChannel.registerMessage(UpdateSmithyToCraftItem.Handler.class, UpdateSmithyToCraftItem.class, id++,
+				Side.SERVER);
 		modChannel.registerMessage(OpenPlayerCrafting.Handler.class, OpenPlayerCrafting.class, id++, Side.SERVER);
 		modChannel.registerMessage(UpdatePlayerCrafting.Handler.class, UpdatePlayerCrafting.class, id++, Side.SERVER);
-		modChannel.registerMessage(OpenAttachmentInventory.Handler.class, OpenAttachmentInventory.class, id++, Side.SERVER);
+		modChannel.registerMessage(OpenAttachmentInventory.Handler.class, OpenAttachmentInventory.class, id++,
+				Side.SERVER);
 		modChannel.registerMessage(ReloadStarted.Handler.class, ReloadStarted.class, id++, Side.SERVER);
 		modChannel.registerMessage(ReloadFinished.Handler.class, ReloadFinished.class, id++, Side.CLIENT);
 		modChannel.registerMessage(MessageHover.class, MessageHover.class, id++, Side.CLIENT);
@@ -155,9 +160,11 @@ public abstract class CommonProxy
 		modChannel.registerMessage(BurnerToggle.Handler.class, BurnerToggle.class, id++, Side.SERVER);
 		modChannel.registerMessage(SyncPlayerData.Handler.class, SyncPlayerData.class, id++, Side.CLIENT);
 		modChannel.registerMessage(UpdateEngrams.Handler.class, UpdateEngrams.class, id++, Side.CLIENT);
-		modChannel.registerMessage(ARKPlayerUpdateRequest.Handler.class, ARKPlayerUpdateRequest.class, id++, Side.SERVER);
+		modChannel.registerMessage(ARKPlayerUpdateRequest.Handler.class, ARKPlayerUpdateRequest.class, id++,
+				Side.SERVER);
 		modChannel.registerMessage(ARKPlayerUpdate.Handler.class, ARKPlayerUpdate.class, id++, Side.CLIENT);
-		modChannel.registerMessage(PlayerEngramCrafterUpdate.Handler.class, PlayerEngramCrafterUpdate.class, id++, Side.CLIENT);
+		modChannel.registerMessage(PlayerEngramCrafterUpdate.Handler.class, PlayerEngramCrafterUpdate.class, id++,
+				Side.CLIENT);
 		modChannel.registerMessage(ScrollGui.Handler.class, ScrollGui.class, id++, Side.SERVER);
 		modChannel.registerMessage(ARKModeToggle.Handler.class, ARKModeToggle.class, id++, Side.SERVER);
 

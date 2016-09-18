@@ -31,7 +31,7 @@ public class AbstractItemStack implements Comparable<AbstractItemStack>
 	{
 		this.amount = amount;
 	}
-	
+
 	public int getAmount()
 	{
 		return amount;
@@ -54,7 +54,7 @@ public class AbstractItemStack implements Comparable<AbstractItemStack>
 		return o.item != item ? item.getUnlocalizedName().compareTo(o.item.getUnlocalizedName()) : meta - o.meta;
 	}
 
-	public ItemStack[] toItemStack()
+	public ItemStack[] toItemStacks()
 	{
 		@SuppressWarnings("deprecation")
 		int lim = item.getItemStackLimit();
@@ -80,7 +80,7 @@ public class AbstractItemStack implements Comparable<AbstractItemStack>
 		return out;
 	}
 
-	public ItemStack toSingleItemStack()
+	public ItemStack toItemStack()
 	{
 		return new ItemStack(item, amount, meta);
 	}
@@ -93,5 +93,16 @@ public class AbstractItemStack implements Comparable<AbstractItemStack>
 	public AbstractItemStack copy()
 	{
 		return new AbstractItemStack(item, amount, meta);
+	}
+
+	public static class ChancingAbstractItemStack extends AbstractItemStack
+	{
+		public final double chance;
+
+		public ChancingAbstractItemStack(Item item, double chance)
+		{
+			super(item);
+			this.chance = chance;
+		}
 	}
 }

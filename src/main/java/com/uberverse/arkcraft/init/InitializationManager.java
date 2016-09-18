@@ -55,7 +55,8 @@ public class InitializationManager
 		return this.registerItem(name, item, defaultPrefix, metas, variants);
 	}
 
-	public <E extends Item> E registerItem(String name, E item, String modelLocationPrefix, int[] metas, String... variants)
+	public <E extends Item> E registerItem(String name, E item, String modelLocationPrefix, int[] metas,
+			String... variants)
 	{
 		return registerItem(name, item, modelLocationPrefix, metas, defaultRender, variants);
 	}
@@ -65,7 +66,8 @@ public class InitializationManager
 		return this.registerItem(name, item, defaultPrefix, defaultMeta, standardRender, variants);
 	}
 
-	public <E extends Item> E registerItem(String name, String modelLocationPrefix, E item, boolean standardRender, String... variants)
+	public <E extends Item> E registerItem(String name, String modelLocationPrefix, E item, boolean standardRender,
+			String... variants)
 	{
 		return this.registerItem(name, item, modelLocationPrefix, defaultMeta, standardRender, variants);
 	}
@@ -75,12 +77,13 @@ public class InitializationManager
 		return this.registerItem(name, item, defaultPrefix, metas, standardRender, variants);
 	}
 
-	public <E extends Item> E registerItem(String name, E item, String modelLocationPrefix, int[] metas, boolean standardRender, String... variants)
+	public <E extends Item> E registerItem(String name, E item, String modelLocationPrefix, int[] metas,
+			boolean standardRender, String... variants)
 	{
 		item.setUnlocalizedName(name);
 		GameRegistry.registerItem(item, name, ARKCraft.instance().modid());
-		registry.addEntry(
-				new RegistryEntry<E>(name, item, modelLocationPrefix, standardRender).addVariants(variants).addMetas(CollectionUtil.convert(metas)));
+		registry.addEntry(new RegistryEntry<E>(name, item, modelLocationPrefix, standardRender).addVariants(variants)
+				.addMetas(CollectionUtil.convert(metas)));
 		return item;
 	}
 
@@ -100,12 +103,13 @@ public class InitializationManager
 		return this.registerBlock(name, block, defaultPrefix, metas, variants);
 	}
 
-	public <E extends Block> E registerBlock(String name, E block, String modelLocationPrefix, int[] metas, String... variants)
+	public <E extends Block> E registerBlock(String name, E block, String modelLocationPrefix, int[] metas,
+			String... variants)
 	{
 		block.setUnlocalizedName(name);
 		GameRegistry.registerBlock(block, name);
-		registry.addEntry(
-				new RegistryEntry<Item>(name, get(block), modelLocationPrefix).addMetas(CollectionUtil.convert(metas)).addVariants(variants));
+		registry.addEntry(new RegistryEntry<Item>(name, get(block), modelLocationPrefix).addMetas(CollectionUtil
+				.convert(metas)).addVariants(variants));
 		return block;
 	}
 
@@ -114,7 +118,8 @@ public class InitializationManager
 		return this.registerBlock(name, block, itemClass, defaultMeta);
 	}
 
-	public <E extends Block> E registerBlock(String name, E block, Class<? extends ItemBlock> itemClass, String modelLocationPrefix)
+	public <E extends Block> E registerBlock(String name, E block, Class<? extends ItemBlock> itemClass,
+			String modelLocationPrefix)
 	{
 		return this.registerBlock(name, block, itemClass, modelLocationPrefix, defaultMeta);
 	}
@@ -124,34 +129,36 @@ public class InitializationManager
 		return this.registerBlock(name, block, itemClass, "", metas);
 	}
 
-	public <E extends Block> E registerBlock(String name, E block, Class<? extends ItemBlock> itemClass, String modelLocationPrefix, int[] metas,
-			String... variants)
+	public <E extends Block> E registerBlock(String name, E block, Class<? extends ItemBlock> itemClass,
+			String modelLocationPrefix, int[] metas, String... variants)
 	{
 		block.setUnlocalizedName(name);
 		GameRegistry.registerBlock(block, itemClass, name);
-		registry.addEntry(
-				new RegistryEntry<Item>(name, get(block), modelLocationPrefix).addMetas(CollectionUtil.convert(metas)).addVariants(variants));
+		registry.addEntry(new RegistryEntry<Item>(name, get(block), modelLocationPrefix).addMetas(CollectionUtil
+				.convert(metas)).addVariants(variants));
 		return block;
 	}
 
-	public <E extends Block> E registerBlock(String name, E block, Class<? extends ItemBlock> itemClass, Object[] itemCtorArgs)
+	public <E extends Block> E registerBlock(String name, E block, Class<? extends ItemBlock> itemClass,
+			Object[] itemCtorArgs)
 	{
 		return this.registerBlock(name, block, itemClass, itemCtorArgs, defaultMeta);
 	}
 
-	public <E extends Block> E registerBlock(String name, E block, Class<? extends ItemBlock> itemClass, Object[] itemCtorArgs,
-			String modelLocationPrefix)
+	public <E extends Block> E registerBlock(String name, E block, Class<? extends ItemBlock> itemClass,
+			Object[] itemCtorArgs, String modelLocationPrefix)
 	{
 		return this.registerBlock(name, block, itemClass, itemCtorArgs, modelLocationPrefix, defaultMeta);
 	}
 
-	public <E extends Block> E registerBlock(String name, E block, Class<? extends ItemBlock> itemClass, Object[] itemCtorArgs, int[] metas)
+	public <E extends Block> E registerBlock(String name, E block, Class<? extends ItemBlock> itemClass,
+			Object[] itemCtorArgs, int[] metas)
 	{
 		return this.registerBlock(name, block, itemClass, itemCtorArgs, "", metas);
 	}
 
-	public <E extends Block> E registerBlock(String name, E block, Class<? extends ItemBlock> itemClass, Object[] itemCtorArgs,
-			String modelLocationPrefix, int[] metas, String... variants)
+	public <E extends Block> E registerBlock(String name, E block, Class<? extends ItemBlock> itemClass,
+			Object[] itemCtorArgs, String modelLocationPrefix, int[] metas, String... variants)
 	{
 		block.setUnlocalizedName(name);
 		GameRegistry.registerBlock(block, itemClass, name, itemCtorArgs);

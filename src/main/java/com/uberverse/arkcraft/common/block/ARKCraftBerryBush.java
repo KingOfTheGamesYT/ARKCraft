@@ -28,9 +28,8 @@ import net.minecraft.world.biome.BiomeColorHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ARKCraftBerryBush extends BlockBush implements ARKMark
+public class ARKCraftBerryBush extends BlockBush
 {
-
 	public static final PropertyInteger HARVEST_COUNT = PropertyInteger.create("harvest", 0, 3);
 
 	public ARKCraftBerryBush(float hardness)
@@ -42,6 +41,12 @@ public class ARKCraftBerryBush extends BlockBush implements ARKMark
 		this.setHardness(hardness);
 		this.setCreativeTab(ARKCraft.tabARK);
 		this.setBlockBounds(0f, 0f, 0f, 1f, 1f, 1f);
+	}
+
+	@Override
+	public boolean isReplaceable(World worldIn, BlockPos pos)
+	{
+		return true;
 	}
 
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
@@ -115,8 +120,8 @@ public class ARKCraftBerryBush extends BlockBush implements ARKMark
 			if (harvestCount > 0)
 			{
 				this.setBlockUnbreakable();
-				for (int i = 0; i < ModuleItemBalance.PLANTS.BERRIES_MIN_PER_PICKING
-						|| i <= worldIn.rand.nextInt(ModuleItemBalance.PLANTS.BERRIES_MAX_PER_PICKING); i++)
+				for (int i = 0; i < ModuleItemBalance.PLANTS.BERRIES_MIN_PER_PICKING || i <= worldIn.rand.nextInt(
+						ModuleItemBalance.PLANTS.BERRIES_MAX_PER_PICKING); i++)
 				{
 					Item itemPicked = getHarvestItem(worldIn.rand, playerIn);
 					this.entityDropItem(worldIn, pos, playerIn, new ItemStack(itemPicked, 1, 0));
@@ -130,20 +135,6 @@ public class ARKCraftBerryBush extends BlockBush implements ARKMark
 		}
 	}
 
-	/*
-	 * // Called when bush is right clicked
-	 * @Override public boolean onBlockActivated(World worldIn, BlockPos pos,
-	 * IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX,
-	 * float hitY, float hitZ) { if (!worldIn.isRemote) { int harvestCount =
-	 * getMetaFromState(state); if (harvestCount > 0) { for (int i = 0; i <
-	 * ModuleItemBalance.PLANTS.BERRIES_MIN_PER_PICKING || i <= worldIn.rand
-	 * .nextInt(ModuleItemBalance.PLANTS.BERRIES_MAX_PER_PICKING); i++) { Item
-	 * itemPicked = getHarvestItem(worldIn.rand); this.entityDropItem(worldIn,
-	 * pos, playerIn, new ItemStack(itemPicked, 1, 0)); }
-	 * worldIn.setBlockState(pos, state.withProperty(HARVEST_COUNT, harvestCount
-	 * - 1)); } } return true; }
-	 */
-
 	/**
 	 * Drops an item at the position of the bush.
 	 */
@@ -152,7 +143,8 @@ public class ARKCraftBerryBush extends BlockBush implements ARKMark
 		if (itemStackIn.stackSize != 0 && itemStackIn.getItem() != null)
 		{
 			Float offset = worldIn.rand.nextFloat();
-			EntityItem entityitem = new EntityItem(worldIn, pos.getX() + offset, pos.getY() + this.maxY, pos.getZ() + offset, itemStackIn);
+			EntityItem entityitem = new EntityItem(worldIn, pos.getX() + offset, pos.getY() + this.maxY, pos.getZ()
+					+ offset, itemStackIn);
 			entityitem.setDefaultPickupDelay();
 			if (playerIn.captureDrops)
 			{

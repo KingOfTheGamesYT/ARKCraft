@@ -22,6 +22,7 @@ import com.uberverse.arkcraft.common.tileentity.crafter.burner.TileEntityCampfir
 import com.uberverse.arkcraft.common.tileentity.crafter.burner.TileEntityRefiningForge;
 import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntityMP;
 import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntitySmithy;
+import com.uberverse.arkcraft.wip.oregen.BlockRockResource;
 
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -37,6 +38,8 @@ public class ARKCraftBlocks
 	public static BlockCampfire campfire;
 	public static BlockGreenScreen greenScreen;
 
+	public static BlockRockResource rockResource;
+
 	public static ARKCraftBlocks getInstance()
 	{
 		return new ARKCraftBlocks();
@@ -45,11 +48,11 @@ public class ARKCraftBlocks
 	public static void init()
 	{
 		InitializationManager init = InitializationManager.instance();
-		
+
 		// Misc
-		block_light =  init.registerBlock("block_light", new BlockLight());
+		block_light = init.registerBlock("block_light", new BlockLight());
 		berryBush = init.registerBlock("berryBush", new ARKCraftBerryBush(0.4F));
-		greenScreen =  init.registerBlock("greenScreen", new BlockGreenScreen());
+		greenScreen = init.registerBlock("greenScreen", new BlockGreenScreen());
 
 		// Containers
 		smithy = init.registerBlock("smithy", new BlockSmithy(), ItemSmithy.class);
@@ -58,6 +61,8 @@ public class ARKCraftBlocks
 		compost_bin = init.registerBlock("compost_bin", new BlockCompostBin(), ItemCompostBin.class);
 		refining_forge = init.registerBlock("refining_forge", new BlockRefiningForge(), ItemRefiningForge.class);
 		campfire = init.registerBlock("campfire", new BlockCampfire(), ItemCampfire.class);
+
+		rockResource = init.registerBlock("rock_resource", new BlockRockResource());
 
 		// Tile Entities
 		GameRegistry.registerTileEntity(TileEntityCropPlot.class, ARKCraft.MODID + "cropPlot");

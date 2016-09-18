@@ -453,7 +453,7 @@ public class EngramManager
 
 		public ItemStack getOutputAsItemStack(ItemQuality q)
 		{
-			ItemStack s = getOutput().toSingleItemStack();
+			ItemStack s = getOutput().toItemStack();
 			if (isQualitable()) Qualitable.set(s, q);
 			return s;
 		}

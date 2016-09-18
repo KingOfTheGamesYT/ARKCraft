@@ -183,7 +183,7 @@ public class ARKCraftItems
 
 		// TODO remove when done testing
 		test = init.registerItem("test", new ItemStonePickaxe());
-		ItemToolBase.registerEffectiveBlocks(Blocks.log, Blocks.log2);
+		ItemToolBase.registerEffectiveBlocks(Blocks.log, Blocks.log2, ARKCraftBlocks.rockResource);
 		ItemToolBase.registerBlockDrops(Blocks.log, Lists.newArrayList(new AbstractItemStack[] { new AbstractItemStack(
 				wood, 2), new AbstractItemStack(thatch, 2) }));
 		ItemToolBase.registerBlockDrops(Blocks.log2, Lists.newArrayList(new AbstractItemStack[] { new AbstractItemStack(

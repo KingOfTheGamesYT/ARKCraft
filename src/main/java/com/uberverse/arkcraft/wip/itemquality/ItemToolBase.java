@@ -14,9 +14,9 @@ import com.google.common.collect.Multimap;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.util.AbstractItemStack;
+import com.uberverse.arkcraft.util.AbstractItemStack.ChancingAbstractItemStack;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -31,7 +31,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-public abstract class ItemToolBase extends ItemQualitable
+public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 {
 	private final double baseBreakSpeed;
 	private final double baseDamage;
@@ -63,8 +63,8 @@ public abstract class ItemToolBase extends ItemQualitable
 	@Override
 	public final float getDigSpeed(ItemStack itemstack, IBlockState state)
 	{
-		if (!effectiveBlocks.contains(state.getBlock()) || isToolBroken(itemstack)) return 0;
-		float base = 10 * 1.5f * (float) getBreakSpeed(itemstack);
+		if (!effectiveBlocks.contains(state.getBlock()) || isBroken(itemstack)) return 0;
+		float base = 1.5f * (float) getBreakSpeed(itemstack);
 		return MathHelper.clamp_float(base * getSpeedDivider(itemstack), 0.1f, base);
 	}
 
@@ -173,10 +173,9 @@ public abstract class ItemToolBase extends ItemQualitable
 
 		if (shouldBreak) for (BlockPos p : done)
 		{
-			if (damageTool(stack, player))
+			if (damage(stack, player))
 			{
-				target.harvestBlock(world, player, p, world.getBlockState(p), target instanceof ITileEntityProvider
-						? world.getTileEntity(p) : null);
+				target.onBlockHarvested(world, p, world.getBlockState(p), player);
 				world.destroyBlock(p, false);
 			}
 			else break;
@@ -202,11 +201,11 @@ public abstract class ItemToolBase extends ItemQualitable
 					IBlockState blockState = world.getBlockState(p);
 					if (blockChecker.apply(blockState))
 					{
-						if (!isToolBroken(stack))
+						if (!isBroken(stack))
 						{
 							count++;
 							world.destroyBlock(p, false);
-							if (damageTool(stack, player))
+							if (damage(stack, player))
 							{
 								this.destroyBlocks(world, p, player, stack, blockChecker);
 							}
@@ -220,42 +219,24 @@ public abstract class ItemToolBase extends ItemQualitable
 				}
 	}
 
-	private boolean damageTool(ItemStack toolStack, EntityLivingBase entityIn)
-	{
-		if (isToolBroken(toolStack)) return false;
-		if (toolStack.getItemDamage() + 1 >= toolStack.getMaxDamage())
-		{
-			setToolBroken(toolStack, true);
-		}
-		toolStack.damageItem(1, entityIn);
-		return true;
-	}
-
-	private boolean isToolBroken(ItemStack stack)
-	{
-		if (!stack.hasTagCompound()) return false;
-		return stack.getTagCompound().getBoolean("broken");
-	}
-
-	private void setToolBroken(ItemStack stack, boolean bool)
-	{
-		if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
-		stack.getTagCompound().setBoolean("broken", bool);
-	}
-
 	private final double getToolModifier(ItemStack tool)
 	{
 		return Qualitable.get(tool).multiplierTreshold * material.yieldModifier;
 	}
 
-	private final Collection<AbstractItemStack> applyOutputModifiers(final Collection<AbstractItemStack> originalDrops,
+	public final Collection<AbstractItemStack> applyOutputModifiers(final Collection<AbstractItemStack> originalDrops,
 			ItemStack tool)
 	{
 		Collection<AbstractItemStack> out = Lists.newArrayList();
 		for (AbstractItemStack ais : originalDrops)
+		{
+			if (ais instanceof ChancingAbstractItemStack && itemRand.nextInt((int) (1
+					/ ((ChancingAbstractItemStack) ais).chance * getToolModifier(tool) * toolType.getModifier(
+							ais.item))) != 0) continue;
 			out.add(new AbstractItemStack(ais.item, (int) Math.ceil(ais.getAmount() * getToolModifier(tool) * toolType
 					.getModifier(ais.item) * ((itemRand.nextInt(51) + itemRand.nextInt(51) + itemRand.nextInt(51)) / 3
 							+ 75) / 100), ais.meta));
+		}
 		return out;
 	}
 
@@ -263,7 +244,7 @@ public abstract class ItemToolBase extends ItemQualitable
 	public final boolean onBlockDestroyed(ItemStack stack, World world, Block block, BlockPos pos,
 			EntityLivingBase player)
 	{
-		if (effectiveBlocks.contains(block))
+		if (!world.isRemote && effectiveBlocks.contains(block))
 		{
 			if (dropMap.containsKey(block))
 			{
@@ -274,7 +255,7 @@ public abstract class ItemToolBase extends ItemQualitable
 					ais.setAmount(ais.getAmount() * count);
 
 				for (AbstractItemStack ais : drops)
-					for (ItemStack s : ais.toItemStack())
+					for (ItemStack s : ais.toItemStacks())
 						Block.spawnAsEntity(world, pos, s);
 				count = 0;
 			}

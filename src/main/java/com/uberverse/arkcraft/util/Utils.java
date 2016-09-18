@@ -2,6 +2,9 @@ package com.uberverse.arkcraft.util;
 
 import java.lang.reflect.Field;
 
+import com.uberverse.arkcraft.common.item.IDecayable;
+import com.uberverse.arkcraft.common.tileentity.ICustomDecayModifier;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.entity.EntityLivingBase;
@@ -12,9 +15,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-
-import com.uberverse.arkcraft.common.item.IDecayable;
-import com.uberverse.arkcraft.common.tileentity.ICustomDecayModifier;
 
 public class Utils
 {
@@ -39,8 +39,8 @@ public class Utils
 
 	public static boolean isUseable(BlockPos pos, EntityPlayer player, World worldObj, TileEntity thisT)
 	{
-		return worldObj.getTileEntity(pos) != thisT ? false : player
-				.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D;
+		return worldObj.getTileEntity(pos) != thisT ? false : player.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D,
+				pos.getZ() + 0.5D) <= 64.0D;
 	}
 
 	static Field equippedProgress, prevEquippedProgress;
@@ -53,13 +53,12 @@ public class Utils
 		{
 			if (!isSmooth)
 			{
-				if (prevEquippedProgress == null) prevEquippedProgress = ItemRenderer.class
-						.getDeclaredField("prevEquippedProgress");
+				if (prevEquippedProgress == null) prevEquippedProgress = ItemRenderer.class.getDeclaredField(
+						"prevEquippedProgress");
 				prevEquippedProgress.setAccessible(true);
 				prevEquippedProgress.setFloat(IR, From0To1);
 			}
-			if (equippedProgress == null) equippedProgress = ItemRenderer.class
-					.getDeclaredField("equippedProgress");
+			if (equippedProgress == null) equippedProgress = ItemRenderer.class.getDeclaredField("equippedProgress");
 			equippedProgress.setAccessible(true);
 			equippedProgress.setFloat(IR, From0To1);
 		}
@@ -68,18 +67,40 @@ public class Utils
 			e.printStackTrace();
 		}
 	}
-	public static void checkInventoryForDecayable(IInventory inventory){
 
-		for(int i = 0;i<inventory.getSizeInventory();i++){
+	public static void checkInventoryForDecayable(IInventory inventory)
+	{
+
+		for (int i = 0; i < inventory.getSizeInventory(); i++)
+		{
 			ItemStack stack = inventory.getStackInSlot(i);
-			if(stack != null && stack.getItem() instanceof IDecayable){
+			if (stack != null && stack.getItem() instanceof IDecayable)
+			{
 				IDecayable decayable = (IDecayable) stack.getItem();
 				double decayModifier = 1;
-				if(inventory instanceof ICustomDecayModifier){
-					decayModifier = ((ICustomDecayModifier)inventory).getDecayModifier(i);
+				if (inventory instanceof ICustomDecayModifier)
+				{
+					decayModifier = ((ICustomDecayModifier) inventory).getDecayModifier(i);
 				}
 				decayable.decayTick(inventory, i, decayModifier, stack);
 			}
 		}
+	}
+
+	public static double calculateDistance(BlockPos pos1, BlockPos pos2)
+	{
+		double x1 = pos1.getX();
+		double x2 = pos2.getX();
+		double y1 = pos1.getY();
+		double y2 = pos2.getY();
+		double z1 = pos1.getZ();
+		double z2 = pos2.getZ();
+
+		return calculateDistance(x1, y1, z1, x2, y2, z2);
+	}
+
+	public static double calculateDistance(double x1, double y1, double z1, double x2, double y2, double z2)
+	{
+		return Math.sqrt(Math.pow(Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(z1 - z2, 2)), 2) + Math.pow(y1 - y2, 2));
 	}
 }
