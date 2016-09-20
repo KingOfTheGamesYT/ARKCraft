@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.wip.oregen;
+package com.uberverse.arkcraft.common.block;
 
 import com.uberverse.arkcraft.common.entity.IArkLevelable;
 

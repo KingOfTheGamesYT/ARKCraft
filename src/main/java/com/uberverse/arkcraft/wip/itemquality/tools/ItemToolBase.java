@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.wip.itemquality;
+package com.uberverse.arkcraft.wip.itemquality.tools;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -11,10 +11,14 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.util.AbstractItemStack;
 import com.uberverse.arkcraft.util.AbstractItemStack.ChancingAbstractItemStack;
+import com.uberverse.arkcraft.wip.itemquality.IBreakable;
+import com.uberverse.arkcraft.wip.itemquality.ItemQualitable;
+import com.uberverse.arkcraft.wip.itemquality.Qualitable;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -58,6 +62,7 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 		this.toolType = toolType;
 		this.material = mat;
 		setMaxStackSize(1);
+		setCreativeTab(ARKCraft.tabARK);
 	}
 
 	@Override
@@ -221,7 +226,7 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 
 	private final double getToolModifier(ItemStack tool)
 	{
-		return Qualitable.get(tool).multiplierTreshold * material.yieldModifier;
+		return Qualitable.get(tool).harvestMultiplier;
 	}
 
 	public final Collection<AbstractItemStack> applyOutputModifiers(final Collection<AbstractItemStack> originalDrops,
@@ -231,11 +236,11 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 		for (AbstractItemStack ais : originalDrops)
 		{
 			if (ais instanceof ChancingAbstractItemStack && itemRand.nextInt((int) (1
-					/ ((ChancingAbstractItemStack) ais).chance * getToolModifier(tool) * toolType.getModifier(
-							ais.item))) != 0) continue;
+					/ ((ChancingAbstractItemStack) ais).chance * getToolModifier(tool) * toolType.getModifier(ais.item)
+					* material.getModifier(ais.item))) != 0) continue;
 			out.add(new AbstractItemStack(ais.item, (int) Math.ceil(ais.getAmount() * getToolModifier(tool) * toolType
-					.getModifier(ais.item) * ((itemRand.nextInt(51) + itemRand.nextInt(51) + itemRand.nextInt(51)) / 3
-							+ 75) / 100), ais.meta));
+					.getModifier(ais.item) * material.getModifier(ais.item) * ((itemRand.nextInt(51) + itemRand.nextInt(
+							51) + itemRand.nextInt(51)) / 3 + 75) / 100), ais.meta));
 		}
 		return out;
 	}
@@ -268,52 +273,12 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 
 	public final double getAttackDamage(ItemStack stack)
 	{
-		return Qualitable.get(stack).multiplierTreshold * baseDamage;
+		return Qualitable.get(stack).harvestMultiplier * baseDamage;
 	}
 
 	public final double getBreakSpeed(ItemStack stack)
 	{
-		return Qualitable.get(stack).multiplierTreshold * baseBreakSpeed;
-	}
-
-	protected final double getThatchModifier()
-	{
-		return toolType.thatchModifier;
-	}
-
-	protected final double getWoodModifier()
-	{
-		return toolType.woodModifier;
-	}
-
-	protected final double getCrystalModifier()
-	{
-		return toolType.crystalModifier;
-	}
-
-	protected final double getFlintModifier()
-	{
-		return toolType.flintModifier;
-	}
-
-	protected final double getHideModifier()
-	{
-		return toolType.hideModifier;
-	}
-
-	protected final double getMeatModifier()
-	{
-		return toolType.meatModifier;
-	}
-
-	protected final double getStoneModifier()
-	{
-		return toolType.stoneModifier;
-	}
-
-	protected final double getMetalModifier()
-	{
-		return toolType.metalModifier;
+		return Qualitable.get(stack).harvestMultiplier * baseBreakSpeed;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -331,17 +296,18 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 
 	public enum ToolType
 	{
-		PICK(c, cmm, cmm, cmmm, cm, cm, c, cmm), HATCHET(cmm, c, cmmm, cm, cmm, cmm, cmm, c);
-		private final double thatchModifier, woodModifier, metalModifier, stoneModifier, crystalModifier, flintModifier,
-				meatModifier, hideModifier;
+		PICK(c, cmm, cmm, cmmm, cm, cmm, cm, c, cmm), HATCHET(cmm, c, cmmm, cm, cmm, cmmm, cmm, cmm, c);
+		private final double thatchModifier, woodModifier, metalModifier, stoneModifier, crystalModifier,
+				obsidianModifier, flintModifier, meatModifier, hideModifier;
 
-		private ToolType(double thatchModifier, double woodModifier, double metalModifier, double stoneModifier, double crystalModifier, double flintModifier, double meatModifier, double hideModifier)
+		private ToolType(double thatchModifier, double woodModifier, double metalModifier, double stoneModifier, double crystalModifier, double obsidianModifier, double flintModifier, double meatModifier, double hideModifier)
 		{
 			this.thatchModifier = thatchModifier;
 			this.woodModifier = woodModifier;
 			this.metalModifier = metalModifier;
 			this.stoneModifier = stoneModifier;
 			this.crystalModifier = crystalModifier;
+			this.obsidianModifier = obsidianModifier;
 			this.flintModifier = flintModifier;
 			this.meatModifier = meatModifier;
 			this.hideModifier = hideModifier;
@@ -354,6 +320,7 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 			else if (output == ARKCraftItems.metal) return metalModifier;
 			else if (output == ARKCraftItems.stone) return stoneModifier;
 			else if (output == ARKCraftItems.crystal) return crystalModifier;
+			else if (output == ARKCraftItems.obsidian) return obsidianModifier;
 			else if (output == ARKCraftItems.flint) return flintModifier;
 			else if (output == ARKCraftItems.meat_raw || output == ARKCraftItems.primemeat_raw) return meatModifier;
 			else if (output == ARKCraftItems.hide) return hideModifier;
@@ -361,15 +328,54 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 		}
 	}
 
+	private static final int defaultMetalMaterialModifier = 3, defaultStoneMaterialModifier = 1;
+
 	public enum ToolMaterial
 	{
-		STONE(1), METAL(3);
+		STONE(
+				defaultStoneMaterialModifier,
+				defaultStoneMaterialModifier,
+				0.5,
+				defaultStoneMaterialModifier,
+				0.05,
+				0.05,
+				defaultStoneMaterialModifier,
+				defaultStoneMaterialModifier,
+				defaultStoneMaterialModifier), METAL(defaultMetalMaterialModifier);
 
-		private final double yieldModifier;
+		private final double thatchModifier, woodModifier, metalModifier, stoneModifier, crystalModifier,
+				obsidianModifier, flintModifier, meatModifier, hideModifier;
 
-		private ToolMaterial(double yieldModifier)
+		private ToolMaterial(double general)
 		{
-			this.yieldModifier = yieldModifier;
+			this(general, general, general, general, general, general, general, general, general);
+		}
+
+		private ToolMaterial(double thatchModifier, double woodModifier, double metalModifier, double stoneModifier, double crystalModifier, double obsidianModifier, double flintModifier, double meatModifier, double hideModifier)
+		{
+			this.thatchModifier = thatchModifier;
+			this.woodModifier = woodModifier;
+			this.metalModifier = metalModifier;
+			this.stoneModifier = stoneModifier;
+			this.crystalModifier = crystalModifier;
+			this.obsidianModifier = obsidianModifier;
+			this.flintModifier = flintModifier;
+			this.meatModifier = meatModifier;
+			this.hideModifier = hideModifier;
+		}
+
+		private double getModifier(Item output)
+		{
+			if (output == ARKCraftItems.thatch) return thatchModifier;
+			else if (output == ARKCraftItems.wood) return woodModifier;
+			else if (output == ARKCraftItems.metal) return metalModifier;
+			else if (output == ARKCraftItems.stone) return stoneModifier;
+			else if (output == ARKCraftItems.crystal) return crystalModifier;
+			else if (output == ARKCraftItems.obsidian) return obsidianModifier;
+			else if (output == ARKCraftItems.flint) return flintModifier;
+			else if (output == ARKCraftItems.meat_raw || output == ARKCraftItems.primemeat_raw) return meatModifier;
+			else if (output == ARKCraftItems.hide) return hideModifier;
+			else return 1;
 		}
 	}
 }

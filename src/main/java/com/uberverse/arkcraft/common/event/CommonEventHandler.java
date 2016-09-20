@@ -13,6 +13,16 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 
+import com.google.common.collect.ImmutableSet;
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
+import com.uberverse.arkcraft.common.config.ModuleItemBalance;
+import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
+import com.uberverse.arkcraft.common.network.ReloadFinished;
+import com.uberverse.arkcraft.init.ARKCraftItems;
+import com.uberverse.arkcraft.util.Utils;
+import com.uberverse.lib.LogHelper;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -28,28 +38,15 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
-
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
-import com.uberverse.arkcraft.common.config.ModuleItemBalance;
-import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
-import com.uberverse.arkcraft.common.item.tools.ARKCraftTool;
-import com.uberverse.arkcraft.common.network.ReloadFinished;
-import com.uberverse.arkcraft.init.ARKCraftItems;
-import com.uberverse.arkcraft.util.Utils;
-import com.uberverse.lib.LogHelper;
-import com.google.common.collect.ImmutableSet;
 
 public class CommonEventHandler
 {
@@ -106,7 +103,7 @@ public class CommonEventHandler
 		}
 	}
 
-	//Immutable Set (Not able to edit the set)
+	// Immutable Set (Not able to edit the set)
 	private static final Set<Item> INPUTS = ImmutableSet.of(Items.bone, Items.book, Items.wheat);
 
 	@SuppressWarnings("unchecked")
@@ -126,7 +123,7 @@ public class CommonEventHandler
 					List<Entity> entitiesInWorld = world.loadedEntityList;
 					for (Entity entityInWorld : entitiesInWorld)
 					{
-						//Make the set mutable each for loop.
+						// Make the set mutable each for loop.
 						final Set<Item> remainingInputs = new HashSet<Item>(INPUTS); // Create
 						ArrayList<EntityItem> foundEntityItems = new ArrayList<EntityItem>();
 						if (entityInWorld instanceof EntityItem)
@@ -138,7 +135,8 @@ public class CommonEventHandler
 								remainingInputs.remove(Items.book);
 								foundEntityItems.add(entityItemInWorld);
 								AxisAlignedBB areaBound = entityItemInWorld.getEntityBoundingBox().expand(3, 3, 3);
-								List<Entity> entitiesWithinBound = world.getEntitiesWithinAABBExcludingEntity(entityItemInWorld, areaBound);
+								List<Entity> entitiesWithinBound = world.getEntitiesWithinAABBExcludingEntity(
+										entityItemInWorld, areaBound);
 								for (Entity entityWithinBound : entitiesWithinBound)
 								{
 									if (entityWithinBound instanceof EntityItem)
@@ -148,13 +146,15 @@ public class CommonEventHandler
 										{
 											LogHelper.info("Found an Entity near the book that is a bone!");
 											remainingInputs.remove(Items.bone);
-											if (!remainingInputs.contains(entityItemWithinBound)) foundEntityItems.add(entityItemWithinBound);
+											if (!remainingInputs.contains(entityItemWithinBound)) foundEntityItems.add(
+													entityItemWithinBound);
 										}
 										else if (entityItemWithinBound.getEntityItem().getItem() == Items.wheat)
 										{
 											LogHelper.info("Found an Entity near the book that is wheat!");
 											remainingInputs.remove(Items.wheat);
-											if (!remainingInputs.contains(entityItemWithinBound)) foundEntityItems.add(entityItemWithinBound);
+											if (!remainingInputs.contains(entityItemWithinBound)) foundEntityItems.add(
+													entityItemWithinBound);
 										}
 										if (remainingInputs.isEmpty())
 										{
@@ -166,11 +166,13 @@ public class CommonEventHandler
 												foundEntityItem.getEntityItem().stackSize--;
 												if (foundEntityItem.getEntityItem().stackSize <= 0)
 												{
-													LogHelper.info("Deleting the Item: " + foundEntityItem.getEntityItem().getItem().toString());
+													LogHelper.info("Deleting the Item: " + foundEntityItem
+															.getEntityItem().getItem().toString());
 													foundEntityItem.setDead();
 												}
-												itemToSpawn = new EntityItem(world, entityItemInWorld.posX, entityItemInWorld.posY,
-														entityItemInWorld.posZ, new ItemStack(ARKCraftItems.info_book, 1));
+												itemToSpawn = new EntityItem(world, entityItemInWorld.posX,
+														entityItemInWorld.posY, entityItemInWorld.posZ, new ItemStack(
+																ARKCraftItems.info_book, 1));
 
 											}
 										}
@@ -184,37 +186,46 @@ public class CommonEventHandler
 					}
 					if (itemToSpawn != null)
 					{
-						//Spawn particle and item
-						((WorldServer) world).spawnParticle(EnumParticleTypes.SMOKE_LARGE, false, itemToSpawn.posX, itemToSpawn.posY + 0.5D,
-								itemToSpawn.posZ, 5, 0.0D, 0.0D, 0.0D, 0.0D, new int[0]);
+						// Spawn particle and item
+						((WorldServer) world).spawnParticle(EnumParticleTypes.SMOKE_LARGE, false, itemToSpawn.posX,
+								itemToSpawn.posY + 0.5D, itemToSpawn.posZ, 5, 0.0D, 0.0D, 0.0D, 0.0D, new int[0]);
 						world.spawnEntityInWorld(itemToSpawn);
 					}
 
 				}
 
-
-				if(event.phase == Phase.START){
+				if (event.phase == Phase.START)
+				{
 					TickStorage t = tick.get(event.world.provider.getDimensionId());
-					if(t == null){
+					if (t == null)
+					{
 						t = new TickStorage();
 						tick.put(event.world.provider.getDimensionId(), t);
 					}
-					if(t.tick > 20){
+					if (t.tick > 20)
+					{
 						t.tick = 0;
-						for(int i = 0;i<event.world.loadedTileEntityList.size();i++){
-							if(event.world.loadedTileEntityList.get(i) instanceof IInventory){//Check for inventories every second
+						for (int i = 0; i < event.world.loadedTileEntityList.size(); i++)
+						{
+							if (event.world.loadedTileEntityList.get(i) instanceof IInventory)
+							{// Check for inventories every second
 								Utils.checkInventoryForDecayable((IInventory) event.world.loadedTileEntityList.get(i));
 							}
 						}
-					}else{
+					}
+					else
+					{
 						t.tick++;
 					}
 				}
 			}
 		}
 	}
+
 	private Map<Integer, TickStorage> tick = new HashMap<Integer, TickStorage>();
-	public static class TickStorage{
+
+	public static class TickStorage
+	{
 		private int tick;
 	}
 
@@ -265,32 +276,6 @@ public class CommonEventHandler
 		}
 	}
 
-	// TODO fix the issues with client and server side,
-	// (ClientEventhandler.arkMode()) is the issues
-	// --> basically keep arkmode as a player variable
-	public static boolean arkMode;
-
-	public boolean arkMode()
-	{
-		return arkMode;
-	}
-
-	@SubscribeEvent
-	public void breakSpeed(BreakSpeed event)
-	{
-		if (arkMode && event.entityPlayer.getHeldItem() != null && event.entityPlayer.getHeldItem().getItem() instanceof ARKCraftTool)
-		{
-			destroyBlocks(event.entityPlayer.worldObj, event.pos);
-			float f = count / 20F;
-			System.out.println(count + " " + f);
-			if (count > 0)
-			{
-				event.newSpeed = event.originalSpeed / f / 10;
-			}
-			count = 0;
-		}
-	}
-
 	public static int reloadTicks = 0;
 	public static int ticksExsisted = 0;
 	public static int ticksSwing = 0;
@@ -320,11 +305,15 @@ public class CommonEventHandler
 				}
 			}
 		}
-		if(!p.worldObj.isRemote && evt.phase == Phase.START){
-			if(ticks > 19){
+		if (!p.worldObj.isRemote && evt.phase == Phase.START)
+		{
+			if (ticks > 19)
+			{
 				ticks = 0;
 				Utils.checkInventoryForDecayable(p.inventory);
-			}else{
+			}
+			else
+			{
 				ticks++;
 			}
 		}

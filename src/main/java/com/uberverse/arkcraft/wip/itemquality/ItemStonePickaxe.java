@@ -1,5 +1,7 @@
 package com.uberverse.arkcraft.wip.itemquality;
 
+import com.uberverse.arkcraft.wip.itemquality.tools.ItemToolBase;
+
 public class ItemStonePickaxe extends ItemToolBase
 {
 	public ItemStonePickaxe()

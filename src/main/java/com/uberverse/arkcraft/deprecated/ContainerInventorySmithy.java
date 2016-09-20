@@ -225,7 +225,6 @@ public class ContainerInventorySmithy extends Container
 		public boolean isItemValid(ItemStack stack)
 		{
 			return true;
-			// TODO is this really necessary? in ARK everything can be inserted
 			// into any inventory
 			// return tileInventorySmithy.isItemValidForRecipeSlot(stack);
 		}

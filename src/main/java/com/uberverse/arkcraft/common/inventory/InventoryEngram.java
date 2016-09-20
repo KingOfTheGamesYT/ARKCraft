@@ -23,9 +23,6 @@ public class InventoryEngram implements IInventory
 	private final String name = "Engram Inventory";
 	public static int size = 64;
 
-	public InventoryEngram()
-	{}
-
 	@Override
 	public int getSizeInventory()
 	{

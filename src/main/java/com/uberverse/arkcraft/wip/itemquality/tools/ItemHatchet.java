@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.wip.itemquality;
+package com.uberverse.arkcraft.wip.itemquality.tools;
 
 public abstract class ItemHatchet extends ItemToolBase
 {

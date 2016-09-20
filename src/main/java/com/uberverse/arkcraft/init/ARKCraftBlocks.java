@@ -10,6 +10,10 @@ import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot;
 import com.uberverse.arkcraft.common.block.crafter.BlockMortarAndPestle;
 import com.uberverse.arkcraft.common.block.crafter.BlockRefiningForge;
 import com.uberverse.arkcraft.common.block.crafter.BlockSmithy;
+import com.uberverse.arkcraft.common.block.resource.BlockCrystalResource;
+import com.uberverse.arkcraft.common.block.resource.BlockMetalResource;
+import com.uberverse.arkcraft.common.block.resource.BlockObsidianResource;
+import com.uberverse.arkcraft.common.block.resource.BlockRockResource;
 import com.uberverse.arkcraft.common.item.itemblock.ItemCampfire;
 import com.uberverse.arkcraft.common.item.itemblock.ItemCompostBin;
 import com.uberverse.arkcraft.common.item.itemblock.ItemCropPlot;
@@ -22,7 +26,6 @@ import com.uberverse.arkcraft.common.tileentity.crafter.burner.TileEntityCampfir
 import com.uberverse.arkcraft.common.tileentity.crafter.burner.TileEntityRefiningForge;
 import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntityMP;
 import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntitySmithy;
-import com.uberverse.arkcraft.wip.oregen.BlockRockResource;
 
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -39,6 +42,9 @@ public class ARKCraftBlocks
 	public static BlockGreenScreen greenScreen;
 
 	public static BlockRockResource rockResource;
+	public static BlockMetalResource metalResource;
+	public static BlockObsidianResource obsidianResource;
+	public static BlockCrystalResource crystalResource;
 
 	public static ARKCraftBlocks getInstance()
 	{
@@ -63,6 +69,9 @@ public class ARKCraftBlocks
 		campfire = init.registerBlock("campfire", new BlockCampfire(), ItemCampfire.class);
 
 		rockResource = init.registerBlock("rock_resource", new BlockRockResource());
+		metalResource = init.registerBlock("metal_resource", new BlockMetalResource());
+		obsidianResource = init.registerBlock("obsidian_resource", new BlockObsidianResource());
+		crystalResource = init.registerBlock("crystal_resource", new BlockCrystalResource());
 
 		// Tile Entities
 		GameRegistry.registerTileEntity(TileEntityCropPlot.class, ARKCraft.MODID + "cropPlot");

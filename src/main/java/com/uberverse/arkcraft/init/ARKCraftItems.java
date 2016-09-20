@@ -18,16 +18,16 @@ import com.uberverse.arkcraft.common.item.ItemBlueprint;
 import com.uberverse.arkcraft.common.item.armor.ItemARKArmor;
 import com.uberverse.arkcraft.common.item.melee.ItemPike;
 import com.uberverse.arkcraft.common.item.melee.ItemSpear;
-import com.uberverse.arkcraft.common.item.tools.ItemMetalHatchet;
-import com.uberverse.arkcraft.common.item.tools.ItemMetalPick;
 import com.uberverse.arkcraft.common.item.tools.ItemMetalSickle;
-import com.uberverse.arkcraft.common.item.tools.ItemStoneHatchet;
-import com.uberverse.arkcraft.common.item.tools.ItemStonePick;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot.CropPlotType;
 import com.uberverse.arkcraft.util.AbstractItemStack;
 import com.uberverse.arkcraft.util.CollectionUtil;
 import com.uberverse.arkcraft.wip.itemquality.ItemStonePickaxe;
-import com.uberverse.arkcraft.wip.itemquality.ItemToolBase;
+import com.uberverse.arkcraft.wip.itemquality.tools.ItemHatchetMetal;
+import com.uberverse.arkcraft.wip.itemquality.tools.ItemHatchetStone;
+import com.uberverse.arkcraft.wip.itemquality.tools.ItemPickMetal;
+import com.uberverse.arkcraft.wip.itemquality.tools.ItemPickStone;
+import com.uberverse.arkcraft.wip.itemquality.tools.ItemToolBase;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -39,11 +39,17 @@ public class ARKCraftItems
 {
 
 	// Tools
-	public static ItemStonePick stone_pick;
-	public static ItemStoneHatchet stone_hatchet;
-	public static ItemMetalPick metal_pick;
-	public static ItemMetalHatchet metal_hatchet;
+	// public static ItemStonePick stone_pick;
+	// public static ItemStoneHatchet stone_hatchet;
+	// public static ItemMetalPick metal_pick;
+	// public static ItemMetalHatchet metal_hatchet;
 	public static ItemMetalSickle metal_sickle;
+
+	// TODO new tools
+	public static ItemPickStone stonePick;
+	public static ItemPickMetal metalPick;
+	public static ItemHatchetStone stoneHatchet;
+	public static ItemHatchetMetal metalHatchet;
 
 	// Armor
 	public static ItemARKArmor chitin_helm, chitin_chest, chitin_legs, chitin_boots;
@@ -59,7 +65,7 @@ public class ARKCraftItems
 
 	// Misc
 	public static ARKCraftItem stone, fiber, thatch, wood, flint, metal, spark_powder, hide, charcoal, metal_ingot,
-			cementing_paste, crystal, spy_glass, narcotics, gunpowder, chitin, keratin, pelt;
+			cementing_paste, crystal, spy_glass, narcotics, gunpowder, chitin, keratin, pelt, obsidian;
 	public static ARKCraftFeces small_feces, medium_feces, large_feces, fertilizer, player_feces;
 	public static ARKCraftBook info_book;
 
@@ -110,12 +116,18 @@ public class ARKCraftItems
 		chitin = addItem("chitin");
 		keratin = addItem("keratin");
 		pelt = addItem("pelt");
+		obsidian = addItem("obsidian");
 
 		// Tools
-		metal_pick = init.registerItem("metal_pick", new ItemMetalPick(METAL));
-		metal_hatchet = init.registerItem("metal_hatchet", new ItemMetalHatchet(METAL));
-		stone_hatchet = init.registerItem("stone_hatchet", new ItemStoneHatchet(STONE));
-		stone_pick = init.registerItem("stone_pick", new ItemStonePick(STONE));
+		metalPick = init.registerItem("metal_pick", new ItemPickMetal());
+		stonePick = init.registerItem("stone_pick", new ItemPickStone());
+		metalHatchet = init.registerItem("metal_hatchet", new ItemHatchetMetal());
+		stoneHatchet = init.registerItem("stone_hatchet", new ItemHatchetStone());
+		// TODO remove
+		// metal_pick = init.registerItem("metal_pick", new ItemMetalPick(METAL));
+		// metal_hatchet = init.registerItem("metal_hatchet", new ItemMetalHatchet(METAL));
+		// stone_hatchet = init.registerItem("stone_hatchet", new ItemStoneHatchet(STONE));
+		// stone_pick = init.registerItem("stone_pick", new ItemStonePick(STONE));
 		metal_sickle = init.registerItem("metal_sickle", new ItemMetalSickle(METAL));
 
 		// Weapons

@@ -20,13 +20,13 @@ import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.common.engram.IEngramCrafter;
 import com.uberverse.arkcraft.common.entity.IArkLevelable;
 import com.uberverse.arkcraft.common.entity.ITranquilizable;
+import com.uberverse.arkcraft.common.entity.IWeighable;
 import com.uberverse.arkcraft.common.entity.data.CalcPlayerWeight;
 import com.uberverse.arkcraft.common.inventory.InventoryEngram;
 import com.uberverse.arkcraft.common.network.player.PlayerPoop;
 import com.uberverse.arkcraft.util.CollectionUtil;
 import com.uberverse.arkcraft.util.FixedSizeQueue;
 import com.uberverse.arkcraft.util.NBTable;
-import com.uberverse.arkcraft.wip.entity.IWeighable;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;

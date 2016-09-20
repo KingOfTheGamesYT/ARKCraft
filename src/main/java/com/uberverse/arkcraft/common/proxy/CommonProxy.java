@@ -14,7 +14,6 @@ import com.uberverse.arkcraft.common.config.WeightsConfig;
 import com.uberverse.arkcraft.common.engram.EngramManager;
 import com.uberverse.arkcraft.common.event.CommonEventHandler;
 import com.uberverse.arkcraft.common.event.VersionDetectionHandler;
-import com.uberverse.arkcraft.common.gen.WorldGeneratorBushes;
 import com.uberverse.arkcraft.common.handlers.GuiHandler;
 import com.uberverse.arkcraft.common.network.ARKModeToggle;
 import com.uberverse.arkcraft.common.network.BurnerToggle;
@@ -46,7 +45,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
 public abstract class CommonProxy
@@ -95,7 +93,7 @@ public abstract class CommonProxy
 		setupNetwork(event);
 		registerEventHandlers();
 		initializeConfiguration(event);
-		initializeWorldGeneration();
+		ARKCraftWorldGen.init();
 
 		WeightsConfig.init(event.getModConfigurationDirectory());
 
@@ -122,12 +120,6 @@ public abstract class CommonProxy
 		CommonEventHandler.init();
 		PlayerCommonEventHandler.init();
 		VersionDetectionHandler.init();
-	}
-
-	private final void initializeWorldGeneration()
-	{
-		GameRegistry.registerWorldGenerator(new WorldGeneratorBushes(), 0);
-		ARKCraftWorldGen.init();
 	}
 
 	private final void initializeConfiguration(FMLPreInitializationEvent event)

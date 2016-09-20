@@ -30,7 +30,6 @@ public class ClientUtils
 	public static void drawIHoverInfoTooltip(IHoverInfo info, FontRenderer fontRenderer, RenderGameOverlayEvent event, BlockPos target)
 	{
 		// TODO replace the information syncing by updating natively in the tileentity and updating info based on that
-		// TODO move tooltip to bottom right (to reduce view obstruction)
 		ticks++;
 		if (ticks > 30)
 		{

@@ -28,7 +28,6 @@ import net.minecraftforge.common.IExtendedEntityProperties;
  */
 public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable
 {
-	// TODO
 	private static final int healthIncrease = 10, staminaIncrease = 10, oxygenIncrease = 20,
 			foodIncrease = 10, waterIncrease = 10, damageIncrease = 5, speedIncrease = 2,
 			maxTorpor = 200, maxLevel = 98;
