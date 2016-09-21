@@ -8,7 +8,7 @@ public class RockResourceGenerator extends SurfaceOreGenerator
 {
 	public RockResourceGenerator()
 	{
-		super(2, 4, 2, 5, 4);
+		super(2, 4, 2, 5, 0.5);
 	}
 
 	@Override

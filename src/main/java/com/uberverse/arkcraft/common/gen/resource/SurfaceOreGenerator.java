@@ -4,6 +4,8 @@ import java.util.Random;
 
 import com.uberverse.arkcraft.common.block.resource.BlockARKResource;
 
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
@@ -12,9 +14,9 @@ import net.minecraftforge.common.BiomeDictionary;
 
 public abstract class SurfaceOreGenerator extends ClusterGenerator
 {
-	public SurfaceOreGenerator(int minHeight, int maxHeight, int minWidth, int maxWidth, int frequency)
+	public SurfaceOreGenerator(int minHeight, int maxHeight, int minWidth, int maxWidth, double chance)
 	{
-		super(minHeight, maxHeight, minWidth, maxWidth, frequency);
+		super(minHeight, maxHeight, minWidth, maxWidth, chance);
 	}
 
 	@Override
@@ -33,9 +35,12 @@ public abstract class SurfaceOreGenerator extends ClusterGenerator
 
 	public boolean isValidPosition(World world, BlockPos pos)
 	{
+		IBlockState self = world.getBlockState(pos);
+		IBlockState down = world.getBlockState(pos.down());
 		return world.getWorldType() != WorldType.FLAT && !BiomeDictionary.isBiomeOfType(world.getBiomeGenForCoords(pos),
 				BiomeDictionary.Type.WATER) && !world.getBlockState(pos.down()).getBlock().isLeaves(world, pos.down())
-				&& !(world.getBlockState(pos.down()).getBlock() instanceof BlockARKResource);
+				&& !(down.getBlock() instanceof BlockARKResource) && self.getBlock() != Blocks.water && self
+						.getBlock() != Blocks.lava;
 	}
 
 	public static BlockPos getSurfacePosition(BlockPos pos, World world)

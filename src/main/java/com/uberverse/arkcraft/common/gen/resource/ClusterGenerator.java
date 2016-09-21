@@ -11,20 +11,21 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 
 public abstract class ClusterGenerator extends WorldGenerator implements IWorldGenerator
 {
-	protected final int minHeight, maxHeight, minWidth, maxWidth, frequency;
+	protected final int minHeight, maxHeight, minWidth, maxWidth;
+	protected final double chance;
 
-	public ClusterGenerator(int minHeight, int maxHeight, int minWidth, int maxWidth, int frequency)
+	public ClusterGenerator(int minHeight, int maxHeight, int minWidth, int maxWidth, double chance)
 	{
 		this.minHeight = minHeight;
 		this.maxHeight = maxHeight;
 		this.minWidth = minWidth;
 		this.maxWidth = maxWidth;
-		this.frequency = frequency;
+		this.chance = chance;
 	}
 
 	public boolean shouldSpawn(Random random)
 	{
-		return random.nextInt(frequency) == 0;
+		return random.nextDouble() < chance;
 	}
 
 	/**

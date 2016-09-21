@@ -11,14 +11,13 @@ public class CrystalResourceGenerator extends SurfaceOreGenerator
 {
 	public CrystalResourceGenerator()
 	{
-		super(1, 1, 1, 1, 5);
+		super(1, 1, 1, 1, 0.8);
 	}
 
 	@Override
 	public boolean isValidPosition(World world, BlockPos pos)
 	{
-		return BiomeDictionary.isBiomeOfType(world.getBiomeGenForCoords(pos),
-				BiomeDictionary.Type.MOUNTAIN)
+		return BiomeDictionary.isBiomeOfType(world.getBiomeGenForCoords(pos), BiomeDictionary.Type.MOUNTAIN)
 				&& super.isValidPosition(world, pos) && pos.getY() > 100;
 	}
 

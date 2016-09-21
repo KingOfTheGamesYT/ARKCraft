@@ -11,14 +11,13 @@ public class MetalResourceGenerator extends SurfaceOreGenerator
 {
 	public MetalResourceGenerator()
 	{
-		super(1, 2, 2, 4, 5);
+		super(1, 2, 2, 4, 0.8);
 	}
 
 	@Override
 	public boolean isValidPosition(World world, BlockPos pos)
 	{
-		return BiomeDictionary.isBiomeOfType(world.getBiomeGenForCoords(pos),
-				BiomeDictionary.Type.MOUNTAIN)
+		return BiomeDictionary.isBiomeOfType(world.getBiomeGenForCoords(pos), BiomeDictionary.Type.MOUNTAIN)
 				&& super.isValidPosition(world, pos);
 	}
 
