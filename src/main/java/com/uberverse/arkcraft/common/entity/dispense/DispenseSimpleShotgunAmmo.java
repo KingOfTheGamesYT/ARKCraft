@@ -23,15 +23,17 @@ public class DispenseSimpleShotgunAmmo extends BehaviorDefaultDispenseItem
 	}
 
 	@Override
-	public ItemStack dispenseStack(IBlockSource blocksource, ItemStack itemstack)
+	public ItemStack dispenseStack(IBlockSource blocksource,
+			ItemStack itemstack)
 	{
 		EnumFacing face = EnumFacing.getFront(blocksource.getBlockMetadata());
 
 		IPosition pos = BlockDispenser.getDispensePosition(blocksource);
 		EntitySimpleShotgunAmmo.fireFromDispenser(blocksource.getWorld(),
-				pos.getX() + face.getFrontOffsetX(), pos.getY() + face.getFrontOffsetY(),
-				pos.getZ() + face.getFrontOffsetZ(), face.getFrontOffsetX(), face.getFrontOffsetY(),
-				face.getFrontOffsetZ());
+				pos.getX() + face.getFrontOffsetX(),
+				pos.getY() + face.getFrontOffsetY(),
+				pos.getZ() + face.getFrontOffsetZ(), face.getFrontOffsetX(),
+				face.getFrontOffsetY(), face.getFrontOffsetZ());
 		itemstack.splitStack(1);
 		return itemstack;
 	}
@@ -39,18 +41,21 @@ public class DispenseSimpleShotgunAmmo extends BehaviorDefaultDispenseItem
 	@Override
 	protected void playDispenseSound(IBlockSource blocksource)
 	{
-		blocksource.getWorld().playSoundEffect(blocksource.getX(), blocksource.getY(),
-				blocksource.getZ(), ARKCraft.MODID + ":" + "shotgun_shot", 3.0F,
+		blocksource.getWorld().playSoundEffect(blocksource.getX(),
+				blocksource.getY(), blocksource.getZ(),
+				ARKCraft.MODID + ":" + "shotgun_shot", 3.0F,
 				1.0F / (rand.nextFloat() * 0.4F + 0.6F));
 	}
 
 	@Override
-	protected void spawnDispenseParticles(IBlockSource blocksource, EnumFacing face)
+	protected void spawnDispenseParticles(IBlockSource blocksource,
+			EnumFacing face)
 	{
 		super.spawnDispenseParticles(blocksource, face);
 		IPosition pos = BlockDispenser.getDispensePosition(blocksource);
 		blocksource.getWorld().spawnParticle(EnumParticleTypes.FLAME,
-				pos.getX() + face.getFrontOffsetX(), pos.getY() + face.getFrontOffsetY(),
+				pos.getX() + face.getFrontOffsetX(),
+				pos.getY() + face.getFrontOffsetY(),
 				pos.getZ() + face.getFrontOffsetZ(), 0.0D, 0.0D, 0.0D);
 	}
 }

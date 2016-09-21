@@ -23,17 +23,22 @@ public class RenderStoneSpear extends Render
 		super(Minecraft.getMinecraft().getRenderManager());
 	}
 
-	public void doRender(Entity p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
+	public void doRender(Entity p_76986_1_, double p_76986_2_,
+			double p_76986_4_, double p_76986_6_, float p_76986_8_,
+			float p_76986_9_)
 	{
 		this.getEntityTexture(p_76986_1_);
 		GL11.glPushMatrix();
 
-		GL11.glTranslatef((float) p_76986_2_, (float) p_76986_4_, (float) p_76986_6_);
+		GL11.glTranslatef((float) p_76986_2_, (float) p_76986_4_,
+				(float) p_76986_6_);
+		GL11.glRotatef(p_76986_1_.prevRotationYaw
+				+ (p_76986_1_.rotationYaw - p_76986_1_.prevRotationYaw)
+						* p_76986_9_
+				- 90.0F, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(
-				p_76986_1_.prevRotationYaw + (p_76986_1_.rotationYaw - p_76986_1_.prevRotationYaw) * p_76986_9_ - 90.0F,
-				0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(
-				p_76986_1_.prevRotationPitch + (p_76986_1_.rotationPitch - p_76986_1_.prevRotationPitch) * p_76986_9_,
+				p_76986_1_.prevRotationPitch + (p_76986_1_.rotationPitch
+						- p_76986_1_.prevRotationPitch) * p_76986_9_,
 				0.0F, 0.0F, 1.0F);
 
 		GL11.glScalef(3F, 3F, 3F);

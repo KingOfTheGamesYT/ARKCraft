@@ -23,8 +23,8 @@ public class GUISmithy extends GuiContainer
 {
 
 	public String name = "Smithy";
-	public static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID,
-			"textures/gui/smithy.png");
+	public static final ResourceLocation texture =
+			new ResourceLocation(ARKCraft.MODID, "textures/gui/smithy.png");
 	public TileInventorySmithy tileEntity;
 	private GuiButton buttonCraftOne;
 	private GuiButton buttonCraftAll;
@@ -76,13 +76,16 @@ public class GUISmithy extends GuiContainer
 		int buttonId = 0;
 		buttonList.clear();
 		buttonPrevRecipe = new GuiButton(buttonId++, guiLeft + LEFT_BUTTON_XPOS,
-				guiTop + LEFT_BUTTON_YPOS, LEFT_BUTTON_WIDTH, LEFT_BUTTON_HEIGHT, "<=");
+				guiTop + LEFT_BUTTON_YPOS, LEFT_BUTTON_WIDTH,
+				LEFT_BUTTON_HEIGHT, "<=");
 		buttonList.add(buttonPrevRecipe);
-		buttonNextRecipe = new GuiButton(buttonId++, guiLeft + RIGHT_BUTTON_XPOS,
-				guiTop + RIGHT_BUTTON_YPOS, RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT, "=>");
+		buttonNextRecipe = new GuiButton(buttonId++,
+				guiLeft + RIGHT_BUTTON_XPOS, guiTop + RIGHT_BUTTON_YPOS,
+				RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT, "=>");
 		buttonList.add(buttonNextRecipe);
 		buttonCraftAll = new GuiButton(buttonId++, guiLeft + CRAFT_BUTTON_XPOS,
-				guiTop + CRAFT_BUTTON_YPOS, CRAFT_BUTTON_WIDTH, CRAFT_BUTTON_HEIGHT, "Craft All");
+				guiTop + CRAFT_BUTTON_YPOS, CRAFT_BUTTON_WIDTH,
+				CRAFT_BUTTON_HEIGHT, "Craft All");
 		buttonList.add(buttonCraftAll);
 		buttonCraftOne = new GuiButton(buttonId++, guiLeft + BLUEPRINT_XPOS,
 				guiTop + BLUEPRINT_YPOS, BLUEPRINT_WIDTH, BLUEPRINT_HEIGHT, "");
@@ -127,7 +130,8 @@ public class GUISmithy extends GuiContainer
 		int currBlueprint = tileEntity.getBlueprintSelected();
 		boolean crafting = tileEntity.isCrafting();
 		buttonPrevRecipe.visible = (currBlueprint > 0);
-		buttonNextRecipe.visible = (currBlueprint < tileEntity.getNumBlueprints() - 1);
+		buttonNextRecipe.visible =
+				(currBlueprint < tileEntity.getNumBlueprints() - 1);
 		buttonPrevRecipe.enabled = !crafting;
 		buttonNextRecipe.enabled = !crafting;
 		buttonCraftAll.enabled = !crafting;
@@ -149,7 +153,8 @@ public class GUISmithy extends GuiContainer
 	{
 		super.onGuiClosed();
 		// Only set closed if no players have Gui open
-		if (((ContainerInventorySmithy) this.inventorySlots).getNumCrafters() == 0)
+		if (((ContainerInventorySmithy) this.inventorySlots)
+				.getNumCrafters() == 0)
 		{
 			this.tileEntity.setGuiOpen(false, true); // and update server
 		}
@@ -161,34 +166,39 @@ public class GUISmithy extends GuiContainer
 	{
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
-		this.fontRendererObj.drawString(name, xSize / 2 - (name.length() * 5 / 2), 5,
+		this.fontRendererObj.drawString(name,
+				xSize / 2 - (name.length() * 5 / 2), 5,
 				Color.darkGray.getRGB());
 		// Number being crafted
 		if (tileEntity.isCraftingOne())
 		{
-			this.fontRendererObj.drawString("Crafting one item", CRAFTING_TEXT_XPOS,
-					CRAFTING_TEXT_YPOS, Color.darkGray.getRGB());
+			this.fontRendererObj.drawString("Crafting one item",
+					CRAFTING_TEXT_XPOS, CRAFTING_TEXT_YPOS,
+					Color.darkGray.getRGB());
 		}
 		else if (tileEntity.isCraftingAll())
 		{
 			this.fontRendererObj.drawString(
-					"Crafting " + tileEntity.getNumToBeCrafted() + " item(s)", CRAFTING_TEXT_XPOS,
-					CRAFTING_TEXT_YPOS, Color.darkGray.getRGB());
+					"Crafting " + tileEntity.getNumToBeCrafted() + " item(s)",
+					CRAFTING_TEXT_XPOS, CRAFTING_TEXT_YPOS,
+					Color.darkGray.getRGB());
 		}
 
 		List<String> hoveringText = new ArrayList<String>();
 
 		// Add hovering text if the mouse is over the Craft all button
-		if (isInRect(guiLeft + CRAFT_BUTTON_XPOS, guiTop + CRAFT_BUTTON_YPOS, CRAFT_BUTTON_WIDTH,
-				CRAFT_BUTTON_HEIGHT, mouseX, mouseY))
+		if (isInRect(guiLeft + CRAFT_BUTTON_XPOS, guiTop + CRAFT_BUTTON_YPOS,
+				CRAFT_BUTTON_WIDTH, CRAFT_BUTTON_HEIGHT, mouseX, mouseY))
 		{
-			hoveringText.add("Can craft " + tileEntity.getNumToBeCrafted() + " item(s).");
+			hoveringText.add("Can craft " + tileEntity.getNumToBeCrafted()
+					+ " item(s).");
 		}
 
 		// If hoveringText is not empty draw the hovering text
 		if (!hoveringText.isEmpty())
 		{
-			drawHoveringText(hoveringText, mouseX - guiLeft, mouseY - guiTop, fontRendererObj);
+			drawHoveringText(hoveringText, mouseX - guiLeft, mouseY - guiTop,
+					fontRendererObj);
 		}
 
 		if (tileEntity.isCrafting())
@@ -198,14 +208,15 @@ public class GUISmithy extends GuiContainer
 			int x = BLUEPRINT_XPOS;
 			int y = BLUEPRINT_YPOS;
 			int color = 0x60EAA800;
-			drawRect(x, y + (int) (fraction * BLUEPRINT_HEIGHT), x + BLUEPRINT_WIDTH,
-					y + BLUEPRINT_HEIGHT, color);
+			drawRect(x, y + (int) (fraction * BLUEPRINT_HEIGHT),
+					x + BLUEPRINT_WIDTH, y + BLUEPRINT_HEIGHT, color);
 		}
 	}
 
 	// abstract in super
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
+	protected void drawGuiContainerBackgroundLayer(float partialTicks,
+			int mouseX, int mouseY)
 	{
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
@@ -213,8 +224,10 @@ public class GUISmithy extends GuiContainer
 	}
 
 	// Returns true if the given x,y coordinates are within the given rectangle
-	public static boolean isInRect(int x, int y, int xSize, int ySize, int mouseX, int mouseY)
+	public static boolean isInRect(int x, int y, int xSize, int ySize,
+			int mouseX, int mouseY)
 	{
-		return ((mouseX >= x && mouseX <= x + xSize) && (mouseY >= y && mouseY <= y + ySize));
+		return ((mouseX >= x && mouseX <= x + xSize)
+				&& (mouseY >= y && mouseY <= y + ySize));
 	}
 }

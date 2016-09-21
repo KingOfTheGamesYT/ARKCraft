@@ -29,7 +29,8 @@ import com.uberverse.lib.LogHelper;
 /**
  * @author wildbill22
  */
-public class TileInventoryCompostBin extends TileEntity implements IInventory, IUpdatePlayerListBox
+public class TileInventoryCompostBin extends TileEntity
+		implements IInventory, IUpdatePlayerListBox
 {
 	public static final int COMPOST_SLOTS_COUNT = 8;
 	public static final int TOTAL_SLOTS_COUNT = COMPOST_SLOTS_COUNT;
@@ -52,7 +53,8 @@ public class TileInventoryCompostBin extends TileEntity implements IInventory, I
 	 * The initial composting value of the currently burning thatch (in seconds
 	 * of composting duration)
 	 */
-	private static int compostTimeInitialValue = ModuleItemBalance.COMPOST_BIN.COMPOST_TIME_FOR_THATCH;
+	private static int compostTimeInitialValue =
+			ModuleItemBalance.COMPOST_BIN.COMPOST_TIME_FOR_THATCH;
 
 	/**
 	 * Seconds of thatch burn time remaining for the item in a slot
@@ -73,7 +75,8 @@ public class TileInventoryCompostBin extends TileEntity implements IInventory, I
 	/**
 	 * The number of seconds required to create a fertilizer
 	 */
-	private static final short COMPOST_TIME_FOR_FECES = (short) ModuleItemBalance.COMPOST_BIN.COMPOST_TIME_FOR_FECES;
+	private static final short COMPOST_TIME_FOR_FECES =
+			(short) ModuleItemBalance.COMPOST_BIN.COMPOST_TIME_FOR_FECES;
 
 	/**
 	 * Returns double between 0 and 1 representing % complete
@@ -154,8 +157,8 @@ public class TileInventoryCompostBin extends TileEntity implements IInventory, I
 		// Iterate over all the compost bin slots
 		for (int i = 0; i < COMPOST_SLOTS_COUNT; i++)
 		{
-			if (itemStacks[i] != null && getItemDecompostTime(itemStacks[i]) > 0 && itemStacks[i]
-					.getItem() != ARKCraftItems.fertilizer)
+			if (itemStacks[i] != null && getItemDecompostTime(itemStacks[i]) > 0
+					&& itemStacks[i].getItem() != ARKCraftItems.fertilizer)
 			{
 				if (increaseStackDamage(itemStacks[i]))
 				{
@@ -225,7 +228,8 @@ public class TileInventoryCompostBin extends TileEntity implements IInventory, I
 		// Iterate over all the compost bin slots
 		for (int i = 0; i < COMPOST_SLOTS_COUNT; i++)
 		{
-			if (itemStacks[i] != null && getItemCompostTime(itemStacks[i]) > 0) { return true; }
+			if (itemStacks[i] != null
+					&& getItemCompostTime(itemStacks[i]) > 0) { return true; }
 		}
 		return false;
 	}
@@ -265,7 +269,8 @@ public class TileInventoryCompostBin extends TileEntity implements IInventory, I
 
 		// find the first suitable output slot- either empty, or with identical
 		// item that has enough space
-		for (int outputSlot = LAST_INVENTORY_SLOT; outputSlot > FIRST_COMPOST_SLOT; outputSlot--)
+		for (int outputSlot = LAST_INVENTORY_SLOT;
+				outputSlot > FIRST_COMPOST_SLOT; outputSlot--)
 		{
 			ItemStack outputStack = itemStacks[outputSlot];
 			// Empty slot?
@@ -278,8 +283,9 @@ public class TileInventoryCompostBin extends TileEntity implements IInventory, I
 			if (itemStacks[outputSlot].getItem() == ARKCraftItems.fertilizer)
 			{
 				int combinedSize = itemStacks[outputSlot].stackSize + 1;
-				if (combinedSize <= getInventoryStackLimit() && combinedSize <= itemStacks[outputSlot]
-						.getMaxStackSize())
+				if (combinedSize <= getInventoryStackLimit()
+						&& combinedSize <= itemStacks[outputSlot]
+								.getMaxStackSize())
 				{
 					firstSuitableOutputSlot = outputSlot;
 					break;
@@ -296,7 +302,8 @@ public class TileInventoryCompostBin extends TileEntity implements IInventory, I
 		// alter output slot
 		if (itemStacks[firstSuitableOutputSlot] == null)
 		{
-			itemStacks[firstSuitableOutputSlot] = new ItemStack(ARKCraftItems.fertilizer);
+			itemStacks[firstSuitableOutputSlot] =
+					new ItemStack(ARKCraftItems.fertilizer);
 		}
 		else
 		{
@@ -355,7 +362,8 @@ public class TileInventoryCompostBin extends TileEntity implements IInventory, I
 		if (itemStack == null) { return true; }
 		int itemDamage = itemStack.getItemDamage();
 		itemStack.setItemDamage(++itemDamage);
-		if (itemStack.getItemDamage() >= itemStack.getItem().getMaxDamage()) { return true; }
+		if (itemStack.getItemDamage() >= itemStack.getItem()
+				.getMaxDamage()) { return true; }
 		return false;
 	}
 
@@ -374,8 +382,8 @@ public class TileInventoryCompostBin extends TileEntity implements IInventory, I
 	@Override
 	public IChatComponent getDisplayName()
 	{
-		return this.hasCustomName() ? new ChatComponentText(
-				this.getName()) : new ChatComponentTranslation(this.getName());
+		return this.hasCustomName() ? new ChatComponentText(this.getName())
+				: new ChatComponentTranslation(this.getName());
 	}
 
 	@Override
@@ -446,19 +454,18 @@ public class TileInventoryCompostBin extends TileEntity implements IInventory, I
 		final double Y_CENTRE_OFFSET = 0.5;
 		final double Z_CENTRE_OFFSET = 0.5;
 		final double MAXIMUM_DISTANCE_SQ = 8.0 * 8.0;
-		return player.getDistanceSq(pos.getX() + X_CENTRE_OFFSET, pos.getY() + Y_CENTRE_OFFSET,
+		return player.getDistanceSq(pos.getX() + X_CENTRE_OFFSET,
+				pos.getY() + Y_CENTRE_OFFSET,
 				pos.getZ() + Z_CENTRE_OFFSET) < MAXIMUM_DISTANCE_SQ;
 	}
 
 	@Override
 	public void openInventory(EntityPlayer player)
-	{
-	}
+	{}
 
 	@Override
 	public void closeInventory(EntityPlayer player)
-	{
-	}
+	{}
 
 	@Override
 	public boolean isItemValidForSlot(int index, ItemStack stack)
@@ -503,7 +510,8 @@ public class TileInventoryCompostBin extends TileEntity implements IInventory, I
 	 *         create a new one if the new values specify to}
 	 */
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate)
+	public boolean shouldRefresh(World world, BlockPos pos,
+			IBlockState oldState, IBlockState newSate)
 	{
 		return false;
 	}
@@ -559,7 +567,8 @@ public class TileInventoryCompostBin extends TileEntity implements IInventory, I
 											// and load the tiles location
 		final byte NBT_TYPE_COMPOUND = 10; // See NBTBase.createNewByType() for
 											// a listing
-		NBTTagList dataForAllSlots = nbtTagCompound.getTagList("Items", NBT_TYPE_COMPOUND);
+		NBTTagList dataForAllSlots =
+				nbtTagCompound.getTagList("Items", NBT_TYPE_COMPOUND);
 
 		Arrays.fill(itemStacks, null); // set all slots to empty
 		for (int i = 0; i < dataForAllSlots.tagCount(); ++i)
@@ -568,14 +577,16 @@ public class TileInventoryCompostBin extends TileEntity implements IInventory, I
 			byte slotNumber = dataForOneSlot.getByte("Slot");
 			if (slotNumber >= 0 && slotNumber < this.itemStacks.length)
 			{
-				this.itemStacks[slotNumber] = ItemStack.loadItemStackFromNBT(dataForOneSlot);
+				this.itemStacks[slotNumber] =
+						ItemStack.loadItemStackFromNBT(dataForOneSlot);
 			}
 		}
 
 		// Load everything else. Trim the arrays (or pad with 0) to make sure
 		// they have the correct number of elements
 		compostTime = nbtTagCompound.getShort("compostTime");
-		compostTimeRemaining = Arrays.copyOf(nbtTagCompound.getIntArray("compostTimeRemaining"),
+		compostTimeRemaining = Arrays.copyOf(
+				nbtTagCompound.getIntArray("compostTimeRemaining"),
 				COMPOST_SLOTS_COUNT);
 		cachedNumberOfDecomposingSlots = -1;
 		LogHelper.info("TileInventoryCompostBin: Read inventory.");
@@ -590,7 +601,8 @@ public class TileInventoryCompostBin extends TileEntity implements IInventory, I
 		NBTTagCompound nbtTagCompound = new NBTTagCompound();
 		writeToNBT(nbtTagCompound);
 		final int METADATA = 0;
-		return new S35PacketUpdateTileEntity(this.pos, METADATA, nbtTagCompound);
+		return new S35PacketUpdateTileEntity(this.pos, METADATA,
+				nbtTagCompound);
 	}
 
 	@Override
@@ -611,14 +623,18 @@ public class TileInventoryCompostBin extends TileEntity implements IInventory, I
 
 	private static final byte COMPOST_FIELD_ID = 0;
 	private static final byte FIRST_COMPOST_TIME_FIELD_ID = 1;
-	private static final byte NUMBER_OF_FIELDS = FIRST_COMPOST_TIME_FIELD_ID + (byte) COMPOST_SLOTS_COUNT;
+	private static final byte NUMBER_OF_FIELDS =
+			FIRST_COMPOST_TIME_FIELD_ID + (byte) COMPOST_SLOTS_COUNT;
 
 	@Override
 	public int getField(int id)
 	{
 		if (id == COMPOST_FIELD_ID) { return compostTime; }
-		if (id >= FIRST_COMPOST_TIME_FIELD_ID && id < NUMBER_OF_FIELDS) { return compostTimeRemaining[id - FIRST_COMPOST_TIME_FIELD_ID]; }
-		System.err.println("Invalid field ID in TileInventoryCompost.getField:" + id);
+		if (id >= FIRST_COMPOST_TIME_FIELD_ID
+				&& id < NUMBER_OF_FIELDS) { return compostTimeRemaining[id
+						- FIRST_COMPOST_TIME_FIELD_ID]; }
+		System.err.println(
+				"Invalid field ID in TileInventoryCompost.getField:" + id);
 		return 0;
 	}
 
@@ -635,7 +651,8 @@ public class TileInventoryCompostBin extends TileEntity implements IInventory, I
 		}
 		else
 		{
-			System.err.println("Invalid field ID in TileInventoryCompost.setField:" + id);
+			System.err.println(
+					"Invalid field ID in TileInventoryCompost.setField:" + id);
 		}
 	}
 

@@ -36,7 +36,8 @@ public class ContainerInventoryCropPlot extends Container
 		final int HOTBAR_YPOS = 142;
 		for (int col = 0; col < 9; col++)
 		{
-			addSlotToContainer(new Slot(invPlayer, col, 8 + col * 18, HOTBAR_YPOS));
+			addSlotToContainer(
+					new Slot(invPlayer, col, 8 + col * 18, HOTBAR_YPOS));
 		}
 
 		/* Player inventory */
@@ -54,29 +55,30 @@ public class ContainerInventoryCropPlot extends Container
 		/* Crop inventory */
 		if (CROP_SLOT_COUNT != tileInventoryCropPlot.getSizeInventory())
 		{
-			LogHelper
-					.error("Mismatched slot count in container(" + CROP_SLOT_COUNT + ") and CropInventory (" + tileInventoryCropPlot
-							.getSizeInventory() + ")");
+			LogHelper.error("Mismatched slot count in container("
+					+ CROP_SLOT_COUNT + ") and CropInventory ("
+					+ tileInventoryCropPlot.getSizeInventory() + ")");
 		}
 		// Water and Seed slot are first two
-		this.addSlotToContainer(
-				new SlotWater(tileInventoryCropPlot, TileInventoryCropPlot.WATER_SLOT, 8, 53)); // Water
-																								// input
-																								// slot
-		this.addSlotToContainer(
-				new SlotSeed(tileInventoryCropPlot, TileInventoryCropPlot.SEED_SLOT, 44, 17)); // Seed
-																								// input
-																								// slot
+		this.addSlotToContainer(new SlotWater(tileInventoryCropPlot,
+				TileInventoryCropPlot.WATER_SLOT, 8, 53)); // Water
+															// input
+															// slot
+		this.addSlotToContainer(new SlotSeed(tileInventoryCropPlot,
+				TileInventoryCropPlot.SEED_SLOT, 44, 17)); // Seed
+															// input
+															// slot
 		// Fertilizer slots
-		for (int col = TileInventoryCropPlot.FIRST_FERTILIZER_SLOT; col < CROP_SLOT_COUNT - 1; col++)
+		for (int col = TileInventoryCropPlot.FIRST_FERTILIZER_SLOT;
+				col < CROP_SLOT_COUNT - 1; col++)
 		{
-			addSlotToContainer(new SlotFertilizer(tileInventoryCropPlot, col, 8 + col * 18,
-					FERTILIZER_SLOT_YPOS));
+			addSlotToContainer(new SlotFertilizer(tileInventoryCropPlot, col,
+					8 + col * 18, FERTILIZER_SLOT_YPOS));
 		}
 		// Berry output slot (berry is centered in 24 x 24 box (berry is 16 x
 		// 16)
-		this.addSlotToContainer(
-				new Slot(tileInventoryCropPlot, TileInventoryCropPlot.BERRY_SLOT, 104, 17));
+		this.addSlotToContainer(new Slot(tileInventoryCropPlot,
+				TileInventoryCropPlot.BERRY_SLOT, 104, 17));
 	}
 
 	/* Nothing to do, this is a furnace type container */
@@ -85,7 +87,8 @@ public class ContainerInventoryCropPlot extends Container
 		super.onContainerClosed(playerIn);
 	}
 
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int sourceSlotIndex)
+	public ItemStack transferStackInSlot(EntityPlayer playerIn,
+			int sourceSlotIndex)
 	{
 		LogHelper.info("ARKContainerCropPlot: transferStackInSlot called.");
 		Slot sourceSlot = (Slot) inventorySlots.get(sourceSlotIndex);
@@ -101,7 +104,8 @@ public class ContainerInventoryCropPlot extends Container
 				// This is a vanilla container slot so merge the stack into the
 				// crop plot inventory
 				if (!mergeItemStack(sourceStack, 36,
-						36 + TileInventoryCropPlot.WATER_SLOT + TileInventoryCropPlot.WATER_SLOTS_COUNT,
+						36 + TileInventoryCropPlot.WATER_SLOT
+								+ TileInventoryCropPlot.WATER_SLOTS_COUNT,
 						false)) { return null; }
 			}
 			else if (tileInventoryCropPlot.isItemValidForSeedSlot(sourceStack))
@@ -109,15 +113,18 @@ public class ContainerInventoryCropPlot extends Container
 				// This is a vanilla container slot so merge the stack into the
 				// crop plot inventory
 				if (!mergeItemStack(sourceStack, 36,
-						36 + TileInventoryCropPlot.SEED_SLOT + TileInventoryCropPlot.SEED_SLOTS_COUNT,
+						36 + TileInventoryCropPlot.SEED_SLOT
+								+ TileInventoryCropPlot.SEED_SLOTS_COUNT,
 						false)) { return null; }
 			}
-			else if (tileInventoryCropPlot.isItemValidForFertilizerSlot(sourceStack))
+			else if (tileInventoryCropPlot
+					.isItemValidForFertilizerSlot(sourceStack))
 			{
 				// This is a vanilla container slot so merge the stack into the
 				// crop plot inventory
 				if (!mergeItemStack(sourceStack, 36,
-						36 + TileInventoryCropPlot.FIRST_FERTILIZER_SLOT + TileInventoryCropPlot.FERTILIZER_SLOTS_COUNT,
+						36 + TileInventoryCropPlot.FIRST_FERTILIZER_SLOT
+								+ TileInventoryCropPlot.FERTILIZER_SLOTS_COUNT,
 						false)) { return null; }
 			}
 			else
@@ -126,7 +133,8 @@ public class ContainerInventoryCropPlot extends Container
 			}
 		}
 		// Check if the slot clicked is a crop plot container slot
-		else if (sourceSlotIndex >= 36 && sourceSlotIndex < 36 + CROP_SLOT_COUNT)
+		else if (sourceSlotIndex >= 36
+				&& sourceSlotIndex < 36 + CROP_SLOT_COUNT)
 		{
 			// This is a crop plot slot so merge the stack into the players
 			// inventory
@@ -180,7 +188,8 @@ public class ContainerInventoryCropPlot extends Container
 		super.detectAndSendChanges();
 
 		boolean allFieldsHaveChanged = false;
-		boolean fieldHasChanged[] = new boolean[tileInventoryCropPlot.getFieldCount()];
+		boolean fieldHasChanged[] =
+				new boolean[tileInventoryCropPlot.getFieldCount()];
 		if (cachedFields == null)
 		{
 			cachedFields = new int[tileInventoryCropPlot.getFieldCount()];
@@ -188,7 +197,8 @@ public class ContainerInventoryCropPlot extends Container
 		}
 		for (int i = 0; i < cachedFields.length; ++i)
 		{
-			if (allFieldsHaveChanged || cachedFields[i] != tileInventoryCropPlot.getField(i))
+			if (allFieldsHaveChanged
+					|| cachedFields[i] != tileInventoryCropPlot.getField(i))
 			{
 				cachedFields[i] = tileInventoryCropPlot.getField(i);
 				fieldHasChanged[i] = true;
@@ -200,13 +210,15 @@ public class ContainerInventoryCropPlot extends Container
 		for (int i = 0; i < this.crafters.size(); ++i)
 		{
 			ICrafting icrafting = (ICrafting) this.crafters.get(i);
-			for (int fieldID = 0; fieldID < tileInventoryCropPlot.getFieldCount(); ++fieldID)
+			for (int fieldID = 0;
+					fieldID < tileInventoryCropPlot.getFieldCount(); ++fieldID)
 			{
 				if (fieldHasChanged[fieldID])
 				{
 					// Note that although sendProgressBarUpdate takes 2 ints on
 					// a server these are truncated to shorts
-					icrafting.sendProgressBarUpdate(this, fieldID, cachedFields[fieldID]);
+					icrafting.sendProgressBarUpdate(this, fieldID,
+							cachedFields[fieldID]);
 				}
 			}
 		}

@@ -10,17 +10,14 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 
 /**
- * 
  * Class aiming to minimize amount of code needed for an inventory. MarkDirty()
  * is called where appropriate, but not implemented (usually only TileEntities
  * need it). Default displays an empty string as the translated (i.e.
  * non-custom) name.
- * 
  * I intentionally left out isUseableByPlayer and getInventoryStackLimit because
  * they tend to have custom rules; implementing them here would make them easy
  * to overlook, though you may choose to do so (good default return values are
  * 'true' and '64', respectively).
- *
  */
 public abstract class AbstractInventory implements IInventory
 {
@@ -80,18 +77,15 @@ public abstract class AbstractInventory implements IInventory
 
 	@Override
 	public void markDirty()
-	{
-	} // usually only TileEntities implement this method
+	{} // usually only TileEntities implement this method
 
 	@Override
 	public void openInventory(EntityPlayer player)
-	{
-	}
+	{}
 
 	@Override
 	public void closeInventory(EntityPlayer player)
-	{
-	}
+	{}
 
 	@Override
 	public int getField(int id)
@@ -101,8 +95,7 @@ public abstract class AbstractInventory implements IInventory
 
 	@Override
 	public void setField(int id, int value)
-	{
-	}
+	{}
 
 	@Override
 	public int getFieldCount()
@@ -138,8 +131,9 @@ public abstract class AbstractInventory implements IInventory
 	@Override
 	public IChatComponent getDisplayName()
 	{
-		return (IChatComponent) (hasCustomName() ? new ChatComponentText(
-				getName()) : new ChatComponentTranslation(getName()));
+		return (IChatComponent) (hasCustomName()
+				? new ChatComponentText(getName())
+				: new ChatComponentTranslation(getName()));
 	}
 
 	/**

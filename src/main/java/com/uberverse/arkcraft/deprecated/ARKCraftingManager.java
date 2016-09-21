@@ -30,14 +30,27 @@ public class ARKCraftingManager
 		{
 			public int compare(IARKRecipe p_compare_1_, IARKRecipe p_compare_2_)
 			{
-				return p_compare_1_ instanceof ARKShapelessRecipe && p_compare_2_ instanceof ShapedRecipes ? 1 : (p_compare_2_ instanceof ARKShapelessRecipe && p_compare_1_ instanceof ShapedRecipes ? -1 : (p_compare_2_
-						.getRecipeSize() < p_compare_1_.getRecipeSize() ? -1 : (p_compare_2_
-								.getRecipeSize() > p_compare_1_.getRecipeSize() ? 1 : 0)));
+				return p_compare_1_ instanceof ARKShapelessRecipe
+						&& p_compare_2_ instanceof ShapedRecipes
+								? 1
+								: (p_compare_2_ instanceof ARKShapelessRecipe
+										&& p_compare_1_ instanceof ShapedRecipes
+												? -1
+												: (p_compare_2_
+														.getRecipeSize() < p_compare_1_
+																.getRecipeSize()
+																		? -1
+																		: (p_compare_2_
+																				.getRecipeSize() > p_compare_1_
+																						.getRecipeSize()
+																								? 1
+																								: 0)));
 			}
 
 			public int compare(Object p_compare_1_, Object p_compare_2_)
 			{
-				return this.compare((IARKRecipe) p_compare_1_, (IARKRecipe) p_compare_2_);
+				return this.compare((IARKRecipe) p_compare_1_,
+						(IARKRecipe) p_compare_2_);
 			}
 		});
 	}
@@ -69,8 +82,8 @@ public class ARKCraftingManager
 			else
 			{
 				if (!(object1 instanceof Block)) { throw new IllegalArgumentException(
-						"Invalid shapeless recipe: unknown type " + object1.getClass()
-								.getName() + "!"); }
+						"Invalid shapeless recipe: unknown type "
+								+ object1.getClass().getName() + "!"); }
 				arraylist.add(new ItemStack((Block) object1));
 			}
 		}
@@ -89,7 +102,8 @@ public class ARKCraftingManager
 	}
 
 	// Added so we can use InventoryPlayerCrafting
-	public int hasMatchingRecipe(ItemStack output, InventoryPlayerCrafting inventory, boolean craft)
+	public int hasMatchingRecipe(ItemStack output,
+			InventoryPlayerCrafting inventory, boolean craft)
 	{
 		return hasMatchingRecipe(output, inventory.getItemStacks(), craft);
 	}
@@ -98,7 +112,8 @@ public class ARKCraftingManager
 	 * Returns number of matches for inventory that exists, also deducts
 	 * inventory if craft = true
 	 */
-	public int hasMatchingRecipe(ItemStack output, ItemStack[] itemStacksInventory, boolean craft)
+	public int hasMatchingRecipe(ItemStack output,
+			ItemStack[] itemStacksInventory, boolean craft)
 	{
 		Iterator iterator = this.recipes.iterator();
 		IARKRecipe irecipe;

@@ -18,7 +18,8 @@ public class BurnerToggle implements IMessage
 	public void toBytes(ByteBuf buf)
 	{}
 
-	public static class Handler implements IMessageHandler<BurnerToggle, IMessage>
+	public static class Handler
+			implements IMessageHandler<BurnerToggle, IMessage>
 	{
 		@Override
 		public IMessage onMessage(BurnerToggle message, MessageContext ctx)
@@ -26,7 +27,8 @@ public class BurnerToggle implements IMessage
 			if (ctx.side.isServer())
 			{
 				Container c = ctx.getServerHandler().playerEntity.openContainer;
-				if (c instanceof IBurnerContainer) ((IBurnerContainer) c).toggleBurning();
+				if (c instanceof IBurnerContainer)
+					((IBurnerContainer) c).toggleBurning();
 			}
 			return null;
 		}

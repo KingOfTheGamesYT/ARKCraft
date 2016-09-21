@@ -8,7 +8,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUICampfire extends GUIBurner
 {
-	public static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID, "textures/gui/campfire_gui.png");
+	public static final ResourceLocation texture = new ResourceLocation(
+			ARKCraft.MODID, "textures/gui/campfire_gui.png");
 
 	public GUICampfire(ContainerCampfire container)
 	{

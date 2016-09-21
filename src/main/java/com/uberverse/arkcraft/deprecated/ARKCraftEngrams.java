@@ -9,7 +9,6 @@ import net.minecraft.client.resources.I18n;
 
 /**
  * @author ERBF | Aug 11, 2016
- *
  */
 public class ARKCraftEngrams
 {
@@ -20,18 +19,20 @@ public class ARKCraftEngrams
 	public static Engram stonePick, torch;
 
 	// Level 2
-	public static Engram campfire, stoneHatchet, spear, note, clothPants, clothShirt,
-			thatchFoundation, thatchDoorframe;
+	public static Engram campfire, stoneHatchet, spear, note, clothPants,
+			clothShirt, thatchFoundation, thatchDoorframe;
 
 	// Level 3
-	public static Engram woodenClub, waterskin, clothGloves, clothBoots, clothHat, woodenSign,
-			hideSleepingBag, thatchRoof, thatchWall, thatchDoor;
+	public static Engram woodenClub, waterskin, clothGloves, clothBoots,
+			clothHat, woodenSign, hideSleepingBag, thatchRoof, thatchWall,
+			thatchDoor;
 
 	// Level 5
-	public static Engram slingshot, storageBox, simpleBed, phiomiaSaddle, mortarAndPestle,
-			sparkpowder, bloodExtractionSyringe, narcotic, paintbrush, singlePanelFlag,
-			multiPanelFlag, standingTorch, slopedThatchWallLeft, slopedThatchWallRight,
-			slopedThatchRoof, woodenFoundation, woodenWall;
+	public static Engram slingshot, storageBox, simpleBed, phiomiaSaddle,
+			mortarAndPestle, sparkpowder, bloodExtractionSyringe, narcotic,
+			paintbrush, singlePanelFlag, multiPanelFlag, standingTorch,
+			slopedThatchWallLeft, slopedThatchWallRight, slopedThatchRoof,
+			woodenFoundation, woodenWall;
 
 	public static void init()
 	{
@@ -68,7 +69,8 @@ public class ARKCraftEngrams
 		phiomiaSaddle = new Engram("engramPhiomiaSaddle", 5, 6);
 		mortarAndPestle = new Engram("engramMortarAndPestle", 5, 6);
 		sparkpowder = new Engram("engramSparkpowder", 5, 3);
-		bloodExtractionSyringe = new Engram("engramBloodExtractionSyringe", 5, 6);
+		bloodExtractionSyringe =
+				new Engram("engramBloodExtractionSyringe", 5, 6);
 		narcotic = new Engram("engramNarcotic", 5, 6);
 		paintbrush = new Engram("engramPaintbrush", 5, 3);
 		singlePanelFlag = new Engram("engramSinglePanelFlag", 5, 6);
@@ -86,7 +88,8 @@ public class ARKCraftEngrams
 		String name = I18n.format(localizedName);
 		for (Engram engram : engramList)
 		{
-			if (engram.getFormattedName().equalsIgnoreCase(name)) { return engram; }
+			if (engram.getFormattedName()
+					.equalsIgnoreCase(name)) { return engram; }
 		}
 		return null;
 	}
@@ -95,7 +98,8 @@ public class ARKCraftEngrams
 	{
 		for (Engram engram : engramList)
 		{
-			if (engram.getName().equalsIgnoreCase(unlocalizedName)) { return engram; }
+			if (engram.getName()
+					.equalsIgnoreCase(unlocalizedName)) { return engram; }
 		}
 		return null;
 	}

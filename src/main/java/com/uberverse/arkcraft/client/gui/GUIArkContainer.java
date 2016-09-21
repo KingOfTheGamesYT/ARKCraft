@@ -18,9 +18,11 @@ public abstract class GUIArkContainer extends GuiContainer
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
+	protected void drawGuiContainerBackgroundLayer(float partialTicks,
+			int mouseX, int mouseY)
 	{
-		Minecraft.getMinecraft().getTextureManager().bindTexture(getBackgroundResource());
+		Minecraft.getMinecraft().getTextureManager()
+				.bindTexture(getBackgroundResource());
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 	}

@@ -48,17 +48,22 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class BlockCropPlot extends BlockContainer implements Identifiable
 {
 	public static final int GROWTH_STAGES = 4; // 0 - 4
-	public static final PropertyInteger AGE = PropertyInteger.create("age", 0, GROWTH_STAGES);
-	public static final PropertyEnum TYPE = PropertyEnum.create("type", CropPlotType.class);
-	public static final PropertyEnum BERRY = PropertyEnum.create("berry", BerryColor.class);
-	public static final PropertyBool TRANSPARENT = PropertyBool.create("transparent");
+	public static final PropertyInteger AGE =
+			PropertyInteger.create("age", 0, GROWTH_STAGES);
+	public static final PropertyEnum TYPE =
+			PropertyEnum.create("type", CropPlotType.class);
+	public static final PropertyEnum BERRY =
+			PropertyEnum.create("berry", BerryColor.class);
+	public static final PropertyBool TRANSPARENT =
+			PropertyBool.create("transparent");
 	private int renderType = 3; // default value
 	private boolean isOpaque = false;
 
 	public BlockCropPlot()
 	{
 		super(Material.wood);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, Integer.valueOf(0)));
+		this.setDefaultState(this.blockState.getBaseState().withProperty(AGE,
+				Integer.valueOf(0)));
 		// this.setTickRandomly(true);
 		this.setCreativeTab(ARKCraft.tabARK);
 		float f = 0.35F; // Height
@@ -75,69 +80,88 @@ public class BlockCropPlot extends BlockContainer implements Identifiable
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY,
-			float hitZ)
+	public boolean onBlockActivated(World worldIn, BlockPos pos,
+			IBlockState state, EntityPlayer playerIn, EnumFacing side,
+			float hitX, float hitY, float hitZ)
 	{
 		if (!playerIn.isSneaking())
 		{
-			TileEntityCropPlot te = (TileEntityCropPlot) worldIn.getTileEntity(pos);
+			TileEntityCropPlot te =
+					(TileEntityCropPlot) worldIn.getTileEntity(pos);
 			if (te.part != Part.MIDDLE)
 			{
 				BlockPos pos2 = te.part.offset(pos, true);
-				return this.onBlockActivated(worldIn, pos2, worldIn.getBlockState(pos2), playerIn, side, hitX, hitY, hitZ);
+				return this.onBlockActivated(worldIn, pos2,
+						worldIn.getBlockState(pos2), playerIn, side, hitX, hitY,
+						hitZ);
 			}
 			else
 			{
-				if (playerIn.getHeldItem() != null && playerIn.getHeldItem().getItem() instanceof ARKCraftSeed
+				if (playerIn.getHeldItem() != null
+						&& playerIn.getHeldItem()
+								.getItem() instanceof ARKCraftSeed
 						&& ((Integer) state.getValue(AGE)) == 0)
 				{
 					ItemStack s = playerIn.getHeldItem().splitStack(1);
-					s = TileEntityHopper.func_174918_a((IInventory) worldIn.getTileEntity(pos), s, null);
+					s = TileEntityHopper.func_174918_a(
+							(IInventory) worldIn.getTileEntity(pos), s, null);
 					if (s != null)
 					{
 						if (!playerIn.inventory.addItemStackToInventory(s))
 						{
-							EntityItem item = new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), s);
+							EntityItem item = new EntityItem(worldIn,
+									pos.getX(), pos.getY(), pos.getZ(), s);
 							worldIn.spawnEntityInWorld(item);
 						}
 					}
 				}
 			}
-			if (playerIn.getHeldItem() != null && playerIn.getHeldItem().getItem() == Items.water_bucket)
+			if (playerIn.getHeldItem() != null
+					&& playerIn.getHeldItem().getItem() == Items.water_bucket)
 			{
 				LogHelper.info("Player clicked with water bucket!");
 				ItemStack container = playerIn.getHeldItem();
 				if (FluidContainerRegistry.isFilledContainer(container))
 				{
-					LogHelper.info("Player's water bucket is a filled container!");
+					LogHelper.info(
+							"Player's water bucket is a filled container!");
 					TileEntity entity = worldIn.getTileEntity(pos);
 					if (entity instanceof TileEntityCropPlot && entity != null)
 					{
-						LogHelper.info("A TileEntityCropPlot is found at the place the player right clicked!");
+						LogHelper.info(
+								"A TileEntityCropPlot is found at the place the player right clicked!");
 						TileEntityCropPlot target = (TileEntityCropPlot) entity;
-						int water = TileEntityCropPlot.getItemWaterValue(container) + target.getField(0);
+						int water =
+								TileEntityCropPlot.getItemWaterValue(container)
+										+ target.getField(0);
 						// The currentWater + addedWater needs to be smaller or
 						// equal to the max water.
 						if (water <= target.getType().getMaxWater())
 						{
 							target.setField(0, water);
-							ItemStack drainedContainer = FluidContainerRegistry.drainFluidContainer(container);
+							ItemStack drainedContainer = FluidContainerRegistry
+									.drainFluidContainer(container);
 							if (drainedContainer != null)
 							{
-								if (!playerIn.capabilities.isCreativeMode) container.setItem(drainedContainer.getItem());
-								LogHelper.info("The drained container is not null, the bucket has been replaced with a new itemstack.");
+								if (!playerIn.capabilities.isCreativeMode)
+									container.setItem(
+											drainedContainer.getItem());
+								LogHelper.info(
+										"The drained container is not null, the bucket has been replaced with a new itemstack.");
 							}
 						}
 						else
 						{
-							LogHelper.error("The crop plot water is at the max!");
+							LogHelper.error(
+									"The crop plot water is at the max!");
 						}
 					}
 				}
 			}
 			else
 			{
-				playerIn.openGui(ARKCraft.instance(), getId(), worldIn, pos.getX(), pos.getY(), pos.getZ());
+				playerIn.openGui(ARKCraft.instance(), getId(), worldIn,
+						pos.getX(), pos.getY(), pos.getZ());
 			}
 
 			return true;
@@ -186,7 +210,9 @@ public class BlockCropPlot extends BlockContainer implements Identifiable
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		return this.getDefaultState().withProperty(AGE, Integer.valueOf(meta % 5)).withProperty(TYPE, CropPlotType.VALUES[meta / 5]);
+		return this.getDefaultState()
+				.withProperty(AGE, Integer.valueOf(meta % 5))
+				.withProperty(TYPE, CropPlotType.VALUES[meta / 5]);
 	}
 
 	/**
@@ -195,13 +221,15 @@ public class BlockCropPlot extends BlockContainer implements Identifiable
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
-		return ((Integer) state.getValue(AGE)).intValue() + ((CropPlotType) state.getValue(TYPE)).ordinal() * 5;
+		return ((Integer) state.getValue(AGE)).intValue()
+				+ ((CropPlotType) state.getValue(TYPE)).ordinal() * 5;
 	}
 
 	@Override
 	protected BlockState createBlockState()
 	{
-		return new BlockState(this, new IProperty[] { AGE, TYPE, BERRY, TRANSPARENT });
+		return new BlockState(this,
+				new IProperty[] { AGE, TYPE, BERRY, TRANSPARENT });
 	}
 
 	/**
@@ -226,8 +254,10 @@ public class BlockCropPlot extends BlockContainer implements Identifiable
 	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
 	{
-		TileEntityCropPlot tile = (TileEntityCropPlot) worldIn.getTileEntity(pos);
-		if (tile != null) InventoryHelper.dropInventoryItems(worldIn, pos, tile);
+		TileEntityCropPlot tile =
+				(TileEntityCropPlot) worldIn.getTileEntity(pos);
+		if (tile != null)
+			InventoryHelper.dropInventoryItems(worldIn, pos, tile);
 		CropPlotType t = (CropPlotType) state.getValue(TYPE);
 		if (tile.part == Part.MIDDLE)
 		{
@@ -238,20 +268,23 @@ public class BlockCropPlot extends BlockContainer implements Identifiable
 					if (p != Part.MIDDLE)
 					{
 						BlockPos pos2 = p.offset(pos, false);
-						worldIn.setBlockState(pos2, Blocks.air.getDefaultState());
+						worldIn.setBlockState(pos2,
+								Blocks.air.getDefaultState());
 					}
 				}
 			}
 		}
 		else
 		{
-			worldIn.setBlockState(tile.part.offset(pos, true), Blocks.air.getDefaultState());
+			worldIn.setBlockState(tile.part.offset(pos, true),
+					Blocks.air.getDefaultState());
 		}
 		super.breakBlock(worldIn, pos, state);
 	}
 
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state,
+			EntityLivingBase placer, ItemStack stack)
 	{
 		TileEntity tile = worldIn.getTileEntity(pos);
 		CropPlotType t = CropPlotType.VALUES[stack.getMetadata() % 3];
@@ -279,7 +312,8 @@ public class BlockCropPlot extends BlockContainer implements Identifiable
 					}
 					else
 					{
-						ARKCraft.logger.error("Invalid tile entity at " + pos2.toString() + " tile entity: " + tileNew);
+						ARKCraft.logger.error("Invalid tile entity at "
+								+ pos2.toString() + " tile entity: " + tileNew);
 					}
 				}
 			}
@@ -293,7 +327,8 @@ public class BlockCropPlot extends BlockContainer implements Identifiable
 	@SuppressWarnings("unchecked")
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, @SuppressWarnings("rawtypes") List list)
+	public void getSubBlocks(Item itemIn, CreativeTabs tab,
+			@SuppressWarnings("rawtypes") List list)
 	{
 		list.add(new ItemStack(itemIn, 1, 0));
 		list.add(new ItemStack(itemIn, 1, 1));
@@ -319,15 +354,22 @@ public class BlockCropPlot extends BlockContainer implements Identifiable
 			BlockPos p = new BlockPos(0, 0, 0);
 			p = te.part.offset(p, true);
 			if (t == CropPlotType.SMALL)
-				return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 0.35F, pos.getZ() + 1);
-			else if (t == CropPlotType.MEDIUM) return new AxisAlignedBB(pos.getX() - 0.5F + p.getX(), pos.getY(), pos.getZ() - 0.5F + p.getZ(),
-					pos.getX() + 1.5F + p.getX(), pos.getY() + 0.35F, pos.getZ() + 1.5F + p.getZ());
-			else if (t == CropPlotType.LARGE) return new AxisAlignedBB(pos.getX() - 1 + p.getX(), pos.getY(), pos.getZ() - 1 + p.getZ(),
-					pos.getX() + 2 + p.getX(), pos.getY() + 0.35F, pos.getZ() + 2 + p.getZ());
+				return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(),
+						pos.getX() + 1, pos.getY() + 0.35F, pos.getZ() + 1);
+			else if (t == CropPlotType.MEDIUM)
+				return new AxisAlignedBB(pos.getX() - 0.5F + p.getX(),
+						pos.getY(), pos.getZ() - 0.5F + p.getZ(),
+						pos.getX() + 1.5F + p.getX(), pos.getY() + 0.35F,
+						pos.getZ() + 1.5F + p.getZ());
+			else if (t == CropPlotType.LARGE)
+				return new AxisAlignedBB(pos.getX() - 1 + p.getX(), pos.getY(),
+						pos.getZ() - 1 + p.getZ(), pos.getX() + 2 + p.getX(),
+						pos.getY() + 0.35F, pos.getZ() + 2 + p.getZ());
 		}
 		else
 		{
-			return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 0.35F, pos.getZ() + 1);
+			return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(),
+					pos.getX() + 1, pos.getY() + 0.35F, pos.getZ() + 1);
 		}
 		return super.getSelectedBoundingBox(worldIn, pos);
 	}
@@ -348,13 +390,15 @@ public class BlockCropPlot extends BlockContainer implements Identifiable
 	}
 
 	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
+	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn,
+			BlockPos pos)
 	{
 		TileEntity tile = worldIn.getTileEntity(pos);
 		if (tile instanceof TileEntityCropPlot)
 		{
 			TileEntityCropPlot te = (TileEntityCropPlot) tile;
-			return state.withProperty(BERRY, te.getGrowingColor()).withProperty(TRANSPARENT, te.isTransparent());
+			return state.withProperty(BERRY, te.getGrowingColor())
+					.withProperty(TRANSPARENT, te.isTransparent());
 		}
 		return state;
 	}

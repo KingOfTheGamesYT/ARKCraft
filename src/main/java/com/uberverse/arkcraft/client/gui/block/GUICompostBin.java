@@ -25,13 +25,14 @@ import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryCompostBin;
 public class GUICompostBin extends GuiContainer
 {
 
-	public static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID,
-			"textures/gui/compost_bin_gui.png");
+	public static final ResourceLocation texture = new ResourceLocation(
+			ARKCraft.MODID, "textures/gui/compost_bin_gui.png");
 	private TileInventoryCompostBin tileEntity;
 
 	public GUICompostBin(InventoryPlayer invPlayer, TileInventoryCompostBin tileInventoryCropPlot)
 	{
-		super(new ContainerInventoryCompostBin(invPlayer, tileInventoryCropPlot));
+		super(new ContainerInventoryCompostBin(invPlayer,
+				tileInventoryCropPlot));
 		this.tileEntity = tileInventoryCropPlot;
 
 		// Width and height of the gui:
@@ -52,17 +53,20 @@ public class GUICompostBin extends GuiContainer
 		String name = tileEntity.getDisplayName().getUnformattedText();
 		final int LABEL_YPOS = 7;
 		final int LABEL_XPOS = (xSize / 2) - (name.length() * 5 / 2);
-		this.fontRendererObj.drawString(name, LABEL_XPOS, LABEL_YPOS, Color.darkGray.getRGB());
+		this.fontRendererObj.drawString(name, LABEL_XPOS, LABEL_YPOS,
+				Color.darkGray.getRGB());
 
 		// Add hovering text
 		List<String> hoveringText = new ArrayList<String>();
 
 		// If the mouse is over the display text add the growth stage bar
 		// hovering text
-		if (isInRect(guiLeft + LABEL_XPOS, guiTop + LABEL_YPOS, 50, 8, mouseX, mouseY))
+		if (isInRect(guiLeft + LABEL_XPOS, guiTop + LABEL_YPOS, 50, 8, mouseX,
+				mouseY))
 		{
 			hoveringText.add("Fertilizer compost time: ");
-			int compostPercentage = (int) (tileEntity.getFractionCompostTimeComplete() * 100);
+			int compostPercentage =
+					(int) (tileEntity.getFractionCompostTimeComplete() * 100);
 			hoveringText.add(compostPercentage + "%");
 		}
 
@@ -75,16 +79,23 @@ public class GUICompostBin extends GuiContainer
 				int index = col + 4 * row;
 				if (tileEntity.secondsOfThatchRemaining(index) > 0)
 				{
-					int x = guiLeft + ContainerInventoryCompostBin.COMPOST_SLOT_XPOS;
-					int y = guiTop + ContainerInventoryCompostBin.COMPOST_SLOT_YPOS;
-					if (isInRect(x + 18 * col, y + 18 * row, 16, 16, mouseX, mouseY))
+					int x = guiLeft
+							+ ContainerInventoryCompostBin.COMPOST_SLOT_XPOS;
+					int y = guiTop
+							+ ContainerInventoryCompostBin.COMPOST_SLOT_YPOS;
+					if (isInRect(x + 18 * col, y + 18 * row, 16, 16, mouseX,
+							mouseY))
 					{
 						ItemStack stack = tileEntity.getStackInSlot(index);
 						if (stack != null)
 						{
-							String thatchName = stack.getItem().getItemStackDisplayName(stack);
-							hoveringText.add(thatchName + " - composting Time Remaining:");
-							hoveringText.add(tileEntity.secondsOfThatchRemaining(index) + "s");
+							String thatchName = stack.getItem()
+									.getItemStackDisplayName(stack);
+							hoveringText.add(thatchName
+									+ " - composting Time Remaining:");
+							hoveringText.add(
+									tileEntity.secondsOfThatchRemaining(index)
+											+ "s");
 						}
 					}
 				}
@@ -94,11 +105,13 @@ public class GUICompostBin extends GuiContainer
 		// If hoveringText is not empty draw the hovering text
 		if (!hoveringText.isEmpty())
 		{
-			drawHoveringText(hoveringText, mouseX - guiLeft, mouseY - guiTop, fontRendererObj);
+			drawHoveringText(hoveringText, mouseX - guiLeft, mouseY - guiTop,
+					fontRendererObj);
 		}
 	}
 
-	protected void drawGuiContainerBackgroundLayer(float partTick, int mX, int mY)
+	protected void drawGuiContainerBackgroundLayer(float partTick, int mX,
+			int mY)
 	{
 		// Draw the GUI
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
@@ -107,8 +120,10 @@ public class GUICompostBin extends GuiContainer
 	}
 
 	// Returns true if the given x,y coordinates are within the given rectangle
-	public static boolean isInRect(int x, int y, int xSize, int ySize, int mouseX, int mouseY)
+	public static boolean isInRect(int x, int y, int xSize, int ySize,
+			int mouseX, int mouseY)
 	{
-		return ((mouseX >= x && mouseX <= x + xSize) && (mouseY >= y && mouseY <= y + ySize));
+		return ((mouseX >= x && mouseX <= x + xSize)
+				&& (mouseY >= y && mouseY <= y + ySize));
 	}
 }

@@ -14,8 +14,7 @@ public class PlayerEngramCrafterProgressUpdate implements IMessage
 	private int progress;
 
 	public PlayerEngramCrafterProgressUpdate()
-	{
-	}
+	{}
 
 	public PlayerEngramCrafterProgressUpdate(int progress)
 	{
@@ -34,16 +33,18 @@ public class PlayerEngramCrafterProgressUpdate implements IMessage
 		buf.writeInt(progress);
 	}
 
-	public static class Handler implements IMessageHandler<PlayerEngramCrafterProgressUpdate, IMessage>
+	public static class Handler implements
+			IMessageHandler<PlayerEngramCrafterProgressUpdate, IMessage>
 	{
 
 		@Override
-		public IMessage onMessage(PlayerEngramCrafterProgressUpdate message, MessageContext ctx)
+		public IMessage onMessage(PlayerEngramCrafterProgressUpdate message,
+				MessageContext ctx)
 		{
 			if (ctx.side.isClient())
 			{
-				ARKPlayer.get(Minecraft.getMinecraft().thePlayer).getEngramCrafter()
-						.setProgress(message.progress);
+				ARKPlayer.get(Minecraft.getMinecraft().thePlayer)
+						.getEngramCrafter().setProgress(message.progress);
 			}
 			return null;
 		}

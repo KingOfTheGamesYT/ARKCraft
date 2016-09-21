@@ -25,13 +25,15 @@ public class ContainerCropPlotNew extends Container
 		int y = 26;
 		for (int i = 0; i < 5; i++)
 		{
-			addSlotToContainer(new SlotCropPlot(tileEntity, id + i, i * 18 + 44, y));
+			addSlotToContainer(
+					new SlotCropPlot(tileEntity, id + i, i * 18 + 44, y));
 		}
 		y += 18;
 		id += 5;
 		for (int i = 0; i < 5; i++)
 		{
-			addSlotToContainer(new SlotCropPlot(tileEntity, id + i, i * 18 + 44, y));
+			addSlotToContainer(
+					new SlotCropPlot(tileEntity, id + i, i * 18 + 44, y));
 		}
 		addPlayerSlots(inventory, 8, 84);
 	}
@@ -48,14 +50,15 @@ public class ContainerCropPlotNew extends Container
 		{
 			for (int j = 0; j < 9; ++j)
 			{
-				addSlotToContainer(
-						new Slot(playerInventory, j + i * 9 + 9, x + j * 18, y + i * 18));
+				addSlotToContainer(new Slot(playerInventory, j + i * 9 + 9,
+						x + j * 18, y + i * 18));
 			}
 		}
 
 		for (int i = 0; i < 9; ++i)
 		{
-			addSlotToContainer(new Slot(playerInventory, i, x + i * 18, y + 58));
+			addSlotToContainer(
+					new Slot(playerInventory, i, x + i * 18, y + 58));
 		}
 	}
 

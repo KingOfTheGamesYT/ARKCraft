@@ -51,7 +51,8 @@ public class InventoryPlayerCrafting implements IInventory
 
 			if (j >= 0 && j < this.getSizeInventory())
 			{
-				this.setInventorySlotContents(j, ItemStack.loadItemStackFromNBT(nbttagcompound));
+				this.setInventorySlotContents(j,
+						ItemStack.loadItemStackFromNBT(nbttagcompound));
 			}
 		}
 	}
@@ -87,13 +88,11 @@ public class InventoryPlayerCrafting implements IInventory
 
 	@Override
 	public void openInventory(EntityPlayer player)
-	{
-	}
+	{}
 
 	@Override
 	public void closeInventory(EntityPlayer player)
-	{
-	}
+	{}
 
 	public ItemStack[] getItemStacks()
 	{
@@ -115,8 +114,9 @@ public class InventoryPlayerCrafting implements IInventory
 	@Override
 	public IChatComponent getDisplayName()
 	{
-		return (IChatComponent) (this.hasCustomName() ? new ChatComponentText(
-				this.getName()) : new ChatComponentTranslation(this.getName(), new Object[0]));
+		return (IChatComponent) (this.hasCustomName()
+				? new ChatComponentText(this.getName())
+				: new ChatComponentTranslation(this.getName(), new Object[0]));
 	}
 
 	@Override
@@ -195,8 +195,7 @@ public class InventoryPlayerCrafting implements IInventory
 
 	@Override
 	public void markDirty()
-	{
-	}
+	{}
 
 	@Override
 	public boolean isItemValidForSlot(int index, ItemStack stack)
@@ -212,8 +211,7 @@ public class InventoryPlayerCrafting implements IInventory
 
 	@Override
 	public void setField(int id, int value)
-	{
-	}
+	{}
 
 	@Override
 	public int getFieldCount()

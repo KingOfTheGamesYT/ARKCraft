@@ -4,7 +4,6 @@ import com.uberverse.arkcraft.common.item.ARKCraftItem;
 
 /**
  * @author Lewis_McReu
- *
  */
 public class ItemAttachment extends ARKCraftItem
 {

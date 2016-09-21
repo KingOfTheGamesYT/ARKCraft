@@ -38,10 +38,14 @@ public class PlayerCommonEventHandler
 		if (event.entityLiving instanceof EntityPlayer)
 		{
 			EntityPlayer p = (EntityPlayer) event.entityLiving;
-			if (WeightsConfig.isEnabled && (!p.capabilities.isCreativeMode || WeightsConfig.allowInCreative) && ARKPlayer.get(p).isEncumbered())
+			if (WeightsConfig.isEnabled
+					&& (!p.capabilities.isCreativeMode
+							|| WeightsConfig.allowInCreative)
+					&& ARKPlayer.get(p).isEncumbered())
 			{
 				p.motionY *= 0;
-				if (p.worldObj.isRemote) p.addChatComponentMessage(new ChatComponentTranslation("ark.splash.noJump"));
+				if (p.worldObj.isRemote) p.addChatComponentMessage(
+						new ChatComponentTranslation("ark.splash.noJump"));
 			}
 		}
 	}

@@ -56,7 +56,8 @@ public class ScrollGui implements IMessage
 		{
 			if (ctx.side != Side.SERVER)
 			{
-				ARKCraft.logger.error("MPUpdateScroll received on wrong side:" + ctx.side);
+				ARKCraft.logger.error(
+						"MPUpdateScroll received on wrong side:" + ctx.side);
 				return null;
 			}
 			processMessage(message, ctx.getServerHandler().playerEntity);
@@ -71,7 +72,8 @@ public class ScrollGui implements IMessage
 			Container c = player.openContainer;
 			if (c instanceof IContainerScrollable)
 			{
-				if (message.bool) ((IContainerScrollable) c).scroll(message.scrollInt);
+				if (message.bool)
+					((IContainerScrollable) c).scroll(message.scrollInt);
 				else((IContainerScrollable) c).scroll(message.scrollFloat);
 			}
 		}

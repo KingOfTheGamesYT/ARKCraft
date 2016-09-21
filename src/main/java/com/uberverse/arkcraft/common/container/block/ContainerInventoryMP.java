@@ -37,16 +37,18 @@ public class ContainerInventoryMP extends Container
 				TileInventoryMP.BLUEPRINT_SLOT, 34, 18));
 
 		// Input & Output slots
-		for (int col = TileInventoryMP.FIRST_INVENTORY_SLOT; col < TileInventoryMP.INVENTORY_SLOTS_COUNT; col++)
+		for (int col = TileInventoryMP.FIRST_INVENTORY_SLOT;
+				col < TileInventoryMP.INVENTORY_SLOTS_COUNT; col++)
 		{
-			addSlotToContainer(new SlotRecipeInventory(this.tileInventoryMP, col, 8 + col * 18,
-					RECIPE_ITEM_SLOT_YPOS));
+			addSlotToContainer(new SlotRecipeInventory(this.tileInventoryMP,
+					col, 8 + col * 18, RECIPE_ITEM_SLOT_YPOS));
 		}
 		/* Hotbar inventory */
 		final int HOTBAR_YPOS = 142;
 		for (int col = 0; col < 9; col++)
 		{
-			addSlotToContainer(new Slot(invPlayer, col, 8 + col * 18, HOTBAR_YPOS));
+			addSlotToContainer(
+					new Slot(invPlayer, col, 8 + col * 18, HOTBAR_YPOS));
 		}
 
 		/* Player inventory */
@@ -61,7 +63,8 @@ public class ContainerInventoryMP extends Container
 			}
 		}
 		this.tileInventoryMP.setGuiOpen(true, false);
-		this.tileInventoryMP.setBlueprintSelected(this.tileInventoryMP.getBlueprintSelected());
+		this.tileInventoryMP.setBlueprintSelected(
+				this.tileInventoryMP.getBlueprintSelected());
 	}
 
 	@Override
@@ -78,7 +81,8 @@ public class ContainerInventoryMP extends Container
 		super.onContainerClosed(playerIn);
 	}
 
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int sourceSlotIndex)
+	public ItemStack transferStackInSlot(EntityPlayer playerIn,
+			int sourceSlotIndex)
 	{
 		LogHelper.info("ARKContainerMP: transferStackInSlot called.");
 		Slot sourceSlot = (Slot) inventorySlots.get(sourceSlotIndex);
@@ -87,22 +91,26 @@ public class ContainerInventoryMP extends Container
 		ItemStack copyOfSourceStack = sourceStack.copy();
 
 		// Check if the slot clicked is a MP container slot
-		int nonPlayerSlotsCount = TileInventoryMP.BLUEPRINT_SLOTS_COUNT + TileInventoryMP.INVENTORY_SLOTS_COUNT;
-		if (sourceSlotIndex > TileInventoryMP.BLUEPRINT_SLOTS_COUNT - 1 && sourceSlotIndex < nonPlayerSlotsCount)
+		int nonPlayerSlotsCount = TileInventoryMP.BLUEPRINT_SLOTS_COUNT
+				+ TileInventoryMP.INVENTORY_SLOTS_COUNT;
+		if (sourceSlotIndex > TileInventoryMP.BLUEPRINT_SLOTS_COUNT - 1
+				&& sourceSlotIndex < nonPlayerSlotsCount)
 		{
 			// This is a MP inventory slot so merge the stack into the players
 			// inventory
-			if (!mergeItemStack(sourceStack, nonPlayerSlotsCount, 36 + nonPlayerSlotsCount,
-					false)) { return null; }
+			if (!mergeItemStack(sourceStack, nonPlayerSlotsCount,
+					36 + nonPlayerSlotsCount, false)) { return null; }
 		}
 		// Check if the slot clicked is one of the vanilla container slots
-		else if (sourceSlotIndex >= nonPlayerSlotsCount && sourceSlotIndex < 36 + nonPlayerSlotsCount)
+		else if (sourceSlotIndex >= nonPlayerSlotsCount
+				&& sourceSlotIndex < 36 + nonPlayerSlotsCount)
 		{
 			if (tileInventoryMP.isItemValidForRecipeSlot(sourceStack))
 			{
 				// This is a vanilla container slot so merge the stack into the
 				// MP inventory
-				if (!mergeItemStack(sourceStack, TileInventoryMP.BLUEPRINT_SLOTS_COUNT,
+				if (!mergeItemStack(sourceStack,
+						TileInventoryMP.BLUEPRINT_SLOTS_COUNT,
 						nonPlayerSlotsCount, false)) { return null; }
 			}
 			else
@@ -158,7 +166,8 @@ public class ContainerInventoryMP extends Container
 		super.detectAndSendChanges();
 
 		boolean allFieldsHaveChanged = false;
-		boolean fieldHasChanged[] = new boolean[tileInventoryMP.getFieldCount()];
+		boolean fieldHasChanged[] =
+				new boolean[tileInventoryMP.getFieldCount()];
 		if (cachedFields == null)
 		{
 			cachedFields = new int[tileInventoryMP.getFieldCount()];
@@ -166,7 +175,8 @@ public class ContainerInventoryMP extends Container
 		}
 		for (int i = 0; i < cachedFields.length; ++i)
 		{
-			if (allFieldsHaveChanged || cachedFields[i] != tileInventoryMP.getField(i))
+			if (allFieldsHaveChanged
+					|| cachedFields[i] != tileInventoryMP.getField(i))
 			{
 				cachedFields[i] = tileInventoryMP.getField(i);
 				fieldHasChanged[i] = true;
@@ -178,13 +188,15 @@ public class ContainerInventoryMP extends Container
 		for (int i = 0; i < this.crafters.size(); ++i)
 		{
 			ICrafting icrafting = (ICrafting) this.crafters.get(i);
-			for (int fieldID = 0; fieldID < tileInventoryMP.getFieldCount(); ++fieldID)
+			for (int fieldID = 0; fieldID < tileInventoryMP.getFieldCount();
+					++fieldID)
 			{
 				if (fieldHasChanged[fieldID])
 				{
 					// Note that although sendProgressBarUpdate takes 2 ints on
 					// a server these are truncated to shorts
-					icrafting.sendProgressBarUpdate(this, fieldID, cachedFields[fieldID]);
+					icrafting.sendProgressBarUpdate(this, fieldID,
+							cachedFields[fieldID]);
 				}
 			}
 		}

@@ -36,22 +36,31 @@ public class PestleCraftingManager extends ARKCraftingManager
 	public static void registerPestleCraftingRecipes()
 	{
 		// SparkPowder
-		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.spark_powder, 1),
-				new ItemStack(ARKCraftItems.stone, 1), new ItemStack(ARKCraftItems.flint, 2));
+		getInstance().addShapelessRecipe(
+				new ItemStack(ARKCraftItems.spark_powder, 1),
+				new ItemStack(ARKCraftItems.stone, 1),
+				new ItemStack(ARKCraftItems.flint, 2));
 		// Narcotics
-		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.narcotics, 1),
+		getInstance().addShapelessRecipe(
+				new ItemStack(ARKCraftItems.narcotics, 1),
 				new ItemStack(ARKCraftItems.narcoBerry, 5),
 				new ItemStack(ARKCraftItems.spoiled_meat, 1));
 		// Gun Powder
-		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.gunpowder, 1),
-				new ItemStack(ARKCraftItems.flint, 1), new ItemStack(ARKCraftItems.charcoal, 1));
+		getInstance().addShapelessRecipe(
+				new ItemStack(ARKCraftItems.gunpowder, 1),
+				new ItemStack(ARKCraftItems.flint, 1),
+				new ItemStack(ARKCraftItems.charcoal, 1));
 
 		// Cementing Pastes
-		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.cementing_paste, 1),
-				new ItemStack(ARKCraftItems.stone, 8), new ItemStack(ARKCraftItems.chitin, 4));
+		getInstance().addShapelessRecipe(
+				new ItemStack(ARKCraftItems.cementing_paste, 1),
+				new ItemStack(ARKCraftItems.stone, 8),
+				new ItemStack(ARKCraftItems.chitin, 4));
 
-		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.cementing_paste, 1),
-				new ItemStack(ARKCraftItems.stone, 8), new ItemStack(ARKCraftItems.keratin, 4));
+		getInstance().addShapelessRecipe(
+				new ItemStack(ARKCraftItems.cementing_paste, 1),
+				new ItemStack(ARKCraftItems.stone, 8),
+				new ItemStack(ARKCraftItems.keratin, 4));
 
 	}
 }

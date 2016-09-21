@@ -35,17 +35,20 @@ public class BookClient extends BookCommon
 		bookInfo = new BookInfo();
 		mc = Minecraft.getMinecraft();
 		fontRenderer = new SmallFontRenderer(mc.gameSettings,
-				new ResourceLocation("textures/font/ascii.png"), mc.renderEngine, false);
+				new ResourceLocation("textures/font/ascii.png"),
+				mc.renderEngine, false);
 		registerPageClasses();
 		registerBlockClasses();
 
 		GsonBuilder gBuilder = bookInfo.bd.getGsonBuilder();
 		gBuilder.registerTypeAdapter(Page.class, new PageDeserializer());
 		gBuilder.registerTypeAdapter(Block.class, new BlockDeserializer());
-		String language = mc.getLanguageManager().getCurrentLanguage().getLanguageCode();
-		BookDocument document_cl = readManual(gBuilder, "dossier/" + language + "/dossier.json");
-		document = document_cl != null ? document_cl : readManual(gBuilder,
-				"dossier/en_US/dossier.json");
+		String language =
+				mc.getLanguageManager().getCurrentLanguage().getLanguageCode();
+		BookDocument document_cl =
+				readManual(gBuilder, "dossier/" + language + "/dossier.json");
+		document = document_cl != null ? document_cl
+				: readManual(gBuilder, "dossier/en_US/dossier.json");
 		if (document != null) bookInfo.bd.document = document;
 	}
 
@@ -55,8 +58,8 @@ public class BookClient extends BookCommon
 		ResourceLocation loc = new ResourceLocation(ARKCraft.MODID, dest);
 		try
 		{
-			InputStream stream = Minecraft.getMinecraft().getResourceManager().getResource(loc)
-					.getInputStream();
+			InputStream stream = Minecraft.getMinecraft().getResourceManager()
+					.getResource(loc).getInputStream();
 			Reader reader = new InputStreamReader(stream, "UTF-8");
 			BookDocument doc = gson.fromJson(reader, BookDocument.class);
 			return doc;

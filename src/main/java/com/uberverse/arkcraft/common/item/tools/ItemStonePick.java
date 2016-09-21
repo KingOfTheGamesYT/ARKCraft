@@ -29,10 +29,11 @@ public class ItemStonePick extends ItemPickaxe
 	public float getStrVsBlock(ItemStack stack, Block block)
 	{
 
-		return block.getMaterial() != Material.iron && block
-				.getMaterial() != Material.anvil && block
-						.getMaterial() != Material.rock ? super.getStrVsBlock(stack,
-								block) : this.efficiencyOnProperMaterial;
+		return block.getMaterial() != Material.iron
+				&& block.getMaterial() != Material.anvil
+				&& block.getMaterial() != Material.rock
+						? super.getStrVsBlock(stack, block)
+						: this.efficiencyOnProperMaterial;
 
 	}
 

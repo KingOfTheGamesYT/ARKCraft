@@ -17,15 +17,15 @@ import com.uberverse.arkcraft.common.tileentity.IHoverInfo;
 
 import io.netty.buffer.ByteBuf;
 
-public class MessageHover implements IMessage, IMessageHandler<MessageHover, IMessage>
+public class MessageHover
+		implements IMessage, IMessageHandler<MessageHover, IMessage>
 {
 
 	BlockPos pos;
 	NBTTagCompound tag;
 
 	public MessageHover()
-	{
-	}
+	{}
 
 	public MessageHover(BlockPos pos, NBTTagCompound tag)
 	{
@@ -34,7 +34,8 @@ public class MessageHover implements IMessage, IMessageHandler<MessageHover, IMe
 	}
 
 	@Override
-	public IMessage onMessage(final MessageHover message, final MessageContext ctx)
+	public IMessage onMessage(final MessageHover message,
+			final MessageContext ctx)
 	{
 		if (ctx.side == Side.CLIENT)
 		{
@@ -81,8 +82,7 @@ public class MessageHover implements IMessage, IMessageHandler<MessageHover, IMe
 		BlockPos pos;
 
 		public MessageHoverReq()
-		{
-		}
+		{}
 
 		public MessageHoverReq(BlockPos pos)
 		{
@@ -90,7 +90,8 @@ public class MessageHover implements IMessage, IMessageHandler<MessageHover, IMe
 		}
 
 		@Override
-		public MessageHover onMessage(final MessageHoverReq message, final MessageContext ctx)
+		public MessageHover onMessage(final MessageHoverReq message,
+				final MessageContext ctx)
 		{
 			if (ctx.side == Side.SERVER)
 			{
@@ -102,13 +103,15 @@ public class MessageHover implements IMessage, IMessageHandler<MessageHover, IMe
 					{
 						if (message.pos != null)
 						{
-							TileEntity tile = ctx.getServerHandler().playerEntity.worldObj
-									.getTileEntity(message.pos);
+							TileEntity tile =
+									ctx.getServerHandler().playerEntity.worldObj
+											.getTileEntity(message.pos);
 							if (tile instanceof IHoverInfo)
 							{
 								NBTTagCompound tag = new NBTTagCompound();
 								((IHoverInfo) tile).writeToNBTPacket(tag);
-								ARKCraft.modChannel.sendTo(new MessageHover(message.pos, tag),
+								ARKCraft.modChannel.sendTo(
+										new MessageHover(message.pos, tag),
 										ctx.getServerHandler().playerEntity);
 							}
 						}

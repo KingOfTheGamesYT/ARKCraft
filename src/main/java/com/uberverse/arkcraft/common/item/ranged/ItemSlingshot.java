@@ -22,10 +22,12 @@ public class ItemSlingshot extends Item
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World w, EntityPlayer p)
 	{
-		if (p.capabilities.isCreativeMode || p.inventory.consumeInventoryItem(ARKCraftItems.stone))
+		if (p.capabilities.isCreativeMode
+				|| p.inventory.consumeInventoryItem(ARKCraftItems.stone))
 		{
 			setLastUseTime(stack, w.getTotalWorldTime());
-			w.playSoundAtEntity(p, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+			w.playSoundAtEntity(p, "random.bow", 0.5F,
+					0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 			if (!w.isRemote)
 			{
 				w.spawnEntityInWorld(new EntityStone(w, p));
@@ -43,12 +45,15 @@ public class ItemSlingshot extends Item
 	}
 
 	@Override
-	public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int useRemaining)
+	public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player,
+			int useRemaining)
 	{
-		long ticksSinceLastUse = player.worldObj.getTotalWorldTime() - getLastUseTime(stack);
+		long ticksSinceLastUse =
+				player.worldObj.getTotalWorldTime() - getLastUseTime(stack);
 		if (ticksSinceLastUse < 5)
 		{
-			return new ModelResourceLocation(ARKCraft.MODID + ":slingshot_pulled", "inventory");
+			return new ModelResourceLocation(
+					ARKCraft.MODID + ":slingshot_pulled", "inventory");
 		}
 		else
 		{
@@ -63,7 +68,8 @@ public class ItemSlingshot extends Item
 
 	private long getLastUseTime(ItemStack stack)
 	{
-		return stack.hasTagCompound() ? stack.getTagCompound().getLong("LastUse") : 0;
+		return stack.hasTagCompound()
+				? stack.getTagCompound().getLong("LastUse") : 0;
 	}
 
 }

@@ -29,7 +29,8 @@ public class WeaponModConfig
 
 	public void addReloadTimeSetting(String weapon, int defaulttime)
 	{
-		reloadTimeSettings.put(weapon, new ReloadTimeSetting(weapon, defaulttime));
+		reloadTimeSettings.put(weapon,
+				new ReloadTimeSetting(weapon, defaulttime));
 	}
 
 	public boolean isEnabled(String weapon)
@@ -48,19 +49,23 @@ public class WeaponModConfig
 	{
 		config.load();
 
-		config.addCustomCategoryComment("enable", "Enable or disable certain weapons");
+		config.addCustomCategoryComment("enable",
+				"Enable or disable certain weapons");
 		config.addCustomCategoryComment("reloadtime",
 				"The reload durations of the reloadable weapons");
-		config.addCustomCategoryComment("settings", "Miscellaneous mod settings");
+		config.addCustomCategoryComment("settings",
+				"Miscellaneous mod settings");
 
 		for (EnableSetting es : enableSettings.values())
 		{
-			es.enabled = config.get("enable", es.settingName, es.enabled).getBoolean(es.enabled);
+			es.enabled = config.get("enable", es.settingName, es.enabled)
+					.getBoolean(es.enabled);
 		}
 		for (ReloadTimeSetting rs : reloadTimeSettings.values())
 		{
-			rs.reloadTime = config.get("reloadtime", rs.settingName, rs.reloadTime)
-					.getInt(rs.reloadTime);
+			rs.reloadTime =
+					config.get("reloadtime", rs.settingName, rs.reloadTime)
+							.getInt(rs.reloadTime);
 		}
 
 		config.save();

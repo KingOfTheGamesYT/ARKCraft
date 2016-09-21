@@ -12,8 +12,8 @@ public interface Qualitable
 
 	public static ItemQuality get(ItemStack stack)
 	{
-		if (stack.getTagCompound().hasKey(qualityKey)) return ItemQuality.get(stack.getTagCompound().getByte(
-				qualityKey));
+		if (stack.getTagCompound().hasKey(qualityKey))
+			return ItemQuality.get(stack.getTagCompound().getByte(qualityKey));
 		return null;
 	}
 
@@ -26,24 +26,27 @@ public interface Qualitable
 
 	public static enum ItemQuality
 	{
-		PRIMITIVE(1, 1, 1, EnumChatFormatting.RESET),
-		RAMSCHACKLE(1.25, 1.33, 1.1, EnumChatFormatting.GREEN),
-		APPRENTICE(2.5, 1.67, 1.25, EnumChatFormatting.BLUE),
-		JOURNEYMAN(4.5, 2, 1.375, EnumChatFormatting.DARK_PURPLE),
-		MASTERCRAFT(7, 2.5, 1.5, EnumChatFormatting.YELLOW),
-		ASCENDANT(10, 3.5, 2, EnumChatFormatting.RED);
+		PRIMITIVE(1, 1, 1, 1, EnumChatFormatting.RESET),
+		RAMSCHACKLE(1.25, 1.33, 1.1, 1.1, EnumChatFormatting.GREEN),
+		APPRENTICE(2.5, 1.67, 1.25, 1.25, EnumChatFormatting.BLUE),
+		JOURNEYMAN(4.5, 2, 1.375, 1.375, EnumChatFormatting.DARK_PURPLE),
+		MASTERCRAFT(7, 2.5, 1.5, 1.5, EnumChatFormatting.YELLOW),
+		ASCENDANT(10, 3.5, 2, 2, EnumChatFormatting.RED);
 
-		// TODO add other multipliers (f.e. efficiency (for harvesting speed and maybe harvest numbers)) & remove current uses of multiplierTreshold
-		public final double multiplierTreshold, resourceMultiplier, harvestMultiplier;
+		// TODO add other multipliers (f.e. efficiency (for harvesting speed and
+		// maybe harvest numbers)) & remove current uses of multiplierTreshold
+		public final double multiplierTreshold, resourceMultiplier,
+				harvestMultiplier, durabilityMultiplier;
 		private static byte idCounter = 0;
 		public final byte id;
 		public final EnumChatFormatting color;
 
-		private ItemQuality(double multiplierTreshold, double resourceMultiplier, double harvestMultiplier, EnumChatFormatting color)
+		private ItemQuality(double multiplierTreshold, double resourceMultiplier, double harvestMultiplier, double durabilityMultiplier, EnumChatFormatting color)
 		{
 			this.multiplierTreshold = multiplierTreshold;
 			this.resourceMultiplier = resourceMultiplier;
 			this.harvestMultiplier = harvestMultiplier;
+			this.durabilityMultiplier = durabilityMultiplier;
 			this.color = color;
 			id = getNextId();
 		}

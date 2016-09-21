@@ -17,7 +17,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
-public abstract class BlockARKResource extends Block implements IExperienceSource
+public abstract class BlockARKResource extends Block
+		implements IExperienceSource
 {
 	public BlockARKResource(Material materialIn)
 	{
@@ -27,7 +28,8 @@ public abstract class BlockARKResource extends Block implements IExperienceSourc
 	}
 
 	@Override
-	public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player)
+	public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state,
+			EntityPlayer player)
 	{
 		return false;
 	}
@@ -39,7 +41,8 @@ public abstract class BlockARKResource extends Block implements IExperienceSourc
 	}
 
 	@Override
-	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player)
+	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state,
+			EntityPlayer player)
 	{
 		grantXP(ARKPlayer.get(player));
 
@@ -56,7 +59,8 @@ public abstract class BlockARKResource extends Block implements IExperienceSourc
 			{
 				for (ItemStack s : ais.toItemStacks())
 				{
-					worldIn.spawnEntityInWorld(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), s));
+					worldIn.spawnEntityInWorld(new EntityItem(worldIn,
+							pos.getX(), pos.getY(), pos.getZ(), s));
 				}
 			}
 		}

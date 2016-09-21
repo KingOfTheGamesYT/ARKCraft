@@ -43,24 +43,36 @@ public class WeightsConfig
 	{
 		config.load();
 
-		isEnabled = config.getBoolean("enabled", "Setup", false, "Enabled the weight system. Will be false until final release.");
-		allowInCreative = config.getBoolean("allowInCreative", "Setup", false, "Allow weight tracking while in creative mode.");
-		encumberedSpeed = config.getFloat("encumberedSpeed", "Setup", (float) 0.2, 0, 1, "The speed factor the player will be slowed down.");
+		isEnabled = config.getBoolean("enabled", "Setup", false,
+				"Enabled the weight system. Will be false until final release.");
+		allowInCreative = config.getBoolean("allowInCreative", "Setup", false,
+				"Allow weight tracking while in creative mode.");
+		encumberedSpeed =
+				config.getFloat("encumberedSpeed", "Setup", (float) 0.2, 0, 1,
+						"The speed factor the player will be slowed down.");
 
 		List<Item> itemList = ImmutableList.copyOf(Item.itemRegistry);
 		for (Item item : itemList)
 		{
 			config.getFloat(item.getUnlocalizedName().substring(5), GENERAL,
-					(int) genNewWeight(item.getUnlocalizedName().charAt(6)), 0, 16,
-					"Sets the carry weight of item " + item.getUnlocalizedName().substring(5, item.getUnlocalizedName().length()));
+					(int) genNewWeight(item.getUnlocalizedName().charAt(6)), 0,
+					16,
+					"Sets the carry weight of item " + item.getUnlocalizedName()
+							.substring(5, item.getUnlocalizedName().length()));
 		}
 
 		List<Block> blockList = ImmutableList.copyOf(Block.blockRegistry);
 		for (Block block : blockList)
 		{
-			config.getFloat(block.getUnlocalizedName().substring(5, block.getUnlocalizedName().length()), GENERAL,
-					(int) genNewWeight(block.getUnlocalizedName().charAt(6)), 0, 16,
-					"Sets the carry weight of block " + block.getUnlocalizedName().substring(5, block.getUnlocalizedName().length()));
+			config.getFloat(
+					block.getUnlocalizedName().substring(5,
+							block.getUnlocalizedName().length()),
+					GENERAL,
+					(int) genNewWeight(block.getUnlocalizedName().charAt(6)), 0,
+					16,
+					"Sets the carry weight of block "
+							+ block.getUnlocalizedName().substring(5,
+									block.getUnlocalizedName().length()));
 		}
 
 		config.save();
@@ -69,7 +81,8 @@ public class WeightsConfig
 	private static int genNewWeight(char c)
 	{
 		int number = Character.getNumericValue(c);
-		return (int) Math.abs((((number / 2) + 4) / 9) - 1) != 0 ? (int) Math.abs((((number / 2) + 4) / 9) - 1)
+		return (int) Math.abs((((number / 2) + 4) / 9) - 1) != 0
+				? (int) Math.abs((((number / 2) + 4) / 9) - 1)
 				: (int) Math.abs((((number / 2) + 4) / 9) - 1) + 2;
 	}
 

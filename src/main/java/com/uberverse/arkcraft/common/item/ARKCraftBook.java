@@ -28,7 +28,8 @@ public class ARKCraftBook extends Item
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
+	public ItemStack onItemRightClick(ItemStack stack, World world,
+			EntityPlayer player)
 	{
 		if (world.isRemote) openBook(stack, world, player);
 		return stack;
@@ -37,13 +38,16 @@ public class ARKCraftBook extends Item
 	@SideOnly(Side.CLIENT)
 	public void openBook(ItemStack stack, World world, EntityPlayer player)
 	{
-		player.openGui(ARKCraft.instance(), CommonProxy.GUI.BOOK.id, world, 0, 0, 0);
-		FMLClientHandler.instance().displayGuiScreen(player, new GuiInfoBook(stack, BookClient.bookInfo.bd));
+		player.openGui(ARKCraft.instance(), CommonProxy.GUI.BOOK.id, world, 0,
+				0, 0);
+		FMLClientHandler.instance().displayGuiScreen(player,
+				new GuiInfoBook(stack, BookClient.bookInfo.bd));
 	}
 
 	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4)
+	public void addInformation(ItemStack stack, EntityPlayer player, List list,
+			boolean par4)
 	{
 		list.add(EnumChatFormatting.GOLD + "Knowledge is Power");
 	}

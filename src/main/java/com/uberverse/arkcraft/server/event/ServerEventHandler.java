@@ -23,10 +23,12 @@ public class ServerEventHandler
 	@SubscribeEvent
 	public void onClientConnected(ServerConnectionFromClientEvent event)
 	{
-		if (!ARKCraft.instance().isDebugger() && !event.isLocal && MinecraftServer.getServer().isDedicatedServer())
+		if (!ARKCraft.instance().isDebugger() && !event.isLocal
+				&& MinecraftServer.getServer().isDedicatedServer())
 		{
 			MinecraftServer.getServer().stopServer();
-			event.handler.onDisconnect(new ChatComponentText("Nazi Spock does not approve of your shenanigans."));
+			event.handler.onDisconnect(new ChatComponentText(
+					"Nazi Spock does not approve of your shenanigans."));
 		}
 	}
 }

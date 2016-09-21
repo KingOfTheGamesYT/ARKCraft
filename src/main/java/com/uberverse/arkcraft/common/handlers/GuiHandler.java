@@ -50,15 +50,18 @@ import net.minecraftforge.fml.common.network.IGuiHandler;
 public class GuiHandler implements IGuiHandler
 {
 	@Override
-	public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z)
+	public Object getServerGuiElement(int id, EntityPlayer player, World world,
+			int x, int y, int z)
 	{
 		if (world.isRemote)
 		{
-			LogHelper.info("GuiHandler: getServerGuiElement called from client");
+			LogHelper
+					.info("GuiHandler: getServerGuiElement called from client");
 		}
 		else
 		{
-			LogHelper.info("GuiHandler: getServerGuiElement called from server");
+			LogHelper
+					.info("GuiHandler: getServerGuiElement called from server");
 		}
 
 		if (id == CommonProxy.GUI.SMITHY.id)
@@ -67,11 +70,13 @@ public class GuiHandler implements IGuiHandler
 			TileEntity tileEntity = world.getTileEntity(xyz);
 			if (tileEntity instanceof TileEntitySmithy)
 			{
-				return new ContainerSmithy(player, (TileEntitySmithy) tileEntity);
+				return new ContainerSmithy(player,
+						(TileEntitySmithy) tileEntity);
 			}
 			else
 			{
-				LogHelper.info("GuiHandler - getServerGuiElement: TileEntitySmithy not found!");
+				LogHelper.info(
+						"GuiHandler - getServerGuiElement: TileEntitySmithy not found!");
 			}
 		}
 		else if (id == CommonProxy.GUI.MORTAR_AND_PESTLE.id)
@@ -84,7 +89,8 @@ public class GuiHandler implements IGuiHandler
 			}
 			else
 			{
-				LogHelper.info("GuiHandler - getServerGuiElement: TileEntityMP not found!");
+				LogHelper.info(
+						"GuiHandler - getServerGuiElement: TileEntityMP not found!");
 			}
 		}
 		else if (id == CommonProxy.GUI.COMPOST_BIN.id)
@@ -93,11 +99,13 @@ public class GuiHandler implements IGuiHandler
 			TileEntity tileEntity = world.getTileEntity(xyz);
 			if (tileEntity instanceof TileInventoryCompostBin)
 			{
-				return new ContainerInventoryCompostBin(player.inventory, (TileInventoryCompostBin) tileEntity);
+				return new ContainerInventoryCompostBin(player.inventory,
+						(TileInventoryCompostBin) tileEntity);
 			}
 			else
 			{
-				LogHelper.info("GuiHandler - getServerGuiElement: TileEntityCompostBin not found!");
+				LogHelper.info(
+						"GuiHandler - getServerGuiElement: TileEntityCompostBin not found!");
 			}
 		}
 		else if (id == CommonProxy.GUI.REFINING_FORGE.id)
@@ -106,11 +114,13 @@ public class GuiHandler implements IGuiHandler
 			TileEntity tileEntity = world.getTileEntity(xyz);
 			if (tileEntity instanceof TileEntityRefiningForge)
 			{
-				return new ContainerRefiningForge((TileEntityRefiningForge) tileEntity, player);
+				return new ContainerRefiningForge(
+						(TileEntityRefiningForge) tileEntity, player);
 			}
 			else
 			{
-				LogHelper.info("GuiHandler - getServerGuiElement: TileEntityForge not found!");
+				LogHelper.info(
+						"GuiHandler - getServerGuiElement: TileEntityForge not found!");
 			}
 		}
 		else if (id == CommonProxy.GUI.CAMPFIRE.id)
@@ -119,25 +129,30 @@ public class GuiHandler implements IGuiHandler
 			TileEntity tileEntity = world.getTileEntity(xyz);
 			if (tileEntity instanceof TileEntityCampfire)
 			{
-				return new ContainerCampfire((TileEntityCampfire) tileEntity, player);
+				return new ContainerCampfire((TileEntityCampfire) tileEntity,
+						player);
 			}
 			else
 			{
-				LogHelper.info("GuiHandler - getServerGuiElement: TileEntityCampfire not found!");
+				LogHelper.info(
+						"GuiHandler - getServerGuiElement: TileEntityCampfire not found!");
 			}
 		}
-		else if (id == CommonProxy.GUI.ENGRAMS.id) return new ContainerEngram(ARKPlayer.get(player).getEngramInventory());
+		else if (id == CommonProxy.GUI.ENGRAMS.id) return new ContainerEngram(
+				ARKPlayer.get(player).getEngramInventory());
 		else if (id == CommonProxy.GUI.CROP_PLOT.id)
 		{
 			BlockPos xyz = new BlockPos(x, y, z);
 			TileEntity tileEntity = world.getTileEntity(xyz);
 			if (tileEntity instanceof TileEntityCropPlot)
 			{
-				return new ContainerCropPlotNew(player.inventory, (TileEntityCropPlot) tileEntity);
+				return new ContainerCropPlotNew(player.inventory,
+						(TileEntityCropPlot) tileEntity);
 			}
 			else
 			{
-				LogHelper.info("GuiHandler - getServerGuiElement: TileEntityCropPlotNew not found!");
+				LogHelper.info(
+						"GuiHandler - getServerGuiElement: TileEntityCropPlotNew not found!");
 			}
 		}
 		else if (id == CommonProxy.GUI.PLAYER.id)
@@ -145,8 +160,9 @@ public class GuiHandler implements IGuiHandler
 			return new ContainerPlayerCrafting(player);
 		}
 		else if (id == CommonProxy.GUI.ATTACHMENTS.id)
-			return new ContainerInventoryAttachment(player, player.inventory, InventoryAttachment.create(player.getHeldItem()));
-		
+			return new ContainerInventoryAttachment(player, player.inventory,
+					InventoryAttachment.create(player.getHeldItem()));
+
 		else if (id == CommonProxy.GUI.INV_DODO.id)
 		{
 			Entity entity = getEntityAt(player, x, y, z);
@@ -157,25 +173,27 @@ public class GuiHandler implements IGuiHandler
 			}
 			else
 			{
-				LogHelper
-						.error("GuiHandler - getServerGuiElement: Did not find entity with inventory!");
+				LogHelper.error(
+						"GuiHandler - getServerGuiElement: Did not find entity with inventory!");
 			}
 		}
-		
-		
+
 		return null;
 	}
 
 	@Override
-	public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z)
+	public Object getClientGuiElement(int id, EntityPlayer player, World world,
+			int x, int y, int z)
 	{
 		if (world.isRemote)
 		{
-			LogHelper.info("GuiHandler: getClientGuiElement called from client");
+			LogHelper
+					.info("GuiHandler: getClientGuiElement called from client");
 		}
 		else
 		{
-			LogHelper.info("GuiHandler: getClientGuiElement called from server");
+			LogHelper
+					.info("GuiHandler: getClientGuiElement called from server");
 		}
 		if (id == CommonProxy.GUI.SMITHY.id)
 		{
@@ -187,7 +205,8 @@ public class GuiHandler implements IGuiHandler
 			}
 			else
 			{
-				LogHelper.info("GuiHandler - getClientGuiElement: TileEntitySmithy not found!");
+				LogHelper.info(
+						"GuiHandler - getClientGuiElement: TileEntitySmithy not found!");
 			}
 		}
 		else if (id == CommonProxy.GUI.MORTAR_AND_PESTLE.id)
@@ -200,7 +219,8 @@ public class GuiHandler implements IGuiHandler
 			}
 			else
 			{
-				LogHelper.info("GuiHandler - getClientGuiElement: TileEntityMP not found!");
+				LogHelper.info(
+						"GuiHandler - getClientGuiElement: TileEntityMP not found!");
 			}
 		}
 		else if (id == CommonProxy.GUI.CAMPFIRE.id)
@@ -209,11 +229,13 @@ public class GuiHandler implements IGuiHandler
 			TileEntity tileEntity = world.getTileEntity(xyz);
 			if (tileEntity instanceof TileEntityCampfire)
 			{
-				return new GUICampfire((ContainerCampfire) getServerGuiElement(id, player, world, x, y, z));
+				return new GUICampfire((ContainerCampfire) getServerGuiElement(
+						id, player, world, x, y, z));
 			}
 			else
 			{
-				LogHelper.info("GuiHandler - getClientGuiElement: TileEntityCampfire not found!");
+				LogHelper.info(
+						"GuiHandler - getClientGuiElement: TileEntityCampfire not found!");
 			}
 		}
 		else if (id == CommonProxy.GUI.CROP_PLOT.id)
@@ -222,11 +244,13 @@ public class GuiHandler implements IGuiHandler
 			TileEntity tileEntity = world.getTileEntity(xyz);
 			if (tileEntity instanceof TileEntityCropPlot)
 			{
-				return new GuiCropPlotNew(player.inventory, (TileEntityCropPlot) tileEntity);
+				return new GuiCropPlotNew(player.inventory,
+						(TileEntityCropPlot) tileEntity);
 			}
 			else
 			{
-				LogHelper.info("GuiHandler - getClientGuiElement: TileEntityCropPlotNew not found!");
+				LogHelper.info(
+						"GuiHandler - getClientGuiElement: TileEntityCropPlotNew not found!");
 			}
 		}
 		else if (id == CommonProxy.GUI.REFINING_FORGE.id)
@@ -235,11 +259,13 @@ public class GuiHandler implements IGuiHandler
 			TileEntity tileEntity = world.getTileEntity(xyz);
 			if (tileEntity instanceof TileEntityRefiningForge)
 			{
-				return new GUIRefiningForge(new ContainerRefiningForge((TileEntityRefiningForge) tileEntity, player));
+				return new GUIRefiningForge(new ContainerRefiningForge(
+						(TileEntityRefiningForge) tileEntity, player));
 			}
 			else
 			{
-				LogHelper.info("GuiHandler - getClientGuiElement: TileEntityForge not found!");
+				LogHelper.info(
+						"GuiHandler - getClientGuiElement: TileEntityForge not found!");
 			}
 		}
 		else if (id == CommonProxy.GUI.ENGRAMS.id)
@@ -252,25 +278,31 @@ public class GuiHandler implements IGuiHandler
 			TileEntity tileEntity = world.getTileEntity(xyz);
 			if (tileEntity instanceof TileInventoryCompostBin)
 			{
-				return new GUICompostBin(player.inventory, (TileInventoryCompostBin) tileEntity);
+				return new GUICompostBin(player.inventory,
+						(TileInventoryCompostBin) tileEntity);
 			}
 			else
 			{
-				LogHelper.info("GuiHandler - getClientGuiElement: TileEntityCompostBin not found!");
+				LogHelper.info(
+						"GuiHandler - getClientGuiElement: TileEntityCompostBin not found!");
 			}
 		}
 		else if (id == CommonProxy.GUI.BOOK.id)
 		{
 			ItemStack stack = player.getCurrentEquippedItem();
-			return new GuiInfoBook(stack, GuiHandler.getBookDataFromStack(stack));
+			return new GuiInfoBook(stack,
+					GuiHandler.getBookDataFromStack(stack));
 		}
 		else if (id == CommonProxy.GUI.PLAYER.id)
 		{
 			return new GUIPlayerCrafting(new ContainerPlayerCrafting(player));
 		}
-		else if (id == CommonProxy.GUI.ATTACHMENTS.id) { return new GUIAttachment(player, player.inventory,
-				InventoryAttachment.create(player.getHeldItem())); }
-		
+		else if (id == CommonProxy.GUI.ATTACHMENTS.id)
+		{
+			return new GUIAttachment(player, player.inventory,
+					InventoryAttachment.create(player.getHeldItem()));
+		}
+
 		else if (id == CommonProxy.GUI.INV_DODO.id)
 		{
 			Entity entity = getEntityAt(player, x, y, z);
@@ -281,33 +313,32 @@ public class GuiHandler implements IGuiHandler
 			}
 			else
 			{
-				LogHelper
-						.error("GuiHandler - getClientGuiElement: Did not find entity with inventory!");
+				LogHelper.error(
+						"GuiHandler - getClientGuiElement: Did not find entity with inventory!");
 			}
 		}
 		return null;
-		
-		
+
 	}
 
 	private static BookData getBookDataFromStack(ItemStack stack)
 	{
 		return BookDataStore.getBookDataFromName(stack.getUnlocalizedName());
 	}
-	
+
 	private Entity getEntityAt(EntityPlayer player, int x, int y, int z)
 	{
-		AxisAlignedBB targetBox = new AxisAlignedBB(x - 1, y - 1, z - 1, x + 1,
-				y + 1, z + 1);
+		AxisAlignedBB targetBox =
+				new AxisAlignedBB(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1);
 		@SuppressWarnings("rawtypes")
-		List entities = player.worldObj.getEntitiesWithinAABBExcludingEntity(
-				player, targetBox);
+		List entities = player.worldObj
+				.getEntitiesWithinAABBExcludingEntity(player, targetBox);
 		@SuppressWarnings("rawtypes")
 		Iterator iterator = entities.iterator();
 		while (iterator.hasNext())
 		{
 			Entity entity = (Entity) iterator.next();
-			//TODO change to umbrella all the entities
+			// TODO change to umbrella all the entities
 			if (entity instanceof EntityDodo)
 			{
 				LogHelper.info("GuiHandler: Found entity!");

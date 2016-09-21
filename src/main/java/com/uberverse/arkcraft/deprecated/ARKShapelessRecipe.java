@@ -49,14 +49,18 @@ public class ARKShapelessRecipe implements IARKRecipe
 				Iterator recipeIterator = recipelist.iterator();
 				while (recipeIterator.hasNext())
 				{
-					ItemStack itemstackInRecipe = (ItemStack) recipeIterator.next();
-					if (itemstack.getItem() == itemstackInRecipe
-							.getItem() && itemstack.stackSize >= itemstackInRecipe.stackSize && (itemstackInRecipe
-									.getMetadata() == ANY || itemstack
-											.getMetadata() == itemstackInRecipe.getMetadata()))
+					ItemStack itemstackInRecipe =
+							(ItemStack) recipeIterator.next();
+					if (itemstack.getItem() == itemstackInRecipe.getItem()
+							&& itemstack.stackSize >= itemstackInRecipe.stackSize
+							&& (itemstackInRecipe.getMetadata() == ANY
+									|| itemstack
+											.getMetadata() == itemstackInRecipe
+													.getMetadata()))
 					{
 						recipelist.remove(itemstackInRecipe);
-						itemStacksInventory[i].stackSize -= itemstackInRecipe.stackSize;
+						itemStacksInventory[i].stackSize -=
+								itemstackInRecipe.stackSize;
 						if (itemStacksInventory[i].stackSize <= 0)
 						{
 							itemStacksInventory[i] = null;
@@ -84,8 +88,8 @@ public class ARKShapelessRecipe implements IARKRecipe
 		while (recipeIterator.hasNext())
 		{
 			ItemStack itemstackInRecipe = (ItemStack) recipeIterator.next();
-			int numInStackThatCanBeCrafted = findNumThatCanBeCrafted(itemStacksInventory,
-					itemstackInRecipe);
+			int numInStackThatCanBeCrafted = findNumThatCanBeCrafted(
+					itemStacksInventory, itemstackInRecipe);
 			if (numInStackThatCanBeCrafted < numThatCanBeCrafted)
 			{
 				numThatCanBeCrafted = numInStackThatCanBeCrafted;
@@ -94,7 +98,8 @@ public class ARKShapelessRecipe implements IARKRecipe
 		return numThatCanBeCrafted;
 	}
 
-	private int findNumThatCanBeCrafted(ItemStack[] itemStacksInventory, ItemStack itemstackInRecipe)
+	private int findNumThatCanBeCrafted(ItemStack[] itemStacksInventory,
+			ItemStack itemstackInRecipe)
 	{
 		int numInStack = 0;
 		for (int i = 0; i < itemStacksInventory.length; ++i)
@@ -102,9 +107,10 @@ public class ARKShapelessRecipe implements IARKRecipe
 			ItemStack itemstack = itemStacksInventory[i];
 			if (itemstack != null)
 			{
-				if (itemstack.getItem() == itemstackInRecipe
-						.getItem() && (itemstackInRecipe.getMetadata() == ANY || itemstack
-								.getMetadata() == itemstackInRecipe.getMetadata()))
+				if (itemstack.getItem() == itemstackInRecipe.getItem()
+						&& (itemstackInRecipe.getMetadata() == ANY
+								|| itemstack.getMetadata() == itemstackInRecipe
+										.getMetadata()))
 				{
 					numInStack += itemstack.stackSize;
 				}
@@ -126,9 +132,10 @@ public class ARKShapelessRecipe implements IARKRecipe
 		while (recipeIterator.hasNext())
 		{
 			ItemStack itemstackInRecipe = (ItemStack) recipeIterator.next();
-			if (itemstack.getItem() == itemstackInRecipe
-					.getItem() && itemstack.stackSize >= itemstackInRecipe.stackSize && (itemstackInRecipe
-							.getMetadata() == 32767 || itemstack.getMetadata() == itemstackInRecipe
+			if (itemstack.getItem() == itemstackInRecipe.getItem()
+					&& itemstack.stackSize >= itemstackInRecipe.stackSize
+					&& (itemstackInRecipe.getMetadata() == 32767
+							|| itemstack.getMetadata() == itemstackInRecipe
 									.getMetadata())) { return true; }
 		}
 		return false;

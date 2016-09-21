@@ -23,14 +23,18 @@ public class OpenAttachmentInventory implements IMessage
 	public void toBytes(ByteBuf buf)
 	{}
 
-	public static class Handler implements IMessageHandler<OpenAttachmentInventory, IMessage>
+	public static class Handler
+			implements IMessageHandler<OpenAttachmentInventory, IMessage>
 	{
 		@Override
-		public IMessage onMessage(final OpenAttachmentInventory message, MessageContext ctx)
+		public IMessage onMessage(final OpenAttachmentInventory message,
+				MessageContext ctx)
 		{
 			if (ctx.side != Side.SERVER)
 			{
-				System.err.println("MPUpdateDoAttachment received on wrong side:" + ctx.side);
+				System.err
+						.println("MPUpdateDoAttachment received on wrong side:"
+								+ ctx.side);
 				return null;
 			}
 			final EntityPlayerMP player = ctx.getServerHandler().playerEntity;
@@ -46,11 +50,13 @@ public class OpenAttachmentInventory implements IMessage
 	}
 
 	// On Server
-	static void processMessage(OpenAttachmentInventory message, EntityPlayerMP player)
+	static void processMessage(OpenAttachmentInventory message,
+			EntityPlayerMP player)
 	{
 		if (player != null)
 		{
-			player.openGui(ARKCraft.instance(), CommonProxy.GUI.ATTACHMENTS.id, player.worldObj, 0, 0, 0);
+			player.openGui(ARKCraft.instance(), CommonProxy.GUI.ATTACHMENTS.id,
+					player.worldObj, 0, 0, 0);
 		}
 	}
 }

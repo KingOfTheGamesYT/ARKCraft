@@ -28,7 +28,8 @@ public class BlockCampfire extends BlockBurner
 		super(Material.wood);
 		setHardness(1.5f);
 		this.setCreativeTab(ARKCraft.tabARK);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(BURNING, false));
+		this.setDefaultState(
+				this.blockState.getBaseState().withProperty(BURNING, false));
 		float f = 0.65F; // Height
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, f, 1.0F);
 	}
@@ -52,36 +53,43 @@ public class BlockCampfire extends BlockBurner
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY,
-			float hitZ)
+	public boolean onBlockActivated(World worldIn, BlockPos pos,
+			IBlockState state, EntityPlayer playerIn, EnumFacing side,
+			float hitX, float hitY, float hitZ)
 	{
 		if (worldIn.isRemote) return true;
 
-		playerIn.openGui(ARKCraft.instance(), getId(), worldIn, pos.getX(), pos.getY(), pos.getZ());
+		playerIn.openGui(ARKCraft.instance(), getId(), worldIn, pos.getX(),
+				pos.getY(), pos.getZ());
 		return true;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
+	public void randomDisplayTick(World worldIn, BlockPos pos,
+			IBlockState state, Random rand)
 	{
 		double d0 = (double) pos.getX() + 0.5D;
 		double d1 = (double) pos.getY() + 0.7D;
 		double d2 = (double) pos.getZ() + 0.5D;
-		IBlockState blockState = getActualState(getDefaultState(), worldIn, pos);
+		IBlockState blockState =
+				getActualState(getDefaultState(), worldIn, pos);
 		boolean burning = (Boolean) blockState.getValue(BURNING);
 
 		if (burning)
 		{
-			worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.05D, 0.0D);
-			worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+			worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2,
+					0.0D, 0.05D, 0.0D);
+			worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2,
+					0.0D, 0.0D, 0.0D);
 		}
 	}
 
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		return this.getDefaultState().withProperty(BURNING, meta == 1 ? true : false);
+		return this.getDefaultState().withProperty(BURNING,
+				meta == 1 ? true : false);
 	}
 
 	@Override

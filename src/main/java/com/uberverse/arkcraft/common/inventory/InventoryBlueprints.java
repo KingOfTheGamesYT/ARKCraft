@@ -74,10 +74,12 @@ public class InventoryBlueprints extends InventoryBasic
 
 	private void sendUpdateToServer()
 	{
-		ARKCraft.modChannel.sendToServer(new UpdatePlayerCrafting(craftOne, blueprintPressed));
+		ARKCraft.modChannel.sendToServer(
+				new UpdatePlayerCrafting(craftOne, blueprintPressed));
 	}
 
-	public void setCraftOnePressed(boolean craftOnePressed, int i, boolean andUpdateServer)
+	public void setCraftOnePressed(boolean craftOnePressed, int i,
+			boolean andUpdateServer)
 	{
 		// LogHelper.info("InventoryBlueprints: Set craftOne to " +
 		// craftOnePressed + " on " +
@@ -213,8 +215,8 @@ public class InventoryBlueprints extends InventoryBasic
 		// If craftingTime has reached -1, try and craft the item
 		if (craftingTime < 0)
 		{
-			LogHelper.info("InventoryBlueprints: About to craft the item on " + FMLCommonHandler
-					.instance().getEffectiveSide());
+			LogHelper.info("InventoryBlueprints: About to craft the item on "
+					+ FMLCommonHandler.instance().getEffectiveSide());
 			craftItem();
 			craftOne = false;
 		}
@@ -258,17 +260,20 @@ public class InventoryBlueprints extends InventoryBasic
 
 		// find the first suitable output slot, 1st check for identical item
 		// that has enough space
-		for (int outputSlot = ARKPlayer.LAST_INVENTORY_SLOT; outputSlot > ARKPlayer.FIRST_INVENTORY_SLOT; outputSlot--)
+		for (int outputSlot = ARKPlayer.LAST_INVENTORY_SLOT;
+				outputSlot > ARKPlayer.FIRST_INVENTORY_SLOT; outputSlot--)
 		{
 			ItemStack outputStack = invCrafting.getStackInSlot(outputSlot);
-			if (outputStack != null && outputStack.getItem() == result
-					.getItem() && (!result.getHasSubtypes() || outputStack.getMetadata() == result
-							.getMetadata()) && ItemStack.areItemStackTagsEqual(outputStack, result))
+			if (outputStack != null && outputStack.getItem() == result.getItem()
+					&& (!result.getHasSubtypes() || outputStack
+							.getMetadata() == result.getMetadata())
+					&& ItemStack.areItemStackTagsEqual(outputStack, result))
 			{
-				int combinedSize = invCrafting
-						.getStackInSlot(outputSlot).stackSize + result.stackSize;
-				if (combinedSize <= invCrafting
-						.getInventoryStackLimit() && combinedSize <= invCrafting
+				int combinedSize =
+						invCrafting.getStackInSlot(outputSlot).stackSize
+								+ result.stackSize;
+				if (combinedSize <= invCrafting.getInventoryStackLimit()
+						&& combinedSize <= invCrafting
 								.getStackInSlot(outputSlot).getMaxStackSize())
 				{
 					firstSuitableOutputSlot = outputSlot;
@@ -279,7 +284,8 @@ public class InventoryBlueprints extends InventoryBasic
 		if (firstSuitableOutputSlot == null)
 		{
 			// 2nd look for empty slot if no partially filled slots are found
-			for (int outputSlot = ARKPlayer.LAST_INVENTORY_SLOT; outputSlot > ARKPlayer.FIRST_INVENTORY_SLOT; outputSlot--)
+			for (int outputSlot = ARKPlayer.LAST_INVENTORY_SLOT;
+					outputSlot > ARKPlayer.FIRST_INVENTORY_SLOT; outputSlot--)
 			{
 				ItemStack outputStack = invCrafting.getStackInSlot(outputSlot);
 				if (outputStack == null)
@@ -296,37 +302,42 @@ public class InventoryBlueprints extends InventoryBasic
 		}
 
 		// finds if there is enough inventory to craft the result
-		numThatCanBeCrafted = (short) craftingManager.hasMatchingRecipe(result, invCrafting, false);
+		numThatCanBeCrafted = (short) craftingManager.hasMatchingRecipe(result,
+				invCrafting, false);
 		if (numThatCanBeCrafted <= 0)
 		{
-			LogHelper.info("InventoryBlueprints: Can't craft item from inventory.");
+			LogHelper.info(
+					"InventoryBlueprints: Can't craft item from inventory.");
 			return false;
 		}
 		else if (!doCraftItem) { return true; }
 
 		// Craft an item (after testing that there is enough inventory above)
-		int numCrafted = (short) craftingManager.hasMatchingRecipe(result, invCrafting, true);
+		int numCrafted = (short) craftingManager.hasMatchingRecipe(result,
+				invCrafting, true);
 
 		// This should never be true!
 		if (numCrafted <= 0) { return false; }
 
 		// alter output slot
-		LogHelper
-				.info("InventoryBlueprints: Copy craft result to slot: " + firstSuitableOutputSlot);
+		LogHelper.info("InventoryBlueprints: Copy craft result to slot: "
+				+ firstSuitableOutputSlot);
 		if (invCrafting.getStackInSlot(firstSuitableOutputSlot) == null)
 		{
-			invCrafting.setInventorySlotContents(firstSuitableOutputSlot, result.copy()); // Use
-																							// deep
-																							// .copy()
-																							// to
-																							// avoid
-																							// altering
-																							// the
-																							// recipe
+			invCrafting.setInventorySlotContents(firstSuitableOutputSlot,
+					result.copy()); // Use
+									// deep
+									// .copy()
+									// to
+									// avoid
+									// altering
+									// the
+									// recipe
 		}
 		else
 		{
-			invCrafting.getStackInSlot(firstSuitableOutputSlot).stackSize += result.stackSize;
+			invCrafting.getStackInSlot(firstSuitableOutputSlot).stackSize +=
+					result.stackSize;
 		}
 		invCrafting.markDirty();
 		return true;

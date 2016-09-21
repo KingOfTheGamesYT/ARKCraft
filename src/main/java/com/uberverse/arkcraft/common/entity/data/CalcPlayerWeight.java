@@ -11,7 +11,6 @@ import net.minecraftforge.common.config.Configuration;
 
 /**
  * @author ERBF
- *
  */
 
 public class CalcPlayerWeight
@@ -28,8 +27,9 @@ public class CalcPlayerWeight
 				stack = player.inventory.getStackInSlot(i);
 				weight += WeightsConfig.getConfig()
 						.get(Configuration.CATEGORY_GENERAL,
-								stack.getItem().getUnlocalizedName().substring(5,
-										stack.getItem().getUnlocalizedName().length()),
+								stack.getItem().getUnlocalizedName()
+										.substring(5, stack.getItem()
+												.getUnlocalizedName().length()),
 								0.5)
 						.getDouble() * stack.stackSize;
 			}
@@ -39,10 +39,10 @@ public class CalcPlayerWeight
 
 	public static double getWeight(ItemStack stack)
 	{
-		return WeightsConfig.getConfig()
-				.get(Configuration.CATEGORY_GENERAL, stack.getItem().getUnlocalizedName()
-						.substring(5, stack.getItem().getUnlocalizedName().length()), 0.5)
-				.getDouble();
+		return WeightsConfig.getConfig().get(Configuration.CATEGORY_GENERAL,
+				stack.getItem().getUnlocalizedName().substring(5,
+						stack.getItem().getUnlocalizedName().length()),
+				0.5).getDouble();
 	}
 
 }

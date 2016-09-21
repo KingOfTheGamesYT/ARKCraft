@@ -31,13 +31,15 @@ public abstract class BlockBurner extends BlockContainer implements Identifiable
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
 		if (tileEntity instanceof IInventory)
 		{
-			InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) tileEntity);
+			InventoryHelper.dropInventoryItems(worldIn, pos,
+					(IInventory) tileEntity);
 		}
 		super.breakBlock(worldIn, pos, state);
 	}
 
 	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
+	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn,
+			BlockPos pos)
 	{
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
 		if (tileEntity instanceof IBurner)
@@ -47,7 +49,7 @@ public abstract class BlockBurner extends BlockContainer implements Identifiable
 		}
 		return state;
 	}
-	
+
 	@Override
 	public int getLightValue(IBlockAccess world, BlockPos pos)
 	{

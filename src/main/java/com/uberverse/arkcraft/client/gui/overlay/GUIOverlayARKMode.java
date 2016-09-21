@@ -16,7 +16,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class GUIOverlayARKMode extends Gui
 {
 	private static final Minecraft mc = Minecraft.getMinecraft();
-	private static final TextureMap iconLocation = new TextureMap(ARKCraft.MODID + "textures/items/azul.png");
+	private static final TextureMap iconLocation =
+			new TextureMap(ARKCraft.MODID + "textures/items/azul.png");
 	public static int count = 0;
 
 	/*

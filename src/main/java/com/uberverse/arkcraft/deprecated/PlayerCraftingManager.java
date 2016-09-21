@@ -40,42 +40,57 @@ public class PlayerCraftingManager extends ARKCraftingManager
 
 		// Compost Bin
 		getInstance().addShapelessRecipe(
-				new ItemStack(Item.getItemFromBlock(ARKCraftBlocks.compost_bin), 1),
-				new ItemStack(ARKCraftItems.wood, 50), new ItemStack(ARKCraftItems.thatch, 15),
+				new ItemStack(Item.getItemFromBlock(ARKCraftBlocks.compost_bin),
+						1),
+				new ItemStack(ARKCraftItems.wood, 50),
+				new ItemStack(ARKCraftItems.thatch, 15),
 				new ItemStack(ARKCraftItems.fiber, 12));
 
 		// Crop Plot
 		getInstance().addShapelessRecipe(
-				new ItemStack(Item.getItemFromBlock(ARKCraftBlocks.crop_plot), 1),
-				new ItemStack(ARKCraftItems.wood, 40), new ItemStack(ARKCraftItems.thatch, 20),
-				new ItemStack(ARKCraftItems.fiber, 30), new ItemStack(ARKCraftItems.stone, 50));
+				new ItemStack(Item.getItemFromBlock(ARKCraftBlocks.crop_plot),
+						1),
+				new ItemStack(ARKCraftItems.wood, 40),
+				new ItemStack(ARKCraftItems.thatch, 20),
+				new ItemStack(ARKCraftItems.fiber, 30),
+				new ItemStack(ARKCraftItems.stone, 50));
 
 		// Mortar and Pestle
 		getInstance().addShapelessRecipe(
 				new ItemStack(Item.getItemFromBlock(ARKCraftBlocks.pestle), 1),
-				new ItemStack(ARKCraftItems.hide, 15), new ItemStack(ARKCraftItems.stone, 65));
+				new ItemStack(ARKCraftItems.hide, 15),
+				new ItemStack(ARKCraftItems.stone, 65));
 
 		// Smithy
 		getInstance().addShapelessRecipe(
 				new ItemStack(Item.getItemFromBlock(ARKCraftBlocks.smithy), 1),
-				new ItemStack(ARKCraftItems.metal, 5), new ItemStack(ARKCraftItems.stone, 50),
-				new ItemStack(ARKCraftItems.wood, 30), new ItemStack(ARKCraftItems.hide, 20));
+				new ItemStack(ARKCraftItems.metal, 5),
+				new ItemStack(ARKCraftItems.stone, 50),
+				new ItemStack(ARKCraftItems.wood, 30),
+				new ItemStack(ARKCraftItems.hide, 20));
 
 		// Forge
 		getInstance().addShapelessRecipe(
-				new ItemStack(Item.getItemFromBlock(ARKCraftBlocks.refining_forge), 1),
-				new ItemStack(ARKCraftItems.flint, 5), new ItemStack(ARKCraftItems.stone, 125),
-				new ItemStack(ARKCraftItems.wood, 20), new ItemStack(ARKCraftItems.hide, 65),
+				new ItemStack(
+						Item.getItemFromBlock(ARKCraftBlocks.refining_forge),
+						1),
+				new ItemStack(ARKCraftItems.flint, 5),
+				new ItemStack(ARKCraftItems.stone, 125),
+				new ItemStack(ARKCraftItems.wood, 20),
+				new ItemStack(ARKCraftItems.hide, 65),
 				new ItemStack(ARKCraftItems.fiber, 40));
 
 		// Slingshot
-		getInstance().addShapelessRecipe(new ItemStack(ARKCraftRangedWeapons.slingshot, 1),
-				new ItemStack(ARKCraftItems.hide, 1), new ItemStack(ARKCraftItems.wood, 5),
+		getInstance().addShapelessRecipe(
+				new ItemStack(ARKCraftRangedWeapons.slingshot, 1),
+				new ItemStack(ARKCraftItems.hide, 1),
+				new ItemStack(ARKCraftItems.wood, 5),
 				new ItemStack(ARKCraftItems.fiber, 20));
 
 		// Spear
 		getInstance().addShapelessRecipe(new ItemStack(ARKCraftItems.spear, 1),
-				new ItemStack(ARKCraftItems.flint, 2), new ItemStack(ARKCraftItems.wood, 8),
+				new ItemStack(ARKCraftItems.flint, 2),
+				new ItemStack(ARKCraftItems.wood, 8),
 				new ItemStack(ARKCraftItems.fiber, 12));
 
 		// Wooden Club

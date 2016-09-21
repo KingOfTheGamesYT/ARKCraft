@@ -71,16 +71,21 @@ public abstract class SmartReplacingItemModel implements ISmartItemModel
 		ItemCameraTransforms ict = bakedModel.getItemCameraTransforms();
 		ItemTransformVec3f gui = ItemCameraTransforms.DEFAULT.gui;
 		ItemTransformVec3f head = ItemCameraTransforms.DEFAULT.head;
-		ItemTransformVec3f thirdPerson =
-				new ItemTransformVec3f(new Vector3f(-90f, 0f, 0f), new Vector3f(0f, 0.0625f, -0.188f), new Vector3f(0.55f, 0.55f, 0.55f));
-		ItemTransformVec3f firstPerson =
-				new ItemTransformVec3f(new Vector3f(0, -135, 25), new Vector3f(0f, 0.25f, 0.125f), new Vector3f(1.7f, 1.7f, 1.7f));
+		ItemTransformVec3f thirdPerson = new ItemTransformVec3f(
+				new Vector3f(-90f, 0f, 0f), new Vector3f(0f, 0.0625f, -0.188f),
+				new Vector3f(0.55f, 0.55f, 0.55f));
+		ItemTransformVec3f firstPerson = new ItemTransformVec3f(
+				new Vector3f(0, -135, 25), new Vector3f(0f, 0.25f, 0.125f),
+				new Vector3f(1.7f, 1.7f, 1.7f));
 
 		if (toRender instanceof ItemShotgun)
 		{
-			gui = new ItemTransformVec3f(new Vector3f(-26, 16, 40), new Vector3f(0, 0.30f, -0.20f), new Vector3f(1.8f, 1.8f, 1.8f));
+			gui = new ItemTransformVec3f(new Vector3f(-26, 16, 40),
+					new Vector3f(0, 0.30f, -0.20f),
+					new Vector3f(1.8f, 1.8f, 1.8f));
 		}
-		ItemCameraTransforms ictN = new ItemCameraTransforms(thirdPerson, firstPerson, head, gui);
+		ItemCameraTransforms ictN =
+				new ItemCameraTransforms(thirdPerson, firstPerson, head, gui);
 
 		return ictN;
 	}

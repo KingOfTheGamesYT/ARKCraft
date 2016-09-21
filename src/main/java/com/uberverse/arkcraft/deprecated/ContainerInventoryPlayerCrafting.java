@@ -32,8 +32,9 @@ public class ContainerInventoryPlayerCrafting extends Container
 
 	public ContainerInventoryPlayerCrafting(InventoryPlayer invPlayer, EntityPlayer player)
 	{
-		LogHelper.info("ContainerInventoryPlayerCrafting: Constructor called on " + FMLCommonHandler
-				.instance().getEffectiveSide());
+		LogHelper
+				.info("ContainerInventoryPlayerCrafting: Constructor called on "
+						+ FMLCommonHandler.instance().getEffectiveSide());
 
 		inventoryBlueprints = ARKPlayer.get(player).getInventoryBlueprints();
 		inventoryPlayerCrafting = ARKPlayer.get(player).getInventoryPlayer();
@@ -41,16 +42,17 @@ public class ContainerInventoryPlayerCrafting extends Container
 		// Recipe blueprint slots
 		if (BP_SLOT_COUNT != inventoryBlueprints.getSizeInventory())
 		{
-			LogHelper
-					.error("Mismatched slot count in container(" + BP_SLOT_COUNT + ") and InventoryBlueprints (" + inventoryBlueprints
-							.getSizeInventory() + ")");
+			LogHelper.error("Mismatched slot count in container("
+					+ BP_SLOT_COUNT + ") and InventoryBlueprints ("
+					+ inventoryBlueprints.getSizeInventory() + ")");
 		}
 		for (int row = 0; row < NUM_ROWS_BP; row++)
 		{
 			for (int col = 0; col < NUM_COLUMNS_BP; col++)
 			{
 				int slotIndex = col + row * NUM_COLUMNS_BP;
-				this.addSlotToContainer(new SlotBlueprintInventory(inventoryBlueprints, slotIndex,
+				this.addSlotToContainer(new SlotBlueprintInventory(
+						inventoryBlueprints, slotIndex,
 						BLUEPRINT_XPOS + col * 18, BLUEPRINT_YPOS + row * 18));
 			}
 		}
@@ -95,7 +97,8 @@ public class ContainerInventoryPlayerCrafting extends Container
 		final int HOTBAR_YPOS = 219;
 		for (int col = 0; col < 9; col++)
 		{
-			addSlotToContainer(new Slot(invPlayer, col, 8 + col * 18, HOTBAR_YPOS));
+			addSlotToContainer(
+					new Slot(invPlayer, col, 8 + col * 18, HOTBAR_YPOS));
 		}
 	}
 
@@ -106,7 +109,8 @@ public class ContainerInventoryPlayerCrafting extends Container
 		super.onContainerClosed(playerIn);
 	}
 
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int sourceSlotIndex)
+	public ItemStack transferStackInSlot(EntityPlayer playerIn,
+			int sourceSlotIndex)
 	{
 		LogHelper.info("ARKContainerSmithy: transferStackInSlot called.");
 		Slot sourceSlot = (Slot) inventorySlots.get(sourceSlotIndex);
@@ -115,24 +119,27 @@ public class ContainerInventoryPlayerCrafting extends Container
 		ItemStack copyOfSourceStack = sourceStack.copy();
 
 		// Check if the slot clicked is the crafting inventory container slot
-		int nonPlayerSlotsCount = inventoryPlayerCrafting.getSizeInventory() + inventoryBlueprints
-				.getSizeInventory();
-		if (sourceSlotIndex > inventoryBlueprints
-				.getSizeInventory() - 1 && sourceSlotIndex < nonPlayerSlotsCount)
+		int nonPlayerSlotsCount = inventoryPlayerCrafting.getSizeInventory()
+				+ inventoryBlueprints.getSizeInventory();
+		if (sourceSlotIndex > inventoryBlueprints.getSizeInventory() - 1
+				&& sourceSlotIndex < nonPlayerSlotsCount)
 		{
 			// This is a player crafting inventory slot so merge the stack into
 			// the players inventory
-			if (!mergeItemStack(sourceStack, nonPlayerSlotsCount, 36 + nonPlayerSlotsCount,
-					false)) { return null; }
+			if (!mergeItemStack(sourceStack, nonPlayerSlotsCount,
+					36 + nonPlayerSlotsCount, false)) { return null; }
 		}
 		// Check if the slot clicked is one of the vanilla container slots
-		else if (sourceSlotIndex >= nonPlayerSlotsCount && sourceSlotIndex < 36 + nonPlayerSlotsCount)
+		else if (sourceSlotIndex >= nonPlayerSlotsCount
+				&& sourceSlotIndex < 36 + nonPlayerSlotsCount)
 		{
-			if (inventoryPlayerCrafting.isItemValidForSlot(sourceSlotIndex, sourceStack))
+			if (inventoryPlayerCrafting.isItemValidForSlot(sourceSlotIndex,
+					sourceStack))
 			{
 				// This is a vanilla container slot so merge the stack into the
 				// Smithy inventory
-				if (!mergeItemStack(sourceStack, inventoryBlueprints.getSizeInventory(),
+				if (!mergeItemStack(sourceStack,
+						inventoryBlueprints.getSizeInventory(),
 						nonPlayerSlotsCount, false)) { return null; }
 			}
 			else

@@ -14,7 +14,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
  * @author ERBF | Aug 9, 2016
- *
  */
 public class Engram extends Item
 {
@@ -39,10 +38,14 @@ public class Engram extends Item
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced)
+	public void addInformation(ItemStack stack, EntityPlayer playerIn,
+			List tooltip, boolean advanced)
 	{
-		tooltip.add(hasLearned ? EnumChatFormatting.BLUE + I18n.format(
-				"ark.engram.learn.true") + ":" : I18n.format("ark.engram.learn.false") + ":");
+		tooltip.add(
+				hasLearned
+						? EnumChatFormatting.BLUE
+								+ I18n.format("ark.engram.learn.true") + ":"
+						: I18n.format("ark.engram.learn.false") + ":");
 		tooltip.add(I18n.format("item." + name + ".name"));
 		tooltip.add(I18n.format("ark.engram.consume") + ": " + ep);
 	}

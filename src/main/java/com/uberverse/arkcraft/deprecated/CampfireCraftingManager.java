@@ -45,7 +45,8 @@ public class CampfireCraftingManager
 		registerRecipe(r.toString(), r);
 	}
 
-	private static Map<String, CampfireRecipe> recipes = new HashMap<String, CampfireRecipe>();
+	private static Map<String, CampfireRecipe> recipes =
+			new HashMap<String, CampfireRecipe>();
 	private static Map<Item, Integer> fuels = new HashMap<Item, Integer>();
 
 	public static boolean registerFuel(Item i, int burnTime)

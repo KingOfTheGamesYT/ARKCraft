@@ -37,22 +37,31 @@ public class ContainerEngram extends ContainerScrollable
 	{
 		for (int i = 0; i < getVisibleSlotsAmount(); i++)
 		{
-			this.addSlotToContainer(new EngramSlot((InventoryEngram) getScrollableInventory(), i,
-					getScrollableSlotsX() + i % getScrollableSlotsWidth() * getSlotSize(),
-					getScrollableSlotsY() + i / getScrollableSlotsWidth() * getSlotSize(), this));
+			this.addSlotToContainer(new EngramSlot(
+					(InventoryEngram) getScrollableInventory(), i,
+					getScrollableSlotsX()
+							+ i % getScrollableSlotsWidth() * getSlotSize(),
+					getScrollableSlotsY()
+							+ i / getScrollableSlotsWidth() * getSlotSize(),
+					this));
 		}
 	}
 
 	@Override
-	public ItemStack slotClick(int slotId, int clickedButton, int mode, EntityPlayer playerIn)
+	public ItemStack slotClick(int slotId, int clickedButton, int mode,
+			EntityPlayer playerIn)
 	{
 		if (slotId >= 0)
 		{
 			Slot s = getSlot(slotId);
 			if (s instanceof EngramSlot && clickedButton == 0)
 			{
-				s.onPickupFromSlot(playerIn, playerIn.inventory.getCurrentItem());
-				if (mode == 6 && selected != null && ARKPlayer.get(playerIn).canLearnEngram(selected.getId()) && !playerIn.worldObj.isRemote)
+				s.onPickupFromSlot(playerIn,
+						playerIn.inventory.getCurrentItem());
+				if (mode == 6 && selected != null
+						&& ARKPlayer.get(playerIn)
+								.canLearnEngram(selected.getId())
+						&& !playerIn.worldObj.isRemote)
 				{
 					enchantItem(playerIn, 1);
 				}
@@ -67,14 +76,16 @@ public class ContainerEngram extends ContainerScrollable
 	{
 		if (id == 0)
 		{
-			playerIn.openGui(ARKCraft.instance(), CommonProxy.GUI.PLAYER.id, playerIn.worldObj, 0, 0, 0);
+			playerIn.openGui(ARKCraft.instance(), CommonProxy.GUI.PLAYER.id,
+					playerIn.worldObj, 0, 0, 0);
 			return true;
 		}
 		else if (id == 1)
 		{
 			ARKPlayer p = ARKPlayer.get(playerIn);
 			p.learnEngram(selected.getId());
-			ARKCraft.modChannel.sendTo(new UpdateEngrams(p.getUnlockedEngrams(), p.getEngramPoints()), (EntityPlayerMP) playerIn);
+			ARKCraft.modChannel.sendTo(new UpdateEngrams(p.getUnlockedEngrams(),
+					p.getEngramPoints()), (EntityPlayerMP) playerIn);
 			return true;
 		}
 		return super.enchantItem(playerIn, id);
@@ -90,7 +101,9 @@ public class ContainerEngram extends ContainerScrollable
 
 		public Engram getEngram()
 		{
-			if (getSlotIndex() < inventory.getSizeInventory()) return EngramManager.instance().getEngram((short) getSlotIndex());
+			if (getSlotIndex() < inventory.getSizeInventory())
+				return EngramManager.instance()
+						.getEngram((short) getSlotIndex());
 			return null;
 		}
 

@@ -72,11 +72,13 @@ public class CommonEventHandler
 			ARKPlayer.register((EntityPlayer) event.entity);
 			if (event.entity.worldObj.isRemote) // On client
 			{
-				LogHelper.info("ARKPlayerEventHandler: Registered a new ARKPlayer on client.");
+				LogHelper.info(
+						"ARKPlayerEventHandler: Registered a new ARKPlayer on client.");
 			}
 			else
 			{
-				LogHelper.info("ARKPlayerEventHandler: Registered a new ARKPlayer on server.");
+				LogHelper.info(
+						"ARKPlayerEventHandler: Registered a new ARKPlayer on server.");
 			}
 		}
 	}
@@ -84,7 +86,8 @@ public class CommonEventHandler
 	@SubscribeEvent
 	public void onClonePlayer(PlayerEvent.Clone event)
 	{
-		LogHelper.info("ARKPlayerEventHandler: Cloning player extended properties");
+		LogHelper.info(
+				"ARKPlayerEventHandler: Cloning player extended properties");
 		ARKPlayer.get(event.entityPlayer).copy(ARKPlayer.get(event.original));
 	}
 
@@ -96,7 +99,8 @@ public class CommonEventHandler
 		{
 			EntityPlayer player = (EntityPlayer) event.entity;
 			// Enable pooping once every (the value in the config) ticks
-			if (player.ticksExisted % ModuleItemBalance.PLAYER.TICKS_BETWEEN_PLAYER_POOP == 0)
+			if (player.ticksExisted
+					% ModuleItemBalance.PLAYER.TICKS_BETWEEN_PLAYER_POOP == 0)
 			{
 				ARKPlayer.get(player).feelTheUrge();
 			}
@@ -104,7 +108,8 @@ public class CommonEventHandler
 	}
 
 	// Immutable Set (Not able to edit the set)
-	private static final Set<Item> INPUTS = ImmutableSet.of(Items.bone, Items.book, Items.wheat);
+	private static final Set<Item> INPUTS =
+			ImmutableSet.of(Items.bone, Items.book, Items.wheat);
 
 	@SuppressWarnings("unchecked")
 	@SubscribeEvent
@@ -124,55 +129,86 @@ public class CommonEventHandler
 					for (Entity entityInWorld : entitiesInWorld)
 					{
 						// Make the set mutable each for loop.
-						final Set<Item> remainingInputs = new HashSet<Item>(INPUTS); // Create
-						ArrayList<EntityItem> foundEntityItems = new ArrayList<EntityItem>();
+						final Set<Item> remainingInputs =
+								new HashSet<Item>(INPUTS); // Create
+						ArrayList<EntityItem> foundEntityItems =
+								new ArrayList<EntityItem>();
 						if (entityInWorld instanceof EntityItem)
 						{
-							EntityItem entityItemInWorld = (EntityItem) entityInWorld;
-							if (entityItemInWorld.getEntityItem().getItem() == Items.book)
+							EntityItem entityItemInWorld =
+									(EntityItem) entityInWorld;
+							if (entityItemInWorld.getEntityItem()
+									.getItem() == Items.book)
 							{
-								LogHelper.info("Found an Entity in the world that is a book!");
+								LogHelper.info(
+										"Found an Entity in the world that is a book!");
 								remainingInputs.remove(Items.book);
 								foundEntityItems.add(entityItemInWorld);
-								AxisAlignedBB areaBound = entityItemInWorld.getEntityBoundingBox().expand(3, 3, 3);
-								List<Entity> entitiesWithinBound = world.getEntitiesWithinAABBExcludingEntity(
-										entityItemInWorld, areaBound);
+								AxisAlignedBB areaBound = entityItemInWorld
+										.getEntityBoundingBox().expand(3, 3, 3);
+								List<Entity> entitiesWithinBound =
+										world.getEntitiesWithinAABBExcludingEntity(
+												entityItemInWorld, areaBound);
 								for (Entity entityWithinBound : entitiesWithinBound)
 								{
 									if (entityWithinBound instanceof EntityItem)
 									{
-										EntityItem entityItemWithinBound = (EntityItem) entityWithinBound;
-										if (entityItemWithinBound.getEntityItem().getItem() == Items.bone)
+										EntityItem entityItemWithinBound =
+												(EntityItem) entityWithinBound;
+										if (entityItemWithinBound
+												.getEntityItem()
+												.getItem() == Items.bone)
 										{
-											LogHelper.info("Found an Entity near the book that is a bone!");
+											LogHelper.info(
+													"Found an Entity near the book that is a bone!");
 											remainingInputs.remove(Items.bone);
-											if (!remainingInputs.contains(entityItemWithinBound)) foundEntityItems.add(
-													entityItemWithinBound);
+											if (!remainingInputs.contains(
+													entityItemWithinBound))
+												foundEntityItems.add(
+														entityItemWithinBound);
 										}
-										else if (entityItemWithinBound.getEntityItem().getItem() == Items.wheat)
+										else if (entityItemWithinBound
+												.getEntityItem()
+												.getItem() == Items.wheat)
 										{
-											LogHelper.info("Found an Entity near the book that is wheat!");
+											LogHelper.info(
+													"Found an Entity near the book that is wheat!");
 											remainingInputs.remove(Items.wheat);
-											if (!remainingInputs.contains(entityItemWithinBound)) foundEntityItems.add(
-													entityItemWithinBound);
+											if (!remainingInputs.contains(
+													entityItemWithinBound))
+												foundEntityItems.add(
+														entityItemWithinBound);
 										}
 										if (remainingInputs.isEmpty())
 										{
-											LogHelper.info("All items have been found. The Items hashmap is empty.");
+											LogHelper.info(
+													"All items have been found. The Items hashmap is empty.");
 											for (EntityItem foundEntityItem : foundEntityItems)
 											{
 												Random random = new Random();
-												bookSpawnDelay += 100 + random.nextInt(10);
-												foundEntityItem.getEntityItem().stackSize--;
-												if (foundEntityItem.getEntityItem().stackSize <= 0)
+												bookSpawnDelay += 100
+														+ random.nextInt(10);
+												foundEntityItem
+														.getEntityItem().stackSize--;
+												if (foundEntityItem
+														.getEntityItem().stackSize <= 0)
 												{
-													LogHelper.info("Deleting the Item: " + foundEntityItem
-															.getEntityItem().getItem().toString());
+													LogHelper
+															.info("Deleting the Item: "
+																	+ foundEntityItem
+																			.getEntityItem()
+																			.getItem()
+																			.toString());
 													foundEntityItem.setDead();
 												}
-												itemToSpawn = new EntityItem(world, entityItemInWorld.posX,
-														entityItemInWorld.posY, entityItemInWorld.posZ, new ItemStack(
-																ARKCraftItems.info_book, 1));
+												itemToSpawn =
+														new EntityItem(world,
+																entityItemInWorld.posX,
+																entityItemInWorld.posY,
+																entityItemInWorld.posZ,
+																new ItemStack(
+																		ARKCraftItems.info_book,
+																		1));
 
 											}
 										}
@@ -187,8 +223,11 @@ public class CommonEventHandler
 					if (itemToSpawn != null)
 					{
 						// Spawn particle and item
-						((WorldServer) world).spawnParticle(EnumParticleTypes.SMOKE_LARGE, false, itemToSpawn.posX,
-								itemToSpawn.posY + 0.5D, itemToSpawn.posZ, 5, 0.0D, 0.0D, 0.0D, 0.0D, new int[0]);
+						((WorldServer) world).spawnParticle(
+								EnumParticleTypes.SMOKE_LARGE, false,
+								itemToSpawn.posX, itemToSpawn.posY + 0.5D,
+								itemToSpawn.posZ, 5, 0.0D, 0.0D, 0.0D, 0.0D,
+								new int[0]);
 						world.spawnEntityInWorld(itemToSpawn);
 					}
 
@@ -196,7 +235,8 @@ public class CommonEventHandler
 
 				if (event.phase == Phase.START)
 				{
-					TickStorage t = tick.get(event.world.provider.getDimensionId());
+					TickStorage t =
+							tick.get(event.world.provider.getDimensionId());
 					if (t == null)
 					{
 						t = new TickStorage();
@@ -205,11 +245,20 @@ public class CommonEventHandler
 					if (t.tick > 20)
 					{
 						t.tick = 0;
-						for (int i = 0; i < event.world.loadedTileEntityList.size(); i++)
+						for (int i = 0;
+								i < event.world.loadedTileEntityList.size();
+								i++)
 						{
-							if (event.world.loadedTileEntityList.get(i) instanceof IInventory)
-							{// Check for inventories every second
-								Utils.checkInventoryForDecayable((IInventory) event.world.loadedTileEntityList.get(i));
+							if (event.world.loadedTileEntityList
+									.get(i) instanceof IInventory)
+							{// Check
+								// for
+								// inventories
+								// every
+								// second
+								Utils.checkInventoryForDecayable(
+										(IInventory) event.world.loadedTileEntityList
+												.get(i));
 							}
 						}
 					}
@@ -222,7 +271,8 @@ public class CommonEventHandler
 		}
 	}
 
-	private Map<Integer, TickStorage> tick = new HashMap<Integer, TickStorage>();
+	private Map<Integer, TickStorage> tick =
+			new HashMap<Integer, TickStorage>();
 
 	public static class TickStorage
 	{
@@ -263,8 +313,10 @@ public class CommonEventHandler
 						{
 
 							BlockPos n = new BlockPos(x, y, z);
-							IBlockState blockState = world.getBlockState(new BlockPos(x, y, z));
-							if (blockState.getBlock() == Blocks.log || blockState.getBlock() == Blocks.log2)
+							IBlockState blockState =
+									world.getBlockState(new BlockPos(x, y, z));
+							if (blockState.getBlock() == Blocks.log
+									|| blockState.getBlock() == Blocks.log2)
 							{
 								if (!done.contains(n)) queue.add(n);
 							}
@@ -300,7 +352,8 @@ public class CommonEventHandler
 						reloadTicks = 0;
 						w.hasAmmoAndConsume(stack, p);
 						w.effectReloadDone(stack, p.worldObj, p);
-						ARKCraft.modChannel.sendTo(new ReloadFinished(), (EntityPlayerMP) p);
+						ARKCraft.modChannel.sendTo(new ReloadFinished(),
+								(EntityPlayerMP) p);
 					}
 				}
 			}

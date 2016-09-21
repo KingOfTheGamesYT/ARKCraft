@@ -17,7 +17,8 @@ public class CrystalResourceGenerator extends SurfaceOreGenerator
 	@Override
 	public boolean isValidPosition(World world, BlockPos pos)
 	{
-		return BiomeDictionary.isBiomeOfType(world.getBiomeGenForCoords(pos), BiomeDictionary.Type.MOUNTAIN)
+		return BiomeDictionary.isBiomeOfType(world.getBiomeGenForCoords(pos),
+				BiomeDictionary.Type.MOUNTAIN)
 				&& super.isValidPosition(world, pos) && pos.getY() > 100;
 	}
 

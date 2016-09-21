@@ -20,7 +20,9 @@ public class ItemRefiningForge extends ItemBlockARK
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
+	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn,
+			World worldIn, BlockPos pos, EnumFacing side, float hitX,
+			float hitY, float hitZ)
 	{
 		if (worldIn.isRemote)
 		{
@@ -42,19 +44,22 @@ public class ItemRefiningForge extends ItemBlockARK
 			boolean flag2 = worldIn.isAirBlock(pos) || flag;
 			boolean flag3 = worldIn.isAirBlock(blockpos1) || flag1;
 
-			if (playerIn.canPlayerEdit(pos, side, stack) && playerIn.canPlayerEdit(blockpos1, side,
-					stack))
+			if (playerIn.canPlayerEdit(pos, side, stack)
+					&& playerIn.canPlayerEdit(blockpos1, side, stack))
 			{
-				if (flag2 && flag3 && World.doesBlockHaveSolidTopSurface(worldIn, pos.down()))
+				if (flag2 && flag3 && World
+						.doesBlockHaveSolidTopSurface(worldIn, pos.down()))
 				{
 					IBlockState iblockstate1 = ARKCraftBlocks.refining_forge
-							.onBlockPlaced(worldIn, blockpos1, side, hitX, hitY, hitZ, 0, playerIn)
+							.onBlockPlaced(worldIn, blockpos1, side, hitX, hitY,
+									hitZ, 0, playerIn)
 							.withProperty(BlockRefiningForge.PART,
 									BlockRefiningForge.EnumPart.BOTTOM);
 					if (worldIn.setBlockState(pos, iblockstate1, 3))
 					{
 						IBlockState iblockstate2 = iblockstate1.withProperty(
-								BlockRefiningForge.PART, BlockRefiningForge.EnumPart.TOP);
+								BlockRefiningForge.PART,
+								BlockRefiningForge.EnumPart.TOP);
 						worldIn.setBlockState(blockpos1, iblockstate2, 3);
 					}
 					--stack.stackSize;

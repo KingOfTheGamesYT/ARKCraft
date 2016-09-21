@@ -13,7 +13,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ContainerInventoryCampfire extends Container implements IBurnerContainer
+public class ContainerInventoryCampfire extends Container
+		implements IBurnerContainer
 {
 
 	// Stores the tile entity instance for later use
@@ -39,15 +40,18 @@ public class ContainerInventoryCampfire extends Container implements IBurnerCont
 	private final int HOTBAR_SLOT_COUNT = 9;
 	private final int PLAYER_INVENTORY_ROW_COUNT = 3;
 	private final int PLAYER_INVENTORY_COLUMN_COUNT = 9;
-	private final int PLAYER_INVENTORY_SLOT_COUNT = PLAYER_INVENTORY_COLUMN_COUNT * PLAYER_INVENTORY_ROW_COUNT;
-	private final int VANILLA_SLOT_COUNT = HOTBAR_SLOT_COUNT + PLAYER_INVENTORY_SLOT_COUNT;
+	private final int PLAYER_INVENTORY_SLOT_COUNT =
+			PLAYER_INVENTORY_COLUMN_COUNT * PLAYER_INVENTORY_ROW_COUNT;
+	private final int VANILLA_SLOT_COUNT =
+			HOTBAR_SLOT_COUNT + PLAYER_INVENTORY_SLOT_COUNT;
 
 	public final int CAMPFIRE_SLOT_COUNT = 4;
 
 	// slot index is the unique index for all slots in this container i.e. 0 -
 	// 35 for invPlayer then 36 - 49 for tileInventoryFurnace
 	private final int FIRST_CAMPFIRE_SLOT_INDEX = 0;
-	public final int VANILLA_FIRST_SLOT_INDEX = FIRST_CAMPFIRE_SLOT_INDEX + CAMPFIRE_SLOT_COUNT;
+	public final int VANILLA_FIRST_SLOT_INDEX =
+			FIRST_CAMPFIRE_SLOT_INDEX + CAMPFIRE_SLOT_COUNT;
 
 	public ContainerInventoryCampfire(InventoryPlayer invPlayer, TileInventoryCampfire tileInventoryFurnace)
 	{
@@ -63,14 +67,17 @@ public class ContainerInventoryCampfire extends Container implements IBurnerCont
 		// Add the tile fuel slots
 		for (int x = 0; x < CAMPFIRE_SLOT_COUNT; x++)
 		{
-			addSlotToContainer(new Slot(tileInventoryFurnace, x, FURNACE_SLOTS_XPOS + SLOT_X_SPACING * x, FURNACE_SLOTS_YPOS));
+			addSlotToContainer(new Slot(tileInventoryFurnace, x,
+					FURNACE_SLOTS_XPOS + SLOT_X_SPACING * x,
+					FURNACE_SLOTS_YPOS));
 		}
 
 		// Add the players hotbar to the gui - the [xpos, ypos] location of each
 		// item
 		for (int x = 0; x < HOTBAR_SLOT_COUNT; x++)
 		{
-			addSlotToContainer(new Slot(invPlayer, x, PLAYER_INVENTORY_XPOS + SLOT_X_SPACING * x, HOTBAR_YPOS));
+			addSlotToContainer(new Slot(invPlayer, x,
+					PLAYER_INVENTORY_XPOS + SLOT_X_SPACING * x, HOTBAR_YPOS));
 		}
 
 		// Add the rest of the players inventory to the gui
@@ -78,7 +85,8 @@ public class ContainerInventoryCampfire extends Container implements IBurnerCont
 		{
 			for (int x = 0; x < PLAYER_INVENTORY_COLUMN_COUNT; x++)
 			{
-				int slotNumber = HOTBAR_SLOT_COUNT + y * PLAYER_INVENTORY_COLUMN_COUNT + x;
+				int slotNumber = HOTBAR_SLOT_COUNT
+						+ y * PLAYER_INVENTORY_COLUMN_COUNT + x;
 				int xpos = PLAYER_INVENTORY_XPOS + x * SLOT_X_SPACING;
 				int ypos = PLAYER_INVENTORY_YPOS + y * SLOT_Y_SPACING;
 				addSlotToContainer(new Slot(invPlayer, slotNumber, xpos, ypos));
@@ -107,7 +115,8 @@ public class ContainerInventoryCampfire extends Container implements IBurnerCont
 	 * copy of the source stack
 	 */
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int sourceSlotIndex)
+	public ItemStack transferStackInSlot(EntityPlayer player,
+			int sourceSlotIndex)
 	{
 		LogHelper.info(sourceSlotIndex);
 		Slot sourceSlot = (Slot) inventorySlots.get(sourceSlotIndex);
@@ -116,21 +125,29 @@ public class ContainerInventoryCampfire extends Container implements IBurnerCont
 		ItemStack copyOfSourceStack = sourceStack.copy();
 
 		// Check if the slot clicked is one of the vanilla container slots
-		if (sourceSlotIndex >= VANILLA_FIRST_SLOT_INDEX && sourceSlotIndex < VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT)
+		if (sourceSlotIndex >= VANILLA_FIRST_SLOT_INDEX
+				&& sourceSlotIndex < VANILLA_FIRST_SLOT_INDEX
+						+ VANILLA_SLOT_COUNT)
 		{
 			// This is a vanilla container slot so merge the stack into one of
 			// the furnace slots
 			// If the stack is smeltable try to merge merge the stack into the
 			// input slots
-			if (!mergeItemStack(sourceStack, FIRST_CAMPFIRE_SLOT_INDEX, FIRST_CAMPFIRE_SLOT_INDEX + CAMPFIRE_SLOT_COUNT, false)) { return null; }
+			if (!mergeItemStack(sourceStack, FIRST_CAMPFIRE_SLOT_INDEX,
+					FIRST_CAMPFIRE_SLOT_INDEX + CAMPFIRE_SLOT_COUNT,
+					false)) { return null; }
 		}
-		else if (sourceSlotIndex >= FIRST_CAMPFIRE_SLOT_INDEX && sourceSlotIndex < FIRST_CAMPFIRE_SLOT_INDEX + CAMPFIRE_SLOT_COUNT)
+		else if (sourceSlotIndex >= FIRST_CAMPFIRE_SLOT_INDEX
+				&& sourceSlotIndex < FIRST_CAMPFIRE_SLOT_INDEX
+						+ CAMPFIRE_SLOT_COUNT)
 		{
 			// This is a furnace slot so merge the stack into the players
 			// inventory: try the hotbar first and then the main inventory
 			// because the main inventory slots are immediately after the hotbar
 			// slots, we can just merge with a single call
-			if (!mergeItemStack(sourceStack, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) { return null; }
+			if (!mergeItemStack(sourceStack, VANILLA_FIRST_SLOT_INDEX,
+					VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT,
+					false)) { return null; }
 		}
 		else
 		{
@@ -176,7 +193,8 @@ public class ContainerInventoryCampfire extends Container implements IBurnerCont
 		super.detectAndSendChanges();
 
 		boolean allFieldsHaveChanged = false;
-		boolean fieldHasChanged[] = new boolean[tileInventoryCampfire.getFieldCount()];
+		boolean fieldHasChanged[] =
+				new boolean[tileInventoryCampfire.getFieldCount()];
 		if (cachedFields == null)
 		{
 			cachedFields = new int[tileInventoryCampfire.getFieldCount()];
@@ -184,7 +202,8 @@ public class ContainerInventoryCampfire extends Container implements IBurnerCont
 		}
 		for (int i = 0; i < cachedFields.length; ++i)
 		{
-			if (allFieldsHaveChanged || cachedFields[i] != tileInventoryCampfire.getField(i))
+			if (allFieldsHaveChanged
+					|| cachedFields[i] != tileInventoryCampfire.getField(i))
 			{
 				cachedFields[i] = tileInventoryCampfire.getField(i);
 				fieldHasChanged[i] = true;
@@ -196,13 +215,15 @@ public class ContainerInventoryCampfire extends Container implements IBurnerCont
 		for (int i = 0; i < this.crafters.size(); ++i)
 		{
 			ICrafting icrafting = (ICrafting) this.crafters.get(i);
-			for (int fieldID = 0; fieldID < tileInventoryCampfire.getFieldCount(); ++fieldID)
+			for (int fieldID = 0;
+					fieldID < tileInventoryCampfire.getFieldCount(); ++fieldID)
 			{
 				if (fieldHasChanged[fieldID])
 				{
 					// Note that although sendProgressBarUpdate takes 2 ints on
 					// a server these are truncated to shorts
-					icrafting.sendProgressBarUpdate(this, fieldID, cachedFields[fieldID]);
+					icrafting.sendProgressBarUpdate(this, fieldID,
+							cachedFields[fieldID]);
 				}
 			}
 		}

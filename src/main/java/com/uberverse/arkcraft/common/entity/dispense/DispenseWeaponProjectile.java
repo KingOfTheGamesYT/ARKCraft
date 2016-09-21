@@ -12,7 +12,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
-public abstract class DispenseWeaponProjectile extends BehaviorProjectileDispense
+public abstract class DispenseWeaponProjectile
+		extends BehaviorProjectileDispense
 {
 	protected Random rand;
 
@@ -22,20 +23,24 @@ public abstract class DispenseWeaponProjectile extends BehaviorProjectileDispens
 	}
 
 	@Override
-	public ItemStack dispenseStack(IBlockSource blocksource, ItemStack itemstack)
+	public ItemStack dispenseStack(IBlockSource blocksource,
+			ItemStack itemstack)
 	{
 		World world = blocksource.getWorld();
 		IPosition pos = BlockDispenser.getDispensePosition(blocksource);
-		EnumFacing face = BlockDispenser.getFacing(blocksource.getBlockMetadata());
+		EnumFacing face =
+				BlockDispenser.getFacing(blocksource.getBlockMetadata());
 		IProjectile projectile = getProjectileEntity(world, pos, itemstack);
-		projectile.setThrowableHeading(face.getFrontOffsetX(), face.getFrontOffsetY() + getYVel(),
-				face.getFrontOffsetZ(), getVelocity(), getDeviation());
+		projectile.setThrowableHeading(face.getFrontOffsetX(),
+				face.getFrontOffsetY() + getYVel(), face.getFrontOffsetZ(),
+				getVelocity(), getDeviation());
 		world.spawnEntityInWorld((Entity) projectile);
 		itemstack.splitStack(1);
 		return itemstack;
 	}
 
-	protected IProjectile getProjectileEntity(World world, IPosition pos, ItemStack itemstack)
+	protected IProjectile getProjectileEntity(World world, IPosition pos,
+			ItemStack itemstack)
 	{
 		return getProjectileEntity(world, pos);
 	}
@@ -62,7 +67,8 @@ public abstract class DispenseWeaponProjectile extends BehaviorProjectileDispens
 	}
 
 	@Override
-	protected void spawnDispenseParticles(IBlockSource blocksource, EnumFacing facing)
+	protected void spawnDispenseParticles(IBlockSource blocksource,
+			EnumFacing facing)
 	{
 		super.spawnDispenseParticles(blocksource, facing);
 	}

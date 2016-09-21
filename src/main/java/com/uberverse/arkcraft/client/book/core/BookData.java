@@ -8,18 +8,17 @@ import com.uberverse.arkcraft.client.book.lib.SmallFontRenderer;
 import net.minecraft.util.ResourceLocation;
 
 /***
- * 
  * @author Archiving The Data Information storage box for the book. I like to
  *         think that this is the publication agency for the book. It stores and
  *         gets the book ready for action.
- * 
  */
 
 public class BookData
 {
 
 	public GsonBuilder gBuilder = new GsonBuilder();
-	public BookDocument document = BookParser.parseJSON(gBuilder, "dossier/en_US/dossier.json");
+	public BookDocument document =
+			BookParser.parseJSON(gBuilder, "dossier/en_US/dossier.json");
 	public String unlocalizedName = new String();
 	public String tooltip = new String();
 	public String modid = new String();

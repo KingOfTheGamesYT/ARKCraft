@@ -25,8 +25,10 @@ public class GUICampfire extends GuiContainer
 {
 
 	// This is the resource location for the background image
-	public static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID, "textures/gui/campfire_gui.png");
-	public static final ResourceLocation textureFlame = new ResourceLocation("textures/gui/container/furnace.png");
+	public static final ResourceLocation texture = new ResourceLocation(
+			ARKCraft.MODID, "textures/gui/campfire_gui.png");
+	public static final ResourceLocation textureFlame =
+			new ResourceLocation("textures/gui/container/furnace.png");
 
 	private TileInventoryCampfire tileEntity;
 
@@ -57,7 +59,8 @@ public class GUICampfire extends GuiContainer
 	final int FLAME_HEIGHT = 14;
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float partialTicks, int x, int y)
+	protected void drawGuiContainerBackgroundLayer(float partialTicks, int x,
+			int y)
 	{
 		// Bind the image texture
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
@@ -66,7 +69,8 @@ public class GUICampfire extends GuiContainer
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(textureFlame);
 		if (tileEntity.isBurning())
-			drawTexturedModalRect(guiLeft + FLAME_XPOS, guiTop + FLAME_YPOS, FLAME_ICON_U, FLAME_ICON_V, FLAME_WIDTH, FLAME_HEIGHT);
+			drawTexturedModalRect(guiLeft + FLAME_XPOS, guiTop + FLAME_YPOS,
+					FLAME_ICON_U, FLAME_ICON_V, FLAME_WIDTH, FLAME_HEIGHT);
 	}
 
 	@Override
@@ -74,24 +78,30 @@ public class GUICampfire extends GuiContainer
 	{
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
-		final int LABEL_XPOS = xSize / 2 - fontRendererObj.getStringWidth(tileEntity.getDisplayName().getUnformattedText()) / 2;
+		final int LABEL_XPOS = xSize / 2 - fontRendererObj.getStringWidth(
+				tileEntity.getDisplayName().getUnformattedText()) / 2;
 		final int LABEL_YPOS = 5;
-		fontRendererObj.drawString(tileEntity.getDisplayName().getUnformattedText(), LABEL_XPOS, LABEL_YPOS, Color.darkGray.getRGB());
+		fontRendererObj.drawString(
+				tileEntity.getDisplayName().getUnformattedText(), LABEL_XPOS,
+				LABEL_YPOS, Color.darkGray.getRGB());
 
 		List<String> hoveringText = new ArrayList<String>();
 
 		// If the mouse is over one of the burn time indicator add the burn time
 		// indicator hovering text
-		if (isPointInRegion(guiLeft + FLAME_XPOS, guiTop + FLAME_YPOS, FLAME_WIDTH, FLAME_HEIGHT, mouseX, mouseY))
+		if (isPointInRegion(guiLeft + FLAME_XPOS, guiTop + FLAME_YPOS,
+				FLAME_WIDTH, FLAME_HEIGHT, mouseX, mouseY))
 		{
 			hoveringText.add("Fuel Time:");
 			hoveringText.add(tileEntity.secondsOfFuelRemaining() + "s");
-			hoveringText.add(EnumChatFormatting.RED + "Press to Stoke the Flames");
+			hoveringText
+					.add(EnumChatFormatting.RED + "Press to Stoke the Flames");
 		}
 		// If hoveringText is not empty draw the hovering text
 		if (!hoveringText.isEmpty())
 		{
-			drawHoveringText(hoveringText, mouseX - guiLeft, mouseY - guiTop, fontRendererObj);
+			drawHoveringText(hoveringText, mouseX - guiLeft, mouseY - guiTop,
+					fontRendererObj);
 		}
 		// // You must re bind the texture and reset the colour if you still
 		// need to use it after drawing a string
@@ -100,9 +110,11 @@ public class GUICampfire extends GuiContainer
 	}
 
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
+			throws IOException
 	{
-		if (isPointInRegion(guiLeft + FLAME_XPOS, guiTop + FLAME_YPOS, FLAME_WIDTH, FLAME_HEIGHT, mouseX, mouseY))
+		if (isPointInRegion(guiLeft + FLAME_XPOS, guiTop + FLAME_YPOS,
+				FLAME_WIDTH, FLAME_HEIGHT, mouseX, mouseY))
 		{
 			ARKCraft.modChannel.sendToServer(new BurnerToggle());
 		}

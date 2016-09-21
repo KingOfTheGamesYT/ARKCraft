@@ -33,17 +33,19 @@ public class EntitySpear extends EntityProjectile
 		{
 			this.canBePickedUp = 1;
 		}
-		setLocationAndAngles(entityliving.posX, entityliving.posY + entityliving.getEyeHeight(),
-				entityliving.posZ, entityliving.rotationYaw, entityliving.rotationPitch);
+		setLocationAndAngles(entityliving.posX,
+				entityliving.posY + entityliving.getEyeHeight(),
+				entityliving.posZ, entityliving.rotationYaw,
+				entityliving.rotationPitch);
 		posX -= MathHelper.cos((rotationYaw / 180F) * 3.141593F) * 0.16F;
 		posY -= 0.1D;
 		posZ -= MathHelper.sin((rotationYaw / 180F) * 3.141593F) * 0.16F;
 		setPosition(posX, posY, posZ);
-		motionX = -MathHelper.sin((rotationYaw / 180F) * 3.141593F) * MathHelper
-				.cos((rotationPitch / 180F) * 3.141593F);
+		motionX = -MathHelper.sin((rotationYaw / 180F) * 3.141593F)
+				* MathHelper.cos((rotationPitch / 180F) * 3.141593F);
 		motionY = -MathHelper.sin((rotationPitch / 180F) * 3.141593F);
-		motionZ = MathHelper.cos((rotationYaw / 180F) * 3.141593F) * MathHelper
-				.cos((rotationPitch / 180F) * 3.141593F);
+		motionZ = MathHelper.cos((rotationYaw / 180F) * 3.141593F)
+				* MathHelper.cos((rotationPitch / 180F) * 3.141593F);
 		setThrowableHeading(motionX, motionY, motionZ, speed * 1.2F, 2.0F);
 	}
 
@@ -58,14 +60,16 @@ public class EntitySpear extends EntityProjectile
 		}
 		else
 		{
-			damagesource = WeaponDamageSource.causeThrownDamage(this, shootingEntity);
+			damagesource =
+					WeaponDamageSource.causeThrownDamage(this, shootingEntity);
 		}
 		if (entity.attackEntityFrom(damagesource, damage))
 		{
 			if (entity instanceof EntityLivingBase && worldObj.isRemote)
 			{
 				((EntityLivingBase) entity).setArrowCountInEntity(
-						((EntityLivingBase) entity).getArrowCountInEntity() + 1);
+						((EntityLivingBase) entity).getArrowCountInEntity()
+								+ 1);
 			}
 			applyEntityHitEffects(entity);
 			playHitSound();

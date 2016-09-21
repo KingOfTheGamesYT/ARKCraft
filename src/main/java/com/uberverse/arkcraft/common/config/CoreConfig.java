@@ -20,7 +20,8 @@ import com.uberverse.lib.LogHelper;
 public class CoreConfig
 {
 	public static Configuration config;
-	public static final String CATEGORY_GENERAL = Configuration.CATEGORY_GENERAL;
+	public static final String CATEGORY_GENERAL =
+			Configuration.CATEGORY_GENERAL;
 	public static final String CATEGORY_BALANCE = "balance";
 
 	/**
@@ -44,7 +45,8 @@ public class CoreConfig
 	private static void balanceCategoryConfiguration()
 	{
 		ConfigCategory cat_balance = config.getCategory(CATEGORY_BALANCE);
-		cat_balance.setComment("You can adjust these values to change the balancing of this mod");
+		cat_balance.setComment(
+				"You can adjust these values to change the balancing of this mod");
 		loadFields(cat_balance, CoreBalance.GEN.class);
 		loadFields(cat_balance, CoreBalance.DINO_PROPERTIES.class);
 		// TODO: Add more classes from BALANCE here when available
@@ -87,41 +89,47 @@ public class CoreConfig
 					// Possible exception should not be caught so you can't
 					// forget a default value
 					DefaultInt a = f.getAnnotation(DefaultInt.class);
-					f.set(null, config.get(cat.getQualifiedName(), a.name(), a.value(), a.comment(),
-							a.minValue(), a.maxValue()).getInt());
+					f.set(null, config
+							.get(cat.getQualifiedName(), a.name(), a.value(),
+									a.comment(), a.minValue(), a.maxValue())
+							.getInt());
 				}
 				else if (type == double.class)
 				{
 					// Possible exception should not be caught so you can't
 					// forget a default value
 					DefaultDouble a = f.getAnnotation(DefaultDouble.class);
-					f.set(null, config.get(cat.getQualifiedName(), a.name(), a.value(), a.comment(),
-							a.minValue(), a.maxValue()).getDouble());
+					f.set(null, config
+							.get(cat.getQualifiedName(), a.name(), a.value(),
+									a.comment(), a.minValue(), a.maxValue())
+							.getDouble());
 				}
 				else if (type == boolean.class)
 				{
 					DefaultBoolean a = f.getAnnotation(DefaultBoolean.class);
-					f.set(null, config.get(cat.getQualifiedName(), a.name(), a.value(), a.comment())
-							.getBoolean());
+					f.set(null, config.get(cat.getQualifiedName(), a.name(),
+							a.value(), a.comment()).getBoolean());
 				}
 			}
 			catch (NullPointerException e1)
 			{
 				LogHelper
-						.error("Configs: Author probably forgot to specify a default value for " + name + " in " + cls
-								.getCanonicalName() + e1);
+						.error("Configs: Author probably forgot to specify a default value for "
+								+ name + " in " + cls.getCanonicalName() + e1);
 				throw new Error("Please check your default values");
 			}
 			catch (Exception e)
 			{
-				LogHelper.error("Configs: Can't set " + cls.getName() + " values" + e);
+				LogHelper.error(
+						"Configs: Can't set " + cls.getName() + " values" + e);
 				throw new Error("Please check your DracoAnimus config file");
 			}
 		}
 	}
 
 	@SubscribeEvent
-	public void onConfigurationChanged(ConfigChangedEvent.OnConfigChangedEvent e)
+	public void onConfigurationChanged(
+			ConfigChangedEvent.OnConfigChangedEvent e)
 	{
 		if (e.modID.equalsIgnoreCase(ARKCraft.MODID))
 		{

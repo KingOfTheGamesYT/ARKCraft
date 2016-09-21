@@ -16,7 +16,8 @@ public class DispenseTranquilizer extends DispenseWeaponProjectile
 	@Override
 	protected IProjectile getProjectileEntity(World world, IPosition pos)
 	{
-		return new EntityTranquilizer(world, pos.getX(), pos.getY(), pos.getZ());
+		return new EntityTranquilizer(world, pos.getX(), pos.getY(),
+				pos.getZ());
 	}
 
 	@Override
@@ -40,18 +41,21 @@ public class DispenseTranquilizer extends DispenseWeaponProjectile
 	@Override
 	protected void playDispenseSound(IBlockSource blocksource)
 	{
-		blocksource.getWorld().playSoundEffect(blocksource.getX(), blocksource.getY(),
-				blocksource.getZ(), ARKCraft.MODID + ":" + "shoot_tranq_gun", 3.0F,
+		blocksource.getWorld().playSoundEffect(blocksource.getX(),
+				blocksource.getY(), blocksource.getZ(),
+				ARKCraft.MODID + ":" + "shoot_tranq_gun", 3.0F,
 				1.0F / (rand.nextFloat() * 0.4F + 0.7F));
 	}
 
 	@Override
-	protected void spawnDispenseParticles(IBlockSource blocksource, EnumFacing face)
+	protected void spawnDispenseParticles(IBlockSource blocksource,
+			EnumFacing face)
 	{
 		super.spawnDispenseParticles(blocksource, face);
 		IPosition pos = BlockDispenser.getDispensePosition(blocksource);
 		blocksource.getWorld().spawnParticle(EnumParticleTypes.FLAME,
-				pos.getX() + face.getFrontOffsetX(), pos.getY() + face.getFrontOffsetY(),
+				pos.getX() + face.getFrontOffsetX(),
+				pos.getY() + face.getFrontOffsetY(),
 				pos.getZ() + face.getFrontOffsetZ(), 0.0D, 0.2D, 0.0D);
 	}
 }

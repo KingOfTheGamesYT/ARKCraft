@@ -22,18 +22,21 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventBus;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
-@Mod(modid = ARKCraft.MODID, updateJSON = ARKCraft.UPDATE_JSON, useMetadata = true)
+@Mod(modid = ARKCraft.MODID, updateJSON = ARKCraft.UPDATE_JSON,
+		useMetadata = true)
 public class ARKCraft
 {
 	public static final String MODID = "arkcraft";
 
 	public static final String descriptionPacketChannel = MODID + ":descPacket";
-	protected static final String UPDATE_JSON = "https://raw.githubusercontent.com/BubbleTrouble14/ARKCraft/master/version-check.json";
+	protected static final String UPDATE_JSON =
+			"https://raw.githubusercontent.com/BubbleTrouble14/ARKCraft/master/version-check.json";
 
 	@Instance(ARKCraft.MODID)
 	private static ARKCraft instance;
 
-	@SidedProxy(clientSide = "com.uberverse.arkcraft.client.proxy.ClientProxy", serverSide = "com.uberverse.arkcraft.server.proxy.ServerProxy")
+	@SidedProxy(clientSide = "com.uberverse.arkcraft.client.proxy.ClientProxy",
+			serverSide = "com.uberverse.arkcraft.server.proxy.ServerProxy")
 	public static CommonProxy proxy;
 
 	public static CreativeTabs tabARK = new ARKCreativeTab();
@@ -65,7 +68,8 @@ public class ARKCraft
 		updateCheckResult();
 	}
 
-	private static ModContainer modContainer = Loader.instance().activeModContainer();
+	private static ModContainer modContainer =
+			Loader.instance().activeModContainer();
 
 	public static void updateCheckResult()
 	{

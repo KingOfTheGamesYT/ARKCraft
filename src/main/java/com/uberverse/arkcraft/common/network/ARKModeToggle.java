@@ -23,14 +23,18 @@ public class ARKModeToggle implements IMessage
 
 	}
 
-	public static class Handler implements IMessageHandler<ARKModeToggle, IMessage>
+	public static class Handler
+			implements IMessageHandler<ARKModeToggle, IMessage>
 	{
 		@Override
-		public IMessage onMessage(final ARKModeToggle message, MessageContext ctx)
+		public IMessage onMessage(final ARKModeToggle message,
+				MessageContext ctx)
 		{
 			if (ctx.side != Side.SERVER)
 			{
-				System.err.println("MPUpdateDoReloadStarted received on wrong side:" + ctx.side);
+				System.err.println(
+						"MPUpdateDoReloadStarted received on wrong side:"
+								+ ctx.side);
 				return null;
 			}
 			final EntityPlayerMP player = ctx.getServerHandler().playerEntity;

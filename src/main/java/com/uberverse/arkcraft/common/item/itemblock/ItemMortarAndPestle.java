@@ -22,9 +22,12 @@ public class ItemMortarAndPestle extends ItemBlockARK
 	 * Called whenever this item is equipped and the right mouse button is
 	 * pressed. Args: itemStack, world, entityPlayer
 	 */
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
+	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn,
+			World worldIn, BlockPos pos, EnumFacing side, float hitX,
+			float hitY, float hitZ)
 	{
-		boolean flag = worldIn.getBlockState(pos).getBlock().isReplaceable(worldIn, pos);
+		boolean flag = worldIn.getBlockState(pos).getBlock()
+				.isReplaceable(worldIn, pos);
 		BlockPos blockpos1 = flag ? pos : pos.offset(side);
 
 		if (!playerIn.canPlayerEdit(blockpos1, side, stack))
@@ -35,14 +38,16 @@ public class ItemMortarAndPestle extends ItemBlockARK
 		{
 			Block block = worldIn.getBlockState(blockpos1).getBlock();
 
-			if (!worldIn.canBlockBePlaced(block, blockpos1, false, side, (Entity) null, stack))
+			if (!worldIn.canBlockBePlaced(block, blockpos1, false, side,
+					(Entity) null, stack))
 			{
 				return false;
 			}
 			else if (ARKCraftBlocks.pestle.canPlaceBlockAt(worldIn, blockpos1))
 			{
 				--stack.stackSize;
-				worldIn.setBlockState(blockpos1, ARKCraftBlocks.pestle.getDefaultState());
+				worldIn.setBlockState(blockpos1,
+						ARKCraftBlocks.pestle.getDefaultState());
 				return true;
 			}
 			else

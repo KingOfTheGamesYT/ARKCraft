@@ -26,7 +26,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemTool extends Item
 {
-	public String[] toolQuality = { "primitive", "ramshackle", "apprentice", "journeyman", "mastercraft", "ascendant" };
+	public String[] toolQuality = { "primitive", "ramshackle", "apprentice",
+			"journeyman", "mastercraft", "ascendant" };
 	private Set effectiveBlocks;
 	protected float efficiencyOnProperMaterial = 4.0F;
 	private float damageVsEntity;
@@ -79,15 +80,18 @@ public class ItemTool extends Item
 	 */
 
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List tooltip, boolean isAdvanced)
+	public void addInformation(ItemStack stack, EntityPlayer player,
+			List tooltip, boolean isAdvanced)
 	{
-		// if (stack.hasTagCompound() && stack.getTagCompound().hasKey("toolType"))
+		// if (stack.hasTagCompound() &&
+		// stack.getTagCompound().hasKey("toolType"))
 		// {
 		// // StatCollector is a class which allows us to handle string
 		// // language translation. This requires that you fill out the
 		// // translation in you language class.
 		// tooltip.add(StatCollector.translateToLocal(
-		// "tooltip.arkcraft." + stack.getTagCompound().getString("toolType") + ".desc"));
+		// "tooltip.arkcraft." + stack.getTagCompound().getString("toolType") +
+		// ".desc"));
 		// }
 		// else // If the brain does not have valid tag data, a default message
 		// {
@@ -95,7 +99,8 @@ public class ItemTool extends Item
 		// }
 		if (stack.hasTagCompound())
 		{
-			tooltip.add(Integer.toString(stack.getTagCompound().getInteger("toolDurability")));
+			tooltip.add(Integer.toString(
+					stack.getTagCompound().getInteger("toolDurability")));
 		}
 	}
 
@@ -130,19 +135,34 @@ public class ItemTool extends Item
 		switch (ToolLevel.VALUES[stack.getMetadata() % ToolLevel.VALUES.length])
 		{
 			case PRIMITIVE:
-				return ("" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
+				return ("" + StatCollector.translateToLocal(
+						this.getUnlocalizedNameInefficiently(stack) + ".name"))
+								.trim();
 			case RAMSCHACKLE:
-				return (EnumChatFormatting.GREEN + "" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
+				return (EnumChatFormatting.GREEN + ""
+						+ StatCollector.translateToLocal(
+								this.getUnlocalizedNameInefficiently(stack)
+										+ ".name")).trim();
 			case APPRENTICE:
-				return (EnumChatFormatting.BLUE + "" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
+				return (EnumChatFormatting.BLUE + ""
+						+ StatCollector.translateToLocal(
+								this.getUnlocalizedNameInefficiently(stack)
+										+ ".name")).trim();
 			case JOURNEYMAN:
-				return (EnumChatFormatting.DARK_PURPLE + "" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name"))
-						.trim();
+				return (EnumChatFormatting.DARK_PURPLE + ""
+						+ StatCollector.translateToLocal(
+								this.getUnlocalizedNameInefficiently(stack)
+										+ ".name")).trim();
 			case MASTERCRAFT:
-				return (EnumChatFormatting.YELLOW + "" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name"))
-						.trim();
+				return (EnumChatFormatting.YELLOW + ""
+						+ StatCollector.translateToLocal(
+								this.getUnlocalizedNameInefficiently(stack)
+										+ ".name")).trim();
 			case ASCENDANT:
-				return (EnumChatFormatting.RED + "" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
+				return (EnumChatFormatting.RED + ""
+						+ StatCollector.translateToLocal(
+								this.getUnlocalizedNameInefficiently(stack)
+										+ ".name")).trim();
 			default:
 				break;
 		}
@@ -151,18 +171,22 @@ public class ItemTool extends Item
 
 	public float getStrVsBlock(ItemStack stack, Block block)
 	{
-		return this.effectiveBlocks.contains(block) ? this.efficiencyOnProperMaterial : 1.0F;
+		return this.effectiveBlocks.contains(block)
+				? this.efficiencyOnProperMaterial : 1.0F;
 	}
 
-	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
+	public boolean hitEntity(ItemStack stack, EntityLivingBase target,
+			EntityLivingBase attacker)
 	{
 		stack.damageItem(2, attacker);
 		return true;
 	}
 
-	public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn)
+	public boolean onBlockDestroyed(ItemStack stack, World worldIn,
+			Block blockIn, BlockPos pos, EntityLivingBase playerIn)
 	{
-		if (playerIn instanceof EntityPlayer && ARKPlayer.isARKMode((EntityPlayer) playerIn))
+		if (playerIn instanceof EntityPlayer
+				&& ARKPlayer.isARKMode((EntityPlayer) playerIn))
 		{
 			IBlockState blockState = worldIn.getBlockState(pos);
 			Float offset = worldIn.rand.nextFloat();
@@ -171,30 +195,39 @@ public class ItemTool extends Item
 			{
 				EntityPlayer player = (EntityPlayer) playerIn;
 
-				if (blockState.getBlock() == Blocks.log || blockState.getBlock() == Blocks.log2)
+				if (blockState.getBlock() == Blocks.log
+						|| blockState.getBlock() == Blocks.log2)
 				{
 					this.destroyBlocks(worldIn, pos, player);
 
 					if (toolType == "stonePickaxe")
 					{
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.thatch, 5));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.wood, 5));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.thatch, 5));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.wood, 5));
 
 					}
 					else if (toolType == "stoneHatchet")
 					{
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.thatch, 5));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.wood, 10));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.thatch, 5));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.wood, 10));
 					}
 					else if (toolType == "metalPickaxe")
 					{
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.thatch, 5));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.wood, 10));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.thatch, 5));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.wood, 10));
 					}
 					else if (toolType == "metalHatchet")
 					{
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.thatch, 5));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.wood, 10));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.thatch, 5));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.wood, 10));
 					}
 					worldIn.destroyBlock(new BlockPos(pos), false);
 					stack.damageItem(count, player);
@@ -205,27 +238,39 @@ public class ItemTool extends Item
 				{
 					if (toolType == "stonePickaxe")
 					{
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.stone, 5));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.flint, 10));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.metal, 1));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.stone, 5));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.flint, 10));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.metal, 1));
 					}
 					else if (toolType == "stoneHatchet")
 					{
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.stone, 5));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.flint, 10));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.metal, 1));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.stone, 5));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.flint, 10));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.metal, 1));
 					}
 					else if (toolType == "metalPickaxe")
 					{
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.stone, 5));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.flint, 10));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.metal, 1));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.stone, 5));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.flint, 10));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.metal, 1));
 					}
 					else if (toolType == "metalHatchet")
 					{
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.stone, 5));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.flint, 10));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.metal, 1));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.stone, 5));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.flint, 10));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.metal, 1));
 					}
 					worldIn.destroyBlock(new BlockPos(pos), false);
 					stack.damageItem(1, player);
@@ -235,23 +280,31 @@ public class ItemTool extends Item
 				{
 					if (toolType == "stonePickaxe")
 					{
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.stone, 5));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.metal, 10));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.stone, 5));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.metal, 10));
 					}
 					else if (toolType == "stoneHatchet")
 					{
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.stone, 10));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.metal, 10));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.stone, 10));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.metal, 10));
 					}
 					else if (toolType == "metalPickaxe")
 					{
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.stone, 5));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.metal, 10));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.stone, 5));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.metal, 10));
 					}
 					else if (toolType == "metalHatchet")
 					{
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.stone, 5));
-						entityDropItem(worldIn, pos, player, blockIn, new ItemStack(ARKCraftItems.metal, 10));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.stone, 5));
+						entityDropItem(worldIn, pos, player, blockIn,
+								new ItemStack(ARKCraftItems.metal, 10));
 					}
 					worldIn.destroyBlock(new BlockPos(pos), false);
 					stack.damageItem(1, player);
@@ -268,13 +321,15 @@ public class ItemTool extends Item
 		return true;
 	}
 
-	public void entityDropItem(World worldIn, BlockPos pos, EntityPlayer playerIn, Block block, ItemStack itemStackIn)
+	public void entityDropItem(World worldIn, BlockPos pos,
+			EntityPlayer playerIn, Block block, ItemStack itemStackIn)
 	{
 		if (itemStackIn.stackSize != 0 && itemStackIn.getItem() != null)
 		{
 			Float offset = worldIn.rand.nextFloat();
-			EntityItem entityitem =
-					new EntityItem(worldIn, pos.getX() + offset, pos.getY() + block.getBlockBoundsMaxY(), pos.getZ() + offset, itemStackIn);
+			EntityItem entityitem = new EntityItem(worldIn, pos.getX() + offset,
+					pos.getY() + block.getBlockBoundsMaxY(),
+					pos.getZ() + offset, itemStackIn);
 			entityitem.setDefaultPickupDelay();
 			if (playerIn.captureDrops)
 			{
@@ -321,8 +376,11 @@ public class ItemTool extends Item
 	public Multimap getItemAttributeModifiers()
 	{
 		Multimap multimap = super.getItemAttributeModifiers();
-		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
-				new AttributeModifier(itemModifierUUID, "Tool modifier", (double) this.damageVsEntity, 0));
+		multimap.put(
+				SharedMonsterAttributes.attackDamage
+						.getAttributeUnlocalizedName(),
+				new AttributeModifier(itemModifierUUID, "Tool modifier",
+						(double) this.damageVsEntity, 0));
 		return multimap;
 	}
 
@@ -338,12 +396,15 @@ public class ItemTool extends Item
 			{
 				for (int j = y - 1; j <= y + 1; j++)
 				{
-					IBlockState blockState = world.getBlockState(new BlockPos(i, j, k));
-					if (blockState.getBlock() == Blocks.log || blockState.getBlock() == Blocks.log2)
+					IBlockState blockState =
+							world.getBlockState(new BlockPos(i, j, k));
+					if (blockState.getBlock() == Blocks.log
+							|| blockState.getBlock() == Blocks.log2)
 					{
 						world.destroyBlock(new BlockPos(i, j, k), false);
 						++count;
-						this.destroyBlocks(world, new BlockPos(i, j, k), player);
+						this.destroyBlocks(world, new BlockPos(i, j, k),
+								player);
 					}
 				}
 			}
@@ -370,7 +431,8 @@ public class ItemTool extends Item
 		{
 			return qualityMultiplier = 1.8F;
 		}
-		else if (toolQuality[metadata] == "ascendant") { return qualityMultiplier = 2F; }
+		else if (toolQuality[metadata] == "ascendant") { return qualityMultiplier =
+				2F; }
 		return qualityMultiplier = 1F;
 	}
 
@@ -406,18 +468,16 @@ public class ItemTool extends Item
 	 * ".name")) .trim(); } else if (toolQuality[metadata] == "apprentice") {
 	 * return (EnumChatFormatting.BLUE + "" + StatCollector
 	 * .translateToLocal(this .getUnlocalizedNameInefficiently(stack) +
-	 * ".name")) .trim();
-	 * } else if (toolQuality[metadata] == "journeyman") { return
-	 * (EnumChatFormatting.DARK_PURPLE + "" + StatCollector
+	 * ".name")) .trim(); } else if (toolQuality[metadata] == "journeyman") {
+	 * return (EnumChatFormatting.DARK_PURPLE + "" + StatCollector
 	 * .translateToLocal(this .getUnlocalizedNameInefficiently(stack) +
-	 * ".name")) .trim();
-	 * } else if (toolQuality[metadata] == "mastercraft") { return
-	 * (EnumChatFormatting.YELLOW + "" + StatCollector .translateToLocal(this
-	 * .getUnlocalizedNameInefficiently(stack) + ".name")) .trim();
-	 * } else if (toolQuality[metadata] == "ascendant") { return
-	 * (EnumChatFormatting.RED + "" + StatCollector .translateToLocal(this
-	 * .getUnlocalizedNameInefficiently(stack) + ".name")) .trim();
-	 * } return ("" + StatCollector.translateToLocal(this
+	 * ".name")) .trim(); } else if (toolQuality[metadata] == "mastercraft") {
+	 * return (EnumChatFormatting.YELLOW + "" + StatCollector
+	 * .translateToLocal(this .getUnlocalizedNameInefficiently(stack) +
+	 * ".name")) .trim(); } else if (toolQuality[metadata] == "ascendant") {
+	 * return (EnumChatFormatting.RED + "" + StatCollector
+	 * .translateToLocal(this .getUnlocalizedNameInefficiently(stack) +
+	 * ".name")) .trim(); } return ("" + StatCollector.translateToLocal(this
 	 * .getUnlocalizedNameInefficiently(stack) + ".name")).trim(); }
 	 */
 
@@ -431,7 +491,8 @@ public class ItemTool extends Item
 	public int getHarvestLevel(ItemStack stack, String toolClass)
 	{
 		int level = super.getHarvestLevel(stack, toolClass);
-		if (level == -1 && toolClass != null && toolClass.equals(this.toolClass))
+		if (level == -1 && toolClass != null
+				&& toolClass.equals(this.toolClass))
 		{
 			return 3;
 		}
@@ -444,15 +505,19 @@ public class ItemTool extends Item
 	@Override
 	public Set<String> getToolClasses(ItemStack stack)
 	{
-		return toolClass != null ? com.google.common.collect.ImmutableSet.of(toolClass) : super.getToolClasses(stack);
+		return toolClass != null
+				? com.google.common.collect.ImmutableSet.of(toolClass)
+				: super.getToolClasses(stack);
 	}
 
 	@Override
-	public float getDigSpeed(ItemStack stack, net.minecraft.block.state.IBlockState state)
+	public float getDigSpeed(ItemStack stack,
+			net.minecraft.block.state.IBlockState state)
 	{
 		for (String type : getToolClasses(stack))
 		{
-			if (state.getBlock().isToolEffective(type, state)) return efficiencyOnProperMaterial;
+			if (state.getBlock().isToolEffective(type, state))
+				return efficiencyOnProperMaterial;
 		}
 		return super.getDigSpeed(stack, state);
 	}

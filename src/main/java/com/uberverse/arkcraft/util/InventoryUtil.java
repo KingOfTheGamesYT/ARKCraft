@@ -45,8 +45,11 @@ public class InventoryUtil
 		return false;
 	}
 
-	public static void addOrDrop(ItemStack stack, IInventory inventory, BlockPos pos, World world)
+	public static void addOrDrop(ItemStack stack, IInventory inventory,
+			BlockPos pos, World world)
 	{
-		if (!add(stack, inventory)) world.spawnEntityInWorld(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack));
+		if (!add(stack, inventory))
+			world.spawnEntityInWorld(new EntityItem(world, pos.getX(),
+					pos.getY(), pos.getZ(), stack));
 	}
 }

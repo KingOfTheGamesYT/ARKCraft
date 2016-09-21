@@ -8,9 +8,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 /**
- * 
  * @author ?, Lewis_McReu
- *
  */
 public class EntityStone extends EntityThrowable implements ITranquilizer
 {
@@ -31,15 +29,16 @@ public class EntityStone extends EntityThrowable implements ITranquilizer
 		float dmg = 2;
 		if (mop.entityHit != null)
 		{
-			mop.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()),
+			mop.entityHit.attackEntityFrom(
+					DamageSource.causeThrownDamage(this, this.getThrower()),
 					dmg);
 			applyTorpor(mop.entityHit);
 		}
 
 		for (int i = 0; i < 4; i++)
 		{
-			this.worldObj.spawnParticle(EnumParticleTypes.CRIT, this.posX, this.posY, this.posZ,
-					0.0D, 0.0D, 0.0D);
+			this.worldObj.spawnParticle(EnumParticleTypes.CRIT, this.posX,
+					this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
 		}
 		if (this.worldObj.isRemote)
 		{

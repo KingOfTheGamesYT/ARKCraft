@@ -6,9 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 
 /**
- * 
  * @author Lewis_McReu
- *
  */
 public interface ITranquilizer
 {

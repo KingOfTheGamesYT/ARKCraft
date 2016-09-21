@@ -28,15 +28,22 @@ public class BurnerManager
 	public static void init()
 	{
 		// Fuels
-		instance.registerFuel(new BurnerFuel(ARKCraftItems.wood, 600, ARKCraftItems.charcoal, BurnerType.CAMPFIRE, BurnerType.REFINING_FORGE));
-		instance.registerFuel(new BurnerFuel(ARKCraftItems.thatch, 140, BurnerType.CAMPFIRE, BurnerType.REFINING_FORGE));
-		instance.registerFuel(new BurnerFuel(ARKCraftItems.spark_powder, 1200, BurnerType.CAMPFIRE, BurnerType.REFINING_FORGE));
+		instance.registerFuel(
+				new BurnerFuel(ARKCraftItems.wood, 600, ARKCraftItems.charcoal,
+						BurnerType.CAMPFIRE, BurnerType.REFINING_FORGE));
+		instance.registerFuel(new BurnerFuel(ARKCraftItems.thatch, 140,
+				BurnerType.CAMPFIRE, BurnerType.REFINING_FORGE));
+		instance.registerFuel(new BurnerFuel(ARKCraftItems.spark_powder, 1200,
+				BurnerType.CAMPFIRE, BurnerType.REFINING_FORGE));
 
 		// Recipes
 		// TODO add more recipes and patch times of the existing recipes
-		instance.registerRecipe(new BurnerRecipe(ARKCraftItems.metal_ingot, 1, 400, BurnerType.REFINING_FORGE, ARKCraftItems.metal, 2));
-		instance.registerRecipe(new BurnerRecipe(ARKCraftItems.meat_cooked, 1, 400, BurnerType.CAMPFIRE, ARKCraftItems.meat_raw, 1));
-		instance.registerRecipe(new BurnerRecipe(ARKCraftItems.primemeat_cooked, 1, 400, BurnerType.CAMPFIRE, ARKCraftItems.primemeat_raw, 1));
+		instance.registerRecipe(new BurnerRecipe(ARKCraftItems.metal_ingot, 1,
+				400, BurnerType.REFINING_FORGE, ARKCraftItems.metal, 2));
+		instance.registerRecipe(new BurnerRecipe(ARKCraftItems.meat_cooked, 1,
+				400, BurnerType.CAMPFIRE, ARKCraftItems.meat_raw, 1));
+		instance.registerRecipe(new BurnerRecipe(ARKCraftItems.primemeat_cooked,
+				1, 400, BurnerType.CAMPFIRE, ARKCraftItems.primemeat_raw, 1));
 	}
 
 	private Set<BurnerRecipe> recipes;
@@ -70,7 +77,8 @@ public class BurnerManager
 
 	public Collection<BurnerRecipe> getRecipes(BurnerType type)
 	{
-		return CollectionUtil.filter(recipes, (BurnerRecipe r) -> r.type == type);
+		return CollectionUtil.filter(recipes,
+				(BurnerRecipe r) -> r.type == type);
 	}
 
 	public Collection<BurnerFuel> getFuels()
@@ -80,12 +88,15 @@ public class BurnerManager
 
 	public Collection<BurnerFuel> getFuels(BurnerType type)
 	{
-		return CollectionUtil.filter(fuels, (BurnerFuel f) -> f.isValidBurner(type));
+		return CollectionUtil.filter(fuels,
+				(BurnerFuel f) -> f.isValidBurner(type));
 	}
 
 	public boolean isValidFuel(Item item, BurnerType type)
 	{
-		return !CollectionUtil.filter(fuels, (BurnerFuel f) -> f.item == item && f.isValidBurner(type)).isEmpty();
+		return !CollectionUtil.filter(fuels,
+				(BurnerFuel f) -> f.item == item && f.isValidBurner(type))
+				.isEmpty();
 	}
 
 	public BurnerFuel getFuel(Item item)
@@ -152,7 +163,8 @@ public class BurnerManager
 		private final short id;
 		private final Item item;
 		/**
-		 * craftingTime is a base value to possibly be adjusted by the machine/player actually doing the crafting
+		 * craftingTime is a base value to possibly be adjusted by the
+		 * machine/player actually doing the crafting
 		 */
 		private final int amount, craftingTime;
 		private final BurnerType type;
@@ -239,7 +251,8 @@ public class BurnerManager
 		@Override
 		public boolean equals(Object obj)
 		{
-			if (obj instanceof BurnerRecipe) return ((BurnerRecipe) obj).item == item;
+			if (obj instanceof BurnerRecipe)
+				return ((BurnerRecipe) obj).item == item;
 			return false;
 		}
 

@@ -20,25 +20,30 @@ import com.uberverse.arkcraft.common.entity.EntityMetalArrow;
 @SideOnly(Side.CLIENT)
 public class RenderMetalArrow extends Render
 {
-	private static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID,
-			"textures/entity/MetalArrow.png");
+	private static final ResourceLocation texture = new ResourceLocation(
+			ARKCraft.MODID, "textures/entity/MetalArrow.png");
 
 	public RenderMetalArrow()
 	{
 		super(Minecraft.getMinecraft().getRenderManager());
 	}
 
-	public void doRender(EntityArrow p_180551_1_, double p_180551_2_, double p_180551_4_, double p_180551_6_, float p_180551_8_, float p_180551_9_)
+	public void doRender(EntityArrow p_180551_1_, double p_180551_2_,
+			double p_180551_4_, double p_180551_6_, float p_180551_8_,
+			float p_180551_9_)
 	{
 		this.bindEntityTexture(p_180551_1_);
 		// GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		GlStateManager.pushMatrix();
-		GlStateManager.translate((float) p_180551_2_, (float) p_180551_4_, (float) p_180551_6_);
+		GlStateManager.translate((float) p_180551_2_, (float) p_180551_4_,
+				(float) p_180551_6_);
+		GlStateManager.rotate(p_180551_1_.prevRotationYaw
+				+ (p_180551_1_.rotationYaw - p_180551_1_.prevRotationYaw)
+						* p_180551_9_
+				- 90.0F, 0.0F, 1.0F, 0.0F);
 		GlStateManager.rotate(
-				p_180551_1_.prevRotationYaw + (p_180551_1_.rotationYaw - p_180551_1_.prevRotationYaw) * p_180551_9_ - 90.0F,
-				0.0F, 1.0F, 0.0F);
-		GlStateManager.rotate(
-				p_180551_1_.prevRotationPitch + (p_180551_1_.rotationPitch - p_180551_1_.prevRotationPitch) * p_180551_9_,
+				p_180551_1_.prevRotationPitch + (p_180551_1_.rotationPitch
+						- p_180551_1_.prevRotationPitch) * p_180551_9_,
 				0.0F, 0.0F, 1.0F);
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
@@ -66,17 +71,25 @@ public class RenderMetalArrow extends Render
 		GlStateManager.translate(-4.0F, 0.0F, 0.0F);
 		GL11.glNormal3f(f10, 0.0F, 0.0F);
 		worldrenderer.startDrawingQuads();
-		worldrenderer.addVertexWithUV(-7.0D, -2.0D, -2.0D, (double) f6, (double) f8);
-		worldrenderer.addVertexWithUV(-7.0D, -2.0D, 2.0D, (double) f7, (double) f8);
-		worldrenderer.addVertexWithUV(-7.0D, 2.0D, 2.0D, (double) f7, (double) f9);
-		worldrenderer.addVertexWithUV(-7.0D, 2.0D, -2.0D, (double) f6, (double) f9);
+		worldrenderer.addVertexWithUV(-7.0D, -2.0D, -2.0D, (double) f6,
+				(double) f8);
+		worldrenderer.addVertexWithUV(-7.0D, -2.0D, 2.0D, (double) f7,
+				(double) f8);
+		worldrenderer.addVertexWithUV(-7.0D, 2.0D, 2.0D, (double) f7,
+				(double) f9);
+		worldrenderer.addVertexWithUV(-7.0D, 2.0D, -2.0D, (double) f6,
+				(double) f9);
 		tessellator.draw();
 		GL11.glNormal3f(-f10, 0.0F, 0.0F);
 		worldrenderer.startDrawingQuads();
-		worldrenderer.addVertexWithUV(-7.0D, 2.0D, -2.0D, (double) f6, (double) f8);
-		worldrenderer.addVertexWithUV(-7.0D, 2.0D, 2.0D, (double) f7, (double) f8);
-		worldrenderer.addVertexWithUV(-7.0D, -2.0D, 2.0D, (double) f7, (double) f9);
-		worldrenderer.addVertexWithUV(-7.0D, -2.0D, -2.0D, (double) f6, (double) f9);
+		worldrenderer.addVertexWithUV(-7.0D, 2.0D, -2.0D, (double) f6,
+				(double) f8);
+		worldrenderer.addVertexWithUV(-7.0D, 2.0D, 2.0D, (double) f7,
+				(double) f8);
+		worldrenderer.addVertexWithUV(-7.0D, -2.0D, 2.0D, (double) f7,
+				(double) f9);
+		worldrenderer.addVertexWithUV(-7.0D, -2.0D, -2.0D, (double) f6,
+				(double) f9);
 		tessellator.draw();
 
 		for (int i = 0; i < 4; ++i)
@@ -84,17 +97,21 @@ public class RenderMetalArrow extends Render
 			GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glNormal3f(0.0F, 0.0F, f10);
 			worldrenderer.startDrawingQuads();
-			worldrenderer.addVertexWithUV(-8.0D, -2.0D, 0.0D, (double) f2, (double) f4);
-			worldrenderer.addVertexWithUV(8.0D, -2.0D, 0.0D, (double) f3, (double) f4);
-			worldrenderer.addVertexWithUV(8.0D, 2.0D, 0.0D, (double) f3, (double) f5);
-			worldrenderer.addVertexWithUV(-8.0D, 2.0D, 0.0D, (double) f2, (double) f5);
+			worldrenderer.addVertexWithUV(-8.0D, -2.0D, 0.0D, (double) f2,
+					(double) f4);
+			worldrenderer.addVertexWithUV(8.0D, -2.0D, 0.0D, (double) f3,
+					(double) f4);
+			worldrenderer.addVertexWithUV(8.0D, 2.0D, 0.0D, (double) f3,
+					(double) f5);
+			worldrenderer.addVertexWithUV(-8.0D, 2.0D, 0.0D, (double) f2,
+					(double) f5);
 			tessellator.draw();
 		}
 
 		GlStateManager.disableRescaleNormal();
 		GlStateManager.popMatrix();
-		super.doRender(p_180551_1_, p_180551_2_, p_180551_4_, p_180551_6_, p_180551_8_,
-				p_180551_9_);
+		super.doRender(p_180551_1_, p_180551_2_, p_180551_4_, p_180551_6_,
+				p_180551_8_, p_180551_9_);
 	}
 
 	protected ResourceLocation getEntityTexture(EntityMetalArrow p_180550_1_)
@@ -119,8 +136,10 @@ public class RenderMetalArrow extends Render
 	 * public void func_76986_a(T entity, double d, double d1, double d2, float
 	 * f, float f1). But JAD is pre 1.5 so doe
 	 */
-	public void doRender(Entity entity, double x, double y, double z, float p_76986_8_, float partialTicks)
+	public void doRender(Entity entity, double x, double y, double z,
+			float p_76986_8_, float partialTicks)
 	{
-		this.doRender((EntityMetalArrow) entity, x, y, z, p_76986_8_, partialTicks);
+		this.doRender((EntityMetalArrow) entity, x, y, z, p_76986_8_,
+				partialTicks);
 	}
 }

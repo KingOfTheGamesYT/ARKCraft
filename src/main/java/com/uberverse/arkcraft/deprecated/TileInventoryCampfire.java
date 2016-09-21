@@ -27,7 +27,8 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 	private ItemStack[] itemStacks = new ItemStack[getSlotCount()];
 
 	/** the currently active recipes */
-	private Map<CampfireRecipe, Integer> activeRecipes = new HashMap<CampfireRecipe, Integer>();
+	private Map<CampfireRecipe, Integer> activeRecipes =
+			new HashMap<CampfireRecipe, Integer>();
 	/** the ticks burning left */
 	private int burningTicks;
 
@@ -68,11 +69,13 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 		updateBurning();
 		if (!worldObj.isRemote)
 		{
-			List<CampfireRecipe> possibleRecipes = CampfireCraftingManager.findPossibleRecipes(this);
+			List<CampfireRecipe> possibleRecipes =
+					CampfireCraftingManager.findPossibleRecipes(this);
 			// LogHelper.info(burningTicks);
 			if (this.isBurning() && possibleRecipes.size() > 0)
 			{
-				Iterator<Entry<CampfireRecipe, Integer>> it = activeRecipes.entrySet().iterator();
+				Iterator<Entry<CampfireRecipe, Integer>> it =
+						activeRecipes.entrySet().iterator();
 				while (it.hasNext())
 				{
 					Entry<CampfireRecipe, Integer> e = it.next();
@@ -106,14 +109,16 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 				for (int i = 0; i < itemStacks.length; i++)
 				{
 					ItemStack stack = itemStacks[i];
-					if (stack != null && CampfireCraftingManager.isValidFuel(stack.getItem()))
+					if (stack != null && CampfireCraftingManager
+							.isValidFuel(stack.getItem()))
 					{
 						if (!worldObj.isRemote)
 						{
 							stack.stackSize--;
 							if (stack.stackSize == 0) itemStacks[i] = null;
 						}
-						this.burningTicks += CampfireCraftingManager.getBurnTime(stack.getItem());
+						this.burningTicks += CampfireCraftingManager
+								.getBurnTime(stack.getItem());
 						break;
 					}
 				}
@@ -129,7 +134,8 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 
 	private void updateInventory()
 	{
-		Iterator<Entry<CampfireRecipe, Integer>> it = activeRecipes.entrySet().iterator();
+		Iterator<Entry<CampfireRecipe, Integer>> it =
+				activeRecipes.entrySet().iterator();
 		while (it.hasNext())
 		{
 			Entry<CampfireRecipe, Integer> e = it.next();
@@ -142,7 +148,10 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 				int outputStack = -1;
 				for (int i = 0; i < itemStacks.length; i++)
 				{
-					if (itemStacks[i] != null && itemStacks[i].getItem().equals(output) && itemStacks[i].stackSize < this.getInventoryStackLimit())
+					if (itemStacks[i] != null
+							&& itemStacks[i].getItem().equals(output)
+							&& itemStacks[i].stackSize < this
+									.getInventoryStackLimit())
 					{
 						outputStack = i;
 						break;
@@ -166,7 +175,8 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 						ItemStack stack = itemStacks[i];
 						if (stack != null)
 						{
-							while (input.remove(stack.getItem()) && stack.stackSize > 0)
+							while (input.remove(stack.getItem())
+									&& stack.stackSize > 0)
 							{
 								stack.stackSize--;
 							}
@@ -189,7 +199,8 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 
 	private void updateCookTimes()
 	{
-		Iterator<Entry<CampfireRecipe, Integer>> it = activeRecipes.entrySet().iterator();
+		Iterator<Entry<CampfireRecipe, Integer>> it =
+				activeRecipes.entrySet().iterator();
 		while (it.hasNext())
 		{
 			Entry<CampfireRecipe, Integer> e = it.next();
@@ -279,7 +290,9 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 		final double Y_CENTRE_OFFSET = 0.5;
 		final double Z_CENTRE_OFFSET = 0.5;
 		final double MAXIMUM_DISTANCE_SQ = 8.0 * 8.0;
-		return player.getDistanceSq(pos.getX() + X_CENTRE_OFFSET, pos.getY() + Y_CENTRE_OFFSET, pos.getZ() + Z_CENTRE_OFFSET) < MAXIMUM_DISTANCE_SQ;
+		return player.getDistanceSq(pos.getX() + X_CENTRE_OFFSET,
+				pos.getY() + Y_CENTRE_OFFSET,
+				pos.getZ() + Z_CENTRE_OFFSET) < MAXIMUM_DISTANCE_SQ;
 	}
 
 	// ------------------------------
@@ -350,7 +363,8 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 			byte slotNumber = dataForOneSlot.getByte("Slot");
 			if (slotNumber >= 0 && slotNumber < this.itemStacks.length)
 			{
-				this.itemStacks[slotNumber] = ItemStack.loadItemStackFromNBT(dataForOneSlot);
+				this.itemStacks[slotNumber] =
+						ItemStack.loadItemStackFromNBT(dataForOneSlot);
 			}
 		}
 
@@ -362,7 +376,8 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 		{
 			NBTTagCompound nbtR = nbtList.getCompoundTagAt(i);
 			int cookTime = nbtR.getInteger("cookTime");
-			CampfireRecipe r = CampfireCraftingManager.getCampfireRecipe(nbtR.getString("recipeKey"));
+			CampfireRecipe r = CampfireCraftingManager
+					.getCampfireRecipe(nbtR.getString("recipeKey"));
 			this.activeRecipes.put(r, cookTime);
 		}
 	}
@@ -416,7 +431,8 @@ public class TileInventoryCampfire extends TileEntity implements IForge
 	@Override
 	public IChatComponent getDisplayName()
 	{
-		return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName());
+		return this.hasCustomName() ? new ChatComponentText(this.getName())
+				: new ChatComponentTranslation(this.getName());
 	}
 
 	// Fields are used to send non-inventory information from the server to

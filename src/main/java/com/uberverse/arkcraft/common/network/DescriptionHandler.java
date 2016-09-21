@@ -17,7 +17,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 @Sharable
-public class DescriptionHandler extends SimpleChannelInboundHandler<FMLProxyPacket>
+public class DescriptionHandler
+		extends SimpleChannelInboundHandler<FMLProxyPacket>
 {
 	static
 	{
@@ -31,7 +32,8 @@ public class DescriptionHandler extends SimpleChannelInboundHandler<FMLProxyPack
 	}
 
 	@Override
-	protected void channelRead0(ChannelHandlerContext ctx, FMLProxyPacket msg) throws Exception
+	protected void channelRead0(ChannelHandlerContext ctx, FMLProxyPacket msg)
+			throws Exception
 	{
 		final ByteBuf buf = msg.payload();
 		Minecraft.getMinecraft().addScheduledTask(new Runnable()
@@ -47,7 +49,8 @@ public class DescriptionHandler extends SimpleChannelInboundHandler<FMLProxyPack
 						.getTileEntity(new BlockPos(x, y, z));
 				if (te instanceof TileEntityArkCraft)
 				{
-					((TileEntityArkCraft) te).readFromPacket(ByteBufUtils.readTag(buf));
+					((TileEntityArkCraft) te)
+							.readFromPacket(ByteBufUtils.readTag(buf));
 				}
 			}
 		});

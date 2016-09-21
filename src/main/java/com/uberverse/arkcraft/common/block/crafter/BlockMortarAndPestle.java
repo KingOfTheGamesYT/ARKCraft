@@ -47,7 +47,8 @@ public class BlockMortarAndPestle extends BlockContainer implements Identifiable
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
+	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos,
+			IBlockState state)
 	{
 		return null;
 	}
@@ -59,12 +60,14 @@ public class BlockMortarAndPestle extends BlockContainer implements Identifiable
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos blockPos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(World worldIn, BlockPos blockPos,
+			IBlockState state, EntityPlayer playerIn, EnumFacing side,
+			float hitX, float hitY, float hitZ)
 	{
 		if (!playerIn.isSneaking())
 		{
-			playerIn.openGui(ARKCraft.instance(), getId(), worldIn, blockPos.getX(), blockPos.getY(),
-					blockPos.getZ());
+			playerIn.openGui(ARKCraft.instance(), getId(), worldIn,
+					blockPos.getX(), blockPos.getY(), blockPos.getZ());
 			return true;
 		}
 		return false;
@@ -109,23 +112,16 @@ public class BlockMortarAndPestle extends BlockContainer implements Identifiable
 	 * Returns randomly, about 1/2 of the recipe items
 	 */
 	/*
-	@Override
-	public java.util.List<ItemStack> getDrops(net.minecraft.world.IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
-	{
-		java.util.List<ItemStack> ret = super.getDrops(world, pos, state, fortune);
-		Random rand = world instanceof World ? ((World) world).rand : new Random();
-		TileEntity tileEntity = world.getTileEntity(pos);
-		if (tileEntity instanceof TileInventoryMP)
-		{
-			TileInventoryMP tiMP = (TileInventoryMP) tileEntity;
-			for (int i = 0; i < TileInventoryMP.INVENTORY_SLOTS_COUNT; ++i)
-			{
-				if (rand.nextInt(2) == 0)
-				{
-					ret.add(tiMP.getStackInSlot(TileInventoryMP.FIRST_INVENTORY_SLOT + i));
-				}
-			}
-		}
-		return ret;
-	}	*/
+	 * @Override public java.util.List<ItemStack>
+	 * getDrops(net.minecraft.world.IBlockAccess world, BlockPos pos,
+	 * IBlockState state, int fortune) { java.util.List<ItemStack> ret =
+	 * super.getDrops(world, pos, state, fortune); Random rand = world
+	 * instanceof World ? ((World) world).rand : new Random(); TileEntity
+	 * tileEntity = world.getTileEntity(pos); if (tileEntity instanceof
+	 * TileInventoryMP) { TileInventoryMP tiMP = (TileInventoryMP) tileEntity;
+	 * for (int i = 0; i < TileInventoryMP.INVENTORY_SLOTS_COUNT; ++i) { if
+	 * (rand.nextInt(2) == 0) {
+	 * ret.add(tiMP.getStackInSlot(TileInventoryMP.FIRST_INVENTORY_SLOT + i)); }
+	 * } } return ret; }
+	 */
 }

@@ -30,12 +30,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ARKCraftBerryBush extends BlockBush
 {
-	public static final PropertyInteger HARVEST_COUNT = PropertyInteger.create("harvest", 0, 3);
+	public static final PropertyInteger HARVEST_COUNT =
+			PropertyInteger.create("harvest", 0, 3);
 
 	public ARKCraftBerryBush(float hardness)
 	{
 		super();
-		this.setDefaultState(this.blockState.getBaseState().withProperty(HARVEST_COUNT, 0));
+		this.setDefaultState(
+				this.blockState.getBaseState().withProperty(HARVEST_COUNT, 0));
 		this.setStepSound(Block.soundTypeGrass);
 		this.setTickRandomly(true);
 		this.setHardness(hardness);
@@ -49,7 +51,8 @@ public class ARKCraftBerryBush extends BlockBush
 		return true;
 	}
 
-	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
+	public void updateTick(World worldIn, BlockPos pos, IBlockState state,
+			Random rand)
 	{
 		if (rand.nextBoolean())
 		{
@@ -57,7 +60,8 @@ public class ARKCraftBerryBush extends BlockBush
 
 			if (harvestCount < 3)
 			{
-				worldIn.setBlockState(pos, state.withProperty(HARVEST_COUNT, harvestCount + 1));
+				worldIn.setBlockState(pos,
+						state.withProperty(HARVEST_COUNT, harvestCount + 1));
 			}
 		}
 	}
@@ -71,7 +75,8 @@ public class ARKCraftBerryBush extends BlockBush
 	{
 		ItemStack heldStack = player.getCurrentEquippedItem();
 
-		if (heldStack != null && heldStack.getItem() == ARKCraftItems.metal_sickle)
+		if (heldStack != null
+				&& heldStack.getItem() == ARKCraftItems.metal_sickle)
 		{
 			if (rand.nextInt(30) <= 15) { return ARKCraftItems.fiber; }
 		}
@@ -83,7 +88,8 @@ public class ARKCraftBerryBush extends BlockBush
 			}
 			else if (rand.nextInt(10) <= 4)
 			{
-				return rand.nextInt(10) <= 5 ? ARKCraftItems.amarBerry : ARKCraftItems.narcoBerry;
+				return rand.nextInt(10) <= 5 ? ARKCraftItems.amarBerry
+						: ARKCraftItems.narcoBerry;
 			}
 			else if (rand.nextInt(15) <= 4)
 			{
@@ -91,7 +97,8 @@ public class ARKCraftBerryBush extends BlockBush
 			}
 			else if (rand.nextInt(10) >= 4 && rand.nextInt(10) <= 8)
 			{
-				return rand.nextInt(10) <= 5 ? ARKCraftItems.mejoBerry : ARKCraftItems.tintoBerry;
+				return rand.nextInt(10) <= 5 ? ARKCraftItems.mejoBerry
+						: ARKCraftItems.tintoBerry;
 			}
 			else
 			{
@@ -102,17 +109,20 @@ public class ARKCraftBerryBush extends BlockBush
 	}
 
 	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos, EntityPlayer player)
+	public ItemStack getPickBlock(MovingObjectPosition target, World world,
+			BlockPos pos, EntityPlayer player)
 	{
 		return new ItemStack(this, 1, 0);
 	}
 
-	public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn)
+	public void onBlockClicked(World worldIn, BlockPos pos,
+			EntityPlayer playerIn)
 	{
 		onLeftClicked(worldIn, pos, worldIn.getBlockState(pos), playerIn);
 	}
 
-	public void onLeftClicked(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn)
+	public void onLeftClicked(World worldIn, BlockPos pos, IBlockState state,
+			EntityPlayer playerIn)
 	{
 		if (!worldIn.isRemote)
 		{
@@ -120,13 +130,18 @@ public class ARKCraftBerryBush extends BlockBush
 			if (harvestCount > 0)
 			{
 				this.setBlockUnbreakable();
-				for (int i = 0; i < ModuleItemBalance.PLANTS.BERRIES_MIN_PER_PICKING || i <= worldIn.rand.nextInt(
-						ModuleItemBalance.PLANTS.BERRIES_MAX_PER_PICKING); i++)
+				for (int i = 0;
+						i < ModuleItemBalance.PLANTS.BERRIES_MIN_PER_PICKING
+								|| i <= worldIn.rand.nextInt(
+										ModuleItemBalance.PLANTS.BERRIES_MAX_PER_PICKING);
+						i++)
 				{
 					Item itemPicked = getHarvestItem(worldIn.rand, playerIn);
-					this.entityDropItem(worldIn, pos, playerIn, new ItemStack(itemPicked, 1, 0));
+					this.entityDropItem(worldIn, pos, playerIn,
+							new ItemStack(itemPicked, 1, 0));
 				}
-				worldIn.setBlockState(pos, state.withProperty(HARVEST_COUNT, harvestCount - 1));
+				worldIn.setBlockState(pos,
+						state.withProperty(HARVEST_COUNT, harvestCount - 1));
 				if (harvestCount == 1)
 				{
 					worldIn.setBlockToAir(pos);
@@ -138,13 +153,14 @@ public class ARKCraftBerryBush extends BlockBush
 	/**
 	 * Drops an item at the position of the bush.
 	 */
-	private void entityDropItem(World worldIn, BlockPos pos, EntityPlayer playerIn, ItemStack itemStackIn)
+	private void entityDropItem(World worldIn, BlockPos pos,
+			EntityPlayer playerIn, ItemStack itemStackIn)
 	{
 		if (itemStackIn.stackSize != 0 && itemStackIn.getItem() != null)
 		{
 			Float offset = worldIn.rand.nextFloat();
-			EntityItem entityitem = new EntityItem(worldIn, pos.getX() + offset, pos.getY() + this.maxY, pos.getZ()
-					+ offset, itemStackIn);
+			EntityItem entityitem = new EntityItem(worldIn, pos.getX() + offset,
+					pos.getY() + this.maxY, pos.getZ() + offset, itemStackIn);
 			entityitem.setDefaultPickupDelay();
 			if (playerIn.captureDrops)
 			{
@@ -180,9 +196,8 @@ public class ARKCraftBerryBush extends BlockBush
 
 	/*
 	 * @Override public void onBlockClicked(World worldIn, BlockPos pos,
-	 * EntityPlayer playerIn) {}
-	 * public Vec3 modifyAcceleration(World worldIn, BlockPos pos, Entity
-	 * entityIn, Vec3 motion) { return motion; }
+	 * EntityPlayer playerIn) {} public Vec3 modifyAcceleration(World worldIn,
+	 * BlockPos pos, Entity entityIn, Vec3 motion) { return motion; }
 	 */
 	@Override
 	public boolean isOpaqueCube()
@@ -209,7 +224,8 @@ public class ARKCraftBerryBush extends BlockBush
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
+	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos,
+			IBlockState state)
 	{
 		return null;
 	}
@@ -236,7 +252,8 @@ public class ARKCraftBerryBush extends BlockBush
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass)
+	public int colorMultiplier(IBlockAccess worldIn, BlockPos pos,
+			int renderPass)
 	{
 		return BiomeColorHelper.getGrassColorAtPos(worldIn, pos);
 	}

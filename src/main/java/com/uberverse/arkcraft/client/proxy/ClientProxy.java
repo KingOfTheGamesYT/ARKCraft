@@ -62,7 +62,9 @@ public class ClientProxy extends CommonProxy
 		MinecraftForge.EVENT_BUS.register(new GUIOverlayReloading());
 		MinecraftForge.EVENT_BUS.register(new GUIOverlayARKMode());
 
-		EntityHandler.registerEntityEgg(EntityDodo.class, ARKCraft.MODID + ".dodo", BiomeGenBase.beach, BiomeGenBase.desert, BiomeGenBase.forest,
+		EntityHandler.registerEntityEgg(EntityDodo.class,
+				ARKCraft.MODID + ".dodo", BiomeGenBase.beach,
+				BiomeGenBase.desert, BiomeGenBase.forest,
 				BiomeGenBase.birchForest, BiomeGenBase.extremeHills);
 
 		registerRenderers();
@@ -80,28 +82,42 @@ public class ClientProxy extends CommonProxy
 	{
 		// TODO update this a bit + make client component to init manager
 
-		InitializationManager.instance().getRegistry().forEachEntry((RegistryEntry<?> r) -> {
-			if (r.standardRender)
-			{
-				r.forEachMeta((Integer meta) -> {
-					Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(r.content, meta,
-							new ModelResourceLocation(ARKCraft.MODID + ":" + r.modelLocationPrefix + r.name, "inventory"));
+		InitializationManager.instance().getRegistry()
+				.forEachEntry((RegistryEntry<?> r) -> {
+					if (r.standardRender)
+					{
+						r.forEachMeta((Integer meta) -> {
+							Minecraft.getMinecraft().getRenderItem()
+									.getItemModelMesher().register(r.content,
+											meta, new ModelResourceLocation(
+													ARKCraft.MODID + ":"
+															+ r.modelLocationPrefix
+															+ r.name,
+													"inventory"));
+						});
+					}
+					Collection<String> v =
+							new ArrayList<>(Arrays.asList(r.getVariants()));
+					v.add(ARKCraft.MODID + ":" + r.modelLocationPrefix
+							+ r.name);
+					ModelLoader.addVariantName(r.content,
+							v.toArray(new String[0]));
 				});
-			}
-			Collection<String> v = new ArrayList<>(Arrays.asList(r.getVariants()));
-			v.add(ARKCraft.MODID + ":" + r.modelLocationPrefix + r.name);
-			ModelLoader.addVariantName(r.content, v.toArray(new String[0]));
-		});
 
 		// TODO this can also render other item's models for this one!
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(ARKCraftItems.blueprint, new ItemMeshDefinition()
-		{
-			@Override
-			public ModelResourceLocation getModelLocation(ItemStack stack)
-			{
-				return new ModelResourceLocation(ARKCraft.instance().modid() + ":blueprint/" + ItemBlueprint.getEngram(stack).getName(), "inventory");
-			}
-		});
+		Minecraft.getMinecraft().getRenderItem().getItemModelMesher()
+				.register(ARKCraftItems.blueprint, new ItemMeshDefinition()
+				{
+					@Override
+					public ModelResourceLocation getModelLocation(
+							ItemStack stack)
+					{
+						return new ModelResourceLocation(ARKCraft.instance()
+								.modid() + ":blueprint/"
+								+ ItemBlueprint.getEngram(stack).getName(),
+								"inventory");
+					}
+				});
 
 		// Register models for entities
 		registerEntityModels();
@@ -110,7 +126,8 @@ public class ClientProxy extends CommonProxy
 		registerBlockTexture(ARKCraftBlocks.crop_plot, 2, "crop_plot");
 	}
 
-	private void registerBlockTexture(final Block block, int meta, final String blockName)
+	private void registerBlockTexture(final Block block, int meta,
+			final String blockName)
 	{
 		registerItemTexture(Item.getItemFromBlock(block), meta, blockName);
 	}
@@ -123,17 +140,22 @@ public class ClientProxy extends CommonProxy
 	public void registerItemTexture(final Item item, int meta, String name)
 	{
 		if (item instanceof ItemRangedWeapon) name = "weapons/" + name;
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, meta,
-				new ModelResourceLocation(ARKCraft.MODID + ":" + name, "inventory"));
+		Minecraft.getMinecraft().getRenderItem().getItemModelMesher()
+				.register(item, meta, new ModelResourceLocation(
+						ARKCraft.MODID + ":" + name, "inventory"));
 		ModelLoader.addVariantName(item, ARKCraft.MODID + ":" + name);
 	}
 
-	public void registerItemTexture(final Item item, final int meta, final String name, final String namePrefix)
+	public void registerItemTexture(final Item item, final int meta,
+			final String name, final String namePrefix)
 	{
-		String fullPrefix = namePrefix.substring(namePrefix.length() - 1).equals("/") ? namePrefix : (namePrefix + "/");
+		String fullPrefix =
+				namePrefix.substring(namePrefix.length() - 1).equals("/")
+						? namePrefix : (namePrefix + "/");
 		String fullName = fullPrefix + name;
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, meta,
-				new ModelResourceLocation(ARKCraft.MODID + ":" + fullName, "inventory"));
+		Minecraft.getMinecraft().getRenderItem().getItemModelMesher()
+				.register(item, meta, new ModelResourceLocation(
+						ARKCraft.MODID + ":" + fullName, "inventory"));
 		ModelLoader.addVariantName(item, ARKCraft.MODID + ":" + name);
 	}
 
@@ -146,56 +168,87 @@ public class ClientProxy extends CommonProxy
 	private static void registerEntityModels()
 	{
 		RenderingRegistry.registerEntityRenderingHandler(EntityStone.class,
-				new RenderSnowball(Minecraft.getMinecraft().getRenderManager(), ARKCraftItems.stone, Minecraft.getMinecraft().getRenderItem()));
+				new RenderSnowball(Minecraft.getMinecraft().getRenderManager(),
+						ARKCraftItems.stone,
+						Minecraft.getMinecraft().getRenderItem()));
 
 		// RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class,
-		// new RenderSnowball(Minecraft.getMinecraft().getRenderManager(), ARKCraftItems.grenade, Minecraft.getMinecraft().getRenderItem()));
+		// new RenderSnowball(Minecraft.getMinecraft().getRenderManager(),
+		// ARKCraftItems.grenade, Minecraft.getMinecraft().getRenderItem()));
 
-		RenderingRegistry.registerEntityRenderingHandler(EntityDodo.class, new RenderDodo(new ModelDodo(), 0.3F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityDodo.class,
+				new RenderDodo(new ModelDodo(), 0.3F));
 
 		if (ModuleItemBalance.WEAPONS.SIMPLE_PISTOL)
 		{
-			RenderingRegistry.registerEntityRenderingHandler(EntitySimpleBullet.class, new RenderSimpleBullet());
+			RenderingRegistry.registerEntityRenderingHandler(
+					EntitySimpleBullet.class, new RenderSimpleBullet());
 		}
 		if (ModuleItemBalance.WEAPONS.SHOTGUN)
 		{
-			RenderingRegistry.registerEntityRenderingHandler(EntitySimpleShotgunAmmo.class, new RenderSimpleShotgunAmmo());
+			RenderingRegistry.registerEntityRenderingHandler(
+					EntitySimpleShotgunAmmo.class,
+					new RenderSimpleShotgunAmmo());
 		}
 		if (ModuleItemBalance.WEAPONS.LONGNECK_RIFLE)
 		{
-			RenderingRegistry.registerEntityRenderingHandler(EntitySimpleRifleAmmo.class, new RenderSimpleRifleAmmo());
-			RenderingRegistry.registerEntityRenderingHandler(EntityTranquilizer.class, new RenderTranquilizer());
+			RenderingRegistry.registerEntityRenderingHandler(
+					EntitySimpleRifleAmmo.class, new RenderSimpleRifleAmmo());
+			RenderingRegistry.registerEntityRenderingHandler(
+					EntityTranquilizer.class, new RenderTranquilizer());
 		}
 		if (ModuleItemBalance.WEAPONS.SPEAR)
 		{
-			RenderingRegistry.registerEntityRenderingHandler(EntitySpear.class, new RenderSpear());
+			RenderingRegistry.registerEntityRenderingHandler(EntitySpear.class,
+					new RenderSpear());
 		}
 		if (ModuleItemBalance.WEAPONS.FABRICATED_PISTOL)
 		{
-			RenderingRegistry.registerEntityRenderingHandler(EntityAdvancedBullet.class, new RenderAdvancedBullet());
+			RenderingRegistry.registerEntityRenderingHandler(
+					EntityAdvancedBullet.class, new RenderAdvancedBullet());
 		}
 	}
 
 	private static void registerItemVariants()
 	{
-		// ModelLoader.addVariantName(ARKCraftRangedWeapons.slingshot, "arkcraft:slingshot", "arkcraft:slingshot_pulled");
-		// ModelLoader.addVariantName(ARKCraftRangedWeapons.shotgun, "arkcraft:weapons/shotgun", "arkcraft:weapons/shotgun_reload");
-		// ModelLoader.addVariantName(ARKCraftRangedWeapons.longneck_rifle, "arkcraft:weapons/longneck_rifle", "arkcraft:weapons/longneck_rifle_scope",
-		// "arkcraft:weapons/longneck_rifle_scope_reload", "arkcraft:weapons/longneck_rifle_reload",
-		// "arkcraft:weapons/longneck_rifle_flashlight", "arkcraft:weapons/longneck_rifle_flashlight_reload",
-		// "arkcraft:weapons/longneck_rifle_laser", "arkcraft:weapons/longneck_rifle_laser_reload", "arkcraft:weapons/longneck_rifle_silencer",
+		// ModelLoader.addVariantName(ARKCraftRangedWeapons.slingshot,
+		// "arkcraft:slingshot", "arkcraft:slingshot_pulled");
+		// ModelLoader.addVariantName(ARKCraftRangedWeapons.shotgun,
+		// "arkcraft:weapons/shotgun", "arkcraft:weapons/shotgun_reload");
+		// ModelLoader.addVariantName(ARKCraftRangedWeapons.longneck_rifle,
+		// "arkcraft:weapons/longneck_rifle",
+		// "arkcraft:weapons/longneck_rifle_scope",
+		// "arkcraft:weapons/longneck_rifle_scope_reload",
+		// "arkcraft:weapons/longneck_rifle_reload",
+		// "arkcraft:weapons/longneck_rifle_flashlight",
+		// "arkcraft:weapons/longneck_rifle_flashlight_reload",
+		// "arkcraft:weapons/longneck_rifle_laser",
+		// "arkcraft:weapons/longneck_rifle_laser_reload",
+		// "arkcraft:weapons/longneck_rifle_silencer",
 		// "arkcraft:weapons/longneck_rifle_silencer_reload");
-		// ModelLoader.addVariantName(ARKCraftRangedWeapons.simple_pistol, "arkcraft:weapons/simple_pistol", "arkcraft:weapons/simple_pistol_scope",
-		// "arkcraft:weapons/simple_pistol_reload", "arkcraft:weapons/simple_pistol_scope_reload", "arkcraft:weapons/simple_pistol_flashlight",
-		// "arkcraft:weapons/simple_pistol_flashlight_reload", "arkcraft:weapons/simple_pistol_laser",
-		// "arkcraft:weapons/simple_pistol_laser_reload", "arkcraft:weapons/simple_pistol_silencer",
+		// ModelLoader.addVariantName(ARKCraftRangedWeapons.simple_pistol,
+		// "arkcraft:weapons/simple_pistol",
+		// "arkcraft:weapons/simple_pistol_scope",
+		// "arkcraft:weapons/simple_pistol_reload",
+		// "arkcraft:weapons/simple_pistol_scope_reload",
+		// "arkcraft:weapons/simple_pistol_flashlight",
+		// "arkcraft:weapons/simple_pistol_flashlight_reload",
+		// "arkcraft:weapons/simple_pistol_laser",
+		// "arkcraft:weapons/simple_pistol_laser_reload",
+		// "arkcraft:weapons/simple_pistol_silencer",
 		// "arkcraft:weapons/simple_pistol_silencer_reload");
-		// ModelLoader.addVariantName(ARKCraftRangedWeapons.fabricated_pistol, "arkcraft:weapons/fabricated_pistol",
-		// "arkcraft:weapons/fabricated_pistol_scope", "arkcraft:weapons/fabricated_pistol_reload",
-		// "arkcraft:weapons/fabricated_pistol_scope_reload", "arkcraft:weapons/fabricated_pistol_flashlight",
-		// "arkcraft:weapons/fabricated_pistol_flashlight_reload", "arkcraft:weapons/fabricated_pistol_laser",
-		// "arkcraft:weapons/fabricated_pistol_laser_reload", "arkcraft:weapons/fabricated_pistol_silencer",
-		// "arkcraft:weapons/fabricated_pistol_silencer_reload", "arkcraft:weapons/fabricated_pistol_holo_scope",
+		// ModelLoader.addVariantName(ARKCraftRangedWeapons.fabricated_pistol,
+		// "arkcraft:weapons/fabricated_pistol",
+		// "arkcraft:weapons/fabricated_pistol_scope",
+		// "arkcraft:weapons/fabricated_pistol_reload",
+		// "arkcraft:weapons/fabricated_pistol_scope_reload",
+		// "arkcraft:weapons/fabricated_pistol_flashlight",
+		// "arkcraft:weapons/fabricated_pistol_flashlight_reload",
+		// "arkcraft:weapons/fabricated_pistol_laser",
+		// "arkcraft:weapons/fabricated_pistol_laser_reload",
+		// "arkcraft:weapons/fabricated_pistol_silencer",
+		// "arkcraft:weapons/fabricated_pistol_silencer_reload",
+		// "arkcraft:weapons/fabricated_pistol_holo_scope",
 		// "arkcraft:weapons/fabricated_pistol_holo_scope_reload");
 	}
 

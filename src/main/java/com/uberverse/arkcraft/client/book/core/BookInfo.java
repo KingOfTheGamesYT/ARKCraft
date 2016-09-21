@@ -19,10 +19,12 @@ public class BookInfo
 		Side side = FMLCommonHandler.instance().getEffectiveSide();
 		bd = createBook(bd, ARKCraftItems.info_book.getUnlocalizedName(),
 				EnumChatFormatting.GOLD + "Knowledge is Power",
-				side == Side.CLIENT ? BookClient.document : null, "textures/items/info_book.png");
+				side == Side.CLIENT ? BookClient.document : null,
+				"textures/items/info_book.png");
 	}
 
-	public BookData createBook(BookData data, String unlocalizedName, String tooltip, BookDocument document, String itemImage)
+	public BookData createBook(BookData data, String unlocalizedName,
+			String tooltip, BookDocument document, String itemImage)
 	{
 		data.unlocalizedName = unlocalizedName;
 		data.modid = ARKCraft.MODID;

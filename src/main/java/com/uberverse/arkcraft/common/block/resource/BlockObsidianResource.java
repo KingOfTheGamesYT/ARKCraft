@@ -18,7 +18,7 @@ public class BlockObsidianResource extends BlockARKResource
 	@Override
 	public Collection<AbstractItemStack> getDrops()
 	{
-		return Arrays.asList(new AbstractItemStack(ARKCraftItems.obsidian, 10), new AbstractItemStack(
-				ARKCraftItems.stone, 10));
+		return Arrays.asList(new AbstractItemStack(ARKCraftItems.obsidian, 10),
+				new AbstractItemStack(ARKCraftItems.stone, 10));
 	}
 }

@@ -13,7 +13,8 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 public class WorldGeneratorBushes implements IWorldGenerator
 {
 	@Override
-	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider)
+	public void generate(Random random, int chunkX, int chunkZ, World world,
+			IChunkProvider chunkGenerator, IChunkProvider chunkProvider)
 	{
 		for (int i = 0; i < 25; i++)
 		{
@@ -24,7 +25,8 @@ public class WorldGeneratorBushes implements IWorldGenerator
 
 			if (world.getBlockState(pos).getBlock() instanceof BlockTallGrass)
 			{
-				world.setBlockState(pos, ARKCraftBlocks.berryBush.getDefaultState());
+				world.setBlockState(pos,
+						ARKCraftBlocks.berryBush.getDefaultState());
 			}
 		}
 	}

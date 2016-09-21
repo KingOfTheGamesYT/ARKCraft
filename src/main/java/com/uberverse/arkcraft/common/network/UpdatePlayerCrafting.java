@@ -23,8 +23,7 @@ public class UpdatePlayerCrafting implements IMessage
 	 * Don't use
 	 */
 	public UpdatePlayerCrafting()
-	{
-	}
+	{}
 
 	public UpdatePlayerCrafting(boolean craftOne, int blueprintPressed)
 	{
@@ -46,14 +45,18 @@ public class UpdatePlayerCrafting implements IMessage
 		buf.writeInt(this.blueprintPressed);
 	}
 
-	public static class Handler implements IMessageHandler<UpdatePlayerCrafting, IMessage>
+	public static class Handler
+			implements IMessageHandler<UpdatePlayerCrafting, IMessage>
 	{
 		@Override
-		public IMessage onMessage(final UpdatePlayerCrafting message, MessageContext ctx)
+		public IMessage onMessage(final UpdatePlayerCrafting message,
+				MessageContext ctx)
 		{
 			if (ctx.side != Side.SERVER)
 			{
-				System.err.println("UpdatePlayerCrafting received on wrong side:" + ctx.side);
+				System.err
+						.println("UpdatePlayerCrafting received on wrong side:"
+								+ ctx.side);
 				return null;
 			}
 			final EntityPlayerMP player = ctx.getServerHandler().playerEntity;
@@ -68,12 +71,13 @@ public class UpdatePlayerCrafting implements IMessage
 		}
 	}
 
-	static void processMessage(UpdatePlayerCrafting message, EntityPlayerMP player)
+	static void processMessage(UpdatePlayerCrafting message,
+			EntityPlayerMP player)
 	{
 		if (player != null)
 		{
-			ARKPlayer.get(player).getInventoryBlueprints().setCraftOnePressed(message.craftOneItem,
-					message.blueprintPressed, false);
+			ARKPlayer.get(player).getInventoryBlueprints().setCraftOnePressed(
+					message.craftOneItem, message.blueprintPressed, false);
 		}
 	}
 }

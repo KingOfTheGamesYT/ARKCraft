@@ -20,9 +20,12 @@ public class ItemCampfire extends ItemBlock
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
+	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn,
+			World worldIn, BlockPos pos, EnumFacing side, float hitX,
+			float hitY, float hitZ)
 	{
-		boolean flag = worldIn.getBlockState(pos).getBlock().isReplaceable(worldIn, pos);
+		boolean flag = worldIn.getBlockState(pos).getBlock()
+				.isReplaceable(worldIn, pos);
 		BlockPos blockpos1 = flag ? pos : pos.offset(side);
 
 		if (!playerIn.canPlayerEdit(blockpos1, side, stack))
@@ -33,14 +36,17 @@ public class ItemCampfire extends ItemBlock
 		{
 			Block block = worldIn.getBlockState(blockpos1).getBlock();
 
-			if (!worldIn.canBlockBePlaced(block, blockpos1, false, side, (Entity) null, stack))
+			if (!worldIn.canBlockBePlaced(block, blockpos1, false, side,
+					(Entity) null, stack))
 			{
 				return false;
 			}
-			else if (ARKCraftBlocks.campfire.canPlaceBlockAt(worldIn, blockpos1))
+			else if (ARKCraftBlocks.campfire.canPlaceBlockAt(worldIn,
+					blockpos1))
 			{
 				--stack.stackSize;
-				worldIn.setBlockState(blockpos1, ARKCraftBlocks.campfire.getDefaultState());
+				worldIn.setBlockState(blockpos1,
+						ARKCraftBlocks.campfire.getDefaultState());
 				return true;
 			}
 			else

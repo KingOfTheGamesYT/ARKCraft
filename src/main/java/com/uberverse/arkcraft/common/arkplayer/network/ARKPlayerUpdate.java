@@ -72,14 +72,16 @@ public class ARKPlayerUpdate implements IMessage
 		else player.copyConditionally(this.player);
 	}
 
-	public static class Handler implements IMessageHandler<ARKPlayerUpdate, IMessage>
+	public static class Handler
+			implements IMessageHandler<ARKPlayerUpdate, IMessage>
 	{
 		@Override
 		public IMessage onMessage(ARKPlayerUpdate message, MessageContext ctx)
 		{
 			if (ctx.side.isClient())
 			{
-				message.store(ARKPlayer.get(ARKCraft.proxy.getPlayerFromContext(ctx)));
+				message.store(ARKPlayer
+						.get(ARKCraft.proxy.getPlayerFromContext(ctx)));
 			}
 			return null;
 		}

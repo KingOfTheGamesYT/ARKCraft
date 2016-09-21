@@ -186,14 +186,16 @@ public class WrappedOreGenerator implements IWorldGenerator
 
 	}
 
-	private Map<String, Instruction> generations = new HashMap<String, Instruction>();
+	private Map<String, Instruction> generations =
+			new HashMap<String, Instruction>();
 
 	public WrappedOreGenerator(int par1, Instruction... par2)
 	{
 		GameRegistry.registerWorldGenerator(this, par1);
 		for (Instruction var : par2)
 		{
-			if (var.getBlocksPerVein() > 0 && var.getVeinsPerChunk() > 0 && var.getMaxHeight() > 0)
+			if (var.getBlocksPerVein() > 0 && var.getVeinsPerChunk() > 0
+					&& var.getMaxHeight() > 0)
 			{
 				generations.put(var.getBlockType().getUnlocalizedName(), var);
 			}
@@ -202,7 +204,8 @@ public class WrappedOreGenerator implements IWorldGenerator
 
 	protected Block[] getValidSpawnBlocks()
 	{
-		Block[] validSpawnBlocks = { Blocks.grass, Blocks.gravel, Blocks.sand, Blocks.stone };
+		Block[] validSpawnBlocks =
+				{ Blocks.grass, Blocks.gravel, Blocks.sand, Blocks.stone };
 		return validSpawnBlocks;
 	}
 
@@ -215,7 +218,8 @@ public class WrappedOreGenerator implements IWorldGenerator
 		{
 			if (distanceToAir > 3) { return false; }
 			distanceToAir++;
-			check = world.getBlockState(new BlockPos(x, y - distanceToAir, z)).getBlock();
+			check = world.getBlockState(new BlockPos(x, y - distanceToAir, z))
+					.getBlock();
 		}
 		y += distanceToAir - 1;
 
@@ -236,7 +240,8 @@ public class WrappedOreGenerator implements IWorldGenerator
 	}
 
 	@Override
-	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider)
+	public void generate(Random random, int chunkX, int chunkZ, World world,
+			IChunkProvider chunkGenerator, IChunkProvider chunkProvider)
 	{
 		for (Instruction var : this.generations.values())
 		{
@@ -245,14 +250,16 @@ public class WrappedOreGenerator implements IWorldGenerator
 			{
 				if (var.nether)
 				{
-					generateInNether(var, world, random, chunkX * 16, chunkZ * 16);
+					generateInNether(var, world, random, chunkX * 16,
+							chunkZ * 16);
 				}
 			}
 			else if (var1 == 0)
 			{
 				if (var.overworld)
 				{
-					generateInOverworld(var, world, random, chunkX * 16, chunkZ * 16);
+					generateInOverworld(var, world, random, chunkX * 16,
+							chunkZ * 16);
 				}
 			}
 			else if (var1 == 1)
@@ -268,14 +275,16 @@ public class WrappedOreGenerator implements IWorldGenerator
 				{
 					if (var1 == v)
 					{
-						this.generateInDimension(var, world, random, chunkX * 16, chunkZ * 16);
+						this.generateInDimension(var, world, random,
+								chunkX * 16, chunkZ * 16);
 					}
 				}
 			}
 		}
 	}
 
-	private void generateInDimension(Instruction par1, World world, Random random, int x, int z)
+	private void generateInDimension(Instruction par1, World world,
+			Random random, int x, int z)
 	{
 		for (int k = 0; k < par1.getVeinsPerChunk(); k++)
 		{
@@ -283,13 +292,15 @@ public class WrappedOreGenerator implements IWorldGenerator
 			int chunkY = random.nextInt(par1.getMaxHeight());
 			int chunkZ = z + random.nextInt(16);
 
-			new WorldGenMinable(par1.getBlockType().getDefaultState(), par1.getBlocksPerVein())
-					.generate(world, random, new BlockPos(chunkX, chunkY, chunkZ));
+			new WorldGenMinable(par1.getBlockType().getDefaultState(),
+					par1.getBlocksPerVein()).generate(world, random,
+							new BlockPos(chunkX, chunkY, chunkZ));
 
 		}
 	}
 
-	private void generateInEnd(Instruction par1, World world, Random random, int x, int z)
+	private void generateInEnd(Instruction par1, World world, Random random,
+			int x, int z)
 	{
 		for (int k = 0; k < par1.getVeinsPerChunk(); k++)
 		{
@@ -297,13 +308,15 @@ public class WrappedOreGenerator implements IWorldGenerator
 			int chunkY = random.nextInt(par1.getMaxHeight());
 			int chunkZ = z + random.nextInt(16);
 
-			new WorldGenMinable(par1.getBlockType().getDefaultState(), par1.getBlocksPerVein())
-					.generate(world, random, new BlockPos(chunkX, chunkY, chunkZ));
+			new WorldGenMinable(par1.getBlockType().getDefaultState(),
+					par1.getBlocksPerVein()).generate(world, random,
+							new BlockPos(chunkX, chunkY, chunkZ));
 
 		}
 	}
 
-	private void generateInOverworld(Instruction par1, World world, Random random, int x, int z)
+	private void generateInOverworld(Instruction par1, World world,
+			Random random, int x, int z)
 	{
 		for (int k = 0; k < par1.getVeinsPerChunk(); k++)
 		{
@@ -315,13 +328,15 @@ public class WrappedOreGenerator implements IWorldGenerator
 			// GlobalAdditions.surfaceCrystals)) {
 			if (!isValidSpawn(world, chunkX, chunkY, chunkZ)) { return; }
 			// }
-			new WorldGenMinable(par1.getBlockType().getDefaultState(), par1.getBlocksPerVein())
-					.generate(world, random, new BlockPos(chunkX, chunkY, chunkZ));
+			new WorldGenMinable(par1.getBlockType().getDefaultState(),
+					par1.getBlocksPerVein()).generate(world, random,
+							new BlockPos(chunkX, chunkY, chunkZ));
 
 		}
 	}
 
-	private void generateInNether(Instruction par1, World world, Random random, int x, int z)
+	private void generateInNether(Instruction par1, World world, Random random,
+			int x, int z)
 	{
 		for (int k = 0; k < par1.getVeinsPerChunk(); k++)
 		{
@@ -329,8 +344,9 @@ public class WrappedOreGenerator implements IWorldGenerator
 			int chunkY = random.nextInt(par1.getMaxHeight());
 			int chunkZ = z + random.nextInt(16);
 
-			new WorldGenMinable(par1.getBlockType().getDefaultState(), par1.getBlocksPerVein())
-					.generate(world, random, new BlockPos(chunkX, chunkY, chunkZ));
+			new WorldGenMinable(par1.getBlockType().getDefaultState(),
+					par1.getBlocksPerVein()).generate(world, random,
+							new BlockPos(chunkX, chunkY, chunkZ));
 
 		}
 	}

@@ -32,7 +32,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class SmallFontRenderer implements IResourceManagerReloadListener
 {
-	private static final ResourceLocation[] unicodePageLocations = new ResourceLocation[256];
+	private static final ResourceLocation[] unicodePageLocations =
+			new ResourceLocation[256];
 
 	/**
 	 * Array of width of all the characters in default.png
@@ -199,8 +200,9 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 
 		try
 		{
-			bufferedimage = ImageIO.read(Minecraft.getMinecraft().getResourceManager()
-					.getResource(this.locationFontTexture).getInputStream());
+			bufferedimage = ImageIO.read(Minecraft.getMinecraft()
+					.getResourceManager().getResource(this.locationFontTexture)
+					.getInputStream());
 		}
 		catch (IOException ioexception)
 		{
@@ -254,7 +256,8 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 				}
 
 				++l1;
-				this.charWidth[i1] = (int) (0.5D + (double) ((float) l1 * f)) + b0;
+				this.charWidth[i1] =
+						(int) (0.5D + (double) ((float) l1 * f)) + b0;
 				++i1;
 				break;
 			}
@@ -265,8 +268,10 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 	{
 		try
 		{
-			InputStream inputstream = Minecraft.getMinecraft().getResourceManager()
-					.getResource(new ResourceLocation("font/glyph_sizes.bin")).getInputStream();
+			InputStream inputstream = Minecraft.getMinecraft()
+					.getResourceManager()
+					.getResource(new ResourceLocation("font/glyph_sizes.bin"))
+					.getInputStream();
 			inputstream.read(this.glyphWidth);
 		}
 		catch (IOException ioexception)
@@ -280,8 +285,10 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 	 */
 	private float renderCharAtPos(int par1, char par2, boolean par3)
 	{
-		return par2 == 32 ? 4.0F : (par1 > 0 && !this.unicodeFlag ? this
-				.renderDefaultChar(par1 + 32, par3) : this.renderUnicodeChar(par2, par3));
+		return par2 == 32 ? 4.0F
+				: (par1 > 0 && !this.unicodeFlag
+						? this.renderDefaultChar(par1 + 32, par3)
+						: this.renderUnicodeChar(par2, par3));
 	}
 
 	/**
@@ -312,8 +319,9 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 	{
 		if (unicodePageLocations[par1] == null)
 		{
-			unicodePageLocations[par1] = new ResourceLocation("minecraft", String.format(
-					"textures/font/unicode_page_%02x.png", new Object[] { Integer.valueOf(par1) }));
+			unicodePageLocations[par1] = new ResourceLocation("minecraft",
+					String.format("textures/font/unicode_page_%02x.png",
+							new Object[] { Integer.valueOf(par1) }));
 		}
 		return unicodePageLocations[par1];
 	}
@@ -357,7 +365,8 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 			GL11.glTexCoord2f((f2 + f4) / 256.0F, f3 / 256.0F);
 			GL11.glVertex3f(this.posX + f4 / 2.0F + f5, this.posY, 0.0F);
 			GL11.glTexCoord2f((f2 + f4) / 256.0F, (f3 + 15.98F) / 256.0F);
-			GL11.glVertex3f(this.posX + f4 / 2.0F - f5, this.posY + 7.99F, 0.0F);
+			GL11.glVertex3f(this.posX + f4 / 2.0F - f5, this.posY + 7.99F,
+					0.0F);
 			GL11.glEnd();
 			return (f1 - f) / 2.0F + 1.0F;
 		}
@@ -366,7 +375,8 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 	/**
 	 * Draws the specified string with a shadow.
 	 */
-	public int drawStringWithShadow(String par1Str, int par2, int par3, int par4)
+	public int drawStringWithShadow(String par1Str, int par2, int par3,
+			int par4)
 	{
 		return this.drawString(par1Str, par2, par3, par4, true);
 	}
@@ -382,7 +392,8 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 	/**
 	 * Draws the specified string. Args: string, x, y, color, dropShadow
 	 */
-	public int drawString(String par1Str, int par2, int par3, int par4, boolean par5)
+	public int drawString(String par1Str, int par2, int par3, int par4,
+			boolean par5)
 	{
 		this.resetStyles();
 
@@ -396,7 +407,8 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 		if (par5)
 		{
 			l = this.renderString(par1Str, par2 + 1, par3 + 1, par4, true, 9);
-			l = Math.max(l, this.renderString(par1Str, par2, par3, par4, false, 9));
+			l = Math.max(l,
+					this.renderString(par1Str, par2, par3, par4, false, 9));
 		}
 		else
 		{
@@ -412,7 +424,8 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 	 */
 	private String bidiReorder(String par1Str)
 	{
-		if (par1Str != null && Bidi.requiresBidi(par1Str.toCharArray(), 0, par1Str.length()))
+		if (par1Str != null && Bidi.requiresBidi(par1Str.toCharArray(), 0,
+				par1Str.length()))
 		{
 			Bidi bidi = new Bidi(par1Str, -2);
 			byte[] abyte = new byte[bidi.getRunCount()];
@@ -515,7 +528,8 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 
 			if (c0 == 167 && i + 1 < par1Str.length())
 			{
-				j = "0123456789abcdefklmnor".indexOf(par1Str.toLowerCase().charAt(i + 1));
+				j = "0123456789abcdefklmnor"
+						.indexOf(par1Str.toLowerCase().charAt(i + 1));
 
 				if (j < 16)
 				{
@@ -537,7 +551,8 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 
 					k = this.colorCode[j];
 					this.textColor = k;
-					GL11.glColor4f((float) (k >> 16) / 255.0F, (float) (k >> 8 & 255) / 255.0F,
+					GL11.glColor4f((float) (k >> 16) / 255.0F,
+							(float) (k >> 8 & 255) / 255.0F,
 							(float) (k & 255) / 255.0F, this.alpha);
 				}
 				else if (j == 16)
@@ -588,8 +603,8 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 				{
 					do
 					{
-						k = this.fontRandom
-								.nextInt(ChatAllowedCharacters.allowedCharactersArray.length);
+						k = this.fontRandom.nextInt(
+								ChatAllowedCharacters.allowedCharactersArray.length);
 					}
 					while (this.charWidth[j + 32] != this.charWidth[k + 32]);
 
@@ -641,14 +656,24 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 					tessellator = Tessellator.getInstance();
 					GL11.glDisable(GL11.GL_TEXTURE_2D);
 					tessellator.getWorldRenderer().startDrawingQuads();
-					tessellator.getWorldRenderer().addVertex((double) this.posX,
-							(double) (this.posY + (float) (this.FONT_HEIGHT / 2)), 0.0D);
-					tessellator.getWorldRenderer().addVertex((double) (this.posX + f1),
-							(double) (this.posY + (float) (this.FONT_HEIGHT / 2)), 0.0D);
-					tessellator.getWorldRenderer().addVertex((double) (this.posX + f1),
-							(double) (this.posY + (float) (this.FONT_HEIGHT / 2) - 1.0F), 0.0D);
-					tessellator.getWorldRenderer().addVertex((double) this.posX,
-							(double) (this.posY + (float) (this.FONT_HEIGHT / 2) - 1.0F), 0.0D);
+					tessellator.getWorldRenderer()
+							.addVertex((double) this.posX,
+									(double) (this.posY
+											+ (float) (this.FONT_HEIGHT / 2)),
+									0.0D);
+					tessellator.getWorldRenderer()
+							.addVertex((double) (this.posX + f1),
+									(double) (this.posY
+											+ (float) (this.FONT_HEIGHT / 2)),
+									0.0D);
+					tessellator.getWorldRenderer().addVertex(
+							(double) (this.posX + f1), (double) (this.posY
+									+ (float) (this.FONT_HEIGHT / 2) - 1.0F),
+							0.0D);
+					tessellator.getWorldRenderer().addVertex(
+							(double) this.posX, (double) (this.posY
+									+ (float) (this.FONT_HEIGHT / 2) - 1.0F),
+							0.0D);
 					tessellator.draw();
 					GL11.glEnable(GL11.GL_TEXTURE_2D);
 				}
@@ -659,14 +684,24 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 					GL11.glDisable(GL11.GL_TEXTURE_2D);
 					tessellator.getWorldRenderer().startDrawingQuads();
 					int l = this.underlineStyle ? -1 : 0;
-					tessellator.getWorldRenderer().addVertex((double) (this.posX + (float) l),
-							(double) (this.posY + (float) this.FONT_HEIGHT), 0.0D);
-					tessellator.getWorldRenderer().addVertex((double) (this.posX + f1),
-							(double) (this.posY + (float) this.FONT_HEIGHT), 0.0D);
-					tessellator.getWorldRenderer().addVertex((double) (this.posX + f1),
-							(double) (this.posY + (float) this.FONT_HEIGHT - 1.0F), 0.0D);
-					tessellator.getWorldRenderer().addVertex((double) (this.posX + (float) l),
-							(double) (this.posY + (float) this.FONT_HEIGHT - 1.0F), 0.0D);
+					tessellator.getWorldRenderer().addVertex(
+							(double) (this.posX + (float) l),
+							(double) (this.posY + (float) this.FONT_HEIGHT),
+							0.0D);
+					tessellator.getWorldRenderer().addVertex(
+							(double) (this.posX + f1),
+							(double) (this.posY + (float) this.FONT_HEIGHT),
+							0.0D);
+					tessellator.getWorldRenderer()
+							.addVertex((double) (this.posX + f1),
+									(double) (this.posY
+											+ (float) this.FONT_HEIGHT - 1.0F),
+									0.0D);
+					tessellator.getWorldRenderer()
+							.addVertex((double) (this.posX + (float) l),
+									(double) (this.posY
+											+ (float) this.FONT_HEIGHT - 1.0F),
+									0.0D);
 					tessellator.draw();
 					GL11.glEnable(GL11.GL_TEXTURE_2D);
 				}
@@ -679,7 +714,8 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 	/**
 	 * Render string either left or right aligned depending on bidiFlag
 	 */
-	private int renderStringAligned(String par1Str, int par2, int par3, int par4, int par5, boolean par6, int fontSize)
+	private int renderStringAligned(String par1Str, int par2, int par3,
+			int par4, int par5, boolean par6, int fontSize)
 	{
 		if (this.bidiFlag)
 		{
@@ -695,7 +731,8 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 	 * Render single line string by setting GL color, current (posX,posY), and
 	 * calling renderStringAtPos()
 	 */
-	private int renderString(String par1Str, int par2, int par3, int par4, boolean par5, int fontSize)
+	private int renderString(String par1Str, int par2, int par3, int par4,
+			boolean par5, int fontSize)
 	{
 		if (par1Str == null)
 		{
@@ -809,7 +846,8 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 			else
 			{
 				i = 69;
-				LogHelper.error("dont send bad chat characters to my font renderer!");
+				LogHelper.error(
+						"dont send bad chat characters to my font renderer!");
 			}
 
 			if (i >= 0 && !this.unicodeFlag)
@@ -926,7 +964,8 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 	/**
 	 * Splits and draws a String with wordwrap (maximum length is parameter k)
 	 */
-	public void drawSplitString(String par1Str, int par2, int par3, int par4, int par5, int fontSize)
+	public void drawSplitString(String par1Str, int par2, int par3, int par4,
+			int par5, int fontSize)
 	{
 		this.resetStyles();
 		this.textColor = par5;
@@ -938,15 +977,17 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 	 * Perform actual work of rendering a multi-line string with wordwrap and
 	 * with darker drop shadow color if flag is set
 	 */
-	private void renderSplitString(String par1Str, int par2, int par3, int par4, boolean par5, int fontSize)
+	private void renderSplitString(String par1Str, int par2, int par3, int par4,
+			boolean par5, int fontSize)
 	{
 		List<String> list = this.listFormattedStringToWidth(par1Str, par4);
 
-		for (Iterator<String> iterator = list.iterator(); iterator
-				.hasNext(); par3 += this.FONT_HEIGHT)
+		for (Iterator<String> iterator = list.iterator(); iterator.hasNext();
+				par3 += this.FONT_HEIGHT)
 		{
 			String s1 = iterator.next();
-			this.renderStringAligned(s1, par2, par3, par4, this.textColor, par5, fontSize);
+			this.renderStringAligned(s1, par2, par3, par4, this.textColor, par5,
+					fontSize);
 		}
 	}
 
@@ -956,7 +997,8 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 	 */
 	public int splitStringWidth(String par1Str, int par2)
 	{
-		return this.FONT_HEIGHT * this.listFormattedStringToWidth(par1Str, par2).size();
+		return this.FONT_HEIGHT
+				* this.listFormattedStringToWidth(par1Str, par2).size();
 	}
 
 	/**
@@ -991,7 +1033,8 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 	 */
 	public List<String> listFormattedStringToWidth(String par1Str, int par2)
 	{
-		return Arrays.asList(this.wrapFormattedStringToWidth(par1Str, par2).split("\n"));
+		return Arrays.asList(
+				this.wrapFormattedStringToWidth(par1Str, par2).split("\n"));
 	}
 
 	/**
@@ -1011,7 +1054,8 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 			String s1 = par1Str.substring(0, j);
 			char c0 = par1Str.charAt(j);
 			boolean flag = c0 == 32 || c0 == 10;
-			String s2 = getFormatFromString(s1) + par1Str.substring(j + (flag ? 1 : 0));
+			String s2 = getFormatFromString(s1)
+					+ par1Str.substring(j + (flag ? 1 : 0));
 			return s1 + "\n" + this.wrapFormattedStringToWidth(s2, par2);
 		}
 	}
@@ -1089,7 +1133,8 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 	 */
 	private static boolean isFormatColor(char par0)
 	{
-		return par0 >= 48 && par0 <= 57 || par0 >= 97 && par0 <= 102 || par0 >= 65 && par0 <= 70;
+		return par0 >= 48 && par0 <= 57 || par0 >= 97 && par0 <= 102
+				|| par0 >= 65 && par0 <= 70;
 	}
 
 	/**
@@ -1098,7 +1143,8 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 	 */
 	private static boolean isFormatSpecial(char par0)
 	{
-		return par0 >= 107 && par0 <= 111 || par0 >= 75 && par0 <= 79 || par0 == 114 || par0 == 82;
+		return par0 >= 107 && par0 <= 111 || par0 >= 75 && par0 <= 79
+				|| par0 == 114 || par0 == 82;
 	}
 
 	/**

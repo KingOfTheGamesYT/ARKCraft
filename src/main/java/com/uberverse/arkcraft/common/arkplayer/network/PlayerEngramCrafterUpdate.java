@@ -38,14 +38,17 @@ public class PlayerEngramCrafterUpdate implements IMessage
 		ByteBufUtils.writeTag(buf, n);
 	}
 
-	public static class Handler implements IMessageHandler<PlayerEngramCrafterUpdate, IMessage>
+	public static class Handler
+			implements IMessageHandler<PlayerEngramCrafterUpdate, IMessage>
 	{
 		@Override
-		public IMessage onMessage(PlayerEngramCrafterUpdate message, MessageContext ctx)
+		public IMessage onMessage(PlayerEngramCrafterUpdate message,
+				MessageContext ctx)
 		{
 			if (ctx.side.isClient())
 			{
-				ARKPlayer.get(ARKCraft.proxy.getPlayerFromContext(ctx)).getEngramCrafter().readFromNBT(message.nbt);
+				ARKPlayer.get(ARKCraft.proxy.getPlayerFromContext(ctx))
+						.getEngramCrafter().readFromNBT(message.nbt);
 			}
 			return null;
 		}

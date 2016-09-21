@@ -24,8 +24,8 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 
-public abstract class TileEntityEngramCrafter extends TileEntity implements
-		IInventory, IUpdatePlayerListBox, IEngramCrafter
+public abstract class TileEntityEngramCrafter extends TileEntity
+		implements IInventory, IUpdatePlayerListBox, IEngramCrafter
 {
 	private ItemStack[] inventory;
 

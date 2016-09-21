@@ -38,14 +38,17 @@ public interface IBurner extends IInventoryAdder, NBTable
 		World world = getWorldIA();
 		if (!world.isRemote)
 		{
-			Collection<BurnerRecipe> possibleRecipes = BurnerManager.instance().getRecipes(getBurnerType());
-			possibleRecipes = CollectionUtil.filter(possibleRecipes, (BurnerRecipe r) -> canCook(r));
+			Collection<BurnerRecipe> possibleRecipes =
+					BurnerManager.instance().getRecipes(getBurnerType());
+			possibleRecipes = CollectionUtil.filter(possibleRecipes,
+					(BurnerRecipe r) -> canCook(r));
 
 			if (this.isBurning() && possibleRecipes.size() > 0)
 			{
 				Map<BurnerRecipe, Integer> activeRecipes = getActiveRecipes();
 
-				Iterator<Entry<BurnerRecipe, Integer>> it = activeRecipes.entrySet().iterator();
+				Iterator<Entry<BurnerRecipe, Integer>> it =
+						activeRecipes.entrySet().iterator();
 				while (it.hasNext())
 				{
 					Entry<BurnerRecipe, Integer> e = it.next();
@@ -82,7 +85,8 @@ public interface IBurner extends IInventoryAdder, NBTable
 				{
 					if (items[i] == s.getItem() && !done[i])
 					{
-						found[i] += required[i] > s.stackSize ? s.stackSize : required[i];
+						found[i] += required[i] > s.stackSize ? s.stackSize
+								: required[i];
 						done[i] = required[i] == found[i];
 					}
 				}
@@ -104,7 +108,8 @@ public interface IBurner extends IInventoryAdder, NBTable
 
 	public default void updateCookTimes()
 	{
-		Iterator<Entry<BurnerRecipe, Integer>> it = getActiveRecipes().entrySet().iterator();
+		Iterator<Entry<BurnerRecipe, Integer>> it =
+				getActiveRecipes().entrySet().iterator();
 		while (it.hasNext())
 		{
 			Entry<BurnerRecipe, Integer> e = it.next();
@@ -115,7 +120,8 @@ public interface IBurner extends IInventoryAdder, NBTable
 				{
 					consume(new ItemStack(i.getKey(), i.getValue()));
 				}
-				addOrDrop(new ItemStack(e.getKey().getItem(), e.getKey().getAmount()));
+				addOrDrop(new ItemStack(e.getKey().getItem(),
+						e.getKey().getAmount()));
 				it.remove();
 			}
 		}
@@ -197,7 +203,8 @@ public interface IBurner extends IInventoryAdder, NBTable
 		{
 			if (!getWorldIA().isRemote && fuel.hasOutput())
 			{
-				ItemStack s = new ItemStack(fuel.getOutput(), fuel.getOutputAmount());
+				ItemStack s =
+						new ItemStack(fuel.getOutput(), fuel.getOutputAmount());
 				addOrDrop(s);
 			}
 			setCurrentFuel(null);
@@ -206,15 +213,19 @@ public interface IBurner extends IInventoryAdder, NBTable
 		for (int i = 0; i < inventory.getSizeInventory(); i++)
 		{
 			ItemStack stack = inventory.getStackInSlot(i);
-			if (stack != null && BurnerManager.instance().isValidFuel(stack.getItem(), getBurnerType()))
+			if (stack != null && BurnerManager.instance()
+					.isValidFuel(stack.getItem(), getBurnerType()))
 			{
 				if (!getWorldIA().isRemote)
 				{
 					stack.stackSize--;
-					if (stack.stackSize == 0) inventory.setInventorySlotContents(i, null);
+					if (stack.stackSize == 0)
+						inventory.setInventorySlotContents(i, null);
 				}
-				setCurrentFuel(BurnerManager.instance().getFuel(stack.getItem()));
-				setBurningTicks(getBurningTicks() + BurnerManager.instance().getFuel(stack.getItem()).getBurnTime());
+				setCurrentFuel(
+						BurnerManager.instance().getFuel(stack.getItem()));
+				setBurningTicks(getBurningTicks() + BurnerManager.instance()
+						.getFuel(stack.getItem()).getBurnTime());
 				return true;
 			}
 		}
@@ -245,13 +256,16 @@ public interface IBurner extends IInventoryAdder, NBTable
 		setBurning(compound.getBoolean("burning"));
 		setBurningTicks(compound.getInteger("burningTicks"));
 
-		NBTTagList inventory = compound.getTagList("inventory", NBT.TAG_COMPOUND);
+		NBTTagList inventory =
+				compound.getTagList("inventory", NBT.TAG_COMPOUND);
 
 		Collection<NBTTagCompound> out = new ArrayList<>();
 		for (int i = 0; i < inventory.tagCount(); i++)
 			out.add(inventory.getCompoundTagAt(i));
 
-		List<ItemStack> in = CollectionUtil.convert(out, (NBTTagCompound n) -> n.getBoolean("null") ? null : ItemStack.loadItemStackFromNBT(n));
+		List<ItemStack> in = CollectionUtil.convert(out,
+				(NBTTagCompound n) -> n.getBoolean("null") ? null
+						: ItemStack.loadItemStackFromNBT(n));
 
 		for (int i = 0; i < getInventory().length; i++)
 			getInventory()[i] = in.get(i);
@@ -265,16 +279,17 @@ public interface IBurner extends IInventoryAdder, NBTable
 
 		NBTTagList inventory = new NBTTagList();
 
-		for (NBTTagCompound nbt : CollectionUtil.convert(Arrays.asList(getInventory()), (ItemStack s) -> {
-			NBTTagCompound n = new NBTTagCompound();
-			n.setBoolean("null", true);
-			if (s != null)
-			{
-				s.writeToNBT(n);
-				n.setBoolean("null", false);
-			}
-			return n;
-		}))
+		for (NBTTagCompound nbt : CollectionUtil
+				.convert(Arrays.asList(getInventory()), (ItemStack s) -> {
+					NBTTagCompound n = new NBTTagCompound();
+					n.setBoolean("null", true);
+					if (s != null)
+					{
+						s.writeToNBT(n);
+						n.setBoolean("null", false);
+					}
+					return n;
+				}))
 			inventory.appendTag(nbt);
 
 		compound.setTag("inventory", inventory);

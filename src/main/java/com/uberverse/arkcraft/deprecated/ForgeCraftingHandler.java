@@ -35,7 +35,8 @@ public class ForgeCraftingHandler
 		registerRecipe(r.toString(), r);
 	}
 
-	private static Map<String, ForgeRecipe> recipes = new HashMap<String, ForgeRecipe>();
+	private static Map<String, ForgeRecipe> recipes =
+			new HashMap<String, ForgeRecipe>();
 	private static Map<Item, Integer> fuels = new HashMap<Item, Integer>();
 
 	public static boolean registerFuel(Item i, int burnTime)

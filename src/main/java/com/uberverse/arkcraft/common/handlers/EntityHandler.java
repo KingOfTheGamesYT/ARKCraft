@@ -19,7 +19,8 @@ public class EntityHandler
 	public EntityHandler()
 	{}
 
-	public static void registerMonster(Class eClass, String name, BiomeGenBase... biomes)
+	public static void registerMonster(Class eClass, String name,
+			BiomeGenBase... biomes)
 	{
 		int eggID = EntityRegistry.findGlobalUniqueEntityId();
 		Random rand = new Random(name.hashCode());
@@ -27,9 +28,13 @@ public class EntityHandler
 		int secondColor = rand.nextInt() * 16777215;
 
 		EntityRegistry.registerGlobalEntityID(eClass, name, eggID);
-		EntityRegistry.addSpawn(eClass, 25, 2, 4, EnumCreatureType.CREATURE, biomes);
-		EntityRegistry.registerModEntity(eClass, name, ++entityID, ARKCraft.instance(), 64, 3, true);
-		EntityList.entityEggs.put(Integer.valueOf(eggID), new EntityList.EntityEggInfo(++entityID, mainColor, secondColor));
+		EntityRegistry.addSpawn(eClass, 25, 2, 4, EnumCreatureType.CREATURE,
+				biomes);
+		EntityRegistry.registerModEntity(eClass, name, ++entityID,
+				ARKCraft.instance(), 64, 3, true);
+		EntityList.entityEggs.put(Integer.valueOf(eggID),
+				new EntityList.EntityEggInfo(++entityID, mainColor,
+						secondColor));
 	}
 
 	public static void registerMonster(Class eClass, String name)
@@ -40,13 +45,17 @@ public class EntityHandler
 		int secondColor = rand.nextInt() * 16777215;
 
 		EntityRegistry.registerGlobalEntityID(eClass, name, eggID);
-		EntityRegistry.addSpawn(eClass, 25, 2, 4, EnumCreatureType.CREATURE, BiomeGenBase.beach, BiomeGenBase.desert, BiomeGenBase.forest,
+		EntityRegistry.addSpawn(eClass, 25, 2, 4, EnumCreatureType.CREATURE,
+				BiomeGenBase.beach, BiomeGenBase.desert, BiomeGenBase.forest,
 				BiomeGenBase.birchForest, BiomeGenBase.extremeHills);
-		EntityRegistry.registerModEntity(eClass, name, entityID, ARKCraft.instance(), 64, 1, true);
-		EntityList.entityEggs.put(Integer.valueOf(eggID), new EntityList.EntityEggInfo(entityID, mainColor, secondColor));
+		EntityRegistry.registerModEntity(eClass, name, entityID,
+				ARKCraft.instance(), 64, 1, true);
+		EntityList.entityEggs.put(Integer.valueOf(eggID),
+				new EntityList.EntityEggInfo(entityID, mainColor, secondColor));
 	}
 
-	public static void registerEntityEgg(Class eClass, String name, BiomeGenBase... biomes)
+	public static void registerEntityEgg(Class eClass, String name,
+			BiomeGenBase... biomes)
 	{
 		int id = getUniqueEntityId();
 		Random rand = new Random(name.hashCode());
@@ -57,16 +66,20 @@ public class EntityHandler
 		// TODO Model error
 		// EntityRegistry.registerModEntity(eClass, name, id,
 		// ARKCraft.instance(), 64, 4, true);
-		EntityRegistry.addSpawn(eClass, 5, 2, 4, EnumCreatureType.CREATURE, biomes);
+		EntityRegistry.addSpawn(eClass, 5, 2, 4, EnumCreatureType.CREATURE,
+				biomes);
 		EntityList.idToClassMapping.put(id, eClass);
-		EntityList.entityEggs.put(Integer.valueOf(id), new EntityList.EntityEggInfo(id, mainColor, secondColor));
+		EntityList.entityEggs.put(Integer.valueOf(id),
+				new EntityList.EntityEggInfo(id, mainColor, secondColor));
 	}
 
-	public static void registerEntity(Class<? extends Entity> entity, int primaryColor, int secondaryColor)
+	public static void registerEntity(Class<? extends Entity> entity,
+			int primaryColor, int secondaryColor)
 	{
 		int id = getUniqueEntityId();
 		EntityList.idToClassMapping.put(id, entity);
-		EntityList.entityEggs.put(id, new EntityEggInfo(id, primaryColor, secondaryColor));
+		EntityList.entityEggs.put(id,
+				new EntityEggInfo(id, primaryColor, secondaryColor));
 	}
 
 	public static int getUniqueEntityId()
@@ -94,9 +107,12 @@ public class EntityHandler
 	// EntityList.EntityEggInfo(entityID, mainColor, secondColor));
 	// }
 
-	public static void registerModEntity(Class<? extends Entity> eClass, String name, Object mainClass, int trackRange, int updateFreq, boolean sVU)
+	public static void registerModEntity(Class<? extends Entity> eClass,
+			String name, Object mainClass, int trackRange, int updateFreq,
+			boolean sVU)
 	{
-		EntityRegistry.registerModEntity(eClass, name, ++entityID, mainClass, trackRange, updateFreq, sVU);
+		EntityRegistry.registerModEntity(eClass, name, ++entityID, mainClass,
+				trackRange, updateFreq, sVU);
 	}
 
 }

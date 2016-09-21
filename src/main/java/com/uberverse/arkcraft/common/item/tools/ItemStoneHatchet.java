@@ -29,9 +29,11 @@ public class ItemStoneHatchet extends ItemAxe
 	public float getStrVsBlock(ItemStack stack, Block block)
 	{
 
-		return block.getMaterial() != Material.wood && block.getMaterial() != Material.vine && block
-				.getMaterial() != Material.plants ? super.getStrVsBlock(stack,
-						block) : this.efficiencyOnProperMaterial;
+		return block.getMaterial() != Material.wood
+				&& block.getMaterial() != Material.vine
+				&& block.getMaterial() != Material.plants
+						? super.getStrVsBlock(stack, block)
+						: this.efficiencyOnProperMaterial;
 	}
 
 	public boolean isArkTool()

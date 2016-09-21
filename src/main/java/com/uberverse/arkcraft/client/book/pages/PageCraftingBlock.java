@@ -8,10 +8,8 @@ import net.minecraft.block.Block;
 import net.minecraft.util.StatCollector;
 
 /**
- * 
  * @author Archiving This page is for crafting recipes that also have a block
  *         model.
- * 
  */
 public class PageCraftingBlock extends Page
 {
@@ -22,7 +20,8 @@ public class PageCraftingBlock extends Page
 	public String recipeImage;
 
 	@Override
-	public void draw(int guiLeft, int guiTop, int mouseX, int mouseY, SmallFontRenderer renderer, boolean canTranslate, GuiInfoBook book)
+	public void draw(int guiLeft, int guiTop, int mouseX, int mouseY,
+			SmallFontRenderer renderer, boolean canTranslate, GuiInfoBook book)
 	{
 		if (result != null)
 		{

@@ -28,7 +28,8 @@ public class GUIPlayerCrafting extends GuiContainer
 {
 
 	public String name = "Built-in Crafting";
-	public static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID, "textures/gui/player_inventory_gui.png");
+	public static final ResourceLocation texture = new ResourceLocation(
+			ARKCraft.MODID, "textures/gui/player_inventory_gui.png");
 	public InventoryBlueprints inventoryBlueprints;
 	private GuiButton[] buttonCraftOne;
 	private GuiButton engramButton;
@@ -38,7 +39,8 @@ public class GUIPlayerCrafting extends GuiContainer
 	{
 		super(new ContainerInventoryPlayerCrafting(invPlayer, player));
 		inventoryBlueprints = ARKPlayer.get(player).getInventoryBlueprints();
-		LogHelper.info("GuiPlayerCrafting: Constructor called on " + FMLCommonHandler.instance().getEffectiveSide());
+		LogHelper.info("GuiPlayerCrafting: Constructor called on "
+				+ FMLCommonHandler.instance().getEffectiveSide());
 
 		this.player = player;
 		this.xSize = 175;
@@ -66,21 +68,31 @@ public class GUIPlayerCrafting extends GuiContainer
 		// Add all the buttons that allow you to craft from blueprints
 		int buttonId = 0;
 		buttonList.clear();
-		buttonCraftOne = new GuiButton[ContainerInventoryPlayerCrafting.BP_SLOT_COUNT];
-		for (int row = 0; row < ContainerInventoryPlayerCrafting.NUM_ROWS_BP; row++)
+		buttonCraftOne =
+				new GuiButton[ContainerInventoryPlayerCrafting.BP_SLOT_COUNT];
+		for (int row = 0; row < ContainerInventoryPlayerCrafting.NUM_ROWS_BP;
+				row++)
 		{
-			for (int col = 0; col < ContainerInventoryPlayerCrafting.NUM_COLUMNS_BP; col++)
+			for (int col = 0;
+					col < ContainerInventoryPlayerCrafting.NUM_COLUMNS_BP;
+					col++)
 			{
-				int i = col + row * ContainerInventoryPlayerCrafting.NUM_COLUMNS_BP;
-				int x = ContainerInventoryPlayerCrafting.BLUEPRINT_XPOS + col * 18;
-				int y = ContainerInventoryPlayerCrafting.BLUEPRINT_YPOS + row * 18;
-				buttonCraftOne[i] = new GuiButton(buttonId++, guiLeft + x, guiTop + y, BLUEPRINT_WIDTH, BLUEPRINT_HEIGHT, "");
+				int i = col
+						+ row * ContainerInventoryPlayerCrafting.NUM_COLUMNS_BP;
+				int x = ContainerInventoryPlayerCrafting.BLUEPRINT_XPOS
+						+ col * 18;
+				int y = ContainerInventoryPlayerCrafting.BLUEPRINT_YPOS
+						+ row * 18;
+				buttonCraftOne[i] = new GuiButton(buttonId++, guiLeft + x,
+						guiTop + y, BLUEPRINT_WIDTH, BLUEPRINT_HEIGHT, "");
 				buttonList.add(buttonCraftOne[i]);
 			}
 		}
 
-		engramButton = new GuiButton(ContainerInventoryPlayerCrafting.NUM_ROWS_BP * ContainerInventoryPlayerCrafting.NUM_COLUMNS_BP, guiLeft + 119,
-				guiTop + 9, 50, 10, "Engrams");
+		engramButton = new GuiButton(
+				ContainerInventoryPlayerCrafting.NUM_ROWS_BP
+						* ContainerInventoryPlayerCrafting.NUM_COLUMNS_BP,
+				guiLeft + 119, guiTop + 9, 50, 10, "Engrams");
 		this.buttonList.add(engramButton);
 	}
 
@@ -93,22 +105,31 @@ public class GUIPlayerCrafting extends GuiContainer
 		if (button == engramButton)
 		{
 			// Minecraft.getMinecraft().displayGuiScreen(null);
-			player.openGui(ARKCraft.instance(), CommonProxy.GUI.ENGRAMS.id, player.worldObj, 0, 0, 0);
+			player.openGui(ARKCraft.instance(), CommonProxy.GUI.ENGRAMS.id,
+					player.worldObj, 0, 0, 0);
 		}
 		else
 		{
-			for (int row = 0; row < ContainerInventoryPlayerCrafting.NUM_ROWS_BP; row++)
+			for (int row = 0;
+					row < ContainerInventoryPlayerCrafting.NUM_ROWS_BP; row++)
 			{
-				for (int col = 0; col < ContainerInventoryPlayerCrafting.NUM_COLUMNS_BP; col++)
+				for (int col = 0;
+						col < ContainerInventoryPlayerCrafting.NUM_COLUMNS_BP;
+						col++)
 				{
-					int i = col + row * ContainerInventoryPlayerCrafting.NUM_COLUMNS_BP;
+					int i = col + row
+							* ContainerInventoryPlayerCrafting.NUM_COLUMNS_BP;
 					if (button == buttonCraftOne[i])
 					{
 						inventoryBlueprints.setCraftOnePressed(true, i, true); // and
 																				// update
 																				// server
-						inventoryBlueprints.setxButtonPressed(ContainerInventoryPlayerCrafting.BLUEPRINT_XPOS + col * 18);
-						inventoryBlueprints.setyButtonPressed(ContainerInventoryPlayerCrafting.BLUEPRINT_YPOS + row * 18);
+						inventoryBlueprints.setxButtonPressed(
+								ContainerInventoryPlayerCrafting.BLUEPRINT_XPOS
+										+ col * 18);
+						inventoryBlueprints.setyButtonPressed(
+								ContainerInventoryPlayerCrafting.BLUEPRINT_YPOS
+										+ row * 18);
 					}
 				}
 			}
@@ -148,12 +169,14 @@ public class GUIPlayerCrafting extends GuiContainer
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
 		// Name of GUI at top
-		this.fontRendererObj.drawString(name, ContainerInventoryPlayerCrafting.BLUEPRINT_XPOS/*
-																								 * (int) (xSize /
-																								 * 2) -
-																								 * (name.length(
-																								 * ) * 5 / 2)
-																								 */, 5, Color.darkGray.getRGB());
+		this.fontRendererObj.drawString(name,
+				ContainerInventoryPlayerCrafting.BLUEPRINT_XPOS/*
+																 * (int) (xSize
+																 * / 2) -
+																 * (name.length(
+																 * ) * 5 / 2)
+																 */, 5,
+				Color.darkGray.getRGB());
 
 		List<String> hoveringText = new ArrayList<String>();
 
@@ -211,23 +234,27 @@ public class GUIPlayerCrafting extends GuiContainer
 		// If hoveringText is not empty draw the hovering text
 		if (!hoveringText.isEmpty())
 		{
-			drawHoveringText(hoveringText, mouseX - guiLeft, mouseY - guiTop, fontRendererObj);
+			drawHoveringText(hoveringText, mouseX - guiLeft, mouseY - guiTop,
+					fontRendererObj);
 		}
 
 		// Draw the animation to show that the item is being crafted
 		if (inventoryBlueprints.isCrafting())
 		{
-			double fraction = inventoryBlueprints.fractionCraftingRemainingForItem();
+			double fraction =
+					inventoryBlueprints.fractionCraftingRemainingForItem();
 			if (fraction <= 0.01D) { return; }
 			int color = 0x60EAA800;
 			int x = inventoryBlueprints.getxButtonPressed();
 			int y = inventoryBlueprints.getyButtonPressed();
-			drawRect(x, y + (int) (fraction * BLUEPRINT_HEIGHT), x + BLUEPRINT_WIDTH, y + BLUEPRINT_HEIGHT, color);
+			drawRect(x, y + (int) (fraction * BLUEPRINT_HEIGHT),
+					x + BLUEPRINT_WIDTH, y + BLUEPRINT_HEIGHT, color);
 		}
 	}
 
 	// abstract in super
-	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
+	protected void drawGuiContainerBackgroundLayer(float partialTicks,
+			int mouseX, int mouseY)
 	{
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
@@ -235,8 +262,10 @@ public class GUIPlayerCrafting extends GuiContainer
 	}
 
 	// Returns true if the given x,y coordinates are within the given rectangle
-	public static boolean isInRect(int x, int y, int xSize, int ySize, int mouseX, int mouseY)
+	public static boolean isInRect(int x, int y, int xSize, int ySize,
+			int mouseX, int mouseY)
 	{
-		return ((mouseX >= x && mouseX <= x + xSize) && (mouseY >= y && mouseY <= y + ySize));
+		return ((mouseX >= x && mouseX <= x + xSize)
+				&& (mouseY >= y && mouseY <= y + ySize));
 	}
 }

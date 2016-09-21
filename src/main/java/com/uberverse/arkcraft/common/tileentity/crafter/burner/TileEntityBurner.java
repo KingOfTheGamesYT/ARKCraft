@@ -23,7 +23,8 @@ import net.minecraft.world.World;
 /**
  * @author Lewis_McReu
  */
-public abstract class TileEntityBurner extends TileEntity implements IInventory, IUpdatePlayerListBox, IBurner
+public abstract class TileEntityBurner extends TileEntity
+		implements IInventory, IUpdatePlayerListBox, IBurner
 {
 	private ItemStack[] inventory;
 	/** the currently active recipes */
@@ -114,7 +115,8 @@ public abstract class TileEntityBurner extends TileEntity implements IInventory,
 	@Override
 	public ItemStack getStackInSlot(int index)
 	{
-		return index >= 0 && index < getSizeInventory() ? inventory[index] : null;
+		return index >= 0 && index < getSizeInventory() ? inventory[index]
+				: null;
 	}
 
 	@Override

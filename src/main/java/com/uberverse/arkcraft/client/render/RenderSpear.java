@@ -15,24 +15,26 @@ import com.uberverse.arkcraft.common.entity.EntitySpear;
 
 public class RenderSpear extends Render
 {
-	private static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID,
-			"textures/entity/spear.png");
+	private static final ResourceLocation texture =
+			new ResourceLocation(ARKCraft.MODID, "textures/entity/spear.png");
 
 	public RenderSpear()
 	{
 		super(Minecraft.getMinecraft().getRenderManager());
 	}
 
-	public void doRender(EntitySpear entityarrow, double d, double d1, double d2, float f, float f1)
+	public void doRender(EntitySpear entityarrow, double d, double d1,
+			double d2, float f, float f1)
 	{
 		bindEntityTexture(entityarrow);
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) d, (float) d1, (float) d2);
+		GL11.glRotatef((entityarrow.prevRotationYaw
+				+ (entityarrow.rotationYaw - entityarrow.prevRotationYaw) * f1)
+				- 90F, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(
-				(entityarrow.prevRotationYaw + (entityarrow.rotationYaw - entityarrow.prevRotationYaw) * f1) - 90F,
-				0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(
-				entityarrow.prevRotationPitch + (entityarrow.rotationPitch - entityarrow.prevRotationPitch) * f1,
+				entityarrow.prevRotationPitch + (entityarrow.rotationPitch
+						- entityarrow.prevRotationPitch) * f1,
 				0.0F, 0.0F, 1.0F);
 		Tessellator tess = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tess.getWorldRenderer();
@@ -93,7 +95,8 @@ public class RenderSpear extends Render
 	}
 
 	@Override
-	public void doRender(Entity entity, double d, double d1, double d2, float f, float f1)
+	public void doRender(Entity entity, double d, double d1, double d2, float f,
+			float f1)
 	{
 		doRender((EntitySpear) entity, d, d1, d2, f, f1);
 	}

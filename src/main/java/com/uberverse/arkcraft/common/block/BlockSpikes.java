@@ -23,18 +23,22 @@ public class BlockSpikes extends Block
 	}
 
 	@Override
-	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
+	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos,
+			IBlockState state, Entity entityIn)
 	{
 		entityIn.attackEntityFrom(DamageSource.cactus, 4.0F);
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
+	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos,
+			IBlockState state)
 	{
 		float f = 0.0625F;
-		return new AxisAlignedBB((double) ((float) pos.getX() + f), (double) pos.getY(),
-				(double) ((float) pos.getZ() + f), (double) ((float) (pos.getX() + 1) - f),
-				(double) ((float) (pos.getY() + 1) - f), (double) ((float) (pos.getZ() + 1) - f));
+		return new AxisAlignedBB((double) ((float) pos.getX() + f),
+				(double) pos.getY(), (double) ((float) pos.getZ() + f),
+				(double) ((float) (pos.getX() + 1) - f),
+				(double) ((float) (pos.getY() + 1) - f),
+				(double) ((float) (pos.getZ() + 1) - f));
 	}
 
 	@Override
@@ -42,9 +46,11 @@ public class BlockSpikes extends Block
 	public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos)
 	{
 		float f = 0.0F;
-		return new AxisAlignedBB((double) ((float) pos.getX() + f), (double) pos.getY(),
-				(double) ((float) pos.getZ() + f), (double) ((float) (pos.getX() + 1) - f),
-				(double) (pos.getY() + 1), (double) ((float) (pos.getZ() + 1) - f));
+		return new AxisAlignedBB((double) ((float) pos.getX() + f),
+				(double) pos.getY(), (double) ((float) pos.getZ() + f),
+				(double) ((float) (pos.getX() + 1) - f),
+				(double) (pos.getY() + 1),
+				(double) ((float) (pos.getZ() + 1) - f));
 	}
 
 	@Override

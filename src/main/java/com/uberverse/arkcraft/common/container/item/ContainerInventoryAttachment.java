@@ -25,15 +25,16 @@ public class ContainerInventoryAttachment extends Container
 
 		if (ATTACHMENT_SLOT_COUNT != tileInventoryAttachment.getSizeInventory())
 		{
-			LogHelper
-					.error("Mismatched slot count in container(" + ATTACHMENT_SLOT_COUNT + ") and CompostBinInventory (" + tileInventoryAttachment
-							.getSizeInventory() + ")");
+			LogHelper.error("Mismatched slot count in container("
+					+ ATTACHMENT_SLOT_COUNT + ") and CompostBinInventory ("
+					+ tileInventoryAttachment.getSizeInventory() + ")");
 		}
 		for (int col = 0; col < ATTACHMENT_SLOT_COUNT; col++)
 		{
 			int slotIndex = col;
-			addSlotToContainer(new SlotAttachment(tileInventoryAttachment, slotIndex,
-					ATTACHMENT_SLOT_XPOS + col * 18, ATTACHMENT_SLOT_YPOS));
+			addSlotToContainer(new SlotAttachment(tileInventoryAttachment,
+					slotIndex, ATTACHMENT_SLOT_XPOS + col * 18,
+					ATTACHMENT_SLOT_YPOS));
 		}
 
 		/* Player inventory */
@@ -52,7 +53,8 @@ public class ContainerInventoryAttachment extends Container
 		final int HOTBAR_YPOS = 142;
 		for (int col = 0; col < 9; col++)
 		{
-			addSlotToContainer(new Slot(invPlayer, col, 8 + col * 18, HOTBAR_YPOS));
+			addSlotToContainer(
+					new Slot(invPlayer, col, 8 + col * 18, HOTBAR_YPOS));
 		}
 	}
 
@@ -90,8 +92,8 @@ public class ContainerInventoryAttachment extends Container
 				if (index >= ATTACHMENT_SLOT_COUNT)
 				{
 					// place in custom inventory
-					if (!this.mergeItemStack(itemstack1, 0, ATTACHMENT_SLOT_COUNT,
-							false)) { return null; }
+					if (!this.mergeItemStack(itemstack1, 0,
+							ATTACHMENT_SLOT_COUNT, false)) { return null; }
 				}
 			}
 
@@ -113,12 +115,13 @@ public class ContainerInventoryAttachment extends Container
 	}
 
 	@Override
-	public ItemStack slotClick(int slot, int button, int flag, EntityPlayer player)
+	public ItemStack slotClick(int slot, int button, int flag,
+			EntityPlayer player)
 	{
 		// this will prevent the player from interacting with the item that
 		// opened the inventory:
-		if (slot >= 0 && getSlot(slot) != null && getSlot(slot).getStack() == player
-				.getHeldItem()) { return null; }
+		if (slot >= 0 && getSlot(slot) != null && getSlot(slot)
+				.getStack() == player.getHeldItem()) { return null; }
 		return super.slotClick(slot, button, flag, player);
 	}
 
@@ -131,7 +134,8 @@ public class ContainerInventoryAttachment extends Container
 	 * for slot
 	 */
 	@Override
-	protected boolean mergeItemStack(ItemStack stack, int start, int end, boolean backwards)
+	protected boolean mergeItemStack(ItemStack stack, int start, int end,
+			boolean backwards)
 	{
 		boolean flag1 = false;
 		int k = (backwards ? end - 1 : start);
@@ -140,7 +144,8 @@ public class ContainerInventoryAttachment extends Container
 
 		if (stack.isStackable())
 		{
-			while (stack.stackSize > 0 && (!backwards && k < end || backwards && k >= start))
+			while (stack.stackSize > 0
+					&& (!backwards && k < end || backwards && k >= start))
 			{
 				slot = (Slot) inventorySlots.get(k);
 				itemstack1 = slot.getStack();
@@ -151,24 +156,27 @@ public class ContainerInventoryAttachment extends Container
 					continue;
 				}
 
-				if (itemstack1 != null && itemstack1.getItem() == stack
-						.getItem() && (!stack.getHasSubtypes() || stack
-								.getItemDamage() == itemstack1.getItemDamage()) && ItemStack
-										.areItemStackTagsEqual(stack, itemstack1))
+				if (itemstack1 != null
+						&& itemstack1.getItem() == stack.getItem()
+						&& (!stack.getHasSubtypes() || stack
+								.getItemDamage() == itemstack1.getItemDamage())
+						&& ItemStack.areItemStackTagsEqual(stack, itemstack1))
 				{
 					int l = itemstack1.stackSize + stack.stackSize;
 
-					if (l <= stack.getMaxStackSize() && l <= slot.getSlotStackLimit())
+					if (l <= stack.getMaxStackSize()
+							&& l <= slot.getSlotStackLimit())
 					{
 						stack.stackSize = 0;
 						itemstack1.stackSize = l;
 						tileInventoryAttachment.markDirty();
 						flag1 = true;
 					}
-					else if (itemstack1.stackSize < stack.getMaxStackSize() && l < slot
-							.getSlotStackLimit())
+					else if (itemstack1.stackSize < stack.getMaxStackSize()
+							&& l < slot.getSlotStackLimit())
 					{
-						stack.stackSize -= stack.getMaxStackSize() - itemstack1.stackSize;
+						stack.stackSize -=
+								stack.getMaxStackSize() - itemstack1.stackSize;
 						itemstack1.stackSize = stack.getMaxStackSize();
 						tileInventoryAttachment.markDirty();
 						flag1 = true;
@@ -208,8 +216,10 @@ public class ContainerInventoryAttachment extends Container
 					}
 					else
 					{
-						putStackInSlot(k, new ItemStack(stack.getItem(), slot.getSlotStackLimit(),
-								stack.getItemDamage()));
+						putStackInSlot(k,
+								new ItemStack(stack.getItem(),
+										slot.getSlotStackLimit(),
+										stack.getItemDamage()));
 						stack.stackSize -= slot.getSlotStackLimit();
 						tileInventoryAttachment.markDirty();
 						flag1 = true;
@@ -234,7 +244,8 @@ public class ContainerInventoryAttachment extends Container
 		@Override
 		public boolean isItemValid(ItemStack stack)
 		{
-			return tileInventoryAttachment.isItemValidForSlot(this.slotNumber, stack);
+			return tileInventoryAttachment.isItemValidForSlot(this.slotNumber,
+					stack);
 		}
 
 	}

@@ -41,8 +41,9 @@ public class ContainerInventorySmithy extends Container
 			for (int col = 0; col < 9; col++)
 			{
 				int slotIndex = col + row * 9;
-				addSlotToContainer(new SlotRecipeInventory(this.tileInventorySmithy, slotIndex,
-						8 + col * 18, RECIPE_ITEM_SLOT_YPOS + row * 18));
+				addSlotToContainer(new SlotRecipeInventory(
+						this.tileInventorySmithy, slotIndex, 8 + col * 18,
+						RECIPE_ITEM_SLOT_YPOS + row * 18));
 			}
 		}
 
@@ -50,7 +51,8 @@ public class ContainerInventorySmithy extends Container
 		final int HOTBAR_YPOS = 186;
 		for (int col = 0; col < 9; col++)
 		{
-			addSlotToContainer(new Slot(invPlayer, col, 8 + col * 18, HOTBAR_YPOS));
+			addSlotToContainer(
+					new Slot(invPlayer, col, 8 + col * 18, HOTBAR_YPOS));
 		}
 
 		/* Player inventory */
@@ -82,7 +84,8 @@ public class ContainerInventorySmithy extends Container
 		super.onContainerClosed(playerIn);
 	}
 
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int sourceSlotIndex)
+	public ItemStack transferStackInSlot(EntityPlayer playerIn,
+			int sourceSlotIndex)
 	{
 		LogHelper.info("ARKContainerSmithy: transferStackInSlot called.");
 		Slot sourceSlot = (Slot) inventorySlots.get(sourceSlotIndex);
@@ -91,22 +94,26 @@ public class ContainerInventorySmithy extends Container
 		ItemStack copyOfSourceStack = sourceStack.copy();
 
 		// Check if the slot clicked is a MP container slot
-		int nonPlayerSlotsCount = TileInventorySmithy.BLUEPRINT_SLOTS_COUNT + TileInventorySmithy.INVENTORY_SLOTS_COUNT;
-		if (sourceSlotIndex > TileInventorySmithy.BLUEPRINT_SLOTS_COUNT - 1 && sourceSlotIndex < nonPlayerSlotsCount)
+		int nonPlayerSlotsCount = TileInventorySmithy.BLUEPRINT_SLOTS_COUNT
+				+ TileInventorySmithy.INVENTORY_SLOTS_COUNT;
+		if (sourceSlotIndex > TileInventorySmithy.BLUEPRINT_SLOTS_COUNT - 1
+				&& sourceSlotIndex < nonPlayerSlotsCount)
 		{
 			// This is a Smithy inventory slot so merge the stack into the
 			// players inventory
-			if (!mergeItemStack(sourceStack, nonPlayerSlotsCount, 36 + nonPlayerSlotsCount,
-					false)) { return null; }
+			if (!mergeItemStack(sourceStack, nonPlayerSlotsCount,
+					36 + nonPlayerSlotsCount, false)) { return null; }
 		}
 		// Check if the slot clicked is one of the vanilla container slots
-		else if (sourceSlotIndex >= nonPlayerSlotsCount && sourceSlotIndex < 36 + nonPlayerSlotsCount)
+		else if (sourceSlotIndex >= nonPlayerSlotsCount
+				&& sourceSlotIndex < 36 + nonPlayerSlotsCount)
 		{
 			if (tileInventorySmithy.isItemValidForRecipeSlot(sourceStack))
 			{
 				// This is a vanilla container slot so merge the stack into the
 				// Smithy inventory
-				if (!mergeItemStack(sourceStack, TileInventorySmithy.BLUEPRINT_SLOTS_COUNT,
+				if (!mergeItemStack(sourceStack,
+						TileInventorySmithy.BLUEPRINT_SLOTS_COUNT,
 						nonPlayerSlotsCount, false)) { return null; }
 			}
 			else
@@ -162,7 +169,8 @@ public class ContainerInventorySmithy extends Container
 		super.detectAndSendChanges();
 
 		boolean allFieldsHaveChanged = false;
-		boolean fieldHasChanged[] = new boolean[tileInventorySmithy.getFieldCount()];
+		boolean fieldHasChanged[] =
+				new boolean[tileInventorySmithy.getFieldCount()];
 		if (cachedFields == null)
 		{
 			cachedFields = new int[tileInventorySmithy.getFieldCount()];
@@ -170,7 +178,8 @@ public class ContainerInventorySmithy extends Container
 		}
 		for (int i = 0; i < cachedFields.length; ++i)
 		{
-			if (allFieldsHaveChanged || cachedFields[i] != tileInventorySmithy.getField(i))
+			if (allFieldsHaveChanged
+					|| cachedFields[i] != tileInventorySmithy.getField(i))
 			{
 				cachedFields[i] = tileInventorySmithy.getField(i);
 				fieldHasChanged[i] = true;
@@ -182,13 +191,15 @@ public class ContainerInventorySmithy extends Container
 		for (int i = 0; i < this.crafters.size(); ++i)
 		{
 			ICrafting icrafting = (ICrafting) this.crafters.get(i);
-			for (int fieldID = 0; fieldID < tileInventorySmithy.getFieldCount(); ++fieldID)
+			for (int fieldID = 0; fieldID < tileInventorySmithy.getFieldCount();
+					++fieldID)
 			{
 				if (fieldHasChanged[fieldID])
 				{
 					// Note that although sendProgressBarUpdate takes 2 ints on
 					// a server these are truncated to shorts
-					icrafting.sendProgressBarUpdate(this, fieldID, cachedFields[fieldID]);
+					icrafting.sendProgressBarUpdate(this, fieldID,
+							cachedFields[fieldID]);
 				}
 			}
 		}

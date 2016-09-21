@@ -22,8 +22,7 @@ public class PlayerPoop implements IMessage
 	 * Don't use
 	 */
 	public PlayerPoop()
-	{
-	}
+	{}
 
 	public PlayerPoop(boolean doIt)
 	{
@@ -49,7 +48,8 @@ public class PlayerPoop implements IMessage
 		{
 			if (ctx.side != Side.SERVER)
 			{
-				System.err.println("MPUpdateDoCraft received on wrong side:" + ctx.side);
+				System.err.println(
+						"MPUpdateDoCraft received on wrong side:" + ctx.side);
 				return null;
 			}
 			final EntityPlayerMP player = ctx.getServerHandler().playerEntity;

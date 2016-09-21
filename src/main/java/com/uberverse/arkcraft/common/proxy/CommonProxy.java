@@ -81,7 +81,8 @@ public abstract class CommonProxy
 		}
 	}
 
-	@SidedProxy(clientSide = "com.uberverse.arkcraft.client.book.proxy.BookClient",
+	@SidedProxy(
+			clientSide = "com.uberverse.arkcraft.client.book.proxy.BookClient",
 			serverSide = "com.uberverse.arkcraft.client.book.proxy.BookCommon")
 	public static BookCommon dossierProxy;
 
@@ -102,7 +103,8 @@ public abstract class CommonProxy
 		ARKCraftItems.init();
 		ARKCraftRangedWeapons.init();
 		ARKCraftAchievements.init();
-		NetworkRegistry.INSTANCE.registerGuiHandler(ARKCraft.instance(), new GuiHandler());
+		NetworkRegistry.INSTANCE.registerGuiHandler(ARKCraft.instance(),
+				new GuiHandler());
 
 		EngramManager.init();
 		ARKCraftItems.initBlueprints();
@@ -132,33 +134,49 @@ public abstract class CommonProxy
 
 	private final void setupNetwork(FMLPreInitializationEvent event)
 	{
-		SimpleNetworkWrapper modChannel = NetworkRegistry.INSTANCE.newSimpleChannel(ARKCraft.MODID);
+		SimpleNetworkWrapper modChannel =
+				NetworkRegistry.INSTANCE.newSimpleChannel(ARKCraft.MODID);
 		ARKCraft.modChannel = modChannel;
 
 		int id = 0;
-		// The handler (usually in the packet class), the packet class, unique identifier, side to be handled
-		modChannel.registerMessage(PlayerPoop.Handler.class, PlayerPoop.class, id++, Side.SERVER);
-		modChannel.registerMessage(UpdateMPToCraftItem.Handler.class, UpdateMPToCraftItem.class, id++, Side.SERVER);
-		modChannel.registerMessage(UpdateSmithyToCraftItem.Handler.class, UpdateSmithyToCraftItem.class, id++,
-				Side.SERVER);
-		modChannel.registerMessage(OpenPlayerCrafting.Handler.class, OpenPlayerCrafting.class, id++, Side.SERVER);
-		modChannel.registerMessage(UpdatePlayerCrafting.Handler.class, UpdatePlayerCrafting.class, id++, Side.SERVER);
-		modChannel.registerMessage(OpenAttachmentInventory.Handler.class, OpenAttachmentInventory.class, id++,
-				Side.SERVER);
-		modChannel.registerMessage(ReloadStarted.Handler.class, ReloadStarted.class, id++, Side.SERVER);
-		modChannel.registerMessage(ReloadFinished.Handler.class, ReloadFinished.class, id++, Side.CLIENT);
-		modChannel.registerMessage(MessageHover.class, MessageHover.class, id++, Side.CLIENT);
-		modChannel.registerMessage(MessageHoverReq.class, MessageHoverReq.class, id++, Side.SERVER);
-		modChannel.registerMessage(BurnerToggle.Handler.class, BurnerToggle.class, id++, Side.SERVER);
-		modChannel.registerMessage(SyncPlayerData.Handler.class, SyncPlayerData.class, id++, Side.CLIENT);
-		modChannel.registerMessage(UpdateEngrams.Handler.class, UpdateEngrams.class, id++, Side.CLIENT);
-		modChannel.registerMessage(ARKPlayerUpdateRequest.Handler.class, ARKPlayerUpdateRequest.class, id++,
-				Side.SERVER);
-		modChannel.registerMessage(ARKPlayerUpdate.Handler.class, ARKPlayerUpdate.class, id++, Side.CLIENT);
-		modChannel.registerMessage(PlayerEngramCrafterUpdate.Handler.class, PlayerEngramCrafterUpdate.class, id++,
+		// The handler (usually in the packet class), the packet class, unique
+		// identifier, side to be handled
+		modChannel.registerMessage(PlayerPoop.Handler.class, PlayerPoop.class,
+				id++, Side.SERVER);
+		modChannel.registerMessage(UpdateMPToCraftItem.Handler.class,
+				UpdateMPToCraftItem.class, id++, Side.SERVER);
+		modChannel.registerMessage(UpdateSmithyToCraftItem.Handler.class,
+				UpdateSmithyToCraftItem.class, id++, Side.SERVER);
+		modChannel.registerMessage(OpenPlayerCrafting.Handler.class,
+				OpenPlayerCrafting.class, id++, Side.SERVER);
+		modChannel.registerMessage(UpdatePlayerCrafting.Handler.class,
+				UpdatePlayerCrafting.class, id++, Side.SERVER);
+		modChannel.registerMessage(OpenAttachmentInventory.Handler.class,
+				OpenAttachmentInventory.class, id++, Side.SERVER);
+		modChannel.registerMessage(ReloadStarted.Handler.class,
+				ReloadStarted.class, id++, Side.SERVER);
+		modChannel.registerMessage(ReloadFinished.Handler.class,
+				ReloadFinished.class, id++, Side.CLIENT);
+		modChannel.registerMessage(MessageHover.class, MessageHover.class, id++,
 				Side.CLIENT);
-		modChannel.registerMessage(ScrollGui.Handler.class, ScrollGui.class, id++, Side.SERVER);
-		modChannel.registerMessage(ARKModeToggle.Handler.class, ARKModeToggle.class, id++, Side.SERVER);
+		modChannel.registerMessage(MessageHoverReq.class, MessageHoverReq.class,
+				id++, Side.SERVER);
+		modChannel.registerMessage(BurnerToggle.Handler.class,
+				BurnerToggle.class, id++, Side.SERVER);
+		modChannel.registerMessage(SyncPlayerData.Handler.class,
+				SyncPlayerData.class, id++, Side.CLIENT);
+		modChannel.registerMessage(UpdateEngrams.Handler.class,
+				UpdateEngrams.class, id++, Side.CLIENT);
+		modChannel.registerMessage(ARKPlayerUpdateRequest.Handler.class,
+				ARKPlayerUpdateRequest.class, id++, Side.SERVER);
+		modChannel.registerMessage(ARKPlayerUpdate.Handler.class,
+				ARKPlayerUpdate.class, id++, Side.CLIENT);
+		modChannel.registerMessage(PlayerEngramCrafterUpdate.Handler.class,
+				PlayerEngramCrafterUpdate.class, id++, Side.CLIENT);
+		modChannel.registerMessage(ScrollGui.Handler.class, ScrollGui.class,
+				id++, Side.SERVER);
+		modChannel.registerMessage(ARKModeToggle.Handler.class,
+				ARKModeToggle.class, id++, Side.SERVER);
 
 		DescriptionHandler.init();
 	}

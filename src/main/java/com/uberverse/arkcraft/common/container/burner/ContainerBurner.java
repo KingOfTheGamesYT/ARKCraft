@@ -11,7 +11,8 @@ import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public abstract class ContainerBurner extends Container implements IBurnerContainer
+public abstract class ContainerBurner extends Container
+		implements IBurnerContainer
 {
 	private IBurner burner;
 	private EntityPlayer player;
@@ -34,7 +35,9 @@ public abstract class ContainerBurner extends Container implements IBurnerContai
 		// Burner slots
 		for (int i = 0; i < burner.getIInventory().getSizeInventory(); i++)
 		{
-			addSlotToContainer(new Slot(burner.getIInventory(), i, getSlotsX() + 18 * (i % getSlotsWidth()), getSlotsY() + i / getSlotsWidth() * 18));
+			addSlotToContainer(new Slot(burner.getIInventory(), i,
+					getSlotsX() + 18 * (i % getSlotsWidth()),
+					getSlotsY() + i / getSlotsWidth() * 18));
 			slotCounter++;
 		}
 
@@ -43,7 +46,8 @@ public abstract class ContainerBurner extends Container implements IBurnerContai
 		// Player hotbar
 		for (int x = 0; x < 9; x++)
 		{
-			addSlotToContainer(new Slot(player.inventory, x, getPlayerHotbarSlotsX() + 18 * x, getPlayerHotbarSlotsY()));
+			addSlotToContainer(new Slot(player.inventory, x,
+					getPlayerHotbarSlotsX() + 18 * x, getPlayerHotbarSlotsY()));
 		}
 
 		// Player main inventory
@@ -54,26 +58,31 @@ public abstract class ContainerBurner extends Container implements IBurnerContai
 				int slotIndex = 9 + y * 9 + x;
 				int xpos = getPlayerInventorySlotsX() + x * 18;
 				int ypos = getPlayerInventorySlotsY() + y * 18;
-				addSlotToContainer(new Slot(player.inventory, slotIndex, xpos, ypos));
+				addSlotToContainer(
+						new Slot(player.inventory, slotIndex, xpos, ypos));
 			}
 		}
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int sourceSlotIndex)
+	public ItemStack transferStackInSlot(EntityPlayer player,
+			int sourceSlotIndex)
 	{
 		Slot sourceSlot = (Slot) inventorySlots.get(sourceSlotIndex);
 		if (sourceSlot == null || !sourceSlot.getHasStack()) return null;
 		ItemStack sourceStack = sourceSlot.getStack();
 		ItemStack copyOfSourceStack = sourceStack.copy();
 
-		if (sourceSlotIndex >= playerSlotStart && sourceSlotIndex < playerSlotStart + 36)
+		if (sourceSlotIndex >= playerSlotStart
+				&& sourceSlotIndex < playerSlotStart + 36)
 		{
-			if (!mergeItemStack(sourceStack, slotStart, slotEnd + 1, false)) { return null; }
+			if (!mergeItemStack(sourceStack, slotStart, slotEnd + 1,
+					false)) { return null; }
 		}
 		else if (sourceSlotIndex >= slotStart && sourceSlotIndex < slotEnd + 1)
 		{
-			if (!mergeItemStack(sourceStack, playerSlotStart, playerSlotStart + 36, false)) { return null; }
+			if (!mergeItemStack(sourceStack, playerSlotStart,
+					playerSlotStart + 36, false)) { return null; }
 		}
 		else
 		{
@@ -120,7 +129,8 @@ public abstract class ContainerBurner extends Container implements IBurnerContai
 		super.detectAndSendChanges();
 
 		boolean allFieldsHaveChanged = false;
-		boolean fieldHasChanged[] = new boolean[burner.getIInventory().getFieldCount()];
+		boolean fieldHasChanged[] =
+				new boolean[burner.getIInventory().getFieldCount()];
 		if (cachedFields == null)
 		{
 			cachedFields = new int[burner.getIInventory().getFieldCount()];
@@ -128,11 +138,13 @@ public abstract class ContainerBurner extends Container implements IBurnerContai
 		}
 		else if (cachedFields.length != burner.getIInventory().getFieldCount())
 		{
-			cachedFields = Arrays.copyOf(cachedFields, burner.getIInventory().getFieldCount());
+			cachedFields = Arrays.copyOf(cachedFields,
+					burner.getIInventory().getFieldCount());
 		}
 		for (int i = 0; i < cachedFields.length; i++)
 		{
-			if (allFieldsHaveChanged || cachedFields[i] != burner.getIInventory().getField(i))
+			if (allFieldsHaveChanged
+					|| cachedFields[i] != burner.getIInventory().getField(i))
 			{
 				cachedFields[i] = burner.getIInventory().getField(i);
 				fieldHasChanged[i] = true;
@@ -142,11 +154,13 @@ public abstract class ContainerBurner extends Container implements IBurnerContai
 		for (int i = 0; i < this.crafters.size(); ++i)
 		{
 			ICrafting icrafting = (ICrafting) this.crafters.get(i);
-			for (int fieldID = 0; fieldID < burner.getIInventory().getFieldCount(); ++fieldID)
+			for (int fieldID = 0;
+					fieldID < burner.getIInventory().getFieldCount(); ++fieldID)
 			{
 				if (fieldHasChanged[fieldID])
 				{
-					icrafting.sendProgressBarUpdate(this, fieldID, cachedFields[fieldID]);
+					icrafting.sendProgressBarUpdate(this, fieldID,
+							cachedFields[fieldID]);
 				}
 			}
 		}

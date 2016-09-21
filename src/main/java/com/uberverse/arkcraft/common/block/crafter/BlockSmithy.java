@@ -32,8 +32,10 @@ public class BlockSmithy extends BlockContainer implements Identifiable
 	private int renderType = 3; // default value
 	private boolean isOpaque = false;
 	private boolean render = false;
-	public static final PropertyEnum PART = PropertyEnum.create("part", BlockSmithy.EnumPartType.class);
-	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+	public static final PropertyEnum PART =
+			PropertyEnum.create("part", BlockSmithy.EnumPartType.class);
+	public static final PropertyDirection FACING =
+			PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
 	public BlockSmithy()
 	{
@@ -49,19 +51,22 @@ public class BlockSmithy extends BlockContainer implements Identifiable
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos blockPos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX,
-			float hitY, float hitZ)
+	public boolean onBlockActivated(World worldIn, BlockPos blockPos,
+			IBlockState state, EntityPlayer playerIn, EnumFacing side,
+			float hitX, float hitY, float hitZ)
 	{
 		if (!playerIn.isSneaking())
 		{
 			if (state.getValue(PART) == EnumPartType.RIGHT)
-				playerIn.openGui(ARKCraft.instance(), getId(), worldIn, blockPos.getX(), blockPos.getY(), blockPos.getZ());
+				playerIn.openGui(ARKCraft.instance(), getId(), worldIn,
+						blockPos.getX(), blockPos.getY(), blockPos.getZ());
 			else
 			{
 				EnumFacing f = (EnumFacing) state.getValue(FACING);
 				BlockPos pos = blockPos.offset(f.rotateY());
 				IBlockState oState = worldIn.getBlockState(pos);
-				oState.getBlock().onBlockActivated(worldIn, pos, oState, playerIn, side, hitX, hitY, hitZ);
+				oState.getBlock().onBlockActivated(worldIn, pos, oState,
+						playerIn, side, hitX, hitY, hitZ);
 			}
 			return true;
 		}
@@ -148,18 +153,21 @@ public class BlockSmithy extends BlockContainer implements Identifiable
 	 * Called when a neighboring block changes.
 	 */
 	@Override
-	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
+	public void onNeighborBlockChange(World worldIn, BlockPos pos,
+			IBlockState state, Block neighborBlock)
 	{
 		EnumFacing enumfacing = (EnumFacing) state.getValue(FACING);
 
 		if (state.getValue(PART) == BlockSmithy.EnumPartType.LEFT)
 		{
-			if (worldIn.getBlockState(pos.offset(enumfacing.rotateY())).getBlock() != this)
+			if (worldIn.getBlockState(pos.offset(enumfacing.rotateY()))
+					.getBlock() != this)
 			{
 				worldIn.setBlockToAir(pos);
 			}
 		}
-		else if (worldIn.getBlockState(pos.offset(enumfacing.rotateYCCW())).getBlock() != this)
+		else if (worldIn.getBlockState(pos.offset(enumfacing.rotateYCCW()))
+				.getBlock() != this)
 		{
 			worldIn.setBlockToAir(pos);
 		}
@@ -179,8 +187,13 @@ public class BlockSmithy extends BlockContainer implements Identifiable
 	public IBlockState getStateFromMeta(int meta)
 	{
 		EnumFacing enumfacing = EnumFacing.getHorizontal(meta);
-		return (meta & 8) > 0 ? this.getDefaultState().withProperty(PART, BlockSmithy.EnumPartType.LEFT).withProperty(FACING, enumfacing)
-				: this.getDefaultState().withProperty(PART, BlockSmithy.EnumPartType.RIGHT).withProperty(FACING, enumfacing);
+		return (meta & 8) > 0
+				? this.getDefaultState()
+						.withProperty(PART, BlockSmithy.EnumPartType.LEFT)
+						.withProperty(FACING, enumfacing)
+				: this.getDefaultState()
+						.withProperty(PART, BlockSmithy.EnumPartType.RIGHT)
+						.withProperty(FACING, enumfacing);
 	}
 
 	/**
@@ -189,7 +202,8 @@ public class BlockSmithy extends BlockContainer implements Identifiable
 	 * connections.
 	 */
 	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
+	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn,
+			BlockPos pos)
 	{
 		return state;
 	}

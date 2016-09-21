@@ -20,7 +20,8 @@ public class ItemSpear extends ItemSword
 	}
 
 	@Override
-	public void onPlayerStoppedUsing(ItemStack itemstack, World world, EntityPlayer entityplayer, int i)
+	public void onPlayerStoppedUsing(ItemStack itemstack, World world,
+			EntityPlayer entityplayer, int i)
 	{
 		if (!entityplayer.inventory.hasItem(this)) { return; }
 
@@ -39,12 +40,15 @@ public class ItemSpear extends ItemSword
 			crit = true;
 		}
 
-		if (entityplayer.capabilities.isCreativeMode || entityplayer.inventory.consumeInventoryItem(this))
+		if (entityplayer.capabilities.isCreativeMode
+				|| entityplayer.inventory.consumeInventoryItem(this))
 		{
-			world.playSoundAtEntity(entityplayer, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 0.8F));
+			world.playSoundAtEntity(entityplayer, "random.bow", 1.0F,
+					1.0F / (itemRand.nextFloat() * 0.4F + 0.8F));
 			if (!world.isRemote)
 			{
-				EntitySpear entitySpear = new EntitySpear(world, entityplayer, f * (1.0F + (crit ? 0.5F : 0F)));
+				EntitySpear entitySpear = new EntitySpear(world, entityplayer,
+						f * (1.0F + (crit ? 0.5F : 0F)));
 				entitySpear.setIsCritical(crit);
 				world.spawnEntityInWorld(entitySpear);
 			}
@@ -64,11 +68,13 @@ public class ItemSpear extends ItemSword
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer)
+	public ItemStack onItemRightClick(ItemStack itemstack, World world,
+			EntityPlayer entityplayer)
 	{
 		if (entityplayer.inventory.hasItem(this))
 		{
-			entityplayer.setItemInUse(itemstack, getMaxItemUseDuration(itemstack));
+			entityplayer.setItemInUse(itemstack,
+					getMaxItemUseDuration(itemstack));
 		}
 		return itemstack;
 	}

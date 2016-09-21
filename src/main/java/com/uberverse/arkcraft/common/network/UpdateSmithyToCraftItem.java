@@ -27,8 +27,7 @@ public class UpdateSmithyToCraftItem implements IMessage
 	 * Don't use
 	 */
 	public UpdateSmithyToCraftItem()
-	{
-	}
+	{}
 
 	public UpdateSmithyToCraftItem(int blueprintSelected, boolean craftOne, boolean craftAll, boolean guiOpen, BlockPos xyz)
 	{
@@ -65,14 +64,18 @@ public class UpdateSmithyToCraftItem implements IMessage
 		buf.writeInt(this.z);
 	}
 
-	public static class Handler implements IMessageHandler<UpdateSmithyToCraftItem, IMessage>
+	public static class Handler
+			implements IMessageHandler<UpdateSmithyToCraftItem, IMessage>
 	{
 		@Override
-		public IMessage onMessage(final UpdateSmithyToCraftItem message, MessageContext ctx)
+		public IMessage onMessage(final UpdateSmithyToCraftItem message,
+				MessageContext ctx)
 		{
 			if (ctx.side != Side.SERVER)
 			{
-				System.err.println("UpdateSmithyToCraftItem received on wrong side:" + ctx.side);
+				System.err.println(
+						"UpdateSmithyToCraftItem received on wrong side:"
+								+ ctx.side);
 				return null;
 			}
 			final EntityPlayerMP player = ctx.getServerHandler().playerEntity;
@@ -87,11 +90,12 @@ public class UpdateSmithyToCraftItem implements IMessage
 		}
 	}
 
-	static void processMessage(UpdateSmithyToCraftItem message, EntityPlayerMP player)
+	static void processMessage(UpdateSmithyToCraftItem message,
+			EntityPlayerMP player)
 	{
 		BlockPos xyz = new BlockPos(message.x, message.y, message.z);
-		TileInventorySmithy tileEntitySmithy = (TileInventorySmithy) player.worldObj
-				.getTileEntity(xyz);
+		TileInventorySmithy tileEntitySmithy =
+				(TileInventorySmithy) player.worldObj.getTileEntity(xyz);
 		if (tileEntitySmithy instanceof TileInventorySmithy)
 		{
 			tileEntitySmithy.setBlueprintSelected(message.blueprintSelected);

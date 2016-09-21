@@ -33,7 +33,8 @@ import com.uberverse.lib.LogHelper;
 /**
  * @author wildbill22
  */
-public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePlayerListBox
+public class TileInventoryMP extends TileEntity
+		implements IInventory, IUpdatePlayerListBox
 {
 	// class variables
 	int tick = 20;
@@ -57,8 +58,8 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 
 	private void sendUpdateToServer()
 	{
-		ARKCraft.modChannel.sendToServer(
-				new UpdateMPToCraftItem(blueprintSelected, craftOne, craftAll, guiOpen, this.pos));
+		ARKCraft.modChannel.sendToServer(new UpdateMPToCraftItem(
+				blueprintSelected, craftOne, craftAll, guiOpen, this.pos));
 	}
 
 	public void setGuiOpen(boolean guiOpen, boolean andUpdateServer)
@@ -74,7 +75,8 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 	 * Set true to craft items
 	 */
 	@SideOnly(Side.CLIENT)
-	public void setCraftAllPressed(boolean craftAllPressed, boolean andUpdateServer)
+	public void setCraftAllPressed(boolean craftAllPressed,
+			boolean andUpdateServer)
 	{
 		this.craftAll = craftAllPressed;
 		if (andUpdateServer)
@@ -87,7 +89,8 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 	 * Set true to craft items
 	 */
 	@SideOnly(Side.CLIENT)
-	public void setCraftOnePressed(boolean craftOnePressed, boolean andUpdateServer)
+	public void setCraftOnePressed(boolean craftOnePressed,
+			boolean andUpdateServer)
 	{
 		this.craftOne = craftOnePressed;
 		if (andUpdateServer)
@@ -134,8 +137,8 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 	 */
 	// private short blueprintSlotSelected = 0; // Currently just one slot
 
-	public InventoryBlueprints inventoryBlueprints = new InventoryBlueprints("Blueprints", false,
-			BLUEPRINT_SLOTS_COUNT);
+	public InventoryBlueprints inventoryBlueprints =
+			new InventoryBlueprints("Blueprints", false, BLUEPRINT_SLOTS_COUNT);
 
 	/**
 	 * Get blueprint selected (to be displayed)
@@ -148,7 +151,8 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 	public void setBlueprintSelected(int blueprintSelected)
 	{
 		this.blueprintSelected = (short) blueprintSelected;
-		this.inventoryBlueprints.setInventorySlotContents(0, blueprintStacks[blueprintSelected]);
+		this.inventoryBlueprints.setInventorySlotContents(0,
+				blueprintStacks[blueprintSelected]);
 	}
 
 	/**
@@ -162,7 +166,8 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 		{
 			blueprintSelected = (short) (numBlueprints - 1);
 		}
-		this.inventoryBlueprints.setInventorySlotContents(0, blueprintStacks[blueprintSelected]);
+		this.inventoryBlueprints.setInventorySlotContents(0,
+				blueprintStacks[blueprintSelected]);
 		sendUpdateToServer();
 	}
 
@@ -177,7 +182,8 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 		{
 			blueprintSelected = 0;
 		}
-		this.inventoryBlueprints.setInventorySlotContents(0, blueprintStacks[blueprintSelected]);
+		this.inventoryBlueprints.setInventorySlotContents(0,
+				blueprintStacks[blueprintSelected]);
 		sendUpdateToServer();
 	}
 
@@ -222,7 +228,8 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 	/**
 	 * The number of seconds required to craft an item
 	 */
-	private static final short CRAFT_TIME_FOR_ITEM = (short) ModuleItemBalance.MORTAR_AND_PESTLE.CRAFT_TIME_FOR_ITEM;
+	private static final short CRAFT_TIME_FOR_ITEM =
+			(short) ModuleItemBalance.MORTAR_AND_PESTLE.CRAFT_TIME_FOR_ITEM;
 
 	/**
 	 * The number of seconds the current item has been crafting Logic: -1 when
@@ -346,17 +353,20 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 
 		// find the first suitable output slot, 1st check for identical item
 		// that has enough space
-		for (int outputSlot = LAST_INVENTORY_SLOT; outputSlot > FIRST_INVENTORY_SLOT; outputSlot--)
+		for (int outputSlot = LAST_INVENTORY_SLOT;
+				outputSlot > FIRST_INVENTORY_SLOT; outputSlot--)
 		{
 			ItemStack outputStack = itemStacks[outputSlot];
-			if (outputStack != null && outputStack.getItem() == result
-					.getItem() && (!outputStack.getHasSubtypes() || outputStack
-							.getMetadata() == outputStack.getMetadata()) && ItemStack
-									.areItemStackTagsEqual(outputStack, result))
+			if (outputStack != null && outputStack.getItem() == result.getItem()
+					&& (!outputStack.getHasSubtypes() || outputStack
+							.getMetadata() == outputStack.getMetadata())
+					&& ItemStack.areItemStackTagsEqual(outputStack, result))
 			{
-				int combinedSize = itemStacks[outputSlot].stackSize + result.stackSize;
-				if (combinedSize <= getInventoryStackLimit() && combinedSize <= itemStacks[outputSlot]
-						.getMaxStackSize())
+				int combinedSize =
+						itemStacks[outputSlot].stackSize + result.stackSize;
+				if (combinedSize <= getInventoryStackLimit()
+						&& combinedSize <= itemStacks[outputSlot]
+								.getMaxStackSize())
 				{
 					firstSuitableOutputSlot = outputSlot;
 					break;
@@ -367,7 +377,8 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 		{
 			// 2nd look for for empty slot if no partially filled slots are
 			// found
-			for (int outputSlot = LAST_INVENTORY_SLOT; outputSlot > FIRST_INVENTORY_SLOT; outputSlot--)
+			for (int outputSlot = LAST_INVENTORY_SLOT;
+					outputSlot > FIRST_INVENTORY_SLOT; outputSlot--)
 			{
 				ItemStack outputStack = itemStacks[outputSlot];
 				if (outputStack == null)
@@ -392,7 +403,8 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 			{
 				if (this.guiOpen)
 				{
-					LogHelper.info("TileInvetoryMP: Can't craft item from inventory.");
+					LogHelper.info(
+							"TileInvetoryMP: Can't craft item from inventory.");
 				}
 				return false;
 			}
@@ -400,8 +412,8 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 		}
 
 		// Craft an item
-		int numCrafted = (short) PestleCraftingManager.getInstance().hasMatchingRecipe(result,
-				itemStacks, true);
+		int numCrafted = (short) PestleCraftingManager.getInstance()
+				.hasMatchingRecipe(result, itemStacks, true);
 
 		if (numCrafted <= 0) { return false; }
 
@@ -438,8 +450,8 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 	@Override
 	public IChatComponent getDisplayName()
 	{
-		return this.hasCustomName() ? new ChatComponentText(
-				this.getName()) : new ChatComponentTranslation(this.getName());
+		return this.hasCustomName() ? new ChatComponentText(this.getName())
+				: new ChatComponentTranslation(this.getName());
 	}
 
 	@Override
@@ -515,19 +527,18 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 		final double Y_CENTRE_OFFSET = 0.5;
 		final double Z_CENTRE_OFFSET = 0.5;
 		final double MAXIMUM_DISTANCE_SQ = 8.0 * 8.0;
-		return player.getDistanceSq(pos.getX() + X_CENTRE_OFFSET, pos.getY() + Y_CENTRE_OFFSET,
+		return player.getDistanceSq(pos.getX() + X_CENTRE_OFFSET,
+				pos.getY() + Y_CENTRE_OFFSET,
 				pos.getZ() + Z_CENTRE_OFFSET) < MAXIMUM_DISTANCE_SQ;
 	}
 
 	@Override
 	public void openInventory(EntityPlayer player)
-	{
-	}
+	{}
 
 	@Override
 	public void closeInventory(EntityPlayer player)
-	{
-	}
+	{}
 
 	@Override
 	public boolean isItemValidForSlot(int index, ItemStack stack)
@@ -600,7 +611,8 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 		// recipe items inventory
 		final byte NBT_TYPE_COMPOUND = 10; // See NBTBase.createNewByType() for
 											// a listing
-		NBTTagList dataForAllSlots = nbtTagCompound.getTagList("Items", NBT_TYPE_COMPOUND);
+		NBTTagList dataForAllSlots =
+				nbtTagCompound.getTagList("Items", NBT_TYPE_COMPOUND);
 
 		Arrays.fill(itemStacks, null); // set all slots to empty
 		for (int i = 0; i < dataForAllSlots.tagCount(); ++i)
@@ -609,7 +621,8 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 			byte slotNumber = dataForOneSlot.getByte("Slot");
 			if (slotNumber >= 0 && slotNumber < this.itemStacks.length)
 			{
-				this.itemStacks[slotNumber] = ItemStack.loadItemStackFromNBT(dataForOneSlot);
+				this.itemStacks[slotNumber] =
+						ItemStack.loadItemStackFromNBT(dataForOneSlot);
 			}
 		}
 
@@ -629,7 +642,8 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 		NBTTagCompound nbtTagCompound = new NBTTagCompound();
 		writeToNBT(nbtTagCompound);
 		final int METADATA = 0;
-		return new S35PacketUpdateTileEntity(this.pos, METADATA, nbtTagCompound);
+		return new S35PacketUpdateTileEntity(this.pos, METADATA,
+				nbtTagCompound);
 	}
 
 	@Override
@@ -655,7 +669,8 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 	public int getField(int id)
 	{
 		// if (id == BLUEPRINT_SEL_FIELD_ID) return blueprintSelected;
-		System.err.println("Invalid field ID in TileInventoryMP.getField:" + id);
+		System.err
+				.println("Invalid field ID in TileInventoryMP.getField:" + id);
 		return 0;
 	}
 
@@ -666,7 +681,8 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 		// blueprintSelected = (short)value;
 		// }
 		// else {
-		System.err.println("Invalid field ID in TileInventoryMP.setField:" + id);
+		System.err
+				.println("Invalid field ID in TileInventoryMP.setField:" + id);
 		// }
 	}
 
@@ -694,7 +710,8 @@ public class TileInventoryMP extends TileEntity implements IInventory, IUpdatePl
 	 *         create a new one if the new values specify to}
 	 */
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate)
+	public boolean shouldRefresh(World world, BlockPos pos,
+			IBlockState oldState, IBlockState newSate)
 	{
 		return false;
 	}

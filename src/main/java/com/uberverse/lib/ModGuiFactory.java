@@ -12,15 +12,15 @@ import net.minecraftforge.fml.client.IModGuiFactory;
 public class ModGuiFactory implements IModGuiFactory
 {
 	@Override
-	public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element)
+	public RuntimeOptionGuiHandler getHandlerFor(
+			RuntimeOptionCategoryElement element)
 	{
 		return null;
 	}
 
 	@Override
 	public void initialize(Minecraft minecraftInstance)
-	{
-	}
+	{}
 
 	@Override
 	public Class<? extends GuiScreen> mainConfigGuiClass()

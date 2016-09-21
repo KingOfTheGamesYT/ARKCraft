@@ -26,11 +26,13 @@ public class ContainerBlockBase extends Block
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(World world, BlockPos blockPos,
+			IBlockState state, EntityPlayer player, EnumFacing side, float hitX,
+			float hitY, float hitZ)
 	{
 		if (player.isSneaking()) { return false; }
-		player.openGui(ARKCraft.instance(), guiID, world, blockPos.getX(), blockPos.getY(),
-				blockPos.getZ());
+		player.openGui(ARKCraft.instance(), guiID, world, blockPos.getX(),
+				blockPos.getY(), blockPos.getZ());
 		return true;
 	}
 }

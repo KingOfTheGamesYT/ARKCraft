@@ -17,31 +17,37 @@ public class ContainerRefiningForge extends ContainerBurner
 	{
 		return 53;
 	}
+
 	@Override
 	public int getSlotsY()
 	{
 		return 26;
 	}
+
 	@Override
 	public int getSlotsWidth()
 	{
 		return 4;
 	}
+
 	@Override
 	public int getPlayerInventorySlotsX()
 	{
 		return 8;
 	}
+
 	@Override
 	public int getPlayerInventorySlotsY()
 	{
 		return 84;
 	}
+
 	@Override
 	public int getPlayerHotbarSlotsX()
 	{
 		return 8;
 	}
+
 	@Override
 	public int getPlayerHotbarSlotsY()
 	{

@@ -24,7 +24,8 @@ public class ARKCraftSeed extends Item
 	public ARKCraftSeed(CropPlotType type, BerryColor color)
 	{
 		this.setMaxStackSize(16);
-		this.setMaxDamage(ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SEED_TO_DECOMPOSE); // 5
+		this.setMaxDamage(
+				ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SEED_TO_DECOMPOSE); // 5
 		this.type = type;
 		this.color = color;
 		this.setCreativeTab(ARKCraft.tabARK);
@@ -43,18 +44,24 @@ public class ARKCraftSeed extends Item
 		{
 			if (stack.getItem() instanceof ARKCraftSeed)
 			{
-				if (stack.getItem() == ARKCraftItems.amarBerrySeed) { return new ItemStack(
-						ARKCraftItems.amarBerry); }
-				if (stack.getItem() == ARKCraftItems.azulBerrySeed) { return new ItemStack(
-						ARKCraftItems.azulBerry); }
-				if (stack.getItem() == ARKCraftItems.mejoBerrySeed) { return new ItemStack(
-						ARKCraftItems.mejoBerry); }
-				if (stack.getItem() == ARKCraftItems.narcoBerrySeed) { return new ItemStack(
-						ARKCraftItems.narcoBerry); }
-				if (stack.getItem() == ARKCraftItems.tintoBerrySeed) { return new ItemStack(
-						ARKCraftItems.tintoBerry); }
-				if (stack.getItem() == ARKCraftItems.stimBerrySeed) { return new ItemStack(
-						ARKCraftItems.stimBerry); }
+				if (stack
+						.getItem() == ARKCraftItems.amarBerrySeed) { return new ItemStack(
+								ARKCraftItems.amarBerry); }
+				if (stack
+						.getItem() == ARKCraftItems.azulBerrySeed) { return new ItemStack(
+								ARKCraftItems.azulBerry); }
+				if (stack
+						.getItem() == ARKCraftItems.mejoBerrySeed) { return new ItemStack(
+								ARKCraftItems.mejoBerry); }
+				if (stack
+						.getItem() == ARKCraftItems.narcoBerrySeed) { return new ItemStack(
+								ARKCraftItems.narcoBerry); }
+				if (stack
+						.getItem() == ARKCraftItems.tintoBerrySeed) { return new ItemStack(
+								ARKCraftItems.tintoBerry); }
+				if (stack
+						.getItem() == ARKCraftItems.stimBerrySeed) { return new ItemStack(
+								ARKCraftItems.stimBerry); }
 			}
 		}
 		return null;
@@ -73,9 +80,11 @@ public class ARKCraftSeed extends Item
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void addInformation(ItemStack itemStack, EntityPlayer playerIn, List tooltip, boolean advanced)
+	public void addInformation(ItemStack itemStack, EntityPlayer playerIn,
+			List tooltip, boolean advanced)
 	{
-		tooltip.add("Decomposes in " + (getMaxDamage() - itemStack.getItemDamage()) + " seconds");
+		tooltip.add("Decomposes in "
+				+ (getMaxDamage() - itemStack.getItemDamage()) + " seconds");
 	}
 
 	public CropPlotType getType()

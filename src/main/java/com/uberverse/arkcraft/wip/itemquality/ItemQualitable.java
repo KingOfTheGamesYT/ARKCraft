@@ -22,7 +22,8 @@ public abstract class ItemQualitable extends Item implements Qualitable
 	@Override
 	public String getItemStackDisplayName(ItemStack stack)
 	{
-		return Qualitable.get(stack).toFormattedString() + super.getItemStackDisplayName(stack);
+		return Qualitable.get(stack).toFormattedString()
+				+ super.getItemStackDisplayName(stack);
 	}
 
 	@Override
@@ -34,7 +35,8 @@ public abstract class ItemQualitable extends Item implements Qualitable
 
 	public double getDurability(ItemStack stack)
 	{
-		return Qualitable.get(stack).multiplierTreshold * itemType.durabilityModifier * baseDurability;
+		return Qualitable.get(stack).multiplierTreshold
+				* itemType.durabilityModifier * baseDurability;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

@@ -21,20 +21,23 @@ public class ItemCrossbow extends ItemRangedWeapon
 	}
 
 	@Override
-	public void effectPlayer(ItemStack itemstack, EntityPlayer entityplayer, World world)
+	public void effectPlayer(ItemStack itemstack, EntityPlayer entityplayer,
+			World world)
 	{
 		entityplayer.rotationPitch -= entityplayer.isSneaking() ? 4F : 8F;
 	}
 
 	@Override
-	public void effectShoot(ItemStack stack, World world, double x, double y, double z, float yaw, float pitch)
+	public void effectShoot(ItemStack stack, World world, double x, double y,
+			double z, float yaw, float pitch)
 	{
 		world.playSoundEffect(x, y, z, "random.bow", 1.0F,
 				1.0F / (this.getItemRand().nextFloat() * 0.4F + 0.8F));
 	}
 
 	@Override
-	public void effectReloadDone(ItemStack stack, World world, EntityPlayer player)
+	public void effectReloadDone(ItemStack stack, World world,
+			EntityPlayer player)
 	{
 		world.playSoundAtEntity(player, "random.click", 0.8F,
 				1.0F / (this.getItemRand().nextFloat() * 0.4F + 0.4F));

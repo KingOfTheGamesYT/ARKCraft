@@ -7,7 +7,7 @@ public interface IContainerScrollable
 	public int getScrollingOffset();
 
 	public void scroll(float scroll);
-	
+
 	public void scroll(int amount);
 
 	public int getScrollableSlotsWidth();

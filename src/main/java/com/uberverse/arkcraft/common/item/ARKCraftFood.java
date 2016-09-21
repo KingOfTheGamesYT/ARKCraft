@@ -42,7 +42,6 @@ public class ARKCraftFood extends ItemFood implements IDecayable
 		 * amount. So yes, in that sense it is a "global". 2) I think what you
 		 * wanted was for each type of food to have its own healAmount value,
 		 * but using a static will not do this.
-		 *
 		 * So maybe just a mistake? Then remove the static. If not talk to me
 		 * about Java coding or read a tutorial on how static works. 3) We can
 		 * discuss this in our next group coding meeting, but the intent of
@@ -61,26 +60,33 @@ public class ARKCraftFood extends ItemFood implements IDecayable
 	}
 
 	@Override
-	protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player)
+	protected void onFoodEaten(ItemStack stack, World worldIn,
+			EntityPlayer player)
 	{
 		super.onFoodEaten(stack, worldIn, player);
 		for (int i = 0; i < effects.length; i++)
 		{
-			if (!worldIn.isRemote && effects[i] != null && effects[i].getPotionID() > 0)
+			if (!worldIn.isRemote && effects[i] != null
+					&& effects[i].getPotionID() > 0)
 			{
-				player.addPotionEffect(new PotionEffect(this.effects[i].getPotionID(),
-						this.effects[i].getDuration(), this.effects[i].getAmplifier(),
-						this.effects[i].getIsAmbient(), this.effects[i].getIsShowParticles()));
+				player.addPotionEffect(
+						new PotionEffect(this.effects[i].getPotionID(),
+								this.effects[i].getDuration(),
+								this.effects[i].getAmplifier(),
+								this.effects[i].getIsAmbient(),
+								this.effects[i].getIsShowParticles()));
 			}
 		}
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
+	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn,
+			EntityPlayer playerIn)
 	{
 		if (playerIn.canEat(this.alwaysEdible))
 		{
-			playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
+			playerIn.setItemInUse(itemStackIn,
+					this.getMaxItemUseDuration(itemStackIn));
 		}
 
 		return itemStackIn;
@@ -99,16 +105,21 @@ public class ARKCraftFood extends ItemFood implements IDecayable
 		{
 			if (stack.getItem() instanceof ARKCraftSeed)
 			{
-				if (stack.getItem() == ARKCraftItems.amarBerrySeed) { return new ItemStack(
-						ARKCraftItems.amarBerry); }
-				if (stack.getItem() == ARKCraftItems.azulBerrySeed) { return new ItemStack(
-						ARKCraftItems.azulBerry); }
-				if (stack.getItem() == ARKCraftItems.mejoBerrySeed) { return new ItemStack(
-						ARKCraftItems.mejoBerry); }
-				if (stack.getItem() == ARKCraftItems.narcoBerrySeed) { return new ItemStack(
-						ARKCraftItems.narcoBerry); }
-				if (stack.getItem() == ARKCraftItems.tintoBerrySeed) { return new ItemStack(
-						ARKCraftItems.tintoBerry); }
+				if (stack
+						.getItem() == ARKCraftItems.amarBerrySeed) { return new ItemStack(
+								ARKCraftItems.amarBerry); }
+				if (stack
+						.getItem() == ARKCraftItems.azulBerrySeed) { return new ItemStack(
+								ARKCraftItems.azulBerry); }
+				if (stack
+						.getItem() == ARKCraftItems.mejoBerrySeed) { return new ItemStack(
+								ARKCraftItems.mejoBerry); }
+				if (stack
+						.getItem() == ARKCraftItems.narcoBerrySeed) { return new ItemStack(
+								ARKCraftItems.narcoBerry); }
+				if (stack
+						.getItem() == ARKCraftItems.tintoBerrySeed) { return new ItemStack(
+								ARKCraftItems.tintoBerry); }
 			}
 		}
 		return null;
@@ -123,8 +134,10 @@ public class ARKCraftFood extends ItemFood implements IDecayable
 			{
 				if (stack.getItem() == ARKCraftItems.meat_cooked) { return 25; }
 				if (stack.getItem() == ARKCraftItems.meat_raw) { return 10; }
-				if (stack.getItem() == ARKCraftItems.primemeat_cooked) { return 50; }
-				if (stack.getItem() == ARKCraftItems.primemeat_raw) { return 25; }
+				if (stack
+						.getItem() == ARKCraftItems.primemeat_cooked) { return 50; }
+				if (stack
+						.getItem() == ARKCraftItems.primemeat_raw) { return 25; }
 			}
 		}
 		return 0;
@@ -147,9 +160,12 @@ public class ARKCraftFood extends ItemFood implements IDecayable
 	{
 		return globalHealAmount / 2;
 	}
-	public int getMaxDecayTime(ItemStack stack){
+
+	public int getMaxDecayTime(ItemStack stack)
+	{
 		return decayTime;
 	}
+
 	/**
 	 * allows items to add custom lines of information to the mouseover
 	 * description
@@ -163,22 +179,34 @@ public class ARKCraftFood extends ItemFood implements IDecayable
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void addInformation(ItemStack itemStack, EntityPlayer playerIn, List tooltip, boolean advanced)
+	public void addInformation(ItemStack itemStack, EntityPlayer playerIn,
+			List tooltip, boolean advanced)
 	{
-		tooltip.add("Decomposes in " + ((getMaxDamage() - itemStack.getItemDamage()) / 20) + " seconds");
-	}
-	@Override
-	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged)
-	{
-		return slotChanged || (oldStack != null && newStack != null && (oldStack.getItem() != newStack.getItem()));
+		tooltip.add("Decomposes in "
+				+ ((getMaxDamage() - itemStack.getItemDamage()) / 20)
+				+ " seconds");
 	}
 
 	@Override
-	public void decayTick(IInventory inventory, int itemSlot, double decayModifier, ItemStack stack) {
-		if(stack.getMetadata() > (getMaxDecayTime(stack) * 20)){
+	public boolean shouldCauseReequipAnimation(ItemStack oldStack,
+			ItemStack newStack, boolean slotChanged)
+	{
+		return slotChanged || (oldStack != null && newStack != null
+				&& (oldStack.getItem() != newStack.getItem()));
+	}
+
+	@Override
+	public void decayTick(IInventory inventory, int itemSlot,
+			double decayModifier, ItemStack stack)
+	{
+		if (stack.getMetadata() > (getMaxDecayTime(stack) * 20))
+		{
 			inventory.setInventorySlotContents(itemSlot, null);
-		}else{
-			stack.setItemDamage(MathHelper.floor_double(stack.getMetadata() + (20 * decayModifier)));
+		}
+		else
+		{
+			stack.setItemDamage(MathHelper
+					.floor_double(stack.getMetadata() + (20 * decayModifier)));
 		}
 	}
 }

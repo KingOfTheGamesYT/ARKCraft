@@ -32,10 +32,12 @@ public class ARKPlayerUpdateRequest implements IMessage
 		buf.writeBoolean(all);
 	}
 
-	public static class Handler implements IMessageHandler<ARKPlayerUpdateRequest, ARKPlayerUpdate>
+	public static class Handler
+			implements IMessageHandler<ARKPlayerUpdateRequest, ARKPlayerUpdate>
 	{
 		@Override
-		public ARKPlayerUpdate onMessage(ARKPlayerUpdateRequest message, MessageContext ctx)
+		public ARKPlayerUpdate onMessage(ARKPlayerUpdateRequest message,
+				MessageContext ctx)
 		{
 			if (ctx.side.isServer())
 			{

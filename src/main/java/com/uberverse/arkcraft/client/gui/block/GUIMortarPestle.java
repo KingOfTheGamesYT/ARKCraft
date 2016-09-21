@@ -10,7 +10,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUIMortarPestle extends GUIEngramCrafting
 {
-	public static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID, "textures/gui/smithy_old.png");
+	public static final ResourceLocation texture =
+			new ResourceLocation(ARKCraft.MODID, "textures/gui/smithy_old.png");
 
 	public static final int scrollButtonWidth = 12;
 	public static final int scrollButtonHeight = 15;

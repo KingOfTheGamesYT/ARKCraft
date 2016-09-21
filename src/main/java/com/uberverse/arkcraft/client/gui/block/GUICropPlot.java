@@ -24,8 +24,8 @@ import com.uberverse.arkcraft.deprecated.TileInventoryCropPlot;
 public class GUICropPlot extends GuiContainer
 {
 
-	public static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID,
-			"textures/gui/crop_plot_gui.png");
+	public static final ResourceLocation texture = new ResourceLocation(
+			ARKCraft.MODID, "textures/gui/crop_plot_gui.png");
 	private TileInventoryCropPlot tileEntity;
 
 	public GUICropPlot(InventoryPlayer invPlayer, TileInventoryCropPlot tileInventoryCropPlot)
@@ -73,14 +73,16 @@ public class GUICropPlot extends GuiContainer
 		// Display GUI name:
 		final int LABEL_XPOS = 44;
 		final int LABEL_YPOS = 5;
-		fontRendererObj.drawString(tileEntity.getDisplayName().getUnformattedText(), LABEL_XPOS,
+		fontRendererObj.drawString(
+				tileEntity.getDisplayName().getUnformattedText(), LABEL_XPOS,
 				LABEL_YPOS, Color.darkGray.getRGB());
 
 		List<String> hoveringText = new ArrayList<String>();
 
 		// If the mouse is over the display text add the growth stage bar
 		// hovering text
-		if (isInRect(guiLeft + LABEL_XPOS, guiTop + LABEL_YPOS, 50, 8, mouseX, mouseY))
+		if (isInRect(guiLeft + LABEL_XPOS, guiTop + LABEL_YPOS, 50, 8, mouseX,
+				mouseY))
 		{
 			hoveringText.add("Growth Stage is: ");
 			int growPercentage = (int) (tileEntity.getGrowthStage());
@@ -89,21 +91,23 @@ public class GUICropPlot extends GuiContainer
 
 		// If the mouse is over the water progress bar add the progress bar
 		// hovering text
-		if (isInRect(guiLeft + WATER_BAR_XPOS, guiTop + WATER_BAR_YPOS, WATER_BAR_WIDTH,
-				WATER_BAR_HEIGHT, mouseX, mouseY))
+		if (isInRect(guiLeft + WATER_BAR_XPOS, guiTop + WATER_BAR_YPOS,
+				WATER_BAR_WIDTH, WATER_BAR_HEIGHT, mouseX, mouseY))
 		{
 			hoveringText.add("Water Time:");
-			int growPercentage = (int) (tileEntity.fractionWaterLevelRemaining() * 100);
+			int growPercentage =
+					(int) (tileEntity.fractionWaterLevelRemaining() * 100);
 			hoveringText.add(growPercentage + "%");
 		}
 
 		// If the mouse is over the growth progress bar add the progress bar
 		// hovering text
-		if (isInRect(guiLeft + ARROW_XPOS, guiTop + ARROW_YPOS, ARROW_WIDTH, ARROW_HEIGHT, mouseX,
-				mouseY))
+		if (isInRect(guiLeft + ARROW_XPOS, guiTop + ARROW_YPOS, ARROW_WIDTH,
+				ARROW_HEIGHT, mouseX, mouseY))
 		{
 			hoveringText.add("Growing a berry:");
-			int growPercentage = (int) (tileEntity.fractionOfGrowTimeComplete() * 100);
+			int growPercentage =
+					(int) (tileEntity.fractionOfGrowTimeComplete() * 100);
 			hoveringText.add(growPercentage + "%");
 		}
 
@@ -133,11 +137,13 @@ public class GUICropPlot extends GuiContainer
 		// If hoveringText is not empty draw the hovering text
 		if (!hoveringText.isEmpty())
 		{
-			drawHoveringText(hoveringText, mouseX - guiLeft, mouseY - guiTop, fontRendererObj);
+			drawHoveringText(hoveringText, mouseX - guiLeft, mouseY - guiTop,
+					fontRendererObj);
 		}
 	}
 
-	protected void drawGuiContainerBackgroundLayer(float partTick, int mX, int mY)
+	protected void drawGuiContainerBackgroundLayer(float partTick, int mX,
+			int mY)
 	{
 		// Draw the GUI
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
@@ -148,18 +154,22 @@ public class GUICropPlot extends GuiContainer
 		double waterProgress = tileEntity.fractionWaterLevelRemaining();
 		int iconHeight = (int) (waterProgress * WATER_BAR_HEIGHT);
 		int iconYOffset = WATER_BAR_HEIGHT - iconHeight;
-		drawTexturedModalRect(guiLeft + WATER_BAR_XPOS, guiTop + WATER_BAR_YPOS + iconYOffset,
-				WATER_BAR_ICON_U, WATER_BAR_ICON_V + iconYOffset, WATER_BAR_WIDTH, iconHeight);
+		drawTexturedModalRect(guiLeft + WATER_BAR_XPOS,
+				guiTop + WATER_BAR_YPOS + iconYOffset, WATER_BAR_ICON_U,
+				WATER_BAR_ICON_V + iconYOffset, WATER_BAR_WIDTH, iconHeight);
 
 		// get grow arrow as a double between 0 and 1, and draw it
 		double growProgress = tileEntity.fractionOfGrowTimeComplete();
-		drawTexturedModalRect(guiLeft + ARROW_XPOS, guiTop + ARROW_YPOS, ARROW_ICON_U, ARROW_ICON_V,
-				(int) (growProgress * ARROW_WIDTH), ARROW_HEIGHT);
+		drawTexturedModalRect(guiLeft + ARROW_XPOS, guiTop + ARROW_YPOS,
+				ARROW_ICON_U, ARROW_ICON_V, (int) (growProgress * ARROW_WIDTH),
+				ARROW_HEIGHT);
 	}
 
 	// Returns true if the given x,y coordinates are within the given rectangle
-	public static boolean isInRect(int x, int y, int xSize, int ySize, int mouseX, int mouseY)
+	public static boolean isInRect(int x, int y, int xSize, int ySize,
+			int mouseX, int mouseY)
 	{
-		return ((mouseX >= x && mouseX <= x + xSize) && (mouseY >= y && mouseY <= y + ySize));
+		return ((mouseX >= x && mouseX <= x + xSize)
+				&& (mouseY >= y && mouseY <= y + ySize));
 	}
 }

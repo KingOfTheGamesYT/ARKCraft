@@ -24,8 +24,7 @@ public class SyncPlayerData implements IMessage
 	 * Don't use
 	 */
 	public SyncPlayerData()
-	{
-	}
+	{}
 
 	public SyncPlayerData(boolean all, ARKPlayer player)
 	{
@@ -45,14 +44,17 @@ public class SyncPlayerData implements IMessage
 		ByteBufUtils.writeTag(buf, nbt);
 	}
 
-	public static class Handler implements IMessageHandler<SyncPlayerData, IMessage>
+	public static class Handler
+			implements IMessageHandler<SyncPlayerData, IMessage>
 	{
 		@Override
-		public IMessage onMessage(final SyncPlayerData message, MessageContext ctx)
+		public IMessage onMessage(final SyncPlayerData message,
+				MessageContext ctx)
 		{
 			if (ctx.side != Side.CLIENT)
 			{
-				System.err.println("SyncPlayerData received on wrong side:" + ctx.side);
+				System.err.println(
+						"SyncPlayerData received on wrong side:" + ctx.side);
 				return null;
 			}
 

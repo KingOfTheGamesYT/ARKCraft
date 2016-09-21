@@ -51,7 +51,8 @@ public class EntityDodo extends EntityTameable
 
 	public boolean isEyesOpen()
 	{
-		return (this.dataWatcher.getWatchableObjectByte(DODO_EYE_WATCHER) & 1) != 0;
+		return (this.dataWatcher.getWatchableObjectByte(DODO_EYE_WATCHER)
+				& 1) != 0;
 	}
 
 	public void setEyesOpen(boolean eyesOpen)
@@ -64,7 +65,8 @@ public class EntityDodo extends EntityTameable
 
 	public boolean isChested()
 	{
-		isChested = (this.dataWatcher.getWatchableObjectByte(DODO_CHEST_WATCHER) & 1) != 0;
+		isChested = (this.dataWatcher.getWatchableObjectByte(DODO_CHEST_WATCHER)
+				& 1) != 0;
 		return isChested;
 	}
 
@@ -84,8 +86,10 @@ public class EntityDodo extends EntityTameable
 		this.setSize(0.4F, 0.7F);
 		this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
 
-		this.getDataWatcher().addObject(DODO_EYE_WATCHER, Byte.valueOf((byte) 1));
-		this.getDataWatcher().addObject(DODO_CHEST_WATCHER, Byte.valueOf((byte) 0));
+		this.getDataWatcher().addObject(DODO_EYE_WATCHER,
+				Byte.valueOf((byte) 1));
+		this.getDataWatcher().addObject(DODO_CHEST_WATCHER,
+				Byte.valueOf((byte) 0));
 
 		this.invDodo = new InventoryDino("Items", true, 9);
 
@@ -95,11 +99,14 @@ public class EntityDodo extends EntityTameable
 		this.tasks.addTask(++p, this.aiSit);
 		this.tasks.addTask(++p, new EntityAIPanic(this, 1.4D));
 		this.tasks.addTask(++p, new EntityAIMate(this, 1.0D));
-		this.tasks.addTask(++p, new EntityAITempt(this, 1.0D, ARKCraftItems.narcoBerry, false));
+		this.tasks.addTask(++p,
+				new EntityAITempt(this, 1.0D, ARKCraftItems.narcoBerry, false));
 		this.tasks.addTask(++p, new EntityAIFollowParent(this, 1.1D));
 		this.tasks.addTask(++p, new EntityAIWander(this, 1.0D));
-		this.tasks.addTask(++p, new EntityAIFollowOwner(this, 1.0D, 8.0F, 5.0F));
-		this.tasks.addTask(++p, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+		this.tasks.addTask(++p,
+				new EntityAIFollowOwner(this, 1.0D, 8.0F, 5.0F));
+		this.tasks.addTask(++p,
+				new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
 		// Replace Idle task with one that blinks eyes
 		this.tasks.addTask(++p, new EntityDodoAILookIdle(this));
 
@@ -110,8 +117,10 @@ public class EntityDodo extends EntityTameable
 	protected void applyEntityAttributes()
 	{
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(4.0D);
-		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
+				.setBaseValue(4.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
+				.setBaseValue(0.25D);
 	}
 
 	/**
@@ -125,7 +134,8 @@ public class EntityDodo extends EntityTameable
 		super.onLivingUpdate();
 		this.field_70888_h = this.field_70886_e;
 		this.field_70884_g = this.destPos;
-		this.destPos = (float) ((double) this.destPos + (double) (this.onGround ? -1 : 4) * 0.3D);
+		this.destPos = (float) ((double) this.destPos
+				+ (double) (this.onGround ? -1 : 4) * 0.3D);
 		this.destPos = MathHelper.clamp_float(this.destPos, 0.0F, 1.0F);
 		if (!this.onGround && this.field_70889_i < 1.0F)
 		{
@@ -137,19 +147,23 @@ public class EntityDodo extends EntityTameable
 			this.motionY *= 0.6D;
 		}
 		this.field_70886_e += this.field_70889_i * 2.0F;
-		if (!this.worldObj.isRemote && !this.isChild() && --this.timeUntilNextEgg <= 0)
+		if (!this.worldObj.isRemote && !this.isChild()
+				&& --this.timeUntilNextEgg <= 0)
 		{
 			this.playSound("mob.chicken.plop", 1.0F,
-					(this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
-			//TODO create dodo egg
+					(this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F
+							+ 1.0F);
+			// TODO create dodo egg
 			this.dropItem(ARKCraftItems.amarBerry, 1);
 			this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
 		}
 		this.field_70886_e += this.field_70889_i * 2.0F;
-		if (!this.worldObj.isRemote && !this.isChild() && --this.timeUntilNextEgg <= 0)
+		if (!this.worldObj.isRemote && !this.isChild()
+				&& --this.timeUntilNextEgg <= 0)
 		{
 			this.playSound(ARKCraft.MODID + ":" + "dodo_defficating", 1.0F,
-					(this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+					(this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F
+							+ 1.0F);
 			this.dropItem(ARKCraftItems.small_feces, 1);
 			this.timeUntilNextEgg = this.rand.nextInt(3000) + 3000;
 		}
@@ -158,10 +172,9 @@ public class EntityDodo extends EntityTameable
 	// No fall damage
 	@Override
 	public void fall(float distance, float damageMultiplier)
-	{
-	}
+	{}
 
-	//TODO
+	// TODO
 	@Override
 	protected Item getDropItem()
 	{
@@ -171,7 +184,7 @@ public class EntityDodo extends EntityTameable
 	/**
 	 * Drop 0-2 items of this living's type
 	 */
-	//TODO add bag and egg
+	// TODO add bag and egg
 	@Override
 	protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
 	{
@@ -216,8 +229,10 @@ public class EntityDodo extends EntityTameable
 		super.setTamed(tamed);
 		if (tamed)
 		{
-			this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(10.0D);
-			this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.5D);
+			this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
+					.setBaseValue(10.0D);
+			this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
+					.setBaseValue(0.5D);
 		}
 	}
 
@@ -244,13 +259,16 @@ public class EntityDodo extends EntityTameable
 					{
 						if (!this.worldObj.isRemote)
 						{
-							player.openGui(ARKCraft.instance(), GUI.INV_DODO.id, this.worldObj,
-									(int) Math.floor(this.posX), (int) this.posY,
+							player.openGui(ARKCraft.instance(), GUI.INV_DODO.id,
+									this.worldObj, (int) Math.floor(this.posX),
+									(int) this.posY,
 									(int) Math.floor(this.posZ));
-							LogHelper
-									.info("EnityDodo: Opening GUI on Dodo at: " + this.posX + "," + this.posY + "," + this.posZ + " (" + (int) Math
-											.floor(this.posX) + "," + (int) this.posY + "," + (int) Math
-											.floor(this.posZ) + ")");
+							LogHelper.info("EnityDodo: Opening GUI on Dodo at: "
+									+ this.posX + "," + this.posY + ","
+									+ this.posZ + " ("
+									+ (int) Math.floor(this.posX) + ","
+									+ (int) this.posY + ","
+									+ (int) Math.floor(this.posZ) + ")");
 							this.aiSit.setSitting(this.isSitting());
 							LogHelper.info("Dodo is sitting");
 							this.isJumping = false;
@@ -271,7 +289,8 @@ public class EntityDodo extends EntityTameable
 								itemstack.stackSize--;
 								if (itemstack.stackSize == 0)
 								{
-									player.inventory.mainInventory[player.inventory.currentItem] = null;
+									player.inventory.mainInventory[player.inventory.currentItem] =
+											null;
 								}
 							}
 							setChested(true);
@@ -315,8 +334,8 @@ public class EntityDodo extends EntityTameable
 			}
 			if (itemstack.stackSize <= 0)
 			{
-				player.inventory.setInventorySlotContents(player.inventory.currentItem,
-						(ItemStack) null);
+				player.inventory.setInventorySlotContents(
+						player.inventory.currentItem, (ItemStack) null);
 			}
 			if (!this.worldObj.isRemote)
 			{
@@ -366,7 +385,8 @@ public class EntityDodo extends EntityTameable
 		if (this.isChested())
 		{
 			this.invDodo.saveInventoryToNBT(nbt);
-			// LogHelper.info("EntityDodo - writeEntityToNBT: Saved chest inventory.");
+			// LogHelper.info("EntityDodo - writeEntityToNBT: Saved chest
+			// inventory.");
 		}
 	}
 
@@ -434,7 +454,9 @@ public class EntityDodo extends EntityTameable
 		// Added the null check for the dossier
 		if (this.worldObj != null)
 		{
-			return this.worldObj.isRemote ? this.dataWatcher.getWatchableObjectByte(12) : this.field_175504_a;
+			return this.worldObj.isRemote
+					? this.dataWatcher.getWatchableObjectByte(12)
+					: this.field_175504_a;
 		}
 		else
 		{
@@ -444,9 +466,11 @@ public class EntityDodo extends EntityTameable
 
 	public boolean isFavoriteFood(ItemStack itemstack)
 	{
-		if (itemstack.getItem() instanceof ARKCraftFood && (itemstack.getItem() == ARKCraftItems.amarBerry || itemstack
-				.getItem() == ARKCraftItems.azulBerry || itemstack.getItem() == ARKCraftItems.mejoBerry || itemstack
-				.getItem() == ARKCraftItems.tintoBerry)) { return true; }
+		if (itemstack.getItem() instanceof ARKCraftFood && (itemstack
+				.getItem() == ARKCraftItems.amarBerry
+				|| itemstack.getItem() == ARKCraftItems.azulBerry
+				|| itemstack.getItem() == ARKCraftItems.mejoBerry || itemstack
+						.getItem() == ARKCraftItems.tintoBerry)) { return true; }
 		return false;
 	}
 }

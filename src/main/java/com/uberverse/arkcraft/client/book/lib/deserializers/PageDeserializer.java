@@ -15,13 +15,15 @@ public class PageDeserializer implements JsonDeserializer<Page>
 {
 
 	@Override
-	public Page deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+	public Page deserialize(JsonElement json, Type typeOfT,
+			JsonDeserializationContext context)
 	{
 		JsonObject obj = json.getAsJsonObject();
 		try
 		{
 			LogHelper.info("Trying to deserialize Pages.");
-			Class<? extends Page> page = PageData.getBookPage(obj.get("type").getAsString());
+			Class<? extends Page> page =
+					PageData.getBookPage(obj.get("type").getAsString());
 			return context.deserialize(obj, page);
 		}
 		catch (JsonParseException e)

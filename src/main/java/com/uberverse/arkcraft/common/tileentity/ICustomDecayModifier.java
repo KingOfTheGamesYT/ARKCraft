@@ -1,5 +1,6 @@
 package com.uberverse.arkcraft.common.tileentity;
 
-public interface ICustomDecayModifier {
+public interface ICustomDecayModifier
+{
 	double getDecayModifier(int slot);
 }

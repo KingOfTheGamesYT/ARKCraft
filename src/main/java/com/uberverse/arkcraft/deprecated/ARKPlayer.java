@@ -28,9 +28,10 @@ import net.minecraftforge.common.IExtendedEntityProperties;
  */
 public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable
 {
-	private static final int healthIncrease = 10, staminaIncrease = 10, oxygenIncrease = 20,
-			foodIncrease = 10, waterIncrease = 10, damageIncrease = 5, speedIncrease = 2,
-			maxTorpor = 200, maxLevel = 98;
+	private static final int healthIncrease = 10, staminaIncrease = 10,
+			oxygenIncrease = 20, foodIncrease = 10, waterIncrease = 10,
+			damageIncrease = 5, speedIncrease = 2, maxTorpor = 200,
+			maxLevel = 98;
 
 	public static final String EXT_PROP_NAME = "ARKPlayer";
 	private final EntityPlayer player;
@@ -39,10 +40,12 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable
 	// constructor and in NBT):
 	private boolean canPoop; // True if player can poop (timer sets this)
 	// actual stats
-	private int health, oxygen, food, water, damage, speed, stamina, torpor, level, engramPoints;
+	private int health, oxygen, food, water, damage, speed, stamina, torpor,
+			level, engramPoints;
 	private long xp;
 	// max stats
-	private int maxHealth, maxOxygen, maxFood, maxWater, maxDamage, maxSpeed, maxStamina;
+	private int maxHealth, maxOxygen, maxFood, maxWater, maxDamage, maxSpeed,
+			maxStamina;
 	// actual weights
 	private double carryWeight;
 	// max weights
@@ -54,9 +57,11 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable
 	{
 		// Initialize some stuff
 		this.player = player;
-		this.inventoryPlayerCrafting = new InventoryPlayerCrafting("crafting", false, player);
-		inventoryBlueprints = new InventoryBlueprints("Blueprints", false, BLUEPRINT_SLOTS_COUNT,
-				PlayerCraftingManager.getInstance(), inventoryPlayerCrafting,
+		this.inventoryPlayerCrafting =
+				new InventoryPlayerCrafting("crafting", false, player);
+		inventoryBlueprints = new InventoryBlueprints("Blueprints", false,
+				BLUEPRINT_SLOTS_COUNT, PlayerCraftingManager.getInstance(),
+				inventoryPlayerCrafting,
 				(short) ModuleItemBalance.PLAYER_CRAFTING.CRAFT_TIME_FOR_ITEM);
 		this.setCanPoop(false);
 		this.water = 20;
@@ -77,7 +82,8 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable
 	 */
 	public static final void register(EntityPlayer player, World world)
 	{
-		player.registerExtendedProperties(ARKPlayer.EXT_PROP_NAME, new ARKPlayer(player, world));
+		player.registerExtendedProperties(ARKPlayer.EXT_PROP_NAME,
+				new ARKPlayer(player, world));
 	}
 
 	/**
@@ -267,22 +273,24 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable
 
 	@Override
 	public void init(Entity entity, World world)
-	{
-	}
+	{}
 
 	public void syncClient(EntityPlayer player, boolean all)
 	{
 		ARKPlayer p = this;
 		if (player instanceof EntityPlayerMP)
 		{
-			((EntityPlayerMP) player).getServerForPlayer().addScheduledTask(new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					ARKCraft.modChannel.sendTo(new SyncPlayerData(all, p), (EntityPlayerMP) player);
-				}
-			});
+			((EntityPlayerMP) player).getServerForPlayer()
+					.addScheduledTask(new Runnable()
+					{
+						@Override
+						public void run()
+						{
+							ARKCraft.modChannel.sendTo(
+									new SyncPlayerData(all, p),
+									(EntityPlayerMP) player);
+						}
+					});
 		}
 	}
 
@@ -302,8 +310,6 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable
 	{
 		this.canPoop = canPoop;
 	}
-
-	
 
 	// ----------------- End of Properties stuff, rest is for crafting
 	// -----------------
@@ -342,7 +348,8 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable
 	// Leveling stuff
 	public void addXP(long xp)
 	{
-		ArkExperienceGainEvent event = new ArkExperienceGainEvent(this.player, xp);
+		ArkExperienceGainEvent event =
+				new ArkExperienceGainEvent(this.player, xp);
 		boolean canceled = ARKCraft.EVENT_BUS.post(event);
 		if (!canceled)
 		{
@@ -385,7 +392,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable
 	public void addXP(double xp)
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -406,6 +413,6 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable
 	public void addXPWithoutPass(double xp)
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 }

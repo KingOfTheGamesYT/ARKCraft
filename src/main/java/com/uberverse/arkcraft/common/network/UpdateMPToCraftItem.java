@@ -27,8 +27,7 @@ public class UpdateMPToCraftItem implements IMessage
 	 * Don't use
 	 */
 	public UpdateMPToCraftItem()
-	{
-	}
+	{}
 
 	public UpdateMPToCraftItem(int blueprintSelected, boolean craftOne, boolean craftAll, boolean guiOpen, BlockPos xyz)
 	{
@@ -65,14 +64,17 @@ public class UpdateMPToCraftItem implements IMessage
 		buf.writeInt(this.z);
 	}
 
-	public static class Handler implements IMessageHandler<UpdateMPToCraftItem, IMessage>
+	public static class Handler
+			implements IMessageHandler<UpdateMPToCraftItem, IMessage>
 	{
 		@Override
-		public IMessage onMessage(final UpdateMPToCraftItem message, MessageContext ctx)
+		public IMessage onMessage(final UpdateMPToCraftItem message,
+				MessageContext ctx)
 		{
 			if (ctx.side != Side.SERVER)
 			{
-				System.err.println("UpdateMPToCraftItem received on wrong side:" + ctx.side);
+				System.err.println("UpdateMPToCraftItem received on wrong side:"
+						+ ctx.side);
 				return null;
 			}
 			final EntityPlayerMP player = ctx.getServerHandler().playerEntity;
@@ -87,10 +89,12 @@ public class UpdateMPToCraftItem implements IMessage
 		}
 	}
 
-	static void processMessage(UpdateMPToCraftItem message, EntityPlayerMP player)
+	static void processMessage(UpdateMPToCraftItem message,
+			EntityPlayerMP player)
 	{
 		BlockPos xyz = new BlockPos(message.x, message.y, message.z);
-		TileInventoryMP tileEntityMP = (TileInventoryMP) player.worldObj.getTileEntity(xyz);
+		TileInventoryMP tileEntityMP =
+				(TileInventoryMP) player.worldObj.getTileEntity(xyz);
 		if (tileEntityMP instanceof TileInventoryMP)
 		{
 			tileEntityMP.setBlueprintSelected(message.blueprintSelected);
