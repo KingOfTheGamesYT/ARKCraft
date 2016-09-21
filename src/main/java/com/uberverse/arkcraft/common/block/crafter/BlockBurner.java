@@ -1,21 +1,18 @@
 package com.uberverse.arkcraft.common.block.crafter;
 
 import com.uberverse.arkcraft.common.burner.IBurner;
-import com.uberverse.arkcraft.util.Identifiable;
 
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 
-public abstract class BlockBurner extends BlockContainer implements Identifiable
+public abstract class BlockBurner extends BlockARKContainer
 {
 	public static final PropertyBool BURNING = PropertyBool.create("burning");
 
@@ -26,20 +23,7 @@ public abstract class BlockBurner extends BlockContainer implements Identifiable
 	}
 
 	@Override
-	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
-	{
-		TileEntity tileEntity = worldIn.getTileEntity(pos);
-		if (tileEntity instanceof IInventory)
-		{
-			InventoryHelper.dropInventoryItems(worldIn, pos,
-					(IInventory) tileEntity);
-		}
-		super.breakBlock(worldIn, pos, state);
-	}
-
-	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn,
-			BlockPos pos)
+	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
 	{
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
 		if (tileEntity instanceof IBurner)
@@ -70,8 +54,20 @@ public abstract class BlockBurner extends BlockContainer implements Identifiable
 	}
 
 	@Override
-	public int getRenderType()
+	public IBlockState getStateFromMeta(int meta)
 	{
-		return 3;
+		return this.getDefaultState().withProperty(BURNING, meta == 1 ? true : false);
+	}
+
+	@Override
+	public int getMetaFromState(IBlockState state)
+	{
+		return (Boolean) state.getValue(BURNING) ? 1 : 0;
+	}
+
+	@Override
+	protected BlockState createBlockState()
+	{
+		return new BlockState(this, new IProperty[] { BURNING });
 	}
 }

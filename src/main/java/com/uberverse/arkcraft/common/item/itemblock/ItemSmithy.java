@@ -73,12 +73,12 @@ public class ItemSmithy extends ItemBlockARK
 									.withProperty(BlockSmithy.FACING,
 											enumfacing1)
 									.withProperty(BlockSmithy.PART,
-											BlockSmithy.EnumPartType.RIGHT);
+											BlockSmithy.EnumPart.RIGHT);
 					if (worldIn.setBlockState(pos, iblockstate1, 3))
 					{
 						IBlockState iblockstate2 =
 								iblockstate1.withProperty(BlockSmithy.PART,
-										BlockSmithy.EnumPartType.LEFT);
+										BlockSmithy.EnumPart.LEFT);
 						worldIn.setBlockState(blockpos1, iblockstate2, 3);
 					}
 					--stack.stackSize;

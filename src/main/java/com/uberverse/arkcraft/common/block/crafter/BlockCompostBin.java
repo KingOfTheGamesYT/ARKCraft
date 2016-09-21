@@ -5,10 +5,8 @@ import java.util.Random;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.proxy.CommonProxy;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryCompostBin;
-import com.uberverse.arkcraft.util.Identifiable;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
@@ -30,13 +28,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 /**
  * @author wildbill22
  */
-public class BlockCompostBin extends BlockContainer implements Identifiable
+public class BlockCompostBin extends BlockARKContainer
 {
 
-	public static final PropertyEnum PART =
-			PropertyEnum.create("part", BlockCompostBin.EnumPartType.class);
-	public static final PropertyDirection FACING =
-			PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+	public static final PropertyEnum PART = PropertyEnum.create("part", EnumPart.class);
+	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	private int renderType = 3; // Default (set when created normally)
 	private boolean isOpaque = false;
 	private boolean render = false;
@@ -45,30 +41,25 @@ public class BlockCompostBin extends BlockContainer implements Identifiable
 	{
 		super(Material.wood);
 		this.setCreativeTab(ARKCraft.tabARK);
-		this.setCompostBinBounds();
-		this.setDefaultState(this.blockState.getBaseState().withProperty(PART,
-				BlockCompostBin.EnumPartType.LEFT));
+		this.setDefaultState(this.blockState.getBaseState());
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos blockPos,
-			IBlockState state, EntityPlayer playerIn, EnumFacing side,
-			float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(World worldIn, BlockPos blockPos, IBlockState state, EntityPlayer playerIn,
+			EnumFacing side, float hitX, float hitY, float hitZ)
 	{
 		if (worldIn.isRemote) { return true; }
-		if (state.getValue(PART) != BlockCompostBin.EnumPartType.LEFT)
+		if (state.getValue(PART) != BlockCompostBin.EnumPart.LEFT)
 		{
 			// blockPos = blockPos.offset((EnumFacing)state.getValue(FACING));
 			// // Original, from bed
-			blockPos = blockPos
-					.offset(((EnumFacing) state.getValue(FACING)).rotateYCCW());
+			blockPos = blockPos.offset(((EnumFacing) state.getValue(FACING)).rotateYCCW());
 			state = worldIn.getBlockState(blockPos);
 			if (state.getBlock() != this) { return true; }
 		}
 		if (!playerIn.isSneaking())
 		{
-			playerIn.openGui(ARKCraft.instance(), getId(), worldIn,
-					blockPos.getX(), blockPos.getY(), blockPos.getZ());
+			playerIn.openGui(ARKCraft.instance(), getId(), worldIn, blockPos.getX(), blockPos.getY(), blockPos.getZ());
 			return true;
 		}
 		return false;
@@ -123,25 +114,20 @@ public class BlockCompostBin extends BlockContainer implements Identifiable
 	 * Returns randomly, about 1/2 of the recipe items
 	 */
 	@Override
-	public java.util.List<ItemStack> getDrops(
-			net.minecraft.world.IBlockAccess world, BlockPos pos,
-			IBlockState state, int fortune)
+	public java.util.List<ItemStack> getDrops(net.minecraft.world.IBlockAccess world, BlockPos pos, IBlockState state,
+			int fortune)
 	{
-		java.util.List<ItemStack> ret =
-				super.getDrops(world, pos, state, fortune);
-		Random rand =
-				world instanceof World ? ((World) world).rand : new Random();
+		java.util.List<ItemStack> ret = super.getDrops(world, pos, state, fortune);
+		Random rand = world instanceof World ? ((World) world).rand : new Random();
 		TileEntity tileEntity = world.getTileEntity(pos);
 		if (tileEntity instanceof TileInventoryCompostBin)
 		{
 			TileInventoryCompostBin tiCB = (TileInventoryCompostBin) tileEntity;
-			for (int i = 0; i < TileInventoryCompostBin.COMPOST_SLOTS_COUNT;
-					++i)
+			for (int i = 0; i < TileInventoryCompostBin.COMPOST_SLOTS_COUNT; ++i)
 			{
 				if (rand.nextInt(2) == 0)
 				{
-					ret.add(tiCB.getStackInSlot(
-							TileInventoryCompostBin.FIRST_COMPOST_SLOT + i));
+					ret.add(tiCB.getStackInSlot(TileInventoryCompostBin.FIRST_COMPOST_SLOT + i));
 				}
 			}
 		}
@@ -151,14 +137,11 @@ public class BlockCompostBin extends BlockContainer implements Identifiable
 	// ---------------- Stuff for multiblock ------------------------
 
 	@Override
-	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state,
-			EntityPlayer player)
+	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player)
 	{
-		if (player.capabilities.isCreativeMode
-				&& state.getValue(PART) == BlockCompostBin.EnumPartType.LEFT)
+		if (player.capabilities.isCreativeMode && state.getValue(PART) == BlockCompostBin.EnumPart.LEFT)
 		{
-			BlockPos blockpos1 = pos.offset(
-					((EnumFacing) state.getValue(FACING)).getOpposite());
+			BlockPos blockpos1 = pos.offset(((EnumFacing) state.getValue(FACING)).getOpposite());
 			if (worldIn.getBlockState(blockpos1).getBlock() == this)
 			{
 				worldIn.setBlockToAir(blockpos1);
@@ -169,38 +152,78 @@ public class BlockCompostBin extends BlockContainer implements Identifiable
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
 	{
-		this.setCompostBinBounds();
-	}
-
-	private void setCompostBinBounds()
-	{
-		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+		EnumFacing f = (EnumFacing) worldIn.getBlockState(pos).getValue(FACING);
+		EnumPart p = (EnumPart) worldIn.getBlockState(pos).getValue(PART);
+		switch (f)
+		{
+			case NORTH:
+				switch (p)
+				{
+					case LEFT:
+						setBlockBounds(0, 0, 0, 2, 1, 1);
+						break;
+					case RIGHT:
+						setBlockBounds(-1, 0, 0, 1, 1, 1);
+						break;
+				}
+				break;
+			case EAST:
+				switch (p)
+				{
+					case LEFT:
+						setBlockBounds(0, 0, 0, 1, 1, 2);
+						break;
+					case RIGHT:
+						setBlockBounds(0, 0, -1, 1, 1, 1);
+						break;
+				}
+				break;
+			case SOUTH:
+				switch (p)
+				{
+					case LEFT:
+						setBlockBounds(-1, 0, 0, 1, 1, 1);
+						break;
+					case RIGHT:
+						setBlockBounds(0, 0, 0, 2, 1, 1);
+						break;
+				}
+				break;
+			case WEST:
+				switch (p)
+				{
+					case LEFT:
+						setBlockBounds(0, 0, -1, 1, 1, 1);
+						break;
+					case RIGHT:
+						setBlockBounds(0, 0, 0, 1, 1, 2);
+						break;
+				}
+				break;
+		}
 	}
 
 	/**
 	 * Called when a neighboring block changes.
 	 */
 	@Override
-	public void onNeighborBlockChange(World worldIn, BlockPos pos,
-			IBlockState state, Block neighborBlock)
+	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
 	{
 		EnumFacing enumfacing = (EnumFacing) state.getValue(FACING);
 
-		if (state.getValue(PART) == BlockCompostBin.EnumPartType.LEFT)
+		if (state.getValue(PART) == BlockCompostBin.EnumPart.LEFT)
 		{
 			// if
 			// (worldIn.getBlockState(pos.offset(enumfacing.getOpposite())).getBlock()
 			// != this) { // Original, from bed
-			if (worldIn.getBlockState(pos.offset(enumfacing.rotateY()))
-					.getBlock() != this)
+			if (worldIn.getBlockState(pos.offset(enumfacing.rotateY())).getBlock() != this)
 			{
 				worldIn.setBlockToAir(pos);
 			}
 		}
 		// else if (worldIn.getBlockState(pos.offset(enumfacing)).getBlock() !=
 		// this) { // Original, from bed
-		else if (worldIn.getBlockState(pos.offset(enumfacing.rotateYCCW()))
-				.getBlock() != this)
+		else if (worldIn.getBlockState(pos.offset(enumfacing.rotateYCCW())).getBlock() != this)
 		{
 			worldIn.setBlockToAir(pos);
 			if (!worldIn.isRemote)
@@ -220,10 +243,9 @@ public class BlockCompostBin extends BlockContainer implements Identifiable
 	 *            The player's fortune level
 	 */
 	@Override
-	public void dropBlockAsItemWithChance(World worldIn, BlockPos pos,
-			IBlockState state, float chance, int fortune)
+	public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune)
 	{
-		if (state.getValue(PART) == BlockCompostBin.EnumPartType.RIGHT)
+		if (state.getValue(PART) == BlockCompostBin.EnumPart.RIGHT)
 		{
 			super.dropBlockAsItemWithChance(worldIn, pos, state, chance, 0);
 		}
@@ -243,12 +265,8 @@ public class BlockCompostBin extends BlockContainer implements Identifiable
 	public IBlockState getStateFromMeta(int meta)
 	{
 		EnumFacing enumfacing = EnumFacing.getHorizontal(meta);
-		return (meta & 8) > 0
-				? this.getDefaultState()
-						.withProperty(PART, BlockCompostBin.EnumPartType.LEFT)
-						.withProperty(FACING, enumfacing)
-				: this.getDefaultState()
-						.withProperty(PART, BlockCompostBin.EnumPartType.RIGHT)
+		return (meta & 8) > 0 ? this.getDefaultState().withProperty(PART, BlockCompostBin.EnumPart.LEFT).withProperty(
+				FACING, enumfacing) : this.getDefaultState().withProperty(PART, BlockCompostBin.EnumPart.RIGHT)
 						.withProperty(FACING, enumfacing);
 	}
 
@@ -258,8 +276,7 @@ public class BlockCompostBin extends BlockContainer implements Identifiable
 	 * connections.
 	 */
 	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn,
-			BlockPos pos)
+	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
 	{
 		return state;
 	}
@@ -272,7 +289,7 @@ public class BlockCompostBin extends BlockContainer implements Identifiable
 	{
 		byte b0 = 0;
 		int i = b0 | ((EnumFacing) state.getValue(FACING)).getHorizontalIndex();
-		if (state.getValue(PART) == BlockCompostBin.EnumPartType.LEFT)
+		if (state.getValue(PART) == BlockCompostBin.EnumPart.LEFT)
 		{
 			i |= 8;
 		}
@@ -285,12 +302,12 @@ public class BlockCompostBin extends BlockContainer implements Identifiable
 		return new BlockState(this, new IProperty[] { FACING, PART });
 	}
 
-	public static enum EnumPartType implements IStringSerializable
+	public static enum EnumPart implements IStringSerializable
 	{
 		LEFT("left"), RIGHT("right");
 		private final String name;
 
-		private EnumPartType(String name)
+		private EnumPart(String name)
 		{
 			this.name = name;
 		}

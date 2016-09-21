@@ -3,10 +3,8 @@ package com.uberverse.arkcraft.common.block.crafter;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.proxy.CommonProxy;
 import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntitySmithy;
-import com.uberverse.arkcraft.util.Identifiable;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
@@ -27,15 +25,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 /**
  * @author wildbill22
  */
-public class BlockSmithy extends BlockContainer implements Identifiable
+public class BlockSmithy extends BlockARKContainer
 {
-	private int renderType = 3; // default value
-	private boolean isOpaque = false;
-	private boolean render = false;
-	public static final PropertyEnum PART =
-			PropertyEnum.create("part", BlockSmithy.EnumPartType.class);
-	public static final PropertyDirection FACING =
-			PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+	public static final PropertyEnum PART = PropertyEnum.create("part", EnumPart.class);
+	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
 	public BlockSmithy()
 	{
@@ -51,123 +44,102 @@ public class BlockSmithy extends BlockContainer implements Identifiable
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos blockPos,
-			IBlockState state, EntityPlayer playerIn, EnumFacing side,
-			float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(World worldIn, BlockPos blockPos, IBlockState state, EntityPlayer playerIn,
+			EnumFacing side, float hitX, float hitY, float hitZ)
 	{
 		if (!playerIn.isSneaking())
 		{
-			if (state.getValue(PART) == EnumPartType.RIGHT)
-				playerIn.openGui(ARKCraft.instance(), getId(), worldIn,
-						blockPos.getX(), blockPos.getY(), blockPos.getZ());
+			if (state.getValue(PART) == EnumPart.RIGHT) playerIn.openGui(ARKCraft.instance(), getId(), worldIn, blockPos
+					.getX(), blockPos.getY(), blockPos.getZ());
 			else
 			{
 				EnumFacing f = (EnumFacing) state.getValue(FACING);
 				BlockPos pos = blockPos.offset(f.rotateY());
 				IBlockState oState = worldIn.getBlockState(pos);
-				oState.getBlock().onBlockActivated(worldIn, pos, oState,
-						playerIn, side, hitX, hitY, hitZ);
+				oState.getBlock().onBlockActivated(worldIn, pos, oState, playerIn, side, hitX, hitY, hitZ);
 			}
 			return true;
 		}
 		return false;
 	}
 
-	public void setRenderType(int renderType)
-	{
-		this.renderType = renderType;
-	}
-
-	@Override
-	public int getRenderType()
-	{
-		return renderType;
-	}
-
-	public void setOpaque(boolean opaque)
-	{
-		opaque = isOpaque;
-	}
-
 	@Override
 	public boolean isOpaqueCube()
 	{
-		return isOpaque;
-	}
-
-	public void setRenderAsNormalBlock(boolean b)
-	{
-		render = b;
-	}
-
-	public boolean renderAsNormalBlock()
-	{
-		return render;
-	}
-
-	@Override
-	public boolean isFullCube()
-	{
 		return false;
 	}
-
-	// TODO return part of the items used for the currently crafting item
-	// /**
-	// * Returns randomly, about 1/2 of the recipe items
-	// */
-	// @Override
-	// public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos,
-	// IBlockState state, int fortune)
-	// {
-	// List<ItemStack> ret = super.getDrops(world, pos, state, fortune);
-	// Random rand = world instanceof World ? ((World) world).rand : new
-	// Random();
-	// TileEntity tileEntity = world.getTileEntity(pos);
-	// if (tileEntity instanceof TileEntitySmithy)
-	// {
-	// TileEntitySmithy tile = (TileEntitySmithy) tileEntity;
-	// for (int i = 0; i < tile.getSizeInventory(); ++i)
-	// {
-	// if (rand.nextInt(2) == 0)
-	// {
-	// ret.add(tile.getStackInSlot(TileEntitySmithy.FIRST_INVENTORY_SLOT + i));
-	// }
-	// }
-	// }
-	// return ret;
-	// }
 
 	// ---------------- Stuff for multiblock ------------------------
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
 	{
-		this.setSmithyBounds();
-	}
-
-	private void setSmithyBounds()
-	{
-		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+		EnumFacing f = (EnumFacing) worldIn.getBlockState(pos).getValue(FACING);
+		EnumPart p = (EnumPart) worldIn.getBlockState(pos).getValue(PART);
+		switch (f)
+		{
+			case NORTH:
+				switch (p)
+				{
+					case LEFT:
+						setBlockBounds(0, 0, 0, 2, 1, 1);
+						break;
+					case RIGHT:
+						setBlockBounds(-1, 0, 0, 1, 1, 1);
+						break;
+				}
+				break;
+			case EAST:
+				switch (p)
+				{
+					case LEFT:
+						setBlockBounds(0, 0, 0, 1, 1, 2);
+						break;
+					case RIGHT:
+						setBlockBounds(0, 0, -1, 1, 1, 1);
+						break;
+				}
+				break;
+			case SOUTH:
+				switch (p)
+				{
+					case LEFT:
+						setBlockBounds(-1, 0, 0, 1, 1, 1);
+						break;
+					case RIGHT:
+						setBlockBounds(0, 0, 0, 2, 1, 1);
+						break;
+				}
+				break;
+			case WEST:
+				switch (p)
+				{
+					case LEFT:
+						setBlockBounds(0, 0, -1, 1, 1, 1);
+						break;
+					case RIGHT:
+						setBlockBounds(0, 0, 0, 1, 1, 2);
+						break;
+				}
+				break;
+		}
 	}
 
 	/**
 	 * Called when a neighboring block changes.
 	 */
 	@Override
-	public void onNeighborBlockChange(World worldIn, BlockPos pos,
-			IBlockState state, Block neighborBlock)
+	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
 	{
 		EnumFacing enumfacing = (EnumFacing) state.getValue(FACING);
 
-		if (state.getValue(PART) == BlockSmithy.EnumPartType.LEFT)
+		if (state.getValue(PART) == BlockSmithy.EnumPart.LEFT)
 		{
-			if (worldIn.getBlockState(pos.offset(enumfacing.rotateY()))
-					.getBlock() != this)
+			if (worldIn.getBlockState(pos.offset(enumfacing.rotateY())).getBlock() != this)
 			{
 				worldIn.setBlockToAir(pos);
 			}
 		}
-		else if (worldIn.getBlockState(pos.offset(enumfacing.rotateYCCW()))
-				.getBlock() != this)
+		else if (worldIn.getBlockState(pos.offset(enumfacing.rotateYCCW())).getBlock() != this)
 		{
 			worldIn.setBlockToAir(pos);
 		}
@@ -187,25 +159,9 @@ public class BlockSmithy extends BlockContainer implements Identifiable
 	public IBlockState getStateFromMeta(int meta)
 	{
 		EnumFacing enumfacing = EnumFacing.getHorizontal(meta);
-		return (meta & 8) > 0
-				? this.getDefaultState()
-						.withProperty(PART, BlockSmithy.EnumPartType.LEFT)
-						.withProperty(FACING, enumfacing)
-				: this.getDefaultState()
-						.withProperty(PART, BlockSmithy.EnumPartType.RIGHT)
+		return (meta & 8) > 0 ? this.getDefaultState().withProperty(PART, BlockSmithy.EnumPart.LEFT).withProperty(
+				FACING, enumfacing) : this.getDefaultState().withProperty(PART, BlockSmithy.EnumPart.RIGHT)
 						.withProperty(FACING, enumfacing);
-	}
-
-	/**
-	 * Get the actual Block state of this Block at the given position. This
-	 * applies properties not visible in the metadata, such as fence
-	 * connections.
-	 */
-	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn,
-			BlockPos pos)
-	{
-		return state;
 	}
 
 	/**
@@ -216,7 +172,7 @@ public class BlockSmithy extends BlockContainer implements Identifiable
 	{
 		byte b0 = 0;
 		int i = b0 | ((EnumFacing) state.getValue(FACING)).getHorizontalIndex();
-		if (state.getValue(PART) == BlockSmithy.EnumPartType.LEFT)
+		if (state.getValue(PART) == BlockSmithy.EnumPart.LEFT)
 		{
 			i |= 8;
 		}
@@ -229,12 +185,12 @@ public class BlockSmithy extends BlockContainer implements Identifiable
 		return new BlockState(this, new IProperty[] { FACING, PART });
 	}
 
-	public static enum EnumPartType implements IStringSerializable
+	public static enum EnumPart implements IStringSerializable
 	{
 		LEFT("left"), RIGHT("right");
 		private final String name;
 
-		private EnumPartType(String name)
+		private EnumPart(String name)
 		{
 			this.name = name;
 		}
