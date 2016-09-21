@@ -343,6 +343,14 @@ ark.engram.learn.false=Unlearned
 ark.engram.close=Close
 ark.engram.consume=Consumes EP
 
+#Itemquality names
+arkcraft.itemquality.primitive=Primitive
+arkcraft.itemquality.ramshackle=Ramshackle
+arkcraft.itemquality.apprentice=Apprentice
+arkcraft.itemquality.journeyman=Journeyman
+arkcraft.itemquality.mastercraft=Mastercraft
+arkcraft.itemquality.ascendant=Ascendant
+
 #Achievements
 achievement.theBigBang=MICHAEL BAY!
 achievement.theBigBang.desc=THE BIG BANG
