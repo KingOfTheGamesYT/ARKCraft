@@ -29,7 +29,7 @@ public abstract class ItemQualitable extends Item implements Qualitable
 	public int getMaxDamage(ItemStack stack)
 	{
 		ItemQuality q = Qualitable.get(stack);
-		return (int) (baseDurability * (q != null ? q.durabilityMultiplier : 0) * itemType.durabilityModifier);
+		return (int) (baseDurability * (q != null ? q.durabilityMultiplier : 0));
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -62,13 +62,6 @@ public abstract class ItemQualitable extends Item implements Qualitable
 
 	protected enum ItemType
 	{
-		TOOL(1.5), WEAPON(1), SADDLE(1.5);
-
-		public final double durabilityModifier;
-
-		private ItemType(double durabilityModifier)
-		{
-			this.durabilityModifier = durabilityModifier;
-		}
+		TOOL, WEAPON, SADDLE;
 	}
 }

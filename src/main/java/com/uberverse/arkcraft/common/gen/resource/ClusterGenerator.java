@@ -89,4 +89,6 @@ public abstract class ClusterGenerator extends WorldGenerator implements IWorldG
 	}
 
 	public abstract IBlockState getGeneratedState();
+
+	public abstract boolean isValidPosition(World world, BlockPos pos);
 }

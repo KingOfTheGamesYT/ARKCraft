@@ -7,7 +7,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.BiomeDictionary;
 
-public class CrystalResourceGenerator extends SurfaceOreGenerator
+public class CrystalResourceGenerator extends SurfaceResourceGenerator
 {
 	public CrystalResourceGenerator()
 	{

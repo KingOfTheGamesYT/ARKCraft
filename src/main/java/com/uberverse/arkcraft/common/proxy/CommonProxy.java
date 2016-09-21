@@ -187,4 +187,8 @@ public abstract class CommonProxy
 	}
 
 	public abstract EntityPlayer getPlayerFromContext(MessageContext ctx);
+
+	public abstract long getTime();
+
+	public abstract long getWorldTime();
 }

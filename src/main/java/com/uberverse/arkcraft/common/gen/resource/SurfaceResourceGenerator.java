@@ -12,9 +12,9 @@ import net.minecraft.world.WorldType;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.common.BiomeDictionary;
 
-public abstract class SurfaceOreGenerator extends ClusterGenerator
+public abstract class SurfaceResourceGenerator extends ClusterGenerator
 {
-	public SurfaceOreGenerator(int minHeight, int maxHeight, int minWidth, int maxWidth, double chance)
+	public SurfaceResourceGenerator(int minHeight, int maxHeight, int minWidth, int maxWidth, double chance)
 	{
 		super(minHeight, maxHeight, minWidth, maxWidth, chance);
 	}
@@ -28,11 +28,12 @@ public abstract class SurfaceOreGenerator extends ClusterGenerator
 		int y = 60;
 		int z = random.nextInt(16) + chunkZ * 16;
 		BlockPos position = new BlockPos(x, y, z);
-		position = getSurfacePosition(position, world);
+		position = getSurfacePosition(world, position);
 		// to prevent spawning on trees
 		if (isValidPosition(world, position)) generate(world, random, position);
 	}
 
+	@Override
 	public boolean isValidPosition(World world, BlockPos pos)
 	{
 		IBlockState self = world.getBlockState(pos);
@@ -43,7 +44,7 @@ public abstract class SurfaceOreGenerator extends ClusterGenerator
 						.getBlock() != Blocks.lava;
 	}
 
-	public static BlockPos getSurfacePosition(BlockPos pos, World world)
+	public static BlockPos getSurfacePosition(World world, BlockPos pos)
 	{
 		boolean check = false;
 		while (!world.canBlockSeeSky(pos))

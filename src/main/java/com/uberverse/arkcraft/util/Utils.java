@@ -18,8 +18,7 @@ import net.minecraft.world.World;
 
 public class Utils
 {
-	public static EnumFacing getDirectionFacing(EntityLivingBase entity,
-			boolean includeUpAndDown)
+	public static EnumFacing getDirectionFacing(EntityLivingBase entity, boolean includeUpAndDown)
 	{
 		double yaw = entity.rotationYaw;
 		while (yaw < 0)
@@ -38,33 +37,28 @@ public class Utils
 		else return EnumFacing.SOUTH;
 	}
 
-	public static boolean isUseable(BlockPos pos, EntityPlayer player,
-			World worldObj, TileEntity thisT)
+	public static boolean isUseable(BlockPos pos, EntityPlayer player, World worldObj, TileEntity thisT)
 	{
-		return worldObj.getTileEntity(pos) != thisT ? false
-				: player.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D,
-						pos.getZ() + 0.5D) <= 64.0D;
+		return worldObj.getTileEntity(pos) != thisT ? false : player.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D,
+				pos.getZ() + 0.5D) <= 64.0D;
 	}
 
 	static Field equippedProgress, prevEquippedProgress;
 
 	// Function that handles the hack for the Item Swap Animation
-	public static void setItemRendererEquippProgress(float From0To1,
-			boolean isSmooth)
+	public static void setItemRendererEquippProgress(float From0To1, boolean isSmooth)
 	{
 		ItemRenderer IR = Minecraft.getMinecraft().entityRenderer.itemRenderer;
 		if (IR != null) try
 		{
 			if (!isSmooth)
 			{
-				if (prevEquippedProgress == null)
-					prevEquippedProgress = ItemRenderer.class
-							.getDeclaredField("prevEquippedProgress");
+				if (prevEquippedProgress == null) prevEquippedProgress = ItemRenderer.class.getDeclaredField(
+						"prevEquippedProgress");
 				prevEquippedProgress.setAccessible(true);
 				prevEquippedProgress.setFloat(IR, From0To1);
 			}
-			if (equippedProgress == null) equippedProgress =
-					ItemRenderer.class.getDeclaredField("equippedProgress");
+			if (equippedProgress == null) equippedProgress = ItemRenderer.class.getDeclaredField("equippedProgress");
 			equippedProgress.setAccessible(true);
 			equippedProgress.setFloat(IR, From0To1);
 		}
@@ -76,7 +70,6 @@ public class Utils
 
 	public static void checkInventoryForDecayable(IInventory inventory)
 	{
-
 		for (int i = 0; i < inventory.getSizeInventory(); i++)
 		{
 			ItemStack stack = inventory.getStackInSlot(i);
@@ -86,8 +79,7 @@ public class Utils
 				double decayModifier = 1;
 				if (inventory instanceof ICustomDecayModifier)
 				{
-					decayModifier = ((ICustomDecayModifier) inventory)
-							.getDecayModifier(i);
+					decayModifier = ((ICustomDecayModifier) inventory).getDecayModifier(i);
 				}
 				decayable.decayTick(inventory, i, decayModifier, stack);
 			}
@@ -106,11 +98,8 @@ public class Utils
 		return calculateDistance(x1, y1, z1, x2, y2, z2);
 	}
 
-	public static double calculateDistance(double x1, double y1, double z1,
-			double x2, double y2, double z2)
+	public static double calculateDistance(double x1, double y1, double z1, double x2, double y2, double z2)
 	{
-		return Math.sqrt(
-				Math.pow(Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(z1 - z2, 2)),
-						2) + Math.pow(y1 - y2, 2));
+		return Math.sqrt(Math.pow(Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(z1 - z2, 2)), 2) + Math.pow(y1 - y2, 2));
 	}
 }

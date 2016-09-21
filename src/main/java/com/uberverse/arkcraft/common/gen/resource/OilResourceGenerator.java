@@ -4,16 +4,16 @@ import com.uberverse.arkcraft.init.ARKCraftBlocks;
 
 import net.minecraft.block.state.IBlockState;
 
-public class RockResourceGenerator extends SurfaceResourceGenerator
+public class OilResourceGenerator extends OceanResourceGenerator
 {
-	public RockResourceGenerator()
+	public OilResourceGenerator()
 	{
-		super(2, 4, 2, 5, 0.5);
+		super(1, 2, 1, 2, 0.5);
 	}
 
 	@Override
 	public IBlockState getGeneratedState()
 	{
-		return ARKCraftBlocks.rockResource.getDefaultState();
+		return ARKCraftBlocks.oilResource.getDefaultState();
 	}
 }

@@ -13,6 +13,7 @@ import com.uberverse.arkcraft.common.block.crafter.BlockSmithy;
 import com.uberverse.arkcraft.common.block.resource.BlockCrystalResource;
 import com.uberverse.arkcraft.common.block.resource.BlockMetalResource;
 import com.uberverse.arkcraft.common.block.resource.BlockObsidianResource;
+import com.uberverse.arkcraft.common.block.resource.BlockOilResource;
 import com.uberverse.arkcraft.common.block.resource.BlockRockResource;
 import com.uberverse.arkcraft.common.item.itemblock.ItemCampfire;
 import com.uberverse.arkcraft.common.item.itemblock.ItemCompostBin;
@@ -45,6 +46,7 @@ public class ARKCraftBlocks
 	public static BlockMetalResource metalResource;
 	public static BlockObsidianResource obsidianResource;
 	public static BlockCrystalResource crystalResource;
+	public static BlockOilResource oilResource;
 
 	public static ARKCraftBlocks getInstance()
 	{
@@ -57,45 +59,29 @@ public class ARKCraftBlocks
 
 		// Misc
 		block_light = init.registerBlock("block_light", new BlockLight());
-		berryBush =
-				init.registerBlock("berryBush", new ARKCraftBerryBush(0.4F));
+		berryBush = init.registerBlock("berryBush", new ARKCraftBerryBush(0.4F));
 		greenScreen = init.registerBlock("greenScreen", new BlockGreenScreen());
 
 		// Containers
-		smithy = init.registerBlock("smithy", new BlockSmithy(),
-				ItemSmithy.class);
-		pestle = init.registerBlock("mortar_and_pestle",
-				new BlockMortarAndPestle(), ItemMortarAndPestle.class);
-		crop_plot = init.registerBlock("crop_plot", new BlockCropPlot(),
-				ItemCropPlot.class);
-		compost_bin = init.registerBlock("compost_bin", new BlockCompostBin(),
-				ItemCompostBin.class);
-		refining_forge = init.registerBlock("refining_forge",
-				new BlockRefiningForge(), ItemRefiningForge.class);
-		campfire = init.registerBlock("campfire", new BlockCampfire(),
-				ItemCampfire.class);
+		smithy = init.registerBlock("smithy", new BlockSmithy(), ItemSmithy.class);
+		pestle = init.registerBlock("mortar_and_pestle", new BlockMortarAndPestle(), ItemMortarAndPestle.class);
+		crop_plot = init.registerBlock("crop_plot", new BlockCropPlot(), ItemCropPlot.class);
+		compost_bin = init.registerBlock("compost_bin", new BlockCompostBin(), ItemCompostBin.class);
+		refining_forge = init.registerBlock("refining_forge", new BlockRefiningForge(), ItemRefiningForge.class);
+		campfire = init.registerBlock("campfire", new BlockCampfire(), ItemCampfire.class);
 
-		rockResource =
-				init.registerBlock("rock_resource", new BlockRockResource());
-		metalResource =
-				init.registerBlock("metal_resource", new BlockMetalResource());
-		obsidianResource = init.registerBlock("obsidian_resource",
-				new BlockObsidianResource());
-		crystalResource = init.registerBlock("crystal_resource",
-				new BlockCrystalResource());
+		rockResource = init.registerBlock("rock_resource", new BlockRockResource());
+		metalResource = init.registerBlock("metal_resource", new BlockMetalResource());
+		obsidianResource = init.registerBlock("obsidian_resource", new BlockObsidianResource());
+		crystalResource = init.registerBlock("crystal_resource", new BlockCrystalResource());
+		oilResource = init.registerBlock("oil_resource", new BlockOilResource());
 
 		// Tile Entities
-		GameRegistry.registerTileEntity(TileEntityCropPlot.class,
-				ARKCraft.MODID + "cropPlot");
-		GameRegistry.registerTileEntity(TileEntityMP.class,
-				ARKCraft.MODID + "TileInventoryMP");
-		GameRegistry.registerTileEntity(TileInventoryCompostBin.class,
-				ARKCraft.MODID + "TileEntityCompostBin");
-		GameRegistry.registerTileEntity(TileEntitySmithy.class,
-				ARKCraft.MODID + "TileEntitySmithy");
-		GameRegistry.registerTileEntity(TileEntityRefiningForge.class,
-				ARKCraft.MODID + "TileEntityRefiningForge");
-		GameRegistry.registerTileEntity(TileEntityCampfire.class,
-				ARKCraft.MODID + "TileEntityCampfire");
+		GameRegistry.registerTileEntity(TileEntityCropPlot.class, ARKCraft.MODID + "cropPlot");
+		GameRegistry.registerTileEntity(TileEntityMP.class, ARKCraft.MODID + "TileInventoryMP");
+		GameRegistry.registerTileEntity(TileInventoryCompostBin.class, ARKCraft.MODID + "TileEntityCompostBin");
+		GameRegistry.registerTileEntity(TileEntitySmithy.class, ARKCraft.MODID + "TileEntitySmithy");
+		GameRegistry.registerTileEntity(TileEntityRefiningForge.class, ARKCraft.MODID + "TileEntityRefiningForge");
+		GameRegistry.registerTileEntity(TileEntityCampfire.class, ARKCraft.MODID + "TileEntityCampfire");
 	}
 }

@@ -7,7 +7,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.BiomeDictionary;
 
-public class MetalResourceGenerator extends SurfaceOreGenerator
+public class MetalResourceGenerator extends SurfaceResourceGenerator
 {
 	public MetalResourceGenerator()
 	{

@@ -292,15 +292,15 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 	}
 
 	private static final double interval = 0.2, c = 1, cm = c - interval, cmm = cm - interval, cmmm = cmm - interval,
-			cp = c + interval, cpp = cp + interval, cppp = cpp + interval;
+			cmmmm = cmmm - interval, cp = c + interval, cpp = cp + interval, cppp = cpp + interval;
 
 	public enum ToolType
 	{
-		PICK(c, cmm, cmm, cmmm, cm, cmm, cm, c, cmm), HATCHET(cmm, c, cmmm, cm, cmm, cmmm, cmm, cmm, c);
+		PICK(c, cmm, cmm, cmmm, cm, cmm, cm, c, cmm, c), HATCHET(cmm, c, cmmm, cm, cmm, cmmm, cmm, cmm, c, cmmmm);
 		private final double thatchModifier, woodModifier, metalModifier, stoneModifier, crystalModifier,
-				obsidianModifier, flintModifier, meatModifier, hideModifier;
+				obsidianModifier, flintModifier, meatModifier, hideModifier, oilModifier;
 
-		private ToolType(double thatchModifier, double woodModifier, double metalModifier, double stoneModifier, double crystalModifier, double obsidianModifier, double flintModifier, double meatModifier, double hideModifier)
+		private ToolType(double thatchModifier, double woodModifier, double metalModifier, double stoneModifier, double crystalModifier, double obsidianModifier, double flintModifier, double meatModifier, double hideModifier, double oilModifier)
 		{
 			this.thatchModifier = thatchModifier;
 			this.woodModifier = woodModifier;
@@ -311,6 +311,7 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 			this.flintModifier = flintModifier;
 			this.meatModifier = meatModifier;
 			this.hideModifier = hideModifier;
+			this.oilModifier = oilModifier;
 		}
 
 		private double getModifier(Item output)
@@ -324,6 +325,7 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 			else if (output == ARKCraftItems.flint) return flintModifier;
 			else if (output == ARKCraftItems.meat_raw || output == ARKCraftItems.primemeat_raw) return meatModifier;
 			else if (output == ARKCraftItems.hide) return hideModifier;
+			else if (output == ARKCraftItems.oil) return oilModifier;
 			else return 1;
 		}
 	}
@@ -341,17 +343,18 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 				0.05,
 				defaultStoneMaterialModifier,
 				defaultStoneMaterialModifier,
-				defaultStoneMaterialModifier), METAL(defaultMetalMaterialModifier);
+				defaultStoneMaterialModifier,
+				0.05), METAL(defaultMetalMaterialModifier);
 
 		private final double thatchModifier, woodModifier, metalModifier, stoneModifier, crystalModifier,
-				obsidianModifier, flintModifier, meatModifier, hideModifier;
+				obsidianModifier, flintModifier, meatModifier, hideModifier, oilModifier;
 
 		private ToolMaterial(double general)
 		{
-			this(general, general, general, general, general, general, general, general, general);
+			this(general, general, general, general, general, general, general, general, general, general);
 		}
 
-		private ToolMaterial(double thatchModifier, double woodModifier, double metalModifier, double stoneModifier, double crystalModifier, double obsidianModifier, double flintModifier, double meatModifier, double hideModifier)
+		private ToolMaterial(double thatchModifier, double woodModifier, double metalModifier, double stoneModifier, double crystalModifier, double obsidianModifier, double flintModifier, double meatModifier, double hideModifier, double oilModifier)
 		{
 			this.thatchModifier = thatchModifier;
 			this.woodModifier = woodModifier;
@@ -362,6 +365,7 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 			this.flintModifier = flintModifier;
 			this.meatModifier = meatModifier;
 			this.hideModifier = hideModifier;
+			this.oilModifier = oilModifier;
 		}
 
 		private double getModifier(Item output)
@@ -375,6 +379,7 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 			else if (output == ARKCraftItems.flint) return flintModifier;
 			else if (output == ARKCraftItems.meat_raw || output == ARKCraftItems.primemeat_raw) return meatModifier;
 			else if (output == ARKCraftItems.hide) return hideModifier;
+			else if (output == ARKCraftItems.oil) return oilModifier;
 			else return 1;
 		}
 	}
