@@ -40,10 +40,8 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 	private final double baseBreakSpeed;
 	private final double baseDamage;
 	private final ToolType toolType;
-	private static final Collection<Block> effectiveBlocks =
-			Lists.newArrayList();
-	private static final Map<Block, Collection<AbstractItemStack>> dropMap =
-			Maps.newHashMap();
+	private static final Collection<Block> effectiveBlocks = Lists.newArrayList();
+	private static final Map<Block, Collection<AbstractItemStack>> dropMap = Maps.newHashMap();
 	private final ToolMaterial material;
 
 	public static void registerEffectiveBlocks(Block... blocks)
@@ -51,8 +49,7 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 		Collections.addAll(effectiveBlocks, blocks);
 	}
 
-	public static void registerBlockDrops(Block block,
-			Collection<AbstractItemStack> drops)
+	public static void registerBlockDrops(Block block, Collection<AbstractItemStack> drops)
 	{
 		dropMap.put(block, drops);
 	}
@@ -71,11 +68,9 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 	@Override
 	public final float getDigSpeed(ItemStack itemstack, IBlockState state)
 	{
-		if (!effectiveBlocks.contains(state.getBlock()) || isBroken(itemstack))
-			return 0;
+		if (!effectiveBlocks.contains(state.getBlock()) || isBroken(itemstack)) return 0;
 		float base = 1.5f * (float) getBreakSpeed(itemstack);
-		return MathHelper.clamp_float(base * getSpeedDivider(itemstack), 0.1f,
-				base);
+		return MathHelper.clamp_float(base * getSpeedDivider(itemstack), 0.1f, base);
 	}
 
 	private final float getSpeedDivider(ItemStack stack)
@@ -94,29 +89,21 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 	}
 
 	@Override
-	public final boolean onEntitySwing(EntityLivingBase entityLiving,
-			ItemStack stack)
+	public final boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack)
 	{
-		if (entityLiving instanceof EntityPlayer
-				&& !entityLiving.isSwingInProgress)
+		if (entityLiving instanceof EntityPlayer && !entityLiving.isSwingInProgress)
 		{
-			MovingObjectPosition mop =
-					ItemRangedWeapon.rayTrace(entityLiving, 5, 0);
+			MovingObjectPosition mop = ItemRangedWeapon.rayTrace(entityLiving, 5, 0);
 			if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
 			{
-				IBlockState bs =
-						entityLiving.worldObj.getBlockState(mop.getBlockPos());
-				Block target = effectiveBlocks.contains(bs.getBlock())
-						? bs.getBlock() : null;
+				IBlockState bs = entityLiving.worldObj.getBlockState(mop.getBlockPos());
+				Block target = effectiveBlocks.contains(bs.getBlock()) ? bs.getBlock() : null;
 				if (target != null)
 				{
 					World w = entityLiving.worldObj;
 					BlockPos pos = mop.getBlockPos();
-					int size = bs.getBlock() == Blocks.log
-							|| bs.getBlock() == Blocks.log2
-									? countTree(w, pos, target)
-									: countOre(w, pos, target,
-											(EntityPlayer) entityLiving, stack);
+					int size = bs.getBlock() == Blocks.log || bs.getBlock() == Blocks.log2 ? countTree(w, pos, target)
+							: countOre(w, pos, target, (EntityPlayer) entityLiving, stack);
 					setSpeedDivider(stack, (float) 1 / (float) size);
 				}
 				return false;
@@ -146,23 +133,20 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 
 		pos = start;
 		int width = 1;
-		if (world.getBlockState(pos.north()).getBlock() == target
-				|| world.getBlockState(pos.south()).getBlock() == target
-				|| world.getBlockState(pos.east()).getBlock() == target
-				|| world.getBlockState(pos.west()).getBlock() == target)
-			width++;
+		if (world.getBlockState(pos.north()).getBlock() == target || world.getBlockState(pos.south())
+				.getBlock() == target || world.getBlockState(pos.east()).getBlock() == target || world.getBlockState(pos
+						.west()).getBlock() == target) width++;
 
 		return width * width * height;
 	}
 
-	private final int countOre(World world, final BlockPos start, Block target,
-			EntityPlayer player, ItemStack stack)
+	private final int countOre(World world, final BlockPos start, Block target, EntityPlayer player, ItemStack stack)
 	{
 		return countOre(world, start, target, player, stack, false);
 	}
 
-	private final int countOre(World world, final BlockPos start, Block target,
-			EntityPlayer player, ItemStack stack, boolean shouldBreak)
+	private final int countOre(World world, final BlockPos start, Block target, EntityPlayer player, ItemStack stack,
+			boolean shouldBreak)
 	{
 		BlockPos pos = start;
 		Collection<BlockPos> done = new HashSet<>();
@@ -196,8 +180,7 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 		{
 			if (damage(stack, player))
 			{
-				target.onBlockHarvested(world, p, world.getBlockState(p),
-						player);
+				target.onBlockHarvested(world, p, world.getBlockState(p), player);
 				world.destroyBlock(p, false);
 			}
 			else break;
@@ -208,8 +191,8 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 
 	int count = 0;
 
-	private void destroyBlocks(World world, BlockPos pos, EntityPlayer player,
-			ItemStack stack, Predicate<IBlockState> blockChecker)
+	private void destroyBlocks(World world, BlockPos pos, EntityPlayer player, ItemStack stack,
+			Predicate<IBlockState> blockChecker)
 	{
 		int x = pos.getX();
 		int y = pos.getY();
@@ -229,8 +212,7 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 							world.destroyBlock(p, false);
 							if (damage(stack, player))
 							{
-								this.destroyBlocks(world, p, player, stack,
-										blockChecker);
+								this.destroyBlocks(world, p, player, stack, blockChecker);
 							}
 							else
 							{
@@ -247,40 +229,31 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 		return Qualitable.get(tool).harvestMultiplier;
 	}
 
-	public final Collection<AbstractItemStack> applyOutputModifiers(
-			final Collection<AbstractItemStack> originalDrops, ItemStack tool)
+	public final Collection<AbstractItemStack> applyOutputModifiers(final Collection<AbstractItemStack> originalDrops,
+			ItemStack tool)
 	{
 		Collection<AbstractItemStack> out = Lists.newArrayList();
 		for (AbstractItemStack ais : originalDrops)
 		{
-			if (ais instanceof ChancingAbstractItemStack && itemRand
-					.nextInt((int) (1 / ((ChancingAbstractItemStack) ais).chance
-							* getToolModifier(tool)
-							* toolType.getModifier(ais.item)
-							* material.getModifier(ais.item))) != 0)
-				continue;
-			out.add(new AbstractItemStack(ais.item,
-					(int) Math.ceil(ais.getAmount() * getToolModifier(tool)
-							* toolType.getModifier(ais.item)
-							* material.getModifier(ais.item)
-							* ((itemRand.nextInt(51) + itemRand.nextInt(51)
-									+ itemRand.nextInt(51)) / 3 + 75)
-							/ 100),
-					ais.meta));
+			if (ais instanceof ChancingAbstractItemStack && itemRand.nextInt((int) (1
+					/ ((ChancingAbstractItemStack) ais).chance * getToolModifier(tool) * toolType.getModifier(ais.item)
+					* material.getModifier(ais.item))) != 0) continue;
+			out.add(new AbstractItemStack(ais.item, (int) Math.round(ais.getAmount() * getToolModifier(tool) * toolType
+					.getModifier(ais.item) * material.getModifier(ais.item) * ((itemRand.nextInt(51) + itemRand.nextInt(
+							51) + itemRand.nextInt(51)) / 3 + 75) / 100), ais.meta));
 		}
 		return out;
 	}
 
 	@Override
-	public final boolean onBlockDestroyed(ItemStack stack, World world,
-			Block block, BlockPos pos, EntityLivingBase player)
+	public final boolean onBlockDestroyed(ItemStack stack, World world, Block block, BlockPos pos,
+			EntityLivingBase player)
 	{
 		if (!world.isRemote && effectiveBlocks.contains(block))
 		{
 			if (dropMap.containsKey(block))
 			{
-				destroyBlocks(world, pos, (EntityPlayer) player, stack,
-						(IBlockState ibs) -> ibs.getBlock() == block);
+				destroyBlocks(world, pos, (EntityPlayer) player, stack, (IBlockState ibs) -> ibs.getBlock() == block);
 				Collection<AbstractItemStack> drops = dropMap.get(block);
 				drops = applyOutputModifiers(drops, stack);
 				for (AbstractItemStack ais : drops)
@@ -291,8 +264,7 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 						Block.spawnAsEntity(world, pos, s);
 				count = 0;
 			}
-			else countOre(world, pos, block, (EntityPlayer) player, stack,
-					true);
+			else countOre(world, pos, block, (EntityPlayer) player, stack, true);
 
 			return false;
 		}
@@ -314,24 +286,19 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 	public final Multimap getAttributeModifiers(ItemStack stack)
 	{
 		Multimap map = super.getAttributeModifiers(stack);
-		map.put(SharedMonsterAttributes.attackDamage
-				.getAttributeUnlocalizedName(),
-				new AttributeModifier(itemModifierUUID, "attack_damage",
-						getAttackDamage(stack), 0));
+		map.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(
+				itemModifierUUID, "attack_damage", getAttackDamage(stack), 0));
 		return map;
 	}
 
-	private static final double interval = 0.2, c = 1, cm = c - interval,
-			cmm = cm - interval, cmmm = cmm - interval, cp = c + interval,
-			cpp = cp + interval, cppp = cpp + interval;
+	private static final double interval = 0.2, c = 1, cm = c - interval, cmm = cm - interval, cmmm = cmm - interval,
+			cp = c + interval, cpp = cp + interval, cppp = cpp + interval;
 
 	public enum ToolType
 	{
-		PICK(c, cmm, cmm, cmmm, cm, cmm, cm, c, cmm),
-		HATCHET(cmm, c, cmmm, cm, cmm, cmmm, cmm, cmm, c);
-		private final double thatchModifier, woodModifier, metalModifier,
-				stoneModifier, crystalModifier, obsidianModifier, flintModifier,
-				meatModifier, hideModifier;
+		PICK(c, cmm, cmm, cmmm, cm, cmm, cm, c, cmm), HATCHET(cmm, c, cmmm, cm, cmm, cmmm, cmm, cmm, c);
+		private final double thatchModifier, woodModifier, metalModifier, stoneModifier, crystalModifier,
+				obsidianModifier, flintModifier, meatModifier, hideModifier;
 
 		private ToolType(double thatchModifier, double woodModifier, double metalModifier, double stoneModifier, double crystalModifier, double obsidianModifier, double flintModifier, double meatModifier, double hideModifier)
 		{
@@ -355,16 +322,13 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 			else if (output == ARKCraftItems.crystal) return crystalModifier;
 			else if (output == ARKCraftItems.obsidian) return obsidianModifier;
 			else if (output == ARKCraftItems.flint) return flintModifier;
-			else if (output == ARKCraftItems.meat_raw
-					|| output == ARKCraftItems.primemeat_raw)
-				return meatModifier;
+			else if (output == ARKCraftItems.meat_raw || output == ARKCraftItems.primemeat_raw) return meatModifier;
 			else if (output == ARKCraftItems.hide) return hideModifier;
 			else return 1;
 		}
 	}
 
-	private static final int defaultMetalMaterialModifier = 3,
-			defaultStoneMaterialModifier = 1;
+	private static final int defaultMetalMaterialModifier = 3, defaultStoneMaterialModifier = 1;
 
 	public enum ToolMaterial
 	{
@@ -377,17 +341,14 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 				0.05,
 				defaultStoneMaterialModifier,
 				defaultStoneMaterialModifier,
-				defaultStoneMaterialModifier),
-		METAL(defaultMetalMaterialModifier);
+				defaultStoneMaterialModifier), METAL(defaultMetalMaterialModifier);
 
-		private final double thatchModifier, woodModifier, metalModifier,
-				stoneModifier, crystalModifier, obsidianModifier, flintModifier,
-				meatModifier, hideModifier;
+		private final double thatchModifier, woodModifier, metalModifier, stoneModifier, crystalModifier,
+				obsidianModifier, flintModifier, meatModifier, hideModifier;
 
 		private ToolMaterial(double general)
 		{
-			this(general, general, general, general, general, general, general,
-					general, general);
+			this(general, general, general, general, general, general, general, general, general);
 		}
 
 		private ToolMaterial(double thatchModifier, double woodModifier, double metalModifier, double stoneModifier, double crystalModifier, double obsidianModifier, double flintModifier, double meatModifier, double hideModifier)
@@ -412,9 +373,7 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 			else if (output == ARKCraftItems.crystal) return crystalModifier;
 			else if (output == ARKCraftItems.obsidian) return obsidianModifier;
 			else if (output == ARKCraftItems.flint) return flintModifier;
-			else if (output == ARKCraftItems.meat_raw
-					|| output == ARKCraftItems.primemeat_raw)
-				return meatModifier;
+			else if (output == ARKCraftItems.meat_raw || output == ARKCraftItems.primemeat_raw) return meatModifier;
 			else if (output == ARKCraftItems.hide) return hideModifier;
 			else return 1;
 		}
