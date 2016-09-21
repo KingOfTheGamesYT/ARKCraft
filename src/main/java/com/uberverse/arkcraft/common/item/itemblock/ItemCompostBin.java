@@ -73,12 +73,12 @@ public class ItemCompostBin extends ItemBlockARK
 									.withProperty(BlockCompostBin.FACING,
 											enumfacing1)
 									.withProperty(BlockCompostBin.PART,
-											BlockCompostBin.EnumPartType.RIGHT);
+											BlockCompostBin.EnumPart.RIGHT);
 					if (worldIn.setBlockState(pos, iblockstate1, 3))
 					{
 						IBlockState iblockstate2 =
 								iblockstate1.withProperty(BlockCompostBin.PART,
-										BlockCompostBin.EnumPartType.LEFT);
+										BlockCompostBin.EnumPart.LEFT);
 						worldIn.setBlockState(blockpos1, iblockstate2, 3);
 					}
 					--stack.stackSize;
