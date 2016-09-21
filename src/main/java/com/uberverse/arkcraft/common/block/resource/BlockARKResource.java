@@ -5,8 +5,8 @@ import java.util.Collection;
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.common.block.IExperienceSource;
 import com.uberverse.arkcraft.common.entity.IArkLevelable;
+import com.uberverse.arkcraft.common.item.tool.ItemToolBase;
 import com.uberverse.arkcraft.util.AbstractItemStack;
-import com.uberverse.arkcraft.wip.itemquality.tools.ItemToolBase;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

@@ -8,10 +8,10 @@ import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.IExperienceSource;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.common.entity.IArkLevelable;
+import com.uberverse.arkcraft.common.item.Qualitable.ItemQuality;
 import com.uberverse.arkcraft.util.AbstractItemStack;
 import com.uberverse.arkcraft.util.IInventoryAdder;
 import com.uberverse.arkcraft.util.NBTable;
-import com.uberverse.arkcraft.wip.itemquality.Qualitable.ItemQuality;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;

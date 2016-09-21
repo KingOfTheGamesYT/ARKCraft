@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.wip.itemquality.tools;
+package com.uberverse.arkcraft.common.item.tool;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -12,13 +12,13 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.item.IBreakable;
+import com.uberverse.arkcraft.common.item.ItemQualitable;
+import com.uberverse.arkcraft.common.item.Qualitable;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.util.AbstractItemStack;
 import com.uberverse.arkcraft.util.AbstractItemStack.ChancingAbstractItemStack;
-import com.uberverse.arkcraft.wip.itemquality.IBreakable;
-import com.uberverse.arkcraft.wip.itemquality.ItemQualitable;
-import com.uberverse.arkcraft.wip.itemquality.Qualitable;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;

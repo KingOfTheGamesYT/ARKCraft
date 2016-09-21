@@ -16,10 +16,10 @@ import com.uberverse.arkcraft.common.container.engram.ContainerEngramCrafting.Qu
 import com.uberverse.arkcraft.common.engram.CraftingOrder;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.common.engram.EngramManager.EngramRecipe;
+import com.uberverse.arkcraft.common.item.Qualitable.ItemQuality;
 import com.uberverse.arkcraft.common.engram.IEngramCrafter;
 import com.uberverse.arkcraft.util.AbstractItemStack;
 import com.uberverse.arkcraft.util.I18n;
-import com.uberverse.arkcraft.wip.itemquality.Qualitable.ItemQuality;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;

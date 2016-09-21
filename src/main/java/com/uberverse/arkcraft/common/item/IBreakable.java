@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.wip.itemquality;
+package com.uberverse.arkcraft.common.item;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;

@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.wip.itemquality.tools;
+package com.uberverse.arkcraft.common.item.tool;
 
 public class ItemPickStone extends ItemPick
 {

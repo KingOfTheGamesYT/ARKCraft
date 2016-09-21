@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.wip.itemquality;
+package com.uberverse.arkcraft.common.item;
 
 import com.uberverse.arkcraft.common.engram.EngramManager;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;

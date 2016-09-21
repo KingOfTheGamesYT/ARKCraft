@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.wip.itemquality;
+package com.uberverse.arkcraft.common.item;
 
 import com.uberverse.arkcraft.util.I18n;
 

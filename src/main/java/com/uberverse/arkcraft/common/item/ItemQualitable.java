@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.wip.itemquality;
+package com.uberverse.arkcraft.common.item;
 
 import java.util.List;
 

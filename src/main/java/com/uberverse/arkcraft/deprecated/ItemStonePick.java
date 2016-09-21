@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.common.item.tools;
+package com.uberverse.arkcraft.deprecated;
 
 import java.util.Set;
 

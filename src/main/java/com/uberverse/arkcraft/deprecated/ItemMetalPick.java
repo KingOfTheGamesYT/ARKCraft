@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.common.item.tools;
+package com.uberverse.arkcraft.deprecated;
 
 import java.util.Set;
 
@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.uberverse.arkcraft.common.item.tools.ARKCraftPickaxe;
 
 public class ItemMetalPick extends ARKCraftPickaxe
 {

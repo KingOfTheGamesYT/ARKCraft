@@ -1,6 +1,9 @@
-package com.uberverse.arkcraft.common.item.tools;
+package com.uberverse.arkcraft.deprecated;
 
 import java.util.Set;
+
+import com.uberverse.arkcraft.common.item.tools.ARKCraftTool;
+import com.uberverse.arkcraft.common.item.tools.ToolType;
 
 import net.minecraft.item.Item.ToolMaterial;
 

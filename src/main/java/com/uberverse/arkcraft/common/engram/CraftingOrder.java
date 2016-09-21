@@ -1,7 +1,7 @@
 package com.uberverse.arkcraft.common.engram;
 
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
-import com.uberverse.arkcraft.wip.itemquality.Qualitable.ItemQuality;
+import com.uberverse.arkcraft.common.item.Qualitable.ItemQuality;
 
 import net.minecraft.inventory.IInventory;
 

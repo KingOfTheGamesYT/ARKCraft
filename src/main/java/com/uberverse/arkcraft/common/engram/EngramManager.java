@@ -12,14 +12,14 @@ import java.util.function.Function;
 
 import com.google.common.collect.Lists;
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
+import com.uberverse.arkcraft.common.item.Qualitable;
+import com.uberverse.arkcraft.common.item.Qualitable.ItemQuality;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
 import com.uberverse.arkcraft.util.AbstractItemStack;
 import com.uberverse.arkcraft.util.CollectionUtil;
 import com.uberverse.arkcraft.util.I18n;
-import com.uberverse.arkcraft.wip.itemquality.Qualitable;
-import com.uberverse.arkcraft.wip.itemquality.Qualitable.ItemQuality;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
