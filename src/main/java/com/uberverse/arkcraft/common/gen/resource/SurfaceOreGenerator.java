@@ -2,6 +2,8 @@ package com.uberverse.arkcraft.common.gen.resource;
 
 import java.util.Random;
 
+import com.uberverse.arkcraft.common.block.resource.BlockARKResource;
+
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
@@ -16,8 +18,8 @@ public abstract class SurfaceOreGenerator extends ClusterGenerator
 	}
 
 	@Override
-	public void generate(Random random, int chunkX, int chunkZ, World world,
-			IChunkProvider chunkGenerator, IChunkProvider chunkProvider)
+	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator,
+			IChunkProvider chunkProvider)
 	{
 		if (!shouldSpawn(random)) return;
 		int x = random.nextInt(16) + chunkX * 16;
@@ -31,12 +33,9 @@ public abstract class SurfaceOreGenerator extends ClusterGenerator
 
 	public boolean isValidPosition(World world, BlockPos pos)
 	{
-		return world.getWorldType() != WorldType.FLAT
-				&& !BiomeDictionary.isBiomeOfType(
-						world.getBiomeGenForCoords(pos),
-						BiomeDictionary.Type.WATER)
-				&& !world.getBlockState(pos.down()).getBlock().isLeaves(world,
-						pos.down());
+		return world.getWorldType() != WorldType.FLAT && !BiomeDictionary.isBiomeOfType(world.getBiomeGenForCoords(pos),
+				BiomeDictionary.Type.WATER) && !world.getBlockState(pos.down()).getBlock().isLeaves(world, pos.down())
+				&& !(world.getBlockState(pos.down()).getBlock() instanceof BlockARKResource);
 	}
 
 	public static BlockPos getSurfacePosition(BlockPos pos, World world)
@@ -47,14 +46,11 @@ public abstract class SurfaceOreGenerator extends ClusterGenerator
 			pos = pos.up();
 			check = true;
 		}
-		if (!check) while (world.getBlockState(pos.down()).getBlock()
-				.isReplaceable(world, pos)
-				|| !world.getBlockState(pos.down()).getBlock().isOpaqueCube())
+		if (!check) while (world.getBlockState(pos.down()).getBlock().isReplaceable(world, pos) || !world.getBlockState(
+				pos.down()).getBlock().isOpaqueCube())
 			pos = pos.down();
-		if (check)
-			if (!world.getBlockState(pos).getBlock().isReplaceable(world, pos)
-					&& world.getBlockState(pos).getBlock().isOpaqueCube())
-				pos = pos.up();
+		if (check) if (!world.getBlockState(pos).getBlock().isReplaceable(world, pos) && world.getBlockState(pos)
+				.getBlock().isOpaqueCube()) pos = pos.up();
 		return pos;
 	}
 }
