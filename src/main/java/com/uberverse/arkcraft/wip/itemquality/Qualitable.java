@@ -12,8 +12,8 @@ public interface Qualitable
 
 	public static ItemQuality get(ItemStack stack)
 	{
-		if (stack.getTagCompound().hasKey(qualityKey))
-			return ItemQuality.get(stack.getTagCompound().getByte(qualityKey));
+		if (stack.getTagCompound().hasKey(qualityKey)) return ItemQuality.get(stack.getTagCompound().getByte(
+				qualityKey));
 		return null;
 	}
 
@@ -27,7 +27,7 @@ public interface Qualitable
 	public static enum ItemQuality
 	{
 		PRIMITIVE(1, 1, 1, 1, EnumChatFormatting.RESET),
-		RAMSCHACKLE(1.25, 1.33, 1.1, 1.1, EnumChatFormatting.GREEN),
+		RAMSHACKLE(1.25, 1.33, 1.1, 1.1, EnumChatFormatting.GREEN),
 		APPRENTICE(2.5, 1.67, 1.25, 1.25, EnumChatFormatting.BLUE),
 		JOURNEYMAN(4.5, 2, 1.375, 1.375, EnumChatFormatting.DARK_PURPLE),
 		MASTERCRAFT(7, 2.5, 1.5, 1.5, EnumChatFormatting.YELLOW),
@@ -35,8 +35,7 @@ public interface Qualitable
 
 		// TODO add other multipliers (f.e. efficiency (for harvesting speed and
 		// maybe harvest numbers)) & remove current uses of multiplierTreshold
-		public final double multiplierTreshold, resourceMultiplier,
-				harvestMultiplier, durabilityMultiplier;
+		public final double multiplierTreshold, resourceMultiplier, harvestMultiplier, durabilityMultiplier;
 		private static byte idCounter = 0;
 		public final byte id;
 		public final EnumChatFormatting color;

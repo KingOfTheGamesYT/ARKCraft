@@ -29,12 +29,7 @@ public abstract class ItemQualitable extends Item implements Qualitable
 	public int getMaxDamage(ItemStack stack)
 	{
 		ItemQuality q = Qualitable.get(stack);
-		return (int) (baseDurability * (q != null ? q.multiplierTreshold : 0));
-	}
-
-	public double getDurability(ItemStack stack)
-	{
-		return Qualitable.get(stack).multiplierTreshold * itemType.durabilityModifier * baseDurability;
+		return (int) (baseDurability * (q != null ? q.durabilityMultiplier : 0) * itemType.durabilityModifier);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -48,7 +43,7 @@ public abstract class ItemQualitable extends Item implements Qualitable
 		if (tab == null)
 		{
 			stack = new ItemStack(item);
-			Qualitable.set(stack, ItemQuality.RAMSCHACKLE);
+			Qualitable.set(stack, ItemQuality.RAMSHACKLE);
 			itemList.add(stack);
 			stack = new ItemStack(item);
 			Qualitable.set(stack, ItemQuality.APPRENTICE);
