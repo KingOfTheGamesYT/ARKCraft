@@ -25,7 +25,7 @@ apply plugin: 'java'
 sourceCompatibility=1.8
 targetCompatibility=1.8
 
-version = "alpha-1.000-preview-7"
+version = "alpha-1.000-preview-8"
 group= "com.uberverse.arkcraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "arkcraft"
 
