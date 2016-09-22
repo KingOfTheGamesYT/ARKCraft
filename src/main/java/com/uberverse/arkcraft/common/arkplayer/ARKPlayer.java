@@ -48,8 +48,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 /**
  * @author Lewis_McReu Based on earlier concepts by wildbill22 and ERBF
  */
-public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable,
-		IWeighable, ITranquilizable
+public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable, IWeighable, ITranquilizable
 {
 	public static final String propKey = "arkplayer";
 
@@ -76,8 +75,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable,
 	{
 		this.statMap = new HashMap<>();
 		initializeVariables();
-		unlockedEngrams = CollectionUtil.convert(
-				EngramManager.instance().getDefaultEngrams(), e -> e.getId());
+		unlockedEngrams = CollectionUtil.convert(EngramManager.instance().getDefaultEngrams(), e -> e.getId());
 	}
 
 	public ARKPlayer(EntityPlayer player)
@@ -99,8 +97,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable,
 			// Apply weight effects
 			if (WeightsConfig.isEnabled)
 			{
-				if (!player.capabilities.isCreativeMode
-						|| WeightsConfig.allowInCreative)
+				if (!player.capabilities.isCreativeMode || WeightsConfig.allowInCreative)
 				{
 					// Removes the updating when the player is in a inventory
 					if (Minecraft.getMinecraft().currentScreen == null)
@@ -138,24 +135,20 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable,
 			@Override
 			public void run()
 			{
-				ARKCraft.modChannel
-						.sendToServer(new ARKPlayerUpdateRequest(all));
+				ARKCraft.modChannel.sendToServer(new ARKPlayerUpdateRequest(all));
 			}
 		});
 	}
 
 	public void sendSynchronization(boolean all)
 	{
-		ARKCraft.modChannel.sendTo(new ARKPlayerUpdate(this, all),
-				(EntityPlayerMP) player);
+		ARKCraft.modChannel.sendTo(new ARKPlayerUpdate(this, all), (EntityPlayerMP) player);
 	}
 
 	// max stats and stat increases
 
-	private static final int healthIncrease = 10, staminaIncrease = 10,
-			oxygenIncrease = 20, foodIncrease = 10, waterIncrease = 10,
-			damageIncrease = 5, speedIncrease = 2, weightIncrease = 10,
-			maxTorpor = 200;
+	private static final int healthIncrease = 10, staminaIncrease = 10, oxygenIncrease = 20, foodIncrease = 10,
+			waterIncrease = 10, damageIncrease = 5, speedIncrease = 2, weightIncrease = 10, maxTorpor = 200;
 	private static final short maxLevel = 98;
 
 	// current stats
@@ -168,9 +161,8 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable,
 	}
 
 	private Variable<Boolean> hasToGo;
-	private Variable<Integer> health, oxygen, food, water, damage, speed,
-			stamina, torpor, engramPoints, maxHealth, maxOxygen, maxFood,
-			maxWater, maxDamage, maxSpeed, maxStamina;
+	private Variable<Integer> health, oxygen, food, water, damage, speed, stamina, torpor, engramPoints, maxHealth,
+			maxOxygen, maxFood, maxWater, maxDamage, maxSpeed, maxStamina;
 	private Variable<Short> level;
 	private Variable<Double> xp;
 	private Variable<Double> weight, maxWeight;
@@ -196,19 +188,15 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable,
 		{
 			if (player.worldObj.isRemote)
 			{
-				player.playSound(ARKCraft.MODID + ":" + "dodo_defficating",
-						1.0F,
-						(player.worldObj.rand.nextFloat()
-								- player.worldObj.rand.nextFloat()) * 0.2F
-								+ 1.0F);
+				player.playSound(ARKCraft.MODID + ":" + "dodo_defficating", 1.0F, (player.worldObj.rand.nextFloat()
+						- player.worldObj.rand.nextFloat()) * 0.2F + 1.0F);
 				ARKCraft.modChannel.sendToServer(new PlayerPoop(true));
 			}
 			relief();
 		}
 		else
 		{
-			player.addChatMessage(
-					new ChatComponentTranslation("chat.canNotPoop"));
+			player.addChatMessage(new ChatComponentTranslation("chat.canNotPoop"));
 		}
 	}
 
@@ -391,9 +379,8 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable,
 
 	public void levelUpVariable(String variableKey)
 	{
-		if (!variableKey.startsWith("max"))
-			variableKey = "max".concat(variableKey.substring(0, 1).toUpperCase()
-					.concat(variableKey.substring(1)));
+		if (!variableKey.startsWith("max")) variableKey = "max".concat(variableKey.substring(0, 1).toUpperCase().concat(
+				variableKey.substring(1)));
 		switch (variableKey)
 		{
 			case "maxHealth":
@@ -436,8 +423,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable,
 
 	public double getRequiredXP()
 	{
-		return Math
-				.round(Math.pow(getLevel() * 4, 2) / (getLevel() < 20 ? 5 : 1));
+		return Math.round(Math.pow(getLevel() * 4, 2) / (getLevel() < 20 ? 5 : 1));
 	}
 
 	public void updateLevel()
@@ -445,8 +431,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable,
 		while (getLevel() < getMaxLevel() && getXP() > getRequiredXP())
 		{
 			increaseLevel();
-			engramPoints.set(
-					engramPoints.get() + getReceivedEngramPoints(getLevel()));
+			engramPoints.set(engramPoints.get() + getReceivedEngramPoints(getLevel()));
 		}
 	}
 
@@ -610,37 +595,26 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable,
 
 	public void copyConditionally(ARKPlayer props)
 	{
-		if (props.hasToGo.changed)
-			this.hasToGo.variable = props.hasToGo.variable;
+		if (props.hasToGo.changed) this.hasToGo.variable = props.hasToGo.variable;
 		if (props.health.changed) this.health.variable = props.health.variable;
 		if (props.oxygen.changed) this.oxygen.variable = props.oxygen.variable;
 		if (props.food.changed) this.food.variable = props.food.variable;
 		if (props.water.changed) this.water.variable = props.water.variable;
 		if (props.damage.changed) this.damage.variable = props.damage.variable;
 		if (props.speed.changed) this.speed.variable = props.speed.variable;
-		if (props.stamina.changed)
-			this.stamina.variable = props.stamina.variable;
+		if (props.stamina.changed) this.stamina.variable = props.stamina.variable;
 		if (props.torpor.changed) this.torpor.variable = props.torpor.variable;
-		if (props.engramPoints.changed)
-			this.engramPoints.variable = props.engramPoints.variable;
-		if (props.maxHealth.changed)
-			this.maxHealth.variable = props.maxHealth.variable;
-		if (props.maxOxygen.changed)
-			this.maxOxygen.variable = props.maxOxygen.variable;
-		if (props.maxFood.changed)
-			this.maxFood.variable = props.maxFood.variable;
-		if (props.maxWater.changed)
-			this.maxWater.variable = props.maxWater.variable;
-		if (props.maxDamage.changed)
-			this.maxDamage.variable = props.maxDamage.variable;
-		if (props.maxSpeed.changed)
-			this.maxSpeed.variable = props.maxSpeed.variable;
-		if (props.maxStamina.changed)
-			this.maxStamina.variable = props.maxStamina.variable;
+		if (props.engramPoints.changed) this.engramPoints.variable = props.engramPoints.variable;
+		if (props.maxHealth.changed) this.maxHealth.variable = props.maxHealth.variable;
+		if (props.maxOxygen.changed) this.maxOxygen.variable = props.maxOxygen.variable;
+		if (props.maxFood.changed) this.maxFood.variable = props.maxFood.variable;
+		if (props.maxWater.changed) this.maxWater.variable = props.maxWater.variable;
+		if (props.maxDamage.changed) this.maxDamage.variable = props.maxDamage.variable;
+		if (props.maxSpeed.changed) this.maxSpeed.variable = props.maxSpeed.variable;
+		if (props.maxStamina.changed) this.maxStamina.variable = props.maxStamina.variable;
 		if (props.xp.changed) this.xp.variable = props.xp.variable;
 		if (props.weight.changed) this.weight.variable = props.weight.variable;
-		if (props.maxWeight.changed)
-			this.maxWeight.variable = props.maxWeight.variable;
+		if (props.maxWeight.changed) this.maxWeight.variable = props.maxWeight.variable;
 		if (props.level.changed) this.level.variable = props.level.variable;
 	}
 
@@ -664,8 +638,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable,
 
 		public void set(Object variable)
 		{
-			if (!this.variable.equals(variable)
-					&& this.variable.getClass() == variable.getClass())
+			if (!this.variable.equals(variable) && this.variable.getClass() == variable.getClass())
 			{
 				this.changed = true;
 				this.variable = variable;
@@ -730,10 +703,8 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable,
 			}
 			else
 			{
-				ARKCraft.logger.info("Can't write type " + c.getSimpleName()
-						+ " to ByteBuf");
-				ARKCraft.logger
-						.debug("Full class name: " + c.getCanonicalName());
+				ARKCraft.logger.info("Can't write type " + c.getSimpleName() + " to ByteBuf");
+				ARKCraft.logger.debug("Full class name: " + c.getCanonicalName());
 			}
 			setSynced();
 		}
@@ -775,10 +746,8 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable,
 			}
 			else
 			{
-				ARKCraft.logger.info("Can't read type " + c.getSimpleName()
-						+ " from ByteBuf");
-				ARKCraft.logger
-						.debug("Full class name: " + c.getCanonicalName());
+				ARKCraft.logger.info("Can't read type " + c.getSimpleName() + " from ByteBuf");
+				ARKCraft.logger.debug("Full class name: " + c.getCanonicalName());
 			}
 		}
 
@@ -801,8 +770,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable,
 		return engramCrafter;
 	}
 
-	public class PlayerEngramCrafter
-			implements IEngramCrafter, NBTable, IInventory
+	public class PlayerEngramCrafter implements IEngramCrafter, NBTable, IInventory
 	{
 		private EntityPlayer player;
 		private int progress;
@@ -842,17 +810,14 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable,
 		@Override
 		public void syncProgress()
 		{
-			if (player.openContainer instanceof ContainerPlayerCrafting)
-				ARKCraft.modChannel.sendTo(
-						new PlayerEngramCrafterProgressUpdate(progress),
-						(EntityPlayerMP) player);
+			if (player.openContainer instanceof ContainerPlayerCrafting) ARKCraft.modChannel.sendTo(
+					new PlayerEngramCrafterProgressUpdate(progress), (EntityPlayerMP) player);
 		}
 
 		@Override
 		public void sync()
 		{
-			ARKCraft.modChannel.sendTo(new PlayerEngramCrafterUpdate(this),
-					(EntityPlayerMP) player);
+			ARKCraft.modChannel.sendTo(new PlayerEngramCrafterUpdate(this), (EntityPlayerMP) player);
 		}
 
 		@Override

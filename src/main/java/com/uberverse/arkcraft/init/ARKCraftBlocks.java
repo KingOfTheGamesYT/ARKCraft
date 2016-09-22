@@ -15,6 +15,7 @@ import com.uberverse.arkcraft.common.block.resource.BlockMetalResource;
 import com.uberverse.arkcraft.common.block.resource.BlockObsidianResource;
 import com.uberverse.arkcraft.common.block.resource.BlockOilResource;
 import com.uberverse.arkcraft.common.block.resource.BlockRockResource;
+import com.uberverse.arkcraft.common.block.resource.BlockSmallRockResource;
 import com.uberverse.arkcraft.common.item.itemblock.ItemCampfire;
 import com.uberverse.arkcraft.common.item.itemblock.ItemCompostBin;
 import com.uberverse.arkcraft.common.item.itemblock.ItemCropPlot;
@@ -47,6 +48,7 @@ public class ARKCraftBlocks
 	public static BlockObsidianResource obsidianResource;
 	public static BlockCrystalResource crystalResource;
 	public static BlockOilResource oilResource;
+	public static BlockSmallRockResource smallRockResource;
 
 	public static ARKCraftBlocks getInstance()
 	{
@@ -75,6 +77,7 @@ public class ARKCraftBlocks
 		obsidianResource = init.registerBlock("obsidian_resource", new BlockObsidianResource());
 		crystalResource = init.registerBlock("crystal_resource", new BlockCrystalResource());
 		oilResource = init.registerBlock("oil_resource", new BlockOilResource());
+		smallRockResource = init.registerBlock("small_rock_resource", new BlockSmallRockResource());
 
 		// Tile Entities
 		GameRegistry.registerTileEntity(TileEntityCropPlot.class, ARKCraft.MODID + "cropPlot");

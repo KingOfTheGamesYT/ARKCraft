@@ -6,6 +6,7 @@ import com.uberverse.arkcraft.common.gen.resource.MetalResourceGenerator;
 import com.uberverse.arkcraft.common.gen.resource.ObsidianResourceGenerator;
 import com.uberverse.arkcraft.common.gen.resource.OilResourceGenerator;
 import com.uberverse.arkcraft.common.gen.resource.RockResourceGenerator;
+import com.uberverse.arkcraft.common.gen.resource.SmallRockResourceGenerator;
 
 import net.minecraftforge.fml.common.IWorldGenerator;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -18,6 +19,7 @@ public class ARKCraftWorldGen
 		register(new CrystalResourceGenerator());
 		register(new ObsidianResourceGenerator());
 		register(new MetalResourceGenerator());
+		register(new SmallRockResourceGenerator());
 		register(new WorldGeneratorBushes());
 		register(new OilResourceGenerator());
 	}
