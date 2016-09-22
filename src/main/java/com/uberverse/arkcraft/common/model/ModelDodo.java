@@ -22,9 +22,9 @@ public class ModelDodo extends ModelBase
 	ModelRenderer BotBeak2;
 
 	// All these are parts of the body
-	ModelRenderer UpperBoddy1;
-	ModelRenderer LowerBoddy;
-	ModelRenderer UpperBoddy2;
+	ModelRenderer UpperBody1;
+	ModelRenderer LowerBody;
+	ModelRenderer UpperBody2;
 	ModelRenderer Neck;
 	ModelRenderer Tail1;
 	ModelRenderer Tail2;
@@ -143,24 +143,24 @@ public class ModelDodo extends ModelBase
 		convertToChild(Head1, Head2);
 
 		// Parts of the body
-		UpperBoddy1 = new ModelRenderer(this, 0, 33);
-		UpperBoddy1.addBox(-2.2F, -1.5F, -0.5F, 4, 5, 5);
-		UpperBoddy1.setRotationPoint(0F, 17.8F, 0.5F);
-		UpperBoddy1.setTextureSize(128, 128);
-		UpperBoddy1.mirror = true;
-		setRotation(UpperBoddy1, 0.1745329F, 0F, 0F);
-		LowerBoddy = new ModelRenderer(this, 0, 43);
-		LowerBoddy.addBox(-2F, -2.1F, 4F, 4, 4, 3);
-		LowerBoddy.setRotationPoint(0F, 17.8F, 0.5F);
-		LowerBoddy.setTextureSize(128, 128);
-		LowerBoddy.mirror = true;
-		setRotation(LowerBoddy, 0F, 0F, 0F);
-		UpperBoddy2 = new ModelRenderer(this, 0, 33);
-		UpperBoddy2.addBox(-1.8F, -1.5F, -0.5F, 4, 5, 5);
-		UpperBoddy2.setRotationPoint(0F, 17.8F, 0.5F);
-		UpperBoddy2.setTextureSize(128, 128);
-		UpperBoddy2.mirror = true;
-		setRotation(UpperBoddy2, 0.1745329F, 0F, 0F);
+		UpperBody1 = new ModelRenderer(this, 0, 33);
+		UpperBody1.addBox(-2.2F, -1.5F, -0.5F, 4, 5, 5);
+		UpperBody1.setRotationPoint(0F, 17.8F, 0.5F);
+		UpperBody1.setTextureSize(128, 128);
+		UpperBody1.mirror = true;
+		setRotation(UpperBody1, 0.1745329F, 0F, 0F);
+		LowerBody = new ModelRenderer(this, 0, 43);
+		LowerBody.addBox(-2F, -2.1F, 4F, 4, 4, 3);
+		LowerBody.setRotationPoint(0F, 17.8F, 0.5F);
+		LowerBody.setTextureSize(128, 128);
+		LowerBody.mirror = true;
+		setRotation(LowerBody, 0F, 0F, 0F);
+		UpperBody2 = new ModelRenderer(this, 0, 33);
+		UpperBody2.addBox(-1.8F, -1.5F, -0.5F, 4, 5, 5);
+		UpperBody2.setRotationPoint(0F, 17.8F, 0.5F);
+		UpperBody2.setTextureSize(128, 128);
+		UpperBody2.mirror = true;
+		setRotation(UpperBody2, 0.1745329F, 0F, 0F);
 		Neck = new ModelRenderer(this, 0, 23);
 		Neck.addBox(-1.5F, -4.5F, -1.5F, 3, 7, 3);
 		Neck.setRotationPoint(0F, 17.8F, 1F);
@@ -191,13 +191,13 @@ public class ModelDodo extends ModelBase
 		RightThigh.setTextureSize(128, 128);
 		RightThigh.mirror = true;
 		setRotation(RightThigh, 0.1745329F, 0F, 0F);
-		convertToChild(UpperBoddy1, RightThigh);
-		convertToChild(UpperBoddy1, LeftThigh);
-		convertToChild(UpperBoddy1, Tail2);
-		convertToChild(UpperBoddy1, Tail1);
-		convertToChild(UpperBoddy1, Neck);
-		convertToChild(UpperBoddy1, UpperBoddy2);
-		convertToChild(UpperBoddy1, LowerBoddy);
+		convertToChild(UpperBody1, RightThigh);
+		convertToChild(UpperBody1, LeftThigh);
+		convertToChild(UpperBody1, Tail2);
+		convertToChild(UpperBody1, Tail1);
+		convertToChild(UpperBody1, Neck);
+		convertToChild(UpperBody1, UpperBody2);
+		convertToChild(UpperBody1, LowerBody);
 
 		// Left wing
 		LeftWing = new ModelRenderer(this, 0, 55);
@@ -508,7 +508,7 @@ public class ModelDodo extends ModelBase
 					1.0F / scaling);
 			GlStateManager.translate(0.0F, 24.0F * f5, 0.0F);
 			Head1.render(f5);
-			UpperBoddy1.render(f5);
+			UpperBody1.render(f5);
 			LeftWing.render(f5);
 			RightWing.render(f5);
 			LeftLeg.render(f5);
@@ -520,7 +520,7 @@ public class ModelDodo extends ModelBase
 		{
 			// Adult
 			Head1.render(f5);
-			UpperBoddy1.render(f5);
+			UpperBody1.render(f5);
 			LeftWing.render(f5);
 			RightWing.render(f5);
 			LeftLeg.render(f5);
