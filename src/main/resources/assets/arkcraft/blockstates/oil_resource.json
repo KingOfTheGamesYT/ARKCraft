@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"normal": {
+			"model": "arkcraft:oil_block"
+		},
+		"inventory": {
+			"model": "arkcraft:oil_block"
+		}
+	}
+}

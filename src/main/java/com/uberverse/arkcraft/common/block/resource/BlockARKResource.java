@@ -1,6 +1,8 @@
 package com.uberverse.arkcraft.common.block.resource;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.common.block.IExperienceSource;
@@ -15,10 +17,10 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public abstract class BlockARKResource extends Block
-		implements IExperienceSource
+public abstract class BlockARKResource extends Block implements IExperienceSource
 {
 	public BlockARKResource(Material materialIn)
 	{
@@ -28,8 +30,7 @@ public abstract class BlockARKResource extends Block
 	}
 
 	@Override
-	public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state,
-			EntityPlayer player)
+	public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player)
 	{
 		return false;
 	}
@@ -41,8 +42,7 @@ public abstract class BlockARKResource extends Block
 	}
 
 	@Override
-	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state,
-			EntityPlayer player)
+	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player)
 	{
 		grantXP(ARKPlayer.get(player));
 
@@ -59,11 +59,16 @@ public abstract class BlockARKResource extends Block
 			{
 				for (ItemStack s : ais.toItemStacks())
 				{
-					worldIn.spawnEntityInWorld(new EntityItem(worldIn,
-							pos.getX(), pos.getY(), pos.getZ(), s));
+					worldIn.spawnEntityInWorld(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), s));
 				}
 			}
 		}
+	}
+
+	@Override
+	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
+	{
+		return Collections.emptyList();
 	}
 
 	public abstract Collection<AbstractItemStack> getDrops();

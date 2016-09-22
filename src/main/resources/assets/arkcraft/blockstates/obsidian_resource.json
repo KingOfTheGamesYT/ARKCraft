@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"normal": {
+			"model": "arkcraft:obsidian_rock"
+		},
+		"inventory": {
+			"model": "arkcraft:obsidian_rock"
+		}
+	}
+}

@@ -19,6 +19,7 @@ public class BlockSmallRockResource extends Block
 		super(Material.rock);
 		setHardness(1.5f);
 		setResistance(10f);
+		setBlockBounds(0, 0, 0, 1, 0.2f, 1);
 	}
 
 	@Override
@@ -34,8 +35,21 @@ public class BlockSmallRockResource extends Block
 		if (playerIn.getHeldItem() == null)
 		{
 			InventoryUtil.addOrDrop(new ItemStack(ARKCraftItems.stone), playerIn.inventory, pos, worldIn);
+			worldIn.setBlockToAir(pos);
 			return true;
 		}
 		return super.onBlockActivated(worldIn, pos, state, playerIn, side, hitX, hitY, hitZ);
+	}
+
+	@Override
+	public boolean isOpaqueCube()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isFullCube()
+	{
+		return false;
 	}
 }

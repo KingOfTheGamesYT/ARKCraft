@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"normal": {
+			"model": "arkcraft:big_rock"
+		},
+		"inventory": {
+			"model": "arkcraft:big_rock"
+		}
+	}
+}

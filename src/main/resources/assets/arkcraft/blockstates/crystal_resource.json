@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"normal": {
+			"model": "arkcraft:crystal_block"
+		},
+		"inventory": {
+			"model": "arkcraft:crystal_block"
+		}
+	}
+}

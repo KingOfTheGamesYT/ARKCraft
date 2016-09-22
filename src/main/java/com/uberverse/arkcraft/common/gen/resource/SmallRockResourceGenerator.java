@@ -6,10 +6,9 @@ import net.minecraft.block.state.IBlockState;
 
 public class SmallRockResourceGenerator extends SurfaceResourceGenerator
 {
-
 	public SmallRockResourceGenerator()
 	{
-		super(1, 1, 1, 1, 0.5);
+		super(1, 1, 1, 1, 3);
 	}
 
 	@Override

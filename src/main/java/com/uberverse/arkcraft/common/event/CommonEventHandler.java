@@ -46,6 +46,7 @@ import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerOpenContainerEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
@@ -340,6 +341,18 @@ public class CommonEventHandler
 						.getItem()).decayTick(s.inventory, s.getSlotIndex(), s.inventory instanceof IDecayer
 								? ((IDecayer) s.inventory).getDecayModifier() : 1, s.getStack());
 			}
+		}
+	}
+
+	@SubscribeEvent
+	public void onBlockBroken(BlockEvent.HarvestDropsEvent event)
+	{
+		if (event.harvester.getHeldItem() == null && ARKPlayer.isARKMode(event.harvester))
+		{
+			event.drops.clear();
+			if (new Random().nextDouble() < 0.5) event.drops.add(new ItemStack(ARKCraftItems.wood, 1));
+			int thatch = (int) (new Random().nextDouble() * 5);
+			event.drops.add(new ItemStack(ARKCraftItems.thatch, thatch));
 		}
 	}
 }
