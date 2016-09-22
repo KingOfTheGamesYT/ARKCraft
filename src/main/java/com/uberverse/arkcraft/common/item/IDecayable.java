@@ -1,7 +1,11 @@
 package com.uberverse.arkcraft.common.item;
 
-import com.uberverse.arkcraft.ARKCraft;
+import java.util.List;
 
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.util.I18n;
+
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,7 +18,13 @@ public interface IDecayable
 {
 	default void decayTick(IInventory inventory, int slotId, double decayModifier, ItemStack stack)
 	{
-		if (shouldRemove(stack, decayModifier)) inventory.setInventorySlotContents(slotId, null);
+		if (getDecayStart(stack) < 0) setDecayStart(stack, ARKCraft.proxy.getWorldTime());
+		if (shouldRemove(stack, decayModifier))
+		{
+			stack.stackSize--;
+			setDecayStart(stack, ARKCraft.proxy.getWorldTime());
+			if (stack.stackSize <= 0) inventory.setInventorySlotContents(slotId, null);
+		}
 	}
 
 	public default boolean shouldRemove(ItemStack stack, double decayModifier)
@@ -33,21 +43,23 @@ public interface IDecayable
 		return stack.hasTagCompound() ? stack.getTagCompound().getLong("decayStart") : -1;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public default void addInformation(ItemStack itemStack, EntityPlayer playerIn, List tooltip, boolean advanced)
+	{
+		long time = getDecayTimeLeft(itemStack, 1);
+		if (time > 0) tooltip.add(I18n.format("arkcraft.decayable.tooltip", time / 20));
+	}
+
 	public default void setDecayStart(ItemStack stack, long decayStart)
 	{
 		if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
 		stack.getTagCompound().setLong("decayStart", decayStart);
 	}
 
-	public default long getDecayTime(ItemStack stack)
-	{
-		return getMaxDecayTime(stack) * stack.stackSize;
-	}
-
 	public default long getDecayTimeLeft(ItemStack stack, double decayModifier)
 	{
-		return getRemovalTime(stack, decayModifier) - ARKCraft.proxy.getWorldTime();
+		return getDecayStart(stack) > -1 ? getRemovalTime(stack, decayModifier) - ARKCraft.proxy.getWorldTime() : 0;
 	}
 
-	public long getMaxDecayTime(ItemStack stack);
+	public long getDecayTime(ItemStack stack);
 }

@@ -5,7 +5,10 @@ import java.util.List;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
@@ -28,8 +31,8 @@ public class ARKCraftFood extends ItemFood implements IDecayable
 		super(healAmount, sat, fav);
 		setAlwaysEdible();
 		this.effects = effects;
-		this.setCreativeTab(ARKCraft.tabARK);
 		this.decayTime = decayTime;
+		this.setCreativeTab(ARKCraft.tabARK);
 	}
 
 	@Override
@@ -88,7 +91,23 @@ public class ARKCraftFood extends ItemFood implements IDecayable
 		return 0;
 	}
 
-	public long getMaxDecayTime(ItemStack stack)
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public void getSubItems(Item itemIn, CreativeTabs tab, List subItems)
+	{
+		ItemStack s = new ItemStack(this);
+		setDecayStart(s, -1);
+		subItems.add(s);
+	}
+
+	@Override
+	public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn)
+	{
+		super.onCreated(stack, worldIn, playerIn);
+		setDecayStart(stack, ARKCraft.proxy.getWorldTime());
+	}
+
+	public long getDecayTime(ItemStack stack)
 	{
 		return decayTime;
 	}
@@ -104,12 +123,12 @@ public class ARKCraftFood extends ItemFood implements IDecayable
 	 * @param advanced
 	 *            Whether the setting "Advanced tooltips" is enabled
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "rawtypes" })
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addInformation(ItemStack itemStack, EntityPlayer playerIn, List tooltip, boolean advanced)
 	{
-		tooltip.add("Decomposes in " + (getDecayTimeLeft(itemStack, 1) / 20) + " seconds");
+		IDecayable.super.addInformation(itemStack, playerIn, tooltip, advanced);
 	}
 
 	@Override
@@ -118,17 +137,9 @@ public class ARKCraftFood extends ItemFood implements IDecayable
 		return slotChanged || (oldStack != null && newStack != null && (oldStack.getItem() != newStack.getItem()));
 	}
 
-	// new implementation in IDecayable TODO remove
-	// @Override
-	// public void decayTick(IInventory inventory, int itemSlot, double decayModifier, ItemStack stack)
-	// {
-	// if (stack.getMetadata() > (getMaxDecayTime(stack) * 20))
-	// {
-	// inventory.setInventorySlotContents(itemSlot, null);
-	// }
-	// else
-	// {
-	// stack.setItemDamage(MathHelper.floor_double(stack.getMetadata() + (20 * decayModifier)));
-	// }
-	// }
+	@Override
+	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	{
+		decayTick(((EntityPlayer) entityIn).inventory, itemSlot, 1, stack);
+	}
 }

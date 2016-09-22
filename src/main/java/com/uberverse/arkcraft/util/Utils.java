@@ -4,12 +4,15 @@ import java.lang.reflect.Field;
 
 import com.uberverse.arkcraft.common.item.IDecayable;
 import com.uberverse.arkcraft.common.tileentity.ICustomDecayModifier;
+import com.uberverse.arkcraft.common.tileentity.IDecayer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
@@ -86,6 +89,20 @@ public class Utils
 		}
 	}
 
+	public static void checkContainerForDecayable(Container container)
+	{
+		if (!(container instanceof IDecayer)) for (int i = 0; i < container.inventorySlots.size(); i++)
+		{
+			Slot slot = (Slot) container.inventorySlots.get(i);
+			if (slot.getHasStack())
+			{
+				ItemStack s = slot.getStack();
+				if (s.getItem() instanceof IDecayable) ((IDecayable) s.getItem()).decayTick(slot.inventory, slot
+						.getSlotIndex(), 1, s);
+			}
+		}
+	}
+
 	public static double calculateDistance(BlockPos pos1, BlockPos pos2)
 	{
 		double x1 = pos1.getX();
@@ -102,4 +119,5 @@ public class Utils
 	{
 		return Math.sqrt(Math.pow(Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(z1 - z2, 2)), 2) + Math.pow(y1 - y2, 2));
 	}
+
 }

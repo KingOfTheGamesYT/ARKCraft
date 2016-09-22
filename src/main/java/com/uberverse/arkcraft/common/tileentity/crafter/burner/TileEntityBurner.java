@@ -6,6 +6,7 @@ import java.util.Map;
 import com.uberverse.arkcraft.common.burner.BurnerManager.BurnerFuel;
 import com.uberverse.arkcraft.common.burner.BurnerManager.BurnerRecipe;
 import com.uberverse.arkcraft.common.burner.IBurner;
+import com.uberverse.arkcraft.common.tileentity.IDecayer;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -23,8 +24,7 @@ import net.minecraft.world.World;
 /**
  * @author Lewis_McReu
  */
-public abstract class TileEntityBurner extends TileEntity
-		implements IInventory, IUpdatePlayerListBox, IBurner
+public abstract class TileEntityBurner extends TileEntity implements IInventory, IUpdatePlayerListBox, IBurner, IDecayer
 {
 	private ItemStack[] inventory;
 	/** the currently active recipes */
@@ -45,6 +45,7 @@ public abstract class TileEntityBurner extends TileEntity
 	public void update()
 	{
 		IBurner.super.update();
+		IDecayer.super.update();
 	}
 
 	public void setBurning(boolean burning)
@@ -115,8 +116,7 @@ public abstract class TileEntityBurner extends TileEntity
 	@Override
 	public ItemStack getStackInSlot(int index)
 	{
-		return index >= 0 && index < getSizeInventory() ? inventory[index]
-				: null;
+		return index >= 0 && index < getSizeInventory() ? inventory[index] : null;
 	}
 
 	@Override
@@ -244,5 +244,11 @@ public abstract class TileEntityBurner extends TileEntity
 	public ItemStack[] getInventory()
 	{
 		return inventory;
+	}
+
+	@Override
+	public double getDecayModifier()
+	{
+		return 1;
 	}
 }

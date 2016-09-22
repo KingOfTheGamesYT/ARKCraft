@@ -224,6 +224,7 @@ item.saddle_small.tooltip=%oA Dino Rider's Dream
 item.saddle_medium.tooltip=%oA Dino Rider's Dream
 item.saddle_large.tooltip=%oA Dino Rider's Dream
 
+arkcraft.decayable.tooltip=Decomposes in %s seconds
 arkcraft.tooltip.toolLevel=Tool Level: %d
 arkcraft.gui.fertilizer=Fertilizer: %s sec remaining
 arkcraft.cropPlotState.head=%s (%s)
