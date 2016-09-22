@@ -14,7 +14,9 @@ import net.minecraft.world.World;
 
 public class BlockSmallRockResource extends Block
 {
+	public BlockSmallRockResource()
 	{
+		super(Material.rock);
 		setHardness(1.5f);
 		setResistance(10f);
 	}
