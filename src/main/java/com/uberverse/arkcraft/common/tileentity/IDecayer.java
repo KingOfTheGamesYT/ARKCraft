@@ -17,7 +17,10 @@ public interface IDecayer
 		}
 	}
 
-	double getDecayModifier();
+	default double getDecayModifier()
+	{
+		return 1;
+	}
 
 	IInventory getIInventory();
 }

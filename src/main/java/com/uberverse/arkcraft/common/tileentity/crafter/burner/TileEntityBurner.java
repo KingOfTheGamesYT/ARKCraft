@@ -245,10 +245,4 @@ public abstract class TileEntityBurner extends TileEntity implements IInventory,
 	{
 		return inventory;
 	}
-
-	@Override
-	public double getDecayModifier()
-	{
-		return 1;
-	}
 }
