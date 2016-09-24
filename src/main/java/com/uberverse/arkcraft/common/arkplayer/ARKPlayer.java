@@ -21,7 +21,7 @@ import com.uberverse.arkcraft.common.engram.IEngramCrafter;
 import com.uberverse.arkcraft.common.entity.IArkLevelable;
 import com.uberverse.arkcraft.common.entity.ITranquilizable;
 import com.uberverse.arkcraft.common.entity.IWeighable;
-import com.uberverse.arkcraft.common.entity.data.CalcPlayerWeight;
+import com.uberverse.arkcraft.common.entity.data.PlayerWeightCalculator;
 import com.uberverse.arkcraft.common.inventory.InventoryEngram;
 import com.uberverse.arkcraft.common.network.player.PlayerPoop;
 import com.uberverse.arkcraft.util.CollectionUtil;
@@ -317,7 +317,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable, IWei
 	{
 		if (!player.worldObj.isRemote)
 		{
-			weight.set(CalcPlayerWeight.getAsDouble(player));
+			weight.set(PlayerWeightCalculator.calculateWeight(player));
 			sendSynchronization(false);
 		}
 	}
