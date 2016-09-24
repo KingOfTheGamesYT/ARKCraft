@@ -11,7 +11,7 @@ import com.uberverse.arkcraft.client.easter.Easter;
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.common.block.crafter.BlockRefiningForge;
 import com.uberverse.arkcraft.common.config.WeightsConfig;
-import com.uberverse.arkcraft.common.entity.data.CalcPlayerWeight;
+import com.uberverse.arkcraft.common.entity.data.PlayerWeightCalculator;
 import com.uberverse.arkcraft.common.inventory.InventoryAttachment;
 import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
@@ -129,7 +129,7 @@ public class ClientEventHandler
 		if (WeightsConfig.isEnabled)
 		{
 			ItemStack stack = event.itemStack;
-			double weight = CalcPlayerWeight.getWeight(stack);
+			double weight = PlayerWeightCalculator.getWeight(stack);
 			event.toolTip.add(EnumChatFormatting.BOLD + ""
 					+ EnumChatFormatting.WHITE + "Weight: " + weight);
 			if (stack.stackSize > 1)
