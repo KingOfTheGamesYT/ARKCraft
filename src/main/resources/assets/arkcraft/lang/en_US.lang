@@ -359,3 +359,4 @@ achievement.theBigBang.desc=THE BIG BANG
 #Chat notifications
 chat.notification.outdated=ARKCraft is outdated!
 chat.notification.outdatedversion=You are running version %s.
+chat.notification.levelup=You leveled up!

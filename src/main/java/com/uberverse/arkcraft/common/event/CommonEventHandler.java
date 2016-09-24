@@ -25,6 +25,7 @@ import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.util.Utils;
 import com.uberverse.lib.LogHelper;
 
+import net.minecraft.block.BlockLog;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -44,6 +45,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerOpenContainerEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -316,16 +318,7 @@ public class CommonEventHandler
 		}
 		if (!p.worldObj.isRemote && evt.phase == Phase.START)
 		{
-			if (ticks > 19)
-			{
-				ticks = 0;
-				if (p.openContainer != null) Utils.checkContainerForDecayable(p.openContainer);
-				else Utils.checkInventoryForDecayable(p.inventory);
-			}
-			else
-			{
-				ticks++;
-			}
+			Utils.checkInventoryForDecayable(p.inventory);
 		}
 	}
 
@@ -339,7 +332,7 @@ public class CommonEventHandler
 				Slot s = (Slot) o;
 				if (s.getHasStack() && s.getStack().getItem() instanceof IDecayable) ((IDecayable) s.getStack()
 						.getItem()).decayTick(s.inventory, s.getSlotIndex(), s.inventory instanceof IDecayer
-								? ((IDecayer) s.inventory).getDecayModifier() : 1, s.getStack());
+								? ((IDecayer) s.inventory).getDecayModifier(s.getStack()) : 1, s.getStack());
 			}
 		}
 	}
@@ -347,12 +340,52 @@ public class CommonEventHandler
 	@SubscribeEvent
 	public void onBlockBroken(BlockEvent.HarvestDropsEvent event)
 	{
-		if (event.harvester.getHeldItem() == null && ARKPlayer.isARKMode(event.harvester))
+		if (event.harvester != null && !event.harvester.getEntityWorld().isRemote && event.harvester
+				.getHeldItem() == null && ARKPlayer.isARKMode(event.harvester) && event.state
+						.getBlock() instanceof BlockLog)
 		{
+			ARKPlayer.get(event.harvester).addXP(0.4);
 			event.drops.clear();
 			if (new Random().nextDouble() < 0.5) event.drops.add(new ItemStack(ARKCraftItems.wood, 1));
 			int thatch = (int) (new Random().nextDouble() * 5);
 			event.drops.add(new ItemStack(ARKCraftItems.thatch, thatch));
+		}
+	}
+
+	@SubscribeEvent
+	public void onItemPickup(EntityItemPickupEvent event)
+	{
+		if (!event.entityPlayer.worldObj.isRemote)
+		{
+			ItemStack stack = event.item.getEntityItem();
+			if (stack != null)
+			{
+				Item in = stack.getItem();
+				if (in instanceof IDecayable)
+				{
+					IDecayable d = (IDecayable) in;
+					EntityPlayer p = event.entityPlayer;
+					for (int i = 0; i < p.inventory.getSizeInventory(); i++)
+					{
+						ItemStack s = p.inventory.getStackInSlot(i);
+						if (s != null && s.getItem() == in)
+						{
+							long s2 = d.getDecayStart(s);
+							int si2 = s.stackSize;
+							long s1 = d.getDecayStart(stack);
+							int si1 = stack.stackSize;
+							si1 = in.getItemStackLimit(stack) - si2 > si1 ? si1 : in.getItemStackLimit(stack) - si2;
+							stack.stackSize -= si1;
+
+							long n = (s1 * si1 + s2 * si2) / (si1 + si2);
+							ItemStack nS = new ItemStack(in, si2 + si1);
+							d.setDecayStart(nS, n);
+							p.inventory.setInventorySlotContents(i, nS);
+							break;
+						}
+					}
+				}
+			}
 		}
 	}
 }

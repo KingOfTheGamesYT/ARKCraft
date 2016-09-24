@@ -181,49 +181,6 @@ public class ClientProxy extends CommonProxy
 		}
 	}
 
-	private static void registerItemVariants()
-	{
-		// ModelLoader.addVariantName(ARKCraftRangedWeapons.slingshot,
-		// "arkcraft:slingshot", "arkcraft:slingshot_pulled");
-		// ModelLoader.addVariantName(ARKCraftRangedWeapons.shotgun,
-		// "arkcraft:weapons/shotgun", "arkcraft:weapons/shotgun_reload");
-		// ModelLoader.addVariantName(ARKCraftRangedWeapons.longneck_rifle,
-		// "arkcraft:weapons/longneck_rifle",
-		// "arkcraft:weapons/longneck_rifle_scope",
-		// "arkcraft:weapons/longneck_rifle_scope_reload",
-		// "arkcraft:weapons/longneck_rifle_reload",
-		// "arkcraft:weapons/longneck_rifle_flashlight",
-		// "arkcraft:weapons/longneck_rifle_flashlight_reload",
-		// "arkcraft:weapons/longneck_rifle_laser",
-		// "arkcraft:weapons/longneck_rifle_laser_reload",
-		// "arkcraft:weapons/longneck_rifle_silencer",
-		// "arkcraft:weapons/longneck_rifle_silencer_reload");
-		// ModelLoader.addVariantName(ARKCraftRangedWeapons.simple_pistol,
-		// "arkcraft:weapons/simple_pistol",
-		// "arkcraft:weapons/simple_pistol_scope",
-		// "arkcraft:weapons/simple_pistol_reload",
-		// "arkcraft:weapons/simple_pistol_scope_reload",
-		// "arkcraft:weapons/simple_pistol_flashlight",
-		// "arkcraft:weapons/simple_pistol_flashlight_reload",
-		// "arkcraft:weapons/simple_pistol_laser",
-		// "arkcraft:weapons/simple_pistol_laser_reload",
-		// "arkcraft:weapons/simple_pistol_silencer",
-		// "arkcraft:weapons/simple_pistol_silencer_reload");
-		// ModelLoader.addVariantName(ARKCraftRangedWeapons.fabricated_pistol,
-		// "arkcraft:weapons/fabricated_pistol",
-		// "arkcraft:weapons/fabricated_pistol_scope",
-		// "arkcraft:weapons/fabricated_pistol_reload",
-		// "arkcraft:weapons/fabricated_pistol_scope_reload",
-		// "arkcraft:weapons/fabricated_pistol_flashlight",
-		// "arkcraft:weapons/fabricated_pistol_flashlight_reload",
-		// "arkcraft:weapons/fabricated_pistol_laser",
-		// "arkcraft:weapons/fabricated_pistol_laser_reload",
-		// "arkcraft:weapons/fabricated_pistol_silencer",
-		// "arkcraft:weapons/fabricated_pistol_silencer_reload",
-		// "arkcraft:weapons/fabricated_pistol_holo_scope",
-		// "arkcraft:weapons/fabricated_pistol_holo_scope_reload");
-	}
-
 	@Override
 	public EntityPlayer getPlayerFromContext(MessageContext ctx)
 	{
@@ -239,6 +196,7 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public long getWorldTime()
 	{
-		return Minecraft.getMinecraft().theWorld.getTotalWorldTime();
+		if (Minecraft.getMinecraft().theWorld != null) return Minecraft.getMinecraft().theWorld.getTotalWorldTime();
+		return 0;
 	}
 }

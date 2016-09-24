@@ -23,7 +23,11 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
-
+/**
+ * 
+ * @author Lewis_McReu
+ *
+ */
 public abstract class TileEntityEngramCrafter extends TileEntity
 		implements IInventory, IUpdatePlayerListBox, IEngramCrafter
 {

@@ -19,6 +19,7 @@ public interface IDecayable
 	default void decayTick(IInventory inventory, int slotId, double decayModifier, ItemStack stack)
 	{
 		if (getDecayStart(stack) < 0) setDecayStart(stack, ARKCraft.proxy.getWorldTime());
+		setDecayModifier(stack, decayModifier);
 		if (shouldRemove(stack, decayModifier))
 		{
 			stack.stackSize--;
@@ -46,8 +47,19 @@ public interface IDecayable
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public default void addInformation(ItemStack itemStack, EntityPlayer playerIn, List tooltip, boolean advanced)
 	{
-		long time = getDecayTimeLeft(itemStack, 1);
+		long time = getDecayTimeLeft(itemStack, getDecayModifier(itemStack));
 		if (time > 0) tooltip.add(I18n.format("arkcraft.decayable.tooltip", time / 20));
+	}
+
+	public default double getDecayModifier(ItemStack stack)
+	{
+		return stack.hasTagCompound() ? stack.getTagCompound().getLong("decayModifier") : 1;
+	}
+
+	public default void setDecayModifier(ItemStack stack, double decayModifier)
+	{
+		if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
+		stack.getTagCompound().setDouble("decayModifier", decayModifier);
 	}
 
 	public default void setDecayStart(ItemStack stack, long decayStart)

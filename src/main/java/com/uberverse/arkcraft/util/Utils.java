@@ -3,16 +3,13 @@ package com.uberverse.arkcraft.util;
 import java.lang.reflect.Field;
 
 import com.uberverse.arkcraft.common.item.IDecayable;
-import com.uberverse.arkcraft.common.tileentity.ICustomDecayModifier;
 import com.uberverse.arkcraft.common.tileentity.IDecayer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
@@ -80,25 +77,9 @@ public class Utils
 			{
 				IDecayable decayable = (IDecayable) stack.getItem();
 				double decayModifier = 1;
-				if (inventory instanceof ICustomDecayModifier)
-				{
-					decayModifier = ((ICustomDecayModifier) inventory).getDecayModifier(i);
-				}
-				decayable.decayTick(inventory, i, decayModifier, stack);
-			}
-		}
-	}
+				if (inventory instanceof IDecayer) decayModifier = ((IDecayer) inventory).getDecayModifier(stack);
 
-	public static void checkContainerForDecayable(Container container)
-	{
-		if (!(container instanceof IDecayer)) for (int i = 0; i < container.inventorySlots.size(); i++)
-		{
-			Slot slot = (Slot) container.inventorySlots.get(i);
-			if (slot.getHasStack())
-			{
-				ItemStack s = slot.getStack();
-				if (s.getItem() instanceof IDecayable) ((IDecayable) s.getItem()).decayTick(slot.inventory, slot
-						.getSlotIndex(), 1, s);
+				decayable.decayTick(inventory, i, decayModifier, stack);
 			}
 		}
 	}

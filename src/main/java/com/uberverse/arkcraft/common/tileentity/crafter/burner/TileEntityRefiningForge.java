@@ -2,6 +2,9 @@ package com.uberverse.arkcraft.common.tileentity.crafter.burner;
 
 import com.uberverse.arkcraft.common.burner.BurnerManager.BurnerType;
 
+/**
+ * @author Lewis_McReu
+ */
 public class TileEntityRefiningForge extends TileEntityBurner
 {
 	@Override

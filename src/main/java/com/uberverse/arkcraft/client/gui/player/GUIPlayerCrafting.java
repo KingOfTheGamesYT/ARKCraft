@@ -24,10 +24,9 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUIPlayerCrafting extends GUIEngramCrafting
 {
-	private static final ResourceLocation background = new ResourceLocation(
-			ARKCraft.MODID, "textures/gui/player_crafting.png");
-	private static final ResourceLocation xpBar =
-			new ResourceLocation(ARKCraft.MODID, "textures/gui/buttons.png");
+	private static final ResourceLocation background = new ResourceLocation(ARKCraft.MODID,
+			"textures/gui/player_crafting.png");
+	private static final ResourceLocation xpBar = new ResourceLocation(ARKCraft.MODID, "textures/gui/buttons.png");
 	private static final int barX = 33;
 	private static final int barY = 159;
 	private static final int barU = 0;
@@ -46,20 +45,17 @@ public class GUIPlayerCrafting extends GUIEngramCrafting
 	public void initGui()
 	{
 		super.initGui();
-		this.openEngrams = new GuiTexturedButton(buttonCounter++, guiLeft + 128,
-				guiTop + 17, 47, 14, buttons, 0, 84);
+		this.openEngrams = new GuiTexturedButton(buttonCounter++, guiLeft + 128, guiTop + 17, 47, 14, buttons, 0, 84);
 		buttonList.add(openEngrams);
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float partialTicks,
-			int mouseX, int mouseY)
+	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
 	{
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		mc.getTextureManager().bindTexture(xpBar);
-		drawTexturedModalRect(guiLeft + barX, guiTop + barY, barU, barV,
-				(int) (barWidth * ARKPlayer.get(mc.thePlayer).getRelativeXP()),
-				barHeight);
+		drawTexturedModalRect(guiLeft + barX, guiTop + barY, barU, barV, (int) (barWidth * ARKPlayer.get(mc.thePlayer)
+				.getRelativeXP()), barHeight);
 	}
 
 	private boolean dragModel = false;
@@ -69,19 +65,16 @@ public class GUIPlayerCrafting extends GUIEngramCrafting
 	private int yLook = 0;
 
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
-			throws IOException
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
 	{
 		int x = 127, y = 54, width = 49, height = 70;
-		if (mouseButton == 0 && mc.thePlayer.inventory.getItemStack() == null
-				&& isPointInRegion(x, y, width, height, mouseX, mouseY))
-			dragModel = true;
+		if (mouseButton == 0 && mc.thePlayer.inventory.getItemStack() == null && isPointInRegion(x, y, width, height,
+				mouseX, mouseY)) dragModel = true;
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
 	@Override
-	protected void mouseClickMove(int mouseX, int mouseY,
-			int clickedMouseButton, long timeSinceLastClick)
+	protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick)
 	{
 		if (dragModel)
 		{
@@ -93,8 +86,7 @@ public class GUIPlayerCrafting extends GUIEngramCrafting
 			if (yLook > 180) yLook -= 360;
 			else if (yLook < -180) yLook += 360;
 		}
-		super.mouseClickMove(mouseX, mouseY, clickedMouseButton,
-				timeSinceLastClick);
+		super.mouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick);
 	}
 
 	@Override
@@ -112,21 +104,19 @@ public class GUIPlayerCrafting extends GUIEngramCrafting
 	{
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
-		renderEntityWithFullXRotation(xPos, yPos, 30, xLook, yLook,
-				this.mc.thePlayer);
+		renderEntityWithFullXRotation(xPos, yPos, 30, xLook, yLook, this.mc.thePlayer);
 
-		String level = I18n.format("gui.playercrafting.level",
-				ARKPlayer.get(Minecraft.getMinecraft().thePlayer).getLevel());
-		this.drawString(mc.fontRendererObj, level,
-				151 - mc.fontRendererObj.getStringWidth(level) / 2, 40,
-				Color.white.getRGB());
+		String level = I18n.format("gui.playercrafting.level", ARKPlayer.get(Minecraft.getMinecraft().thePlayer)
+				.getLevel());
+		this.drawString(mc.fontRendererObj, level, 151 - mc.fontRendererObj.getStringWidth(level) / 2, 40, Color.white
+				.getRGB());
 
 		if (isPointInRegion(barX, barY, barWidth, barHeight, mouseX, mouseY))
 		{
 			ARKPlayer p = ARKPlayer.get(mc.thePlayer);
-			String xp = p.getXP() + "/" + p.getRequiredXP();
-			drawHoveringText(Lists.newArrayList(new String[] { xp }),
-					mouseX - guiLeft, mouseY - guiTop, fontRendererObj);
+			String xp = Math.round(p.getXP() * 100d) / 100d + "/" + Math.round(p.getRequiredXP() * 100d) / 100d;
+			drawHoveringText(Lists.newArrayList(new String[] { xp }), mouseX - guiLeft, mouseY - guiTop,
+					fontRendererObj);
 		}
 	}
 
@@ -200,8 +190,8 @@ public class GUIPlayerCrafting extends GUIEngramCrafting
 		return 256;
 	}
 
-	public static void renderEntityWithFullXRotation(int xPos, int yPos,
-			int size, float rotationX, float rotationY, EntityLivingBase entity)
+	public static void renderEntityWithFullXRotation(int xPos, int yPos, int size, float rotationX, float rotationY,
+			EntityLivingBase entity)
 	{
 		GlStateManager.enableColorMaterial();
 		GlStateManager.pushMatrix();
@@ -216,9 +206,7 @@ public class GUIPlayerCrafting extends GUIEngramCrafting
 		GlStateManager.rotate(135.0F, 0.0F, 1.0F, 0.0F);
 		RenderHelper.enableStandardItemLighting();
 		GlStateManager.rotate(-135.0F, 0.0F, 1.0F, 0.0F);
-		GlStateManager.rotate(
-				-((float) Math.atan((double) (rotationY / 40.0F))) * 20.0F,
-				1.0F, 0.0F, 0.0F);
+		GlStateManager.rotate(-((float) Math.atan((double) (rotationY / 40.0F))) * 20.0F, 1.0F, 0.0F, 0.0F);
 		entity.renderYawOffset = rotationX;// (float) Math.atan((double)
 											// (rotationX / 40.0F)) * 20.0F;
 		entity.rotationYaw = rotationX;// (float) Math.atan((double) (rotationX
@@ -227,12 +215,10 @@ public class GUIPlayerCrafting extends GUIEngramCrafting
 		entity.rotationYawHead = entity.rotationYaw;
 		entity.prevRotationYawHead = entity.rotationYaw;
 		GlStateManager.translate(0.0F, 0.0F, 0.0F);
-		RenderManager rendermanager =
-				Minecraft.getMinecraft().getRenderManager();
+		RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
 		rendermanager.setPlayerViewY(180.0F);
 		rendermanager.setRenderShadow(false);
-		rendermanager.renderEntityWithPosYaw(entity, 0.0D, 0.0D, 0.0D, 0.0F,
-				1.0F);
+		rendermanager.renderEntityWithPosYaw(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
 		rendermanager.setRenderShadow(true);
 		entity.renderYawOffset = f2;
 		entity.rotationYaw = f3;

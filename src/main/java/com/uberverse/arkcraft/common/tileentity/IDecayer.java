@@ -5,6 +5,9 @@ import com.uberverse.arkcraft.common.item.IDecayable;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
+/**
+ * @author Lewis_McReu
+ */
 public interface IDecayer
 {
 	default void update()
@@ -13,11 +16,11 @@ public interface IDecayer
 		{
 			ItemStack s = getIInventory().getStackInSlot(i);
 			if (s != null && s.getItem() instanceof IDecayable) ((IDecayable) s.getItem()).decayTick(getIInventory(), i,
-					getDecayModifier(), s);
+					getDecayModifier(s), s);
 		}
 	}
 
-	default double getDecayModifier()
+	default double getDecayModifier(ItemStack stack)
 	{
 		return 1;
 	}

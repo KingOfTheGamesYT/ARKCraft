@@ -1,5 +1,8 @@
 package com.uberverse.arkcraft.common.block.resource;
 
+import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
+import com.uberverse.arkcraft.common.block.IExperienceSource;
+import com.uberverse.arkcraft.common.entity.IArkLevelable;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.util.InventoryUtil;
 
@@ -12,7 +15,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
-public class BlockSmallRockResource extends Block
+public class BlockSmallRockResource extends Block implements IExperienceSource
 {
 	public BlockSmallRockResource()
 	{
@@ -34,6 +37,7 @@ public class BlockSmallRockResource extends Block
 	{
 		if (playerIn.getHeldItem() == null)
 		{
+			grantXP(ARKPlayer.get(playerIn));
 			InventoryUtil.addOrDrop(new ItemStack(ARKCraftItems.stone), playerIn.inventory, pos, worldIn);
 			worldIn.setBlockToAir(pos);
 			return true;
@@ -51,5 +55,11 @@ public class BlockSmallRockResource extends Block
 	public boolean isFullCube()
 	{
 		return false;
+	}
+
+	@Override
+	public void grantXP(IArkLevelable leveling)
+	{
+		leveling.addXP(0.4);
 	}
 }

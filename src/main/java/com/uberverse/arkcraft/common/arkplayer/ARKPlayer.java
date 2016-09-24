@@ -26,6 +26,7 @@ import com.uberverse.arkcraft.common.inventory.InventoryEngram;
 import com.uberverse.arkcraft.common.network.player.PlayerPoop;
 import com.uberverse.arkcraft.util.CollectionUtil;
 import com.uberverse.arkcraft.util.FixedSizeQueue;
+import com.uberverse.arkcraft.util.I18n;
 import com.uberverse.arkcraft.util.NBTable;
 
 import io.netty.buffer.ByteBuf;
@@ -37,6 +38,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
@@ -451,6 +453,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable, IWei
 	private void increaseLevel()
 	{
 		level.set((short) (level.get() + 1));
+		player.addChatComponentMessage(new ChatComponentText(I18n.translate("chat.notification.levelup")));
 	}
 
 	@Override
@@ -624,6 +627,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable, IWei
 	 *
 	 * @param <E>
 	 */
+	// TODO rework this with functional interfaces
 	public class Variable<E>
 	{
 		private Object variable;
@@ -645,6 +649,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable, IWei
 			}
 		}
 
+		@SuppressWarnings("unchecked")
 		public E get()
 		{
 			return (E) variable;
