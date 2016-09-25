@@ -47,7 +47,7 @@ public class ItemCropPlot extends ItemBlockARK
 			{
 				return false;
 			}
-			else if (ARKCraftBlocks.crop_plot.canPlaceBlockAt(worldIn,
+			else if (ARKCraftBlocks.cropPlot.canPlaceBlockAt(worldIn,
 					blockpos1))
 			{
 				if (stack.getMetadata() > 0)
@@ -56,7 +56,7 @@ public class ItemCropPlot extends ItemBlockARK
 					{
 						if (p != Part.MIDDLE)
 						{
-							if (!ARKCraftBlocks.crop_plot.canPlaceBlockAt(
+							if (!ARKCraftBlocks.cropPlot.canPlaceBlockAt(
 									worldIn, p.offset(blockpos1, false)))
 								return false;
 						}
@@ -64,9 +64,9 @@ public class ItemCropPlot extends ItemBlockARK
 				}
 				--stack.stackSize;
 				worldIn.setBlockState(blockpos1,
-						ARKCraftBlocks.crop_plot.getDefaultState());
-				ARKCraftBlocks.crop_plot.onBlockPlacedBy(worldIn, blockpos1,
-						ARKCraftBlocks.crop_plot.getDefaultState(), playerIn,
+						ARKCraftBlocks.cropPlot.getDefaultState());
+				ARKCraftBlocks.cropPlot.onBlockPlacedBy(worldIn, blockpos1,
+						ARKCraftBlocks.cropPlot.getDefaultState(), playerIn,
 						stack);
 				return true;
 			}

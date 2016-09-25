@@ -2,6 +2,12 @@ package com.uberverse.arkcraft.deprecated;
 
 import java.util.Arrays;
 
+import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot;
+import com.uberverse.arkcraft.common.config.ModuleItemBalance;
+import com.uberverse.arkcraft.common.item.ARKCraftFeces;
+import com.uberverse.arkcraft.common.item.ARKCraftSeed;
+import com.uberverse.lib.LogHelper;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -22,31 +28,23 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
-import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot;
-import com.uberverse.arkcraft.common.config.ModuleItemBalance;
-import com.uberverse.arkcraft.common.item.ARKCraftFeces;
-import com.uberverse.arkcraft.common.item.ARKCraftSeed;
-import com.uberverse.lib.LogHelper;
-
 /**
  * @author wildbill22
  */
-public class TileInventoryCropPlot extends TileEntity
-		implements IInventory, IUpdatePlayerListBox
+public class TileInventoryCropPlot extends TileEntity implements IInventory, IUpdatePlayerListBox
 {
 	public static final int WATER_SLOTS_COUNT = 1;
 	public static final int FERTILIZER_SLOTS_COUNT = 6;
 	public static final int SEED_SLOTS_COUNT = 1;
 	public static final int OUTPUT_SLOTS_COUNT = 1;
-	public static final int TOTAL_SLOTS_COUNT = WATER_SLOTS_COUNT
-			+ FERTILIZER_SLOTS_COUNT + SEED_SLOTS_COUNT + OUTPUT_SLOTS_COUNT;
+	public static final int TOTAL_SLOTS_COUNT = WATER_SLOTS_COUNT + FERTILIZER_SLOTS_COUNT + SEED_SLOTS_COUNT
+			+ OUTPUT_SLOTS_COUNT;
 
 	public static final int WATER_SLOT = 0;
 	public static final int SEED_SLOT = 1;
 	public static final int FIRST_FERTILIZER_SLOT = 2;
 	public static final int BERRY_SLOT = 8;
-	public static final int FIRST_OUTPUT_SLOT =
-			WATER_SLOTS_COUNT + FERTILIZER_SLOTS_COUNT + SEED_SLOTS_COUNT;
+	public static final int FIRST_OUTPUT_SLOT = WATER_SLOTS_COUNT + FERTILIZER_SLOTS_COUNT + SEED_SLOTS_COUNT;
 
 	// Create and initialize the itemStacks variable that will store store the
 	// itemStacks
@@ -63,14 +61,13 @@ public class TileInventoryCropPlot extends TileEntity
 	 * The initial grow ticks value of one bucket of water (in ticks of grow
 	 * duration)
 	 */
-	private short waterTimeInitialValue =
-			(short) ModuleItemBalance.CROP_PLOT.SECONDS_OF_WATER_PER_BUCKET; // vanilla
-																				// value
-																				// is
-																				// 1080
-																				// =
-																				// 18
-																				// minutes
+	private short waterTimeInitialValue = (short) ModuleItemBalance.CROP_PLOT.SECONDS_OF_WATER_PER_BUCKET; // vanilla
+																											// value
+																											// is
+																											// 1080
+																											// =
+																											// 18
+																											// minutes
 	/**
 	 * The maximum amount of water allowed in reservoir
 	 */
@@ -88,12 +85,11 @@ public class TileInventoryCropPlot extends TileEntity
 	/**
 	 * The number of ticks required to grow a berry
 	 */
-	private static final short GROW_TIME_FOR_BERRY =
-			(short) ModuleItemBalance.CROP_PLOT.GROW_TIME_FOR_BERRY; // vanilla
-																		// value
-																		// is
-																		// 45
-																		// seconds
+	private static final short GROW_TIME_FOR_BERRY = (short) ModuleItemBalance.CROP_PLOT.GROW_TIME_FOR_BERRY; // vanilla
+																												// value
+																												// is
+																												// 45
+																												// seconds
 
 	/**
 	 * The growth stage, 5 is fruitling
@@ -113,8 +109,7 @@ public class TileInventoryCropPlot extends TileEntity
 	public double fractionOfFertilizerRemaining(int fertilizerSlot)
 	{
 		if (itemStacks[fertilizerSlot] == null) { return 0.0D; }
-		double fraction = secondsOfFertilizerRemaining(fertilizerSlot)
-				/ itemStacks[fertilizerSlot].getMaxDamage();
+		double fraction = secondsOfFertilizerRemaining(fertilizerSlot) / itemStacks[fertilizerSlot].getMaxDamage();
 		return MathHelper.clamp_double(fraction, 0.0, 1.0);
 	}
 
@@ -129,8 +124,7 @@ public class TileInventoryCropPlot extends TileEntity
 	{
 		if (itemStacks[fertilizerSlot] != null)
 		{
-			return itemStacks[fertilizerSlot].getMaxDamage()
-					- itemStacks[fertilizerSlot].getItemDamage();
+			return itemStacks[fertilizerSlot].getMaxDamage() - itemStacks[fertilizerSlot].getItemDamage();
 		}
 		else
 		{
@@ -147,9 +141,8 @@ public class TileInventoryCropPlot extends TileEntity
 	public int numberOfBurningFertilizerSlots()
 	{
 		int burningCount = 0;
-		for (int fertilizerSlot = FIRST_FERTILIZER_SLOT;
-				fertilizerSlot < FIRST_FERTILIZER_SLOT + FERTILIZER_SLOTS_COUNT;
-				fertilizerSlot++)
+		for (int fertilizerSlot = FIRST_FERTILIZER_SLOT; fertilizerSlot < FIRST_FERTILIZER_SLOT
+				+ FERTILIZER_SLOTS_COUNT; fertilizerSlot++)
 		{
 			if (itemStacks[fertilizerSlot] != null)
 			{
@@ -260,24 +253,21 @@ public class TileInventoryCropPlot extends TileEntity
 					break;
 				// seeded
 				case 1:
-					if (growTime > ModuleItemBalance.CROP_PLOT.SECONDS_UNTIL_FRUITLING
-							/ 4)
+					if (growTime > ModuleItemBalance.CROP_PLOT.SECONDS_UNTIL_FRUITLING / 4)
 					{
 						growthStage++;
 					}
 					break;
 				// seedling
 				case 2:
-					if (growTime > ModuleItemBalance.CROP_PLOT.SECONDS_UNTIL_FRUITLING
-							/ 3)
+					if (growTime > ModuleItemBalance.CROP_PLOT.SECONDS_UNTIL_FRUITLING / 3)
 					{
 						growthStage++;
 					}
 					break;
 				// midling
 				case 3:
-					if (growTime > ModuleItemBalance.CROP_PLOT.SECONDS_UNTIL_FRUITLING
-							/ 2)
+					if (growTime > ModuleItemBalance.CROP_PLOT.SECONDS_UNTIL_FRUITLING / 2)
 					{
 						growthStage++;
 					}
@@ -292,8 +282,7 @@ public class TileInventoryCropPlot extends TileEntity
 					break;
 				// fruitling
 				default:
-					LogHelper.info(
-							"TileInventoryCropPlot: setGrowthStage: Oops!");
+					LogHelper.info("TileInventoryCropPlot: setGrowthStage: Oops!");
 			}
 		}
 		else
@@ -312,15 +301,13 @@ public class TileInventoryCropPlot extends TileEntity
 		if (prevGrowthStage != growthStage)
 		{
 			IBlockState state = worldObj.getBlockState(pos);
-			worldObj.setBlockState(pos, state.withProperty(BlockCropPlot.AGE,
-					Integer.valueOf(growthStage)), 2);
+			worldObj.setBlockState(pos, state.withProperty(BlockCropPlot.AGE, Integer.valueOf(growthStage)), 2);
 			if (worldObj.isRemote)
 			{
 				worldObj.markBlockForUpdate(pos);
 			}
 			worldObj.checkLightFor(EnumSkyBlock.BLOCK, pos);
-			LogHelper.info("TileInventoryCropPlot: Growth stage is now "
-					+ growthStage);
+			LogHelper.info("TileInventoryCropPlot: Growth stage is now " + growthStage);
 		}
 	}
 
@@ -337,11 +324,9 @@ public class TileInventoryCropPlot extends TileEntity
 		boolean inventoryChanged = false;
 
 		// Consume any water buckets
-		if (itemStacks[WATER_SLOT] != null
-				&& itemStacks[WATER_SLOT].getItem() == Items.water_bucket)
+		if (itemStacks[WATER_SLOT] != null && itemStacks[WATER_SLOT].getItem() == Items.water_bucket)
 		{
-			itemStacks[WATER_SLOT] = itemStacks[WATER_SLOT].getItem()
-					.getContainerItem(itemStacks[WATER_SLOT]);
+			itemStacks[WATER_SLOT] = itemStacks[WATER_SLOT].getItem().getContainerItem(itemStacks[WATER_SLOT]);
 			waterTimeRemaining += waterTimeInitialValue;
 			if (waterTimeRemaining > MAXIMUM_WATER_TIME)
 			{
@@ -430,8 +415,7 @@ public class TileInventoryCropPlot extends TileEntity
 
 		// finds the first input slot which is smeltable and whose result fits
 		// into an output slot (stacking if possible)
-		for (int inputSlot = SEED_SLOT;
-				inputSlot < SEED_SLOT + SEED_SLOTS_COUNT; inputSlot++)
+		for (int inputSlot = SEED_SLOT; inputSlot < SEED_SLOT + SEED_SLOTS_COUNT; inputSlot++)
 		{
 			if (itemStacks[inputSlot] != null)
 			{
@@ -440,8 +424,7 @@ public class TileInventoryCropPlot extends TileEntity
 				{
 					// find the first suitable output slot- either empty, or
 					// with identical item that has enough space
-					for (int outputSlot = FIRST_OUTPUT_SLOT;
-							outputSlot < FIRST_OUTPUT_SLOT + OUTPUT_SLOTS_COUNT;
+					for (int outputSlot = FIRST_OUTPUT_SLOT; outputSlot < FIRST_OUTPUT_SLOT + OUTPUT_SLOTS_COUNT;
 							outputSlot++)
 					{
 						ItemStack outputStack = itemStacks[outputSlot];
@@ -452,18 +435,13 @@ public class TileInventoryCropPlot extends TileEntity
 							break;
 						}
 
-						if (outputStack.getItem() == result.getItem()
-								&& (!outputStack.getHasSubtypes() || outputStack
-										.getMetadata() == outputStack
-												.getMetadata())
-								&& ItemStack.areItemStackTagsEqual(outputStack,
-										result))
+						if (outputStack.getItem() == result.getItem() && (!outputStack.getHasSubtypes() || outputStack
+								.getMetadata() == outputStack.getMetadata()) && ItemStack.areItemStackTagsEqual(
+										outputStack, result))
 						{
-							int combinedSize = itemStacks[outputSlot].stackSize
-									+ result.stackSize;
-							if (combinedSize <= getInventoryStackLimit()
-									&& combinedSize <= itemStacks[outputSlot]
-											.getMaxStackSize())
+							int combinedSize = itemStacks[outputSlot].stackSize + result.stackSize;
+							if (combinedSize <= getInventoryStackLimit() && combinedSize <= itemStacks[outputSlot]
+									.getMaxStackSize())
 							{
 								firstSuitableInputSlot = inputSlot;
 								firstSuitableOutputSlot = outputSlot;
@@ -483,8 +461,7 @@ public class TileInventoryCropPlot extends TileEntity
 		if (firstSuitableInputSlot == null) { return false; }
 		if (itemStacks[WATER_SLOT] != null)
 		{
-			if (itemStacks[WATER_SLOT].getItem() != Items.water_bucket
-					&& waterTimeRemaining <= 0)
+			if (itemStacks[WATER_SLOT].getItem() != Items.water_bucket && waterTimeRemaining <= 0)
 			{
 				canHarvestBerry = false;
 			}
@@ -550,7 +527,7 @@ public class TileInventoryCropPlot extends TileEntity
 	// given item is not a valid fertilizer
 	public static short getItemGrowTime(ItemStack stack)
 	{
-		int growtime = ARKCraftFeces.getItemGrowTime(stack);
+		int growtime = 10;
 		return (short) MathHelper.clamp_int(growtime, 0, Short.MAX_VALUE);
 	}
 
@@ -565,8 +542,7 @@ public class TileInventoryCropPlot extends TileEntity
 		if (itemStack == null) { return true; }
 		int itemDamage = itemStack.getItemDamage();
 		itemStack.setItemDamage(++itemDamage);
-		if (itemStack.getItemDamage() >= itemStack.getItem()
-				.getMaxDamage()) { return true; }
+		if (itemStack.getItemDamage() >= itemStack.getItem().getMaxDamage()) { return true; }
 		return false;
 	}
 
@@ -585,8 +561,8 @@ public class TileInventoryCropPlot extends TileEntity
 	@Override
 	public IChatComponent getDisplayName()
 	{
-		return this.hasCustomName() ? new ChatComponentText(this.getName())
-				: new ChatComponentTranslation(this.getName());
+		return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this
+				.getName());
 	}
 
 	@Override
@@ -657,9 +633,8 @@ public class TileInventoryCropPlot extends TileEntity
 		final double Y_CENTRE_OFFSET = 0.5;
 		final double Z_CENTRE_OFFSET = 0.5;
 		final double MAXIMUM_DISTANCE_SQ = 8.0 * 8.0;
-		return player.getDistanceSq(pos.getX() + X_CENTRE_OFFSET,
-				pos.getY() + Y_CENTRE_OFFSET,
-				pos.getZ() + Z_CENTRE_OFFSET) < MAXIMUM_DISTANCE_SQ;
+		return player.getDistanceSq(pos.getX() + X_CENTRE_OFFSET, pos.getY() + Y_CENTRE_OFFSET, pos.getZ()
+				+ Z_CENTRE_OFFSET) < MAXIMUM_DISTANCE_SQ;
 	}
 
 	@Override
@@ -771,8 +746,7 @@ public class TileInventoryCropPlot extends TileEntity
 
 		// Save everything else
 		parentNBTTagCompound.setShort("growthStage", (short) growthStage);
-		parentNBTTagCompound.setShort("waterTimeRemaining",
-				(short) waterTimeRemaining);
+		parentNBTTagCompound.setShort("waterTimeRemaining", (short) waterTimeRemaining);
 		parentNBTTagCompound.setShort("growTime", growTime);
 		LogHelper.info("TileInventoryCropPlot: Wrote inventory.");
 	}
@@ -785,8 +759,7 @@ public class TileInventoryCropPlot extends TileEntity
 											// and load the tiles location
 		final byte NBT_TYPE_COMPOUND = 10; // See NBTBase.createNewByType() for
 											// a listing
-		NBTTagList dataForAllSlots =
-				nbtTagCompound.getTagList("Items", NBT_TYPE_COMPOUND);
+		NBTTagList dataForAllSlots = nbtTagCompound.getTagList("Items", NBT_TYPE_COMPOUND);
 
 		Arrays.fill(itemStacks, null); // set all slots to empty
 		for (int i = 0; i < dataForAllSlots.tagCount(); ++i)
@@ -795,8 +768,7 @@ public class TileInventoryCropPlot extends TileEntity
 			byte slotNumber = dataForOneSlot.getByte("Slot");
 			if (slotNumber >= 0 && slotNumber < this.itemStacks.length)
 			{
-				this.itemStacks[slotNumber] =
-						ItemStack.loadItemStackFromNBT(dataForOneSlot);
+				this.itemStacks[slotNumber] = ItemStack.loadItemStackFromNBT(dataForOneSlot);
 			}
 		}
 
@@ -818,8 +790,7 @@ public class TileInventoryCropPlot extends TileEntity
 		NBTTagCompound nbtTagCompound = new NBTTagCompound();
 		writeToNBT(nbtTagCompound);
 		final int METADATA = 0;
-		return new S35PacketUpdateTileEntity(this.pos, METADATA,
-				nbtTagCompound);
+		return new S35PacketUpdateTileEntity(this.pos, METADATA, nbtTagCompound);
 	}
 
 	@Override
@@ -849,8 +820,7 @@ public class TileInventoryCropPlot extends TileEntity
 		if (id == GROWTH_STAGE_FIELD_ID) { return growthStage; }
 		if (id == WATER_FIELD_ID) { return waterTimeRemaining; }
 		if (id == GROW_FIELD_ID) { return growTime; }
-		System.err.println(
-				"Invalid field ID in TileInventoryCropPlot.getField:" + id);
+		System.err.println("Invalid field ID in TileInventoryCropPlot.getField:" + id);
 		return 0;
 	}
 
@@ -871,8 +841,7 @@ public class TileInventoryCropPlot extends TileEntity
 		}
 		else
 		{
-			System.err.println(
-					"Invalid field ID in TileInventoryCropPlot.setField:" + id);
+			System.err.println("Invalid field ID in TileInventoryCropPlot.setField:" + id);
 		}
 	}
 
@@ -900,8 +869,7 @@ public class TileInventoryCropPlot extends TileEntity
 	 *         create a new one if the new values specify to}
 	 */
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos,
-			IBlockState oldState, IBlockState newSate)
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate)
 	{
 		return false;
 	}

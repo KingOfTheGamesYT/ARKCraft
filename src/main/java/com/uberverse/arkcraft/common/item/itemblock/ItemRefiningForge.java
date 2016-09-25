@@ -50,7 +50,7 @@ public class ItemRefiningForge extends ItemBlockARK
 				if (flag2 && flag3 && World
 						.doesBlockHaveSolidTopSurface(worldIn, pos.down()))
 				{
-					IBlockState iblockstate1 = ARKCraftBlocks.refining_forge
+					IBlockState iblockstate1 = ARKCraftBlocks.refiningForge
 							.onBlockPlaced(worldIn, blockpos1, side, hitX, hitY,
 									hitZ, 0, playerIn)
 							.withProperty(BlockRefiningForge.PART,

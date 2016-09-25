@@ -290,7 +290,6 @@ public class CommonEventHandler
 	public static int reloadTicks = 0;
 	public static int ticksExsisted = 0;
 	public static int ticksSwing = 0;
-	private int ticks = 0;
 
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent evt)
@@ -315,10 +314,6 @@ public class CommonEventHandler
 					}
 				}
 			}
-		}
-		if (!p.worldObj.isRemote && evt.phase == Phase.START)
-		{
-			Utils.checkInventoryForDecayable(p.inventory);
 		}
 	}
 

@@ -1,129 +1,58 @@
 package com.uberverse.arkcraft.client.gui.block;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.ItemStack;
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.client.gui.GUIArkContainer;
+import com.uberverse.arkcraft.common.container.block.ContainerCompostBin;
+import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCompostBin;
+import com.uberverse.arkcraft.util.I18n;
+
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import org.lwjgl.opengl.GL11;
-
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.container.block.ContainerInventoryCompostBin;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryCompostBin;
-
 /**
  * @author wildbill22
+ * @author Lewis_McReu
  */
 @SideOnly(Side.CLIENT)
-public class GUICompostBin extends GuiContainer
+public class GUICompostBin extends GUIArkContainer
 {
+	private static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID,
+			"textures/gui/compost_bin_gui.png");
 
-	public static final ResourceLocation texture = new ResourceLocation(
-			ARKCraft.MODID, "textures/gui/compost_bin_gui.png");
-	private TileInventoryCompostBin tileEntity;
-
-	public GUICompostBin(InventoryPlayer invPlayer, TileInventoryCompostBin tileInventoryCropPlot)
+	public GUICompostBin(EntityPlayer player, TileEntityCompostBin tileEntity)
 	{
-		super(new ContainerInventoryCompostBin(invPlayer,
-				tileInventoryCropPlot));
-		this.tileEntity = tileInventoryCropPlot;
-
-		// Width and height of the gui:
-		this.xSize = 175;
-		this.ySize = 165;
-	}
-
-	public void onGuiClosed()
-	{
-		super.onGuiClosed();
+		super(new ContainerCompostBin(player, tileEntity));
 	}
 
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
-		// Display GUI name:
-		String name = tileEntity.getDisplayName().getUnformattedText();
+		String name = I18n.translate("tile.compost_bin.name");
 		final int LABEL_YPOS = 7;
 		final int LABEL_XPOS = (xSize / 2) - (name.length() * 5 / 2);
-		this.fontRendererObj.drawString(name, LABEL_XPOS, LABEL_YPOS,
-				Color.darkGray.getRGB());
-
-		// Add hovering text
-		List<String> hoveringText = new ArrayList<String>();
-
-		// If the mouse is over the display text add the growth stage bar
-		// hovering text
-		if (isInRect(guiLeft + LABEL_XPOS, guiTop + LABEL_YPOS, 50, 8, mouseX,
-				mouseY))
-		{
-			hoveringText.add("Fertilizer compost time: ");
-			int compostPercentage =
-					(int) (tileEntity.getFractionCompostTimeComplete() * 100);
-			hoveringText.add(compostPercentage + "%");
-		}
-
-		// If the mouse is over one of the thatch slots add the burn time
-		// indicator hovering text
-		for (int row = 0; row < 2; row++)
-		{
-			for (int col = 0; col < 4; col++)
-			{
-				int index = col + 4 * row;
-				if (tileEntity.secondsOfThatchRemaining(index) > 0)
-				{
-					int x = guiLeft
-							+ ContainerInventoryCompostBin.COMPOST_SLOT_XPOS;
-					int y = guiTop
-							+ ContainerInventoryCompostBin.COMPOST_SLOT_YPOS;
-					if (isInRect(x + 18 * col, y + 18 * row, 16, 16, mouseX,
-							mouseY))
-					{
-						ItemStack stack = tileEntity.getStackInSlot(index);
-						if (stack != null)
-						{
-							String thatchName = stack.getItem()
-									.getItemStackDisplayName(stack);
-							hoveringText.add(thatchName
-									+ " - composting Time Remaining:");
-							hoveringText.add(
-									tileEntity.secondsOfThatchRemaining(index)
-											+ "s");
-						}
-					}
-				}
-			}
-		}
-
-		// If hoveringText is not empty draw the hovering text
-		if (!hoveringText.isEmpty())
-		{
-			drawHoveringText(hoveringText, mouseX - guiLeft, mouseY - guiTop,
-					fontRendererObj);
-		}
+		this.fontRendererObj.drawString(name, LABEL_XPOS, LABEL_YPOS, Color.darkGray.getRGB());
 	}
 
-	protected void drawGuiContainerBackgroundLayer(float partTick, int mX,
-			int mY)
+	@Override
+	public ResourceLocation getBackgroundResource()
 	{
-		// Draw the GUI
-		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
-		GL11.glColor4f(1F, 1F, 1F, 1F);
-		this.drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		return texture;
 	}
 
-	// Returns true if the given x,y coordinates are within the given rectangle
-	public static boolean isInRect(int x, int y, int xSize, int ySize,
-			int mouseX, int mouseY)
+	@Override
+	public int getBackgroundWidth()
 	{
-		return ((mouseX >= x && mouseX <= x + xSize)
-				&& (mouseY >= y && mouseY <= y + ySize));
+		return 175;
+	}
+
+	@Override
+	public int getBackgroundHeight()
+	{
+		return 165;
 	}
 }

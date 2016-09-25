@@ -40,7 +40,7 @@ public class PlayerCraftingManager extends ARKCraftingManager
 
 		// Compost Bin
 		getInstance().addShapelessRecipe(
-				new ItemStack(Item.getItemFromBlock(ARKCraftBlocks.compost_bin),
+				new ItemStack(Item.getItemFromBlock(ARKCraftBlocks.compostBin),
 						1),
 				new ItemStack(ARKCraftItems.wood, 50),
 				new ItemStack(ARKCraftItems.thatch, 15),
@@ -48,7 +48,7 @@ public class PlayerCraftingManager extends ARKCraftingManager
 
 		// Crop Plot
 		getInstance().addShapelessRecipe(
-				new ItemStack(Item.getItemFromBlock(ARKCraftBlocks.crop_plot),
+				new ItemStack(Item.getItemFromBlock(ARKCraftBlocks.cropPlot),
 						1),
 				new ItemStack(ARKCraftItems.wood, 40),
 				new ItemStack(ARKCraftItems.thatch, 20),
@@ -57,7 +57,7 @@ public class PlayerCraftingManager extends ARKCraftingManager
 
 		// Mortar and Pestle
 		getInstance().addShapelessRecipe(
-				new ItemStack(Item.getItemFromBlock(ARKCraftBlocks.pestle), 1),
+				new ItemStack(Item.getItemFromBlock(ARKCraftBlocks.mortarAndPestle), 1),
 				new ItemStack(ARKCraftItems.hide, 15),
 				new ItemStack(ARKCraftItems.stone, 65));
 
@@ -72,7 +72,7 @@ public class PlayerCraftingManager extends ARKCraftingManager
 		// Forge
 		getInstance().addShapelessRecipe(
 				new ItemStack(
-						Item.getItemFromBlock(ARKCraftBlocks.refining_forge),
+						Item.getItemFromBlock(ARKCraftBlocks.refiningForge),
 						1),
 				new ItemStack(ARKCraftItems.flint, 5),
 				new ItemStack(ARKCraftItems.stone, 125),

@@ -109,8 +109,8 @@ public class ClientProxy extends CommonProxy
 		// Register models for entities
 		registerEntityModels();
 
-		registerBlockTexture(ARKCraftBlocks.crop_plot, 1, "crop_plot");
-		registerBlockTexture(ARKCraftBlocks.crop_plot, 2, "crop_plot");
+		registerBlockTexture(ARKCraftBlocks.cropPlot, 1, "crop_plot");
+		registerBlockTexture(ARKCraftBlocks.cropPlot, 2, "crop_plot");
 	}
 
 	private void registerBlockTexture(final Block block, int meta, final String blockName)

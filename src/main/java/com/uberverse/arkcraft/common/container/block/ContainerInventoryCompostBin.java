@@ -1,5 +1,8 @@
 package com.uberverse.arkcraft.common.container.block;
 
+import com.uberverse.arkcraft.deprecated.TileInventoryCompostBin;
+import com.uberverse.lib.LogHelper;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -10,15 +13,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.uberverse.arkcraft.common.tileentity.crafter.TileInventoryCompostBin;
-import com.uberverse.lib.LogHelper;
-
 /**
  * @author wildbill22
  */
 public class ContainerInventoryCompostBin extends Container
 {
-	private TileInventoryCompostBin tileInventoryCompostBin;
+	private TileInventoryCompostBin tileEntity;
 	private final int COMPOST_SLOT_COUNT = 8;
 	public static final int COMPOST_SLOT_YPOS = 26;
 	public static final int COMPOST_SLOT_XPOS = 53;
@@ -27,25 +27,23 @@ public class ContainerInventoryCompostBin extends Container
 	// side tile entity when values have changed
 	private int[] cachedFields;
 
-	public ContainerInventoryCompostBin(InventoryPlayer invPlayer, TileInventoryCompostBin tileInventoryCompostBin)
+	public ContainerInventoryCompostBin(InventoryPlayer invPlayer, TileInventoryCompostBin tileEntity)
 	{
 		LogHelper.info("ContainerInventoryCompostBin: constructor called.");
-		this.tileInventoryCompostBin = tileInventoryCompostBin;
+		this.tileEntity = tileEntity;
 
 		/* Compost bin inventory */
-		if (COMPOST_SLOT_COUNT != tileInventoryCompostBin.getSizeInventory())
+		if (COMPOST_SLOT_COUNT != tileEntity.getSizeInventory())
 		{
-			LogHelper.error("Mismatched slot count in container("
-					+ COMPOST_SLOT_COUNT + ") and CompostBinInventory ("
-					+ tileInventoryCompostBin.getSizeInventory() + ")");
+			LogHelper.error("Mismatched slot count in container(" + COMPOST_SLOT_COUNT + ") and CompostBinInventory ("
+					+ tileEntity.getSizeInventory() + ")");
 		}
 		for (int row = 0; row < 2; row++)
 		{
 			for (int col = 0; col < 4; col++)
 			{
 				int slotIndex = col + row * 4;
-				addSlotToContainer(new SlotCompost(tileInventoryCompostBin,
-						slotIndex, COMPOST_SLOT_XPOS + col * 18,
+				addSlotToContainer(new SlotCompost(tileEntity, slotIndex, COMPOST_SLOT_XPOS + col * 18,
 						COMPOST_SLOT_YPOS + row * 18));
 			}
 		}
@@ -57,8 +55,7 @@ public class ContainerInventoryCompostBin extends Container
 			for (int col = 0; col < 9; col++)
 			{
 				int slotIndex = col + row * 9 + 9;
-				addSlotToContainer(new Slot(invPlayer, slotIndex, 8 + col * 18,
-						PLAYER_INVENTORY_YPOS + row * 18));
+				addSlotToContainer(new Slot(invPlayer, slotIndex, 8 + col * 18, PLAYER_INVENTORY_YPOS + row * 18));
 			}
 		}
 
@@ -66,8 +63,7 @@ public class ContainerInventoryCompostBin extends Container
 		final int HOTBAR_YPOS = 142;
 		for (int col = 0; col < 9; col++)
 		{
-			addSlotToContainer(
-					new Slot(invPlayer, col, 8 + col * 18, HOTBAR_YPOS));
+			addSlotToContainer(new Slot(invPlayer, col, 8 + col * 18, HOTBAR_YPOS));
 		}
 	}
 
@@ -77,26 +73,21 @@ public class ContainerInventoryCompostBin extends Container
 		super.onContainerClosed(playerIn);
 	}
 
-	public ItemStack transferStackInSlot(EntityPlayer playerIn,
-			int sourceSlotIndex)
+	public ItemStack transferStackInSlot(EntityPlayer playerIn, int sourceSlotIndex)
 	{
-		LogHelper.info(
-				"ContainerInventoryCompostBin: transferStackInSlot called.");
 		Slot sourceSlot = (Slot) inventorySlots.get(sourceSlotIndex);
 		if (sourceSlot == null || !sourceSlot.getHasStack()) { return null; }
 		ItemStack sourceStack = sourceSlot.getStack();
 		ItemStack copyOfSourceStack = sourceStack.copy();
 
 		// Check if the slot clicked is one of the vanilla container slots
-		if (sourceSlotIndex >= COMPOST_SLOT_COUNT
-				&& sourceSlotIndex < 36 + COMPOST_SLOT_COUNT)
+		if (sourceSlotIndex >= COMPOST_SLOT_COUNT && sourceSlotIndex < 36 + COMPOST_SLOT_COUNT)
 		{
-			if (tileInventoryCompostBin.isItemValidForSlot(sourceStack))
+			if (tileEntity.isItemValidForSlot(sourceSlotIndex, sourceStack))
 			{
 				// This is a vanilla container slot so merge the stack into the
 				// composting bin inventory
-				if (!mergeItemStack(sourceStack, 0, COMPOST_SLOT_COUNT,
-						false)) { return null; }
+				if (!mergeItemStack(sourceStack, 0, COMPOST_SLOT_COUNT, false)) { return null; }
 			}
 			else
 			{
@@ -108,12 +99,10 @@ public class ContainerInventoryCompostBin extends Container
 		{
 			// This is a compost bin slot so merge the stack into the players
 			// inventory
-			if (!mergeItemStack(sourceStack, COMPOST_SLOT_COUNT,
-					36 + COMPOST_SLOT_COUNT, false)) { return null; }
+			if (!mergeItemStack(sourceStack, COMPOST_SLOT_COUNT, 36 + COMPOST_SLOT_COUNT, false)) { return null; }
 		}
 		else
 		{
-			LogHelper.error("Invalid slotIndex:" + sourceSlotIndex);
 			return null;
 		}
 
@@ -135,7 +124,7 @@ public class ContainerInventoryCompostBin extends Container
 	@Override
 	public boolean canInteractWith(EntityPlayer playerIn)
 	{
-		return tileInventoryCompostBin.isUseableByPlayer(playerIn);
+		return tileEntity.isUseableByPlayer(playerIn);
 	}
 
 	// This is where you check if any values have changed and if so send an
@@ -159,19 +148,17 @@ public class ContainerInventoryCompostBin extends Container
 		super.detectAndSendChanges();
 
 		boolean allFieldsHaveChanged = false;
-		boolean fieldHasChanged[] =
-				new boolean[tileInventoryCompostBin.getFieldCount()];
+		boolean fieldHasChanged[] = new boolean[tileEntity.getFieldCount()];
 		if (cachedFields == null)
 		{
-			cachedFields = new int[tileInventoryCompostBin.getFieldCount()];
+			cachedFields = new int[tileEntity.getFieldCount()];
 			allFieldsHaveChanged = true;
 		}
 		for (int i = 0; i < cachedFields.length; ++i)
 		{
-			if (allFieldsHaveChanged
-					|| cachedFields[i] != tileInventoryCompostBin.getField(i))
+			if (allFieldsHaveChanged || cachedFields[i] != tileEntity.getField(i))
 			{
-				cachedFields[i] = tileInventoryCompostBin.getField(i);
+				cachedFields[i] = tileEntity.getField(i);
 				fieldHasChanged[i] = true;
 			}
 		}
@@ -181,16 +168,13 @@ public class ContainerInventoryCompostBin extends Container
 		for (int i = 0; i < this.crafters.size(); ++i)
 		{
 			ICrafting icrafting = (ICrafting) this.crafters.get(i);
-			for (int fieldID = 0;
-					fieldID < tileInventoryCompostBin.getFieldCount();
-					++fieldID)
+			for (int fieldID = 0; fieldID < tileEntity.getFieldCount(); ++fieldID)
 			{
 				if (fieldHasChanged[fieldID])
 				{
 					// Note that although sendProgressBarUpdate takes 2 ints on
 					// a server these are truncated to shorts
-					icrafting.sendProgressBarUpdate(this, fieldID,
-							cachedFields[fieldID]);
+					icrafting.sendProgressBarUpdate(this, fieldID, cachedFields[fieldID]);
 				}
 			}
 		}
@@ -204,7 +188,7 @@ public class ContainerInventoryCompostBin extends Container
 	@Override
 	public void updateProgressBar(int id, int data)
 	{
-		tileInventoryCompostBin.setField(id, data);
+		tileEntity.setField(id, data);
 	}
 
 	// SlotFertilizer is a slot for fertilizer items
@@ -220,7 +204,7 @@ public class ContainerInventoryCompostBin extends Container
 		@Override
 		public boolean isItemValid(ItemStack stack)
 		{
-			return tileInventoryCompostBin.isItemValidForSlot(stack);
+			return tileEntity.isItemValidForSlot(stack);
 		}
 	}
 }

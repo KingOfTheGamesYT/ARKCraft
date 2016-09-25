@@ -3,7 +3,6 @@ package com.uberverse.arkcraft.init;
 import com.google.common.collect.Lists;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot.BerryColor;
-import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance.PLAYER;
 import com.uberverse.arkcraft.common.engram.EngramManager;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
@@ -15,6 +14,7 @@ import com.uberverse.arkcraft.common.item.ARKCraftFood;
 import com.uberverse.arkcraft.common.item.ARKCraftItem;
 import com.uberverse.arkcraft.common.item.ARKCraftSeed;
 import com.uberverse.arkcraft.common.item.ItemBlueprint;
+import com.uberverse.arkcraft.common.item.ItemFertilizer;
 import com.uberverse.arkcraft.common.item.ItemStonePickaxe;
 import com.uberverse.arkcraft.common.item.armor.ItemARKArmor;
 import com.uberverse.arkcraft.common.item.melee.ItemPike;
@@ -66,7 +66,8 @@ public class ARKCraftItems
 	// Misc
 	public static ARKCraftItem stone, fiber, thatch, wood, flint, metal, spark_powder, hide, charcoal, metal_ingot,
 			cementing_paste, crystal, spy_glass, narcotics, gunpowder, chitin, keratin, pelt, obsidian, oil;
-	public static ARKCraftFeces small_feces, medium_feces, large_feces, fertilizer, player_feces;
+	public static ARKCraftFeces small_feces, medium_feces, large_feces, player_feces;
+	public static ItemFertilizer fertilizer;
 	public static ARKCraftBook info_book;
 
 	public static ItemBlueprint blueprint;
@@ -183,19 +184,18 @@ public class ARKCraftItems
 		stimBerrySeed = addSeedItem("stimBerrySeed", CropPlotType.SMALL, BerryColor.STIM);
 
 		// feces
-		small_feces = addFecesItem("small_feces", 100);
-		medium_feces = addFecesItem("medium_feces", 200);
-		large_feces = addFecesItem("large_feces", 400);
-		player_feces = addFecesItem("player_feces", 60);
-		// Technically not feces, but used in all situations the same
-		// (currently)
-		fertilizer = addFecesItem("fertilizer", 0);
+		small_feces = init.registerItem("small_feces", new ARKCraftFeces(100 * 20, 100 * 20));
+		medium_feces = init.registerItem("medium_feces", new ARKCraftFeces(200 * 20, 200 * 20));
+		large_feces = init.registerItem("large_feces", new ARKCraftFeces(400 * 20, 400 * 20));
+		player_feces = init.registerItem("player_feces", new ARKCraftFeces(60 * 20, 60 * 20));
+
+		// fertilizer
+		fertilizer = init.registerItem("fertilizer", new ItemFertilizer(54000));
 
 		info_book = init.registerItem("info_book", new ARKCraftBook("info_book"));
 		tabItem = init.registerItem("tabItem", new Item());
 
-		// TODO remove when done testing
-		test = init.registerItem("test", new ItemStonePickaxe());
+		// Effectiveness register
 		ItemToolBase.registerEffectiveBlocks(Blocks.log, Blocks.log2, ARKCraftBlocks.rockResource,
 				ARKCraftBlocks.oilResource, ARKCraftBlocks.metalResource, ARKCraftBlocks.obsidianResource,
 				ARKCraftBlocks.crystalResource);
@@ -210,15 +210,6 @@ public class ARKCraftItems
 		blueprint = InitializationManager.instance().registerItem("blueprint", "blueprint/", new ItemBlueprint(), false,
 				CollectionUtil.convert(EngramManager.instance().getBlueprintEngrams(), (Engram e) -> e.getName())
 						.toArray(new String[0]));
-	}
-
-	public static ARKCraftFeces addFecesItem(String name, long decayTime)
-	{
-		// ARKCraftFeces i = new ARKCraftFeces();
-		// i.setMaxDamage(maxDamageIn * 20);
-		// registerItem(name, i);
-		// return i;
-		return InitializationManager.instance().registerItem(name, new ARKCraftFeces(decayTime));
 	}
 
 	public static ARKCraftItem addItem(String name)

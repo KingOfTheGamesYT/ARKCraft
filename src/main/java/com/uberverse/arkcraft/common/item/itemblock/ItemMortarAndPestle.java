@@ -43,11 +43,11 @@ public class ItemMortarAndPestle extends ItemBlockARK
 			{
 				return false;
 			}
-			else if (ARKCraftBlocks.pestle.canPlaceBlockAt(worldIn, blockpos1))
+			else if (ARKCraftBlocks.mortarAndPestle.canPlaceBlockAt(worldIn, blockpos1))
 			{
 				--stack.stackSize;
 				worldIn.setBlockState(blockpos1,
-						ARKCraftBlocks.pestle.getDefaultState());
+						ARKCraftBlocks.mortarAndPestle.getDefaultState());
 				return true;
 			}
 			else

@@ -48,7 +48,6 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 	public Part part = Part.MIDDLE;
 	private static boolean LOG = true;
 
-	// private CropPlotType type = CropPlotType.SMALL;
 	@Override
 	public String getName()
 	{
@@ -422,12 +421,6 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 		compound.setInteger("part", part.ordinal());
 		// compound.setInteger("plotType", getType().ordinal());
 		// return compound; //for mc 1.9
-	}
-
-	@Override
-	public void markDirty()
-	{
-		super.markDirty();
 	}
 
 	public static enum CropPlotState

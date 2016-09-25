@@ -230,8 +230,8 @@ public abstract class ItemRangedWeapon extends ItemBow
 			if (world.isAirBlock(pos))
 			{
 				world.setBlockState(pos,
-						ARKCraftBlocks.block_light.getDefaultState());
-				world.scheduleUpdate(pos, ARKCraftBlocks.block_light, 2);
+						ARKCraftBlocks.blockLight.getDefaultState());
+				world.scheduleUpdate(pos, ARKCraftBlocks.blockLight, 2);
 			}
 		}
 	}

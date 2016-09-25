@@ -69,7 +69,7 @@ public class ItemCompostBin extends ItemBlockARK
 								blockpos1.down()))
 				{
 					IBlockState iblockstate1 =
-							ARKCraftBlocks.compost_bin.getDefaultState()
+							ARKCraftBlocks.compostBin.getDefaultState()
 									.withProperty(BlockCompostBin.FACING,
 											enumfacing1)
 									.withProperty(BlockCompostBin.PART,

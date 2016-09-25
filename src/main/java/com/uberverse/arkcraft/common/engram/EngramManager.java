@@ -96,7 +96,7 @@ public class EngramManager
 						new AbstractItemStack(ARKCraftItems.wood, 5))));
 		instance().registerEngram(new Engram("mortar_and_pestle",
 				new AbstractItemStack(
-						Item.getItemFromBlock(ARKCraftBlocks.pestle)),
+						Item.getItemFromBlock(ARKCraftBlocks.mortarAndPestle)),
 				6, 5, 10, EngramType.PLAYER, 7.2,
 				new EngramRecipe(new AbstractItemStack(ARKCraftItems.stone, 65),
 						new AbstractItemStack(ARKCraftItems.hide, 15))));
@@ -136,7 +136,7 @@ public class EngramManager
 						new AbstractItemStack(ARKCraftItems.crystal, 2))));
 		instance().registerEngram(new Engram("small_crop_plot",
 				new AbstractItemStack(
-						Item.getItemFromBlock(ARKCraftBlocks.crop_plot)),
+						Item.getItemFromBlock(ARKCraftBlocks.cropPlot)),
 				9, 10, 10, EngramType.PLAYER, 5.3,
 				new EngramRecipe(new AbstractItemStack(ARKCraftItems.stone, 25),
 						new AbstractItemStack(ARKCraftItems.wood, 20),
@@ -168,7 +168,7 @@ public class EngramManager
 						new AbstractItemStack(ARKCraftItems.fiber, 8))));
 		instance().registerEngram(new Engram("refining_forge",
 				new AbstractItemStack(
-						Item.getItemFromBlock(ARKCraftBlocks.refining_forge)),
+						Item.getItemFromBlock(ARKCraftBlocks.refiningForge)),
 				21, 20, 10, EngramType.PLAYER, 18.6,
 				new EngramRecipe(
 						new AbstractItemStack(ARKCraftItems.stone, 125),
@@ -238,7 +238,7 @@ public class EngramManager
 						new AbstractItemStack(ARKCraftItems.fiber, 4))));
 		instance().registerEngram(new Engram("medium_crop_plot",
 				new AbstractItemStack(
-						Item.getItemFromBlock(ARKCraftBlocks.crop_plot), 1, 1),
+						Item.getItemFromBlock(ARKCraftBlocks.cropPlot), 1, 1),
 				12, 25, 10, EngramType.PLAYER, 10.7,
 				new EngramRecipe(new AbstractItemStack(ARKCraftItems.stone, 50),
 						new AbstractItemStack(ARKCraftItems.wood, 40),
@@ -307,7 +307,7 @@ public class EngramManager
 						ARKCraftItems.gunpowder, 12)));
 		instance().registerEngram(new Engram("large_crop_plot",
 				new AbstractItemStack(
-						Item.getItemFromBlock(ARKCraftBlocks.crop_plot), 1, 2),
+						Item.getItemFromBlock(ARKCraftBlocks.cropPlot), 1, 2),
 				12, 25, 10, EngramType.PLAYER, 21.4,
 				new EngramRecipe(ARKCraftItems.stone, 100, ARKCraftItems.wood,
 						80, ARKCraftItems.fiber, 60, ARKCraftItems.thatch,
