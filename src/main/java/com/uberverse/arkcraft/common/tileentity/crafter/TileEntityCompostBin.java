@@ -37,7 +37,7 @@ public class TileEntityCompostBin extends TileEntity implements IInventory, IUpd
 	public TileEntityCompostBin()
 	{
 		inventory = new ItemStack[8];
-		progress = 0;
+		progress = -1;
 	}
 
 	@Override
@@ -71,8 +71,9 @@ public class TileEntityCompostBin extends TileEntity implements IInventory, IUpd
 			progress++;
 			// TODO implement composting time
 			// done composting
-			if (progress == 10000)
+			if (progress > 100)
 			{
+				System.out.println("progress " + progress);
 				if (consume()) findProcess();
 			}
 		}
@@ -132,6 +133,7 @@ public class TileEntityCompostBin extends TileEntity implements IInventory, IUpd
 							{
 								for (Integer k : indices)
 									inventory[k] = null;
+								progress = -1;
 								break outer;
 							}
 						}
@@ -173,7 +175,7 @@ public class TileEntityCompostBin extends TileEntity implements IInventory, IUpd
 				{
 					fecesFound.add(s.getItem());
 					ItemStack[] toSearch = Arrays.copyOfRange(inventory, i + 1, inventory.length);
-					int count = 0;
+					int count = 1;
 					for (ItemStack s2 : toSearch)
 					{
 						if (s2 != null && s2.getItem() == s.getItem()) count++;

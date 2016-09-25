@@ -696,6 +696,7 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 	@Override
 	public double getDecayModifier(ItemStack stack)
 	{
+		// TODO generalize berries under one moniker (preferably a single superclass : ItemBerry)
 		if (stack.getItem() == ARKCraftItems.amarBerry || stack.getItem() == ARKCraftItems.azulBerry || stack
 				.getItem() == ARKCraftItems.mejoBerry || stack.getItem() == ARKCraftItems.narcoBerry || stack
 						.getItem() == ARKCraftItems.stimBerry || stack.getItem() == ARKCraftItems.tintoBerry)

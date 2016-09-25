@@ -58,8 +58,7 @@ public class ContainerCompostBin extends Container
 			itemstack = itemstack1.copy();
 			if (slot.inventory == inventory)
 			{
-				if (!this.mergeItemStack(itemstack1, inventory.getSizeInventory(), inventory.getSizeInventory()
-						+ playerInventory.getSizeInventory(), false)) return null;
+				if (!this.mergeItemStack(itemstack1, 8, 8 + 36, false)) return null;
 			}
 			else if (slot.inventory == playerInventory) if (inventory.isItemValidForSlot(0, itemstack))
 			{
