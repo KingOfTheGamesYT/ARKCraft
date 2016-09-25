@@ -64,6 +64,11 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable, IWei
 		p.registerExtendedProperties(propKey, new ARKPlayer(p));
 	}
 
+	public static void reset(EntityPlayer p)
+	{
+		get(p).copy(getDefault());
+	}
+
 	public static ARKPlayer getDefault()
 	{
 		return new ARKPlayer();
