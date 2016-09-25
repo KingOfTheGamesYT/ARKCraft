@@ -147,7 +147,7 @@ item.blueprint.name=Blueprint
 item.small_feces.name=Small Feces
 item.medium_feces.name=Medium Feces
 item.large_feces.name=Large Feces
-item.player_feces.name=Player Feces
+item.human_feces.name=Human Feces
 
 ##tools
 ###misc
