@@ -2,24 +2,24 @@ package com.uberverse.arkcraft.common.item;
 
 import java.util.List;
 
+import com.uberverse.arkcraft.ARKCraft;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.uberverse.arkcraft.ARKCraft;
-
-public class ARKCraftFeces extends Item
+public class ARKCraftFeces extends Item implements IDecayable
 {
 	// public int decayTime;
+	long decayTime;
 
-	public ARKCraftFeces(int maxDamageIn)
+	public ARKCraftFeces(long decayTime)
 	{
 		this.setMaxStackSize(1);
 		this.setCreativeTab(ARKCraft.tabARK);
-		setMaxDamage(maxDamageIn);
+		this.decayTime = decayTime;
 		// this.decayTime = decayTime;
 	}
 
@@ -40,15 +40,12 @@ public class ARKCraftFeces extends Item
 	 *            Whether the setting "Advanced tooltips" is enabled
 	 */
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addInformation(ItemStack itemStack, EntityPlayer playerIn,
 			List tooltip, boolean advanced)
 	{
-		tooltip.add("Decomposes in "
-				+ ((getMaxDamage() - itemStack.getItemDamage()) / 20)
-				+ " seconds");
+		IDecayable.super.addInformation(itemStack, playerIn, tooltip, advanced);
 	}
 	/*
 	 * @Override public void onUpdate(ItemStack stack, World worldIn, Entity
@@ -72,4 +69,10 @@ public class ARKCraftFeces extends Item
 	 * stack.setItemDamage(MathHelper.floor_double(stack.getMetadata() + (20 *
 	 * decayModifier))); } }
 	 */
+
+	@Override
+	public long getDecayTime(ItemStack stack) 
+	{
+		return decayTime;
+	}
 }

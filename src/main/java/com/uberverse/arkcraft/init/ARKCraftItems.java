@@ -183,17 +183,13 @@ public class ARKCraftItems
 		stimBerrySeed = addSeedItem("stimBerrySeed", CropPlotType.SMALL, BerryColor.STIM);
 
 		// feces
-		small_feces = addFecesItem("small_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE
-				* 20);
-		medium_feces = addFecesItem("medium_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE
-				* 20);
-		large_feces = addFecesItem("large_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_SMALL_FECES_TO_DECOMPOSE
-				* 20);
-		player_feces = addFecesItem("player_feces", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_PLAYER_FECES_TO_DECOMPOSE
-				* 20);
+		small_feces = addFecesItem("small_feces", 100);
+		medium_feces = addFecesItem("medium_feces", 200);
+		large_feces = addFecesItem("large_feces", 400);
+		player_feces = addFecesItem("player_feces", 60);
 		// Technically not feces, but used in all situations the same
 		// (currently)
-		fertilizer = addFecesItem("fertilizer", ModuleItemBalance.CROP_PLOT.SECONDS_FOR_FERTILIZER_TO_DECOMPOSE * 20);
+		fertilizer = addFecesItem("fertilizer", 0);
 
 		info_book = init.registerItem("info_book", new ARKCraftBook("info_book"));
 		tabItem = init.registerItem("tabItem", new Item());
@@ -216,13 +212,13 @@ public class ARKCraftItems
 						.toArray(new String[0]));
 	}
 
-	public static ARKCraftFeces addFecesItem(String name, int maxDamageIn)
+	public static ARKCraftFeces addFecesItem(String name, long decayTime)
 	{
 		// ARKCraftFeces i = new ARKCraftFeces();
 		// i.setMaxDamage(maxDamageIn * 20);
 		// registerItem(name, i);
 		// return i;
-		return InitializationManager.instance().registerItem(name, new ARKCraftFeces(maxDamageIn));
+		return InitializationManager.instance().registerItem(name, new ARKCraftFeces(decayTime));
 	}
 
 	public static ARKCraftItem addItem(String name)
