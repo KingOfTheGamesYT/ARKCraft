@@ -5,8 +5,8 @@ import java.util.List;
 import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot;
 import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot.BerryColor;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance.CROP_PLOT;
-import com.uberverse.arkcraft.common.item.ARKCraftFeces;
 import com.uberverse.arkcraft.common.item.ARKCraftSeed;
+import com.uberverse.arkcraft.common.item.ARKCraftUtility;
 import com.uberverse.arkcraft.common.tileentity.IDecayer;
 import com.uberverse.arkcraft.common.tileentity.IHoverInfo;
 import com.uberverse.arkcraft.init.ARKCraftItems;
@@ -212,7 +212,7 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 					if (stack[i] != null)
 					{
 						Item item = stack[i].getItem();
-						if (item instanceof ARKCraftFeces)
+						if (item instanceof ARKCraftUtility)
 						{
 							if (fertilizer < 100)
 							{
@@ -544,7 +544,7 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 			if (stack[i] != null)
 			{
 				Item item = stack[i].getItem();
-				if (item instanceof ARKCraftFeces)
+				if (item instanceof ARKCraftUtility)
 				{
 					f += (stack[i].getMaxDamage() - stack[i].getItemDamage()) / 20;
 				}

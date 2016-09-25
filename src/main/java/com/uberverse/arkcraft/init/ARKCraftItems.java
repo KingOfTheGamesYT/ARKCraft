@@ -14,6 +14,7 @@ import com.uberverse.arkcraft.common.item.ARKCraftFeces;
 import com.uberverse.arkcraft.common.item.ARKCraftFood;
 import com.uberverse.arkcraft.common.item.ARKCraftItem;
 import com.uberverse.arkcraft.common.item.ARKCraftSeed;
+import com.uberverse.arkcraft.common.item.ARKCraftUtility;
 import com.uberverse.arkcraft.common.item.ItemBlueprint;
 import com.uberverse.arkcraft.common.item.ItemStonePickaxe;
 import com.uberverse.arkcraft.common.item.armor.ItemARKArmor;
@@ -66,7 +67,8 @@ public class ARKCraftItems
 	// Misc
 	public static ARKCraftItem stone, fiber, thatch, wood, flint, metal, spark_powder, hide, charcoal, metal_ingot,
 			cementing_paste, crystal, spy_glass, narcotics, gunpowder, chitin, keratin, pelt, obsidian, oil;
-	public static ARKCraftFeces small_feces, medium_feces, large_feces, fertilizer, player_feces;
+	public static ARKCraftFeces small_feces, medium_feces, large_feces, player_feces;
+	public static ARKCraftUtility fertilizer;
 	public static ARKCraftBook info_book;
 
 	public static ItemBlueprint blueprint;
@@ -183,13 +185,13 @@ public class ARKCraftItems
 		stimBerrySeed = addSeedItem("stimBerrySeed", CropPlotType.SMALL, BerryColor.STIM);
 
 		// feces
-		small_feces = addFecesItem("small_feces", 100);
-		medium_feces = addFecesItem("medium_feces", 200);
-		large_feces = addFecesItem("large_feces", 400);
-		player_feces = addFecesItem("player_feces", 60);
+		small_feces = addFecesItem("small_feces", 1600);
+		medium_feces = addFecesItem("medium_feces", 1600);
+		large_feces = addFecesItem("large_feces", 1600);
+		player_feces = addFecesItem("player_feces", 1600);
 		// Technically not feces, but used in all situations the same
 		// (currently)
-		fertilizer = addFecesItem("fertilizer", 0);
+		fertilizer = init.registerItem("fertilizer", new ARKCraftUtility());
 
 		info_book = init.registerItem("info_book", new ARKCraftBook("info_book"));
 		tabItem = init.registerItem("tabItem", new Item());
