@@ -1,11 +1,13 @@
 package com.uberverse.arkcraft.common.engram;
 
+import com.uberverse.arkcraft.common.block.IExperienceSource;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
+import com.uberverse.arkcraft.common.entity.IArkLevelable;
 import com.uberverse.arkcraft.common.item.Qualitable.ItemQuality;
 
 import net.minecraft.inventory.IInventory;
 
-public class CraftingOrder
+public class CraftingOrder implements IExperienceSource
 {
 	private Engram engram;
 	private int count;
@@ -15,8 +17,7 @@ public class CraftingOrder
 	{
 		this.engram = engram;
 		this.count = count;
-		if (engram != null && engram.isQualitable())
-			this.itemQuality = itemQuality;
+		if (engram != null && engram.isQualitable()) this.itemQuality = itemQuality;
 	}
 
 	public CraftingOrder(Engram engram, ItemQuality itemQuality)
@@ -82,16 +83,14 @@ public class CraftingOrder
 	@Override
 	public boolean equals(Object obj)
 	{
-		if (obj instanceof CraftingOrder)
-			return ((CraftingOrder) obj).getEngram().equals(engram);
+		if (obj instanceof CraftingOrder) return ((CraftingOrder) obj).getEngram().equals(engram);
 		else if (obj instanceof Engram) return ((Engram) obj).equals(engram);
 		return false;
 	}
 
 	public boolean canCraft(IInventory inventory, int amount)
 	{
-		if (isQualitable())
-			return engram.canCraft(inventory, amount, itemQuality);
+		if (isQualitable()) return engram.canCraft(inventory, amount, itemQuality);
 		else return engram.canCraft(inventory, amount);
 	}
 
@@ -102,14 +101,18 @@ public class CraftingOrder
 
 	public boolean matches(Engram engram, ItemQuality itemQuality)
 	{
-		return this.engram == engram
-				&& (!isQualitable() || this.itemQuality == itemQuality);
+		return this.engram == engram && (!isQualitable() || this.itemQuality == itemQuality);
 	}
 
 	public int getCraftingDuration()
 	{
 		// TODO change itemquality multiplier
-		return (int) (engram.getCraftingTime()
-				* (isQualitable() ? itemQuality.multiplierTreshold : 1));
+		return (int) (engram.getCraftingTime() * (isQualitable() ? itemQuality.multiplierTreshold : 1));
+	}
+
+	@Override
+	public void grantXP(IArkLevelable leveling)
+	{
+		leveling.addXP(getEngram().getExperience() * (isQualitable() ? getItemQuality().multiplierTreshold : 1));
 	}
 }
