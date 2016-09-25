@@ -29,6 +29,9 @@ import net.minecraft.block.BlockLog;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.monster.EntityEndermite;
+import net.minecraft.entity.monster.EntitySilverfish;
+import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -44,6 +47,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -382,5 +386,25 @@ public class CommonEventHandler
 				}
 			}
 		}
+	}
+
+	@SubscribeEvent
+	public void onEntityKilled(LivingDropsEvent event)
+	{
+		// TODO remove when actual ark creatures are in place and dropping items
+		if (event.entityLiving.worldObj.isRemote) return;
+		Random r = new Random(event.entityLiving.worldObj.getSeed());
+		ItemStack meat = new ItemStack(ARKCraftItems.meat_raw, r.nextInt(3) + 1);
+		ARKCraftItems.meat_raw.onCreated(meat, event.entityLiving.worldObj, null);
+		event.drops.add(new EntityItem(event.entityLiving.worldObj, event.entityLiving.posX, event.entityLiving.posY,
+				event.entityLiving.posZ, meat));
+		if (r.nextDouble() < 0.05) event.drops.add(new EntityItem(event.entityLiving.worldObj, event.entityLiving.posX,
+				event.entityLiving.posY, event.entityLiving.posZ, new ItemStack(ARKCraftItems.primemeat_raw)));
+		if (event.entityLiving instanceof EntitySpider || event.entityLiving instanceof EntitySilverfish
+				|| event.entityLiving instanceof EntityEndermite) event.drops.add(new EntityItem(
+						event.entityLiving.worldObj, event.entityLiving.posX, event.entityLiving.posY,
+						event.entityLiving.posZ, new ItemStack(ARKCraftItems.chitin, r.nextInt(3) + 1)));
+		else event.drops.add(new EntityItem(event.entityLiving.worldObj, event.entityLiving.posX,
+				event.entityLiving.posY, event.entityLiving.posZ, new ItemStack(ARKCraftItems.hide, r.nextInt(3) + 1)));
 	}
 }
