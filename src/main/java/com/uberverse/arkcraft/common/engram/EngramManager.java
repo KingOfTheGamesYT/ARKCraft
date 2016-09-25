@@ -553,8 +553,6 @@ public class EngramManager
 			Arrays.fill(consumed, false);
 			Arrays.fill(yetFound, 0);
 
-			System.out.println(getResourceMultiplier(quality));
-
 			Item[] items = CollectionUtil.convert(this.items, (AbstractItemStack i) -> i.item).toArray(new Item[0]);
 			Integer[] required = CollectionUtil.convert(this.items, (AbstractItemStack i) -> (int) (i.getAmount()
 					* getResourceMultiplier(quality))).toArray(new Integer[0]);

@@ -344,7 +344,6 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 	private void setState(int age)
 	{
 		IBlockState state = worldObj.getBlockState(pos);
-		// System.out.println(state);
 		if (((Integer) state.getValue(BlockCropPlot.AGE)) != age)
 		{
 			TileEntity tileentity = worldObj.getTileEntity(pos);

@@ -42,7 +42,6 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder, IExperienceSou
 					grantXP(getLevelable());
 					if (c.getCount() <= 0)
 					{
-						System.out.println("do this");
 						craftingQueue.remove();
 					}
 					sync();
