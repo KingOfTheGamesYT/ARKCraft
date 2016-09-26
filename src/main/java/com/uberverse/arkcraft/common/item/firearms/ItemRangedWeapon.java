@@ -57,8 +57,10 @@ public abstract class ItemRangedWeapon extends ItemBow
 	private final float speed;
 	private final float inaccuracy;
 	private long nextShotMillis = 0;
+	private double damage;
+	private int range;
 
-	public ItemRangedWeapon(String name, int durability, int maxAmmo, String defaultAmmoType, int ammoConsumption, double shotInterval, float speed, float inaccuracy)
+	public ItemRangedWeapon(String name, int durability, int maxAmmo, String defaultAmmoType, int ammoConsumption, double shotInterval, float speed, float inaccuracy, double damage, int range)
 	{
 		super();
 		this.speed = speed;
@@ -72,6 +74,8 @@ public abstract class ItemRangedWeapon extends ItemBow
 		this.projectiles = new HashSet<ItemProjectile>();
 		this.setCreativeTab(ARKCraft.tabARK);
 		this.setUnlocalizedName(name);
+		this.damage = damage;
+		this.range = range;
 	}
 
 	@Override
@@ -549,9 +553,9 @@ public abstract class ItemRangedWeapon extends ItemBow
 			Class<?> c = Class.forName("com.uberverse.arkcraft.common.entity."
 					+ ProjectileType.valueOf(type.toUpperCase()).getEntity());
 			Constructor<?> con = c.getConstructor(World.class,
-					EntityLivingBase.class, float.class, float.class);
+					EntityLivingBase.class, float.class, float.class, double.class, int.class);
 			return (EntityProjectile) con.newInstance(world, player, this.speed,
-					this.inaccuracy);
+					this.inaccuracy, this.damage, this.range);
 		}
 		catch (ClassNotFoundException e)
 		{

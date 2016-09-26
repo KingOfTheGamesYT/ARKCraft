@@ -28,14 +28,14 @@ public class EntityStoneArrow extends EntityArkArrow
 		this.setDamage(3);
 	}
 
-	public EntityStoneArrow(World worldIn, EntityLivingBase shooter, float speed)
-	{
-		super(worldIn, shooter, speed);
-		this.setDamage(3);
-	}
+//	public EntityStoneArrow(World worldIn, EntityLivingBase shooter, float speed)
+//	{
+//		super(worldIn, shooter, speed);
+//		this.setDamage(3);
+//	}
 
-	public EntityStoneArrow(World worldIn, EntityLivingBase shooter, float speed, float inaccuracy)
+	public EntityStoneArrow(World worldIn, EntityLivingBase shooter, float speed, float inaccuracy, int range)
 	{
-		super(worldIn, shooter, speed, inaccuracy);
+		super(worldIn, shooter, speed, inaccuracy, range);
 	}
 }

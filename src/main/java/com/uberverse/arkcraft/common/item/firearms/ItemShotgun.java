@@ -13,7 +13,7 @@ public class ItemShotgun extends ItemRangedWeapon implements NonSupporting
 {
 	public ItemShotgun()
 	{
-		super("shotgun", 200, 2, "simple_shotgun_ammo", 1, 0, 6F, 15F);
+		super("shotgun", 200, 2, "simple_shotgun_ammo", 1, 0, 6F, 15F, 14, 5);
 	}
 
 	@Override

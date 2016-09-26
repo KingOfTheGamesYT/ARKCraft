@@ -31,18 +31,25 @@ public class VersionDetectionHandler
 						new ChatComponentText(EnumChatFormatting.RED
 								+ "You are running a decompiled version of ARKCraft!"));
 			}
-			if (ARKCraft.versionCheckResult != null
-					&& ARKCraft.versionCheckResult.status == Status.OUTDATED
-					|| ARKCraft.versionCheckResult.status == Status.BETA_OUTDATED)
-			{
-				player.addChatComponentMessage(
-						new ChatComponentText(EnumChatFormatting.RED + I18n
-								.translate("chat.notification.outdated")));
-				player.addChatComponentMessage(
-						new ChatComponentText(EnumChatFormatting.RED + I18n
-								.format("chat.notification.outdatedversion",
-										ARKCraft.instance().version())));
-			}
+				else if (ARKCraft.versionCheckResult != null
+						&& ARKCraft.versionCheckResult.status == Status.OUTDATED
+						|| ARKCraft.versionCheckResult.status == Status.BETA_OUTDATED )
+				{
+					player.addChatComponentMessage(
+							new ChatComponentText(EnumChatFormatting.RED + I18n
+									.translate("chat.notification.outdated")));
+					player.addChatComponentMessage(
+							new ChatComponentText(EnumChatFormatting.RED + I18n
+									.format("chat.notification.outdatedversion",
+											ARKCraft.instance().version())));
+				}	
+				else if(ARKCraft.versionCheckResult == null)
+				{
+					player.addChatComponentMessage(
+							new ChatComponentText(EnumChatFormatting.RED
+									+ "No Internet acsess"));
+				}
 		}
+		
 	}
 }

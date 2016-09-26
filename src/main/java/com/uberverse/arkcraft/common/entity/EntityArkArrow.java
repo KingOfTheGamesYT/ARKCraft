@@ -21,11 +21,11 @@ public abstract class EntityArkArrow extends EntityProjectile
 		this.setPosition(x, y, z);
 	}
 
-	public EntityArkArrow(World worldIn, EntityLivingBase shooter, float speed)
-	{
-		super(worldIn, shooter, speed);
-		init(shooter);
-	}
+////	public EntityArkArrow(World worldIn, EntityLivingBase shooter, float speed)
+//	{
+	//	super(worldIn, shooter, speed);
+	//	init(shooter);
+//	}
 
 	@Override
 	public void onEntityHit(Entity entityHit)
@@ -61,9 +61,9 @@ public abstract class EntityArkArrow extends EntityProjectile
 		}
 	}
 
-	public EntityArkArrow(World worldIn, EntityLivingBase shooter, float speed, float inaccuracy)
+	public EntityArkArrow(World worldIn, EntityLivingBase shooter, float speed, float inaccuracy, int range)
 	{
-		super(worldIn, shooter, speed, inaccuracy);
+		super(worldIn, shooter, speed, inaccuracy, range);
 		init(shooter);
 	}
 

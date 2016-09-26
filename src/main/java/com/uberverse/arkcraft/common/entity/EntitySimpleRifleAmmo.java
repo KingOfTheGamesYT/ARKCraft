@@ -11,20 +11,17 @@ public class EntitySimpleRifleAmmo extends EntityProjectile
 	public EntitySimpleRifleAmmo(World world)
 	{
 		super(world);
-		setDamage(15);
 	}
 
 	public EntitySimpleRifleAmmo(World world, double x, double y, double z)
 	{
 		this(world);
 		setPosition(x, y, z);
-		setDamage(15);
 	}
 
-	public EntitySimpleRifleAmmo(World worldIn, EntityLivingBase shooter, float speed, float inaccuracy)
+	public EntitySimpleRifleAmmo(World worldIn, EntityLivingBase shooter, float speed, float inaccuracy, double damage, int range)
 	{
-		super(worldIn, shooter, speed, inaccuracy);
-		setDamage(15);
+		super(worldIn, shooter, speed, inaccuracy, damage, range);
 	}
 
 	@Override

@@ -21,9 +21,9 @@ public class EntityRocketPropelledGrenade extends EntityProjectile
 		setPosition(x, y, z);
 	}
 
-	public EntityRocketPropelledGrenade(World worldIn, EntityLivingBase shooter, float speed, float inaccuracy)
+	public EntityRocketPropelledGrenade(World worldIn, EntityLivingBase shooter, float speed, float inaccuracy, double damage, int range)
 	{
-		super(worldIn, shooter, speed, inaccuracy);
+		super(worldIn, shooter, speed, inaccuracy, damage, range);
 	}
 
 	@Override
@@ -42,18 +42,13 @@ public class EntityRocketPropelledGrenade extends EntityProjectile
 	public void onUpdate()
 	{
 		super.onUpdate();
-
 		double amount = 16D;
-		float speed = 1F;
-		if (speed == 1F)
+		for (int i1 = 1; i1 < amount; i1++)
 		{
-			for (int i1 = 1; i1 < amount; i1++)
-			{
-				worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL,
-						posX + (motionX * i1) / amount,
-						posY + (motionY * i1) / amount,
-						posZ + (motionZ * i1) / amount, 0.0D, 0.0D, 0.0D);
-			}
+			worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL,
+					posX + (motionX * i1) / amount,
+					posY + (motionY * i1) / amount,
+					posZ + (motionZ * i1) / amount, 0.0D, 0.0D, 0.0D);
 		}
 	}
 

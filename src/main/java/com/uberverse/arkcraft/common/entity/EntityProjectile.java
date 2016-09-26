@@ -52,9 +52,9 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 	public Entity shootingEntity;
 	public int ticksInGround;
 	public int ticksInAir;
-	public int secsInAir = ticksInAir * 20;
-	public int secsInGround = ticksInGround * 20;
-	public double damage = 2.0D;
+	public double damage;
+	public int range;
+
 	/**
 	 * The amount of knockback an arrow applies when it hits a mob.
 	 */
@@ -82,7 +82,7 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 		this.setPosition(x, y, z);
 	}
 
-	public EntityProjectile(World worldIn, EntityLivingBase shooter, float speed, float inaccuracy)
+	public EntityProjectile(World worldIn, EntityLivingBase shooter, float speed, float inaccuracy, double damage, int range)
 	{
 		super(worldIn);
 		this.shootingEntity = shooter;
@@ -91,7 +91,8 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 		{
 			this.canBePickedUp = 0;
 		}
-
+		this.damage = damage;
+		this.range = range;
 		this.setSize(0.05F, 0.05F);
 		this.setLocationAndAngles(shooter.posX,
 				shooter.posY + (double) shooter.getEyeHeight(), shooter.posZ,
@@ -115,9 +116,9 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 		setThrowableHeading(motionX, motionY, motionZ, speed, inaccuracy);
 	}
 
-	public EntityProjectile(World worldIn, EntityLivingBase shooter, float speed)
+	public EntityProjectile(World worldIn, EntityLivingBase shooter, float speed, double damage, int range)
 	{
-		this(worldIn, shooter, speed, 1.0F);
+		this(worldIn, shooter, speed, 1.0F, damage, range);
 	}
 
 	protected void entityInit()
@@ -195,7 +196,6 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 	public void onUpdate()
 	{
 		super.onUpdate();
-
 		if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
 		{
 			float f = MathHelper.sqrt_double(
@@ -429,6 +429,19 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 			this.motionY -= (double) grav;
 			this.setPosition(this.posX, this.posY, this.posZ);
 			this.doBlockCollisions();
+		}
+
+		worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, posX, posY,
+				posZ, 0.0D, 0.0D, 0.0D);
+		Range();
+	}
+
+	public void Range() 
+	{
+		System.out.println(ticksInAir);
+		if (ticksInAir >= range)
+		{
+			this.setDead();
 		}
 	}
 

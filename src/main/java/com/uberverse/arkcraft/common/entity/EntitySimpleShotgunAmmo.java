@@ -10,20 +10,17 @@ public class EntitySimpleShotgunAmmo extends EntityProjectile
 	public EntitySimpleShotgunAmmo(World world)
 	{
 		super(world);
-		this.setDamage(5);
 	}
 
 	public EntitySimpleShotgunAmmo(World world, double x, double y, double z)
 	{
 		this(world);
 		setPosition(x, y, z);
-		this.setDamage(5);
 	}
 
-	public EntitySimpleShotgunAmmo(World worldIn, EntityLivingBase shooter, float speed, float inaccuracy)
+	public EntitySimpleShotgunAmmo(World worldIn, EntityLivingBase shooter, float speed, float inaccuracy, double damage, int range)
 	{
-		super(worldIn, shooter, speed, inaccuracy);
-		this.setDamage(5);
+		super(worldIn, shooter, speed, inaccuracy, damage, range);
 	}
 
 	@Override
@@ -42,11 +39,6 @@ public class EntitySimpleShotgunAmmo extends EntityProjectile
 	public void onUpdate()
 	{
 		super.onUpdate();
-
-		if (ticksInAir > 10)
-		{
-			setDead();
-		}
 
 		worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, posX, posY,
 				posZ, 0.0D, 0.0D, 0.0D);

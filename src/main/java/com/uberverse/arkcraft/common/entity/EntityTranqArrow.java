@@ -60,9 +60,9 @@ public class EntityTranqArrow extends EntityArkArrow implements ITranquilizer
 		}
 	}
 
-	public EntityTranqArrow(World worldIn, EntityLivingBase shooter, float speed)
+/*	public EntityTranqArrow(World worldIn, EntityLivingBase shooter, float speed)
 	{
-		super(worldIn, shooter, speed);
+//		super(worldIn, shooter, speed);
 		this.setDamage(1);
 		this.renderDistanceWeight = 10.0D;
 		this.shootingEntity = shooter;
@@ -94,11 +94,11 @@ public class EntityTranqArrow extends EntityArkArrow implements ITranquilizer
 				.sin(this.rotationPitch / 180.0F * (float) Math.PI));
 		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ,
 				speed * 1.5F, 1.0F);
-	}
+	}	*/
 
-	public EntityTranqArrow(World worldIn, EntityLivingBase shooter, float speed, float inaccuracy)
+	public EntityTranqArrow(World worldIn, EntityLivingBase shooter, float speed, float inaccuracy, int range)
 	{
-		super(worldIn, shooter, speed, inaccuracy);
+		super(worldIn, shooter, speed, inaccuracy,range);
 		this.setDamage(1);
 		this.renderDistanceWeight = 10.0D;
 	}

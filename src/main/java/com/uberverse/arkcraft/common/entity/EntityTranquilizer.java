@@ -12,20 +12,17 @@ public class EntityTranquilizer extends EntityProjectile
 	public EntityTranquilizer(World world)
 	{
 		super(world);
-		this.setDamage(1);
 	}
 
 	public EntityTranquilizer(World world, double x, double y, double z)
 	{
 		this(world);
 		setPosition(x, y, z);
-		this.setDamage(1);
 	}
 
-	public EntityTranquilizer(World worldIn, EntityLivingBase shooter, float speed, float inaccuracy)
+	public EntityTranquilizer(World worldIn, EntityLivingBase shooter, float speed, float inaccuracy, double damage, int range)
 	{
-		super(worldIn, shooter, speed, inaccuracy);
-		this.setDamage(1);
+		super(worldIn, shooter, speed, inaccuracy, damage, range);
 	}
 
 	@Override
