@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"normal": {
+			"model": "arkcraft:green_screen"
+		},
+		"inventory": {
+			"model": "arkcraft:green_screen"
+		}
+	}
+}
