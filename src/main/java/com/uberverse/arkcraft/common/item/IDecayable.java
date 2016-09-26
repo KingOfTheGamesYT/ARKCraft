@@ -48,7 +48,7 @@ public interface IDecayable
 	public default void addInformation(ItemStack itemStack, EntityPlayer playerIn, List tooltip, boolean advanced)
 	{
 		long time = getDecayTimeLeft(itemStack, getDecayModifier(itemStack));
-		if (time > 0) tooltip.add(I18n.format("arkcraft.decayable.tooltip", time / 20));
+		if (time > 0) tooltip.add(I18n.format("arkcraft.decayable.tooltip", (int) Math.round((double) time / 20d)));
 	}
 
 	public static double getDecayModifier(ItemStack stack)

@@ -631,7 +631,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable, IWei
 	 *
 	 * @param <E>
 	 */
-	// TODO rework this with functional interfaces
+	// TODO rework this with functional interfaces (maybe impossible)
 	public class Variable<E>
 	{
 		private Object variable;

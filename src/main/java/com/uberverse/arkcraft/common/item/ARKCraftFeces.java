@@ -32,7 +32,7 @@ public class ARKCraftFeces extends ItemFertilizer implements IDecayable
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
 	{
 		super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
-		decayTick(((EntityPlayer) entityIn).inventory, itemSlot, itemSlot, stack);
+		decayTick(((EntityPlayer) entityIn).inventory, itemSlot, 1, stack);
 	}
 
 	@Override
