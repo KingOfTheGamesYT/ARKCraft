@@ -1,7 +1,9 @@
 package com.uberverse.arkcraft.common.block;
 
+import java.util.List;
 import java.util.Random;
 
+import com.google.common.collect.Lists;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
@@ -70,6 +72,12 @@ public class ARKCraftBerryBush extends BlockBush implements IExperienceSource
 		worldIn.setBlockState(pos, state.withProperty(HARVEST_COUNT, 3));
 	}
 
+	@Override
+	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
+	{
+		return Lists.newArrayList();
+	}
+
 	public Item getHarvestItem(Random rand, EntityPlayer player)
 	{
 		ItemStack heldStack = player.getCurrentEquippedItem();
@@ -129,8 +137,7 @@ public class ARKCraftBerryBush extends BlockBush implements IExperienceSource
 					Item seed = getSeedDrop(worldIn.rand);
 					if (seed != null) this.entityDropItem(worldIn, pos, playerIn, new ItemStack(seed, 1, 0));
 					ItemStack out = new ItemStack(itemPicked, 1, 0);
-					if (itemPicked instanceof IDecayable) ((IDecayable) itemPicked).setDecayStart(out, ARKCraft.proxy
-							.getWorldTime());
+					if (itemPicked instanceof IDecayable) IDecayable.setDecayStart(out, ARKCraft.proxy.getWorldTime());
 					this.entityDropItem(worldIn, pos, playerIn, out);
 				}
 				worldIn.setBlockState(pos, state.withProperty(HARVEST_COUNT, harvestCount - 1));

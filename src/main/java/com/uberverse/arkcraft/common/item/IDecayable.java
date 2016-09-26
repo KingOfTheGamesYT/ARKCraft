@@ -39,7 +39,7 @@ public interface IDecayable
 		return (long) (getDecayStart(stack) + getDecayTime(stack) * decayModifier);
 	}
 
-	public default long getDecayStart(ItemStack stack)
+	public static long getDecayStart(ItemStack stack)
 	{
 		return stack.hasTagCompound() ? stack.getTagCompound().getLong("decayStart") : -1;
 	}
@@ -51,18 +51,18 @@ public interface IDecayable
 		if (time > 0) tooltip.add(I18n.format("arkcraft.decayable.tooltip", time / 20));
 	}
 
-	public default double getDecayModifier(ItemStack stack)
+	public static double getDecayModifier(ItemStack stack)
 	{
 		return stack.hasTagCompound() ? stack.getTagCompound().getLong("decayModifier") : 1;
 	}
 
-	public default void setDecayModifier(ItemStack stack, double decayModifier)
+	public static void setDecayModifier(ItemStack stack, double decayModifier)
 	{
 		if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
 		stack.getTagCompound().setDouble("decayModifier", decayModifier);
 	}
 
-	public default void setDecayStart(ItemStack stack, long decayStart)
+	public static void setDecayStart(ItemStack stack, long decayStart)
 	{
 		if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
 		stack.getTagCompound().setLong("decayStart", decayStart);

@@ -16,8 +16,8 @@ import com.uberverse.arkcraft.common.container.engram.ContainerEngramCrafting.Qu
 import com.uberverse.arkcraft.common.engram.CraftingOrder;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.common.engram.EngramManager.EngramRecipe;
-import com.uberverse.arkcraft.common.item.Qualitable.ItemQuality;
 import com.uberverse.arkcraft.common.engram.IEngramCrafter;
+import com.uberverse.arkcraft.common.item.Qualitable.ItemQuality;
 import com.uberverse.arkcraft.util.AbstractItemStack;
 import com.uberverse.arkcraft.util.I18n;
 
@@ -32,8 +32,7 @@ import net.minecraft.util.ResourceLocation;
 
 public abstract class GUIEngramCrafting extends GUIScrollable
 {
-	public static final ResourceLocation buttons =
-			new ResourceLocation(ARKCraft.MODID, "textures/gui/buttons.png");
+	public static final ResourceLocation buttons = new ResourceLocation(ARKCraft.MODID, "textures/gui/buttons.png");
 
 	protected int buttonCounter = 0;
 	private GuiButton craft, craftall;
@@ -48,14 +47,10 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 	public void initGui()
 	{
 		super.initGui();
-		craft = new GuiTexturedButton(buttonCounter++, guiLeft + getC1ButtonX(),
-				guiTop + getC1ButtonY(), getC1ButtonWidth(),
-				getC1ButtonHeight(), getC1ButtonResource(), getC1ButtonU(),
-				getC1ButtonV());
-		craftall = new GuiTexturedButton(buttonCounter++,
-				guiLeft + getCAButtonX(), guiTop + getCAButtonY(),
-				getCAButtonWidth(), getCAButtonHeight(), getCAButtonResource(),
-				getCAButtonU(), getCAButtonV());
+		craft = new GuiTexturedButton(buttonCounter++, guiLeft + getC1ButtonX(), guiTop + getC1ButtonY(),
+				getC1ButtonWidth(), getC1ButtonHeight(), getC1ButtonResource(), getC1ButtonU(), getC1ButtonV());
+		craftall = new GuiTexturedButton(buttonCounter++, guiLeft + getCAButtonX(), guiTop + getCAButtonY(),
+				getCAButtonWidth(), getCAButtonHeight(), getCAButtonResource(), getCAButtonU(), getCAButtonV());
 		this.buttonList.add(craft);
 		this.buttonList.add(craftall);
 	}
@@ -90,8 +85,7 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 				if (ec.isCrafting())
 				{
 					CraftingOrder co = e.getCraftingOrder();
-					if (ec.getCraftingQueue().peek() != null
-							&& ec.getCraftingQueue().peek() == co)
+					if (ec.getCraftingQueue().peek() != null && ec.getCraftingQueue().peek() == co)
 					{
 						double fraction = ec.getRelativeProgress();
 						if (Double.isNaN(fraction)) fraction = 1;
@@ -107,8 +101,7 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 
 						int color = new Color(red, green, blue, alpha).getRGB();
 
-						drawRect(x, (int) (y - (fraction * 16)), x + 16, y,
-								color);
+						drawRect(x, (int) (y - (fraction * 16)), x + 16, y, color);
 						GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 					}
 				}
@@ -116,19 +109,13 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 			else if (o instanceof EngramSlot)
 			{
 				EngramSlot e = (EngramSlot) o;
-				if (c.getSelectedBlueprintIndex() < 0
-						&& c.getSelectedEngram() == e.getEngram()
-						&& e.getSlotIndex() < c.getTotalSlotsAmount())
-				{
-					drawSelection(e);
-				}
+				if (c.getSelectedBlueprintIndex() < 0 && c.getSelectedEngram() == e.getEngram() && e.getSlotIndex() < c
+						.getTotalSlotsAmount()) drawSelection(e);
 			}
 			else if (o instanceof BlueprintSlot)
 			{
 				BlueprintSlot b = (BlueprintSlot) o;
-				if (c.getSelectedBlueprintIndex() == b.slotNumber
-						&& b.hasBlueprint())
-					drawSelection(b);
+				if (c.getSelectedBlueprintIndex() == b.slotNumber && b.hasBlueprint()) drawSelection(b);
 			}
 		}
 
@@ -146,8 +133,8 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 	{
 		int x = s.xDisplayPosition;
 		int y = s.yDisplayPosition;
-		drawRect(x, y, x + 16, y + 16, new Color(0, 128, 128, 128).getRGB());
-		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+		drawRect(x-1, y-1, x + 17, y + 17, new Color(0, 128, 255, 255).getRGB());
+		GlStateManager.color(1, 1, 1, 1);
 	}
 
 	private Engram tooltipped;
@@ -157,8 +144,7 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void drawHoveringText(
-			@SuppressWarnings("rawtypes") List textLines, int x, int y,
+	protected void drawHoveringText(@SuppressWarnings("rawtypes") List textLines, int x, int y,
 			FontRenderer fontRendererObj)
 	{
 		for (Object o : inventorySlots.inventorySlots)
@@ -167,9 +153,8 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 			{
 				EngramCraftingSlot e = (EngramCraftingSlot) o;
 				Slot slot = (Slot) o;
-				if (e.getEngram() != null
-						&& isPointInRegion(slot.xDisplayPosition,
-								slot.yDisplayPosition, 18, 18, x, y))
+				if (e.getEngram() != null && isPointInRegion(slot.xDisplayPosition, slot.yDisplayPosition, 18, 18, x,
+						y))
 				{
 					ticker++;
 					if (tooltipped != e.getEngram())
@@ -189,8 +174,7 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 
 					ItemQuality out = ItemQuality.PRIMITIVE;
 					double multiplier = 1;
-					if (tooltipped.isQualitable()
-							&& slot instanceof BlueprintSlot)
+					if (tooltipped.isQualitable() && slot instanceof BlueprintSlot)
 					{
 						BlueprintSlot b = (BlueprintSlot) slot;
 						out = b.getItemQuality();
@@ -198,19 +182,15 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 					}
 
 					ItemStack output = tooltipped.getOutputAsItemStack(out);
-					textLines.add(
-							output.getItem().getItemStackDisplayName(output)
-									+ (output.stackSize > 1
-											? " x " + output.stackSize : ""));
+					textLines.add(output.getItem().getItemStackDisplayName(output) + (output.stackSize > 1 ? " x "
+							+ output.stackSize : ""));
 					EngramRecipe er = recipes.get(shown);
 
 					for (AbstractItemStack i : er.getItems())
 					{
 						textLines.add(EnumChatFormatting.GOLD + I18n.format(
-								"gui.engramcrafting.engram.tooltip.ingredient",
-								I18n.translate(
-										i.item.getUnlocalizedName() + ".name"),
-								(int) (i.getAmount() * multiplier)));
+								"gui.engramcrafting.engram.tooltip.ingredient", I18n.translate(i.item
+										.getUnlocalizedName() + ".name"), (int) (i.getAmount() * multiplier)));
 					}
 				}
 			}

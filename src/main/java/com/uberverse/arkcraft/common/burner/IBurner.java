@@ -11,9 +11,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.burner.BurnerManager.BurnerFuel;
 import com.uberverse.arkcraft.common.burner.BurnerManager.BurnerRecipe;
 import com.uberverse.arkcraft.common.burner.BurnerManager.BurnerType;
+import com.uberverse.arkcraft.common.item.IDecayable;
 import com.uberverse.arkcraft.util.CollectionUtil;
 import com.uberverse.arkcraft.util.IInventoryAdder;
 import com.uberverse.arkcraft.util.NBTable;
@@ -116,7 +118,7 @@ public interface IBurner extends IInventoryAdder, NBTable
 					consume(new ItemStack(i.getKey(), i.getValue()));
 				}
 				ItemStack s = new ItemStack(e.getKey().getItem(), e.getKey().getAmount());
-				s.onCrafting(getWorldIA(), null, getBurningTicks());
+				if (s.getItem() instanceof IDecayable) IDecayable.setDecayStart(s, ARKCraft.proxy.getWorldTime());
 				addOrDrop(s);
 				it.remove();
 			}

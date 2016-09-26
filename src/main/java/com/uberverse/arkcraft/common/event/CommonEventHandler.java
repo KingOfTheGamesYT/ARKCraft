@@ -362,23 +362,22 @@ public class CommonEventHandler
 				Item in = stack.getItem();
 				if (in instanceof IDecayable)
 				{
-					IDecayable d = (IDecayable) in;
 					EntityPlayer p = event.entityPlayer;
 					for (int i = 0; i < p.inventory.getSizeInventory(); i++)
 					{
 						ItemStack s = p.inventory.getStackInSlot(i);
 						if (s != null && s.getItem() == in)
 						{
-							long s2 = d.getDecayStart(s);
+							long s2 = IDecayable.getDecayStart(s);
 							int si2 = s.stackSize;
-							long s1 = d.getDecayStart(stack);
+							long s1 = IDecayable.getDecayStart(stack);
 							int si1 = stack.stackSize;
 							si1 = in.getItemStackLimit(stack) - si2 > si1 ? si1 : in.getItemStackLimit(stack) - si2;
 							stack.stackSize -= si1;
 
 							long n = (s1 * si1 + s2 * si2) / (si1 + si2);
 							ItemStack nS = new ItemStack(in, si2 + si1);
-							d.setDecayStart(nS, n);
+							IDecayable.setDecayStart(nS, n);
 							p.inventory.setInventorySlotContents(i, nS);
 							break;
 						}

@@ -34,8 +34,8 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 	private QueueInventory queueInventory;
 	private IEngramCrafter crafter;
 
-	protected int playerInvBoundLeft, playerInvBoundRight, invBoundLeft,
-			invBoundRight, scrollInvBoundLeft, scrollInvBoundRight;
+	protected int playerInvBoundLeft, playerInvBoundRight, invBoundLeft, invBoundRight, scrollInvBoundLeft,
+			scrollInvBoundRight;
 
 	private int counter = 0;
 
@@ -44,8 +44,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		super();
 		this.player = player;
 		this.crafter = crafter;
-		this.engramInventory = new EngramInventory(EngramManager.instance()
-				.getUnlockedEngramsOfType(player, type));
+		this.engramInventory = new EngramInventory(EngramManager.instance().getUnlockedEngramsOfType(player, type));
 		this.queueInventory = new QueueInventory(crafter.getCraftingQueue());
 		initPlayerSlots();
 		initInventorySlots();
@@ -66,12 +65,10 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 			for (int col = 0; col < getInventorySlotsWidth(); col++)
 			{
 				int index = col + row * getInventorySlotsWidth();
-				Slot slot = new Slot(getIInventory(), index,
-						getInventorySlotsX() + col * getSlotSize(),
+				Slot slot = new Slot(getIInventory(), index, getInventorySlotsX() + col * getSlotSize(),
 						getInventorySlotsY() + row * getSlotSize());
-				if (getPlayerInventory() == getBlueprintInventory()) slot =
-						new BlueprintSlot(slot.inventory, slot.getSlotIndex(),
-								slot.xDisplayPosition, slot.yDisplayPosition);
+				if (getPlayerInventory() == getBlueprintInventory()) slot = new BlueprintSlot(slot.inventory, slot
+						.getSlotIndex(), slot.xDisplayPosition, slot.yDisplayPosition);
 				this.addSlotToContainer(slot);
 				counter++;
 			}
@@ -86,9 +83,8 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 			for (int col = 0; col < getQueueSlotsWidth(); col++)
 			{
 				int index = col + row * getQueueSlotsWidth();
-				this.addSlotToContainer(new QueueSlot(getQueueInventory(),
-						index, getQueueSlotsX() + col * getSlotSize(),
-						getQueueSlotsY() + row * getSlotSize()));
+				this.addSlotToContainer(new QueueSlot(getQueueInventory(), index, getQueueSlotsX() + col
+						* getSlotSize(), getQueueSlotsY() + row * getSlotSize()));
 				counter++;
 			}
 		}
@@ -102,12 +98,10 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 			for (int col = 0; col < 9; col++)
 			{
 				int slotIndex = col + row * 9 + 9;
-				Slot slot = new Slot(getPlayerInventory(), slotIndex,
-						getPlayerInventorySlotsX() + col * getSlotSize(),
+				Slot slot = new Slot(getPlayerInventory(), slotIndex, getPlayerInventorySlotsX() + col * getSlotSize(),
 						getPlayerInventorySlotsY() + row * getSlotSize());
-				if (getPlayerInventory() == getBlueprintInventory()) slot =
-						new BlueprintSlot(slot.inventory, slot.getSlotIndex(),
-								slot.xDisplayPosition, slot.yDisplayPosition);
+				if (getPlayerInventory() == getBlueprintInventory()) slot = new BlueprintSlot(slot.inventory, slot
+						.getSlotIndex(), slot.xDisplayPosition, slot.yDisplayPosition);
 				addSlotToContainer(slot);
 				counter++;
 			}
@@ -115,12 +109,10 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 
 		for (int col = 0; col < 9; col++)
 		{
-			Slot slot = new Slot(player.inventory, col,
-					getPlayerHotbarSlotsX() + col * getSlotSize(),
+			Slot slot = new Slot(player.inventory, col, getPlayerHotbarSlotsX() + col * getSlotSize(),
 					getPlayerHotbarSlotsY());
-			if (this instanceof ContainerPlayerCrafting)
-				slot = new BlueprintSlot(slot.inventory, slot.getSlotIndex(),
-						slot.xDisplayPosition, slot.yDisplayPosition);
+			if (this instanceof ContainerPlayerCrafting) slot = new BlueprintSlot(slot.inventory, slot.getSlotIndex(),
+					slot.xDisplayPosition, slot.yDisplayPosition);
 			addSlotToContainer(slot);
 			counter++;
 		}
@@ -136,12 +128,9 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		scrollInvBoundLeft = counter;
 		for (int i = 0; i < getVisibleSlotsAmount(); i++)
 		{
-			this.addSlotToContainer(new EngramSlot(engramInventory, i,
-					getScrollableSlotsX()
-							+ i % getScrollableSlotsWidth() * getSlotSize(),
-					getScrollableSlotsY()
-							+ i / getScrollableSlotsWidth() * getSlotSize(),
-					this));
+			this.addSlotToContainer(new EngramSlot(engramInventory, i, getScrollableSlotsX() + i
+					% getScrollableSlotsWidth() * getSlotSize(), getScrollableSlotsY() + i / getScrollableSlotsWidth()
+							* getSlotSize(), this));
 			counter++;
 		}
 		scrollInvBoundRight = counter;
@@ -218,8 +207,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 	{
 		if (selectedEngram != null)
 		{
-			if (crafter.startCraft(selectedEngram, targetQuality))
-				detectAndSendChanges();
+			if (crafter.startCraft(selectedEngram, targetQuality)) detectAndSendChanges();
 		}
 	}
 
@@ -227,8 +215,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 	{
 		if (selectedEngram != null)
 		{
-			if (crafter.startCraftAll(selectedEngram, targetQuality))
-				detectAndSendChanges();
+			if (crafter.startCraftAll(selectedEngram, targetQuality)) detectAndSendChanges();
 		}
 	}
 
@@ -273,8 +260,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 			{
 				if (fieldHasChanged[fieldID])
 				{
-					icrafting.sendProgressBarUpdate(this, fieldID,
-							cachedFields[fieldID]);
+					icrafting.sendProgressBarUpdate(this, fieldID, cachedFields[fieldID]);
 				}
 			}
 		}
@@ -297,16 +283,14 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 	}
 
 	@Override
-	public ItemStack slotClick(int slotId, int clickedButton, int mode,
-			EntityPlayer playerIn)
+	public ItemStack slotClick(int slotId, int clickedButton, int mode, EntityPlayer playerIn)
 	{
 		if (slotId >= 0)
 		{
 			Slot s = getSlot(slotId);
 			if (s instanceof EngramSlot && clickedButton == 0)
 			{
-				s.onPickupFromSlot(playerIn,
-						playerIn.inventory.getCurrentItem());
+				s.onPickupFromSlot(playerIn, playerIn.inventory.getCurrentItem());
 				if (mode == 6) craftOne();
 				return playerIn.inventory.getCurrentItem();
 			}
@@ -318,17 +302,14 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 					CraftingOrder c = q.getCraftingOrder();
 					if (c != null)
 					{
-						if (c.isQualitable())
-							crafter.cancelCraftAll(c.getEngram(),
-									c.getItemQuality());
+						if (c.isQualitable()) crafter.cancelCraftAll(c.getEngram(), c.getItemQuality());
 						else crafter.cancelCraftAll(c.getEngram());
 						return playerIn.inventory.getCurrentItem();
 					}
 				}
 				else if (clickedButton == 0)
 				{
-					s.onPickupFromSlot(playerIn,
-							playerIn.inventory.getCurrentItem());
+					s.onPickupFromSlot(playerIn, playerIn.inventory.getCurrentItem());
 					return playerIn.inventory.getCurrentItem();
 				}
 			}
@@ -339,19 +320,16 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 				{
 					selectedBlueprintIndex = b.slotNumber;
 					listenPutDown = false;
-					return super.slotClick(slotId, clickedButton, mode,
-							playerIn);
+					return super.slotClick(slotId, clickedButton, mode, playerIn);
 				}
 				if (b.hasBlueprint() && clickedButton == 0)
 				{
-					b.onPickupFromSlot(playerIn,
-							playerIn.inventory.getCurrentItem());
+					b.onPickupFromSlot(playerIn, playerIn.inventory.getCurrentItem());
 					if (mode == 6) craftOne();
 					return null;
 				}
 				else if (clickedButton == 1) clickedButton = 0;
-				if (b.slotNumber == selectedBlueprintIndex)
-					listenPutDown = b.hasBlueprint();
+				if (b.slotNumber == selectedBlueprintIndex) listenPutDown = b.hasBlueprint();
 			}
 		}
 		return super.slotClick(slotId, clickedButton, mode, playerIn);
@@ -362,8 +340,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 	{
 		if (getPlayerInventory() != null)
 		{
-			if (getIInventory() != null
-					&& getIInventory().getSizeInventory() > 0)
+			if (getIInventory() != null && getIInventory().getSizeInventory() > 0)
 			{
 				ItemStack itemstack = null;
 				Slot slot = (Slot) this.inventorySlots.get(index);
@@ -374,14 +351,11 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 					itemstack = itemstack1.copy();
 					if (slot.inventory == getIInventory())
 					{
-						if (!this.mergeItemStack(itemstack1, playerInvBoundLeft,
-								playerInvBoundRight, false))
+						if (!this.mergeItemStack(itemstack1, playerInvBoundLeft, playerInvBoundRight, false))
 							return null;
 					}
-					else if (slot.inventory == getPlayerInventory())
-						if (!this.mergeItemStack(itemstack1, invBoundLeft,
-								invBoundRight, false))
-							return null;
+					else if (slot.inventory == getPlayerInventory()) if (!this.mergeItemStack(itemstack1, invBoundLeft,
+							invBoundRight, false)) return null;
 					if (itemstack1.stackSize == 0)
 					{
 						slot.putStack((ItemStack) null);
@@ -406,13 +380,11 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 
 					if (index >= 0 && index < 27)
 					{
-						if (!this.mergeItemStack(itemstack1, 27, 36,
-								false)) { return null; }
+						if (!this.mergeItemStack(itemstack1, 27, 36, false)) { return null; }
 					}
 					else if (index >= 27 && index < 36)
 					{
-						if (!this.mergeItemStack(itemstack1, 0, 27,
-								false)) { return null; }
+						if (!this.mergeItemStack(itemstack1, 0, 27, false)) { return null; }
 					}
 
 					if (itemstack1.stackSize == 0)
@@ -443,9 +415,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		{
 			int index = getSlotIndex();
 			return index < ContainerEngramCrafting.this.getTotalSlotsAmount()
-					? ContainerEngramCrafting.this.engramInventory
-							.getEngram(index)
-					: null;
+					? ContainerEngramCrafting.this.engramInventory.getEngram(index) : null;
 		}
 
 		@Override
@@ -481,22 +451,19 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 
 		public boolean hasBlueprint()
 		{
-			return getStack() != null
-					? getStack().getItem() instanceof ItemBlueprint : false;
+			return getStack() != null ? getStack().getItem() instanceof ItemBlueprint : false;
 		}
 
 		public Engram getEngram()
 		{
-			if (hasBlueprint() && getStack() != null)
-				return ItemBlueprint.getEngram(getStack());
+			if (hasBlueprint() && getStack() != null) return ItemBlueprint.getEngram(getStack());
 			return null;
 		}
 
 		public ItemQuality getItemQuality()
 		{
 			Engram e = getEngram();
-			if (e != null && e.isQualitable())
-				return ItemBlueprint.getItemQuality(getStack());
+			if (e != null && e.isQualitable()) return ItemBlueprint.getItemQuality(getStack());
 			return null;
 		}
 
@@ -507,8 +474,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 			{
 				ContainerEngramCrafting.this.selectedEngram = getEngram();
 				ContainerEngramCrafting.this.targetQuality = getItemQuality();
-				ContainerEngramCrafting.this.selectedBlueprintIndex =
-						slotNumber;
+				ContainerEngramCrafting.this.selectedBlueprintIndex = slotNumber;
 			}
 		}
 	}
@@ -529,14 +495,12 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 
 		public CraftingOrder getCraftingOrder()
 		{
-			return ContainerEngramCrafting.this.queueInventory
-					.getCraftingOrder(getSlotIndex());
+			return ContainerEngramCrafting.this.queueInventory.getCraftingOrder(getSlotIndex());
 		}
 
 		public Engram getEngram()
 		{
-			return ContainerEngramCrafting.this.queueInventory
-					.getEngram(getSlotIndex());
+			return ContainerEngramCrafting.this.queueInventory.getEngram(getSlotIndex());
 		}
 
 		@Override
@@ -546,8 +510,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 			if (c != null)
 			{
 				Engram e = c.getEngram();
-				if (c.isQualitable()) ContainerEngramCrafting.this.crafter
-						.cancelCraftOne(e, c.getItemQuality());
+				if (c.isQualitable()) ContainerEngramCrafting.this.crafter.cancelCraftOne(e, c.getItemQuality());
 				else ContainerEngramCrafting.this.crafter.cancelCraftOne(e);
 			}
 		}
@@ -719,8 +682,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 			if (index < getSizeInventory())
 			{
 				CraftingOrder c = getCraftingOrder(index);
-				ItemStack output =
-						c.getEngram().getOutputAsItemStack(c.getItemQuality());
+				ItemStack output = c.getEngram().getOutputAsItemStack(c.getItemQuality());
 				output.stackSize *= c.getCount();
 				return output;
 			}

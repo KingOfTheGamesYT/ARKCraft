@@ -63,15 +63,17 @@ public class TileEntityCompostBin extends TileEntity implements IInventory, IUpd
 	{
 		if (!worldObj.isRemote)
 		{
-			IDecayer.super.update();
 			// if no process active
-			if (progress < 0) findProcess();
+			int oldProgress = progress;
+			findProcess();
 			// if no process found
 			if (progress < 0) return;
+			else progress = oldProgress;
 			progress++;
 			// TODO implement composting time
 			// done composting
 			if (progress > 100) if (consume()) findProcess();
+			IDecayer.super.update();
 		}
 	}
 
