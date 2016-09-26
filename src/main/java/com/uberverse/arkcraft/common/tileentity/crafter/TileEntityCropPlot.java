@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -29,7 +30,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot;
 import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot.BerryColor;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance.CROP_PLOT;
+import com.uberverse.arkcraft.common.item.ARKCraftFeces;
 import com.uberverse.arkcraft.common.item.ARKCraftSeed;
+import com.uberverse.arkcraft.common.item.IDecayable;
 import com.uberverse.arkcraft.common.item.ItemFertilizer;
 import com.uberverse.arkcraft.common.tileentity.IDecayer;
 import com.uberverse.arkcraft.common.tileentity.IHoverInfo;
@@ -48,6 +51,7 @@ IDecayer
 	private ItemStack growing;
 	public Part part = Part.MIDDLE;
 	private static boolean LOG = true;
+	private boolean canGrow = false;
 
 	@Override
 	public String getName()
@@ -180,6 +184,8 @@ IDecayer
 	@Override
 	public void update()
 	{
+		IBlockState state = worldObj.getBlockState(pos);
+		if(state.getBlock() == Blocks.air)return;//Fixed crash on chunk unloading, and block breaking.
 		if (!worldObj.isRemote)
 		{
 			if (worldObj.isRaining() && worldObj.canSeeSky(pos))
@@ -203,6 +209,7 @@ IDecayer
 			}
 			if (!isTransparent())
 			{
+				canGrow = false;
 				for (int i = 0; i < 10; i++)
 				{
 					if (stack[i] != null)
@@ -210,22 +217,30 @@ IDecayer
 						Item item = stack[i].getItem();
 						if (item instanceof ItemFertilizer)
 						{
-							if (fertilizer < 10)
+							if (fertilizer < 10 && canGrow)
 							{
-								fertilizer += ((ItemFertilizer)item).getFertilizingTime() * 2;
-								decrStackSize(i, 1);
+								if(item instanceof IDecayable){
+									((IDecayable)item).decayTick(this, i, 20, stack[i]);
+									fertilizer += 40;
+								}else{
+									fertilizer += ((ItemFertilizer)item).getFertilizingTime() * 2;
+									decrStackSize(i, 1);
+								}
 							}
 						}
 						else if (item instanceof ARKCraftSeed)
 						{
-							if (growing == null && fertilizer > 0 && water > 5 && ((ARKCraftSeed) item).getType()
+							if (growing == null && ((ARKCraftSeed) item).getType()
 									.ordinal() <= getType().ordinal())
 							{
-								growthTime = CROP_PLOT.SEEDLING_TIME_FOR_BERRY * 20;
-								if (LOG) LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos
-										.getZ() + "]: Started Growing: " + stack[i]);
-								growing = decrStackSize(i, 1);
-								state = CropPlotState.SEEDED;
+								canGrow = true;
+								if(fertilizer > 0 && water > 5){
+									growthTime = CROP_PLOT.SEEDLING_TIME_FOR_BERRY * 20;
+									if (LOG) LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos
+											.getZ() + "]: Started Growing: " + stack[i]);
+									growing = decrStackSize(i, 1);
+									this.state = CropPlotState.SEEDED;
+								}
 							}
 						}
 						else
@@ -270,8 +285,8 @@ IDecayer
 							if (LOG) LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos
 									.getZ() + "]: Crop died: " + growing + "Seed return: " + ret);
 							growing = null;
-							state = CropPlotState.EMPTY;
-							setState(0);
+							this.state = CropPlotState.EMPTY;
+							setState(0, state);
 						}
 					}
 					if (growthTime < 0)
@@ -297,16 +312,16 @@ IDecayer
 						}
 						else
 						{
-							state = state.next();
+							this.state = this.state.next();
 							if (LOG) LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos
-									.getZ() + "]: Growing State Updated! Growing: " + growing + ", state: " + state
+									.getZ() + "]: Growing State Updated! Growing: " + growing + ", state: " + this.state
 									.name());
-							if (state.getTime() > 0) growthTime = MathHelper.floor_double(state.getTime() * (20D
+							if (this.state.getTime() > 0) growthTime = MathHelper.floor_double(this.state.getTime() * (20D
 									* ((worldObj.getDifficulty().ordinal() * 0.5D) + 1)));
 							else growthTime = -1;
 						}
 					}
-					setState(state.age);
+					setState(this.state.age, state);
 					// if(growthTime % 50 == 0)LogHelper.info("[Crop Plot at " +
 					// pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + "]:
 					// Growing: "+growing + ", growth remaining: " + growthTime
@@ -315,7 +330,7 @@ IDecayer
 				}
 				else
 				{
-					setState(0);
+					setState(0, state);
 				}
 			}
 			Utils.checkInventoryForDecayable(this);
@@ -338,9 +353,8 @@ IDecayer
 		return null;
 	}
 
-	private void setState(int age)
+	private void setState(int age, IBlockState state)
 	{
-		IBlockState state = worldObj.getBlockState(pos);
 		if (((Integer) state.getValue(BlockCropPlot.AGE)) != age)
 		{
 			TileEntity tileentity = worldObj.getTileEntity(pos);
@@ -494,14 +508,41 @@ IDecayer
 		text.add(EnumChatFormatting.YELLOW + I18n.format(stringType));
 		text.add(I18n.format("arkcraft.growing") + ": " + I18n.format("arkcraft.cropPlotState.head", name, I18n.format(
 				stateName)));
-		String water = synced ? (getField(0) > 0 ? getField(0) > (getType().getMaxWater() / 3)
-				? EnumChatFormatting.GREEN : EnumChatFormatting.YELLOW : EnumChatFormatting.RED) + "" + (getField(0)
-						/ 20) + "/" + getType().getMaxWater() / 20 : "...";
-						text.add(EnumChatFormatting.BLUE + I18n.format("arkcraft.water", I18n.format("tile.water.name"), water, synced
-								? (getField(0) > 0 ? I18n.format("arkcraft.cropPlotWater.irrigated") : I18n.format(
-										"arkcraft.cropPlotWater.notIrrigated")) : "?"));
-						text.add("#8B4513" + I18n.format("arkcraft.gui.fertilizer", synced ? fertilizerClient / (difficultyClient + 1)
-								: "?"));
+		String water = synced ? (getField(0) > 0 ? getField(0) > (getType().getMaxWater() / 3) ? EnumChatFormatting.GREEN : EnumChatFormatting.YELLOW : EnumChatFormatting.RED) + "" + (getField(0) / 20) + "/" + getType().getMaxWater() / 20 : "...";
+		text.add(EnumChatFormatting.BLUE + I18n.format("arkcraft.water", I18n.format("tile.water.name"), water, synced ? (getField(0) > 0 ? I18n.format("arkcraft.cropPlotWater.irrigated") : I18n.format("arkcraft.cropPlotWater.notIrrigated")) : "?"));
+		String toAdd = "";
+		long time = fertilizerClient / (difficultyClient + 1);
+		if(synced){
+			if (time > 0)
+			{
+				if (time > 59)
+				{
+					long minutes = time / 60;
+					time = time % 60;
+					if (minutes > 59)
+					{
+						long hours = minutes / 60;
+						minutes = minutes % 60;
+						if (hours > 23)
+						{
+							long days = hours / 24;
+							hours = hours % 24;
+							toAdd += " " + (days == 1 ? I18n.format("arkcraft.day", days) : I18n.format("arkcraft.days",
+									days));
+						}
+						toAdd += " " + (hours == 1 ? I18n.format("arkcraft.hour", hours) : I18n.format("arkcraft.hours",
+								hours));
+					}
+					toAdd += " " + (minutes == 1 ? I18n.format("arkcraft.minute", minutes) : I18n.format("arkcraft.minutes",
+							minutes));
+				}
+				toAdd += " " + (time == 1 ? I18n.format("arkcraft.second", time) : I18n.format("arkcraft.seconds",
+						time));
+			}
+		}else{
+			toAdd +="?";
+		}
+		text.add("#8B4513" + I18n.format("arkcraft.gui.fertilizer", toAdd));
 	}
 
 	private String seedName = "arkcraft.empty", stateName = "...", stringType = "...";
@@ -531,7 +572,10 @@ IDecayer
 				Item item = stack[i].getItem();
 				if (item instanceof ItemFertilizer)
 				{
-					f += ((ItemFertilizer)item).getFertilizingTime() * 2;
+					if(item instanceof ARKCraftFeces){
+						f += ((ARKCraftFeces)item).getDecayTimeLeft(stack[i], 1) * 10;
+					}else
+						f += ((ItemFertilizer)item).getFertilizingTime() * 2;
 				}
 			}
 		}
