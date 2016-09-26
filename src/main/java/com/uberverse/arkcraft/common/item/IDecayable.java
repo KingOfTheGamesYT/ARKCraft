@@ -47,8 +47,35 @@ public interface IDecayable
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public default void addInformation(ItemStack itemStack, EntityPlayer playerIn, List tooltip, boolean advanced)
 	{
-		long time = getDecayTimeLeft(itemStack, getDecayModifier(itemStack));
-		if (time > 0) tooltip.add(I18n.format("arkcraft.decayable.tooltip", (int) Math.round((double) time / 20d)));
+		String toAdd = I18n.translate("arkcraft.decayable.tooltip");
+		long seconds = (long) Math.ceil((double) getDecayTimeLeft(itemStack, getDecayModifier(itemStack)) / 20d);
+		if (seconds > 0)
+		{
+			if (seconds > 59)
+			{
+				long minutes = seconds / 60;
+				seconds = seconds % 60;
+				if (minutes > 59)
+				{
+					long hours = minutes / 60;
+					minutes = minutes % 60;
+					if (hours > 23)
+					{
+						long days = hours / 24;
+						hours = hours % 24;
+						toAdd += " " + (days == 1 ? I18n.format("arkcraft.day", days) : I18n.format("arkcraft.days",
+								days));
+					}
+					toAdd += " " + (hours == 1 ? I18n.format("arkcraft.hour", hours) : I18n.format("arkcraft.hours",
+							hours));
+				}
+				toAdd += " " + (minutes == 1 ? I18n.format("arkcraft.minute", minutes) : I18n.format("arkcraft.minutes",
+						minutes));
+			}
+			toAdd += " " + (seconds == 1 ? I18n.format("arkcraft.second", seconds) : I18n.format("arkcraft.seconds",
+					seconds));
+			tooltip.add(toAdd);
+		}
 	}
 
 	public static double getDecayModifier(ItemStack stack)

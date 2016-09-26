@@ -224,7 +224,7 @@ item.saddle_small.tooltip=%oA Dino Rider's Dream
 item.saddle_medium.tooltip=%oA Dino Rider's Dream
 item.saddle_large.tooltip=%oA Dino Rider's Dream
 
-arkcraft.decayable.tooltip=Decomposes in %s seconds
+arkcraft.decayable.tooltip=Decomposes in
 arkcraft.tooltip.toolLevel=Tool Level: %d
 arkcraft.gui.fertilizer=Fertilizer: %s sec remaining
 arkcraft.cropPlotState.head=%s (%s)
@@ -242,6 +242,19 @@ arkcraft.cropPlotWater.notIrrigated=Not Irrigated
 arkcraft.tooltip.ingredient=* %s x %d
 arkcraft.toolLevel.primitive=Primitive
 arkcraft.toolLevel.ascendant=Ascendant
+
+arkcraft.second=%s second
+arkcraft.minute=%s minute
+arkcraft.hour=%s hour
+arkcraft.day=%s day
+arkcraft.month=%s month
+arkcraft.year=%s year
+arkcraft.seconds=%s seconds
+arkcraft.minutes=%s minutes
+arkcraft.hours=%s hours
+arkcraft.days=%s days
+arkcraft.months=%s months
+arkcraft.years=%s years
 
 #Gui
 gui.playercrafting.level=Lvl: %s
