@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.uberverse.arkcraft.common.entity.data;
+package com.uberverse.arkcraft.common.arkplayer;
 
 import com.uberverse.arkcraft.common.config.WeightsConfig;
 
@@ -23,9 +23,7 @@ public class PlayerWeightCalculator
 			ItemStack stack = player.inventory.getStackInSlot(i);
 			if (stack != null)
 			{
-				weight += WeightsConfig.getConfig().get(Configuration.CATEGORY_GENERAL, stack.getItem()
-						.getUnlocalizedName().substring(5, stack.getItem().getUnlocalizedName().length()), 0.5)
-						.getDouble() * stack.stackSize;
+				weight += getWeight(stack);
 			}
 		}
 		return weight;
@@ -33,7 +31,9 @@ public class PlayerWeightCalculator
 
 	public static double getWeight(ItemStack stack)
 	{
-		return WeightsConfig.getConfig().get(Configuration.CATEGORY_GENERAL, stack.getItem().getUnlocalizedName()
-				.substring(5, stack.getItem().getUnlocalizedName().length()), 0.5).getDouble();
+		return WeightsConfig.getConfig()
+				.get(Configuration.CATEGORY_GENERAL,
+						stack.getItem().getUnlocalizedName().substring(5), 0.5)
+				.getDouble() * stack.stackSize;
 	}
 }

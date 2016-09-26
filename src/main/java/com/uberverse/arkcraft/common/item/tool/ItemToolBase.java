@@ -42,7 +42,7 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 	private final ToolType toolType;
 	private static final Collection<Block> effectiveBlocks = Lists.newArrayList();
 	private static final Map<Block, Collection<AbstractItemStack>> dropMap = Maps.newHashMap();
-	private final ToolMaterial material;
+	public final ToolMaterial material;
 
 	public static void registerEffectiveBlocks(Block... blocks)
 	{
