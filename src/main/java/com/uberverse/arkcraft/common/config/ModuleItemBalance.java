@@ -26,7 +26,7 @@ public final class ModuleItemBalance
 				name = "Ticks between player poops.",
 				comment = "Ticks between the player poops inside the game")
 		public static int TICKS_BETWEEN_PLAYER_POOP;
-		@DefaultInt(value = 600, minValue = 1, maxValue = 100000,
+		@DefaultInt(value = 2000, minValue = 1, maxValue = 100000,
 				name = "Seconds before food decay on player",
 				comment = "Ticks before food completely decay in the players inventory")
 		public static int SECONDS_BEFORE_FOOD_DECAY;

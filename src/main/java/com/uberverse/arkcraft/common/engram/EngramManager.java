@@ -108,6 +108,10 @@ public class EngramManager
 		instance().registerEngram(new Engram("hide_legs", new AbstractItemStack(ARKCraftItems.hide_legs), 9, 15, 5,
 				EngramType.PLAYER, 1.4, new EngramRecipe(new AbstractItemStack(ARKCraftItems.hide, 25),
 						new AbstractItemStack(ARKCraftItems.fiber, 8))));
+		instance().registerEngram(new Engram("compost_bin", new AbstractItemStack(Item.getItemFromBlock(
+				ARKCraftBlocks.compostBin)), 6, 15, 5, EngramType.PLAYER, 3.5, new EngramRecipe(new AbstractItemStack(
+						ARKCraftItems.wood, 2), new AbstractItemStack(ARKCraftItems.stone, 16), new AbstractItemStack(
+								ARKCraftItems.thatch, 12), new AbstractItemStack(ARKCraftItems.flint, 1))));
 
 		// lvl 20
 		instance().registerEngram(new Engram("hide_boots", new AbstractItemStack(ARKCraftItems.hide_boots), 7, 20, 5,
