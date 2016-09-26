@@ -56,7 +56,7 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder, IExperienceSou
 	@Override
 	default void grantXP(IArkLevelable leveling)
 	{
-		getCraftingQueue().peek().grantXP(leveling);
+		if (leveling != null) getCraftingQueue().peek().grantXP(leveling);
 	}
 
 	public int getTimeOffset();

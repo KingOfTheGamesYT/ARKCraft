@@ -307,6 +307,7 @@ public abstract class TileEntityEngramCrafter extends TileEntity implements IInv
 				closest = p;
 			}
 		}
+		if (closest == null) return null;
 		return ARKPlayer.get(closest);
 	}
 }
