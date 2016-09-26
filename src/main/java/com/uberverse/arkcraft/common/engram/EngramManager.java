@@ -2,6 +2,7 @@ package com.uberverse.arkcraft.common.engram;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -91,7 +92,7 @@ public class EngramManager
 								ARKCraftItems.keratin, 4), new AbstractItemStack(ARKCraftItems.stone, 8))));
 		instance().registerEngram(new Engram("gunpowder", new AbstractItemStack(ARKCraftItems.gunpowder), 2, 10, 1,
 				EngramType.MORTAR_AND_PESTLE, 0.05, new EngramRecipe(new AbstractItemStack(ARKCraftItems.spark_powder,
-						1), new AbstractItemStack(ARKCraftItems.chitin, 1))));
+						1), new AbstractItemStack(ARKCraftItems.charcoal, 1))));
 		instance().registerEngram(new Engram("spy_glass", new AbstractItemStack(ARKCraftItems.spy_glass), 2, 10, 5,
 				EngramType.PLAYER, 2, new EngramRecipe(new AbstractItemStack(ARKCraftItems.wood, 5),
 						new AbstractItemStack(ARKCraftItems.hide, 10), new AbstractItemStack(ARKCraftItems.fiber, 10),
@@ -298,12 +299,12 @@ public class EngramManager
 		private final EngramType type;
 		private final boolean hasBlueprint;
 		private final boolean defaultUnlocked;
-		private final Collection<EngramRecipe> recipes;
+		private final List<EngramRecipe> recipes;
 		private final double experience;
 
 		public Engram(String name, AbstractItemStack output, int points, int level, int craftingTime, EngramType type, boolean hasBlueprint, boolean defaultUnlocked, double experience, EngramRecipe... recipes)
 		{
-			this.recipes = new TreeSet<>();
+			this.recipes = Lists.newArrayList();
 			this.id = idCounter++;
 			this.name = name;
 			this.output = output;
@@ -319,6 +320,7 @@ public class EngramManager
 				addRecipe(r);
 				r.getResourceMultiplier = (ItemQuality q) -> isQualitable() ? q.resourceMultiplier : 1;
 			}
+			Collections.sort(this.recipes);
 		}
 
 		public Engram(String name, AbstractItemStack output, int points, int level, int craftingTime, EngramType type, boolean hasBlueprint, double experience, EngramRecipe... recipes)

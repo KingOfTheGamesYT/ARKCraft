@@ -133,7 +133,7 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 	{
 		int x = s.xDisplayPosition;
 		int y = s.yDisplayPosition;
-		drawRect(x-1, y-1, x + 17, y + 17, new Color(0, 128, 255, 255).getRGB());
+		drawRect(x - 1, y - 1, x + 17, y + 17, new Color(0, 128, 255, 255).getRGB());
 		GlStateManager.color(1, 1, 1, 1);
 	}
 
@@ -147,54 +147,54 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 	protected void drawHoveringText(@SuppressWarnings("rawtypes") List textLines, int x, int y,
 			FontRenderer fontRendererObj)
 	{
-		for (Object o : inventorySlots.inventorySlots)
+		Slot slot = getSlotUnderMouse();
+		if (slot instanceof EngramCraftingSlot)
 		{
-			if (o instanceof EngramCraftingSlot)
+			EngramCraftingSlot e = (EngramCraftingSlot) slot;
+			if (e.getEngram() != null)
 			{
-				EngramCraftingSlot e = (EngramCraftingSlot) o;
-				Slot slot = (Slot) o;
-				if (e.getEngram() != null && isPointInRegion(slot.xDisplayPosition, slot.yDisplayPosition, 18, 18, x,
-						y))
+				if (recipes.size() > 1)
 				{
 					ticker++;
-					if (tooltipped != e.getEngram())
-					{
-						tooltipped = e.getEngram();
-						recipes.clear();
-						recipes.addAll(tooltipped.getRecipes());
-						shown = 0;
-						ticker = 0;
-					}
-					if (ticker == 80)
-					{
-						ticker = 0;
-						shown = (shown + 1 == recipes.size()) ? 0 : shown + 1;
-					}
-					textLines.clear();
+				}
+				if (tooltipped != e.getEngram())
+				{
+					tooltipped = e.getEngram();
+					recipes.clear();
+					recipes.addAll(tooltipped.getRecipes());
+					shown = 0;
+					ticker = 0;
+				}
 
-					ItemQuality out = ItemQuality.PRIMITIVE;
-					double multiplier = 1;
-					if (tooltipped.isQualitable() && slot instanceof BlueprintSlot)
-					{
-						BlueprintSlot b = (BlueprintSlot) slot;
-						out = b.getItemQuality();
-						multiplier = b.getItemQuality().resourceMultiplier;
-					}
+				if (ticker == 80)
+				{
+					ticker = 0;
+					shown = (shown + 1 == recipes.size()) ? 0 : shown + 1;
+				}
+				textLines.clear();
 
-					ItemStack output = tooltipped.getOutputAsItemStack(out);
-					textLines.add(output.getItem().getItemStackDisplayName(output) + (output.stackSize > 1 ? " x "
-							+ output.stackSize : ""));
-					EngramRecipe er = recipes.get(shown);
+				ItemQuality out = ItemQuality.PRIMITIVE;
+				double multiplier = 1;
+				if (tooltipped.isQualitable() && slot instanceof BlueprintSlot)
+				{
+					BlueprintSlot b = (BlueprintSlot) slot;
+					out = b.getItemQuality();
+					multiplier = b.getItemQuality().resourceMultiplier;
+				}
 
-					for (AbstractItemStack i : er.getItems())
-					{
-						textLines.add(EnumChatFormatting.GOLD + I18n.format(
-								"gui.engramcrafting.engram.tooltip.ingredient", I18n.translate(i.item
-										.getUnlocalizedName() + ".name"), (int) (i.getAmount() * multiplier)));
-					}
+				ItemStack output = tooltipped.getOutputAsItemStack(out);
+				textLines.add(output.getItem().getItemStackDisplayName(output) + (output.stackSize > 1 ? " x "
+						+ output.stackSize : ""));
+				EngramRecipe er = recipes.get(shown);
+
+				for (AbstractItemStack i : er.getItems())
+				{
+					textLines.add(EnumChatFormatting.GOLD + I18n.format("gui.engramcrafting.engram.tooltip.ingredient",
+							I18n.translate(i.item.getUnlocalizedName() + ".name"), (int) (i.getAmount() * multiplier)));
 				}
 			}
 		}
+		// TODO queue slot stuff
 
 		super.drawHoveringText(textLines, x, y, fontRendererObj);
 	}
