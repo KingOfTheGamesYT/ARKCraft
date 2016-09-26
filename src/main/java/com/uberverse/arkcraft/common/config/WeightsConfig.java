@@ -8,15 +8,21 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.item.tool.ItemToolBase;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemTool;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
  * @author ERBF
+ * @author Lewis_McReu
  */
 public class WeightsConfig
 {
@@ -55,8 +61,7 @@ public class WeightsConfig
 		for (Item item : itemList)
 		{
 			config.getFloat(item.getUnlocalizedName().substring(5), GENERAL,
-					(int) genNewWeight(item.getUnlocalizedName().charAt(6)), 0,
-					16,
+					generateWeight(item), 0, 16,
 					"Sets the carry weight of item " + item.getUnlocalizedName()
 							.substring(5, item.getUnlocalizedName().length()));
 		}
@@ -67,9 +72,7 @@ public class WeightsConfig
 			config.getFloat(
 					block.getUnlocalizedName().substring(5,
 							block.getUnlocalizedName().length()),
-					GENERAL,
-					(int) genNewWeight(block.getUnlocalizedName().charAt(6)), 0,
-					16,
+					GENERAL, generateWeight(block), 0, 16,
 					"Sets the carry weight of block "
 							+ block.getUnlocalizedName().substring(5,
 									block.getUnlocalizedName().length()));
@@ -78,12 +81,82 @@ public class WeightsConfig
 		config.save();
 	}
 
-	private static int genNewWeight(char c)
+	private static float generateWeight(Item item)
 	{
-		int number = Character.getNumericValue(c);
-		return (int) Math.abs((((number / 2) + 4) / 9) - 1) != 0
-				? (int) Math.abs((((number / 2) + 4) / 9) - 1)
-				: (int) Math.abs((((number / 2) + 4) / 9) - 1) + 2;
+
+		if (item instanceof ItemTool)
+		{
+			switch (((ItemTool) item).getToolMaterial())
+			{
+				case WOOD:
+					return 2;
+				case STONE:
+					return 5;
+				case IRON:
+					return 8;
+				case GOLD:
+					return 6;
+				case EMERALD:
+					return 7;
+			}
+		}
+		if (item instanceof ItemToolBase)
+		{
+			switch (((ItemToolBase) item).material)
+			{
+				case STONE:
+					return 6;
+				case METAL:
+					return 9;
+			}
+		}
+		if (item instanceof ItemBlock)
+			return generateWeight(((ItemBlock) item).block);
+		if (item instanceof ItemArmor)
+		{
+			switch (((ItemArmor) item).getArmorMaterial())
+			{
+				case LEATHER:
+					return 3;
+				case CHAIN:
+					return 5;
+				case DIAMOND:
+					return 7;
+				case GOLD:
+					return 5;
+				case IRON:
+					return 8;
+			}
+		}
+		return 2;
+	}
+
+	private static float generateWeight(Block block)
+	{
+		Material m = block.getMaterial();
+		if (m == Material.air || m == Material.barrier || m == Material.fire
+				|| m == Material.portal)
+			return 0;
+		if (m == Material.cactus || m == Material.grass || m == Material.gourd
+				|| m == Material.craftedSnow || m == Material.leaves
+				|| m == Material.plants || m == Material.glass
+				|| m == Material.vine || m == Material.web)
+			return 0.1f;
+		if (m == Material.anvil || m == Material.dragonEgg
+				|| m == Material.iron)
+			return 8;
+		if (m == Material.cake || m == Material.carpet || m == Material.tnt
+				|| m == Material.cloth || m == Material.sponge)
+			return 0.5f;
+		if (m == Material.circuits || m == Material.sand
+				|| m == Material.redstoneLight)
+			return 1;
+		if (m == Material.coral || m == Material.lava || m == Material.ice
+				|| m == Material.packedIce || m == Material.piston)
+			return 3.5f;
+		if (m == Material.rock) return 5;
+		// default
+		return 2;
 	}
 
 	@SubscribeEvent
@@ -108,5 +181,4 @@ public class WeightsConfig
 	{
 		return config;
 	}
-
 }
