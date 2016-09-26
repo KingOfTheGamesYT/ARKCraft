@@ -17,6 +17,7 @@ import com.uberverse.arkcraft.init.ARKCraftItems;
 public class PlayerPoop implements IMessage
 {
 	boolean doIt; // Not used yet
+	// TODO error here -> check
 
 	/**
 	 * Don't use
@@ -48,8 +49,7 @@ public class PlayerPoop implements IMessage
 		{
 			if (ctx.side != Side.SERVER)
 			{
-				System.err.println(
-						"MPUpdateDoCraft received on wrong side:" + ctx.side);
+				System.err.println("MPUpdateDoCraft received on wrong side:" + ctx.side);
 				return null;
 			}
 			final EntityPlayerMP player = ctx.getServerHandler().playerEntity;

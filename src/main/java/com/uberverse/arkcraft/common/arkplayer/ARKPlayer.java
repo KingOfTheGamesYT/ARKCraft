@@ -6,7 +6,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Queue;
 
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Multimap;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.arkplayer.network.ARKPlayerUpdate;
 import com.uberverse.arkcraft.common.arkplayer.network.ARKPlayerUpdateRequest;
@@ -31,6 +33,8 @@ import com.uberverse.arkcraft.util.NBTable;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
@@ -89,6 +93,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable, IWei
 		this();
 		this.player = player;
 		engramCrafter = new PlayerEngramCrafter();
+		refreshAttributes();
 	}
 
 	public void update()
@@ -414,6 +419,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable, IWei
 				maxWeight.set(maxWeight.get() + weightIncrease);
 				break;
 		}
+		refreshAttributes();
 	}
 
 	@Override
@@ -541,6 +547,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable, IWei
 		weight.variable = properties.getDouble("weight");
 
 		maxHealth.variable = properties.getInteger("maxHealth");
+
 		maxOxygen.variable = properties.getInteger("maxOxygen");
 		maxFood.variable = properties.getInteger("maxFood");
 		maxWater.variable = properties.getInteger("maxWater");
@@ -565,6 +572,19 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable, IWei
 		properties.setTag("engramCrafter", nbt);
 
 		compound.setTag(propKey, properties);
+		refreshAttributes();
+	}
+
+	//TODO use this (somehow only activating after restart)
+	public void refreshAttributes()
+	{
+		Multimap<String, AttributeModifier> mods = HashMultimap.create();
+
+		mods.put(SharedMonsterAttributes.maxHealth.getAttributeUnlocalizedName(), new AttributeModifier(player
+				.getUniqueID(), ARKCraft.MODID + "_max_health", getMaxHealth(), 0));
+
+		player.getAttributeMap().removeAttributeModifiers(mods);
+		player.getAttributeMap().applyAttributeModifiers(mods);
 	}
 
 	@Override
@@ -959,11 +979,6 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable, IWei
 			IEngramCrafter.super.setField(id, value);
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * @see
-		 * com.uberverse.arkcraft.common.engram.IEngramCrafter#getTimeOffset()
-		 */
 		@Override
 		public int getTimeOffset()
 		{
