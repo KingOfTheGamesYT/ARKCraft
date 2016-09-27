@@ -25,6 +25,7 @@ import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.common.network.ScrollGui;
 import com.uberverse.arkcraft.common.network.UpdateEngrams;
 import com.uberverse.arkcraft.common.network.gui.OpenAttachmentInventory;
+import com.uberverse.arkcraft.common.network.gui.OpenPlayerCrafting;
 import com.uberverse.arkcraft.common.network.player.PlayerPoop;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
@@ -133,6 +134,7 @@ public abstract class CommonProxy
 		int id = 0;
 		// The handler (usually in the packet class), the packet class, unique
 		// identifier, side to be handled
+		modChannel.registerMessage(OpenPlayerCrafting.Handler.class, OpenPlayerCrafting.class, id++, Side.SERVER);
 		modChannel.registerMessage(PlayerPoop.Handler.class, PlayerPoop.class, id++, Side.SERVER);
 		modChannel.registerMessage(OpenAttachmentInventory.Handler.class, OpenAttachmentInventory.class, id++,
 				Side.SERVER);

@@ -59,8 +59,7 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 
 public class ClientEventHandler
 {
-	private static KeyBinding reload, attachment, playerPooping, arkmode,
-			playerCrafting;
+	private static KeyBinding reload, attachment, playerPooping, arkmode, playerCrafting;
 
 	private static Minecraft mc = Minecraft.getMinecraft();
 
@@ -73,8 +72,8 @@ public class ClientEventHandler
 	public static int disabledEquippItemAnimationTime = 0;
 
 	private ItemStack selected;
-	private static final ResourceLocation OVERLAY_TEXTURE =
-			new ResourceLocation(ARKCraft.MODID, "textures/gui/scope.png");
+	private static final ResourceLocation OVERLAY_TEXTURE = new ResourceLocation(ARKCraft.MODID,
+			"textures/gui/scope.png");
 	public boolean showScopeOverlap = false;
 
 	public static void init()
@@ -83,24 +82,19 @@ public class ClientEventHandler
 		FMLCommonHandler.instance().bus().register(handler);
 		MinecraftForge.EVENT_BUS.register(handler);
 
-		reload = new KeyBinding("key.arkcraft.reload", Keyboard.KEY_R,
-				ARKCraft.instance().name());
+		reload = new KeyBinding("key.arkcraft.reload", Keyboard.KEY_R, ARKCraft.instance().name());
 		ClientRegistry.registerKeyBinding(reload);
 
-		playerPooping = new KeyBinding("key.arkcraft.playerPooping",
-				Keyboard.KEY_Z, ARKCraft.instance().name());
+		playerPooping = new KeyBinding("key.arkcraft.playerPooping", Keyboard.KEY_Z, ARKCraft.instance().name());
 		ClientRegistry.registerKeyBinding(playerPooping);
 
-		playerCrafting = new KeyBinding("key.arkcraft.playerCrafting",
-				Keyboard.KEY_I, ARKCraft.instance().name());
+		playerCrafting = new KeyBinding("key.arkcraft.playerCrafting", Keyboard.KEY_I, ARKCraft.instance().name());
 		ClientRegistry.registerKeyBinding(playerCrafting);
 
-		attachment = new KeyBinding("key.attachment", Keyboard.KEY_M,
-				ARKCraft.instance().name());
+		attachment = new KeyBinding("key.attachment", Keyboard.KEY_M, ARKCraft.instance().name());
 		ClientRegistry.registerKeyBinding(attachment);
 
-		arkmode = new KeyBinding("key.harvestOverlay", Keyboard.KEY_P,
-				ARKCraft.instance().name());
+		arkmode = new KeyBinding("key.harvestOverlay", Keyboard.KEY_P, ARKCraft.instance().name());
 		ClientRegistry.registerKeyBinding(arkmode);
 	}
 
@@ -113,12 +107,10 @@ public class ClientEventHandler
 
 		if (item != null && item.getItem() instanceof ItemRangedWeapon)
 		{
-			if (eventAction.RIGHT_CLICK_BLOCK != null
-					& eventAction.RIGHT_CLICK_AIR != null)
+			if (eventAction.RIGHT_CLICK_BLOCK != null & eventAction.RIGHT_CLICK_AIR != null)
 			{
-				ObfuscationReflectionHelper.setPrivateValue(ItemRenderer.class,
-						Minecraft.getMinecraft().getItemRenderer(), 1F,
-						"equippedProgress", "field_78454_c");
+				ObfuscationReflectionHelper.setPrivateValue(ItemRenderer.class, Minecraft.getMinecraft()
+						.getItemRenderer(), 1F, "equippedProgress", "field_78454_c");
 			}
 		}
 	}
@@ -130,12 +122,10 @@ public class ClientEventHandler
 		{
 			ItemStack stack = event.itemStack;
 			double weight = PlayerWeightCalculator.getWeight(stack);
-			event.toolTip.add(EnumChatFormatting.BOLD + ""
-					+ EnumChatFormatting.WHITE + "Weight: " + weight);
+			event.toolTip.add(EnumChatFormatting.BOLD + "" + EnumChatFormatting.WHITE + "Weight: " + weight);
 			if (stack.stackSize > 1)
 			{
-				event.toolTip
-						.add("Stack Weight: " + (weight * stack.stackSize));
+				event.toolTip.add("Stack Weight: " + (weight * stack.stackSize));
 			}
 		}
 	}
@@ -144,29 +134,22 @@ public class ClientEventHandler
 	{
 		if (partialTick == 1.0F)
 		{
-			return new Vec3(player.posX, player.posY + player.getEyeHeight(),
-					player.posZ);
+			return new Vec3(player.posX, player.posY + player.getEyeHeight(), player.posZ);
 		}
 		else
 		{
-			double d0 = player.prevPosX
-					+ (player.posX - player.prevPosX) * partialTick;
-			double d1 = player.prevPosY
-					+ (player.posY - player.prevPosY) * partialTick
-					+ player.getEyeHeight();
-			double d2 = player.prevPosZ
-					+ (player.posZ - player.prevPosZ) * partialTick;
+			double d0 = player.prevPosX + (player.posX - player.prevPosX) * partialTick;
+			double d1 = player.prevPosY + (player.posY - player.prevPosY) * partialTick + player.getEyeHeight();
+			double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * partialTick;
 			return new Vec3(d0, d1, d2);
 		}
 	}
 
-	public MovingObjectPosition rayTrace(EntityPlayer player, double distance,
-			float partialTick)
+	public MovingObjectPosition rayTrace(EntityPlayer player, double distance, float partialTick)
 	{
 		Vec3 vec3 = getPositionEyes(player, partialTick);
 		Vec3 vec31 = player.getLook(partialTick);
-		Vec3 vec32 = vec3.addVector(vec31.xCoord * distance,
-				vec31.yCoord * distance, vec31.zCoord * distance);
+		Vec3 vec32 = vec3.addVector(vec31.xCoord * distance, vec31.yCoord * distance, vec31.zCoord * distance);
 		return player.worldObj.rayTraceBlocks(vec3, vec32, false, false, true);
 	}
 
@@ -182,8 +165,7 @@ public class ClientEventHandler
 			InventoryAttachment att = InventoryAttachment.create(stack);
 			if (stack != null)
 			{
-				if (att != null && att.isScopePresent()
-						|| stack.getItem().equals(ARKCraftItems.spy_glass))
+				if (att != null && att.isScopePresent() || stack.getItem().equals(ARKCraftItems.spy_glass))
 				{
 					showScopeOverlap = evt.buttonstate;
 					selected = stack;
@@ -196,8 +178,7 @@ public class ClientEventHandler
 	@SubscribeEvent
 	public void onFOVUpdate(FOVUpdateEvent evt)
 	{
-		if (mc.gameSettings.thirdPersonView == 0 && showScopeOverlap)
-			evt.newfov /= 6.0F;
+		if (mc.gameSettings.thirdPersonView == 0 && showScopeOverlap) evt.newfov /= 6.0F;
 	}
 
 	@SubscribeEvent
@@ -213,9 +194,7 @@ public class ClientEventHandler
 	public void onRender(RenderGameOverlayEvent evt)
 	{
 		Minecraft mc = Minecraft.getMinecraft();
-		if (showScopeOverlap
-				&& (mc.thePlayer.getCurrentEquippedItem() != selected
-						|| !Mouse.isButtonDown(0)))
+		if (showScopeOverlap && (mc.thePlayer.getCurrentEquippedItem() != selected || !Mouse.isButtonDown(0)))
 		{
 			showScopeOverlap = false;
 		}
@@ -231,22 +210,18 @@ public class ClientEventHandler
 				}
 			}
 			// Remove crosshairs
-			else if (evt.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS
-					&& showScopeOverlap)
-				evt.setCanceled(true);
+			else if (evt.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS && showScopeOverlap) evt.setCanceled(
+					true);
 		}
-		else if (evt.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS
-				&& !Minecraft.getMinecraft().isGamePaused())
+		else if (evt.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS && !Minecraft.getMinecraft().isGamePaused())
 		{
-			MovingObjectPosition mop =
-					rayTrace(mc.thePlayer, 8, evt.partialTicks);
+			MovingObjectPosition mop = rayTrace(mc.thePlayer, 8, evt.partialTicks);
 			if (mop != null && mop.typeOfHit == MovingObjectType.BLOCK)
 			{
 				TileEntity tile = mc.theWorld.getTileEntity(mop.getBlockPos());
 				if (tile instanceof IHoverInfo)
 				{
-					ClientUtils.drawIHoverInfoTooltip((IHoverInfo) tile,
-							mc.fontRendererObj, evt, mop.getBlockPos());
+					ClientUtils.drawIHoverInfoTooltip((IHoverInfo) tile, mc.fontRendererObj, evt, mop.getBlockPos());
 				}
 			}
 		}
@@ -258,8 +233,7 @@ public class ClientEventHandler
 		Minecraft mc = Minecraft.getMinecraft();
 		EntityPlayer thePlayer = mc.thePlayer;
 		ItemStack stack = thePlayer.getCurrentEquippedItem();
-		if (!event.isCanceled() && event.entity.equals(thePlayer)
-				&& stack != null)
+		if (!event.isCanceled() && event.entity.equals(thePlayer) && stack != null)
 		{
 			if (stack.getItem() instanceof ItemRangedWeapon)
 			{
@@ -304,8 +278,7 @@ public class ClientEventHandler
 
 		mc.renderEngine.bindTexture(OVERLAY_TEXTURE);
 
-		ScaledResolution res =
-				new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+		ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
 		double width = res.getScaledWidth_double();
 		double height = res.getScaledHeight_double();
 
@@ -355,10 +328,8 @@ public class ClientEventHandler
 		}
 		else if (attachment.isPressed())
 		{
-			if (player.getCurrentEquippedItem() != null
-					&& player.getCurrentEquippedItem()
-							.getItem() instanceof ItemRangedWeapon
-					&& !(player.getCurrentEquippedItem()
+			if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem()
+					.getItem() instanceof ItemRangedWeapon && !(player.getCurrentEquippedItem()
 							.getItem() instanceof NonSupporting))
 			{
 				ARKCraft.modChannel.sendToServer(new OpenAttachmentInventory());
@@ -387,8 +358,7 @@ public class ClientEventHandler
 	@SubscribeEvent
 	public void easter(PlayerInteractEvent event)
 	{
-		if (event.pos != null && event.world.getBlockState(event.pos)
-				.getBlock() instanceof BlockRefiningForge)
+		if (event.pos != null && event.world.getBlockState(event.pos).getBlock() instanceof BlockRefiningForge)
 		{
 			Easter.handleInteract(event);
 		}
