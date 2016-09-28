@@ -28,6 +28,7 @@ import com.uberverse.arkcraft.common.network.gui.OpenAttachmentInventory;
 import com.uberverse.arkcraft.common.network.gui.OpenPlayerCrafting;
 import com.uberverse.arkcraft.common.network.player.PlayerPoop;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
+import com.uberverse.arkcraft.init.ARKCraftEntities;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
 import com.uberverse.arkcraft.init.ARKCraftWorldGen;
@@ -106,7 +107,9 @@ public abstract class CommonProxy
 	}
 
 	public void init(FMLInitializationEvent event)
-	{}
+	{
+		ARKCraftEntities.init();
+	}
 
 	public void postInit(FMLPostInitializationEvent event)
 	{}

@@ -56,14 +56,7 @@ public class ClientProxy extends CommonProxy
 	{
 		super.init(event);
 
-		ClientEventHandler.init();
 		dossierProxy.init();
-
-		MinecraftForge.EVENT_BUS.register(new GUIOverlayReloading());
-		MinecraftForge.EVENT_BUS.register(new GUIOverlayARKMode());
-
-		EntityHandler.registerEntityEgg(EntityDodo.class, ARKCraft.MODID + ".dodo", BiomeGenBase.beach,
-				BiomeGenBase.desert, BiomeGenBase.forest, BiomeGenBase.birchForest, BiomeGenBase.extremeHills);
 
 		registerRenderers();
 	}
@@ -73,6 +66,8 @@ public class ClientProxy extends CommonProxy
 	{
 		super.registerEventHandlers();
 		ClientEventHandler.init();
+		MinecraftForge.EVENT_BUS.register(new GUIOverlayReloading());
+		MinecraftForge.EVENT_BUS.register(new GUIOverlayARKMode());
 	}
 
 	/* We register the block/item textures and models here */
