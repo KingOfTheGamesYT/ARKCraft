@@ -14,6 +14,7 @@ import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -59,8 +60,6 @@ public class BlockRefiningForge extends BlockBurner
 			{
 				worldIn.setBlockToAir(blockpos1);
 			}
-			super.onBlockHarvested(worldIn, blockpos1, state, player);
-			dropBlockAsItem(worldIn, pos, state, 0);
 		}
 		else if (state.getValue(PART) == EnumPart.TOP)
 		{
@@ -69,8 +68,14 @@ public class BlockRefiningForge extends BlockBurner
 			{
 				worldIn.setBlockToAir(blockpos1);
 			}
-			super.onBlockHarvested(worldIn, blockpos1, state, player);
 		}
+	}
+
+	@Override
+	public Item getItemDropped(IBlockState state, Random rand, int fortune)
+	{
+		if (state.getValue(PART) == EnumPart.BOTTOM) return super.getItemDropped(state, rand, fortune);
+		else return null;
 	}
 
 	@Override
