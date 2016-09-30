@@ -16,6 +16,7 @@ import com.uberverse.arkcraft.common.item.ARKCraftSeed;
 import com.uberverse.arkcraft.common.item.ItemBerry;
 import com.uberverse.arkcraft.common.item.ItemBlueprint;
 import com.uberverse.arkcraft.common.item.ItemFertilizer;
+import com.uberverse.arkcraft.common.item.ItemFuel;
 import com.uberverse.arkcraft.common.item.armor.ItemARKArmor;
 import com.uberverse.arkcraft.common.item.melee.ItemPike;
 import com.uberverse.arkcraft.common.item.melee.ItemSpear;
@@ -98,8 +99,8 @@ public class ARKCraftItems
 		metal_ingot = addItem("metal_ingot");
 		stone = addItem("stone");
 		fiber = addItem("fiber");
-		thatch = addItem("thatch");
-		wood = addItem("wood");
+		thatch = addFuel("thatch");
+		wood = addFuel("wood");
 		flint = addItem("flint");
 		metal = addItem("metal");
 		spark_powder = addItem("spark_powder");
@@ -111,7 +112,7 @@ public class ARKCraftItems
 		pelt = addItem("pelt");
 		obsidian = addItem("obsidian");
 		oil = addItem("oil");
-		gasoline = addItem("gasoline");
+		gasoline = addFuel("gasoline");
 
 		// Tools
 		metalPick = init.registerItem("metal_pick", new ItemPickMetal());
@@ -147,11 +148,11 @@ public class ARKCraftItems
 		fur_boots = addArmorItem("fur_boots", FUR, "furArmor", 3, false);
 
 		// Food
-		tintoBerry = addFood("tinto", 4, 0.3F, false, true);
-		amarBerry = addFood("amar", 4, 0.3F, false, true);
-		azulBerry = addFood("azul", 4, 0.3F, false, true);
-		mejoBerry = addFood("mejo", 4, 0.3F, false, true);
-		narcoBerry = addFood("narco", 4, 0.3F, true, true);
+		tintoBerry = addBerry("tinto", 4, 0.3F, false, true);
+		amarBerry = addBerry("amar", 4, 0.3F, false, true);
+		azulBerry = addBerry("azul", 4, 0.3F, false, true);
+		mejoBerry = addBerry("mejo", 4, 0.3F, false, true);
+		narcoBerry = addBerry("narco", 4, 0.3F, true, true);
 		stimBerry = addBerry("stim", 4, 0.3F, true, true);
 		meat_raw = addFood("meat_raw", 3, 0.3F, false, false);
 		meat_cooked = addFood("meat_cooked", 6, 0.9F, false, false);
@@ -189,6 +190,11 @@ public class ARKCraftItems
 				wood, 2), new AbstractItemStack(thatch, 2) }));
 	}
 
+	private static ItemFuel addFuel(String name)
+	{
+		return InitializationManager.instance().registerItem(name, new ItemFuel(name));
+	}
+
 	public static void initBlueprints()
 	{
 		blueprint = InitializationManager.instance().registerItem("blueprint", "blueprint/", new ItemBlueprint(), false,
@@ -207,7 +213,7 @@ public class ARKCraftItems
 				PLAYER.SECONDS_BEFORE_FOOD_DECAY));
 	}
 
-	private static ARKCraftFood addBerry(String name, int heal, float sat, boolean fav, boolean alwaysEdible)
+	private static ItemBerry addBerry(String name, int heal, float sat, boolean fav, boolean alwaysEdible)
 	{
 		return InitializationManager.instance().registerItem(name, new ItemBerry(heal, sat, fav, alwaysEdible,
 				PLAYER.SECONDS_BEFORE_FOOD_DECAY));

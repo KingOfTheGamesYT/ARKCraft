@@ -6,6 +6,7 @@ import java.util.Map;
 import com.uberverse.arkcraft.common.burner.BurnerManager.BurnerFuel;
 import com.uberverse.arkcraft.common.burner.BurnerManager.BurnerRecipe;
 import com.uberverse.arkcraft.common.burner.IBurner;
+import com.uberverse.arkcraft.common.item.ItemFuel;
 import com.uberverse.arkcraft.common.tileentity.IDecayer;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -165,7 +166,7 @@ public abstract class TileEntityBurner extends TileEntity implements IInventory,
 	@Override
 	public boolean isItemValidForSlot(int index, ItemStack stack)
 	{
-		return true;
+		return stack != null ? stack.getItem() instanceof ItemFuel : false;
 	}
 
 	@Override
