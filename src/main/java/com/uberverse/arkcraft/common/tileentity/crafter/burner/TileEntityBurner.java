@@ -44,8 +44,11 @@ public abstract class TileEntityBurner extends TileEntity implements IInventory,
 	@Override
 	public void update()
 	{
-		IBurner.super.update();
-		IDecayer.super.update();
+		if (!worldObj.isRemote)
+		{
+			IBurner.super.update();
+			IDecayer.super.update();
+		}
 	}
 
 	public void setBurning(boolean burning)

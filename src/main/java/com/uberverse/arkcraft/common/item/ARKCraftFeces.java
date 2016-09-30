@@ -2,6 +2,8 @@ package com.uberverse.arkcraft.common.item;
 
 import java.util.List;
 
+import com.uberverse.arkcraft.ARKCraft;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,7 +29,7 @@ public class ARKCraftFeces extends ItemFertilizer implements IDecayable
 	{
 		super.getSubItems(itemIn, tab, subItems);
 		for (Object o : subItems)
-			IDecayable.setDecayStart((ItemStack) o, decayTime);
+			IDecayable.setDecayStart((ItemStack) o, ARKCraft.proxy.getWorldTime());
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -42,7 +44,7 @@ public class ARKCraftFeces extends ItemFertilizer implements IDecayable
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
 	{
 		super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
-		decayTick(((EntityPlayer) entityIn).inventory, itemSlot, 1, stack);
+		if (!worldIn.isRemote) decayTick(((EntityPlayer) entityIn).inventory, itemSlot, 1, stack);
 	}
 
 	@Override

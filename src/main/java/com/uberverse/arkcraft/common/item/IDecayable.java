@@ -5,10 +5,14 @@ import java.util.List;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.util.I18n;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * @author tom5454
@@ -31,11 +35,16 @@ public interface IDecayable
 	public default boolean shouldRemove(ItemStack stack, double decayModifier)
 	{
 		long decayStart = getDecayStart(stack);
-		return decayStart >= 0 && getRemovalTime(stack, decayModifier) < ARKCraft.proxy.getWorldTime();
+		// System.out.println(decayStart);
+		// System.out.println(ARKCraft.proxy.getWorldTime());
+		// System.out.println(getRemovalTime(stack, decayModifier));
+		// System.out.println(ARKCraft.proxy.getWorldTime());
+		return decayStart >= 0 && getRemovalTime(stack, decayModifier) <= ARKCraft.proxy.getWorldTime();
 	}
 
 	public default long getRemovalTime(ItemStack stack, double decayModifier)
 	{
+		System.out.println(getDecayStart(stack));
 		return (long) (getDecayStart(stack) + getDecayTime(stack) * decayModifier);
 	}
 
@@ -44,6 +53,7 @@ public interface IDecayable
 		return stack.hasTagCompound() ? stack.getTagCompound().getLong("decayStart") : -1;
 	}
 
+	@SideOnly(Side.CLIENT)
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public default void addInformation(ItemStack itemStack, EntityPlayer playerIn, List tooltip, boolean advanced)
 	{
@@ -89,10 +99,11 @@ public interface IDecayable
 		stack.getTagCompound().setDouble("decayModifier", decayModifier);
 	}
 
-	public static void setDecayStart(ItemStack stack, long decayStart)
+	public static ItemStack setDecayStart(ItemStack stack, long decayStart)
 	{
 		if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
 		stack.getTagCompound().setLong("decayStart", decayStart);
+		return stack;
 	}
 
 	public default long getDecayTimeLeft(ItemStack stack, double decayModifier)

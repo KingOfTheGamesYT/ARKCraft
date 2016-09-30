@@ -96,7 +96,7 @@ public class ARKCraftFood extends ItemFood implements IDecayable
 	public void getSubItems(Item itemIn, CreativeTabs tab, List subItems)
 	{
 		ItemStack s = new ItemStack(this);
-		IDecayable.setDecayStart(s, -1);
+		IDecayable.setDecayStart(s, ARKCraft.proxy.getWorldTime());
 		subItems.add(s);
 	}
 
@@ -133,6 +133,7 @@ public class ARKCraftFood extends ItemFood implements IDecayable
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
 	{
-		decayTick(((EntityPlayer) entityIn).inventory, itemSlot, 1, stack);
+		super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
+		if (!worldIn.isRemote) decayTick(((EntityPlayer) entityIn).inventory, itemSlot, 1, stack);
 	}
 }

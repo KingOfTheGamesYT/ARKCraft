@@ -20,7 +20,6 @@ import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.item.IDecayable;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.network.ReloadFinished;
-import com.uberverse.arkcraft.common.tileentity.IDecayer;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.util.Utils;
 import com.uberverse.lib.LogHelper;
@@ -37,7 +36,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
@@ -51,7 +49,6 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerOpenContainerEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -322,21 +319,6 @@ public class CommonEventHandler
 	}
 
 	@SubscribeEvent
-	public void onPlayerOpenContainer(PlayerOpenContainerEvent event)
-	{
-		for (Object o : event.entityPlayer.openContainer.inventorySlots)
-		{
-			if (o != null)
-			{
-				Slot s = (Slot) o;
-				if (s.getHasStack() && s.getStack().getItem() instanceof IDecayable) ((IDecayable) s.getStack()
-						.getItem()).decayTick(s.inventory, s.getSlotIndex(), s.inventory instanceof IDecayer
-								? ((IDecayer) s.inventory).getDecayModifier(s.getStack()) : 1, s.getStack());
-			}
-		}
-	}
-
-	@SubscribeEvent
 	public void onBlockBroken(BlockEvent.HarvestDropsEvent event)
 	{
 		if (event.harvester != null && !event.harvester.getEntityWorld().isRemote && event.harvester
@@ -356,29 +338,63 @@ public class CommonEventHandler
 	{
 		if (!event.entityPlayer.worldObj.isRemote)
 		{
-			ItemStack stack = event.item.getEntityItem();
-			if (stack != null)
+			ItemStack pickedUp = event.item.getEntityItem();
+			if (pickedUp != null)
 			{
-				Item in = stack.getItem();
+				Item in = pickedUp.getItem();
 				if (in instanceof IDecayable)
 				{
 					EntityPlayer p = event.entityPlayer;
 					for (int i = 0; i < p.inventory.getSizeInventory(); i++)
 					{
-						ItemStack s = p.inventory.getStackInSlot(i);
-						if (s != null && s.getItem() == in)
+						ItemStack inInv = p.inventory.getStackInSlot(i);
+						if (inInv != null && inInv.getItem() == in)
 						{
-							long s2 = IDecayable.getDecayStart(s);
-							int si2 = s.stackSize;
-							long s1 = IDecayable.getDecayStart(stack);
-							int si1 = stack.stackSize;
-							si1 = in.getItemStackLimit(stack) - si2 > si1 ? si1 : in.getItemStackLimit(stack) - si2;
-							stack.stackSize -= si1;
+							long inDecayStart = IDecayable.getDecayStart(inInv);
+							long pickDecayStart = IDecayable.getDecayStart(pickedUp);
+							int inSize = inInv.stackSize;
+							int pickSize = pickedUp.stackSize;
+							int maxSize = inInv.getMaxStackSize();
 
-							long n = (s1 * si1 + s2 * si2) / (si1 + si2);
-							ItemStack nS = new ItemStack(in, si2 + si1);
-							IDecayable.setDecayStart(nS, n);
-							p.inventory.setInventorySlotContents(i, nS);
+							if (inSize == maxSize) continue;
+
+							int diff = pickSize - (maxSize - inSize);
+							if (diff > 0) pickSize = maxSize - inSize;
+
+							long avg = (inDecayStart * inSize + pickDecayStart * pickSize) / (inSize + pickSize);
+
+							pickedUp.stackSize -= pickSize;
+							EntityItem nEnt = new EntityItem(event.item.worldObj, event.item.posX, event.item.posY,
+									event.item.posZ, IDecayable.setDecayStart(new ItemStack(in, pickSize), avg));
+							nEnt.setNoPickupDelay();
+							event.item.worldObj.spawnEntityInWorld(nEnt);
+							// inInv.stackSize += pickSize;
+
+							IDecayable.setDecayStart(inInv, avg);
+							//
+							// long s2 = IDecayable.getDecayStart(inInv);
+							// System.out.println(s2);
+							// int si2 = inInv.stackSize;
+							// System.out.println(si2);
+							// long s1 = IDecayable.getDecayStart(pickedUp);
+							// System.out.println(s1);
+							// int si1 = pickedUp.stackSize;
+							// System.out.println(si1);
+							// si1 = in.getItemStackLimit(pickedUp) - si2 > si1 ? si1 : in.getItemStackLimit(pickedUp)
+							// - si2;
+							// System.out.println(si1);
+							// pickedUp.stackSize -= si1;
+							// System.out.println(pickedUp.stackSize);
+							//
+							// long n = (s1 * si1 + s2 * si2) / (si1 + si2);
+							// System.out.println(n);
+							//
+							// IDecayable.setDecayStart(inInv, n);
+							//
+							// ItemStack nS = new ItemStack(in, si2 + si1);
+							// System.out.println(nS);
+							// IDecayable.setDecayStart(nS, n);
+							// // p.inventory.setInventorySlotContents(i, nS);
 							break;
 						}
 					}
@@ -392,13 +408,15 @@ public class CommonEventHandler
 	{
 		// TODO remove when actual ark creatures are in place and dropping items
 		if (event.entityLiving.worldObj.isRemote) return;
-		Random r = new Random(event.entityLiving.worldObj.getSeed());
-		ItemStack meat = new ItemStack(ARKCraftItems.meat_raw, r.nextInt(3) + 1);
-		ARKCraftItems.meat_raw.onCreated(meat, event.entityLiving.worldObj, null);
+		Random r = new Random();
+		int x = r.nextInt(3) + 1;
+		System.out.println(x);
+		ItemStack meat = new ItemStack(ARKCraftItems.meat_raw, x);
 		event.drops.add(new EntityItem(event.entityLiving.worldObj, event.entityLiving.posX, event.entityLiving.posY,
-				event.entityLiving.posZ, meat));
+				event.entityLiving.posZ, IDecayable.setDecayStart(meat, ARKCraft.proxy.getWorldTime())));
 		if (r.nextDouble() < 0.05) event.drops.add(new EntityItem(event.entityLiving.worldObj, event.entityLiving.posX,
-				event.entityLiving.posY, event.entityLiving.posZ, new ItemStack(ARKCraftItems.primemeat_raw)));
+				event.entityLiving.posY, event.entityLiving.posZ, IDecayable.setDecayStart(new ItemStack(
+						ARKCraftItems.primemeat_raw), ARKCraft.proxy.getWorldTime())));
 		if (event.entityLiving instanceof EntitySpider || event.entityLiving instanceof EntitySilverfish
 				|| event.entityLiving instanceof EntityEndermite) event.drops.add(new EntityItem(
 						event.entityLiving.worldObj, event.entityLiving.posX, event.entityLiving.posY,
