@@ -364,37 +364,9 @@ public class CommonEventHandler
 							long avg = (inDecayStart * inSize + pickDecayStart * pickSize) / (inSize + pickSize);
 
 							pickedUp.stackSize -= pickSize;
-							EntityItem nEnt = new EntityItem(event.item.worldObj, event.item.posX, event.item.posY,
-									event.item.posZ, IDecayable.setDecayStart(new ItemStack(in, pickSize), avg));
-							nEnt.setNoPickupDelay();
-							event.item.worldObj.spawnEntityInWorld(nEnt);
-							// inInv.stackSize += pickSize;
-
+							inInv.stackSize += pickSize;
 							IDecayable.setDecayStart(inInv, avg);
-							//
-							// long s2 = IDecayable.getDecayStart(inInv);
-							// System.out.println(s2);
-							// int si2 = inInv.stackSize;
-							// System.out.println(si2);
-							// long s1 = IDecayable.getDecayStart(pickedUp);
-							// System.out.println(s1);
-							// int si1 = pickedUp.stackSize;
-							// System.out.println(si1);
-							// si1 = in.getItemStackLimit(pickedUp) - si2 > si1 ? si1 : in.getItemStackLimit(pickedUp)
-							// - si2;
-							// System.out.println(si1);
-							// pickedUp.stackSize -= si1;
-							// System.out.println(pickedUp.stackSize);
-							//
-							// long n = (s1 * si1 + s2 * si2) / (si1 + si2);
-							// System.out.println(n);
-							//
-							// IDecayable.setDecayStart(inInv, n);
-							//
-							// ItemStack nS = new ItemStack(in, si2 + si1);
-							// System.out.println(nS);
-							// IDecayable.setDecayStart(nS, n);
-							// // p.inventory.setInventorySlotContents(i, nS);
+
 							break;
 						}
 					}
