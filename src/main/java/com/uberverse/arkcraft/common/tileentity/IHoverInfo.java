@@ -2,8 +2,6 @@ package com.uberverse.arkcraft.common.tileentity;
 
 import java.util.List;
 
-import net.minecraft.nbt.NBTTagCompound;
-
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -18,7 +16,7 @@ public interface IHoverInfo
 	@SideOnly(Side.CLIENT)
 	void addInformation(List<String> text);
 
-	void writeToNBTPacket(NBTTagCompound tag);
-
-	void readFromNBTPacket(NBTTagCompound tag);
+	// void writeToNBTPacket(NBTTagCompound tag);
+	//
+	// void readFromNBTPacket(NBTTagCompound tag);
 }

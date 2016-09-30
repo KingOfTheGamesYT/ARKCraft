@@ -37,7 +37,7 @@ public class ClientUtils
 		if (ticks > 30)
 		{
 			ticks = 0;
-			ARKCraft.modChannel.sendToServer(new MessageHoverReq(target));
+//			ARKCraft.modChannel.sendToServer(new MessageHoverReq(target));
 		}
 		List<String> list = new ArrayList<String>();
 		info.addInformation(list);

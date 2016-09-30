@@ -1,24 +1,22 @@
 package com.uberverse.arkcraft.common.network;
 
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.tileentity.IHoverInfo;
+
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
-
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.tileentity.IHoverInfo;
-
-import io.netty.buffer.ByteBuf;
-
-public class MessageHover
-		implements IMessage, IMessageHandler<MessageHover, IMessage>
+//TODO redundant
+public class MessageHover implements IMessage, IMessageHandler<MessageHover, IMessage>
 {
 
 	BlockPos pos;
@@ -34,8 +32,7 @@ public class MessageHover
 	}
 
 	@Override
-	public IMessage onMessage(final MessageHover message,
-			final MessageContext ctx)
+	public IMessage onMessage(final MessageHover message, final MessageContext ctx)
 	{
 		if (ctx.side == Side.CLIENT)
 		{
@@ -47,11 +44,10 @@ public class MessageHover
 				{
 					if (message.pos != null)
 					{
-						TileEntity tile = Minecraft.getMinecraft().theWorld
-								.getTileEntity(message.pos);
+						TileEntity tile = Minecraft.getMinecraft().theWorld.getTileEntity(message.pos);
 						if (tile instanceof IHoverInfo)
 						{
-							((IHoverInfo) tile).readFromNBTPacket(message.tag);
+							// ((IHoverInfo) tile).readFromNBTPacket(message.tag);
 						}
 					}
 				}
@@ -76,8 +72,7 @@ public class MessageHover
 		ByteBufUtils.writeTag(buf, tag);
 	}
 
-	public static class MessageHoverReq
-			implements IMessage, IMessageHandler<MessageHoverReq, MessageHover>
+	public static class MessageHoverReq implements IMessage, IMessageHandler<MessageHoverReq, MessageHover>
 	{
 		BlockPos pos;
 
@@ -90,8 +85,7 @@ public class MessageHover
 		}
 
 		@Override
-		public MessageHover onMessage(final MessageHoverReq message,
-				final MessageContext ctx)
+		public MessageHover onMessage(final MessageHoverReq message, final MessageContext ctx)
 		{
 			if (ctx.side == Side.SERVER)
 			{
@@ -103,16 +97,13 @@ public class MessageHover
 					{
 						if (message.pos != null)
 						{
-							TileEntity tile =
-									ctx.getServerHandler().playerEntity.worldObj
-											.getTileEntity(message.pos);
+							TileEntity tile = ctx.getServerHandler().playerEntity.worldObj.getTileEntity(message.pos);
 							if (tile instanceof IHoverInfo)
 							{
 								NBTTagCompound tag = new NBTTagCompound();
-								((IHoverInfo) tile).writeToNBTPacket(tag);
-								ARKCraft.modChannel.sendTo(
-										new MessageHover(message.pos, tag),
-										ctx.getServerHandler().playerEntity);
+								// ((IHoverInfo) tile).writeToNBTPacket(tag);
+								ARKCraft.modChannel.sendTo(new MessageHover(message.pos, tag), ctx
+										.getServerHandler().playerEntity);
 							}
 						}
 					}

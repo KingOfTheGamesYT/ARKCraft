@@ -20,6 +20,7 @@ import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.common.network.gui.OpenAttachmentInventory;
 import com.uberverse.arkcraft.common.network.gui.OpenPlayerCrafting;
 import com.uberverse.arkcraft.common.tileentity.IHoverInfo;
+import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.util.ClientUtils;
 
@@ -219,6 +220,10 @@ public class ClientEventHandler
 			if (mop != null && mop.typeOfHit == MovingObjectType.BLOCK)
 			{
 				TileEntity tile = mc.theWorld.getTileEntity(mop.getBlockPos());
+				if (tile instanceof TileEntityCropPlot)
+				{
+					tile = ((TileEntityCropPlot) tile).getCenter();
+				}
 				if (tile instanceof IHoverInfo)
 				{
 					ClientUtils.drawIHoverInfoTooltip((IHoverInfo) tile, mc.fontRendererObj, evt, mop.getBlockPos());

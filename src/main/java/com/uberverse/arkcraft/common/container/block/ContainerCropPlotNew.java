@@ -9,7 +9,6 @@ import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -25,15 +24,13 @@ public class ContainerCropPlotNew extends Container
 		int y = 26;
 		for (int i = 0; i < 5; i++)
 		{
-			addSlotToContainer(
-					new SlotCropPlot(tileEntity, id + i, i * 18 + 44, y));
+			addSlotToContainer(new SlotCropPlot(tileEntity, id + i, i * 18 + 44, y));
 		}
 		y += 18;
 		id += 5;
 		for (int i = 0; i < 5; i++)
 		{
-			addSlotToContainer(
-					new SlotCropPlot(tileEntity, id + i, i * 18 + 44, y));
+			addSlotToContainer(new SlotCropPlot(tileEntity, id + i, i * 18 + 44, y));
 		}
 		addPlayerSlots(inventory, 8, 84);
 	}
@@ -50,15 +47,13 @@ public class ContainerCropPlotNew extends Container
 		{
 			for (int j = 0; j < 9; ++j)
 			{
-				addSlotToContainer(new Slot(playerInventory, j + i * 9 + 9,
-						x + j * 18, y + i * 18));
+				addSlotToContainer(new Slot(playerInventory, j + i * 9 + 9, x + j * 18, y + i * 18));
 			}
 		}
 
 		for (int i = 0; i < 9; ++i)
 		{
-			addSlotToContainer(
-					new Slot(playerInventory, i, x + i * 18, y + 58));
+			addSlotToContainer(new Slot(playerInventory, i, x + i * 18, y + 58));
 		}
 	}
 
@@ -78,9 +73,38 @@ public class ContainerCropPlotNew extends Container
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index)
+	public ItemStack transferStackInSlot(EntityPlayer player, int sourceSlotIndex)
 	{
-		return null;
+		Slot sourceSlot = (Slot) inventorySlots.get(sourceSlotIndex);
+		if (sourceSlot == null || !sourceSlot.getHasStack()) return null;
+		ItemStack sourceStack = sourceSlot.getStack();
+		ItemStack copyOfSourceStack = sourceStack.copy();
+
+		if (sourceSlotIndex >= 10 && sourceSlotIndex < 10 + 36)
+		{
+			if (!mergeItemStack(sourceStack, 0, 9 + 1, false)) { return null; }
+		}
+		else if (sourceSlotIndex >= 0 && sourceSlotIndex < 9 + 1)
+		{
+			if (!mergeItemStack(sourceStack, 10, 10 + 36, false)) { return null; }
+		}
+		else
+		{
+			System.err.print("Invalid slotIndex:" + sourceSlotIndex);
+			return null;
+		}
+
+		if (sourceStack.stackSize == 0)
+		{
+			sourceSlot.putStack(null);
+		}
+		else
+		{
+			sourceSlot.onSlotChanged();
+		}
+
+		sourceSlot.onPickupFromSlot(player, sourceStack);
+		return copyOfSourceStack;
 	}
 
 	@Override
