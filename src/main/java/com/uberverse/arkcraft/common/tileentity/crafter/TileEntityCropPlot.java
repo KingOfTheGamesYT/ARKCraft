@@ -10,7 +10,6 @@ import com.uberverse.arkcraft.common.item.ItemBerry;
 import com.uberverse.arkcraft.common.item.ItemFertilizer;
 import com.uberverse.arkcraft.common.tileentity.IDecayer;
 import com.uberverse.arkcraft.common.tileentity.IHoverInfo;
-import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.util.I18n;
 import com.uberverse.arkcraft.util.InventoryUtil;
 import com.uberverse.arkcraft.util.Utils;
@@ -715,11 +714,7 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 	@Override
 	public double getDecayModifier(ItemStack stack)
 	{
-		// TODO generalize berries under one moniker (preferably a single superclass : ItemBerry)
-		if (stack.getItem() == ARKCraftItems.amarBerry || stack.getItem() == ARKCraftItems.azulBerry || stack
-				.getItem() == ARKCraftItems.mejoBerry || stack.getItem() == ARKCraftItems.narcoBerry || stack
-						.getItem() == ARKCraftItems.stimBerry || stack.getItem() == ARKCraftItems.tintoBerry || stack
-								.getItem() instanceof ItemFertilizer) return 200d;
+		if (stack.getItem() instanceof ItemBerry || stack.getItem() instanceof ItemFertilizer) return 200d;
 		return IDecayer.super.getDecayModifier(stack);
 	}
 
@@ -799,8 +794,6 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 		return null;
 	}
 
-	// TODO @tom5454 reworked this stuff, so it's not needed anymore, but left deprecated methods in IHoverInfo as such not to break stuff
-	// please review
 	// @Override
 	// public void writeToNBTPacket(NBTTagCompound tag)
 	// {

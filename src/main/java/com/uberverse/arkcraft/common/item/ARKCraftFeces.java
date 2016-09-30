@@ -37,6 +37,7 @@ public class ARKCraftFeces extends ItemFertilizer implements IDecayable
 	@Override
 	public void addInformation(ItemStack itemStack, EntityPlayer playerIn, List tooltip, boolean advanced)
 	{
+		super.addInformation(itemStack, playerIn, tooltip, advanced);
 		IDecayable.super.addInformation(itemStack, playerIn, tooltip, advanced);
 	}
 
