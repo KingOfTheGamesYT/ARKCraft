@@ -54,6 +54,8 @@ item.wood.name=Wood
 item.metal.name=Metal
 item.hide.name=Hide
 item.pelt.name=Pelt
+item.oil.name=Oil
+item.obsidian.name=Obsidian
 item.metal_ingot.name=Metal Ingot
 
 ##armor
