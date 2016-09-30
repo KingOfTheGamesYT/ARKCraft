@@ -2,8 +2,10 @@ package com.uberverse.arkcraft.common.item;
 
 import java.util.List;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -18,6 +20,14 @@ public class ARKCraftFeces extends ItemFertilizer implements IDecayable
 		super(fertilizingTime);
 		this.setMaxStackSize(1);
 		this.decayTime = decayTime;
+	}
+
+	@Override
+	public void getSubItems(Item itemIn, CreativeTabs tab, List subItems)
+	{
+		super.getSubItems(itemIn, tab, subItems);
+		for (Object o : subItems)
+			IDecayable.setDecayStart((ItemStack) o, decayTime);
 	}
 
 	@SuppressWarnings("rawtypes")
