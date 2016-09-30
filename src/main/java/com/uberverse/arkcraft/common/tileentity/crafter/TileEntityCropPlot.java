@@ -6,6 +6,7 @@ import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot;
 import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot.BerryColor;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance.CROP_PLOT;
 import com.uberverse.arkcraft.common.item.ARKCraftSeed;
+import com.uberverse.arkcraft.common.item.ItemBerry;
 import com.uberverse.arkcraft.common.item.ItemFertilizer;
 import com.uberverse.arkcraft.common.tileentity.IDecayer;
 import com.uberverse.arkcraft.common.tileentity.IHoverInfo;
@@ -148,7 +149,8 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 	@Override
 	public boolean isItemValidForSlot(int index, ItemStack stack)
 	{
-		return true;
+		return stack != null ? stack.getItem() instanceof ItemBerry || stack.getItem() instanceof ARKCraftSeed || stack
+				.getItem() == Items.water_bucket || stack.getItem() instanceof ItemFertilizer : false;
 	}
 
 	@Override

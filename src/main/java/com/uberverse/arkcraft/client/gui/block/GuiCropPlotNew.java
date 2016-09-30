@@ -8,7 +8,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 
-import com.uberverse.arkcraft.common.container.block.ContainerCropPlotNew;
+import com.uberverse.arkcraft.common.container.block.ContainerCropPlot;
 import com.uberverse.arkcraft.common.item.ARKCraftFeces;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot;
 
@@ -18,7 +18,7 @@ public class GuiCropPlotNew extends GuiContainer
 
 	public GuiCropPlotNew(InventoryPlayer inventory, TileEntityCropPlot tileEntity)
 	{
-		super(new ContainerCropPlotNew(inventory, tileEntity));
+		super(new ContainerCropPlot(inventory, tileEntity));
 		this.te = tileEntity;
 	}
 

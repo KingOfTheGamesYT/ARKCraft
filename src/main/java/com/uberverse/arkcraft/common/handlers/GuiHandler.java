@@ -19,7 +19,7 @@ import com.uberverse.arkcraft.client.gui.player.GUIPlayerCrafting;
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.common.container.block.ContainerCampfire;
 import com.uberverse.arkcraft.common.container.block.ContainerCompostBin;
-import com.uberverse.arkcraft.common.container.block.ContainerCropPlotNew;
+import com.uberverse.arkcraft.common.container.block.ContainerCropPlot;
 import com.uberverse.arkcraft.common.container.block.ContainerMP;
 import com.uberverse.arkcraft.common.container.block.ContainerRefiningForge;
 import com.uberverse.arkcraft.common.container.block.ContainerSmithy;
@@ -93,7 +93,7 @@ public class GuiHandler implements IGuiHandler
 		{
 			BlockPos xyz = new BlockPos(x, y, z);
 			TileEntity tileEntity = world.getTileEntity(xyz);
-			if (tileEntity instanceof TileEntityCropPlot) return new ContainerCropPlotNew(player.inventory,
+			if (tileEntity instanceof TileEntityCropPlot) return new ContainerCropPlot(player.inventory,
 					(TileEntityCropPlot) tileEntity);
 		}
 		else if (id == CommonProxy.GUI.PLAYER.id) return new ContainerPlayerCrafting(player);

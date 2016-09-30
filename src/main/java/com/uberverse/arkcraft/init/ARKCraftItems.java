@@ -13,6 +13,7 @@ import com.uberverse.arkcraft.common.item.ARKCraftFeces;
 import com.uberverse.arkcraft.common.item.ARKCraftFood;
 import com.uberverse.arkcraft.common.item.ARKCraftItem;
 import com.uberverse.arkcraft.common.item.ARKCraftSeed;
+import com.uberverse.arkcraft.common.item.ItemBerry;
 import com.uberverse.arkcraft.common.item.ItemBlueprint;
 import com.uberverse.arkcraft.common.item.ItemFertilizer;
 import com.uberverse.arkcraft.common.item.armor.ItemARKArmor;
@@ -46,18 +47,16 @@ public class ARKCraftItems
 	public static ItemHatchetMetal metalHatchet;
 
 	// Armor
-	public static ItemARKArmor chitin_helm, chitin_chest, chitin_legs,
-			chitin_boots;
+	public static ItemARKArmor chitin_helm, chitin_chest, chitin_legs, chitin_boots;
 	public static ItemARKArmor cloth_helm, cloth_chest, cloth_legs, cloth_boots;
 	public static ItemARKArmor hide_helm, hide_chest, hide_legs, hide_boots;
 	public static ItemARKArmor fur_helm, fur_chest, fur_legs, fur_boots;
 
 	// Food
-	public static ARKCraftFood tintoBerry, amarBerry, azulBerry, mejoBerry,
-			narcoBerry, stimBerry, meat_raw, meat_cooked, primemeat_raw,
-			primemeat_cooked, spoiled_meat;
-	public static ARKCraftSeed tintoBerrySeed, amarBerrySeed, azulBerrySeed,
-			mejoBerrySeed, narcoBerrySeed, stimBerrySeed;
+	public static ARKCraftFood tintoBerry, amarBerry, azulBerry, mejoBerry, narcoBerry, stimBerry, meat_raw,
+			meat_cooked, primemeat_raw, primemeat_cooked, spoiled_meat;
+	public static ARKCraftSeed tintoBerrySeed, amarBerrySeed, azulBerrySeed, mejoBerrySeed, narcoBerrySeed,
+			stimBerrySeed;
 
 	// Misc
 	public static ARKCraftItem stone, fiber, thatch, wood, flint, metal, spark_powder, hide, charcoal, metal_ingot,
@@ -73,22 +72,19 @@ public class ARKCraftItems
 	public static Item tabItem;
 
 	// Armor MAT
-	public static ArmorMaterial CLOTH = EnumHelper.addArmorMaterial("CLOTH_MAT",
-			"CLOTH_MAT", 4, new int[] { 1, 2, 1, 1 }, 15);
-	public static ArmorMaterial CHITIN = EnumHelper.addArmorMaterial(
-			"CHITIN_MAT", "CHITIN_MAT", 16, new int[] { 3, 7, 6, 3 }, 10);
-	public static ArmorMaterial HIDE = EnumHelper.addArmorMaterial("HIDE_MAT",
-			"HIDE_MAT", 40, new int[] { 3, 8, 6, 3 }, 30);
-	public static ArmorMaterial FUR = EnumHelper.addArmorMaterial("FUR_MAT",
-			"HIDE_MAT", 40, new int[] { 3, 8, 6, 3 }, 30);
+	public static ArmorMaterial CLOTH = EnumHelper.addArmorMaterial("CLOTH_MAT", "CLOTH_MAT", 4, new int[] { 1, 2, 1,
+			1 }, 15);
+	public static ArmorMaterial CHITIN = EnumHelper.addArmorMaterial("CHITIN_MAT", "CHITIN_MAT", 16, new int[] { 3, 7,
+			6, 3 }, 10);
+	public static ArmorMaterial HIDE = EnumHelper.addArmorMaterial("HIDE_MAT", "HIDE_MAT", 40, new int[] { 3, 8, 6, 3 },
+			30);
+	public static ArmorMaterial FUR = EnumHelper.addArmorMaterial("FUR_MAT", "HIDE_MAT", 40, new int[] { 3, 8, 6, 3 },
+			30);
 
 	// Tool MAT
-	public static ToolMaterial METAL =
-			EnumHelper.addToolMaterial("METAL_MAT", 3, 1500, 6.0F, 2.5F, 8);
-	public static ToolMaterial STONE =
-			EnumHelper.addToolMaterial("STONE_MAT", 2, 500, 3.5F, 1.5F, 13);
-	public static ToolMaterial WOOD =
-			EnumHelper.addToolMaterial("WOOD_MAT", 1, 200, 2.5F, 1.0F, 3);
+	public static ToolMaterial METAL = EnumHelper.addToolMaterial("METAL_MAT", 3, 1500, 6.0F, 2.5F, 8);
+	public static ToolMaterial STONE = EnumHelper.addToolMaterial("STONE_MAT", 2, 500, 3.5F, 1.5F, 13);
+	public static ToolMaterial WOOD = EnumHelper.addToolMaterial("WOOD_MAT", 1, 200, 2.5F, 1.0F, 3);
 
 	public static void init()
 	{
@@ -126,8 +122,7 @@ public class ARKCraftItems
 
 		// Weapons
 		spear = init.registerItem("spear", new ItemSpear(WOOD));
-		EntityHandler.registerModEntity(EntitySpear.class, "spear",
-				ARKCraft.instance(), 16, 20, true);
+		EntityHandler.registerModEntity(EntitySpear.class, "spear", ARKCraft.instance(), 16, 20, true);
 		pike = init.registerItem("pike", new ItemPike(METAL));
 
 		// Armor
@@ -157,7 +152,7 @@ public class ARKCraftItems
 		azulBerry = addFood("azul", 4, 0.3F, false, true);
 		mejoBerry = addFood("mejo", 4, 0.3F, false, true);
 		narcoBerry = addFood("narco", 4, 0.3F, true, true);
-		stimBerry = addFood("stim", 4, 0.3F, true, true);
+		stimBerry = addBerry("stim", 4, 0.3F, true, true);
 		meat_raw = addFood("meat_raw", 3, 0.3F, false, false);
 		meat_cooked = addFood("meat_cooked", 6, 0.9F, false, false);
 		primemeat_raw = addFood("primemeat_raw", 3, 0.3F, false, false);
@@ -165,88 +160,67 @@ public class ARKCraftItems
 		spoiled_meat = addFood("spoiled_meat", 2, 0.1F, false, false);
 
 		// Seeds
-		tintoBerrySeed = addSeedItem("tintoBerrySeed", CropPlotType.SMALL,
-				BerryColor.TINTO);
-		amarBerrySeed = addSeedItem("amarBerrySeed", CropPlotType.SMALL,
-				BerryColor.AMAR);
-		azulBerrySeed = addSeedItem("azulBerrySeed", CropPlotType.SMALL,
-				BerryColor.AZUL);
-		mejoBerrySeed = addSeedItem("mejoBerrySeed", CropPlotType.SMALL,
-				BerryColor.MEJO);
-		narcoBerrySeed = addSeedItem("narcoBerrySeed", CropPlotType.SMALL,
-				BerryColor.NARCO);
-		stimBerrySeed = addSeedItem("stimBerrySeed", CropPlotType.SMALL,
-				BerryColor.STIM);
+		tintoBerrySeed = addSeedItem("tintoBerrySeed", CropPlotType.SMALL, BerryColor.TINTO);
+		amarBerrySeed = addSeedItem("amarBerrySeed", CropPlotType.SMALL, BerryColor.AMAR);
+		azulBerrySeed = addSeedItem("azulBerrySeed", CropPlotType.SMALL, BerryColor.AZUL);
+		mejoBerrySeed = addSeedItem("mejoBerrySeed", CropPlotType.SMALL, BerryColor.MEJO);
+		narcoBerrySeed = addSeedItem("narcoBerrySeed", CropPlotType.SMALL, BerryColor.NARCO);
+		stimBerrySeed = addSeedItem("stimBerrySeed", CropPlotType.SMALL, BerryColor.STIM);
 
 		// feces
-		small_feces =
-				init.registerItem("small_feces", new ARKCraftFeces(1600, 1600));
-		medium_feces = init.registerItem("medium_feces",
-				new ARKCraftFeces(1600, 1600));
-		large_feces =
-				init.registerItem("large_feces", new ARKCraftFeces(1600, 1600));
-		player_feces =
-				init.registerItem("human_feces", new ARKCraftFeces(1600, 1600));
+		small_feces = init.registerItem("small_feces", new ARKCraftFeces(1600, 1600));
+		medium_feces = init.registerItem("medium_feces", new ARKCraftFeces(1600, 1600));
+		large_feces = init.registerItem("large_feces", new ARKCraftFeces(1600, 1600));
+		player_feces = init.registerItem("human_feces", new ARKCraftFeces(1600, 1600));
 
 		// fertilizer
 		fertilizer = init.registerItem("fertilizer", new ItemFertilizer(54000));
 
-		info_book =
-				init.registerItem("info_book", new ARKCraftBook("info_book"));
+		info_book = init.registerItem("info_book", new ARKCraftBook("info_book"));
 		tabItem = init.registerItem("tabItem", new Item());
 
 		// Effectiveness register
-		ItemToolBase.registerEffectiveBlocks(Blocks.log, Blocks.log2,
-				ARKCraftBlocks.rockResource, ARKCraftBlocks.oilResource,
-				ARKCraftBlocks.metalResource, ARKCraftBlocks.obsidianResource,
+		ItemToolBase.registerEffectiveBlocks(Blocks.log, Blocks.log2, ARKCraftBlocks.rockResource,
+				ARKCraftBlocks.oilResource, ARKCraftBlocks.metalResource, ARKCraftBlocks.obsidianResource,
 				ARKCraftBlocks.crystalResource);
-		ItemToolBase.registerBlockDrops(Blocks.log,
-				Lists.newArrayList(new AbstractItemStack[] {
-						new AbstractItemStack(wood, 2),
-						new AbstractItemStack(thatch, 2) }));
-		ItemToolBase.registerBlockDrops(Blocks.log2,
-				Lists.newArrayList(new AbstractItemStack[] {
-						new AbstractItemStack(wood, 2),
-						new AbstractItemStack(thatch, 2) }));
+		ItemToolBase.registerBlockDrops(Blocks.log, Lists.newArrayList(new AbstractItemStack[] { new AbstractItemStack(
+				wood, 2), new AbstractItemStack(thatch, 2) }));
+		ItemToolBase.registerBlockDrops(Blocks.log2, Lists.newArrayList(new AbstractItemStack[] { new AbstractItemStack(
+				wood, 2), new AbstractItemStack(thatch, 2) }));
 	}
 
 	public static void initBlueprints()
 	{
-		blueprint = InitializationManager.instance()
-				.registerItem("blueprint", "blueprint/", new ItemBlueprint(),
-						false, CollectionUtil
-								.convert(
-										EngramManager.instance()
-												.getBlueprintEngrams(),
-										(Engram e) -> e.getName())
-								.toArray(new String[0]));
+		blueprint = InitializationManager.instance().registerItem("blueprint", "blueprint/", new ItemBlueprint(), false,
+				CollectionUtil.convert(EngramManager.instance().getBlueprintEngrams(), (Engram e) -> e.getName())
+						.toArray(new String[0]));
 	}
 
 	public static ARKCraftItem addItem(String name)
 	{
-		return InitializationManager.instance().registerItem(name,
-				new ARKCraftItem());
+		return InitializationManager.instance().registerItem(name, new ARKCraftItem());
 	}
 
-	protected static ARKCraftFood addFood(String name, int heal, float sat,
-			boolean fav, boolean alwaysEdible)
+	protected static ARKCraftFood addFood(String name, int heal, float sat, boolean fav, boolean alwaysEdible)
 	{
-		return InitializationManager.instance().registerItem(name,
-				new ARKCraftFood(heal, sat, fav, alwaysEdible,
-						PLAYER.SECONDS_BEFORE_FOOD_DECAY));
+		return InitializationManager.instance().registerItem(name, new ARKCraftFood(heal, sat, fav, alwaysEdible,
+				PLAYER.SECONDS_BEFORE_FOOD_DECAY));
 	}
 
-	protected static ARKCraftSeed addSeedItem(String name, CropPlotType type,
-			BerryColor color)
+	private static ARKCraftFood addBerry(String name, int heal, float sat, boolean fav, boolean alwaysEdible)
 	{
-		return InitializationManager.instance().registerItem(name,
-				new ARKCraftSeed(type, color));
+		return InitializationManager.instance().registerItem(name, new ItemBerry(heal, sat, fav, alwaysEdible,
+				PLAYER.SECONDS_BEFORE_FOOD_DECAY));
 	}
 
-	public static ItemARKArmor addArmorItem(String name, ArmorMaterial mat,
-			String armorTexName, int type, boolean golden)
+	protected static ARKCraftSeed addSeedItem(String name, CropPlotType type, BerryColor color)
 	{
-		return InitializationManager.instance().registerItem(name,
-				new ItemARKArmor(mat, armorTexName, type, golden));
+		return InitializationManager.instance().registerItem(name, new ARKCraftSeed(type, color));
+	}
+
+	public static ItemARKArmor addArmorItem(String name, ArmorMaterial mat, String armorTexName, int type,
+			boolean golden)
+	{
+		return InitializationManager.instance().registerItem(name, new ItemARKArmor(mat, armorTexName, type, golden));
 	}
 }

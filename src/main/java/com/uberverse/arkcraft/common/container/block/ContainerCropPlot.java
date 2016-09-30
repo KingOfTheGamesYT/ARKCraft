@@ -12,12 +12,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ContainerCropPlotNew extends Container
+public class ContainerCropPlot extends Container
 {
 	private TileEntityCropPlot te;
 	private int waterLast = -1, fertilizerLast = -1;
 
-	public ContainerCropPlotNew(InventoryPlayer inventory, TileEntityCropPlot tileEntity)
+	public ContainerCropPlot(InventoryPlayer inventory, TileEntityCropPlot tileEntity)
 	{
 		this.te = tileEntity;
 		int id = 0;
