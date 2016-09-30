@@ -20,7 +20,6 @@ public class ARKCraftFeces extends ItemFertilizer implements IDecayable
 	public ARKCraftFeces(long fertilizingTime, long decayTime)
 	{
 		super(fertilizingTime);
-		this.setMaxStackSize(1);
 		this.decayTime = decayTime;
 	}
 

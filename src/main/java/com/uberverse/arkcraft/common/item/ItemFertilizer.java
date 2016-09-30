@@ -18,6 +18,7 @@ public class ItemFertilizer extends ARKCraftItem
 	{
 		super();
 		this.fertilizingTime = fertilizingTime;
+		setMaxStackSize(1);
 	}
 
 	public long getFertilizingTime()
