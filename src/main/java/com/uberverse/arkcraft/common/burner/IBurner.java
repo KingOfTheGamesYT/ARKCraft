@@ -44,6 +44,7 @@ public interface IBurner extends IInventoryAdder, NBTable
 			Collection<BurnerRecipe> possibleRecipes = BurnerManager.instance().getRecipes(getBurnerType());
 			possibleRecipes = CollectionUtil.filter(possibleRecipes, (BurnerRecipe r) -> canCook(r));
 
+			if (this.isBurning() && new Random().nextInt(40) == 0) playSound();
 			if (this.isBurning() && possibleRecipes.size() > 0)
 			{
 				Map<BurnerRecipe, Integer> activeRecipes = getActiveRecipes();
@@ -172,7 +173,6 @@ public interface IBurner extends IInventoryAdder, NBTable
 
 	public default void updateBurning()
 	{
-		if (new Random().nextInt(40) == 0) playSound();
 		if (isBurning())
 		{
 			int burningTicks = getBurningTicks();
