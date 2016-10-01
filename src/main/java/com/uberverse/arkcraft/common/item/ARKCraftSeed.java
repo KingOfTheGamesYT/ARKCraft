@@ -64,13 +64,6 @@ public class ARKCraftSeed extends Item
 	 * @param advanced
 	 *            Whether the setting "Advanced tooltips" is enabled
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void addInformation(ItemStack itemStack, EntityPlayer playerIn, List tooltip, boolean advanced)
-	{
-		tooltip.add("Decomposes in " + (getMaxDamage() - itemStack.getItemDamage()) + " seconds");
-	}
 
 	public CropPlotType getType()
 	{
