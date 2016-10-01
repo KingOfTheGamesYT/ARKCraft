@@ -32,6 +32,6 @@ public class TileEntityCampfire extends TileEntityBurner
 	@Override
 	public String getSoundName()
 	{
-		return "campfire_burn";
+		return "arkcraft:campfire_burn";
 	}
 }
