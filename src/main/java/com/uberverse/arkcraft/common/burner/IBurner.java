@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.burner.BurnerManager.BurnerFuel;
@@ -171,6 +172,7 @@ public interface IBurner extends IInventoryAdder, NBTable
 
 	public default void updateBurning()
 	{
+		if (new Random().nextInt(40) == 0) playSound();
 		if (isBurning())
 		{
 			int burningTicks = getBurningTicks();
@@ -224,6 +226,14 @@ public interface IBurner extends IInventoryAdder, NBTable
 		}
 		return false;
 	}
+
+	public default void playSound()
+	{
+		getWorldIA().playSoundEffect(getPosition().getX(), getPosition().getY(), getPosition().getZ(), getSoundName(),
+				1, 1);
+	}
+
+	public String getSoundName();
 
 	public void setBurning(boolean burning);
 

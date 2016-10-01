@@ -28,4 +28,10 @@ public class TileEntityCampfire extends TileEntityBurner
 	{
 		return BurnerType.CAMPFIRE;
 	}
+
+	@Override
+	public String getSoundName()
+	{
+		return "campfire_burn";
+	}
 }

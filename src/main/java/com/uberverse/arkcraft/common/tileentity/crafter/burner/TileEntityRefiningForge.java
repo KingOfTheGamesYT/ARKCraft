@@ -29,4 +29,10 @@ public class TileEntityRefiningForge extends TileEntityBurner
 	{
 		return BurnerType.REFINING_FORGE;
 	}
+	
+	@Override
+	public String getSoundName()
+	{
+		return "forge_burn";
+	}
 }
