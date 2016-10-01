@@ -53,13 +53,18 @@ public class EntityRocketPropelledGrenade extends EntityProjectile
 	@Override
 	public void onEntityHit(Entity entity)
 	{
-		this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, this.explosionRadius, true);
-		this.setDead();
+		explode();
 	}
 
 	@Override
 	public void onGroundHit(MovingObjectPosition movingobjectposition)
 	{
+		explode();
+	}
+
+	private final void explode()
+	{
+		if (worldObj.isRemote) return;
 		this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, posX, posY, posZ, 0.0D, 0.0D, 0.0D);
 		this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, this.explosionRadius, true);
 		this.setDead();
