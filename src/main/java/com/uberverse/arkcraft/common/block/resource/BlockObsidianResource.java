@@ -16,6 +16,24 @@ public class BlockObsidianResource extends BlockARKResource
 	}
 
 	@Override
+	public boolean isOpaqueCube()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isFullBlock()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isFullCube()
+	{
+		return false;
+	}
+
+	@Override
 	public Collection<AbstractItemStack> getDrops()
 	{
 		return Arrays.asList(new AbstractItemStack(ARKCraftItems.obsidian, 10), new AbstractItemStack(
