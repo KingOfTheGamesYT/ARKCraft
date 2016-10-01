@@ -213,10 +213,9 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 			}
 			if (part == Part.MIDDLE)
 			{
-				// THE REDO
-				// find a seed!
 				int sIndex = -1;
 				int fIndex = -1;
+				//finding seed and fertilizer (and consuming water if necessary)
 				for (int i = 0; i < getSizeInventory(); i++)
 				{
 					if (stack[i] != null)
@@ -264,7 +263,7 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 							if (!isRaining()) water -= (worldObj.getDifficulty().ordinal() + 1);
 
 							long val = ItemFertilizer.getFertilizingValueLeft(stack[fIndex]);
-							ItemFertilizer.setFertilizingValueLeft(stack[fIndex], val--);
+							ItemFertilizer.setFertilizingValueLeft(stack[fIndex], --val);
 							fertilized = true;
 							if (val <= 0)
 							{
@@ -597,7 +596,7 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 				}
 			}
 		}
-		String toAdd = "" + f;
+		String toAdd = "" + f/20;
 		text.add("#8B4513" + I18n.format("arkcraft.gui.fertilizer", " " + toAdd));
 	}
 
