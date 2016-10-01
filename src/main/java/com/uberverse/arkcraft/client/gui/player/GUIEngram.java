@@ -21,6 +21,7 @@ import com.uberverse.arkcraft.util.I18n;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
@@ -36,6 +37,7 @@ public class GUIEngram extends GUIScrollable
 	private InventoryEngram inventory;
 
 	private GuiButton learn, close;
+	private GuiTextField searchField;
 
 	private EntityPlayer player;
 
@@ -56,6 +58,13 @@ public class GUIEngram extends GUIScrollable
 		learn = new GuiCenteredTranslatedButton(0, guiLeft + 76, guiTop + 125, "ark.engram.learn", 6);
 		learn.enabled = false;
 		close = new GuiTranslatedButton(1, guiLeft + 144, guiTop + 3, "ark.engram.close", 6);
+
+		// this.searchField = new GuiTextField(0, this.fontRendererObj, this.guiLeft + 82, this.guiTop + 6, 89,
+		// this.fontRendererObj.FONT_HEIGHT);
+		// this.searchField.setMaxStringLength(15);
+		// this.searchField.setEnableBackgroundDrawing(false);
+		// this.searchField.setVisible(false);
+		// this.searchField.setTextColor(16777215);
 
 		this.buttonList.add(learn);
 		this.buttonList.add(close);
@@ -127,6 +136,16 @@ public class GUIEngram extends GUIScrollable
 																													// value
 		}
 	}
+
+	// @Override
+	// protected void keyTyped(char typedChar, int keyCode) throws IOException
+	// {
+	// super.keyTyped(typedChar, keyCode);
+	// if (searchField.isFocused())
+	// {
+	// mc.playerController.sendEnchantPacket(inventorySlots.windowId, 2);
+	// }
+	// }
 
 	@Override
 	protected void actionPerformed(GuiButton button)

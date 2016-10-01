@@ -38,7 +38,6 @@ import net.minecraftforge.common.util.EnumHelper;
 
 public class ARKCraftItems
 {
-
 	// Tools
 	// TODO check sickle code
 	public static ItemMetalSickle metal_sickle;

@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.client.render;
+package com.uberverse.arkcraft.client.render.projectile;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
@@ -10,21 +10,21 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.entity.EntityAdvancedBullet;
+import com.uberverse.arkcraft.common.entity.EntitySimpleRifleAmmo;
 
-public class RenderAdvancedBullet extends Render
+public class RenderSimpleRifleAmmo extends Render
 {
 	private static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID
 			+ ":textures/entity/bullet.png");
 
-	public RenderAdvancedBullet()
+	public RenderSimpleRifleAmmo()
 	{
 		super(Minecraft.getMinecraft().getRenderManager());
 	}
 
-	public void doRender(EntityAdvancedBullet entity, double d, double d1, double d2, float f, float f1)
+	public void doRender(EntitySimpleRifleAmmo entityarrow, double d, double d1, double d2, float f, float f1)
 	{
-		bindEntityTexture(entity);
+		bindEntityTexture(entityarrow);
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) d, (float) d1, (float) d2);
 		Tessellator tessellator = Tessellator.getInstance();
@@ -67,7 +67,7 @@ public class RenderAdvancedBullet extends Render
 	@Override
 	public void doRender(Entity entity, double d, double d1, double d2, float f, float f1)
 	{
-		doRender((EntityAdvancedBullet) entity, d, d1, d2, f, f1);
+		doRender((EntitySimpleRifleAmmo) entity, d, d1, d2, f, f1);
 	}
 
 	@Override

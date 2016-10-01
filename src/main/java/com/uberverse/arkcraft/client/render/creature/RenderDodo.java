@@ -2,8 +2,8 @@ package com.uberverse.arkcraft.client.render.creature;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.creature.DodoType;
+import com.uberverse.arkcraft.client.model.ModelDodo;
 import com.uberverse.arkcraft.common.entity.EntityDodo;
-import com.uberverse.arkcraft.common.model.ModelDodo;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;

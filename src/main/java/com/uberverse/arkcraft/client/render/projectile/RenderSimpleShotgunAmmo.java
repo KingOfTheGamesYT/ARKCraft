@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.client.render;
+package com.uberverse.arkcraft.client.render.projectile;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
@@ -10,19 +10,19 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.entity.EntitySimpleRifleAmmo;
+import com.uberverse.arkcraft.common.entity.EntitySimpleShotgunAmmo;
 
-public class RenderSimpleRifleAmmo extends Render
+public class RenderSimpleShotgunAmmo extends Render
 {
 	private static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID
 			+ ":textures/entity/bullet.png");
 
-	public RenderSimpleRifleAmmo()
+	public RenderSimpleShotgunAmmo()
 	{
 		super(Minecraft.getMinecraft().getRenderManager());
 	}
 
-	public void doRender(EntitySimpleRifleAmmo entityarrow, double d, double d1, double d2, float f, float f1)
+	public void doRender(EntitySimpleShotgunAmmo entityarrow, double d, double d1, double d2, float f, float f1)
 	{
 		bindEntityTexture(entityarrow);
 		GL11.glPushMatrix();
@@ -67,12 +67,13 @@ public class RenderSimpleRifleAmmo extends Render
 	@Override
 	public void doRender(Entity entity, double d, double d1, double d2, float f, float f1)
 	{
-		doRender((EntitySimpleRifleAmmo) entity, d, d1, d2, f, f1);
+		doRender((EntitySimpleShotgunAmmo) entity, d, d1, d2, f, f1);
 	}
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity)
 	{
+
 		return texture;
 	}
 }

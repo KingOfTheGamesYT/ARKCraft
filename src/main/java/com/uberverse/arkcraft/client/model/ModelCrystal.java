@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.common.model;
+package com.uberverse.arkcraft.client.model;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;

@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.client.render;
+package com.uberverse.arkcraft.client.render.projectile;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;

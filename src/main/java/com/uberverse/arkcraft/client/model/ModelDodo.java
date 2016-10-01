@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.common.model;
+package com.uberverse.arkcraft.client.model;
 
 import com.uberverse.arkcraft.common.entity.EntityDodo;
 

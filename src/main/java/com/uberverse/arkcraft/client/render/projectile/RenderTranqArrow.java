@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.client.render;
+package com.uberverse.arkcraft.client.render.projectile;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -15,15 +15,15 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.entity.EntityMetalArrow;
+import com.uberverse.arkcraft.common.entity.EntityTranqArrow;
 
 @SideOnly(Side.CLIENT)
-public class RenderMetalArrow extends Render
+public class RenderTranqArrow extends Render
 {
 	private static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID,
-			"textures/entity/MetalArrow.png");
+			"textures/entity/tranqArrow.png");
 
-	public RenderMetalArrow()
+	public RenderTranqArrow()
 	{
 		super(Minecraft.getMinecraft().getRenderManager());
 	}
@@ -95,7 +95,7 @@ public class RenderMetalArrow extends Render
 		super.doRender(p_180551_1_, p_180551_2_, p_180551_4_, p_180551_6_, p_180551_8_, p_180551_9_);
 	}
 
-	protected ResourceLocation getEntityTexture(EntityMetalArrow p_180550_1_)
+	protected ResourceLocation getEntityTexture(EntityTranqArrow p_180550_1_)
 	{
 		return texture;
 	}
@@ -106,7 +106,7 @@ public class RenderMetalArrow extends Render
 	 */
 	protected ResourceLocation getEntityTexture(Entity entity)
 	{
-		return this.getEntityTexture((EntityMetalArrow) entity);
+		return this.getEntityTexture((EntityTranqArrow) entity);
 	}
 
 	/**
@@ -119,6 +119,6 @@ public class RenderMetalArrow extends Render
 	 */
 	public void doRender(Entity entity, double x, double y, double z, float p_76986_8_, float partialTicks)
 	{
-		this.doRender((EntityMetalArrow) entity, x, y, z, p_76986_8_, partialTicks);
+		this.doRender((EntityTranqArrow) entity, x, y, z, p_76986_8_, partialTicks);
 	}
 }
