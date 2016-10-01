@@ -285,6 +285,25 @@
                 "name": "ark_theme",
                 "stream": false
             }
+         
+         ]
+    },
+    "forge_burn": {
+        "category": "neutral",
+        "sounds": [
+            {
+                "name": "forge_burn",
+                "stream": false
+            }            
+        ]
+    },
+    "campfire_burn": {
+        "category": "neutral",
+        "sounds": [
+            {
+                "name": "campfire_burn",
+                "stream": false
+            }            
         ]
     }
-}
+
