@@ -12,7 +12,7 @@ public class Generator
 	{
 		String[] strings = new String[] { "stone_pick", "campfire", "stone_hatchet", "spear", "cloth_legs",
 				"cloth_chest", "cloth_boots", "cloth_helm", "slingshot", "mortar_and_pestle", "spark_powder",
-				"narcotics", "cementing_paste", "gunpowder", "spy_glass", "small_crop_plot", "hide_chest", "hide_legs",
+				"narcotics", "cementing_paste", "gunpowder", "spy_glass", "compost_bin", "small_crop_plot", "hide_chest", "hide_legs",
 				"hide_boots", "hide_helm", "refining_forge", "smithy", "metal_pick", "metal_hatchet", "pike",
 				"fur_boots", "fur_helm", "fur_legs", "fur_chest", "chitin_legs", "chitin_chest", "chitin_helm",
 				"simple_pistol", "simple_bullet", "scope", "sickle", "chitin_boots", "longneck_rifle",

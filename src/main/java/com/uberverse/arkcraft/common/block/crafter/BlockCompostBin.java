@@ -156,23 +156,14 @@ public class BlockCompostBin extends BlockARKContainer
 
 		if (state.getValue(PART) == BlockCompostBin.EnumPart.LEFT)
 		{
-			// if
-			// (worldIn.getBlockState(pos.offset(enumfacing.getOpposite())).getBlock()
-			// != this) { // Original, from bed
 			if (worldIn.getBlockState(pos.offset(enumfacing.rotateY())).getBlock() != this)
 			{
 				worldIn.setBlockToAir(pos);
 			}
 		}
-		// else if (worldIn.getBlockState(pos.offset(enumfacing)).getBlock() !=
-		// this) { // Original, from bed
 		else if (worldIn.getBlockState(pos.offset(enumfacing.rotateYCCW())).getBlock() != this)
 		{
 			worldIn.setBlockToAir(pos);
-			if (!worldIn.isRemote)
-			{
-				this.dropBlockAsItem(worldIn, pos, state, 0);
-			}
 		}
 	}
 

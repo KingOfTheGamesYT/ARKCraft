@@ -90,8 +90,7 @@ item.cementing_paste.name=Cementing Paste
 ##weapons
 item.tranq_arrow.name=Tranquilizer Arrow
 item.slingshot.name=Slingshot
-item.pike.name=Stone Pike
-item.ironPike.name=Iron Pike
+item.pike.name=Pike
 item.spear.name=Stone Spear
 item.tranq_gun.name=Tranquilizer Gun
 item.simple_pistol.name=Simple Pistol
