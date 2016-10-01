@@ -5,8 +5,6 @@ import java.util.List;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.util.I18n;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -15,8 +13,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
- * @author tom5454
  * @author Lewis_McReu
+ * @author tom5454
  */
 public interface IDecayable
 {
@@ -35,16 +33,11 @@ public interface IDecayable
 	public default boolean shouldRemove(ItemStack stack, double decayModifier)
 	{
 		long decayStart = getDecayStart(stack);
-		// System.out.println(decayStart);
-		// System.out.println(ARKCraft.proxy.getWorldTime());
-		// System.out.println(getRemovalTime(stack, decayModifier));
-		// System.out.println(ARKCraft.proxy.getWorldTime());
 		return decayStart >= 0 && getRemovalTime(stack, decayModifier) <= ARKCraft.proxy.getWorldTime();
 	}
 
 	public default long getRemovalTime(ItemStack stack, double decayModifier)
 	{
-		System.out.println(getDecayStart(stack));
 		return (long) (getDecayStart(stack) + getDecayTime(stack) * decayModifier);
 	}
 
