@@ -52,6 +52,7 @@ public class ARKCraftItems
 	public static ItemARKArmor cloth_helm, cloth_chest, cloth_legs, cloth_boots;
 	public static ItemARKArmor hide_helm, hide_chest, hide_legs, hide_boots;
 	public static ItemARKArmor fur_helm, fur_chest, fur_legs, fur_boots;
+	public static ItemARKArmor flak_helm, flak_chest, flak_legs, flak_boots;
 
 	// Food
 	public static ARKCraftFood tintoBerry, amarBerry, azulBerry, mejoBerry, narcoBerry, stimBerry, meat_raw,
@@ -81,6 +82,7 @@ public class ARKCraftItems
 			30);
 	public static ArmorMaterial FUR = EnumHelper.addArmorMaterial("FUR_MAT", "HIDE_MAT", 40, new int[] { 3, 8, 6, 3 },
 			30);
+	public static ArmorMaterial FLAK = EnumHelper.addArmorMaterial("FLAK_MAT", "FLAK_MAT", 60, new int[] {12, 40, 30, 15}, 30);
 
 	// Tool MAT
 	public static ToolMaterial METAL = EnumHelper.addToolMaterial("METAL_MAT", 3, 1500, 6.0F, 2.5F, 8);
@@ -146,6 +148,11 @@ public class ARKCraftItems
 		fur_chest = addArmorItem("fur_chest", FUR, "furArmor", 1, false);
 		fur_legs = addArmorItem("fur_legs", FUR, "furArmor", 2, false);
 		fur_boots = addArmorItem("fur_boots", FUR, "furArmor", 3, false);
+		
+		flak_helm = addArmorItem("flak_helm", FLAK, "flakAmor", 0, false);
+		flak_chest = addArmorItem("flak_chest", FLAK, "flakArmor", 1, false);
+		flak_legs = addArmorItem("flak_legs", FLAK, "flakArmor", 2, false);
+		flak_boots = addArmorItem("flak_boots", FLAK, "flakArmor", 3, false);
 
 		// Food
 		tintoBerry = addBerry("tinto", 4, 0.3F, false, true);

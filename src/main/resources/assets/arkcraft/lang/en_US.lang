@@ -79,6 +79,11 @@ item.fur_chest.name=Fur Chestplate
 item.fur_legs.name=Fur Leggings
 item.fur_boots.name=Fur Boots
 
+item.flak_helm.name=Flak Helmet
+item.flak_chest.name=Flak Chestplate
+item.flak_legs.name=Flak Leggings
+item.flak_boots.name=Flak Boots
+
 ##craftables
 item.narcotics.name=Narcotics
 item.gunpowder.name=Gunpowder
