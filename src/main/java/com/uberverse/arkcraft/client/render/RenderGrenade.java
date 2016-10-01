@@ -12,8 +12,8 @@ import com.uberverse.arkcraft.common.entity.EntityGrenade;
 
 public class RenderGrenade extends Render
 {
-	private static final ResourceLocation texture = new ResourceLocation(
-			ARKCraft.MODID, "textures/entity/MetalArrow.png");
+	private static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID,
+			"textures/entity/MetalArrow.png");
 
 	public RenderGrenade()
 	{
@@ -22,33 +22,28 @@ public class RenderGrenade extends Render
 
 	}
 
-	public void render(EntityGrenade grenade, double d, double d1, double d2,
-			float f, float f1)
+	public void render(EntityGrenade grenade, double d, double d1, double d2, float f, float f1)
 	{
 		bindEntityTexture(grenade);
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) d, (float) d1, (float) d2);
 		if (grenade.onGround)
 		{
-			GL11.glRotatef(180F - grenade.getRotationYawHead(), 0.0F, 1.0F,
-					0.0F);
+			GL11.glRotatef(180F - grenade.getRotationYawHead(), 0.0F, 1.0F, 0.0F);
 		}
 		else
 		{
-			float dYaw =
-					(grenade.getRotationYawHead() - grenade.prevRotationYaw);
+			float dYaw = (grenade.getRotationYawHead() - grenade.prevRotationYaw);
 			for (; dYaw > 180F; dYaw -= 360F)
 			{}
 			for (; dYaw <= -180F; dYaw += 360F)
 			{}
-			GL11.glRotatef(180F - grenade.prevRotationYaw - dYaw * f1, 0.0F,
-					1.0F, 0.0F);
+			GL11.glRotatef(180F - grenade.prevRotationYaw - dYaw * f1, 0.0F, 1.0F, 0.0F);
 		}
 	}
 
 	@Override
-	public void doRender(Entity entity, double d, double d1, double d2, float f,
-			float f1)
+	public void doRender(Entity entity, double d, double d1, double d2, float f, float f1)
 	{
 		render((EntityGrenade) entity, d, d1, d2, f, f1);
 	}

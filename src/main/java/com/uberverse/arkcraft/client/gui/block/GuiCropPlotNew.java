@@ -23,12 +23,10 @@ public class GuiCropPlotNew extends GuiContainer
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float partialTicks,
-			int mouseX, int mouseY)
+	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
 	{
-		Minecraft.getMinecraft().getTextureManager()
-				.bindTexture(new ResourceLocation(
-						"arkcraft:textures/gui/crop_plot_gui_new.png"));
+		Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation(
+				"arkcraft:textures/gui/crop_plot_gui_new.png"));
 		// Draw the image
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
@@ -38,10 +36,8 @@ public class GuiCropPlotNew extends GuiContainer
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
 		String s = I18n.format("tile.crop_plot.name");
-		fontRendererObj.drawString(s,
-				xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
-		fontRendererObj.drawString(I18n.format("container.inventory"), 8,
-				ySize - 96 + 2, 4210752);
+		fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
+		fontRendererObj.drawString(I18n.format("container.inventory"), 8, ySize - 96 + 2, 4210752);
 		// fontRendererObj.drawString(
 		// I18n.format("arkcraft.water", I18n.format("tile.water.name"),
 		// (te.getField(0) / 20) + "/" + te.getType().getMaxWater() / 20,

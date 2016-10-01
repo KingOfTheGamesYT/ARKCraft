@@ -15,8 +15,7 @@ public interface IInventoryAdder
 {
 	public default void addOrDrop(ItemStack stack)
 	{
-		InventoryUtil.addOrDrop(stack, getIInventory(), getPosition(),
-				getWorldIA());
+		InventoryUtil.addOrDrop(stack, getIInventory(), getPosition(), getWorldIA());
 	}
 
 	public IInventory getIInventory();

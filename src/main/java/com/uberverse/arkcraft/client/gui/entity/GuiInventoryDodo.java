@@ -20,8 +20,7 @@ public class GuiInventoryDodo extends GuiContainer
 	private InventoryDino invDodo;
 	private EntityDodo dodo;
 	// This is the resource location for the background image for the GUI
-	private static final ResourceLocation texture =
-			new ResourceLocation(ARKCraft.MODID, "textures/gui/dodo_gui.png");
+	private static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID, "textures/gui/dodo_gui.png");
 
 	public GuiInventoryDodo(IInventory playerInv, IInventory invDodo, EntityDodo dodo)
 	{
@@ -36,8 +35,7 @@ public class GuiInventoryDodo extends GuiContainer
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float partTick, int mX,
-			int mY)
+	protected void drawGuiContainerBackgroundLayer(float partTick, int mX, int mY)
 	{
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
@@ -45,8 +43,8 @@ public class GuiInventoryDodo extends GuiContainer
 
 		int k = (this.width - this.xSize) / 2;
 		int l = (this.height - this.ySize) / 2;
-		GuiInventory.drawEntityOnScreen(k + 51, l + 60, 17,
-				(float) (k + 51) - mX, (float) (l + 75 - 50) - mY, this.dodo);
+		GuiInventory.drawEntityOnScreen(k + 51, l + 60, 17, (float) (k + 51) - mX, (float) (l + 75 - 50) - mY,
+				this.dodo);
 	}
 
 	// draw the foreground for the GUI - rendered after the slots, but before
@@ -57,8 +55,7 @@ public class GuiInventoryDodo extends GuiContainer
 	{
 		final int LABEL_XPOS = 5;
 		final int LABEL_YPOS = 5;
-		fontRendererObj.drawString(
-				invDodo.getDisplayName().getUnformattedText(), LABEL_XPOS,
-				LABEL_YPOS, Color.darkGray.getRGB());
+		fontRendererObj.drawString(invDodo.getDisplayName().getUnformattedText(), LABEL_XPOS, LABEL_YPOS, Color.darkGray
+				.getRGB());
 	}
 }

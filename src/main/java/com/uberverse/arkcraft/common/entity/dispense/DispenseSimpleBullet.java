@@ -15,8 +15,7 @@ public class DispenseSimpleBullet extends DispenseWeaponProjectile
 	@Override
 	protected IProjectile getProjectileEntity(World world, IPosition pos)
 	{
-		return new EntitySimpleBullet(world, pos.getX(), pos.getY(),
-				pos.getZ());
+		return new EntitySimpleBullet(world, pos.getX(), pos.getY(), pos.getZ());
 	}
 
 	@Override
@@ -49,14 +48,11 @@ public class DispenseSimpleBullet extends DispenseWeaponProjectile
 	}
 
 	@Override
-	protected void spawnDispenseParticles(IBlockSource blocksource,
-			EnumFacing face)
+	protected void spawnDispenseParticles(IBlockSource blocksource, EnumFacing face)
 	{
 		super.spawnDispenseParticles(blocksource, face);
 		IPosition pos = BlockDispenser.getDispensePosition(blocksource);
-		blocksource.getWorld().spawnParticle(EnumParticleTypes.FLAME,
-				pos.getX() + face.getFrontOffsetX(),
-				pos.getY() + face.getFrontOffsetY(),
-				pos.getZ() + face.getFrontOffsetZ(), 0.0D, 0.2D, 0.0D);
+		blocksource.getWorld().spawnParticle(EnumParticleTypes.FLAME, pos.getX() + face.getFrontOffsetX(), pos.getY()
+				+ face.getFrontOffsetY(), pos.getZ() + face.getFrontOffsetZ(), 0.0D, 0.2D, 0.0D);
 	}
 }

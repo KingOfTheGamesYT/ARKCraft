@@ -53,8 +53,7 @@ public class GuiInfoBook extends GuiScreen
 	// Pages (The content)
 	private Page pageLeft;
 	private Page pageRight;
-	private String uri =
-			"https://minecraft.curseforge.com/projects/arkcraft-mod";
+	private String uri = "https://minecraft.curseforge.com/projects/arkcraft-mod";
 
 	public GuiInfoBook(ItemStack stack, BookData data)
 	{
@@ -75,10 +74,8 @@ public class GuiInfoBook extends GuiScreen
 		updateContent();
 		int x = (this.width - guiWidth) / 2;
 		int y = (this.height - guiHeight) / 2;
-		this.buttonList.add(this.nButton =
-				new PageButton(1, x + guiWidth + 26, y + guiHeight - 25, true));
-		this.buttonList.add(this.prevButton =
-				new PageButton(2, x - 45, y + guiHeight - 25, false));
+		this.buttonList.add(this.nButton = new PageButton(1, x + guiWidth + 26, y + guiHeight - 25, true));
+		this.buttonList.add(this.prevButton = new PageButton(2, x - 45, y + guiHeight - 25, false));
 
 	}
 
@@ -92,10 +89,8 @@ public class GuiInfoBook extends GuiScreen
 				try
 				{
 					Class<?> oclass = Class.forName("java.awt.Desktop");
-					Object object = oclass.getMethod("getDesktop", new Class[0])
-							.invoke((Object) null, new Object[0]);
-					oclass.getMethod("browse", new Class[] { URI.class })
-							.invoke(object, new Object[] { new URI(uri) });
+					Object object = oclass.getMethod("getDesktop", new Class[0]).invoke((Object) null, new Object[0]);
+					oclass.getMethod("browse", new Class[] { URI.class }).invoke(object, new Object[] { new URI(uri) });
 				}
 				catch (Throwable throwable)
 				{
@@ -124,8 +119,7 @@ public class GuiInfoBook extends GuiScreen
 
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 		this.mc.getTextureManager().bindTexture(bookLeft);
-		this.drawTexturedModalRect(x - guiWidth, y, 256 - this.guiWidth, 0,
-				this.guiWidth, this.guiHeight);
+		this.drawTexturedModalRect(x - guiWidth, y, 256 - this.guiWidth, 0, this.guiWidth, this.guiHeight);
 
 		super.drawScreen(mouseX, mouseY, partialTicks);
 
@@ -137,12 +131,10 @@ public class GuiInfoBook extends GuiScreen
 		if (pageLeft != null && pageRight != null)
 		{
 			// LogHelper.info("Trying to draw the left page!");
-			pageLeft.draw(x - guiWidth, y + 12, mouseX, mouseY, fontRenderer,
-					bd.canTranslate, this);
+			pageLeft.draw(x - guiWidth, y + 12, mouseX, mouseY, fontRenderer, bd.canTranslate, this);
 
 			// LogHelper.info("Trying to draw the right page!");
-			pageRight.draw(x, y + 12, mouseX, mouseY, fontRenderer,
-					bd.canTranslate, this);
+			pageRight.draw(x, y + 12, mouseX, mouseY, fontRenderer, bd.canTranslate, this);
 		}
 
 		nButton.drawButton(Minecraft.getMinecraft(), mouseX, mouseY);
@@ -151,23 +143,19 @@ public class GuiInfoBook extends GuiScreen
 	}
 
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
-			throws IOException
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
 	{
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		int imageWidth = 64;
 		int imageHeight = 64;
-		int leftBound =
-				(width / 2) - guiWidth + (this.guiWidth - imageWidth) / 2;
+		int leftBound = (width / 2) - guiWidth + (this.guiWidth - imageWidth) / 2;
 		int topBound = ((height - this.guiHeight) / 2) + 75;
 
-		boolean xClick =
-				mouseX <= leftBound + imageWidth && mouseX >= leftBound;
+		boolean xClick = mouseX <= leftBound + imageWidth && mouseX >= leftBound;
 		boolean yClick = mouseY >= topBound && mouseY <= topBound + imageHeight;
 		if (currentPage == 0 && xClick && yClick)
 		{
-			this.mc.displayGuiScreen(
-					new GuiConfirmOpenLink(this, uri.toString(), 13, true));
+			this.mc.displayGuiScreen(new GuiConfirmOpenLink(this, uri.toString(), 13, true));
 		}
 	}
 
@@ -210,8 +198,7 @@ public class GuiInfoBook extends GuiScreen
 		}
 
 		Page[] pages = document.getEntries();
-		LogHelper.info(
-				pages == null ? "Pages are null!" : "Pages are not null.");
+		LogHelper.info(pages == null ? "Pages are null!" : "Pages are not null.");
 		Page page = pages[currentPage];
 		LogHelper.info(page == null ? "Page is null!" : "Page is not null.");
 		if (page != null)

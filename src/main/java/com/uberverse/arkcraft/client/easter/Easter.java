@@ -31,8 +31,7 @@ public class Easter
 
 	@SuppressWarnings("static-access")
 	@SubscribeEvent
-	public static void handleInteract(PlayerInteractEvent event)
-			throws NullPointerException
+	public static void handleInteract(PlayerInteractEvent event) throws NullPointerException
 	{
 		Action action = event.action;
 		ItemStack item = event.entityPlayer.getCurrentEquippedItem();
@@ -41,13 +40,10 @@ public class Easter
 
 		if (!AchievementHelper.containsAchievement(page, achievement))
 		{
-			if (item != null && item
-					.getItem() == ARKCraftRangedWeapons.rocket_propelled_grenade)
+			if (item != null && item.getItem() == ARKCraftRangedWeapons.rocket_propelled_grenade)
 			{
-				if (action.RIGHT_CLICK_BLOCK != null
-						&& action.RIGHT_CLICK_AIR != null
-						&& item.getDisplayName().equals("Michael_Bay")
-						&& event.entityPlayer.isSneaking())
+				if (action.RIGHT_CLICK_BLOCK != null && action.RIGHT_CLICK_AIR != null && item.getDisplayName().equals(
+						"Michael_Bay") && event.entityPlayer.isSneaking())
 				{
 					EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 
@@ -55,9 +51,7 @@ public class Easter
 					double y = event.entityPlayer.posY;
 					double z = event.entityPlayer.posZ;
 
-					Easter.MICHAEL_BAY.createExplosionNoDamage(
-							event.entityPlayer, event.world, 5.0F, x, y, z, 0,
-							1, 0);
+					Easter.MICHAEL_BAY.createExplosionNoDamage(event.entityPlayer, event.world, 5.0F, x, y, z, 0, 1, 0);
 					AchievementHelper.registerAndDisplay(player, achievement);
 				}
 			}
@@ -67,44 +61,36 @@ public class Easter
 	public static class MICHAEL_BAY
 	{
 
-		public static void createExplosion(EntityPlayer player, World world,
-				float power, double x, double y, double z, double xOffset,
-				double yOffset, double zOffset)
-		{
-			generateExplosion(player, world, power, x, y, z, xOffset, yOffset,
-					zOffset, true);
-		}
-
-		public static void createExplosion(EntityPlayer player, World world,
-				float power, BlockPos pos, double xOffset, double yOffset,
-				double zOffset)
-		{
-			createExplosion(player, world, power, pos.getX(), pos.getY(),
-					pos.getZ(), xOffset, yOffset, zOffset);
-		}
-
-		public static void createExplosionNoDamage(EntityPlayer player,
-				World world, float power, double x, double y, double z,
+		public static void createExplosion(EntityPlayer player, World world, float power, double x, double y, double z,
 				double xOffset, double yOffset, double zOffset)
 		{
-			generateExplosion(player, world, power, x, y, z, xOffset, yOffset,
-					zOffset, false);
+			generateExplosion(player, world, power, x, y, z, xOffset, yOffset, zOffset, true);
 		}
 
-		public static void createExplosionNoDamage(EntityPlayer player,
-				World world, float power, BlockPos pos, double xOffset,
+		public static void createExplosion(EntityPlayer player, World world, float power, BlockPos pos, double xOffset,
 				double yOffset, double zOffset)
 		{
-			generateExplosion(player, world, power, pos.getX(), pos.getY(),
-					pos.getZ(), xOffset, yOffset, zOffset, false);
+			createExplosion(player, world, power, pos.getX(), pos.getY(), pos.getZ(), xOffset, yOffset, zOffset);
 		}
 
-		private static void generateExplosion(EntityPlayer player, World world,
-				float power, double x, double y, double z, double xOffset,
-				double yOffset, double zOffset, boolean damaging)
+		public static void createExplosionNoDamage(EntityPlayer player, World world, float power, double x, double y,
+				double z, double xOffset, double yOffset, double zOffset)
 		{
-			Explosion explosion = new Explosion(world, player, x + xOffset,
-					y + yOffset, z + zOffset, power, damaging, damaging);
+			generateExplosion(player, world, power, x, y, z, xOffset, yOffset, zOffset, false);
+		}
+
+		public static void createExplosionNoDamage(EntityPlayer player, World world, float power, BlockPos pos,
+				double xOffset, double yOffset, double zOffset)
+		{
+			generateExplosion(player, world, power, pos.getX(), pos.getY(), pos.getZ(), xOffset, yOffset, zOffset,
+					false);
+		}
+
+		private static void generateExplosion(EntityPlayer player, World world, float power, double x, double y,
+				double z, double xOffset, double yOffset, double zOffset, boolean damaging)
+		{
+			Explosion explosion = new Explosion(world, player, x + xOffset, y + yOffset, z + zOffset, power, damaging,
+					damaging);
 			if (damaging)
 			{
 				explosion.doExplosionA();
@@ -118,17 +104,13 @@ public class Easter
 			}
 		}
 
-		private static void logExplosion(Explosion explosion,
-				EntityPlayer player, boolean explosionA)
+		private static void logExplosion(Explosion explosion, EntityPlayer player, boolean explosionA)
 		{
 			Vec3 coords = explosion.getPosition();
-			String playerName =
-					"Explosion Created By:" + player.getDisplayNameString();
+			String playerName = "Explosion Created By:" + player.getDisplayNameString();
 			String damaging = ", Damaging:" + (explosionA ? "true" : "false");
-			String x = ", x:" + coords.xCoord, y = ", y:" + coords.yCoord,
-					z = ", z:" + coords.zCoord;
-			ARKCraft.logger.error("THIS IS NOT AN ERROR! " + playerName + x + y
-					+ z + damaging);
+			String x = ", x:" + coords.xCoord, y = ", y:" + coords.yCoord, z = ", z:" + coords.zCoord;
+			ARKCraft.logger.error("THIS IS NOT AN ERROR! " + playerName + x + y + z + damaging);
 		}
 
 	}

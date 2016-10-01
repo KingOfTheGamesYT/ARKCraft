@@ -131,9 +131,8 @@ public abstract class AbstractInventory implements IInventory
 	@Override
 	public IChatComponent getDisplayName()
 	{
-		return (IChatComponent) (hasCustomName()
-				? new ChatComponentText(getName())
-				: new ChatComponentTranslation(getName()));
+		return (IChatComponent) (hasCustomName() ? new ChatComponentText(getName()) : new ChatComponentTranslation(
+				getName()));
 	}
 
 	/**

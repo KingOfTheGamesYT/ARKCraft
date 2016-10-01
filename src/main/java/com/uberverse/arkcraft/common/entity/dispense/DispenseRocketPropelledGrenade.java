@@ -16,8 +16,7 @@ public class DispenseRocketPropelledGrenade extends DispenseWeaponProjectile
 	protected IProjectile getProjectileEntity(World world, IPosition pos)
 	{
 		// TODO
-		return new EntityRocketPropelledGrenade(world, pos.getX(), pos.getY(),
-				pos.getZ());
+		return new EntityRocketPropelledGrenade(world, pos.getX(), pos.getY(), pos.getZ());
 	}
 
 	@Override
@@ -41,24 +40,18 @@ public class DispenseRocketPropelledGrenade extends DispenseWeaponProjectile
 	@Override
 	protected void playDispenseSound(IBlockSource blocksource)
 	{
-		blocksource.getWorld().playSoundEffect(blocksource.getX(),
-				blocksource.getY(), blocksource.getZ(), "random.explode", 3.0F,
-				1.0F / (rand.nextFloat() * 0.4F + 0.7F));
-		blocksource.getWorld().playSoundEffect(blocksource.getX(),
-				blocksource.getY(), blocksource.getZ(),
-				"ambient.weather.thunder", 3.0F,
-				1.0F / (rand.nextFloat() * 0.4F + 0.4F));
+		blocksource.getWorld().playSoundEffect(blocksource.getX(), blocksource.getY(), blocksource.getZ(),
+				"random.explode", 3.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.7F));
+		blocksource.getWorld().playSoundEffect(blocksource.getX(), blocksource.getY(), blocksource.getZ(),
+				"ambient.weather.thunder", 3.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.4F));
 	}
 
 	@Override
-	protected void spawnDispenseParticles(IBlockSource blocksource,
-			EnumFacing face)
+	protected void spawnDispenseParticles(IBlockSource blocksource, EnumFacing face)
 	{
 		super.spawnDispenseParticles(blocksource, face);
 		IPosition pos = BlockDispenser.getDispensePosition(blocksource);
-		blocksource.getWorld().spawnParticle(EnumParticleTypes.FLAME,
-				pos.getX() + face.getFrontOffsetX(),
-				pos.getY() + face.getFrontOffsetY(),
-				pos.getZ() + face.getFrontOffsetZ(), 0.0D, 0.2D, 0.0D);
+		blocksource.getWorld().spawnParticle(EnumParticleTypes.FLAME, pos.getX() + face.getFrontOffsetX(), pos.getY()
+				+ face.getFrontOffsetY(), pos.getZ() + face.getFrontOffsetZ(), 0.0D, 0.2D, 0.0D);
 	}
 }

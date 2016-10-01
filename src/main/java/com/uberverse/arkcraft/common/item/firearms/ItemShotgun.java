@@ -30,16 +30,13 @@ public class ItemShotgun extends ItemRangedWeapon implements NonSupporting
 	 */
 
 	@Override
-	public void effectPlayer(ItemStack itemstack, EntityPlayer entityplayer,
-			World world)
+	public void effectPlayer(ItemStack itemstack, EntityPlayer entityplayer, World world)
 	{
 		float f = entityplayer.isSneaking() ? -0.1F : -0.2F;
-		double d =
-				-MathHelper.sin((entityplayer.rotationYaw / 180F) * 3.141593F)
-						* MathHelper.cos((0 / 180F) * 3.141593F) * f;
-		double d1 =
-				MathHelper.cos((entityplayer.rotationYaw / 180F) * 3.141593F)
-						* MathHelper.cos((0 / 180F) * 3.141593F) * f;
+		double d = -MathHelper.sin((entityplayer.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((0 / 180F)
+				* 3.141593F) * f;
+		double d1 = MathHelper.cos((entityplayer.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((0 / 180F)
+				* 3.141593F) * f;
 		entityplayer.rotationPitch -= entityplayer.isSneaking() ? 17.5F : 25F;
 		entityplayer.addVelocity(d, 0, d1);
 	}
@@ -52,15 +49,13 @@ public class ItemShotgun extends ItemRangedWeapon implements NonSupporting
 	 */
 
 	@Override
-	public void fire(ItemStack stack, World world, EntityPlayer player,
-			int timeLeft)
+	public void fire(ItemStack stack, World world, EntityPlayer player, int timeLeft)
 	{
 		if (!world.isRemote)
 		{
 			for (int i = 0; i < this.getAmmoConsumption() * 10; i++)
 			{
-				EntityProjectile projectile =
-						createProjectile(stack, world, player);
+				EntityProjectile projectile = createProjectile(stack, world, player);
 				if (projectile != null)
 				{
 					applyProjectileEnchantments(projectile, stack);

@@ -31,8 +31,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUIEngram extends GUIScrollable
 {
-	private static final ResourceLocation texture =
-			new ResourceLocation(ARKCraft.MODID, "textures/gui/engram_gui.png");
+	private static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID, "textures/gui/engram_gui.png");
 
 	private InventoryEngram inventory;
 
@@ -54,11 +53,9 @@ public class GUIEngram extends GUIScrollable
 		super.initGui();
 		Keyboard.enableRepeatEvents(true);
 
-		learn = new GuiCenteredTranslatedButton(0, guiLeft + 76, guiTop + 125,
-				"ark.engram.learn", 6);
+		learn = new GuiCenteredTranslatedButton(0, guiLeft + 76, guiTop + 125, "ark.engram.learn", 6);
 		learn.enabled = false;
-		close = new GuiTranslatedButton(1, guiLeft + 144, guiTop + 3,
-				"ark.engram.close", 6);
+		close = new GuiTranslatedButton(1, guiLeft + 144, guiTop + 3, "ark.engram.close", 6);
 
 		this.buttonList.add(learn);
 		this.buttonList.add(close);
@@ -72,8 +69,7 @@ public class GUIEngram extends GUIScrollable
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float partialTicks,
-			int mouseX, int mouseY)
+	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
 	{
 		this.drawWorldBackground(8);
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
@@ -84,17 +80,14 @@ public class GUIEngram extends GUIScrollable
 			if (o instanceof EngramSlot)
 			{
 				EngramSlot slot = (EngramSlot) o;
-				if (!ARKPlayer.get(player)
-						.hasLearnedEngram((short) slot.getSlotIndex()))
+				if (!ARKPlayer.get(player).hasLearnedEngram((short) slot.getSlotIndex()))
 				{
-					int x = guiLeft + slot.xDisplayPosition,
-							y = guiTop + slot.yDisplayPosition, size = 18;
+					int x = guiLeft + slot.xDisplayPosition, y = guiTop + slot.yDisplayPosition, size = 18;
 					Color base = Color.black;
 					int opacity = 255 / 2; // value from 0 - 255 ; O is
 											// completely invisible, 255 is
 											// completely opaque
-					Color over = new Color(base.getRed(), base.getGreen(),
-							base.getBlue(), opacity);
+					Color over = new Color(base.getRed(), base.getGreen(), base.getBlue(), opacity);
 					drawRect(x, y, x + size, y + size, over.getRGB());
 				}
 			}
@@ -106,8 +99,7 @@ public class GUIEngram extends GUIScrollable
 	{
 		Engram e = ((ContainerEngram) inventorySlots).getSelectedEngram();
 		short s = e != null ? e.getId() : -1;
-		learn.enabled = ARKPlayer.get(Minecraft.getMinecraft().thePlayer)
-				.canLearnEngram(s);
+		learn.enabled = ARKPlayer.get(Minecraft.getMinecraft().thePlayer).canLearnEngram(s);
 		super.updateScreen();
 	}
 
@@ -118,11 +110,8 @@ public class GUIEngram extends GUIScrollable
 
 		// draw text
 
-		String s = I18n.format("gui.engram.text.engrampoints",
-				ARKPlayer.get(player).getEngramPoints());
-		fontRendererObj.drawString(s,
-				getCenteredStringOffset(s, fontRendererObj, 80), -10,
-				Color.gray.getRGB());
+		String s = I18n.format("gui.engram.text.engrampoints", ARKPlayer.get(player).getEngramPoints());
+		fontRendererObj.drawString(s, getCenteredStringOffset(s, fontRendererObj, 80), -10, Color.gray.getRGB());
 
 		if (getEngram() != null)
 		{
@@ -130,17 +119,12 @@ public class GUIEngram extends GUIScrollable
 			String title = getEngram().getTitle();
 			String description = getEngram().getDescription();
 			String points = "Cost: " + getEngram().getPoints();
-			fontRendererObj.drawString(title,
-					getCenteredStringOffset(title, fontRendererObj, 80), 6,
+			fontRendererObj.drawString(title, getCenteredStringOffset(title, fontRendererObj, 80), 6, descColor);
+			fontRendererObj.drawString(description, getCenteredStringOffset(description, fontRendererObj, 80), 18,
 					descColor);
-			fontRendererObj.drawString(description,
-					getCenteredStringOffset(description, fontRendererObj, 80),
-					18, descColor);
-			fontRendererObj.drawString(points,
-					getCenteredStringOffset(points, fontRendererObj, 80), 29,
-					descColor);// 4210752
-								// original
-								// value
+			fontRendererObj.drawString(points, getCenteredStringOffset(points, fontRendererObj, 80), 29, descColor);// 4210752
+																													// original
+																													// value
 		}
 	}
 
@@ -157,8 +141,7 @@ public class GUIEngram extends GUIScrollable
 		}
 	}
 
-	private static int getCenteredStringOffset(String string,
-			FontRenderer renderer, int center)
+	private static int getCenteredStringOffset(String string, FontRenderer renderer, int center)
 	{
 		return center - renderer.getStringWidth(string) / 2;
 	}

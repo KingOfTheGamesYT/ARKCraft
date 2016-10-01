@@ -23,11 +23,11 @@ public class EntityMetalArrow extends EntityArkArrow
 		this.setDamage(5);
 	}
 
-	//public EntityMetalArrow(World worldIn, EntityLivingBase shooter, float speed)
-//	{
-	//	super(worldIn, shooter, speed);
-//		this.setDamage(5);
-//	}
+	// public EntityMetalArrow(World worldIn, EntityLivingBase shooter, float speed)
+	// {
+	// super(worldIn, shooter, speed);
+	// this.setDamage(5);
+	// }
 
 	public EntityMetalArrow(World worldIn, EntityLivingBase shooter, float speed, float inaccuracy, int range)
 	{

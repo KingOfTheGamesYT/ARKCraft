@@ -40,8 +40,7 @@ public class EntitySimpleShotgunAmmo extends EntityProjectile
 	{
 		super.onUpdate();
 
-		worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, posX, posY,
-				posZ, 0.0D, 0.0D, 0.0D);
+		worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, posX, posY, posZ, 0.0D, 0.0D, 0.0D);
 	}
 
 	@Override
@@ -53,19 +52,16 @@ public class EntitySimpleShotgunAmmo extends EntityProjectile
 	@Override
 	public void onGroundHit(MovingObjectPosition movingobjectposition)
 	{
-		worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX, posY, posZ,
-				0.0D, 0.0D, 0.0D);
+		worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX, posY, posZ, 0.0D, 0.0D, 0.0D);
 		breakGlass(movingobjectposition);
 		this.setDead();
 	}
 
-	public static void fireFromDispenser(World world, double d, double d1,
-			double d2, int i, int j, int k)
+	public static void fireFromDispenser(World world, double d, double d1, double d2, int i, int j, int k)
 	{
 		for (int i1 = 0; i1 < 2; i1++)
 		{
-			EntitySimpleShotgunAmmo entityShotgunShot =
-					new EntitySimpleShotgunAmmo(world, d, d1, d2);
+			EntitySimpleShotgunAmmo entityShotgunShot = new EntitySimpleShotgunAmmo(world, d, d1, d2);
 
 			entityShotgunShot.setThrowableHeading(i, j, k, 3F, 10.0F);
 			world.spawnEntityInWorld(entityShotgunShot);

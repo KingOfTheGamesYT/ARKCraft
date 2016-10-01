@@ -14,8 +14,8 @@ public class PageChapter extends Page
 	public String[] sections;
 	// public String[] images;
 
-	public void draw(int guiLeft, int guiTop, int mouseX, int mouseY,
-			SmallFontRenderer renderer, boolean canTranslate, GuiInfoBook book)
+	public void draw(int guiLeft, int guiTop, int mouseX, int mouseY, SmallFontRenderer renderer, boolean canTranslate,
+			GuiInfoBook book)
 	{
 		if (title != null)
 		{
@@ -23,12 +23,8 @@ public class PageChapter extends Page
 			{
 				StatCollector.translateToLocal(title);
 			}
-			renderer.drawSplitString(
-					EnumChatFormatting.BOLD + "" + EnumChatFormatting.UNDERLINE
-							+ title,
-					guiLeft + (book.guiWidth - renderer.getStringWidth(title))
-							/ 2,
-					guiTop + 5, 1000, 0, 10);
+			renderer.drawSplitString(EnumChatFormatting.BOLD + "" + EnumChatFormatting.UNDERLINE + title, guiLeft
+					+ (book.guiWidth - renderer.getStringWidth(title)) / 2, guiTop + 5, 1000, 0, 10);
 
 		}
 
@@ -37,12 +33,8 @@ public class PageChapter extends Page
 			for (int i = 0; i < sections.length; i++)
 			{
 				if (canTranslate) StatCollector.translateToLocal(sections[i]);
-				renderer.drawSplitString(sections[i],
-						guiLeft + (book.guiWidth
-								- renderer.getStringWidth(sections[i])) / 2,
-						guiTop + 25
-								+ i * ((book.guiHeight / sections.length) / 2),
-						1000, 0, 7);
+				renderer.drawSplitString(sections[i], guiLeft + (book.guiWidth - renderer.getStringWidth(sections[i]))
+						/ 2, guiTop + 25 + i * ((book.guiHeight / sections.length) / 2), 1000, 0, 7);
 			}
 		}
 

@@ -9,8 +9,7 @@ import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot.CropP
 
 public class BlockStateGenerator
 {
-	private static final String BERRY_TEXTURE_PREFIX =
-			"arkcraft:blocks/berry_leaves_!";
+	private static final String BERRY_TEXTURE_PREFIX = "arkcraft:blocks/berry_leaves_!";
 	private static final int MAX_AGE = 5;
 
 	public static void main(String[] args)
@@ -28,8 +27,8 @@ public class BlockStateGenerator
 			System.out.println("[BSG]: Writing Defaults");
 			out.println("  \"defaults\": {");
 			out.println("    \"textures\": {");
-			out.println("      \"berry_leaves\": \"" + BERRY_TEXTURE_PREFIX
-					.replace("!", BerryColor.VALUES[0].getName()) + "\"");
+			out.println("      \"berry_leaves\": \"" + BERRY_TEXTURE_PREFIX.replace("!", BerryColor.VALUES[0].getName())
+					+ "\"");
 			/*
 			 * out.println("      \"particle\": \"blocks/planks_birch\",");
 			 * out.println("      \"0\": \"blocks/planks_birch\",");
@@ -59,31 +58,23 @@ public class BlockStateGenerator
 						boolean notWriteComma = i == MAX_AGE - 1;
 						if (notWriteComma)
 						{
-							notWriteComma = notWriteComma
-									&& c.ordinal() == BerryColor.VALUES.length
-											- 1
-									&& t.ordinal() == CropPlotType.VALUES.length
-											- 1;
+							notWriteComma = notWriteComma && c.ordinal() == BerryColor.VALUES.length - 1 && t
+									.ordinal() == CropPlotType.VALUES.length - 1;
 						}
-						String head = "age=" + i + ",berry=" + c.getName()
-								+ ",transparent=!,type=" + t.getName();
+						String head = "age=" + i + ",berry=" + c.getName() + ",transparent=!,type=" + t.getName();
 						// String model =
 						// "arkcraft:crop_plot_"+t.getName()+"_"+(i-1);
 						String model = "arkcraft:crop_plot_" + (i - 1);
-						String texture =
-								BERRY_TEXTURE_PREFIX.replace("!", c.getName());
+						String texture = BERRY_TEXTURE_PREFIX.replace("!", c.getName());
 						if (i == 0)
 						{
-							out.println("    \"" + head.replace("!", "false")
-									+ "\": { \"model\": \"arkcraft:crop_plot_"
+							out.println("    \"" + head.replace("!", "false") + "\": { \"model\": \"arkcraft:crop_plot_"
 									+ t.getName() + "\"},");
 						}
 						else out.println("    \"" + head.replace("!", "false")
-								+ "\": { \"model\": \"arkcraft:crop_plot_"
-								+ t.getName()
-								+ "\", \"submodel\": {\"plant\": {\"model\": \""
-								+ model + "\"}}, \"textures\": {\"berry\": \""
-								+ texture + "\"" + "} },");
+								+ "\": { \"model\": \"arkcraft:crop_plot_" + t.getName()
+								+ "\", \"submodel\": {\"plant\": {\"model\": \"" + model
+								+ "\"}}, \"textures\": {\"berry\": \"" + texture + "\"" + "} },");
 						/*
 						 * if(i == 0){ out.println("    \""+head.replace("!",
 						 * "false")+"\": { \"model\": \"arkcraft:crop_plot_"+t.
@@ -95,20 +86,16 @@ public class BlockStateGenerator
 						 * "\""+"} },");
 						 */
 						out.println("    \"" + head.replace("!", "true")
-								+ "\": { \"model\": \"arkcraft:crop_plot_transparent\"}"
-								+ (notWriteComma ? "" : ","));
-						System.out.println(
-								"[BSG]: Writing: " + head.replace("!", "<t>")
-										+ " Resource names: Model: " + model
-										+ " Texture: " + texture);
+								+ "\": { \"model\": \"arkcraft:crop_plot_transparent\"}" + (notWriteComma ? "" : ","));
+						System.out.println("[BSG]: Writing: " + head.replace("!", "<t>") + " Resource names: Model: "
+								+ model + " Texture: " + texture);
 					}
 				}
 			}
 			out.println("  }");
 			out.println("}");
 			out.close();
-			System.out.println("[BSG]: Block State Generator Finished! Output: "
-					+ f.getAbsolutePath());
+			System.out.println("[BSG]: Block State Generator Finished! Output: " + f.getAbsolutePath());
 		}
 		catch (Exception e)
 		{

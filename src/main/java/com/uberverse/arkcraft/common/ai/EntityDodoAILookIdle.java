@@ -65,10 +65,8 @@ public class EntityDodoAILookIdle extends EntityAIBase
 	public void updateTask()
 	{
 		--this.idleTime;
-		this.idleEntity.getLookHelper().setLookPosition(
-				this.idleEntity.posX + this.lookX,
-				this.idleEntity.posY + (double) this.idleEntity.getEyeHeight(),
-				this.idleEntity.posZ + this.lookZ, 10.0F,
+		this.idleEntity.getLookHelper().setLookPosition(this.idleEntity.posX + this.lookX, this.idleEntity.posY
+				+ (double) this.idleEntity.getEyeHeight(), this.idleEntity.posZ + this.lookZ, 10.0F,
 				(float) this.idleEntity.getVerticalFaceSpeed());
 		if (this.idleTime == 20)
 		{

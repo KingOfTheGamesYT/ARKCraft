@@ -13,8 +13,7 @@ public class ContainerPlayerCrafting extends ContainerEngramCrafting
 {
 	public ContainerPlayerCrafting(EntityPlayer player)
 	{
-		super(EngramType.PLAYER, player,
-				ARKPlayer.get(player).getEngramCrafter());
+		super(EngramType.PLAYER, player, ARKPlayer.get(player).getEngramCrafter());
 	}
 
 	@Override
@@ -22,8 +21,7 @@ public class ContainerPlayerCrafting extends ContainerEngramCrafting
 	{
 		if (id == 2)
 		{
-			playerIn.openGui(ARKCraft.instance(), CommonProxy.GUI.ENGRAMS.id,
-					playerIn.worldObj, 0, 0, 0);
+			playerIn.openGui(ARKCraft.instance(), CommonProxy.GUI.ENGRAMS.id, playerIn.worldObj, 0, 0, 0);
 			return true;
 		}
 		return super.enchantItem(playerIn, id);

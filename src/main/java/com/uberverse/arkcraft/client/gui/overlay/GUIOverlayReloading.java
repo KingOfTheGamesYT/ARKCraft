@@ -30,8 +30,7 @@ public class GUIOverlayReloading extends Gui
 				boolean rld = weapon.isLoaded(stack, p);
 				GL11.glColor4f(1F, 1F, 1F, 1F);
 				GL11.glDisable(GL11.GL_LIGHTING);
-				int x0 = e.resolution.getScaledWidth() / 2 - 88
-						+ p.inventory.currentItem * 20;
+				int x0 = e.resolution.getScaledWidth() / 2 - 88 + p.inventory.currentItem * 20;
 				int y0 = e.resolution.getScaledHeight() - 3;
 				float f;
 				int color;
@@ -50,8 +49,7 @@ public class GUIOverlayReloading extends Gui
 				}
 				else if (weapon.isReloading(stack))
 				{
-					f = Math.min((float) CommonEventHandler.reloadTicks
-							/ weapon.getReloadDuration(), 1F);
+					f = Math.min((float) CommonEventHandler.reloadTicks / weapon.getReloadDuration(), 1F);
 					color = 0x60EAA800;
 				}
 				else
@@ -69,17 +67,14 @@ public class GUIOverlayReloading extends Gui
 				String text = "";
 				if (!p.capabilities.isCreativeMode)
 				{
-					ItemRangedWeapon weapon =
-							(ItemRangedWeapon) stack.getItem();
-					text = weapon.getAmmoQuantity(stack) + "/"
-							+ weapon.getAmmoQuantityInInventory(stack, p);
+					ItemRangedWeapon weapon = (ItemRangedWeapon) stack.getItem();
+					text = weapon.getAmmoQuantity(stack) + "/" + weapon.getAmmoQuantityInInventory(stack, p);
 				}
 				else
 				{
 					text = '\u221e' + "";
 				}
-				int x = e.resolution.getScaledWidth() - 4
-						- mc.fontRendererObj.getStringWidth(text);
+				int x = e.resolution.getScaledWidth() - 4 - mc.fontRendererObj.getStringWidth(text);
 				int y = 20;
 				drawString(mc.fontRendererObj, text, x, y - 16, 0xFFFFFFFF);
 			}

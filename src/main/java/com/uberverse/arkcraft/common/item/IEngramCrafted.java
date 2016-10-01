@@ -11,8 +11,7 @@ public interface IEngramCrafted
 	public default Engram getEngram(ItemStack stack)
 	{
 		if (!stack.hasTagCompound()) return null;
-		return EngramManager.instance()
-				.getEngram(stack.getTagCompound().getShort("engram"));
+		return EngramManager.instance().getEngram(stack.getTagCompound().getShort("engram"));
 	}
 
 	public default void setEngram(ItemStack stack, Engram engram)

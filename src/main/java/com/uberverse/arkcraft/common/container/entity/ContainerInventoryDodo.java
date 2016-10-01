@@ -30,8 +30,7 @@ public class ContainerInventoryDodo extends Container
 		final int HOTBAR_YPOS = 142;
 		for (int col = 0; col < 9; col++)
 		{
-			addSlotToContainer(
-					new Slot(invPlayer, col, 8 + col * 18, HOTBAR_YPOS));
+			addSlotToContainer(new Slot(invPlayer, col, 8 + col * 18, HOTBAR_YPOS));
 		}
 
 		/* Player inventory */
@@ -41,17 +40,15 @@ public class ContainerInventoryDodo extends Container
 			for (int col = 0; col < 9; col++)
 			{
 				int slotIndex = col + row * 9 + 9;
-				addSlotToContainer(new Slot(invPlayer, slotIndex, 8 + col * 18,
-						PLAYER_INVENTORY_YPOS + row * 18));
+				addSlotToContainer(new Slot(invPlayer, slotIndex, 8 + col * 18, PLAYER_INVENTORY_YPOS + row * 18));
 			}
 		}
 
 		/* Chest inventory */
 		if (DODO_SLOT_COUNT != invDodo.getSizeInventory())
 		{
-			LogHelper.error("Mismatched slot count in container("
-					+ DODO_SLOT_COUNT + ") and DodoInventory ("
-					+ invDodo.getSizeInventory() + ")");
+			LogHelper.error("Mismatched slot count in container(" + DODO_SLOT_COUNT + ") and DodoInventory (" + invDodo
+					.getSizeInventory() + ")");
 		}
 		final int DODO_INVENTORY_XPOS = 98;
 		final int DODO_INVENTORY_YPOS = 18;
@@ -62,9 +59,8 @@ public class ContainerInventoryDodo extends Container
 				for (int col = 0; col < 3; col++)
 				{
 					int slotIndex = col + row * 3;
-					addSlotToContainer(new Slot(invDodo, slotIndex,
-							DODO_INVENTORY_XPOS + col * 18,
-							DODO_INVENTORY_YPOS + row * 18));
+					addSlotToContainer(new Slot(invDodo, slotIndex, DODO_INVENTORY_XPOS + col * 18, DODO_INVENTORY_YPOS
+							+ row * 18));
 				}
 			}
 		}
@@ -89,15 +85,13 @@ public class ContainerInventoryDodo extends Container
 	@Override
 	public boolean canInteractWith(EntityPlayer playerIn)
 	{
-		return this.invDodo.isUseableByPlayer(playerIn)
-				&& this.dodo.isEntityAlive()
-				&& this.dodo.getDistanceToEntity(playerIn) < 8.0F;
+		return this.invDodo.isUseableByPlayer(playerIn) && this.dodo.isEntityAlive() && this.dodo.getDistanceToEntity(
+				playerIn) < 8.0F;
 	}
 
 	// Called when you shift click
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player,
-			int sourceSlotIndex)
+	public ItemStack transferStackInSlot(EntityPlayer player, int sourceSlotIndex)
 	{
 		LogHelper.info("ContainerInventoryDodo: transferStackInSlot called.");
 		Slot sourceSlot = (Slot) inventorySlots.get(sourceSlotIndex);
@@ -110,12 +104,10 @@ public class ContainerInventoryDodo extends Container
 		{
 			// This is a vanilla container slot so merge the stack into the dodo
 			// inventory
-			if (!mergeItemStack(sourceStack, 36, 36 + DODO_SLOT_COUNT,
-					false)) { return null; }
+			if (!mergeItemStack(sourceStack, 36, 36 + DODO_SLOT_COUNT, false)) { return null; }
 		}
 		// Check if the slot clicked is a dodo container slot
-		else if (sourceSlotIndex >= 36
-				&& sourceSlotIndex < 36 + DODO_SLOT_COUNT)
+		else if (sourceSlotIndex >= 36 && sourceSlotIndex < 36 + DODO_SLOT_COUNT)
 		{
 			// This is a dodo slot so merge the stack into the players inventory
 			if (!mergeItemStack(sourceStack, 0, 36, false)) { return null; }
@@ -146,13 +138,11 @@ public class ContainerInventoryDodo extends Container
 	{
 		if (playerIn.worldObj.isRemote)
 		{
-			LogHelper.info(
-					"ContainerInventoryDodo: onContainerClosed called on client.");
+			LogHelper.info("ContainerInventoryDodo: onContainerClosed called on client.");
 		}
 		else
 		{
-			LogHelper.info(
-					"ContainerInventoryDodo: onContainerClosed called on server.");
+			LogHelper.info("ContainerInventoryDodo: onContainerClosed called on server.");
 		}
 
 		super.onContainerClosed(playerIn);

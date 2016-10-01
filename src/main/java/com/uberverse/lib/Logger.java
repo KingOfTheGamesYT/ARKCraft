@@ -615,8 +615,7 @@ public class Logger implements org.apache.logging.log4j.Logger
 	}
 
 	@Override
-	public void log(Level level, Marker marker, String message,
-			Object... params)
+	public void log(Level level, Marker marker, String message, Object... params)
 	{
 		if (clientCheck()) logger.log(level, marker, message, params);
 		else if (serverCheck()) logger.log(level, marker, message, params);
@@ -679,8 +678,7 @@ public class Logger implements org.apache.logging.log4j.Logger
 	}
 
 	@Override
-	public void printf(Level level, Marker marker, String format,
-			Object... params)
+	public void printf(Level level, Marker marker, String format, Object... params)
 	{
 		if (clientCheck()) logger.printf(level, marker, format, params);
 		else if (serverCheck()) logger.printf(level, marker, format, params);

@@ -14,9 +14,8 @@ public class Page implements IPage
 	{}
 
 	@Override
-	public void draw(int guiLeft, int guiRight, int mouseX, int mouseY,
-			SmallFontRenderer renderer, boolean canTranslate,
-			GuiInfoBook guiScreen)
+	public void draw(int guiLeft, int guiRight, int mouseX, int mouseY, SmallFontRenderer renderer,
+			boolean canTranslate, GuiInfoBook guiScreen)
 	{}
 
 	@Override

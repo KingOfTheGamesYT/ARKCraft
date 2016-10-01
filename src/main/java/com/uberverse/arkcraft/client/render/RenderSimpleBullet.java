@@ -14,16 +14,15 @@ import com.uberverse.arkcraft.common.entity.EntitySimpleBullet;
 
 public class RenderSimpleBullet extends Render
 {
-	private static final ResourceLocation texture = new ResourceLocation(
-			ARKCraft.MODID + ":textures/entity/bullet.png");
+	private static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID
+			+ ":textures/entity/bullet.png");
 
 	public RenderSimpleBullet()
 	{
 		super(Minecraft.getMinecraft().getRenderManager());
 	}
 
-	public void doRender(EntitySimpleBullet entityarrow, double d, double d1,
-			double d2, float f, float f1)
+	public void doRender(EntitySimpleBullet entityarrow, double d, double d1, double d2, float f, float f1)
 	{
 		bindEntityTexture(entityarrow);
 		GL11.glPushMatrix();
@@ -66,8 +65,7 @@ public class RenderSimpleBullet extends Render
 	}
 
 	@Override
-	public void doRender(Entity entity, double d, double d1, double d2, float f,
-			float f1)
+	public void doRender(Entity entity, double d, double d1, double d2, float f, float f1)
 	{
 		doRender((EntitySimpleBullet) entity, d, d1, d2, f, f1);
 	}

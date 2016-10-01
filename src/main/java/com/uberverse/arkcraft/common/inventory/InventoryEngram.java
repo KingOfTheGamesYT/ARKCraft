@@ -32,8 +32,7 @@ public class InventoryEngram implements IInventory
 	@Override
 	public ItemStack getStackInSlot(int slot)
 	{
-		ItemStack output = EngramManager.instance().getEngram((short) slot)
-				.getOutputAsItemStack();
+		ItemStack output = EngramManager.instance().getEngram((short) slot).getOutputAsItemStack();
 		output.stackSize = 1;
 		return output;
 	}

@@ -29,17 +29,16 @@ public class GuiTexturedButton extends GuiButton
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		if (!enabled)
 		{
-			this.drawTexturedModalRect(this.xPosition, this.yPosition,
-					resourceX, resourceY + height * 2, this.width, this.height);
+			this.drawTexturedModalRect(this.xPosition, this.yPosition, resourceX, resourceY + height * 2, this.width,
+					this.height);
 			return;
 		}
 		if (mousePressed(mc, mouseX, mouseY))
 		{
-			this.drawTexturedModalRect(this.xPosition, this.yPosition,
-					resourceX, resourceY + height, this.width, this.height);
+			this.drawTexturedModalRect(this.xPosition, this.yPosition, resourceX, resourceY + height, this.width,
+					this.height);
 			return;
 		}
-		this.drawTexturedModalRect(xPosition, yPosition, resourceX, resourceY,
-				width, height);
+		this.drawTexturedModalRect(xPosition, yPosition, resourceX, resourceY, width, height);
 	}
 }

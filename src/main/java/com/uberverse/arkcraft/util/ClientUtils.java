@@ -27,8 +27,7 @@ public class ClientUtils
 {
 	private static int ticks = 0;
 
-	public static void drawIHoverInfoTooltip(IHoverInfo info,
-			FontRenderer fontRenderer, RenderGameOverlayEvent event,
+	public static void drawIHoverInfoTooltip(IHoverInfo info, FontRenderer fontRenderer, RenderGameOverlayEvent event,
 			BlockPos target)
 	{
 		// TODO replace the information syncing by updating natively in the
@@ -37,7 +36,7 @@ public class ClientUtils
 		if (ticks > 30)
 		{
 			ticks = 0;
-//			ARKCraft.modChannel.sendToServer(new MessageHoverReq(target));
+			// ARKCraft.modChannel.sendToServer(new MessageHoverReq(target));
 		}
 		List<String> list = new ArrayList<String>();
 		info.addInformation(list);
@@ -69,8 +68,7 @@ public class ClientUtils
 		GL11.glPopMatrix();
 	}
 
-	public static void drawHoveringText(List textLines, int x, int y,
-			FontRenderer font, int width, int height)
+	public static void drawHoveringText(List textLines, int x, int y, FontRenderer font, int width, int height)
 	{
 		if (!textLines.isEmpty())
 		{
@@ -114,21 +112,16 @@ public class ClientUtils
 			zLevel = 300.0F;
 			int j1 = -267386864;
 			drawGradientRect(j2 - 3, k2 - 4, j2 + k + 3, k2 - 3, j1, j1);
-			drawGradientRect(j2 - 3, k2 + i1 + 3, j2 + k + 3, k2 + i1 + 4, j1,
-					j1);
+			drawGradientRect(j2 - 3, k2 + i1 + 3, j2 + k + 3, k2 + i1 + 4, j1, j1);
 			drawGradientRect(j2 - 3, k2 - 3, j2 + k + 3, k2 + i1 + 3, j1, j1);
 			drawGradientRect(j2 - 4, k2 - 3, j2 - 3, k2 + i1 + 3, j1, j1);
-			drawGradientRect(j2 + k + 3, k2 - 3, j2 + k + 4, k2 + i1 + 3, j1,
-					j1);
+			drawGradientRect(j2 + k + 3, k2 - 3, j2 + k + 4, k2 + i1 + 3, j1, j1);
 			int k1 = 1347420415;
 			int l1 = (k1 & 16711422) >> 1 | k1 & -16777216;
-			drawGradientRect(j2 - 3, k2 - 3 + 1, j2 - 3 + 1, k2 + i1 + 3 - 1,
-					k1, l1);
-			drawGradientRect(j2 + k + 2, k2 - 3 + 1, j2 + k + 3,
-					k2 + i1 + 3 - 1, k1, l1);
+			drawGradientRect(j2 - 3, k2 - 3 + 1, j2 - 3 + 1, k2 + i1 + 3 - 1, k1, l1);
+			drawGradientRect(j2 + k + 2, k2 - 3 + 1, j2 + k + 3, k2 + i1 + 3 - 1, k1, l1);
 			drawGradientRect(j2 - 3, k2 - 3, j2 + k + 3, k2 - 3 + 1, k1, k1);
-			drawGradientRect(j2 - 3, k2 + i1 + 2, j2 + k + 3, k2 + i1 + 3, l1,
-					l1);
+			drawGradientRect(j2 - 3, k2 + i1 + 2, j2 + k + 3, k2 + i1 + 3, l1, l1);
 
 			for (int i2 = 0; i2 < textLines.size(); ++i2)
 			{
@@ -170,8 +163,7 @@ public class ClientUtils
 	 * Draws a rectangle with a vertical gradient between the specified colors
 	 * (ARGB format). Args : x1, y1, x2, y2, topColor, bottomColor
 	 */
-	public static void drawGradientRect(int left, int top, int right,
-			int bottom, int startColor, int endColor)
+	public static void drawGradientRect(int left, int top, int right, int bottom, int startColor, int endColor)
 	{
 		float f = (startColor >> 24 & 255) / 255.0F;
 		float f1 = (startColor >> 16 & 255) / 255.0F;

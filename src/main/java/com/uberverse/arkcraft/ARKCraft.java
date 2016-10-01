@@ -22,8 +22,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventBus;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
-@Mod(modid = ARKCraft.MODID, updateJSON = ARKCraft.UPDATE_JSON,
-		useMetadata = true)
+@Mod(modid = ARKCraft.MODID, updateJSON = ARKCraft.UPDATE_JSON, useMetadata = true)
 public class ARKCraft
 {
 	public static final String MODID = "arkcraft";
@@ -68,8 +67,7 @@ public class ARKCraft
 		updateCheckResult();
 	}
 
-	private static ModContainer modContainer =
-			Loader.instance().activeModContainer();
+	private static ModContainer modContainer = Loader.instance().activeModContainer();
 
 	public static void updateCheckResult()
 	{

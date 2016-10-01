@@ -20,15 +20,12 @@ public class ARKCraftAchievements
 
 	public static Achievement achievementMichaelBay;
 
-	public static List<ARKAchievement> achievementList =
-			new ArrayList<ARKAchievement>();
+	public static List<ARKAchievement> achievementList = new ArrayList<ARKAchievement>();
 
 	public static void init()
 	{
-		achievementMichaelBay =
-				new Achievement("achievement.michaelBay", "theBigBang", 0, 0,
-						ARKCraftRangedWeapons.rocket_propelled_grenade,
-						(Achievement) null).setSpecial();
+		achievementMichaelBay = new Achievement("achievement.michaelBay", "theBigBang", 0, 0,
+				ARKCraftRangedWeapons.rocket_propelled_grenade, (Achievement) null).setSpecial();
 
 		page = new AchievementPage("ARKCraft", getList());
 

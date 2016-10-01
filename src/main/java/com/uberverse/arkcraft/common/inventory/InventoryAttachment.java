@@ -32,8 +32,7 @@ public class InventoryAttachment extends AbstractInventory
 
 	public static InventoryAttachment create(ItemStack stack)
 	{
-		if (stack != null && stack.getItem() instanceof ItemRangedWeapon
-				&& !(stack.getItem() instanceof NonSupporting))
+		if (stack != null && stack.getItem() instanceof ItemRangedWeapon && !(stack.getItem() instanceof NonSupporting))
 			return new InventoryAttachment(stack);
 		return null;
 	}
@@ -73,16 +72,14 @@ public class InventoryAttachment extends AbstractInventory
 		super.markDirty();
 		for (int i = 0; i < getSizeInventory(); ++i)
 		{
-			if (getStackInSlot(i) != null && getStackInSlot(i).stackSize == 0)
-				inventory[i] = null;
+			if (getStackInSlot(i) != null && getStackInSlot(i).stackSize == 0) inventory[i] = null;
 		}
 		writeToNBT(invStack.getTagCompound());
 	}
 
 	private boolean isInvOfType(AttachmentType type)
 	{
-		return inventory[0] != null && ((ItemAttachment) inventory[0].getItem())
-				.getType().equals(type);
+		return inventory[0] != null && ((ItemAttachment) inventory[0].getItem()).getType().equals(type);
 	}
 
 	public boolean isScopePresent()

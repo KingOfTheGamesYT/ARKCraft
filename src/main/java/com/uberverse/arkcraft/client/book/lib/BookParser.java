@@ -28,8 +28,7 @@ public class BookParser
 		try
 		{
 			LogHelper.info("Trying to find JSON file......");
-			InputStream stream = Minecraft.getMinecraft().getResourceManager()
-					.getResource(loc).getInputStream();
+			InputStream stream = Minecraft.getMinecraft().getResourceManager().getResource(loc).getInputStream();
 			Reader reader = new InputStreamReader(stream, "UTF-8");
 			/*
 			 * This line tries to deserialize the whole JSON file into a

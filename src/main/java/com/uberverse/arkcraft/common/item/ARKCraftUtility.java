@@ -13,7 +13,7 @@ public class ARKCraftUtility extends Item
 		this.setMaxStackSize(1);
 		this.setCreativeTab(ARKCraft.tabARK);
 	}
-	
+
 	// seconds that this fertilizer will grow a crop
 	public static int getItemGrowTime(ItemStack itemStack)
 	{

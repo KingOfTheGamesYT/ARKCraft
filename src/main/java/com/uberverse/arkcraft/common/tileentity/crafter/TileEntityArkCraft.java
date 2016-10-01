@@ -25,8 +25,7 @@ public class TileEntityArkCraft extends TileEntity
 		NBTTagCompound tag = new NBTTagCompound();
 		writeToPacket(tag);
 		ByteBufUtils.writeTag(buf, tag);
-		return new FMLProxyPacket(new PacketBuffer(buf),
-				ARKCraft.descriptionPacketChannel);
+		return new FMLProxyPacket(new PacketBuffer(buf), ARKCraft.descriptionPacketChannel);
 	}
 
 	public void writeToPacket(NBTTagCompound tag)

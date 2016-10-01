@@ -17,8 +17,7 @@ public class ItemGrenade extends Item
 	}
 
 	@Override
-	public void onPlayerStoppedUsing(ItemStack itemstack, World world,
-			EntityPlayer entityplayer, int i)
+	public void onPlayerStoppedUsing(ItemStack itemstack, World world, EntityPlayer entityplayer, int i)
 	{
 		if (!entityplayer.inventory.hasItem(this)) { return; }
 
@@ -31,15 +30,12 @@ public class ItemGrenade extends Item
 			f = 1.0F;
 		}
 
-		if (entityplayer.capabilities.isCreativeMode
-				|| entityplayer.inventory.consumeInventoryItem(this))
+		if (entityplayer.capabilities.isCreativeMode || entityplayer.inventory.consumeInventoryItem(this))
 		{
-			world.playSoundAtEntity(entityplayer, "random.bow", 1.0F,
-					1.0F / (itemRand.nextFloat() * 0.4F + 0.8F));
+			world.playSoundAtEntity(entityplayer, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 0.8F));
 			if (!world.isRemote)
 			{
-				EntityGrenade entiyGrenade =
-						new EntityGrenade(world, entityplayer);
+				EntityGrenade entiyGrenade = new EntityGrenade(world, entityplayer);
 				world.spawnEntityInWorld(entiyGrenade);
 			}
 		}
@@ -58,13 +54,11 @@ public class ItemGrenade extends Item
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemstack, World world,
-			EntityPlayer entityplayer)
+	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer)
 	{
 		if (entityplayer.inventory.hasItem(this))
 		{
-			entityplayer.setItemInUse(itemstack,
-					getMaxItemUseDuration(itemstack));
+			entityplayer.setItemInUse(itemstack, getMaxItemUseDuration(itemstack));
 		}
 		return itemstack;
 	}

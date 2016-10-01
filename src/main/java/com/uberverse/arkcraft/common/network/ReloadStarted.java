@@ -25,18 +25,14 @@ public class ReloadStarted implements IMessage
 	public void toBytes(ByteBuf buf)
 	{}
 
-	public static class Handler
-			implements IMessageHandler<ReloadStarted, IMessage>
+	public static class Handler implements IMessageHandler<ReloadStarted, IMessage>
 	{
 		@Override
-		public IMessage onMessage(final ReloadStarted message,
-				MessageContext ctx)
+		public IMessage onMessage(final ReloadStarted message, MessageContext ctx)
 		{
 			if (ctx.side != Side.SERVER)
 			{
-				System.err.println(
-						"MPUpdateDoReloadStarted received on wrong side:"
-								+ ctx.side);
+				System.err.println("MPUpdateDoReloadStarted received on wrong side:" + ctx.side);
 				return null;
 			}
 			final EntityPlayerMP player = ctx.getServerHandler().playerEntity;

@@ -27,8 +27,7 @@ public class InventoryDino extends InventoryBasic
 
 			if (j >= 0 && j < this.getSizeInventory())
 			{
-				this.setInventorySlotContents(j,
-						ItemStack.loadItemStackFromNBT(nbttagcompound));
+				this.setInventorySlotContents(j, ItemStack.loadItemStackFromNBT(nbttagcompound));
 			}
 		}
 	}

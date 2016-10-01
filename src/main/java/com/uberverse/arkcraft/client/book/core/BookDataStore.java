@@ -14,15 +14,13 @@ public class BookDataStore
 
 	public static void addBookData(BookData bd)
 	{
-		LogHelper.info("Adding a new BookData instance with the name: "
-				+ bd.getUnlocalizedName());
+		LogHelper.info("Adding a new BookData instance with the name: " + bd.getUnlocalizedName());
 		data.put(bd.getUnlocalizedName(), bd);
 	}
 
 	public static BookData getBookDataFromName(String unlocalizedName)
 	{
-		LogHelper.info("Getting a BookData instance with the name: "
-				+ unlocalizedName);
+		LogHelper.info("Getting a BookData instance with the name: " + unlocalizedName);
 		return data.get(unlocalizedName);
 	}
 

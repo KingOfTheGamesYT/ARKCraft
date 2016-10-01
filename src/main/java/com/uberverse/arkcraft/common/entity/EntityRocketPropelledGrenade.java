@@ -45,28 +45,23 @@ public class EntityRocketPropelledGrenade extends EntityProjectile
 		double amount = 16D;
 		for (int i1 = 1; i1 < amount; i1++)
 		{
-			worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL,
-					posX + (motionX * i1) / amount,
-					posY + (motionY * i1) / amount,
-					posZ + (motionZ * i1) / amount, 0.0D, 0.0D, 0.0D);
+			worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, posX + (motionX * i1) / amount, posY + (motionY
+					* i1) / amount, posZ + (motionZ * i1) / amount, 0.0D, 0.0D, 0.0D);
 		}
 	}
 
 	@Override
 	public void onEntityHit(Entity entity)
 	{
-		this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ,
-				this.explosionRadius, true);
+		this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, this.explosionRadius, true);
 		this.setDead();
 	}
 
 	@Override
 	public void onGroundHit(MovingObjectPosition movingobjectposition)
 	{
-		this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, posX,
-				posY, posZ, 0.0D, 0.0D, 0.0D);
-		this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ,
-				this.explosionRadius, true);
+		this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, posX, posY, posZ, 0.0D, 0.0D, 0.0D);
+		this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, this.explosionRadius, true);
 		this.setDead();
 	}
 }

@@ -10,23 +10,16 @@ public class Generator
 
 	public static void main(String[] args)
 	{
-		String[] strings = new String[] { "stone_pick", "campfire",
-				"stone_hatchet", "spear", "cloth_legs", "cloth_chest",
-				"cloth_boots", "cloth_helm", "slingshot", "mortar_and_pestle",
-				"spark_powder", "narcotics", "cementing_paste", "gunpowder",
-				"spy_glass", "small_crop_plot", "hide_chest", "hide_legs",
-				"hide_boots", "hide_helm", "refining_forge", "smithy",
-				"metal_pick", "metal_hatchet", "pike", "fur_boots", "fur_helm",
-				"fur_legs", "fur_chest", "chitin_legs", "chitin_chest",
-				"chitin_helm", "simple_pistol", "simple_bullet", "scope",
-				"sickle", "chitin_boots", "longneck_rifle", "simple_rifle_ammo",
-				"shotgun", "simple_shotgun_ammo", "medium_crop_plot",
-				"large_crop_plot" };
+		String[] strings = new String[] { "stone_pick", "campfire", "stone_hatchet", "spear", "cloth_legs",
+				"cloth_chest", "cloth_boots", "cloth_helm", "slingshot", "mortar_and_pestle", "spark_powder",
+				"narcotics", "cementing_paste", "gunpowder", "spy_glass", "small_crop_plot", "hide_chest", "hide_legs",
+				"hide_boots", "hide_helm", "refining_forge", "smithy", "metal_pick", "metal_hatchet", "pike",
+				"fur_boots", "fur_helm", "fur_legs", "fur_chest", "chitin_legs", "chitin_chest", "chitin_helm",
+				"simple_pistol", "simple_bullet", "scope", "sickle", "chitin_boots", "longneck_rifle",
+				"simple_rifle_ammo", "shotgun", "simple_shotgun_ammo", "medium_crop_plot", "large_crop_plot" };
 		for (String name : strings)
 		{
-			File f = new File(
-					"src/main/resources/assets/arkcraft/models/item/blueprint/"
-							+ name + ".json");
+			File f = new File("src/main/resources/assets/arkcraft/models/item/blueprint/" + name + ".json");
 			if (f.exists()) f.delete();
 			try
 			{

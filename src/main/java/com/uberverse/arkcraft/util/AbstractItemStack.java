@@ -45,23 +45,20 @@ public class AbstractItemStack implements Comparable<AbstractItemStack>
 	@Override
 	public boolean equals(Object obj)
 	{
-		return obj instanceof AbstractItemStack
-				? compareTo((AbstractItemStack) obj) == 0 : false;
+		return obj instanceof AbstractItemStack ? compareTo((AbstractItemStack) obj) == 0 : false;
 	}
 
 	@Override
 	public int compareTo(AbstractItemStack o)
 	{
-		return o.item != item ? item.getUnlocalizedName()
-				.compareTo(o.item.getUnlocalizedName()) : meta - o.meta;
+		return o.item != item ? item.getUnlocalizedName().compareTo(o.item.getUnlocalizedName()) : meta - o.meta;
 	}
 
 	public ItemStack[] toItemStacks()
 	{
 		@SuppressWarnings("deprecation")
 		int lim = item.getItemStackLimit();
-		ItemStack[] out =
-				new ItemStack[amount / lim + (amount % lim > 0 ? 1 : 0)];
+		ItemStack[] out = new ItemStack[amount / lim + (amount % lim > 0 ? 1 : 0)];
 		int am = amount;
 		int i = 0;
 		while (am > 0)

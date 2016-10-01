@@ -215,7 +215,7 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 			{
 				int sIndex = -1;
 				int fIndex = -1;
-				//finding seed and fertilizer (and consuming water if necessary)
+				// finding seed and fertilizer (and consuming water if necessary)
 				for (int i = 0; i < getSizeInventory(); i++)
 				{
 					if (stack[i] != null)
@@ -596,7 +596,7 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 				}
 			}
 		}
-		String toAdd = "" + f/20;
+		String toAdd = "" + f / 20;
 		text.add("#8B4513" + I18n.format("arkcraft.gui.fertilizer", " " + toAdd));
 	}
 

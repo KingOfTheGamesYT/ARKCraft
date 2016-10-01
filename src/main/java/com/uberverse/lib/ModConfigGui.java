@@ -27,9 +27,8 @@ public class ModConfigGui extends GuiConfig
 		{
 			List<IConfigElement> list = new ArrayList<IConfigElement>();
 			// Add all the settings from MOD1_BALANCE class
-			list.addAll(new ConfigElement(
-					CoreConfig.config.getCategory(CoreConfig.CATEGORY_BALANCE))
-							.getChildElements());
+			list.addAll(new ConfigElement(CoreConfig.config.getCategory(CoreConfig.CATEGORY_BALANCE))
+					.getChildElements());
 			return list;
 		}
 
@@ -42,9 +41,8 @@ public class ModConfigGui extends GuiConfig
 		@Override
 		protected GuiScreen buildChildScreen()
 		{
-			return new GuiConfig(this.owningScreen, getConfigElements(),
-					this.owningScreen.modID, CoreConfig.CATEGORY_BALANCE, false,
-					false, ARKCraft.instance().name() + " Balance Settings");
+			return new GuiConfig(this.owningScreen, getConfigElements(), this.owningScreen.modID,
+					CoreConfig.CATEGORY_BALANCE, false, false, ARKCraft.instance().name() + " Balance Settings");
 		}
 	}
 
@@ -55,9 +53,8 @@ public class ModConfigGui extends GuiConfig
 		{
 			List<IConfigElement> list = new ArrayList<IConfigElement>();
 			// Add all the settings from MOD2_BALANCE class
-			list.addAll(new ConfigElement(ModuleItemConfig.config
-					.getCategory(ModuleItemConfig.CATEGORY_BALANCE))
-							.getChildElements());
+			list.addAll(new ConfigElement(ModuleItemConfig.config.getCategory(ModuleItemConfig.CATEGORY_BALANCE))
+					.getChildElements());
 			return list;
 		}
 
@@ -70,10 +67,8 @@ public class ModConfigGui extends GuiConfig
 		@Override
 		protected GuiScreen buildChildScreen()
 		{
-			return new GuiConfig(this.owningScreen, getConfigElements(),
-					this.owningScreen.modID, ModuleItemConfig.CATEGORY_BALANCE,
-					false, false,
-					ARKCraft.instance().name() + " Balance Settings");
+			return new GuiConfig(this.owningScreen, getConfigElements(), this.owningScreen.modID,
+					ModuleItemConfig.CATEGORY_BALANCE, false, false, ARKCraft.instance().name() + " Balance Settings");
 		}
 	}
 
@@ -85,18 +80,15 @@ public class ModConfigGui extends GuiConfig
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
 		// list.addAll(new
 		// ConfigElement(Config.config.getCategory(Config.CATEGORY_GENERAL)).getChildElements());
-		list.add(new DummyConfigElement.DummyCategoryElement(
-				"Entity & World Gen Balance", "category.arkcraft.mod1_balance",
-				Mod1BalanceEntry.class));
-		list.add(new DummyConfigElement.DummyCategoryElement(
-				"Items, Blocks, & Player Balance",
+		list.add(new DummyConfigElement.DummyCategoryElement("Entity & World Gen Balance",
+				"category.arkcraft.mod1_balance", Mod1BalanceEntry.class));
+		list.add(new DummyConfigElement.DummyCategoryElement("Items, Blocks, & Player Balance",
 				"category.arkcraft.mod2_balance", Mod2BalanceEntry.class));
 		return list;
 	}
 
 	public ModConfigGui(GuiScreen parentScreen)
 	{
-		super(parentScreen, getConfigElements(), ARKCraft.MODID, true, false,
-				ARKCraft.instance().name() + " Config");
+		super(parentScreen, getConfigElements(), ARKCraft.MODID, true, false, ARKCraft.instance().name() + " Config");
 	}
 }

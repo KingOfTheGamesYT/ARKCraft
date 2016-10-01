@@ -17,8 +17,8 @@ public class RenderDodo extends RenderLiving
 {
 	private static ResourceLocation[] texture;
 	protected ModelDodo modelEntity;
-	private static final ResourceLocation dodoTexture =
-			new ResourceLocation(ARKCraft.MODID + ":textures/model/dodo.png");
+	private static final ResourceLocation dodoTexture = new ResourceLocation(ARKCraft.MODID
+			+ ":textures/model/dodo.png");
 
 	public RenderDodo(ModelBase base, float par2)
 	{
@@ -26,8 +26,7 @@ public class RenderDodo extends RenderLiving
 		super(Minecraft.getMinecraft().getRenderManager(), base, par2);
 		modelEntity = ((ModelDodo) mainModel);
 		texture = new ResourceLocation[DodoType.numDodos];
-		texture[0] = new ResourceLocation(
-				ARKCraft.MODID + ":textures/model/dodo_pink_brown.png");
+		texture[0] = new ResourceLocation(ARKCraft.MODID + ":textures/model/dodo_pink_brown.png");
 		// texture[1] = new ResourceLocation(ARKCraft.MODID +
 		// ":textures/model/dodo_pink_brown.png");
 
@@ -36,10 +35,8 @@ public class RenderDodo extends RenderLiving
 	// Stuff to make the Dodo rotate when floating?
 	protected float func_180569_a(EntityDodo entity, float par2)
 	{
-		float f1 = entity.field_70888_h
-				+ (entity.field_70886_e - entity.field_70888_h) * par2;
-		float f2 = entity.field_70884_g
-				+ (entity.destPos - entity.field_70884_g) * par2;
+		float f1 = entity.field_70888_h + (entity.field_70886_e - entity.field_70888_h) * par2;
+		float f2 = entity.field_70884_g + (entity.destPos - entity.field_70884_g) * par2;
 		return (MathHelper.sin(f1) + 1.0F) * f2;
 	}
 

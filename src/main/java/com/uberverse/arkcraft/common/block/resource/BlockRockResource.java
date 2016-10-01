@@ -19,8 +19,7 @@ public class BlockRockResource extends BlockARKResource
 	@Override
 	public Collection<AbstractItemStack> getDrops()
 	{
-		return Arrays.asList(new AbstractItemStack(ARKCraftItems.stone, 4),
-				new ChancingAbstractItemStack(ARKCraftItems.metal, 0.25),
-				new AbstractItemStack(ARKCraftItems.flint, 3));
+		return Arrays.asList(new AbstractItemStack(ARKCraftItems.stone, 4), new ChancingAbstractItemStack(
+				ARKCraftItems.metal, 0.25), new AbstractItemStack(ARKCraftItems.flint, 3));
 	}
 }

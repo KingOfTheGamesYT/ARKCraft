@@ -12,8 +12,7 @@ import net.minecraftforge.fml.client.IModGuiFactory;
 public class ModGuiFactory implements IModGuiFactory
 {
 	@Override
-	public RuntimeOptionGuiHandler getHandlerFor(
-			RuntimeOptionCategoryElement element)
+	public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element)
 	{
 		return null;
 	}

@@ -8,8 +8,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUIRefiningForge extends GUIBurner
 {
-	public static final ResourceLocation texture =
-			new ResourceLocation(ARKCraft.MODID, "textures/gui/forge_gui.png");
+	public static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID, "textures/gui/forge_gui.png");
 
 	public GUIRefiningForge(ContainerRefiningForge container)
 	{

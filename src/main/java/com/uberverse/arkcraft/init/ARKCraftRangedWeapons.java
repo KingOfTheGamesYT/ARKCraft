@@ -33,10 +33,9 @@ import net.minecraftforge.common.util.EnumHelper;
 public class ARKCraftRangedWeapons
 {
 
-	public static ItemAttachment scope, flash_light, silencer, laser,
-			holo_scope;
-	public static ItemProjectile tranquilizer, simple_bullet, simple_rifle_ammo,
-			simple_shotgun_ammo, rocket_propelled_grenade, advanced_bullet;
+	public static ItemAttachment scope, flash_light, silencer, laser, holo_scope;
+	public static ItemProjectile tranquilizer, simple_bullet, simple_rifle_ammo, simple_shotgun_ammo,
+			rocket_propelled_grenade, advanced_bullet;
 	public static ItemRangedWeapon rocket_launcher, tranq_gun;
 	public static ItemRangedWeapon simple_pistol;
 	public static ItemRangedWeapon fabricated_pistol;
@@ -45,10 +44,8 @@ public class ARKCraftRangedWeapons
 	public static ItemRangedWeapon crossbow;
 	public static ItemSlingshot slingshot;
 
-	public static ToolMaterial METAL =
-			EnumHelper.addToolMaterial("METAL_MAT", 3, 1500, 6.0F, 0.8F, 8);
-	public static ToolMaterial STONE =
-			EnumHelper.addToolMaterial("STONE_MAT", 2, 500, 3.5F, 0.4F, 13);
+	public static ToolMaterial METAL = EnumHelper.addToolMaterial("METAL_MAT", 3, 1500, 6.0F, 0.8F, 8);
+	public static ToolMaterial STONE = EnumHelper.addToolMaterial("STONE_MAT", 2, 500, 3.5F, 0.4F, 13);
 
 	public static void init()
 	{
@@ -61,57 +58,52 @@ public class ARKCraftRangedWeapons
 		laser = addItemAttachment("laser", AttachmentType.LASER);
 		silencer = addItemAttachment("silencer", AttachmentType.SILENCER);
 
-		slingshot = init.registerItem("slingshot", new ItemSlingshot(),
-				"slingshot", "slingshot_pulled");
+		slingshot = init.registerItem("slingshot", new ItemSlingshot(), "slingshot", "slingshot_pulled");
 		// addSlingshot("slingshot");
-		EntityHandler.registerModEntity(EntityStone.class, "stone",
-				ARKCraft.instance(), 64, 10, true);
+		EntityHandler.registerModEntity(EntityStone.class, "stone", ARKCraft.instance(), 64, 10, true);
 
 		registerDispenseBehavior();
 		registerWeaponEntities();
 		addRangedWeapons();
 	}
 
-	private static ItemAttachment addItemAttachment(String name,
-			AttachmentType type)
+	private static ItemAttachment addItemAttachment(String name, AttachmentType type)
 	{
-		return InitializationManager.instance().registerItem(name,
-				new ItemAttachment(name, type));
+		return InitializationManager.instance().registerItem(name, new ItemAttachment(name, type));
 	}
 
 	private static void registerWeaponEntities()
 	{
 		if (ModuleItemBalance.WEAPONS.SIMPLE_PISTOL)
 		{
-			EntityHandler.registerModEntity(EntitySimpleBullet.class,
-					"simple_bullet", ARKCraft.instance(), 16, 20, true);
+			EntityHandler.registerModEntity(EntitySimpleBullet.class, "simple_bullet", ARKCraft.instance(), 16, 20,
+					true);
 		}
 
 		if (ModuleItemBalance.WEAPONS.SHOTGUN)
 		{
-			EntityHandler.registerModEntity(EntitySimpleShotgunAmmo.class,
-					"simple_shotgun_ammo", ARKCraft.instance(), 64, 10, true);
+			EntityHandler.registerModEntity(EntitySimpleShotgunAmmo.class, "simple_shotgun_ammo", ARKCraft.instance(),
+					64, 10, true);
 		}
 
 		if (ModuleItemBalance.WEAPONS.LONGNECK_RIFLE)
 		{
-			EntityHandler.registerModEntity(EntitySimpleRifleAmmo.class,
-					"simple_rifle_ammo", ARKCraft.instance(), 64, 10, true);
-			EntityHandler.registerModEntity(EntityTranquilizer.class,
-					"tranquilizer_dart", ARKCraft.instance(), 64, 10, true);
+			EntityHandler.registerModEntity(EntitySimpleRifleAmmo.class, "simple_rifle_ammo", ARKCraft.instance(), 64,
+					10, true);
+			EntityHandler.registerModEntity(EntityTranquilizer.class, "tranquilizer_dart", ARKCraft.instance(), 64, 10,
+					true);
 		}
 
 		if (ModuleItemBalance.WEAPONS.FABRICATED_PISTOL)
 		{
-			EntityHandler.registerModEntity(EntityAdvancedBullet.class,
-					"advanced_bullet", ARKCraft.instance(), 64, 10, true);
+			EntityHandler.registerModEntity(EntityAdvancedBullet.class, "advanced_bullet", ARKCraft.instance(), 64, 10,
+					true);
 		}
 
 		if (ModuleItemBalance.WEAPONS.ROCKET_LAUNCHER)
 		{
-			EntityHandler.registerModEntity(EntityRocketPropelledGrenade.class,
-					"rocket_propelled_grenade", ARKCraft.instance(), 64, 10,
-					true);
+			EntityHandler.registerModEntity(EntityRocketPropelledGrenade.class, "rocket_propelled_grenade", ARKCraft
+					.instance(), 64, 10, true);
 		}
 	}
 
@@ -123,55 +115,41 @@ public class ARKCraftRangedWeapons
 		{
 			simple_rifle_ammo = addItemProjectile("simple_rifle_ammo");
 			tranquilizer = addItemProjectile("tranquilizer");
-			longneck_rifle = init.registerItem("longneck_rifle", "weapons/",
-					new ItemLongneckRifle(), "longneck_rifle",
-					"longneck_rifle_scope", "longneck_rifle_scope_reload",
-					"longneck_rifle_reload", "longneck_rifle_flashlight",
-					"longneck_rifle_flashlight_reload", "longneck_rifle_laser",
-					"longneck_rifle_laser_reload", "longneck_rifle_silencer",
-					"longneck_rifle_silencer_reload");
+			longneck_rifle = init.registerItem("longneck_rifle", "weapons/", new ItemLongneckRifle(), "longneck_rifle",
+					"longneck_rifle_scope", "longneck_rifle_scope_reload", "longneck_rifle_reload",
+					"longneck_rifle_flashlight", "longneck_rifle_flashlight_reload", "longneck_rifle_laser",
+					"longneck_rifle_laser_reload", "longneck_rifle_silencer", "longneck_rifle_silencer_reload");
 			longneck_rifle.registerProjectile(simple_rifle_ammo);
 			longneck_rifle.registerProjectile(tranquilizer);
 		}
 		if (ModuleItemBalance.WEAPONS.SHOTGUN)
 		{
-			shotgun = init.registerItem("shotgun", "weapons/",
-					new ItemShotgun(), "shotgun", "shotgun_reload");
+			shotgun = init.registerItem("shotgun", "weapons/", new ItemShotgun(), "shotgun", "shotgun_reload");
 			simple_shotgun_ammo = addItemProjectile("simple_shotgun_ammo");
 			shotgun.registerProjectile(simple_shotgun_ammo);
 		}
 		if (ModuleItemBalance.WEAPONS.SIMPLE_PISTOL)
 		{
-			simple_pistol = init.registerItem("simple_pistol", "weapons/",
-					new ItemSimplePistol(), "simple_pistol",
-					"simple_pistol_scope", "simple_pistol_reload",
-					"simple_pistol_scope_reload", "simple_pistol_flashlight",
-					"simple_pistol_flashlight_reload", "simple_pistol_laser",
-					"simple_pistol_laser_reload", "simple_pistol_silencer",
-					"simple_pistol_silencer_reload");
+			simple_pistol = init.registerItem("simple_pistol", "weapons/", new ItemSimplePistol(), "simple_pistol",
+					"simple_pistol_scope", "simple_pistol_reload", "simple_pistol_scope_reload",
+					"simple_pistol_flashlight", "simple_pistol_flashlight_reload", "simple_pistol_laser",
+					"simple_pistol_laser_reload", "simple_pistol_silencer", "simple_pistol_silencer_reload");
 			simple_bullet = addItemProjectile("simple_bullet");
 			simple_pistol.registerProjectile(simple_bullet);
 		}
 		if (ModuleItemBalance.WEAPONS.ROCKET_LAUNCHER)
 		{
-			rocket_launcher = init.registerItem("rocket_launcher", "weapons/",
-					new ItemRocketLauncher());
-			rocket_propelled_grenade =
-					addItemProjectile("rocket_propelled_grenade");
+			rocket_launcher = init.registerItem("rocket_launcher", "weapons/", new ItemRocketLauncher());
+			rocket_propelled_grenade = addItemProjectile("rocket_propelled_grenade");
 			rocket_launcher.registerProjectile(rocket_propelled_grenade);
 		}
 		if (ModuleItemBalance.WEAPONS.FABRICATED_PISTOL)
 		{
-			fabricated_pistol = init.registerItem("fabricated_pistol",
-					"weapons/", new ItemFabricatedPistol(), "fabricated_pistol",
-					"fabricated_pistol_scope", "fabricated_pistol_reload",
-					"fabricated_pistol_scope_reload",
-					"fabricated_pistol_flashlight",
-					"fabricated_pistol_flashlight_reload",
-					"fabricated_pistol_laser", "fabricated_pistol_laser_reload",
-					"fabricated_pistol_silencer",
-					"fabricated_pistol_silencer_reload",
-					"fabricated_pistol_holo_scope",
+			fabricated_pistol = init.registerItem("fabricated_pistol", "weapons/", new ItemFabricatedPistol(),
+					"fabricated_pistol", "fabricated_pistol_scope", "fabricated_pistol_reload",
+					"fabricated_pistol_scope_reload", "fabricated_pistol_flashlight",
+					"fabricated_pistol_flashlight_reload", "fabricated_pistol_laser", "fabricated_pistol_laser_reload",
+					"fabricated_pistol_silencer", "fabricated_pistol_silencer_reload", "fabricated_pistol_holo_scope",
 					"fabricated_pistol_holo_scope_reload");
 			advanced_bullet = addItemProjectile("advanced_bullet");
 			fabricated_pistol.registerProjectile(advanced_bullet);
@@ -186,35 +164,29 @@ public class ARKCraftRangedWeapons
 	{
 		if (simple_bullet != null)
 		{
-			BlockDispenser.dispenseBehaviorRegistry.putObject(simple_bullet,
-					new DispenseSimpleBullet());
+			BlockDispenser.dispenseBehaviorRegistry.putObject(simple_bullet, new DispenseSimpleBullet());
 		}
 		if (simple_shotgun_ammo != null)
 		{
-			BlockDispenser.dispenseBehaviorRegistry.putObject(
-					simple_shotgun_ammo, new DispenseSimpleShotgunAmmo());
+			BlockDispenser.dispenseBehaviorRegistry.putObject(simple_shotgun_ammo, new DispenseSimpleShotgunAmmo());
 		}
 		if (simple_rifle_ammo != null)
 		{
-			BlockDispenser.dispenseBehaviorRegistry.putObject(simple_rifle_ammo,
-					new DispenseSimpleRifleAmmo());
+			BlockDispenser.dispenseBehaviorRegistry.putObject(simple_rifle_ammo, new DispenseSimpleRifleAmmo());
 		}
 		if (tranquilizer != null)
 		{
-			BlockDispenser.dispenseBehaviorRegistry.putObject(tranquilizer,
-					new DispenseTranquilizer());
+			BlockDispenser.dispenseBehaviorRegistry.putObject(tranquilizer, new DispenseTranquilizer());
 		}
 		if (rocket_propelled_grenade != null)
 		{
-			BlockDispenser.dispenseBehaviorRegistry.putObject(
-					rocket_propelled_grenade,
+			BlockDispenser.dispenseBehaviorRegistry.putObject(rocket_propelled_grenade,
 					new DispenseRocketPropelledGrenade());
 		}
 	}
 
 	protected static ItemProjectile addItemProjectile(String name)
 	{
-		return InitializationManager.instance().registerItem(name,
-				new ItemProjectile());
+		return InitializationManager.instance().registerItem(name, new ItemProjectile());
 	}
 }

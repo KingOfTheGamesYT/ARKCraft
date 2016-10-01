@@ -22,16 +22,14 @@ public class SlotScrolling extends Slot
 	@Override
 	public int getSlotIndex()
 	{
-		return super.getSlotIndex() + (container.getScrollingOffset()
-				* container.getScrollableSlotsWidth());
+		return super.getSlotIndex() + (container.getScrollingOffset() * container.getScrollableSlotsWidth());
 	}
 
 	@Override
 	public ItemStack getStack()
 	{
 		int index = getSlotIndex();
-		return index < container.getTotalSlotsAmount()
-				? this.inventory.getStackInSlot(index) : null;
+		return index < container.getTotalSlotsAmount() ? this.inventory.getStackInSlot(index) : null;
 	}
 
 	@Override

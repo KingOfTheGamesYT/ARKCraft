@@ -45,16 +45,14 @@ public class ARKContainerBlock extends Block
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos blockPos,
-			IBlockState state, EntityPlayer playerIn, EnumFacing side,
-			float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(World worldIn, BlockPos blockPos, IBlockState state, EntityPlayer playerIn,
+			EnumFacing side, float hitX, float hitY, float hitZ)
 	{
 		if (!playerIn.isSneaking())
 		{
 			if (!worldIn.isRemote)
 			{
-				playerIn.openGui(ARKCraft.instance(), ID, worldIn,
-						blockPos.getX(), blockPos.getY(), blockPos.getZ());
+				playerIn.openGui(ARKCraft.instance(), ID, worldIn, blockPos.getX(), blockPos.getY(), blockPos.getZ());
 				return true;
 			}
 		}

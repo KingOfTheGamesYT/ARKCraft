@@ -14,8 +14,7 @@ import net.minecraft.util.ResourceLocation;
 
 public abstract class GUIBurner extends GUIArkContainer
 {
-	public static final ResourceLocation flame =
-			new ResourceLocation("textures/gui/container/furnace.png");;
+	public static final ResourceLocation flame = new ResourceLocation("textures/gui/container/furnace.png");;
 	public static final int flameU = 176;
 	public static final int flameV = 0;
 	public static final int flameSize = 14;
@@ -26,17 +25,14 @@ public abstract class GUIBurner extends GUIArkContainer
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float partialTicks,
-			int mouseX, int mouseY)
+	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
 	{
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 
 		// draw the flame
 		Minecraft.getMinecraft().getTextureManager().bindTexture(flame);
-		if (((ContainerBurner) inventorySlots).getBurner().isBurning())
-			drawTexturedModalRect(guiLeft + getFlamePosX(),
-					guiTop + getFlamePosY(), flameU, flameV, flameSize,
-					flameSize);
+		if (((ContainerBurner) inventorySlots).getBurner().isBurning()) drawTexturedModalRect(guiLeft + getFlamePosX(),
+				guiTop + getFlamePosY(), flameU, flameV, flameSize, flameSize);
 	}
 
 	@Override
@@ -61,20 +57,17 @@ public abstract class GUIBurner extends GUIArkContainer
 			{
 				hoveringText.add(EnumChatFormatting.RED + "Press to ignite");
 			}
-			drawHoveringText(hoveringText, mouseX - guiLeft,
-					mouseY - guiTop + 25, fontRendererObj);
+			drawHoveringText(hoveringText, mouseX - guiLeft, mouseY - guiTop + 25, fontRendererObj);
 		}
 	}
 
 	private boolean onFlame(int mouseX, int mouseY)
 	{
-		return isPointInRegion(getFlamePosX(), getFlamePosY(), flameSize,
-				flameSize, mouseX, mouseY);
+		return isPointInRegion(getFlamePosX(), getFlamePosY(), flameSize, flameSize, mouseX, mouseY);
 	}
 
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
-			throws IOException
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
 	{
 		if (onFlame(mouseX, mouseY))
 		{

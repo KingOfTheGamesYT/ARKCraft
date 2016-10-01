@@ -26,17 +26,14 @@ public class OpenPlayerCrafting implements IMessage
 	public void toBytes(ByteBuf buf)
 	{}
 
-	public static class Handler
-			implements IMessageHandler<OpenPlayerCrafting, IMessage>
+	public static class Handler implements IMessageHandler<OpenPlayerCrafting, IMessage>
 	{
 		@Override
-		public IMessage onMessage(final OpenPlayerCrafting message,
-				MessageContext ctx)
+		public IMessage onMessage(final OpenPlayerCrafting message, MessageContext ctx)
 		{
 			if (ctx.side != Side.SERVER)
 			{
-				System.err.println(
-						"MPUpdateDoCraft received on wrong side:" + ctx.side);
+				System.err.println("MPUpdateDoCraft received on wrong side:" + ctx.side);
 				return null;
 			}
 			final EntityPlayerMP player = ctx.getServerHandler().playerEntity;
@@ -52,13 +49,11 @@ public class OpenPlayerCrafting implements IMessage
 	}
 
 	// On Server
-	static void processMessage(OpenPlayerCrafting message,
-			EntityPlayerMP player)
+	static void processMessage(OpenPlayerCrafting message, EntityPlayerMP player)
 	{
 		if (player != null)
 		{
-			player.openGui(ARKCraft.instance(), CommonProxy.GUI.PLAYER.id,
-					player.worldObj, 0, 0, 0);
+			player.openGui(ARKCraft.instance(), CommonProxy.GUI.PLAYER.id, player.worldObj, 0, 0, 0);
 		}
 	}
 }

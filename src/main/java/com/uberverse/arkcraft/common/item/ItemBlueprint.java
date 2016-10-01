@@ -36,8 +36,7 @@ public class ItemBlueprint extends ARKCraftItem
 				s.getTagCompound().setShort("engram", e.getId());
 				if (e.isQualitable())
 				{
-					s.getTagCompound().setByte("itemQuality",
-							ItemQuality.PRIMITIVE.id);
+					s.getTagCompound().setByte("itemQuality", ItemQuality.PRIMITIVE.id);
 				}
 				subItems.add(s);
 			}
@@ -52,8 +51,7 @@ public class ItemBlueprint extends ARKCraftItem
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn,
-			List tooltip, boolean advanced)
+	public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced)
 	{
 		Engram e = getEngram(stack);
 		if (e != null)
@@ -72,8 +70,8 @@ public class ItemBlueprint extends ARKCraftItem
 	{
 		if (!stack.hasTagCompound()) return null;
 		short id = stack.getTagCompound().getShort("engram");
-		return id < EngramManager.instance().getEngrams().size() && id >= 0
-				? EngramManager.instance().getEngram(id) : null;
+		return id < EngramManager.instance().getEngrams().size() && id >= 0 ? EngramManager.instance().getEngram(id)
+				: null;
 	}
 
 	public static ItemQuality getItemQuality(ItemStack stack)

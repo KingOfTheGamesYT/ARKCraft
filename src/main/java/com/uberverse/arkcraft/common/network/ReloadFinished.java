@@ -24,17 +24,14 @@ public class ReloadFinished implements IMessage
 	public void toBytes(ByteBuf buf)
 	{}
 
-	public static class Handler
-			implements IMessageHandler<ReloadFinished, IMessage>
+	public static class Handler implements IMessageHandler<ReloadFinished, IMessage>
 	{
 		@Override
-		public IMessage onMessage(final ReloadFinished message,
-				MessageContext ctx)
+		public IMessage onMessage(final ReloadFinished message, MessageContext ctx)
 		{
 			if (ctx.side != Side.CLIENT)
 			{
-				System.err.println(
-						"ReloadFinished received on wrong side:" + ctx.side);
+				System.err.println("ReloadFinished received on wrong side:" + ctx.side);
 				return null;
 			}
 			processMessage(message, ARKCraft.proxy.getPlayerFromContext(ctx));
@@ -46,10 +43,8 @@ public class ReloadFinished implements IMessage
 			if (player != null)
 			{
 				ItemStack stack = player.getCurrentEquippedItem();
-				if (stack != null
-						&& stack.getItem() instanceof ItemRangedWeapon)
-					((ItemRangedWeapon) stack.getItem()).setReloading(stack,
-							player, false);
+				if (stack != null && stack.getItem() instanceof ItemRangedWeapon) ((ItemRangedWeapon) stack.getItem())
+						.setReloading(stack, player, false);
 			}
 		}
 	}

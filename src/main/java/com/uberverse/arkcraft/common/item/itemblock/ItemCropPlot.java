@@ -26,12 +26,10 @@ public class ItemCropPlot extends ItemBlockARK
 	 * pressed. Args: itemStack, world, entityPlayer
 	 */
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn,
-			World worldIn, BlockPos pos, EnumFacing side, float hitX,
-			float hitY, float hitZ)
+	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side,
+			float hitX, float hitY, float hitZ)
 	{
-		boolean flag = worldIn.getBlockState(pos).getBlock()
-				.isReplaceable(worldIn, pos);
+		boolean flag = worldIn.getBlockState(pos).getBlock().isReplaceable(worldIn, pos);
 		BlockPos blockpos1 = flag ? pos : pos.offset(side);
 
 		if (!playerIn.canPlayerEdit(blockpos1, side, stack))
@@ -42,13 +40,11 @@ public class ItemCropPlot extends ItemBlockARK
 		{
 			Block block = worldIn.getBlockState(blockpos1).getBlock();
 
-			if (!worldIn.canBlockBePlaced(block, blockpos1, false, side,
-					(Entity) null, stack))
+			if (!worldIn.canBlockBePlaced(block, blockpos1, false, side, (Entity) null, stack))
 			{
 				return false;
 			}
-			else if (ARKCraftBlocks.cropPlot.canPlaceBlockAt(worldIn,
-					blockpos1))
+			else if (ARKCraftBlocks.cropPlot.canPlaceBlockAt(worldIn, blockpos1))
 			{
 				if (stack.getMetadata() > 0)
 				{
@@ -56,18 +52,15 @@ public class ItemCropPlot extends ItemBlockARK
 					{
 						if (p != Part.MIDDLE)
 						{
-							if (!ARKCraftBlocks.cropPlot.canPlaceBlockAt(
-									worldIn, p.offset(blockpos1, false)))
+							if (!ARKCraftBlocks.cropPlot.canPlaceBlockAt(worldIn, p.offset(blockpos1, false)))
 								return false;
 						}
 					}
 				}
 				--stack.stackSize;
-				worldIn.setBlockState(blockpos1,
-						ARKCraftBlocks.cropPlot.getDefaultState());
-				ARKCraftBlocks.cropPlot.onBlockPlacedBy(worldIn, blockpos1,
-						ARKCraftBlocks.cropPlot.getDefaultState(), playerIn,
-						stack);
+				worldIn.setBlockState(blockpos1, ARKCraftBlocks.cropPlot.getDefaultState());
+				ARKCraftBlocks.cropPlot.onBlockPlacedBy(worldIn, blockpos1, ARKCraftBlocks.cropPlot.getDefaultState(),
+						playerIn, stack);
 				return true;
 			}
 			else
@@ -80,8 +73,7 @@ public class ItemCropPlot extends ItemBlockARK
 	@Override
 	public String getUnlocalizedName(ItemStack stack)
 	{
-		return super.getUnlocalizedName(stack) + "."
-				+ CropPlotType.VALUES[stack.getMetadata()
-						% CropPlotType.VALUES.length].name().toLowerCase();
+		return super.getUnlocalizedName(stack) + "." + CropPlotType.VALUES[stack.getMetadata()
+				% CropPlotType.VALUES.length].name().toLowerCase();
 	}
 }

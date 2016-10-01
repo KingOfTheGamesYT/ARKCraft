@@ -6,8 +6,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 
-public class EntityTranquilizer extends EntityProjectile
-		implements ITranquilizer
+public class EntityTranquilizer extends EntityProjectile implements ITranquilizer
 {
 	public EntityTranquilizer(World world)
 	{
@@ -42,15 +41,13 @@ public class EntityTranquilizer extends EntityProjectile
 	{
 		super.onUpdate();
 
-		worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, posX, posY,
-				posZ, 0.0D, 0.0D, 0.0D);
+		worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, posX, posY, posZ, 0.0D, 0.0D, 0.0D);
 	}
 
 	@Override
 	public void playHitSound()
 	{
-		worldObj.playSoundAtEntity(this, "random.bowhit", 1.0F,
-				1.0F / (rand.nextFloat() * 0.4F + 0.9F));
+		worldObj.playSoundAtEntity(this, "random.bowhit", 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.9F));
 	}
 
 	@Override

@@ -22,18 +22,15 @@ public class ItemARKArmor extends ItemArmor
 	}
 
 	@Override
-	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
-			String type)
+	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
 	{
-		return ARKCraft.MODID + ":textures/armor/" + this.texName + "_"
-				+ (this.armorType == 2 ? "2" : "1") + ".png";
+		return ARKCraft.MODID + ":textures/armor/" + this.texName + "_" + (this.armorType == 2 ? "2" : "1") + ".png";
 	}
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack)
 	{
-		if (golden) { return EnumChatFormatting.GOLD
-				+ super.getItemStackDisplayName(stack); }
+		if (golden) { return EnumChatFormatting.GOLD + super.getItemStackDisplayName(stack); }
 		return super.getItemStackDisplayName(stack);
 	}
 }

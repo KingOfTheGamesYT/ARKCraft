@@ -16,15 +16,13 @@ public class BlockDeserializer implements JsonDeserializer<Block>
 {
 
 	@Override
-	public Block deserialize(JsonElement json, Type typeOfT,
-			JsonDeserializationContext context)
+	public Block deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
 	{
 		JsonObject obj = json.getAsJsonObject();
 		try
 		{
 			LogHelper.info("Trying to Deserialize blocks.");
-			Class<? extends Block> block =
-					PageData.getBlock(obj.get("name").getAsString());
+			Class<? extends Block> block = PageData.getBlock(obj.get("name").getAsString());
 			return context.deserialize(json, block);
 		}
 		catch (JsonParseException e)

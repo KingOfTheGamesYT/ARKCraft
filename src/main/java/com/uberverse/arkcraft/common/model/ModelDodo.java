@@ -494,8 +494,7 @@ public class ModelDodo extends ModelBase
 		convertToChild(Box, leaf5);
 	}
 
-	public void render(Entity entity, float f, float f1, float f2, float f3,
-			float f4, float f5)
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
 	{
 		super.render(entity, f, f1, f2, f3, f4, f5);
 		setRotationAngles(entity, f, f1, f2, f3, f4, f5);
@@ -504,8 +503,7 @@ public class ModelDodo extends ModelBase
 		{
 			float scaling = 2.0F;
 			GlStateManager.pushMatrix();
-			GlStateManager.scale(1.0F / scaling, 1.0F / scaling,
-					1.0F / scaling);
+			GlStateManager.scale(1.0F / scaling, 1.0F / scaling, 1.0F / scaling);
 			GlStateManager.translate(0.0F, 24.0F * f5, 0.0F);
 			Head1.render(f5);
 			UpperBody1.render(f5);
@@ -540,8 +538,7 @@ public class ModelDodo extends ModelBase
 		model.rotateAngleZ = z;
 	}
 
-	public void setRotationAngles(Entity e, float f, float f1, float f2,
-			float f3, float f4, float f5)
+	public void setRotationAngles(Entity e, float f, float f1, float f2, float f3, float f4, float f5)
 	{
 		super.setRotationAngles(f, f1, f2, f3, f4, f5, e);
 
@@ -549,8 +546,7 @@ public class ModelDodo extends ModelBase
 		Head1.rotateAngleY = f4 / (180F / (float) Math.PI);
 
 		LeftLeg.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-		RightLeg.rotateAngleX =
-				MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
+		RightLeg.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
 
 		LeftWing.rotateAngleZ = -f2;
 		RightWing.rotateAngleZ = f2;
@@ -572,8 +568,7 @@ public class ModelDodo extends ModelBase
 
 	// Use this for parts that have a common rotation point, so they can be
 	// rendered together with a single call to the render function
-	protected void convertToChild(ModelRenderer parParent,
-			ModelRenderer parChild)
+	protected void convertToChild(ModelRenderer parParent, ModelRenderer parChild)
 	{
 		// move child rotation point to be relative to parent
 		parChild.rotationPointX -= parParent.rotationPointX;

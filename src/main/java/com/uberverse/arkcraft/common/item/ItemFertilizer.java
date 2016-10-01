@@ -38,7 +38,7 @@ public class ItemFertilizer extends ARKCraftItem
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced)
 	{
 		super.addInformation(stack, playerIn, tooltip, advanced);
-		long value = getFertilizingValueLeft(stack)/20;
+		long value = getFertilizingValueLeft(stack) / 20;
 		tooltip.add(I18n.format("arkcraft.tooltip.fertilizer", value + fertilizingTime * (stack.stackSize - 1)));
 	}
 

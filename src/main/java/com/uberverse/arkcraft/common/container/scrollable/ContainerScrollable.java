@@ -4,8 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 
-public abstract class ContainerScrollable extends Container
-		implements IContainerScrollable
+public abstract class ContainerScrollable extends Container implements IContainerScrollable
 {
 	private int scrollingOffset;
 
@@ -19,13 +18,9 @@ public abstract class ContainerScrollable extends Container
 	{
 		for (int i = 0; i < getScrollableInventory().getSizeInventory(); i++)
 		{
-			this.addSlotToContainer(new SlotScrolling(getScrollableInventory(),
-					i,
-					getScrollableSlotsX()
-							+ i % getScrollableSlotsWidth() * getSlotSize(),
-					getScrollableSlotsY()
-							+ i / getScrollableSlotsWidth() * getSlotSize(),
-					this));
+			this.addSlotToContainer(new SlotScrolling(getScrollableInventory(), i, getScrollableSlotsX() + i
+					% getScrollableSlotsWidth() * getSlotSize(), getScrollableSlotsY() + i / getScrollableSlotsWidth()
+							* getSlotSize(), this));
 		}
 	}
 
@@ -67,8 +62,7 @@ public abstract class ContainerScrollable extends Container
 	@Override
 	public int getMaxOffset()
 	{
-		int offset = getTotalSlotsAmount() / getScrollableSlotsWidth()
-				- getScrollableSlotsHeight();
+		int offset = getTotalSlotsAmount() / getScrollableSlotsWidth() - getScrollableSlotsHeight();
 		if (getTotalSlotsAmount() % getScrollableSlotsWidth() > 0) offset++;
 		return offset;
 	}
@@ -107,8 +101,7 @@ public abstract class ContainerScrollable extends Container
 	@Override
 	public int getVisibleSlotsAmount()
 	{
-		return getTotalSlotsAmount() < getScrollableSlotsCount()
-				? getTotalSlotsAmount() : getScrollableSlotsCount();
+		return getTotalSlotsAmount() < getScrollableSlotsCount() ? getTotalSlotsAmount() : getScrollableSlotsCount();
 	}
 
 	@Override

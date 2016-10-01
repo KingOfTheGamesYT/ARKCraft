@@ -14,16 +14,15 @@ import com.uberverse.arkcraft.common.entity.EntitySimpleRifleAmmo;
 
 public class RenderSimpleRifleAmmo extends Render
 {
-	private static final ResourceLocation texture = new ResourceLocation(
-			ARKCraft.MODID + ":textures/entity/bullet.png");
+	private static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID
+			+ ":textures/entity/bullet.png");
 
 	public RenderSimpleRifleAmmo()
 	{
 		super(Minecraft.getMinecraft().getRenderManager());
 	}
 
-	public void doRender(EntitySimpleRifleAmmo entityarrow, double d, double d1,
-			double d2, float f, float f1)
+	public void doRender(EntitySimpleRifleAmmo entityarrow, double d, double d1, double d2, float f, float f1)
 	{
 		bindEntityTexture(entityarrow);
 		GL11.glPushMatrix();
@@ -66,8 +65,7 @@ public class RenderSimpleRifleAmmo extends Render
 	}
 
 	@Override
-	public void doRender(Entity entity, double d, double d1, double d2, float f,
-			float f1)
+	public void doRender(Entity entity, double d, double d1, double d2, float f, float f1)
 	{
 		doRender((EntitySimpleRifleAmmo) entity, d, d1, d2, f, f1);
 	}

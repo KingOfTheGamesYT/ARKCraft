@@ -31,9 +31,7 @@ public class PlayerWeightCalculator
 
 	public static double getWeight(ItemStack stack)
 	{
-		return WeightsConfig.getConfig()
-				.get(Configuration.CATEGORY_GENERAL,
-						stack.getItem().getUnlocalizedName().substring(5), 0.5)
-				.getDouble() * stack.stackSize;
+		return WeightsConfig.getConfig().get(Configuration.CATEGORY_GENERAL, stack.getItem().getUnlocalizedName()
+				.substring(5), 0.5).getDouble() * stack.stackSize;
 	}
 }

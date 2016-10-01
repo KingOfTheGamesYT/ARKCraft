@@ -12,10 +12,8 @@ import net.minecraft.block.Block;
 public class PageData
 {
 
-	public static HashMap<String, Class<? extends Page>> pageClasses =
-			new HashMap<String, Class<? extends Page>>();
-	public static HashMap<String, Class<? extends Block>> blockClasses =
-			new HashMap<String, Class<? extends Block>>();
+	public static HashMap<String, Class<? extends Page>> pageClasses = new HashMap<String, Class<? extends Page>>();
+	public static HashMap<String, Class<? extends Block>> blockClasses = new HashMap<String, Class<? extends Block>>();
 
 	public static void addBookPage(String type, Class<? extends Page> page)
 	{

@@ -13,8 +13,7 @@ import net.minecraft.world.World;
 
 public class BlockLight extends BlockAir
 {
-	public static final PropertyInteger TICKS =
-			PropertyInteger.create("ticks", 0, 2);
+	public static final PropertyInteger TICKS = PropertyInteger.create("ticks", 0, 2);
 
 	public BlockLight()
 	{
@@ -30,8 +29,7 @@ public class BlockLight extends BlockAir
 	}
 
 	@Override
-	public void updateTick(World worldIn, BlockPos pos, IBlockState state,
-			Random rand)
+	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
 	{
 		int ticks = (int) worldIn.getBlockState(pos).getValue(TICKS);
 		if (ticks < 2)

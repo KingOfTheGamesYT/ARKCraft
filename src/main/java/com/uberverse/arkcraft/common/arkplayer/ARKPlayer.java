@@ -575,7 +575,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable, IWei
 		refreshAttributes();
 	}
 
-	//TODO use this (somehow only activating after restart)
+	// TODO use this (somehow only activating after restart)
 	public void refreshAttributes()
 	{
 		Multimap<String, AttributeModifier> mods = HashMultimap.create();

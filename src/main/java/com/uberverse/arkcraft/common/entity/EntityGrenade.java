@@ -31,16 +31,11 @@ public class EntityGrenade extends EntityProjectile
 
 		setRotation(entity.rotationYaw, 0);
 		// Set the velocity
-		double xHeading =
-				-MathHelper.sin((entity.rotationYaw * 3.141593F) / 180F);
-		double zHeading =
-				MathHelper.cos((entity.rotationYaw * 3.141593F) / 180F);
-		motionX = 0.5 * xHeading
-				* MathHelper.cos((entity.rotationPitch / 180F) * 3.141593F);
-		motionY = -0.5
-				* MathHelper.sin((entity.rotationPitch / 180F) * 3.141593F);
-		motionZ = 0.5 * zHeading
-				* MathHelper.cos((entity.rotationPitch / 180F) * 3.141593F);
+		double xHeading = -MathHelper.sin((entity.rotationYaw * 3.141593F) / 180F);
+		double zHeading = MathHelper.cos((entity.rotationYaw * 3.141593F) / 180F);
+		motionX = 0.5 * xHeading * MathHelper.cos((entity.rotationPitch / 180F) * 3.141593F);
+		motionY = -0.5 * MathHelper.sin((entity.rotationPitch / 180F) * 3.141593F);
+		motionZ = 0.5 * zHeading * MathHelper.cos((entity.rotationPitch / 180F) * 3.141593F);
 
 		// Set the position
 		setPosition(entity.posX, entity.posY, entity.posZ);
@@ -101,8 +96,7 @@ public class EntityGrenade extends EntityProjectile
 			this.motionX *= 1.0;
 			this.motionY *= 0.99;
 			this.motionZ *= 1.0;
-			if (Math.abs(this.motionX) + Math.abs(this.motionY)
-					+ Math.abs(this.motionZ) < 0.2)
+			if (Math.abs(this.motionX) + Math.abs(this.motionY) + Math.abs(this.motionZ) < 0.2)
 			{
 				this.stopped = true;
 				this.motionX = 0.0;

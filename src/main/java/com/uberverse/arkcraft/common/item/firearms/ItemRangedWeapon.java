@@ -111,11 +111,9 @@ public abstract class ItemRangedWeapon extends ItemBow
 	}
 
 	@Override
-	public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player,
-			int useRemaining)
+	public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int useRemaining)
 	{
-		String jsonPath =
-				ARKCraft.MODID + ":weapons/" + this.getUnlocalizedName();
+		String jsonPath = ARKCraft.MODID + ":weapons/" + this.getUnlocalizedName();
 		InventoryAttachment att = InventoryAttachment.create(stack);
 		if (att != null)
 		{
@@ -158,8 +156,7 @@ public abstract class ItemRangedWeapon extends ItemBow
 		return MAX_DELAY;
 	}
 
-	public void setReloading(ItemStack stack, EntityPlayer player,
-			boolean reloading)
+	public void setReloading(ItemStack stack, EntityPlayer player, boolean reloading)
 	{
 		stack.getTagCompound().setBoolean("reloading", reloading);
 	}
@@ -186,8 +183,7 @@ public abstract class ItemRangedWeapon extends ItemBow
 	}
 
 	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn,
-			int itemSlot, boolean isSelected)
+	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
 	{
 		if (entityIn instanceof EntityPlayer)
 		{
@@ -215,8 +211,7 @@ public abstract class ItemRangedWeapon extends ItemBow
 	private void updateFlashlight(Entity entityIn)
 	{
 		MovingObjectPosition mop = rayTrace(entityIn, 20, 1.0F);
-		if (mop != null
-				&& mop.typeOfHit != MovingObjectPosition.MovingObjectType.MISS)
+		if (mop != null && mop.typeOfHit != MovingObjectPosition.MovingObjectType.MISS)
 		{
 			World world = entityIn.worldObj;
 			BlockPos pos;
@@ -233,8 +228,7 @@ public abstract class ItemRangedWeapon extends ItemBow
 
 			if (world.isAirBlock(pos))
 			{
-				world.setBlockState(pos,
-						ARKCraftBlocks.blockLight.getDefaultState());
+				world.setBlockState(pos, ARKCraftBlocks.blockLight.getDefaultState());
 				world.scheduleUpdate(pos, ARKCraftBlocks.blockLight, 2);
 			}
 		}
@@ -244,35 +238,28 @@ public abstract class ItemRangedWeapon extends ItemBow
 	{
 		if (partialTick == 1.0F)
 		{
-			return new Vec3(player.posX,
-					player.posY + (double) player.getEyeHeight(), player.posZ);
+			return new Vec3(player.posX, player.posY + (double) player.getEyeHeight(), player.posZ);
 		}
 		else
 		{
-			double d0 = player.prevPosX
-					+ (player.posX - player.prevPosX) * (double) partialTick;
-			double d1 = player.prevPosY
-					+ (player.posY - player.prevPosY) * (double) partialTick
-					+ (double) player.getEyeHeight();
-			double d2 = player.prevPosZ
-					+ (player.posZ - player.prevPosZ) * (double) partialTick;
+			double d0 = player.prevPosX + (player.posX - player.prevPosX) * (double) partialTick;
+			double d1 = player.prevPosY + (player.posY - player.prevPosY) * (double) partialTick + (double) player
+					.getEyeHeight();
+			double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * (double) partialTick;
 			return new Vec3(d0, d1, d2);
 		}
 	}
 
-	public static MovingObjectPosition rayTrace(Entity player, double distance,
-			float partialTick)
+	public static MovingObjectPosition rayTrace(Entity player, double distance, float partialTick)
 	{
 		Vec3 vec3 = getPositionEyes(player, partialTick);
 		Vec3 vec31 = player.getLook(partialTick);
-		Vec3 vec32 = vec3.addVector(vec31.xCoord * distance,
-				vec31.yCoord * distance, vec31.zCoord * distance);
+		Vec3 vec32 = vec3.addVector(vec31.xCoord * distance, vec31.yCoord * distance, vec31.zCoord * distance);
 		return player.worldObj.rayTraceBlocks(vec3, vec32, false, false, true);
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack stack, World world,
-			EntityPlayer player)
+	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
 	{
 		if (stack.stackSize <= 0 || player.isUsingItem()) { return stack; }
 
@@ -311,8 +298,7 @@ public abstract class ItemRangedWeapon extends ItemBow
 			{
 				int stackSize = invStack.stackSize;
 				type = invStack.getItem().getUnlocalizedName().substring(5);
-				int ammo = stackSize < this.getMaxAmmo() - ammoFinal ? stackSize
-						: this.getMaxAmmo() - ammoFinal;
+				int ammo = stackSize < this.getMaxAmmo() - ammoFinal ? stackSize : this.getMaxAmmo() - ammoFinal;
 				ammoFinal += ammo;
 
 				invStack.stackSize = stackSize - ammo;
@@ -328,8 +314,7 @@ public abstract class ItemRangedWeapon extends ItemBow
 	}
 
 	@Override
-	public void onPlayerStoppedUsing(ItemStack stack, World world,
-			EntityPlayer player, int timeLeft)
+	public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int timeLeft)
 	{
 		if (canFire(stack, player))
 		{
@@ -339,8 +324,7 @@ public abstract class ItemRangedWeapon extends ItemBow
 
 	public boolean canReload(ItemStack stack, EntityPlayer player)
 	{
-		return getAmmoQuantity(stack) < getMaxAmmo()
-				&& !player.capabilities.isCreativeMode;
+		return getAmmoQuantity(stack) < getMaxAmmo() && !player.capabilities.isCreativeMode;
 	}
 
 	public boolean canFire(ItemStack stack, EntityPlayer player)
@@ -383,8 +367,7 @@ public abstract class ItemRangedWeapon extends ItemBow
 
 	public int getAmmoQuantity(ItemStack stack)
 	{
-		if (stack.hasTagCompound())
-			return stack.getTagCompound().getInteger("ammo");
+		if (stack.hasTagCompound()) return stack.getTagCompound().getInteger("ammo");
 		else return 0;
 	}
 
@@ -397,8 +380,8 @@ public abstract class ItemRangedWeapon extends ItemBow
 	public String getAmmoType(ItemStack stack)
 	{
 		String type = null;
-		if (stack.hasTagCompound() && stack.getTagCompound().hasKey("ammotype"))
-			type = stack.getTagCompound().getString("ammotype");
+		if (stack.hasTagCompound() && stack.getTagCompound().hasKey("ammotype")) type = stack.getTagCompound()
+				.getString("ammotype");
 		if (type == null || type.equals("")) type = this.getDefaultAmmoType();
 		return type.toLowerCase();
 	}
@@ -419,87 +402,68 @@ public abstract class ItemRangedWeapon extends ItemBow
 		return getAmmoQuantity(stack) > 0 || player.capabilities.isCreativeMode;
 	}
 
-	public void soundEmpty(ItemStack itemstack, World world,
-			EntityPlayer entityplayer)
+	public void soundEmpty(ItemStack itemstack, World world, EntityPlayer entityplayer)
 	{
-		world.playSoundAtEntity(entityplayer, "random.click", 1.0F,
-				1.0F / 0.8F);
+		world.playSoundAtEntity(entityplayer, "random.click", 1.0F, 1.0F / 0.8F);
 	}
 
 	public void soundCharge(ItemStack stack, World world, EntityPlayer player)
 	{
-		String name =
-				ARKCraft.MODID + ":" + this.getUnlocalizedName() + "_reload";
-		world.playSoundAtEntity(player, name, 0.7F,
-				0.9F / (getItemRand().nextFloat() * 0.2F + 0.0F));
+		String name = ARKCraft.MODID + ":" + this.getUnlocalizedName() + "_reload";
+		world.playSoundAtEntity(player, name, 0.7F, 0.9F / (getItemRand().nextFloat() * 0.2F + 0.0F));
 	}
 
 	public abstract int getReloadDuration();
 
-	public void applyProjectileEnchantments(EntityProjectile entity,
-			ItemStack itemstack)
+	public void applyProjectileEnchantments(EntityProjectile entity, ItemStack itemstack)
 	{
-		int damage = EnchantmentHelper
-				.getEnchantmentLevel(Enchantment.power.effectId, itemstack);
+		int damage = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, itemstack);
 		if (damage > 0)
 		{
 			entity.setDamage(damage);
 		}
 
-		int knockback = EnchantmentHelper
-				.getEnchantmentLevel(Enchantment.punch.effectId, itemstack);
+		int knockback = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, itemstack);
 		if (knockback > 0)
 		{
 			entity.setKnockbackStrength(knockback);
 		}
 
-		if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId,
-				itemstack) > 0)
+		if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, itemstack) > 0)
 		{
 			entity.setFire(100);
 		}
 	}
 
-	public final void postShootingEffects(ItemStack itemstack,
-			EntityPlayer entityplayer, World world)
+	public final void postShootingEffects(ItemStack itemstack, EntityPlayer entityplayer, World world)
 	{
 		effectPlayer(itemstack, entityplayer, world);
-		effectShoot(itemstack, world, entityplayer.posX, entityplayer.posY,
-				entityplayer.posZ, entityplayer.rotationYaw,
+		effectShoot(itemstack, world, entityplayer.posX, entityplayer.posY, entityplayer.posZ, entityplayer.rotationYaw,
 				entityplayer.rotationPitch);
 	}
 
-	public abstract void effectPlayer(ItemStack itemstack,
-			EntityPlayer entityplayer, World world);
+	public abstract void effectPlayer(ItemStack itemstack, EntityPlayer entityplayer, World world);
 
-	public void effectShoot(ItemStack stack, World world, double x, double y,
-			double z, float yaw, float pitch)
+	public void effectShoot(ItemStack stack, World world, double x, double y, double z, float yaw, float pitch)
 	{
-		String soundPath =
-				ARKCraft.MODID + ":" + this.getUnlocalizedName() + "_shoot";
+		String soundPath = ARKCraft.MODID + ":" + this.getUnlocalizedName() + "_shoot";
 		InventoryAttachment att = InventoryAttachment.create(stack);
-		if (att != null && att.isSilencerPresent())
-			soundPath = soundPath + "_silenced";
-		world.playSoundEffect(x, y, z, soundPath, 1.5F,
-				1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F));
+		if (att != null && att.isSilencerPresent()) soundPath = soundPath + "_silenced";
+		world.playSoundEffect(x, y, z, soundPath, 1.5F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F));
 
-		float particleX = -MathHelper.sin(((yaw + 23) / 180F) * 3.141593F)
-				* MathHelper.cos((pitch / 180F) * 3.141593F);
+		float particleX = -MathHelper.sin(((yaw + 23) / 180F) * 3.141593F) * MathHelper.cos((pitch / 180F) * 3.141593F);
 		float particleY = -MathHelper.sin((pitch / 180F) * 3.141593F) - 0.1F;
-		float particleZ = MathHelper.cos(((yaw + 23) / 180F) * 3.141593F)
-				* MathHelper.cos((pitch / 180F) * 3.141593F);
+		float particleZ = MathHelper.cos(((yaw + 23) / 180F) * 3.141593F) * MathHelper.cos((pitch / 180F) * 3.141593F);
 
 		for (int i = 0; i < 3; i++)
 		{
-			world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x + particleX,
-					y + particleY, z + particleZ, 0.0D, 0.0D, 0.0D);
+			world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x + particleX, y + particleY, z + particleZ, 0.0D, 0.0D,
+					0.0D);
 		}
-		world.spawnParticle(EnumParticleTypes.FLAME, x + particleX,
-				y + particleY, z + particleZ, 0.0D, 0.0D, 0.0D);
+		world.spawnParticle(EnumParticleTypes.FLAME, x + particleX, y + particleY, z + particleZ, 0.0D, 0.0D, 0.0D);
 	}
 
-	public void fire(ItemStack stack, World world, EntityPlayer player,
-			int timeLeft)
+	public void fire(ItemStack stack, World world, EntityPlayer player, int timeLeft)
 	{
 		if (!world.isRemote)
 		{
@@ -515,8 +479,8 @@ public abstract class ItemRangedWeapon extends ItemBow
 
 	protected void afterFire(ItemStack stack, World world, EntityPlayer player)
 	{
-		if (!player.capabilities.isCreativeMode) this.setAmmoQuantity(stack,
-				this.getAmmoQuantity(stack) - ammoConsumption);
+		if (!player.capabilities.isCreativeMode) this.setAmmoQuantity(stack, this.getAmmoQuantity(stack)
+				- ammoConsumption);
 		int damage = 1;
 		int ammo = this.getAmmoQuantity(stack);
 		if (stack.getItemDamage() + damage > stack.getMaxDamage())
@@ -528,8 +492,7 @@ public abstract class ItemRangedWeapon extends ItemBow
 		}
 		else if (ammo < 1)
 		{
-			if (hasAmmoInInventory(player)
-					&& FMLCommonHandler.instance().getSide().isClient())
+			if (hasAmmoInInventory(player) && FMLCommonHandler.instance().getSide().isClient())
 			{
 				ClientEventHandler.doReload();
 			}
@@ -543,19 +506,18 @@ public abstract class ItemRangedWeapon extends ItemBow
 		postShootingEffects(stack, player, world);
 	}
 
-	protected EntityProjectile createProjectile(ItemStack stack, World world,
-			EntityPlayer player)
+	protected EntityProjectile createProjectile(ItemStack stack, World world, EntityPlayer player)
 	{
 		try
 		{
 			String type = this.getAmmoType(stack);
 
-			Class<?> c = Class.forName("com.uberverse.arkcraft.common.entity."
-					+ ProjectileType.valueOf(type.toUpperCase()).getEntity());
-			Constructor<?> con = c.getConstructor(World.class,
-					EntityLivingBase.class, float.class, float.class, double.class, int.class);
-			return (EntityProjectile) con.newInstance(world, player, this.speed,
-					this.inaccuracy, this.damage, this.range);
+			Class<?> c = Class.forName("com.uberverse.arkcraft.common.entity." + ProjectileType.valueOf(type
+					.toUpperCase()).getEntity());
+			Constructor<?> con = c.getConstructor(World.class, EntityLivingBase.class, float.class, float.class,
+					double.class, int.class);
+			return (EntityProjectile) con.newInstance(world, player, this.speed, this.inaccuracy, this.damage,
+					this.range);
 		}
 		catch (ClassNotFoundException e)
 		{
@@ -588,8 +550,7 @@ public abstract class ItemRangedWeapon extends ItemBow
 		return null;
 	}
 
-	public void effectReloadDone(ItemStack stack, World world,
-			EntityPlayer player)
+	public void effectReloadDone(ItemStack stack, World world, EntityPlayer player)
 	{
 		// player.swingItem();
 	}
@@ -602,13 +563,10 @@ public abstract class ItemRangedWeapon extends ItemBow
 		return multimap;
 	}
 
-	public void addItemAttributeModifiers(
-			Multimap<String, AttributeModifier> multimap)
+	public void addItemAttributeModifiers(Multimap<String, AttributeModifier> multimap)
 	{
-		multimap.put(
-				WeaponModAttributes.RELOAD_TIME.getAttributeUnlocalizedName(),
-				new AttributeModifier("Weapon reloadtime modifier",
-						this.getReloadDuration(), 0));
+		multimap.put(WeaponModAttributes.RELOAD_TIME.getAttributeUnlocalizedName(), new AttributeModifier(
+				"Weapon reloadtime modifier", this.getReloadDuration(), 0));
 	}
 
 	@Override

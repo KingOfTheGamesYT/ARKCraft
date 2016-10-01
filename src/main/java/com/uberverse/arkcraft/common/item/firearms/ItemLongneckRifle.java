@@ -11,8 +11,7 @@ import com.uberverse.arkcraft.common.item.attachments.Laserable;
 import com.uberverse.arkcraft.common.item.attachments.Scopeable;
 import com.uberverse.arkcraft.common.item.attachments.Silenceable;
 
-public class ItemLongneckRifle extends ItemRangedWeapon
-		implements Scopeable, Silenceable, Laserable, Flashable
+public class ItemLongneckRifle extends ItemRangedWeapon implements Scopeable, Silenceable, Laserable, Flashable
 {
 	public ItemLongneckRifle()
 	{
@@ -26,16 +25,13 @@ public class ItemLongneckRifle extends ItemRangedWeapon
 	}
 
 	@Override
-	public void effectPlayer(ItemStack itemstack, EntityPlayer entityplayer,
-			World world)
+	public void effectPlayer(ItemStack itemstack, EntityPlayer entityplayer, World world)
 	{
 		float f = entityplayer.isSneaking() ? -0.01F : -0.02F;
-		double d =
-				-MathHelper.sin((entityplayer.rotationYaw / 180F) * 3.141593F)
-						* MathHelper.cos((0 / 180F) * 3.141593F) * f;
-		double d1 =
-				MathHelper.cos((entityplayer.rotationYaw / 180F) * 3.141593F)
-						* MathHelper.cos((0 / 180F) * 3.141593F) * f;
+		double d = -MathHelper.sin((entityplayer.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((0 / 180F)
+				* 3.141593F) * f;
+		double d1 = MathHelper.cos((entityplayer.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((0 / 180F)
+				* 3.141593F) * f;
 		entityplayer.rotationPitch -= entityplayer.isSneaking() ? 2.5F : 5F;
 		entityplayer.addVelocity(d, 0, d1);
 	}

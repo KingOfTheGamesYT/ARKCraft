@@ -12,8 +12,7 @@ public interface IPage
 {
 
 	@SideOnly(Side.CLIENT)
-	void draw(int guiLeft, int guiRight, int mouseX, int mouseY,
-			SmallFontRenderer renderer, boolean canTranslate,
+	void draw(int guiLeft, int guiRight, int mouseX, int mouseY, SmallFontRenderer renderer, boolean canTranslate,
 			GuiInfoBook guiScreen);
 
 	@SideOnly(Side.CLIENT)
