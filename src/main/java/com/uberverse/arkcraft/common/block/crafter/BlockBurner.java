@@ -43,7 +43,7 @@ public abstract class BlockBurner extends BlockARKContainer
 
 		if (burning)
 		{
-			lightValue = 15;
+			lightValue = 10;
 		}
 		else
 		{

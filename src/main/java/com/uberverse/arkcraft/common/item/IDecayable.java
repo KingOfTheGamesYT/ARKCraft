@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -18,6 +19,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public interface IDecayable
 {
+	default void decayTick(IInventory inventory, int slotId, double decayModifier, ItemStack stack, World world)
+	{
+		if (world.isRemote || world.getTotalWorldTime() / 20 != 0) return;
+		decayTick(inventory, slotId, decayModifier, stack);
+	}
+
 	default void decayTick(IInventory inventory, int slotId, double decayModifier, ItemStack stack)
 	{
 		if (getDecayStart(stack) < 0) setDecayStart(stack, ARKCraft.proxy.getWorldTime());

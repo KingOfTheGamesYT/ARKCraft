@@ -328,8 +328,6 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 				{
 					setState(0, state);
 				}
-
-				IDecayer.super.update();
 				markDirty();
 				worldObj.markBlockForUpdate(pos);
 

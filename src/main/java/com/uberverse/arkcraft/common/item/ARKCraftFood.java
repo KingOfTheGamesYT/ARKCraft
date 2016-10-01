@@ -134,6 +134,6 @@ public class ARKCraftFood extends ItemFood implements IDecayable
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
 	{
 		super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
-		if (!worldIn.isRemote) decayTick(((EntityPlayer) entityIn).inventory, itemSlot, 1, stack);
+		decayTick(((EntityPlayer) entityIn).inventory, itemSlot, 1, stack, worldIn);
 	}
 }

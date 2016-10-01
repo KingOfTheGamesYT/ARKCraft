@@ -73,7 +73,6 @@ public class TileEntityCompostBin extends TileEntity implements IInventory, IUpd
 			// TODO implement composting time
 			// done composting
 			if (progress > 36000) if (consume()) findProcess();
-			IDecayer.super.update();
 		}
 	}
 

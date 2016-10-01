@@ -23,6 +23,7 @@ public class ARKCraftFeces extends ItemFertilizer implements IDecayable
 		this.decayTime = decayTime;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void getSubItems(Item itemIn, CreativeTabs tab, List subItems)
 	{
@@ -44,7 +45,7 @@ public class ARKCraftFeces extends ItemFertilizer implements IDecayable
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
 	{
 		super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
-		if (!worldIn.isRemote) decayTick(((EntityPlayer) entityIn).inventory, itemSlot, 1, stack);
+		decayTick(((EntityPlayer) entityIn).inventory, itemSlot, 1, stack, worldIn);
 	}
 
 	@Override

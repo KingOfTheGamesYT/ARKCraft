@@ -10,7 +10,6 @@ import net.minecraft.util.MathHelper;
 
 public class ModelDodo extends ModelBase
 {
-
 	// All these are parts of the head
 	ModelRenderer Head1;
 	ModelRenderer Head2;
