@@ -10,6 +10,7 @@ import net.minecraft.block.material.Material;
 
 public class BlockCrystalResource extends BlockARKResource
 {
+
 	public BlockCrystalResource()
 	{
 		super(Material.rock);
@@ -21,4 +22,15 @@ public class BlockCrystalResource extends BlockARKResource
 		return Arrays.asList(new AbstractItemStack(ARKCraftItems.crystal, 10), new AbstractItemStack(
 				ARKCraftItems.stone, 10));
 	}
+    
+    @Override
+    public int getRenderType(){
+                return -1;
+    }
+    @Override
+    public boolean isOpaqueCube()
+    {
+        return false;
+    }
 }
+

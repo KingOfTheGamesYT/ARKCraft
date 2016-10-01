@@ -24,7 +24,6 @@ import com.uberverse.arkcraft.common.entity.EntitySimpleShotgunAmmo;
 import com.uberverse.arkcraft.common.entity.EntitySpear;
 import com.uberverse.arkcraft.common.entity.EntityStone;
 import com.uberverse.arkcraft.common.entity.EntityTranquilizer;
-import com.uberverse.arkcraft.common.handlers.EntityHandler;
 import com.uberverse.arkcraft.common.item.ItemBlueprint;
 import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.model.ModelDodo;
@@ -42,7 +41,6 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -74,7 +72,7 @@ public class ClientProxy extends CommonProxy
 	private void registerRenderers()
 	{
 		// TODO update this a bit + make client component to init manager
-
+		registerBlockRenderer();
 		InitializationManager.instance().getRegistry().forEachEntry((RegistryEntry<?> r) -> {
 			if (r.standardRender)
 			{
@@ -107,6 +105,17 @@ public class ClientProxy extends CommonProxy
 		registerBlockTexture(ARKCraftBlocks.cropPlot, 1, "crop_plot");
 		registerBlockTexture(ARKCraftBlocks.cropPlot, 2, "crop_plot");
 	}
+	
+	public static void registerBlockRenderer() {
+
+	//	reg(ModBlocks.tutorialTileEntity);
+
+	//	ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrystal.class, new TileEntityCrystalRender());
+	}
+
+    public static void reg(Block block) {
+        Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(ARKCraft.MODID + ":" + block.getUnlocalizedName().substring(5), "inventory"));
+    }
 
 	private void registerBlockTexture(final Block block, int meta, final String blockName)
 	{
