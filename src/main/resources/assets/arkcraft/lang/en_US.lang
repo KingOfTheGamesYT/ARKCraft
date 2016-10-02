@@ -357,6 +357,14 @@ engram.shotgun.title=Shotgun
 engram.shotgun.description=Going to be fun!
 engram.simple_shotgun_ammo.title=Simple Shotgun Ammo
 engram.simple_shotgun_ammo.description=You need ammo too!
+engram.flak_legs.title=Flak Leggings
+engram.flak_legs.description=Protection for One!
+engram.flak_chest.title=Flak Chestplate
+engram.flak_chest.description=Protection for One!
+engram.flak_boots.title=Flak Boots
+engram.flak_boots.description=Protection for One!
+engram.flak_helm.title=Flak Helmet
+engram.flak_helm.description=Protection for One!
 
 ark.engram.learn=Learn Engram
 ark.engram.learn.true=Learned
