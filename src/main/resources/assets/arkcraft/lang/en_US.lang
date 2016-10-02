@@ -1,5 +1,5 @@
 #Tiles
-tile.berryBush.name=Berry Bush
+tile.berry_bush.name=Berry Bush
 tile.smithy.name=Smithy
 tile.mortar_and_pestle.name=Mortar and Pestle
 tile.crop_plot.name=Crop Plot
@@ -91,6 +91,8 @@ item.gun_powder.name=Gunpowder
 item.fertilizer.name=Fertilizer
 item.spark_powder.name=Spark Powder
 item.cementing_paste.name=Cementing Paste
+item.stimulant.name=Stimulant
+item.gasoline.name=Gasoline
 
 ##weapons
 item.tranq_arrow.name=Tranquilizer Arrow
