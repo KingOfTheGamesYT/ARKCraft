@@ -33,7 +33,6 @@ public class DescriptionHandler extends SimpleChannelInboundHandler<FMLProxyPack
 		final ByteBuf buf = msg.payload();
 		Minecraft.getMinecraft().addScheduledTask(new Runnable()
 		{
-
 			@Override
 			public void run()
 			{
