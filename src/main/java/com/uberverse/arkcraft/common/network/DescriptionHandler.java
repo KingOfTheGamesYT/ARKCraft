@@ -1,13 +1,5 @@
 package com.uberverse.arkcraft.common.network;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-
-import net.minecraftforge.fml.common.network.ByteBufUtils;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
-
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityArkCraft;
 
@@ -15,6 +7,12 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 
 @Sharable
 public class DescriptionHandler extends SimpleChannelInboundHandler<FMLProxyPacket>
@@ -26,7 +24,7 @@ public class DescriptionHandler extends SimpleChannelInboundHandler<FMLProxyPack
 
 	public static void init()
 	{
-		System.out.println("Init the DescriptionHandler");
+		ARKCraft.logger.info("Init the DescriptionHandler");
 	}
 
 	@Override
