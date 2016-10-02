@@ -31,7 +31,6 @@ public class ItemSmithy extends ItemBlockARK
 	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side,
 			float hitX, float hitY, float hitZ)
 	{
-		System.out.println("build");
 		if (worldIn.isRemote)
 		{
 			return true;

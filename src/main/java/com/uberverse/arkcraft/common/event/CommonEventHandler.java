@@ -382,7 +382,6 @@ public class CommonEventHandler
 		if (event.entityLiving.worldObj.isRemote) return;
 		Random r = new Random();
 		int x = r.nextInt(3) + 1;
-		System.out.println(x);
 		ItemStack meat = new ItemStack(ARKCraftItems.meat_raw, x);
 		event.drops.add(new EntityItem(event.entityLiving.worldObj, event.entityLiving.posX, event.entityLiving.posY,
 				event.entityLiving.posZ, IDecayable.setDecayStart(meat, ARKCraft.proxy.getWorldTime())));

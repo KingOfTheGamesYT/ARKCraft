@@ -117,7 +117,6 @@ public abstract class ARKCraftTool extends ItemTool
 			{
 
 				this.destroyBlocks(worldIn, pos, player, stack, WOOD_PREDICATE);
-				System.out.println("How many wood blocks ? " + count);
 				int wood = calcOutput(count, toolType.getPickaxeModifier(), 1);
 				int thatch = calcOutput(count, toolType.getPickaxeModifier(), 1);
 				entityDropItem(worldIn, pos, blockIn, player, new ItemStack(ARKCraftItems.wood, wood));// (int)
@@ -129,12 +128,10 @@ public abstract class ARKCraftTool extends ItemTool
 																											// +
 																											// itemRand.nextInt(100)/20.0*count*toolType.getPickaxeModifier())
 
-				// System.out.println(" Wood: " + wood + " Thatch: " +
 				// thatch);
 				count = 0;
 
 				// this.destroyBlocks(worldIn, pos, player, stack);
-				System.out.println("How many wood blocks ? " + count);
 
 				// entityDropItem(worldIn, pos, blockIn, player, new
 				// ItemStack(ARKCraftItems.wood, (int) (10 +
@@ -143,7 +140,6 @@ public abstract class ARKCraftTool extends ItemTool
 				// ItemStack(ARKCraftItems.thatch, (int) (10 +
 				// itemRand.nextInt(100)/20.0*count*toolType.getPrimaryModifier())));
 
-				// System.out.println(" Wood: " + wood + " Thatch: " +
 				// thatch);
 				count = 0;
 
@@ -251,7 +247,6 @@ public abstract class ARKCraftTool extends ItemTool
 			else if (IRON_ORE_PREDICATE.apply(blockState))
 			{
 				this.destroyBlocks(worldIn, pos, player, stack, IRON_ORE_PREDICATE);
-				System.out.println("How many iron ore blocks ? " + count);
 				int stone = calcOutput(count, toolType.getPickaxeModifier(), 0.8D);
 				int metal = calcOutput(count, toolType.getPickaxeModifier(), 1);
 				entityDropItem(worldIn, pos, blockIn, player, new ItemStack(ARKCraftItems.metal, metal));// (int)
@@ -263,7 +258,6 @@ public abstract class ARKCraftTool extends ItemTool
 																											// +
 																											// itemRand.nextInt(100)/20.0*count*toolType.getHatchetModifier())
 
-				// System.out.println(" Wood: " + wood + " Thatch: " +
 				// thatch);
 				count = 0;
 
