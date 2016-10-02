@@ -47,5 +47,4 @@ public class DescriptionHandler extends SimpleChannelInboundHandler<FMLProxyPack
 			}
 		});
 	}
-
 }

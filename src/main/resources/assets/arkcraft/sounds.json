@@ -288,7 +288,7 @@
 		]
 	},
 	"forge_burn": {
-		"category": "neutral",
+		"category": "block",
 		"sounds": [
 			{
 				"name": "forge_burn",
@@ -297,10 +297,31 @@
 		]
 	},
 	"campfire_burn": {
-		"category": "neutral",
+		"category": "block",
 		"sounds": [
 			{
 				"name": "campfire_burn",
+				"stream": false
+			}
+		]
+	},
+	"smithy_hammer": {
+		"category": "block",
+		"sounds": [
+			{
+				"name": "smithy_hammer1",
+				"stream": false
+			},
+			{
+				"name": "smithy_hammer2",
+				"stream": false
+			},
+			{
+				"name": "smithy_hammer3",
+				"stream": false
+			},
+			{
+				"name": "smithy_hammer4",
 				"stream": false
 			}
 		]

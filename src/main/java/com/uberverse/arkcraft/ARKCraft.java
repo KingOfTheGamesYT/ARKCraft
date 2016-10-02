@@ -48,8 +48,8 @@ public class ARKCraft
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		proxy.preInit(event);
 		logger = new com.uberverse.lib.Logger(event.getModLog());
+		proxy.preInit(event);
 	}
 
 	@EventHandler
