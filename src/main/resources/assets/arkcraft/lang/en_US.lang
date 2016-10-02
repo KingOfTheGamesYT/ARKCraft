@@ -57,6 +57,7 @@ item.pelt.name=Pelt
 item.oil.name=Oil
 item.obsidian.name=Obsidian
 item.metal_ingot.name=Metal Ingot
+item.silica_pearls.name=Silica Pearls
 
 ##armor
 item.chitin_helm.name=Chitin Helmet
