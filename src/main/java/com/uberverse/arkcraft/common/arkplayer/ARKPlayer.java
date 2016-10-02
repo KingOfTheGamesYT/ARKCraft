@@ -51,7 +51,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
- * @author Lewis_McReu Based on earlier concepts by wildbill22 and ERBF
+ * @author Lewis_McReu
+ *         Based on earlier concepts by wildbill22 and ERBF
  */
 public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable, IWeighable, ITranquilizable
 {
@@ -524,13 +525,9 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable, IWei
 	@Override
 	public void loadNBTData(NBTTagCompound compound)
 	{
-		if (compound == null || !compound.hasKey(propKey))
-		{
-			ARKCraft.logger.info("Couldn't find nbt!");
-			return;
-		}
+		if (compound == null || !compound.hasKey(propKey)) return;
 		NBTTagCompound properties = compound.getCompoundTag(propKey);
-		if (properties == null) { return; }
+		if (properties == null) return;
 
 		// ARK player properties
 
@@ -597,27 +594,27 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable, IWei
 	 */
 	public void copy(ARKPlayer props)
 	{
-		this.hasToGo.variable = props.hasToGo.variable;
-		this.health.variable = props.health.variable;
-		this.oxygen.variable = props.oxygen.variable;
-		this.food.variable = props.food.variable;
-		this.water.variable = props.water.variable;
-		this.damage.variable = props.damage.variable;
-		this.speed.variable = props.speed.variable;
-		this.stamina.variable = props.stamina.variable;
-		this.torpor.variable = props.torpor.variable;
-		this.engramPoints.variable = props.engramPoints.variable;
-		this.maxHealth.variable = props.maxHealth.variable;
-		this.maxOxygen.variable = props.maxOxygen.variable;
-		this.maxFood.variable = props.maxFood.variable;
-		this.maxWater.variable = props.maxWater.variable;
-		this.maxDamage.variable = props.maxDamage.variable;
-		this.maxSpeed.variable = props.maxSpeed.variable;
-		this.maxStamina.variable = props.maxStamina.variable;
-		this.xp.variable = props.xp.variable;
-		this.weight.variable = props.weight.variable;
-		this.maxWeight.variable = props.maxWeight.variable;
-		this.level.variable = props.level.variable;
+		this.hasToGo.set(props.hasToGo.variable);
+		this.health.set(props.health.variable);
+		this.oxygen.set(props.oxygen.variable);
+		this.food.set(props.food.variable);
+		this.water.set(props.water.variable);
+		this.damage.set(props.damage.variable);
+		this.speed.set(props.speed.variable);
+		this.stamina.set(props.stamina.variable);
+		this.torpor.set(props.torpor.variable);
+		this.engramPoints.set(props.engramPoints.variable);
+		this.maxHealth.set(props.maxHealth.variable);
+		this.maxOxygen.set(props.maxOxygen.variable);
+		this.maxFood.set(props.maxFood.variable);
+		this.maxWater.set(props.maxWater.variable);
+		this.maxDamage.set(props.maxDamage.variable);
+		this.maxSpeed.set(props.maxSpeed.variable);
+		this.maxStamina.set(props.maxStamina.variable);
+		this.xp.set(props.xp.variable);
+		this.weight.set(props.weight.variable);
+		this.maxWeight.set(props.maxWeight.variable);
+		this.level.set(props.level.variable);
 	}
 
 	public void copyConditionally(ARKPlayer props)

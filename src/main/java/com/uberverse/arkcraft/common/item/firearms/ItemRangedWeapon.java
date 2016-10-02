@@ -34,6 +34,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -194,11 +195,29 @@ public abstract class ItemRangedWeapon extends ItemBow
 				{
 					updateFlashlight(entityIn);
 				}
+				else if (inv != null && inv.isLaserPresent())
+				{
+					updateLaser(entityIn);
+				}
 			}
 			else if (isReloading(stack))
 			{
 				resetReload(stack, (EntityPlayer) entityIn);
 			}
+		}
+	}
+
+	private void updateLaser(Entity entityIn)
+	{
+		World w = entityIn.worldObj;
+		MovingObjectPosition mop = rayTrace(entityIn, 35, 1.0F);
+		if (mop.typeOfHit == MovingObjectType.BLOCK)
+		{
+			double x = mop.hitVec.xCoord;
+			double y = mop.hitVec.yCoord;
+			double z = mop.hitVec.zCoord;
+
+			w.spawnParticle(EnumParticleTypes.REDSTONE, x, y, z, 0, 0, 0, 0);
 		}
 	}
 
