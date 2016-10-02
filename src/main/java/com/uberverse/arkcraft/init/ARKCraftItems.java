@@ -62,7 +62,8 @@ public class ARKCraftItems
 
 	// Misc
 	public static ARKCraftItem stone, fiber, thatch, wood, flint, metal, spark_powder, hide, charcoal, metal_ingot,
-			cementing_paste, crystal, spy_glass, narcotics, gunpowder, chitin, keratin, pelt, obsidian, oil, gasoline, stimulant, silica_pearls;
+			cementing_paste, crystal, spy_glass, narcotics, gunpowder, chitin, keratin, pelt, obsidian, oil, gasoline,
+			stimulant, silica_pearls;
 	public static ARKCraftFeces small_feces, medium_feces, large_feces, player_feces;
 	public static ItemFertilizer fertilizer;
 	public static ARKCraftBook info_book;
