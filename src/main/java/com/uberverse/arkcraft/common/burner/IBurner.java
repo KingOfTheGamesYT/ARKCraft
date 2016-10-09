@@ -35,7 +35,7 @@ import net.minecraftforge.common.util.Constants.NBT;
  */
 public interface IBurner extends IInventoryAdder, NBTable
 {
-	public default void update()
+	public default void updateBurner()
 	{
 		updateBurning();
 		World world = getWorldIA();

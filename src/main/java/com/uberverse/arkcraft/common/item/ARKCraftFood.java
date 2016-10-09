@@ -105,7 +105,6 @@ public class ARKCraftFood extends ItemFood implements IDecayable
 		return decayTime;
 	}
 
-	// TODO localize!
 	/**
 	 * allows items to add custom lines of information to the mouseover
 	 * description
@@ -121,6 +120,7 @@ public class ARKCraftFood extends ItemFood implements IDecayable
 	@Override
 	public void addInformation(ItemStack itemStack, EntityPlayer playerIn, List tooltip, boolean advanced)
 	{
+		// TODO localize!
 		IDecayable.super.addInformation(itemStack, playerIn, tooltip, advanced);
 	}
 

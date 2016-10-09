@@ -70,16 +70,13 @@ public class Utils
 
 	public static void checkInventoryForDecayable(IInventory inventory)
 	{
-		if (inventory instanceof IDecayer)
-		{
-			((IDecayer) inventory).update();
-			return;
-		}
-		for (int i = 0; i < inventory.getSizeInventory(); i++)
+		if (inventory instanceof IDecayer) IDecayer.updateDecayer((IDecayer) inventory);
+		else for (int i = 0; i < inventory.getSizeInventory(); i++)
 		{
 			ItemStack stack = inventory.getStackInSlot(i);
 			if (stack != null && stack.getItem() instanceof IDecayable)
 			{
+				System.out.println("tick");
 				IDecayable decayable = (IDecayable) stack.getItem();
 				decayable.decayTick(inventory, i, 1, stack);
 			}

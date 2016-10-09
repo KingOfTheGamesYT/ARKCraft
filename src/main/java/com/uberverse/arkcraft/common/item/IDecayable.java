@@ -19,9 +19,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public interface IDecayable
 {
-	default void decayTick(IInventory inventory, int slotId, double decayModifier, ItemStack stack, World world)
+	public default void decayTick(IInventory inventory, int slotId, double decayModifier, ItemStack stack, World world)
 	{
-		if (world.isRemote || world.getTotalWorldTime() / 20 != 0) return;
+		if (world.isRemote || world.getTotalWorldTime() % 20 != 0) return;
 		decayTick(inventory, slotId, decayModifier, stack);
 	}
 

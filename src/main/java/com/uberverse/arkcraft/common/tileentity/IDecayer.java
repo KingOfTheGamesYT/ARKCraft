@@ -10,13 +10,13 @@ import net.minecraft.item.ItemStack;
  */
 public interface IDecayer
 {
-	default void update()
+	public static void updateDecayer(IDecayer decayer)
 	{
-		for (int i = 0; i < getIInventory().getSizeInventory(); i++)
+		for (int i = 0; i < decayer.getIInventory().getSizeInventory(); i++)
 		{
-			ItemStack s = getIInventory().getStackInSlot(i);
-			if (s != null && s.getItem() instanceof IDecayable) ((IDecayable) s.getItem()).decayTick(getIInventory(), i,
-					getDecayModifier(s), s);
+			ItemStack s = decayer.getIInventory().getStackInSlot(i);
+			if (s != null && s.getItem() instanceof IDecayable) ((IDecayable) s.getItem()).decayTick(decayer
+					.getIInventory(), i, decayer.getDecayModifier(s), s);;
 		}
 	}
 
