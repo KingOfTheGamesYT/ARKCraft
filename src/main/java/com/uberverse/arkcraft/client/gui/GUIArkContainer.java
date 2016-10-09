@@ -30,5 +30,4 @@ public abstract class GUIArkContainer extends GuiContainer
 	public abstract int getBackgroundWidth();
 
 	public abstract int getBackgroundHeight();
-
 }
