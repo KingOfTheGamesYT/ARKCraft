@@ -71,8 +71,8 @@ public abstract class SurfaceResourceGenerator extends ClusterGenerator
 			pos = pos.up();
 			check = true;
 		}
-		if (!check) while (world.getBlockState(pos.down()).getBlock().isReplaceable(world, pos) || !world.getBlockState(
-				pos.down()).getBlock().isOpaqueCube())
+		if (!check) while (world.getBlockState(pos.down()).getBlock().isReplaceable(world, pos.down()) || !world
+				.getBlockState(pos.down()).getBlock().isOpaqueCube())
 			pos = pos.down();
 		if (check) if (!world.getBlockState(pos).getBlock().isReplaceable(world, pos) && world.getBlockState(pos)
 				.getBlock().isOpaqueCube()) pos = pos.up();
