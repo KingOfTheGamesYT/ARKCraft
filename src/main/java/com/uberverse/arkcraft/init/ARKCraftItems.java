@@ -63,7 +63,7 @@ public class ARKCraftItems
 	// Misc
 	public static ARKCraftItem stone, fiber, thatch, wood, flint, metal, spark_powder, hide, charcoal, metal_ingot,
 			cementing_paste, crystal, spy_glass, narcotics, gunpowder, chitin, keratin, pelt, obsidian, oil, gasoline,
-			stimulant, silica_pearls;
+			stimulant, silica_pearls, water_jar;
 	public static ARKCraftFeces small_feces, medium_feces, large_feces, player_feces;
 	public static ItemFertilizer fertilizer;
 	public static ARKCraftBook info_book;
@@ -118,6 +118,7 @@ public class ARKCraftItems
 		gasoline = addFuel("gasoline");
 		stimulant = addItem("stimulant");
 		silica_pearls = addItem("silica_pearls");
+		water_jar = addItem("water_jar");
 
 		// Tools
 		metalPick = init.registerItem("metal_pick", new ItemPickMetal());
@@ -152,7 +153,7 @@ public class ARKCraftItems
 		fur_legs = addArmorItem("fur_legs", FUR, "furArmor", 2, false);
 		fur_boots = addArmorItem("fur_boots", FUR, "furArmor", 3, false);
 		
-		flak_helm = addArmorItem("flak_helm", FLAK, "flakAmor", 0, false);
+		flak_helm = addArmorItem("flak_helm", FLAK, "flakArmor", 0, false);
 		flak_chest = addArmorItem("flak_chest", FLAK, "flakArmor", 1, false);
 		flak_legs = addArmorItem("flak_legs", FLAK, "flakArmor", 2, false);
 		flak_boots = addArmorItem("flak_boots", FLAK, "flakArmor", 3, false);
