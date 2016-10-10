@@ -189,6 +189,9 @@ public class EngramManager
 		instance().registerEngram(new Engram("sickle", new AbstractItemStack(ARKCraftItems.metal_sickle), 12, 30, 10,
 				EngramType.SMITHY, 1.4, new EngramRecipe(new AbstractItemStack(ARKCraftItems.metal_ingot, 18),
 						new AbstractItemStack(ARKCraftItems.wood, 4), new AbstractItemStack(ARKCraftItems.hide, 16))));
+		instance().registerEngram(new Engram("water_jar", new AbstractItemStack(ARKCraftItems.water_jar), 12, 30, 10,
+				EngramType.SMITHY, 1.4, new EngramRecipe(new AbstractItemStack(ARKCraftItems.cementing_paste, 7),
+						new AbstractItemStack(ARKCraftItems.hide, 5), new AbstractItemStack(ARKCraftItems.crystal, 2))));
 
 		// lvl 35
 		instance().registerEngram(new Engram("chitin_boots", new AbstractItemStack(ARKCraftItems.chitin_boots), 15, 35,
