@@ -11,6 +11,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockCrystalResource extends BlockARKResource
 {
@@ -18,6 +20,7 @@ public class BlockCrystalResource extends BlockARKResource
 	public BlockCrystalResource()
 	{
 		super(Material.rock);
+		setLightLevel(5);
 	}
 
 	@Override
@@ -33,12 +36,7 @@ public class BlockCrystalResource extends BlockARKResource
 				ARKCraftItems.stone, 10));
 	}
 
-	@Override
-	public int getRenderType()
-	{
-		return -1;
-	}
-
+	@SideOnly(Side.CLIENT)
 	@Override
 	public boolean isOpaqueCube()
 	{
