@@ -34,12 +34,6 @@ public class ARKCraftAchievements
 
 	private static Achievement[] getList()
 	{
-		Achievement[] a = new Achievement[achievementList.size()];
-		for (int i = 0; i < a.length; i++)
-		{
-			a[i] = achievementList.get(i);
-		}
-		return a;
+		return achievementList.toArray(new Achievement[0]);
 	}
-
 }
