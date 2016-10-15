@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.common.item.firearms;
+package com.uberverse.arkcraft.common.item.ranged;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -11,17 +11,24 @@ import com.uberverse.arkcraft.common.item.attachments.Laserable;
 import com.uberverse.arkcraft.common.item.attachments.Scopeable;
 import com.uberverse.arkcraft.common.item.attachments.Silenceable;
 
-public class ItemLongneckRifle extends ItemRangedWeapon implements Scopeable, Silenceable, Laserable, Flashable
+public class ItemSimplePistol extends ItemRangedWeapon implements Scopeable, Laserable, Flashable, Silenceable
 {
-	public ItemLongneckRifle()
+	public ItemSimplePistol()
 	{
-		super("longneck_rifle", 350, 1, "simple_rifle_ammo", 1, 1, 7F, 0F, 16, 200);
+		super("simple_pistol", 150, 6, "simple_bullet", 1, 1 / 2.1, 5F, 2.5F, 6, 20);
 	}
+
+	/*
+	 * @Override public void soundCharge(ItemStack stack, World world,
+	 * EntityPlayer player) { world.playSoundAtEntity(player, ARKCraft.MODID +
+	 * ":" + "simple_pistol_reload", 0.7F, 0.9F / (getItemRand().nextFloat() *
+	 * 0.2F + 0.0F)); }
+	 */
 
 	@Override
 	public int getReloadDuration()
 	{
-		return (int) (ModuleItemBalance.WEAPONS.LONGNECK_RIFLE_RELOAD * 20.0);
+		return (int) (ModuleItemBalance.WEAPONS.SIMPLE_PISTOL_RELOAD * 20.0);
 	}
 
 	@Override

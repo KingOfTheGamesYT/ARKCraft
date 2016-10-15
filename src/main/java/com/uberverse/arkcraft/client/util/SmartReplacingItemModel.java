@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.vecmath.Vector3f;
 
-import com.uberverse.arkcraft.common.item.firearms.ItemShotgun;
+import com.uberverse.arkcraft.common.item.ranged.ItemShotgun;
 
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ItemTransformVec3f;

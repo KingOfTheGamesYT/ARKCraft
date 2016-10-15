@@ -1,7 +1,7 @@
 package com.uberverse.arkcraft.common.network;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
+import com.uberverse.arkcraft.common.item.ranged.ItemRangedWeapon;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;

@@ -14,7 +14,7 @@ import com.uberverse.arkcraft.common.block.crafter.BlockRefiningForge;
 import com.uberverse.arkcraft.common.config.WeightsConfig;
 import com.uberverse.arkcraft.common.inventory.InventoryAttachment;
 import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
-import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
+import com.uberverse.arkcraft.common.item.ranged.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.network.ARKModeToggle;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.common.network.gui.OpenAttachmentInventory;
@@ -99,23 +99,6 @@ public class ClientEventHandler
 
 		arkmode = new KeyBinding("key.harvestOverlay", Keyboard.KEY_P, ARKCraft.instance().name());
 		ClientRegistry.registerKeyBinding(arkmode);
-	}
-
-	@SuppressWarnings("static-access")
-	@SubscribeEvent
-	public void playerInteract(PlayerInteractEvent event)
-	{
-		Action eventAction = event.action;
-		ItemStack item = event.entityPlayer.getCurrentEquippedItem();
-
-		if (item != null && item.getItem() instanceof ItemRangedWeapon)
-		{
-			if (eventAction.RIGHT_CLICK_BLOCK != null & eventAction.RIGHT_CLICK_AIR != null)
-			{
-				ObfuscationReflectionHelper.setPrivateValue(ItemRenderer.class, Minecraft.getMinecraft()
-						.getItemRenderer(), 1F, "equippedProgress", "field_78454_c");
-			}
-		}
 	}
 
 	@SubscribeEvent

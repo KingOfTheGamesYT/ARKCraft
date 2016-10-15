@@ -69,6 +69,9 @@ public class EngramManager
 						new AbstractItemStack(ARKCraftItems.hide, 6))));
 		instance().registerEngram(new Engram("cloth_helm", new AbstractItemStack(ARKCraftItems.cloth_helm), 3, 3, 5,
 				EngramType.PLAYER, 0.6, new EngramRecipe(new AbstractItemStack(ARKCraftItems.fiber, 10))));
+		instance().registerEngram(new Engram("water_skin", new AbstractItemStack(ARKCraftItems.water_skin), 3, 3, 5,
+				EngramType.PLAYER, 0.8, new EngramRecipe(new AbstractItemStack(ARKCraftItems.fiber, 12),
+						new AbstractItemStack(ARKCraftItems.hide, 4))));
 
 		// lvl 5
 		instance().registerEngram(new Engram("slingshot", new AbstractItemStack(ARKCraftRangedWeapons.slingshot), 6, 5,

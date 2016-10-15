@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.common.item.firearms;
+package com.uberverse.arkcraft.common.item.ranged;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

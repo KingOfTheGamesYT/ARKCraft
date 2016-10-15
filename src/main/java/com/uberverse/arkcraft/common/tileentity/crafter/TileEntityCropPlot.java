@@ -8,6 +8,7 @@ import com.uberverse.arkcraft.common.config.ModuleItemBalance.CROP_PLOT;
 import com.uberverse.arkcraft.common.item.ARKCraftSeed;
 import com.uberverse.arkcraft.common.item.ItemBerry;
 import com.uberverse.arkcraft.common.item.ItemFertilizer;
+import com.uberverse.arkcraft.common.item.ItemWaterContainer;
 import com.uberverse.arkcraft.common.tileentity.IDecayer;
 import com.uberverse.arkcraft.common.tileentity.IHoverInfo;
 import com.uberverse.arkcraft.util.I18n;
@@ -18,7 +19,6 @@ import com.uberverse.lib.LogHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -142,7 +142,7 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 	public boolean isItemValidForSlot(int index, ItemStack stack)
 	{
 		return stack != null ? stack.getItem() instanceof ItemBerry || stack.getItem() instanceof ARKCraftSeed || stack
-				.getItem() == Items.water_bucket || stack.getItem() instanceof ItemFertilizer : false;
+				.getItem() instanceof ItemWaterContainer || stack.getItem() instanceof ItemFertilizer : false;
 	}
 
 	@Override
@@ -223,13 +223,15 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 						{
 							fIndex = i;
 						}
-						else if (item == Items.water_bucket)
+						else
 						{
 							int val = getItemWaterValue(stack);
-							if (water <= getType().maxWater - (val > getType().maxWater ? getType().maxWater : val))
+							if (val > 0 && water <= 0)
 							{
+								System.out.println(getType().maxWater);
+								System.out.println(val);
 								water += val;
-								this.stack[i] = new ItemStack(Items.bucket);
+								ItemWaterContainer.setWaterValueLeft(stack, 0);
 								MathHelper.clamp_int(water, 0, getType().maxWater);
 							}
 						}
@@ -453,18 +455,9 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 
 	public static int getItemWaterValue(ItemStack stack)
 	{
-		if (stack != null && stack.getItem() == Items.water_bucket) { return 24000; }
+		if (stack != null && stack.getItem() instanceof ItemWaterContainer) return ItemWaterContainer.getWaterValueLeft(
+				stack) * 2 * 120;
 		return 0;
-	}
-
-	public static ItemStack getContainerItem(ItemStack stack)
-	{
-		if (stack != null)
-		{
-			if (stack.getItem() == Items.water_bucket) { return new ItemStack(Items.bucket); }
-			return stack.getItem().getContainerItem(stack);
-		}
-		return null;
 	}
 
 	private void setState(int age, IBlockState state)
@@ -492,7 +485,6 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 	{
 		EMPTY(0)
 		{
-
 			@Override
 			public int getTime()
 			{
@@ -569,7 +561,7 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 				+ ".name"));
 		text.add(I18n.format("arkcraft.growing") + ": " + I18n.format("arkcraft.cropPlotState.head", name, I18n.format(
 				"arkcraft.cropPlotState." + state.name().toLowerCase())));
-		String water = (this.water == 0 ? EnumChatFormatting.RED : this.water < getType().maxWater / 3
+		String water = (this.water == 0 ? EnumChatFormatting.RED : this.water < getType().maxWater / 2
 				? EnumChatFormatting.YELLOW : EnumChatFormatting.GREEN) + "" + (this.water / 20) + "/"
 				+ getType().maxWater / 20 + EnumChatFormatting.BLUE;
 		text.add(EnumChatFormatting.BLUE + I18n.format("arkcraft.water", I18n.format("tile.water.name"), water,

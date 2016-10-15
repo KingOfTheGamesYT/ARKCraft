@@ -26,7 +26,7 @@ import com.uberverse.arkcraft.common.entity.EntitySpear;
 import com.uberverse.arkcraft.common.entity.EntityStone;
 import com.uberverse.arkcraft.common.entity.EntityTranquilizer;
 import com.uberverse.arkcraft.common.item.ItemBlueprint;
-import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
+import com.uberverse.arkcraft.common.item.ranged.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.proxy.CommonProxy;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;

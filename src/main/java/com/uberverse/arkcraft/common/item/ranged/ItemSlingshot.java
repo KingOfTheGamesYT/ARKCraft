@@ -1,15 +1,15 @@
 package com.uberverse.arkcraft.common.item.ranged;
 
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.entity.EntityStone;
+import com.uberverse.arkcraft.init.ARKCraftItems;
+
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagLong;
 import net.minecraft.world.World;
-
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.entity.EntityStone;
-import com.uberverse.arkcraft.init.ARKCraftItems;
 
 public class ItemSlingshot extends Item
 {
@@ -54,6 +54,12 @@ public class ItemSlingshot extends Item
 		{
 			return null;
 		}
+	}
+
+	@Override
+	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged)
+	{
+		return oldStack != null && newStack != null && oldStack.getItem() != newStack.getItem();
 	}
 
 	private void setLastUseTime(ItemStack stack, long time)
