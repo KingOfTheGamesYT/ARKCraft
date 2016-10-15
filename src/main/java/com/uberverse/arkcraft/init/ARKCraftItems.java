@@ -18,6 +18,7 @@ import com.uberverse.arkcraft.common.item.ItemBerry;
 import com.uberverse.arkcraft.common.item.ItemBlueprint;
 import com.uberverse.arkcraft.common.item.ItemFertilizer;
 import com.uberverse.arkcraft.common.item.ItemFuel;
+import com.uberverse.arkcraft.common.item.ItemWaterContainer;
 import com.uberverse.arkcraft.common.item.armor.ItemARKArmor;
 import com.uberverse.arkcraft.common.item.melee.ItemPike;
 import com.uberverse.arkcraft.common.item.melee.ItemSpear;
@@ -59,6 +60,7 @@ public class ARKCraftItems
 			meat_cooked, primemeat_raw, primemeat_cooked, spoiled_meat;
 	public static ARKCraftSeed tintoBerrySeed, amarBerrySeed, azulBerrySeed, mejoBerrySeed, narcoBerrySeed,
 			stimBerrySeed;
+	public static ItemWaterContainer water_skin;
 
 	// Misc
 	public static ARKCraftItem stone, fiber, thatch, wood, flint, metal, spark_powder, hide, charcoal, metal_ingot,
@@ -126,6 +128,8 @@ public class ARKCraftItems
 		metalHatchet = init.registerItem("metal_hatchet", new ItemHatchetMetal());
 		stoneHatchet = init.registerItem("stone_hatchet", new ItemHatchetStone());
 		metal_sickle = init.registerItem("metal_sickle", new ItemMetalSickle(METAL));
+		
+		water_skin = init.registerItem("water_skin", new ItemWaterContainer(0, 1000));
 
 		// Weapons
 		spear = init.registerItem("spear", new ItemSpear(WOOD));
