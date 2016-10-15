@@ -42,7 +42,6 @@ public class ARKCraftFeces extends ItemFertilizer implements IDecayable
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
 	{
-		System.out.println("tick");
 		super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
 		decayTick(((EntityPlayer) entityIn).inventory, itemSlot, 1, stack, worldIn);
 	}
