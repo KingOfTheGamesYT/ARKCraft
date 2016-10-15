@@ -6,7 +6,11 @@ import com.uberverse.arkcraft.common.config.WeightsConfig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
+import net.minecraftforge.event.entity.player.ArrowLooseEvent;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -48,4 +52,32 @@ public class PlayerCommonEventHandler
 	}
 
 	// TODO add events for inventory changes --> recalculate weight
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void onDestroyItem(PlayerDestroyItemEvent event)
+	{
+		updateWeight(event.entityPlayer);
+	}
+
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void onTossItem(ItemTossEvent event)
+	{
+		updateWeight(event.player);
+	}
+
+	@SubscribeEvent
+	public void onItemPickup(EntityItemPickupEvent event)
+	{
+		updateWeight(event.entityPlayer);
+	}
+
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void onArrowLoose(ArrowLooseEvent event)
+	{
+		updateWeight(event.entityPlayer);
+	}
+
+	private void updateWeight(EntityPlayer player)
+	{
+		ARKPlayer.get(player).updateWeight();
+	}
 }
