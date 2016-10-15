@@ -9,7 +9,6 @@ import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot.CropPlotType;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot.Part;
 import com.uberverse.arkcraft.util.Identifiable;
-import com.uberverse.lib.LogHelper;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -131,20 +130,17 @@ public class BlockCropPlot extends BlockContainer implements Identifiable
 				// }
 				if (playerIn.getHeldItem() != null && playerIn.getHeldItem().getItem() == Items.water_bucket)
 				{
-					LogHelper.info("Player clicked with water bucket!");
 					ItemStack container = playerIn.getHeldItem();
 					if (FluidContainerRegistry.isFilledContainer(container))
 					{
-						LogHelper.info("Player's water bucket is a filled container!");
 						TileEntity entity = worldIn.getTileEntity(pos);
 						if (entity instanceof TileEntityCropPlot && entity != null)
 						{
-							LogHelper.info("A TileEntityCropPlot is found at the place the player right clicked!");
 							TileEntityCropPlot target = (TileEntityCropPlot) entity;
 							int water = TileEntityCropPlot.getItemWaterValue(container) + target.getField(0);
 							// The currentWater + addedWater needs to be smaller or
 							// equal to the max water.
-							if (water <= target.getType().getMaxWater())
+							if (water <= target.getType().maxWater)
 							{
 								target.setField(0, water);
 								ItemStack drainedContainer = FluidContainerRegistry.drainFluidContainer(container);
@@ -152,13 +148,7 @@ public class BlockCropPlot extends BlockContainer implements Identifiable
 								{
 									if (!playerIn.capabilities.isCreativeMode) container.setItem(drainedContainer
 											.getItem());
-									LogHelper.info(
-											"The drained container is not null, the bucket has been replaced with a new itemstack.");
 								}
-							}
-							else
-							{
-								LogHelper.error("The crop plot water is at the max!");
 							}
 						}
 					}

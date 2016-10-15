@@ -112,17 +112,10 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 		}
 	}
 
-	/*
-	 * @Override //for mc 1.9 public ItemStack removeStackFromSlot(int index) {
-	 * ItemStack is = stack[index]; stack[index] = null; return is; }
-	 */
-
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack)
 	{
 		this.stack[index] = stack;
-		// TileEntityCropPlot te = (TileEntityCropPlot) worldObj.getTileEntity(part.offset(pos, true));
-		// te.stack[index] = stack;
 	}
 
 	@Override
@@ -233,7 +226,7 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 						else if (item == Items.water_bucket)
 						{
 							int val = getItemWaterValue(stack);
-							if (water <= getType().maxWater - val)
+							if (water <= getType().maxWater - (val > getType().maxWater ? getType().maxWater : val))
 							{
 								water += val;
 								this.stack[i] = new ItemStack(Items.bucket);
@@ -256,7 +249,7 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 				{
 					if (growthTime >= 0 && worldObj.getLight(pos) > 7)
 					{
-						if (fIndex > -1)
+						if (fIndex > -1 && water > 0)
 						{
 							// grow!
 							growthTime--;
@@ -576,9 +569,9 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 				+ ".name"));
 		text.add(I18n.format("arkcraft.growing") + ": " + I18n.format("arkcraft.cropPlotState.head", name, I18n.format(
 				"arkcraft.cropPlotState." + state.name().toLowerCase())));
-		String water = (this.water == 0 ? EnumChatFormatting.RED : this.water < getType().getMaxWater() / 3
-				? EnumChatFormatting.YELLOW : EnumChatFormatting.GREEN) + "" + (this.water / 20) + "/" + getType()
-						.getMaxWater() / 20 + EnumChatFormatting.BLUE;
+		String water = (this.water == 0 ? EnumChatFormatting.RED : this.water < getType().maxWater / 3
+				? EnumChatFormatting.YELLOW : EnumChatFormatting.GREEN) + "" + (this.water / 20) + "/"
+				+ getType().maxWater / 20 + EnumChatFormatting.BLUE;
 		text.add(EnumChatFormatting.BLUE + I18n.format("arkcraft.water", I18n.format("tile.water.name"), water,
 				getField(0) > 0 ? I18n.format("arkcraft.cropPlotWater.irrigated") : I18n.format(
 						"arkcraft.cropPlotWater.notIrrigated")));
@@ -610,20 +603,14 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 
 	public static enum CropPlotType implements IStringSerializable
 	{
-		SMALL(200), MEDIUM(400), LARGE(600)
+		SMALL(200), MEDIUM(400), LARGE(600);
 
-		;
 		public static final CropPlotType[] VALUES = values();
-		private final int maxWater;
+		public final int maxWater;
 
 		private CropPlotType(int maxWater)
 		{
-			this.maxWater = maxWater;
-		}
-
-		public int getMaxWater()
-		{
-			return 120 * maxWater;
+			this.maxWater = maxWater * 120;
 		}
 
 		@Override
@@ -698,8 +685,8 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 
 	public void fillWithRain(boolean big)
 	{
-		water = Math.min(water + (big ? 350 + worldObj.rand.nextInt(50) : worldObj.rand.nextInt(20) + 5), getType()
-				.getMaxWater());
+		water = Math.min(water + (big ? 350 + worldObj.rand.nextInt(50) : worldObj.rand.nextInt(20) + 5),
+				getType().maxWater);
 	}
 
 	@Override
