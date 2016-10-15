@@ -76,7 +76,7 @@ public class ContainerEngram extends ContainerScrollable
 			ARKPlayer p = ARKPlayer.get(playerIn);
 			p.learnEngram(selected.getId());
 			ARKCraft.modChannel.sendTo(new UpdateEngrams(p.getUnlockedEngrams(), p.getEngramPoints()),
-					(EntityPlayerMP) playerIn);
+					(EntityPlayerMP) playerIn); // TODO still necessary?
 			return true;
 		}
 		return super.enchantItem(playerIn, id);
