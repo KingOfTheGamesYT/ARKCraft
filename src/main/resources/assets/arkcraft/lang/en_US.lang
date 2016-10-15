@@ -11,6 +11,7 @@ tile.crop_plot.small.name=Small Crop Plot
 tile.crop_plot.medium.name=Medium Crop Plot
 tile.crop_plot.large.name=Large Crop Plot
 tile.campfire.name=Campfire
+tile.rock_resource.name=Metal Rock
 
 #Creative Tabs
 itemGroup.tabARKCraft=ARKCraft
@@ -59,6 +60,20 @@ item.obsidian.name=Obsidian
 item.metal_ingot.name=Metal Ingot
 item.silica_pearls.name=Silica Pearls
 item.water_jar.name=Water Jar
+item.water_skin.name=Water Skin
+item.polymer.name=Polymer
+item.organic_polymer.name=Organic Polymer
+item.sap.name=Sap
+item.electronics.name=Electronics
+item.blood_pack.name=Blood Pack
+item.absorbent_substrate.name=Absorbent Substrate
+item.angler_gel.name=Angler Gel
+item.black_pearl.name=Black Pearl
+item.leech_blood.name=Leech Blood
+item.rare_flower.name=Rare Flower
+item.rare_mushroom.name=Rare Mushroom
+item.refertilizer.name=Re-Fertilizer
+item.woolly_rhino_horn.name=Woolly Rhino Horn
 
 ##armor
 item.chitin_helm.name=Chitin Helmet
@@ -369,6 +384,12 @@ engram.flak_boots.title=Flak Boots
 engram.flak_boots.description=Protection for One!
 engram.flak_helm.title=Flak Helmet
 engram.flak_helm.description=Protection for One!
+engram.polymer.name=Poylmer
+engram.polymer.description=Incredibly strong, lightweight plates.
+engram.absorbent_substrate.name=Absorbent Substrate
+engram.absorbent_substrate.name=The Substrate to Absorb
+engram.refertilizer.name=Re-Fertilizer
+engram.refertilizer.description=The Fertilizer that is Re!
 
 ark.engram.learn=Learn Engram
 ark.engram.learn.true=Learned

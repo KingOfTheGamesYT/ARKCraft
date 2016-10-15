@@ -65,7 +65,9 @@ public class ARKCraftItems
 	// Misc
 	public static ARKCraftItem stone, fiber, thatch, wood, flint, metal, spark_powder, hide, charcoal, metal_ingot,
 			cementing_paste, crystal, spy_glass, narcotics, gunpowder, chitin, keratin, pelt, obsidian, oil, gasoline,
-			stimulant, silica_pearls, water_jar;
+			stimulant, silica_pearls, water_jar, polymer, organic_poylmer, sap, electronics, blood_pack, absorbent_substrate,
+			angler_gel, black_pearl, leech_blood, rare_flower, rare_mushroom, refertilizer, woolly_rhino_horn;
+	
 	public static ARKCraftFeces small_feces, medium_feces, large_feces, player_feces;
 	public static ItemFertilizer fertilizer;
 	public static ARKCraftBook info_book;
@@ -121,6 +123,20 @@ public class ARKCraftItems
 		stimulant = addItem("stimulant");
 		silica_pearls = addItem("silica_pearls");
 		water_jar = addItem("water_jar");
+		polymer = addItem("polymer");
+		organic_poylmer = addItem("organic_polymer");
+		sap = addItem("sap");
+		electronics = addItem("electronics");
+		blood_pack = addItem("blood_pack");
+		absorbent_substrate = addItem("absorbent_substrate");
+		angler_gel = addItem("angler_gel");
+		black_pearl = addItem("black_pearl");
+		leech_blood = addItem("leech_blood");
+		rare_flower = addItem("rare_flower");
+		rare_mushroom = addItem("rare_mushroom");
+		refertilizer = addItem("refertilizer");
+		woolly_rhino_horn = addItem("woolly_rhino_horn");
+		
 
 		// Tools
 		metalPick = init.registerItem("metal_pick", new ItemPickMetal());
