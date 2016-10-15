@@ -52,7 +52,7 @@ public class GUIEngram extends GUIScrollable
 		super.initGui();
 		Keyboard.enableRepeatEvents(true);
 
-		learn = new GuiCenteredTranslatedButton(0, guiLeft + 76, guiTop + 125, "ark.engram.learn", 6);
+		learn = new GuiCenteredTranslatedButton(0, guiLeft + 76, guiTop + 136, "ark.engram.learn", 6);
 		learn.enabled = false;
 		close = new GuiCenteredTranslatedButton(1, guiLeft + 155, guiTop + 3, "ark.engram.close", 6);
 
@@ -117,12 +117,13 @@ public class GUIEngram extends GUIScrollable
 			String title = getEngram().getTitle();
 			String description = getEngram().getDescription();
 			String points = "Cost: " + getEngram().getPoints(); // TODO localization
-			fontRendererObj.drawString(title, getCenteredStringOffset(title, fontRendererObj, 80), 6, descColor);
-			fontRendererObj.drawString(description, getCenteredStringOffset(description, fontRendererObj, 80), 18,
+			String level = "Level: " + getEngram().getLevel(); // TODO localization
+			fontRendererObj.drawString(title, getCenteredStringOffset(title, fontRendererObj, 80), 5, descColor);
+			fontRendererObj.drawString(description, getCenteredStringOffset(description, fontRendererObj, 80), 17,
 					descColor);
-			fontRendererObj.drawString(points, getCenteredStringOffset(points, fontRendererObj, 80), 29, descColor);// 4210752
-																													// original
-																													// value
+			fontRendererObj.drawString(points, getCenteredStringOffset(points, fontRendererObj, 80), 29, descColor);
+			fontRendererObj.drawString(level, getCenteredStringOffset(level, fontRendererObj, 80), 41, descColor);
+			// 4210752 original value
 		}
 	}
 
@@ -163,13 +164,13 @@ public class GUIEngram extends GUIScrollable
 	@Override
 	public int getScrollBarStartY()
 	{
-		return 44;
+		return 55;
 	}
 
 	@Override
 	public int getScrollBarEndY()
 	{
-		return 122;
+		return 133;
 	}
 
 	@Override

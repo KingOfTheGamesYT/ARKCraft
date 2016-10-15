@@ -141,7 +141,7 @@ public class ContainerEngram extends ContainerScrollable
 	@Override
 	public int getScrollableSlotsY()
 	{
-		return 44;
+		return 55;
 	}
 
 	@Override
