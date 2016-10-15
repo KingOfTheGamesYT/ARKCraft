@@ -1,5 +1,7 @@
 package com.uberverse.arkcraft.common.network;
 
+import com.uberverse.arkcraft.common.item.ranged.ItemRangedWeapon;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -7,8 +9,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
-
-import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
 
 public class ReloadStarted implements IMessage
 {

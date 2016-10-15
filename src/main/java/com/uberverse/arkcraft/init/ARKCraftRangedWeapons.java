@@ -19,11 +19,11 @@ import com.uberverse.arkcraft.common.item.ammo.ItemProjectile;
 import com.uberverse.arkcraft.common.item.attachments.AttachmentType;
 import com.uberverse.arkcraft.common.item.attachments.ItemAttachment;
 import com.uberverse.arkcraft.common.item.explosives.ItemRocketLauncher;
-import com.uberverse.arkcraft.common.item.firearms.ItemFabricatedPistol;
-import com.uberverse.arkcraft.common.item.firearms.ItemLongneckRifle;
-import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
-import com.uberverse.arkcraft.common.item.firearms.ItemShotgun;
-import com.uberverse.arkcraft.common.item.firearms.ItemSimplePistol;
+import com.uberverse.arkcraft.common.item.ranged.ItemFabricatedPistol;
+import com.uberverse.arkcraft.common.item.ranged.ItemLongneckRifle;
+import com.uberverse.arkcraft.common.item.ranged.ItemRangedWeapon;
+import com.uberverse.arkcraft.common.item.ranged.ItemShotgun;
+import com.uberverse.arkcraft.common.item.ranged.ItemSimplePistol;
 import com.uberverse.arkcraft.common.item.ranged.ItemSlingshot;
 
 import net.minecraft.block.BlockDispenser;

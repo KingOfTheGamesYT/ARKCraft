@@ -1,6 +1,5 @@
 package com.uberverse.arkcraft.init;
 
-
 import com.google.common.collect.Lists;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot.BerryColor;
@@ -85,7 +84,8 @@ public class ARKCraftItems
 			30);
 	public static ArmorMaterial FUR = EnumHelper.addArmorMaterial("FUR_MAT", "HIDE_MAT", 40, new int[] { 3, 8, 6, 3 },
 			30);
-	public static ArmorMaterial FLAK = EnumHelper.addArmorMaterial("FLAK_MAT", "FLAK_MAT", 60, new int[] {12, 40, 30, 15}, 30);
+	public static ArmorMaterial FLAK = EnumHelper.addArmorMaterial("FLAK_MAT", "FLAK_MAT", 60, new int[] { 12, 40, 30,
+			15 }, 30);
 
 	// Tool MAT
 	public static ToolMaterial METAL = EnumHelper.addToolMaterial("METAL_MAT", 3, 1500, 6.0F, 2.5F, 8);
@@ -128,8 +128,8 @@ public class ARKCraftItems
 		metalHatchet = init.registerItem("metal_hatchet", new ItemHatchetMetal());
 		stoneHatchet = init.registerItem("stone_hatchet", new ItemHatchetStone());
 		metal_sickle = init.registerItem("metal_sickle", new ItemMetalSickle(METAL));
-		
-		water_skin = init.registerItem("water_skin", new ItemWaterContainer(0, 1000));
+
+		water_skin = init.registerItem("water_skin", new ItemWaterContainer(100));
 
 		// Weapons
 		spear = init.registerItem("spear", new ItemSpear(WOOD));
@@ -156,7 +156,7 @@ public class ARKCraftItems
 		fur_chest = addArmorItem("fur_chest", FUR, "furArmor", 1, false);
 		fur_legs = addArmorItem("fur_legs", FUR, "furArmor", 2, false);
 		fur_boots = addArmorItem("fur_boots", FUR, "furArmor", 3, false);
-		
+
 		flak_helm = addArmorItem("flak_helm", FLAK, "flakArmor", 0, false);
 		flak_chest = addArmorItem("flak_chest", FLAK, "flakArmor", 1, false);
 		flak_legs = addArmorItem("flak_legs", FLAK, "flakArmor", 2, false);

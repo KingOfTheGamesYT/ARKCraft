@@ -13,7 +13,7 @@ import com.uberverse.arkcraft.common.item.attachments.Laserable;
 import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
 import com.uberverse.arkcraft.common.item.attachments.Scopeable;
 import com.uberverse.arkcraft.common.item.attachments.Silenceable;
-import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
+import com.uberverse.arkcraft.common.item.ranged.ItemRangedWeapon;
 
 /**
  * @author BubbleTrouble

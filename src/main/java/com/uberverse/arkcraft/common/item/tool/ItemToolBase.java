@@ -15,7 +15,7 @@ import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.item.IBreakable;
 import com.uberverse.arkcraft.common.item.ItemQualitable;
 import com.uberverse.arkcraft.common.item.Qualitable;
-import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
+import com.uberverse.arkcraft.common.item.ranged.ItemRangedWeapon;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.util.AbstractItemStack;
 import com.uberverse.arkcraft.util.AbstractItemStack.ChancingAbstractItemStack;

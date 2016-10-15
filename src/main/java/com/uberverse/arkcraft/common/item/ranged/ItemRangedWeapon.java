@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.common.item.firearms;
+package com.uberverse.arkcraft.common.item.ranged;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -599,5 +599,11 @@ public abstract class ItemRangedWeapon extends ItemBow
 	public int getItemEnchantability()
 	{
 		return 0;
+	}
+
+	@Override
+	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged)
+	{
+		return oldStack != null && newStack != null && oldStack.getItem() != newStack.getItem();
 	}
 }

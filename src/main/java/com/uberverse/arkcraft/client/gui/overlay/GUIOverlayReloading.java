@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.common.event.CommonEventHandler;
-import com.uberverse.arkcraft.common.item.firearms.ItemRangedWeapon;
+import com.uberverse.arkcraft.common.item.ranged.ItemRangedWeapon;
 
 public class GUIOverlayReloading extends Gui
 {
