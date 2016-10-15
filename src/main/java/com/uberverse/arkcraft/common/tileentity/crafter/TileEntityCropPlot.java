@@ -49,7 +49,7 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 	private int water = 0;
 	private ItemStack growing;
 	public Part part = Part.MIDDLE;
-	private static boolean LOG = true;
+	private static boolean LOG = false;
 
 	@Override
 	public String getName()
@@ -243,7 +243,7 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 					}
 				}
 
-				if (growing == null && fIndex > -1 && sIndex > -1)
+				if (growing == null && fIndex > -1 && sIndex > -1 && water > 0)
 				{
 					growthTime = CROP_PLOT.SEEDLING_TIME_FOR_BERRY * 20;
 					if (LOG) LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ()
