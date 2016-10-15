@@ -59,12 +59,12 @@ public class ARKCraftItems
 			meat_cooked, primemeat_raw, primemeat_cooked, spoiled_meat;
 	public static ARKCraftSeed tintoBerrySeed, amarBerrySeed, azulBerrySeed, mejoBerrySeed, narcoBerrySeed,
 			stimBerrySeed;
-	public static ItemWaterContainer water_skin;
+	public static ItemWaterContainer water_skin, water_jar;
 
 	// Misc
 	public static ARKCraftItem stone, fiber, thatch, wood, flint, metal, spark_powder, hide, charcoal, metal_ingot,
 			cementing_paste, crystal, spy_glass, narcotics, gunpowder, chitin, keratin, pelt, obsidian, oil, gasoline,
-			stimulant, silica_pearls, water_jar;
+			stimulant, silica_pearls;
 	public static ARKCraftFeces small_feces, medium_feces, large_feces, player_feces;
 	public static ItemFertilizer fertilizer;
 	public static ARKCraftBook info_book;
@@ -120,7 +120,6 @@ public class ARKCraftItems
 		gasoline = addFuel("gasoline");
 		stimulant = addItem("stimulant");
 		silica_pearls = addItem("silica_pearls");
-		water_jar = addItem("water_jar");
 
 		// Tools
 		metalPick = init.registerItem("metal_pick", new ItemPickMetal());
@@ -130,6 +129,7 @@ public class ARKCraftItems
 		metal_sickle = init.registerItem("metal_sickle", new ItemMetalSickle(METAL));
 
 		water_skin = init.registerItem("water_skin", new ItemWaterContainer(100));
+		water_jar = init.registerItem("water_jar", new ItemWaterContainer(200));
 
 		// Weapons
 		spear = init.registerItem("spear", new ItemSpear(WOOD));
