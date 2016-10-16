@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 
 public class ItemWaterContainer extends ARKCraftItem
 {
-	private int maxWaterValue;
+	public int maxWaterValue;
 
 	public ItemWaterContainer(int maxWaterValue)
 	{
@@ -44,6 +44,11 @@ public class ItemWaterContainer extends ARKCraftItem
 		setWaterValueLeft(s, maxWaterValue);
 		subItems.add(s);
 	}
+	
+	public final boolean isRaining(EntityPlayer player, World world)
+	{
+		return world.isRaining() && world.canSeeSky(player.getPosition());
+	}
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
@@ -69,18 +74,24 @@ public class ItemWaterContainer extends ARKCraftItem
 				if (material == Material.water && ((Integer) blockState.getValue(BlockLiquid.LEVEL)).intValue() == 0)
 					setWaterValueLeft(itemStackIn, maxWaterValue);
 			}
-		}
+		}		
 		return itemStackIn;
 	}
 
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
 	{
-		if (worldIn.getTotalWorldTime() % 432 == 0 && !worldIn.isRemote)
+		int waterValue = getWaterValueLeft(stack);
+		
+		if(isRaining((EntityPlayer) entityIn, worldIn))
 		{
-			int waterValue = getWaterValueLeft(stack);
-			if (waterValue > 0) setWaterValueLeft(stack, --waterValue);
+			if(waterValue != maxWaterValue)
+			setWaterValueLeft(stack, ++waterValue);
 		}
+		else if(!isRaining((EntityPlayer) entityIn, worldIn) && worldIn.getTotalWorldTime() % 432 == 0 && !worldIn.isRemote)
+		{
+			setWaterValueLeft(stack, --waterValue);
+		}	
 	}
 
 	@Override
