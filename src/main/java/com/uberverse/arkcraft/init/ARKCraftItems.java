@@ -61,7 +61,7 @@ public class ARKCraftItems
 			meat_cooked, primemeat_raw, primemeat_cooked, spoiled_meat;
 	public static ARKCraftSeed tintoBerrySeed, amarBerrySeed, azulBerrySeed, mejoBerrySeed, narcoBerrySeed,
 			stimBerrySeed;
-	public static ItemWaterContainer water_skin;
+	public static ItemWaterContainer waterskin;
 	public static ItemWaterJar water_jar;
 
 	// Misc
@@ -147,7 +147,7 @@ public class ARKCraftItems
 		metal_sickle = init.registerItem("metal_sickle", new ItemMetalSickle(METAL));
 
 
-		water_skin = init.registerItem("water_skin", new ItemWaterContainer(100));
+		waterskin = init.registerItem("waterskin", new ItemWaterContainer(100));
 		water_jar = init.registerItem("water_jar", new ItemWaterJar(200));
 
 		// Weapons

@@ -69,7 +69,7 @@ public class EngramManager
 						new AbstractItemStack(ARKCraftItems.hide, 6))));
 		instance().registerEngram(new Engram("cloth_helm", new AbstractItemStack(ARKCraftItems.cloth_helm), 3, 3, 5,
 				EngramType.PLAYER, 0.6, new EngramRecipe(new AbstractItemStack(ARKCraftItems.fiber, 10))));
-		instance().registerEngram(new Engram("water_skin", new AbstractItemStack(ARKCraftItems.water_skin), 3, 3, 5,
+		instance().registerEngram(new Engram("waterskin", new AbstractItemStack(ARKCraftItems.waterskin), 3, 3, 5,
 				EngramType.PLAYER, 0.8, new EngramRecipe(new AbstractItemStack(ARKCraftItems.fiber, 12),
 						new AbstractItemStack(ARKCraftItems.hide, 4))));
 
@@ -225,10 +225,10 @@ public class EngramManager
 						new AbstractItemStack(ARKCraftItems.fertilizer, 1), new AbstractItemStack(ARKCraftItems.oil, 3))));
 
 		// lvl 40
-		instance().registerEngram(new Engram("poylmer", new AbstractItemStack(ARKCraftItems.polymer), 6, 40,
+		instance().registerEngram(new Engram("polymer", new AbstractItemStack(ARKCraftItems.polymer), 6, 40,
 				10, EngramType.FABRICATOR, 7.1, new EngramRecipe(new AbstractItemStack(ARKCraftItems.obsidian, 2),
 						new AbstractItemStack(ARKCraftItems.cementing_paste, 2))));
-		instance().registerEngram(new Engram("electornics", new AbstractItemStack(ARKCraftItems.electronics), 6, 40,
+		instance().registerEngram(new Engram("electronics", new AbstractItemStack(ARKCraftItems.electronics), 6, 40,
 				10, EngramType.FABRICATOR, 7.1, new EngramRecipe(new AbstractItemStack(ARKCraftItems.silica_pearls, 3),
 						new AbstractItemStack(ARKCraftItems.metal_ingot, 1))));
 		
