@@ -1,4 +1,4 @@
-#Tiles
+#Blocks
 tile.berry_bush.name=Berry Bush
 tile.smithy.name=Smithy
 tile.mortar_and_pestle.name=Mortar and Pestle
@@ -424,3 +424,10 @@ achievement.theBigBang.desc=THE BIG BANG
 chat.notification.outdated=ARKCraft is outdated!
 chat.notification.outdatedversion=You are running version %s.
 chat.notification.levelup=You leveled up!
+
+#Keybindings
+key.arkcraft.playerCrafting=Open crafting inventory
+key.arkcraft.playerPooping=Defecate
+key.arkcraft.reload=Reload weapon
+key.attachment=Open attachment inventory
+key.harvestOverlay=Toggle ARKMode
