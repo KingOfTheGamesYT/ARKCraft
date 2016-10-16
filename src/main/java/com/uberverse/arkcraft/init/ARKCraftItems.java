@@ -182,12 +182,12 @@ public class ARKCraftItems
 		flak_boots = addArmorItem("flak_boots", FLAK, "flakArmor", 3, false);
 
 		// Food
-		tintoBerry = addBerry("tinto", 4, 0.3F, false, true);
-		amarBerry = addBerry("amar", 4, 0.3F, false, true);
-		azulBerry = addBerry("azul", 4, 0.3F, false, true);
-		mejoBerry = addBerry("mejo", 4, 0.3F, false, true);
-		narcoBerry = addBerry("narco", 4, 0.3F, true, true);
-		stimBerry = addBerry("stim", 4, 0.3F, true, true);
+		tintoBerry = addBerry("tinto", 1, 0.1F, false, true);
+		amarBerry = addBerry("amar", 1, 0.1F, false, true);
+		azulBerry = addBerry("azul", 1, 0.1F, false, true);
+		mejoBerry = addBerry("mejo", 1, 0.1F, false, true);
+		narcoBerry = addBerry("narco", 1, 0.1F, true, true);
+		stimBerry = addBerry("stim", 1, 0.1F, true, true);
 		meat_raw = addFood("meat_raw", 3, 0.3F, false, false);
 		meat_cooked = addFood("meat_cooked", 6, 0.9F, false, false);
 		primemeat_raw = addFood("primemeat_raw", 3, 0.3F, false, false);
