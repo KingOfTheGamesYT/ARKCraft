@@ -1,6 +1,5 @@
 package com.uberverse.arkcraft.init;
 
-
 import com.google.common.collect.Lists;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot.BerryColor;
@@ -18,8 +17,8 @@ import com.uberverse.arkcraft.common.item.ItemBerry;
 import com.uberverse.arkcraft.common.item.ItemBlueprint;
 import com.uberverse.arkcraft.common.item.ItemFertilizer;
 import com.uberverse.arkcraft.common.item.ItemFuel;
+import com.uberverse.arkcraft.common.item.ItemLeakingWaterContainer;
 import com.uberverse.arkcraft.common.item.ItemWaterContainer;
-import com.uberverse.arkcraft.common.item.ItemWaterJar;
 import com.uberverse.arkcraft.common.item.armor.ItemARKArmor;
 import com.uberverse.arkcraft.common.item.melee.ItemPike;
 import com.uberverse.arkcraft.common.item.melee.ItemSpear;
@@ -61,8 +60,7 @@ public class ARKCraftItems
 			meat_cooked, primemeat_raw, primemeat_cooked, spoiled_meat;
 	public static ARKCraftSeed tintoBerrySeed, amarBerrySeed, azulBerrySeed, mejoBerrySeed, narcoBerrySeed,
 			stimBerrySeed;
-	public static ItemWaterContainer water_skin;
-	public static ItemWaterJar water_jar;
+	public static ItemWaterContainer water_skin, water_jar;
 
 	// Misc
 	public static ARKCraftItem stone, fiber, thatch, wood, flint, metal, spark_powder, hide, charcoal, metal_ingot,
@@ -89,7 +87,8 @@ public class ARKCraftItems
 			30);
 	public static ArmorMaterial FUR = EnumHelper.addArmorMaterial("FUR_MAT", "HIDE_MAT", 40, new int[] { 3, 8, 6, 3 },
 			30);
-	public static ArmorMaterial FLAK = EnumHelper.addArmorMaterial("FLAK_MAT", "FLAK_MAT", 60, new int[] {12, 40, 30, 15}, 30);
+	public static ArmorMaterial FLAK = EnumHelper.addArmorMaterial("FLAK_MAT", "FLAK_MAT", 60, new int[] { 12, 40, 30,
+			15 }, 30);
 
 	// Tool MAT
 	public static ToolMaterial METAL = EnumHelper.addToolMaterial("METAL_MAT", 3, 1500, 6.0F, 2.5F, 8);
@@ -138,7 +137,6 @@ public class ARKCraftItems
 		refertilizer = addItem("refertilizer");
 		woolly_rhino_horn = addItem("woolly_rhino_horn");
 
-
 		// Tools
 		metalPick = init.registerItem("metal_pick", new ItemPickMetal());
 		stonePick = init.registerItem("stone_pick", new ItemPickStone());
@@ -146,9 +144,8 @@ public class ARKCraftItems
 		stoneHatchet = init.registerItem("stone_hatchet", new ItemHatchetStone());
 		metal_sickle = init.registerItem("metal_sickle", new ItemMetalSickle(METAL));
 
-
-		water_skin = init.registerItem("water_skin", new ItemWaterContainer(100));
-		water_jar = init.registerItem("water_jar", new ItemWaterJar(200));
+		water_skin = init.registerItem("water_skin", new ItemLeakingWaterContainer(100));
+		water_jar = init.registerItem("water_jar", new ItemWaterContainer(200));
 
 		// Weapons
 		spear = init.registerItem("spear", new ItemSpear(WOOD));
@@ -175,7 +172,7 @@ public class ARKCraftItems
 		fur_chest = addArmorItem("fur_chest", FUR, "furArmor", 1, false);
 		fur_legs = addArmorItem("fur_legs", FUR, "furArmor", 2, false);
 		fur_boots = addArmorItem("fur_boots", FUR, "furArmor", 3, false);
-		
+
 		flak_helm = addArmorItem("flak_helm", FLAK, "flakArmor", 0, false);
 		flak_chest = addArmorItem("flak_chest", FLAK, "flakArmor", 1, false);
 		flak_legs = addArmorItem("flak_legs", FLAK, "flakArmor", 2, false);

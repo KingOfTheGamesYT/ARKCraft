@@ -12,6 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -44,7 +45,7 @@ public class ItemWaterContainer extends ARKCraftItem
 		setWaterValueLeft(s, maxWaterValue);
 		subItems.add(s);
 	}
-	
+
 	public final boolean isRaining(EntityPlayer player, World world)
 	{
 		return world.isRaining() && world.canSeeSky(player.getPosition());
@@ -74,35 +75,28 @@ public class ItemWaterContainer extends ARKCraftItem
 				if (material == Material.water && ((Integer) blockState.getValue(BlockLiquid.LEVEL)).intValue() == 0)
 					setWaterValueLeft(itemStackIn, maxWaterValue);
 			}
-		}		
+		}
 		return itemStackIn;
 	}
 
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
 	{
-		int waterValue = getWaterValueLeft(stack);
-		
-		if(isRaining((EntityPlayer) entityIn, worldIn))
-		{
-			if(waterValue != maxWaterValue)
-			setWaterValueLeft(stack, ++waterValue);
-		}
-		else if(!isRaining((EntityPlayer) entityIn, worldIn) && worldIn.getTotalWorldTime() % 432 == 0 && !worldIn.isRemote)
-		{
-			setWaterValueLeft(stack, --waterValue);
-		}	
+		if (worldIn.isRemote) return;
+
+		if (isRaining((EntityPlayer) entityIn, worldIn) && worldIn.getTotalWorldTime() % 20 == 0) setWaterValueLeft(
+				stack, MathHelper.clamp_int(getWaterValueLeft(stack) + 1, 0, maxWaterValue));
 	}
 
 	@Override
 	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged)
 	{
-		return oldStack != null && newStack != null && oldStack.getItem() != newStack.getItem();
+		return oldStack != null && newStack != null && oldStack.getItem() != newStack.getItem() && slotChanged;
 	}
 
 	private boolean canDrink(ItemStack stack)
 	{
-		return getWaterValueLeft(stack) / 100 > 0; // TODO change denominator
+		return getWaterValueLeft(stack) / 100 > 0;
 	}
 
 	public static int getWaterValueLeft(ItemStack stack)

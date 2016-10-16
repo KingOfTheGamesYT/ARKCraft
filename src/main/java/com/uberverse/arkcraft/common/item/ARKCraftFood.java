@@ -29,7 +29,7 @@ public class ARKCraftFood extends ItemFood implements IDecayable
 	public ARKCraftFood(int healAmount, float sat, boolean fav, boolean alwaysEdible, int decayTime, PotionEffect... effects)
 	{
 		super(healAmount, sat, fav);
-		setAlwaysEdible();
+		if (alwaysEdible) setAlwaysEdible();
 		this.effects = effects;
 		this.decayTime = decayTime * 20;
 		this.setCreativeTab(ARKCraft.tabARK);

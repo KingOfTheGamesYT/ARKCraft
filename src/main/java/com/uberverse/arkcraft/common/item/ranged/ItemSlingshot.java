@@ -59,7 +59,7 @@ public class ItemSlingshot extends Item
 	@Override
 	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged)
 	{
-		return oldStack != null && newStack != null && oldStack.getItem() != newStack.getItem();
+		return oldStack != null && newStack != null && oldStack.getItem() != newStack.getItem() && slotChanged;
 	}
 
 	private void setLastUseTime(ItemStack stack, long time)

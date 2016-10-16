@@ -223,15 +223,18 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 						{
 							fIndex = i;
 						}
-						else
+						else if (item instanceof ItemWaterContainer)
 						{
-							int val = getItemWaterValue(stack);
-							if (val > 0 && water <= 0)
+							int itemVal = getItemWaterValue(stack);
+							int maxValAdded = getType().maxWater - water;
+							int valToAdd = itemVal > maxValAdded ? maxValAdded : itemVal;
+
+							itemVal -= valToAdd;
+
+							if (valToAdd > 0)
 							{
-								System.out.println(getType().maxWater);
-								System.out.println(val);
-								water += val;
-								ItemWaterContainer.setWaterValueLeft(stack, 0);
+								water += valToAdd;
+								ItemWaterContainer.setWaterValueLeft(stack, itemVal / 240);
 								MathHelper.clamp_int(water, 0, getType().maxWater);
 							}
 						}
@@ -255,7 +258,7 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 						{
 							// grow!
 							growthTime--;
-							if (!isRaining()) water -= (worldObj.getDifficulty().ordinal() + 1);
+							if (!isRaining()) water -= (worldObj.getDifficulty().ordinal() + 1) + 100;
 
 							long val = ItemFertilizer.getFertilizingValueLeft(stack[fIndex]);
 							ItemFertilizer.setFertilizingValueLeft(stack[fIndex], --val);
