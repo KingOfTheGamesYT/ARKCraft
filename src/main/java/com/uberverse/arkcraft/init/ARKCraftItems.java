@@ -1,5 +1,6 @@
 package com.uberverse.arkcraft.init;
 
+
 import com.google.common.collect.Lists;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot.BerryColor;
@@ -66,7 +67,9 @@ public class ARKCraftItems
 	// Misc
 	public static ARKCraftItem stone, fiber, thatch, wood, flint, metal, spark_powder, hide, charcoal, metal_ingot,
 			cementing_paste, crystal, spy_glass, narcotics, gunpowder, chitin, keratin, pelt, obsidian, oil, gasoline,
-			stimulant, silica_pearls;
+			stimulant, silica_pearls, polymer, organic_poylmer, sap, electronics, blood_pack, absorbent_substrate,
+			angler_gel, black_pearl, leech_blood, rare_flower, rare_mushroom, refertilizer, woolly_rhino_horn;
+
 	public static ARKCraftFeces small_feces, medium_feces, large_feces, player_feces;
 	public static ItemFertilizer fertilizer;
 	public static ARKCraftBook info_book;
@@ -86,8 +89,7 @@ public class ARKCraftItems
 			30);
 	public static ArmorMaterial FUR = EnumHelper.addArmorMaterial("FUR_MAT", "HIDE_MAT", 40, new int[] { 3, 8, 6, 3 },
 			30);
-	public static ArmorMaterial FLAK = EnumHelper.addArmorMaterial("FLAK_MAT", "FLAK_MAT", 60, new int[] { 12, 40, 30,
-			15 }, 30);
+	public static ArmorMaterial FLAK = EnumHelper.addArmorMaterial("FLAK_MAT", "FLAK_MAT", 60, new int[] {12, 40, 30, 15}, 30);
 
 	// Tool MAT
 	public static ToolMaterial METAL = EnumHelper.addToolMaterial("METAL_MAT", 3, 1500, 6.0F, 2.5F, 8);
@@ -122,6 +124,20 @@ public class ARKCraftItems
 		gasoline = addFuel("gasoline");
 		stimulant = addItem("stimulant");
 		silica_pearls = addItem("silica_pearls");
+		polymer = addItem("polymer");
+		organic_poylmer = addItem("organic_polymer");
+		sap = addItem("sap");
+		electronics = addItem("electronics");
+		blood_pack = addItem("blood_pack");
+		absorbent_substrate = addItem("absorbent_substrate");
+		angler_gel = addItem("angler_gel");
+		black_pearl = addItem("black_pearl");
+		leech_blood = addItem("leech_blood");
+		rare_flower = addItem("rare_flower");
+		rare_mushroom = addItem("rare_mushroom");
+		refertilizer = addItem("refertilizer");
+		woolly_rhino_horn = addItem("woolly_rhino_horn");
+
 
 		// Tools
 		metalPick = init.registerItem("metal_pick", new ItemPickMetal());
@@ -129,6 +145,7 @@ public class ARKCraftItems
 		metalHatchet = init.registerItem("metal_hatchet", new ItemHatchetMetal());
 		stoneHatchet = init.registerItem("stone_hatchet", new ItemHatchetStone());
 		metal_sickle = init.registerItem("metal_sickle", new ItemMetalSickle(METAL));
+
 
 		water_skin = init.registerItem("water_skin", new ItemWaterContainer(100));
 		water_jar = init.registerItem("water_jar", new ItemWaterJar(200));
@@ -158,7 +175,7 @@ public class ARKCraftItems
 		fur_chest = addArmorItem("fur_chest", FUR, "furArmor", 1, false);
 		fur_legs = addArmorItem("fur_legs", FUR, "furArmor", 2, false);
 		fur_boots = addArmorItem("fur_boots", FUR, "furArmor", 3, false);
-
+		
 		flak_helm = addArmorItem("flak_helm", FLAK, "flakArmor", 0, false);
 		flak_chest = addArmorItem("flak_chest", FLAK, "flakArmor", 1, false);
 		flak_legs = addArmorItem("flak_legs", FLAK, "flakArmor", 2, false);
