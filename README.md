@@ -9,7 +9,7 @@ Many features are added, such as:
 2. New breeding and taming mechanics are added into the game, enabling you to ride and play with the creatures that ARKCraft    provides.
 3. Many items and new GUI's are added into the game, enabling you to tame and breed dinos.
 
-If you would like more information and screenshots, take a look at our [forum page](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/wip-mods/2482915-wip-arkcraft-survival-evolved-dinos-taming).
+If you would like more information and screenshots, take a look at our [forum page](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/2722534-wip-arkcraft-the-ark-survival-evolved-minecraft).
 
 
 
