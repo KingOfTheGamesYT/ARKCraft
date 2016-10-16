@@ -16,7 +16,7 @@ public class Generator
 				"hide_boots", "hide_helm", "refining_forge", "smithy", "metal_pick", "metal_hatchet", "pike",
 				"fur_boots", "fur_helm", "fur_legs", "fur_chest", "chitin_legs", "chitin_chest", "chitin_helm",
 				"simple_pistol", "simple_bullet", "scope", "sickle", "chitin_boots", "longneck_rifle",
-				"simple_rifle_ammo", "shotgun", "simple_shotgun_ammo", "medium_crop_plot", "large_crop_plot" };
+				"simple_rifle_ammo", "shotgun", "simple_shotgun_ammo", "medium_crop_plot", "large_crop_plot", "refertilizer", "polymer", "electronics", "absorbent_substrate" };
 		for (String name : strings)
 		{
 			File f = new File("src/main/resources/assets/arkcraft/models/item/blueprint/" + name + ".json");
@@ -33,44 +33,17 @@ public class Generator
 
 			start();
 
-			name("parent");
-			value("builtin/generated");
-			separator();
-			name("textures");
-			start();
-			name("layer0");
-			value("arkcraft:items/blueprint/" + name);
-			end();
-			separator();
-			name("display");
-			start();
+            name("parent");
+            value("item/generated");
+            separator();
+            name("textures");
+            start();
+            name("layer0");
+            value("arkcraft:items/blueprint/" + name);
+            end();
+            
+            end();
 
-			name("thirdperson");
-			start();
-			name("rotation");
-			value(new int[] { -90, 0, 0 });
-			separator();
-			name("translation");
-			value(new int[] { 0, 1, -3 });
-			separator();
-			name("scale");
-			value(new double[] { 0.55, 0.55, 0.55 });
-			end();
-			separator();
-			name("firstperson");
-			start();
-			name("rotation");
-			value(new int[] { 0, -135, 25 });
-			separator();
-			name("translation");
-			value(new int[] { 0, 4, 2 });
-			separator();
-			name("scale");
-			value(new double[] { 1.7, 1.7, 1.7 });
-			end();
-
-			end();
-			end();
 			p.flush();
 			p.close();
 		}
