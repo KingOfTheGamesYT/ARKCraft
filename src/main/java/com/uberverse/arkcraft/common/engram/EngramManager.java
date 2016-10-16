@@ -69,7 +69,7 @@ public class EngramManager
 						new AbstractItemStack(ARKCraftItems.hide, 6))));
 		instance().registerEngram(new Engram("cloth_helm", new AbstractItemStack(ARKCraftItems.cloth_helm), 3, 3, 5,
 				EngramType.PLAYER, 0.6, new EngramRecipe(new AbstractItemStack(ARKCraftItems.fiber, 10))));
-		instance().registerEngram(new Engram("water_skin", new AbstractItemStack(ARKCraftItems.water_skin), 3, 3, 5,
+		instance().registerEngram(new Engram("waterskin", new AbstractItemStack(ARKCraftItems.water_skin), 3, 3, 5,
 				EngramType.PLAYER, 0.8, new EngramRecipe(new AbstractItemStack(ARKCraftItems.fiber, 12),
 						new AbstractItemStack(ARKCraftItems.hide, 4))));
 
@@ -194,7 +194,8 @@ public class EngramManager
 						new AbstractItemStack(ARKCraftItems.wood, 4), new AbstractItemStack(ARKCraftItems.hide, 16))));
 		instance().registerEngram(new Engram("water_jar", new AbstractItemStack(ARKCraftItems.water_jar), 12, 30, 10,
 				EngramType.SMITHY, 1.4, new EngramRecipe(new AbstractItemStack(ARKCraftItems.cementing_paste, 7),
-						new AbstractItemStack(ARKCraftItems.hide, 5), new AbstractItemStack(ARKCraftItems.crystal, 2))));
+						new AbstractItemStack(ARKCraftItems.hide, 5), new AbstractItemStack(ARKCraftItems.crystal,
+								2))));
 
 		// lvl 35
 		instance().registerEngram(new Engram("chitin_boots", new AbstractItemStack(ARKCraftItems.chitin_boots), 15, 35,
@@ -211,47 +212,51 @@ public class EngramManager
 		instance().registerEngram(new Engram("large_crop_plot", new AbstractItemStack(Item.getItemFromBlock(
 				ARKCraftBlocks.cropPlot), 1, 2), 12, 25, 10, EngramType.PLAYER, 21.4, new EngramRecipe(
 						new AbstractItemStack(ARKCraftItems.stone, 100), new AbstractItemStack(ARKCraftItems.wood, 80),
-						new AbstractItemStack(ARKCraftItems.fiber, 60), new AbstractItemStack(ARKCraftItems.thatch,40))));
+						new AbstractItemStack(ARKCraftItems.fiber, 60), new AbstractItemStack(ARKCraftItems.thatch,
+								40))));
 		instance().registerEngram(new Engram("shotgun", new AbstractItemStack(ARKCraftRangedWeapons.shotgun), 18, 35,
 				10, EngramType.SMITHY, 105.8, new EngramRecipe(new AbstractItemStack(ARKCraftItems.metal_ingot, 80),
 						new AbstractItemStack(ARKCraftItems.hide, 25), new AbstractItemStack(ARKCraftItems.wood, 20))));
 		instance().registerEngram(new Engram("simple_shotgun_ammo", new AbstractItemStack(
 				ARKCraftRangedWeapons.simple_shotgun_ammo), 6, 35, 10, EngramType.SMITHY, 0.3, new EngramRecipe(
 						new AbstractItemStack(ARKCraftItems.metal_ingot, 1), new AbstractItemStack(
-								ARKCraftItems.gunpowder, 3), new AbstractItemStack(ARKCraftRangedWeapons.simple_bullet,3))));
+								ARKCraftItems.gunpowder, 3), new AbstractItemStack(ARKCraftRangedWeapons.simple_bullet,
+										3))));
 		instance().registerEngram(new Engram("refertilizer", new AbstractItemStack(ARKCraftItems.refertilizer), 20, 35,
 				10, EngramType.SMITHY, 4.41, new EngramRecipe(new AbstractItemStack(ARKCraftItems.rare_mushroom, 1),
-						new AbstractItemStack(ARKCraftItems.rare_flower, 1), new AbstractItemStack(ARKCraftItems.spark_powder, 4),
-						new AbstractItemStack(ARKCraftItems.fertilizer, 1), new AbstractItemStack(ARKCraftItems.oil, 3))));
+						new AbstractItemStack(ARKCraftItems.rare_flower, 1), new AbstractItemStack(
+								ARKCraftItems.spark_powder, 4), new AbstractItemStack(ARKCraftItems.fertilizer, 1),
+						new AbstractItemStack(ARKCraftItems.oil, 3))));
 
 		// lvl 40
-		instance().registerEngram(new Engram("poylmer", new AbstractItemStack(ARKCraftItems.polymer), 6, 40,
-				10, EngramType.FABRICATOR, 7.1, new EngramRecipe(new AbstractItemStack(ARKCraftItems.obsidian, 2),
+		instance().registerEngram(new Engram("polymer", new AbstractItemStack(ARKCraftItems.polymer), 6, 40, 10,
+				EngramType.FABRICATOR, 7.1, new EngramRecipe(new AbstractItemStack(ARKCraftItems.obsidian, 2),
 						new AbstractItemStack(ARKCraftItems.cementing_paste, 2))));
-		instance().registerEngram(new Engram("electornics", new AbstractItemStack(ARKCraftItems.electronics), 6, 40,
-				10, EngramType.FABRICATOR, 7.1, new EngramRecipe(new AbstractItemStack(ARKCraftItems.silica_pearls, 3),
+		instance().registerEngram(new Engram("electronics", new AbstractItemStack(ARKCraftItems.electronics), 6, 40, 10,
+				EngramType.FABRICATOR, 7.1, new EngramRecipe(new AbstractItemStack(ARKCraftItems.silica_pearls, 3),
 						new AbstractItemStack(ARKCraftItems.metal_ingot, 1))));
-		
+
 		// lvl 45
-		instance().registerEngram(new Engram("flak_legs", new AbstractItemStack(ARKCraftItems.flak_legs), 15, 45,
-				10, EngramType.SMITHY, 7.1, new EngramRecipe(new AbstractItemStack(ARKCraftItems.metal_ingot, 16),
+		instance().registerEngram(new Engram("flak_legs", new AbstractItemStack(ARKCraftItems.flak_legs), 15, 45, 10,
+				EngramType.SMITHY, 7.1, new EngramRecipe(new AbstractItemStack(ARKCraftItems.metal_ingot, 16),
 						new AbstractItemStack(ARKCraftItems.hide, 12), new AbstractItemStack(ARKCraftItems.fiber, 5))));
-		instance().registerEngram(new Engram("flak_chest", new AbstractItemStack(ARKCraftItems.flak_chest), 18, 45,
-				10, EngramType.SMITHY, 5.78, new EngramRecipe(new AbstractItemStack(ARKCraftItems.metal_ingot, 13),
+		instance().registerEngram(new Engram("flak_chest", new AbstractItemStack(ARKCraftItems.flak_chest), 18, 45, 10,
+				EngramType.SMITHY, 5.78, new EngramRecipe(new AbstractItemStack(ARKCraftItems.metal_ingot, 13),
 						new AbstractItemStack(ARKCraftItems.hide, 10), new AbstractItemStack(ARKCraftItems.fiber, 4))));
 		// lvl 50
-		instance().registerEngram(new Engram("flak_helm", new AbstractItemStack(ARKCraftItems.flak_helm), 20, 50,
-				10, EngramType.SMITHY, 4.41, new EngramRecipe(new AbstractItemStack(ARKCraftItems.metal_ingot, 10),
+		instance().registerEngram(new Engram("flak_helm", new AbstractItemStack(ARKCraftItems.flak_helm), 20, 50, 10,
+				EngramType.SMITHY, 4.41, new EngramRecipe(new AbstractItemStack(ARKCraftItems.metal_ingot, 10),
 						new AbstractItemStack(ARKCraftItems.hide, 7), new AbstractItemStack(ARKCraftItems.fiber, 3))));
-		instance().registerEngram(new Engram("flak_boots", new AbstractItemStack(ARKCraftItems.flak_boots), 16, 50,
-				10, EngramType.SMITHY, 3.58, new EngramRecipe(new AbstractItemStack(ARKCraftItems.metal_ingot, 8),
+		instance().registerEngram(new Engram("flak_boots", new AbstractItemStack(ARKCraftItems.flak_boots), 16, 50, 10,
+				EngramType.SMITHY, 3.58, new EngramRecipe(new AbstractItemStack(ARKCraftItems.metal_ingot, 8),
 						new AbstractItemStack(ARKCraftItems.hide, 6), new AbstractItemStack(ARKCraftItems.fiber, 4))));
-		
+
 		// lvl 85
-		instance().registerEngram(new Engram("absorbent_substrate", new AbstractItemStack(ARKCraftItems.absorbent_substrate), 60, 85,
-				10, EngramType.FABRICATOR, 4.41, new EngramRecipe(new AbstractItemStack(ARKCraftItems.black_pearl, 8),
-						new AbstractItemStack(ARKCraftItems.sap, 8), new AbstractItemStack(ARKCraftItems.oil, 8))));
-		
+		instance().registerEngram(new Engram("absorbent_substrate", new AbstractItemStack(
+				ARKCraftItems.absorbent_substrate), 60, 85, 10, EngramType.FABRICATOR, 4.41, new EngramRecipe(
+						new AbstractItemStack(ARKCraftItems.black_pearl, 8), new AbstractItemStack(ARKCraftItems.sap,
+								8), new AbstractItemStack(ARKCraftItems.oil, 8))));
+
 		// instance().registerEngram(new
 		// Engram("silencer",ARKCraftRangedWeapons.silencer, 13, 40, 10,
 		// EngramType.SMITHY,
