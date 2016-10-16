@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class Generator
+public class BlueprintGenerator
 {
 	static PrintWriter p;
 
@@ -12,11 +12,13 @@ public class Generator
 	{
 		String[] strings = new String[] { "stone_pick", "campfire", "stone_hatchet", "spear", "cloth_legs",
 				"cloth_chest", "cloth_boots", "cloth_helm", "slingshot", "mortar_and_pestle", "spark_powder",
-				"narcotics", "cementing_paste", "gunpowder", "spy_glass", "compost_bin", "small_crop_plot", "hide_chest", "hide_legs",
-				"hide_boots", "hide_helm", "refining_forge", "smithy", "metal_pick", "metal_hatchet", "pike",
-				"fur_boots", "fur_helm", "fur_legs", "fur_chest", "chitin_legs", "chitin_chest", "chitin_helm",
-				"simple_pistol", "simple_bullet", "scope", "sickle", "chitin_boots", "longneck_rifle",
-				"simple_rifle_ammo", "shotgun", "simple_shotgun_ammo", "medium_crop_plot", "large_crop_plot", "refertilizer", "polymer", "electronics", "absorbent_substrate" };
+				"narcotics", "cementing_paste", "gunpowder", "spy_glass", "compost_bin", "small_crop_plot",
+				"hide_chest", "hide_legs", "hide_boots", "hide_helm", "refining_forge", "smithy", "metal_pick",
+				"metal_hatchet", "pike", "fur_boots", "fur_helm", "fur_legs", "fur_chest", "chitin_legs",
+				"chitin_chest", "chitin_helm", "simple_pistol", "simple_bullet", "scope", "sickle", "chitin_boots",
+				"longneck_rifle", "simple_rifle_ammo", "shotgun", "simple_shotgun_ammo", "medium_crop_plot",
+				"large_crop_plot", "refertilizer", "polymer", "electronics", "absorbent_substrate", "flak_boots",
+				"flak_chest", "flak_helm", "flak_legs", "advanced_bullet", "water_jar", "waterskin" };
 		for (String name : strings)
 		{
 			File f = new File("src/main/resources/assets/arkcraft/models/item/blueprint/" + name + ".json");
@@ -32,17 +34,15 @@ public class Generator
 			}
 
 			start();
-
-            name("parent");
-            value("item/generated");
-            separator();
-            name("textures");
-            start();
-            name("layer0");
-            value("arkcraft:items/blueprint/" + name);
-            end();
-            
-            end();
+			name("parent");
+			value("arkcraft:item/base_item");
+			separator();
+			name("textures");
+			start();
+			name("layer0");
+			value("arkcraft:items/blueprint/" + name);
+			end();
+			end();
 
 			p.flush();
 			p.close();

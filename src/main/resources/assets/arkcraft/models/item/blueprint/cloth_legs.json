@@ -1,1 +1,1 @@
-{"parent":"item/generated","textures":{"layer0":"arkcraft:items/blueprint/cloth_legs"}}
+{"parent":"arkcraft:item/base_item","textures":{"layer0":"arkcraft:items/blueprint/cloth_legs"}}
