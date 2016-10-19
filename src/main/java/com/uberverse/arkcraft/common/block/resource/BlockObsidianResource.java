@@ -13,8 +13,9 @@ public class BlockObsidianResource extends BlockARKResource
 	public BlockObsidianResource()
 	{
 		super(Material.rock);
+		setBlockBounds(0, 0, 0, 1, 0.68f, 1);
 	}
-
+	
 	@Override
 	public boolean isOpaqueCube()
 	{
