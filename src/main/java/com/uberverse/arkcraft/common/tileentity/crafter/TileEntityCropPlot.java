@@ -258,7 +258,7 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 						{
 							// grow!
 							growthTime--;
-							if (!isRaining()) water -= (worldObj.getDifficulty().ordinal() + 1) + 100;
+							if (!isRaining()) water -= (worldObj.getDifficulty().ordinal() + 1);
 
 							long val = ItemFertilizer.getFertilizingValueLeft(stack[fIndex]);
 							ItemFertilizer.setFertilizingValueLeft(stack[fIndex], --val);
