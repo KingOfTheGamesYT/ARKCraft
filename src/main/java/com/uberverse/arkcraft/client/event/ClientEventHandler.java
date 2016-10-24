@@ -64,7 +64,6 @@ public class ClientEventHandler
 	private static Random random = new Random();
 
 	private static int swayTicks;
-	private static final int maxTicks = 20;
 	private static float yawSway;
 	private static float pitchSway;
 	public static int disabledEquippItemAnimationTime = 0;
@@ -158,11 +157,13 @@ public class ClientEventHandler
 				{
 					showSpyglassOverlay = evt.buttonstate;
 					selected = stack;
-					if (showSpyglassOverlay) evt.setCanceled(true);	
+					if (showSpyglassOverlay) evt.setCanceled(true);
 				}
 			}
 		}
-	} private static boolean showSpyglassOverlay;
+	}
+
+	private boolean showSpyglassOverlay;
 
 	@SubscribeEvent
 	public void onFOVUpdate(FOVUpdateEvent evt)
@@ -183,7 +184,8 @@ public class ClientEventHandler
 	public void onRender(RenderGameOverlayEvent evt)
 	{
 		Minecraft mc = Minecraft.getMinecraft();
-		if ((showScopeOverlap || showSpyglassOverlay) && (mc.thePlayer.getCurrentEquippedItem() != selected || !Mouse.isButtonDown(0)))
+		if ((showScopeOverlap || showSpyglassOverlay) && (mc.thePlayer.getCurrentEquippedItem() != selected || !Mouse
+				.isButtonDown(0)))
 		{
 			showScopeOverlap = false;
 			showSpyglassOverlay = false;
@@ -196,13 +198,13 @@ public class ClientEventHandler
 				if (mc.gameSettings.thirdPersonView == 0)
 				{
 					evt.setCanceled(true);
-					if (showScopeOverlap) showScope() ;
+					if (showScopeOverlap) showScope();
 					else if (showSpyglassOverlay) showSpyglass();
 				}
 			}
 			// Remove crosshairs
-			else if (evt.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS && (showScopeOverlap || showSpyglassOverlay)) evt.setCanceled(
-					true);
+			else if (evt.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS && (showScopeOverlap
+					|| showSpyglassOverlay)) evt.setCanceled(true);
 		}
 		else if (evt.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS && !Minecraft.getMinecraft().isGamePaused())
 		{
@@ -238,6 +240,8 @@ public class ClientEventHandler
 		}
 	}
 
+	private static final int maxTicks = 20;
+
 	public void showScope()
 	{
 		Minecraft mc = Minecraft.getMinecraft();
@@ -247,22 +251,16 @@ public class ClientEventHandler
 		swayTicks++;
 		if (swayTicks > maxTicks)
 		{
+			// change values here for control of the amount of sway!
+			int divider = thePlayer.isSneaking() ? 20 : 7;
 			swayTicks = 0;
-			if (!thePlayer.isSneaking())
-			{
-				yawSway = ((random.nextFloat() * 2 - 1) / 5) / maxTicks;
-				pitchSway = ((random.nextFloat() * 2 - 1) / 5) / maxTicks;
-			}
-			else
-			{
-				yawSway = ((random.nextFloat() * 2 - 1) / 16) / maxTicks;
-				pitchSway = ((random.nextFloat() * 2 - 1) / 16) / maxTicks;
-			}
+			yawSway = ((random.nextFloat() * 2 - 1) / divider) / maxTicks;
+			pitchSway = ((random.nextFloat() * 2 - 1) / divider) / maxTicks;
 		}
 
 		EntityPlayer p = mc.thePlayer;
-		p.rotationPitch += yawSway;
-		p.rotationYaw += pitchSway;
+		p.rotationPitch += pitchSway;
+		p.rotationYaw += yawSway;
 
 		GL11.glPushMatrix();
 		mc.entityRenderer.setupOverlayRendering();
@@ -289,31 +287,10 @@ public class ClientEventHandler
 
 		GL11.glPopMatrix();
 	}
+
 	public void showSpyglass()
 	{
 		Minecraft mc = Minecraft.getMinecraft();
-		EntityPlayer thePlayer = mc.thePlayer;
-
-		// add sway
-		swayTicks++;
-		if (swayTicks > maxTicks)
-		{
-			swayTicks = 0;
-			if (!thePlayer.isSneaking())
-			{
-				yawSway = ((random.nextFloat() * 2 - 1) / 5) / maxTicks;
-				pitchSway = ((random.nextFloat() * 2 - 1) / 5) / maxTicks;
-			}
-			else
-			{
-				yawSway = ((random.nextFloat() * 2 - 1) / 16) / maxTicks;
-				pitchSway = ((random.nextFloat() * 2 - 1) / 16) / maxTicks;
-			}
-		}
-
-		EntityPlayer p = mc.thePlayer;
-		p.rotationPitch += yawSway;
-		p.rotationYaw += pitchSway;
 
 		GL11.glPushMatrix();
 		mc.entityRenderer.setupOverlayRendering();
