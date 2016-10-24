@@ -34,4 +34,5 @@ public class TileEntityCampfire extends TileEntityBurner
 	{
 		return "arkcraft:campfire_burn";
 	}
+	
 }

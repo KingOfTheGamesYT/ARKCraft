@@ -15,6 +15,7 @@ import com.uberverse.arkcraft.common.entity.dispense.DispenseSimpleRifleAmmo;
 import com.uberverse.arkcraft.common.entity.dispense.DispenseSimpleShotgunAmmo;
 import com.uberverse.arkcraft.common.entity.dispense.DispenseTranquilizer;
 import com.uberverse.arkcraft.common.handlers.EntityHandler;
+import com.uberverse.arkcraft.common.item.ammo.ItemArrow;
 import com.uberverse.arkcraft.common.item.ammo.ItemProjectile;
 import com.uberverse.arkcraft.common.item.attachments.AttachmentType;
 import com.uberverse.arkcraft.common.item.attachments.ItemAttachment;
@@ -25,6 +26,7 @@ import com.uberverse.arkcraft.common.item.ranged.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.item.ranged.ItemShotgun;
 import com.uberverse.arkcraft.common.item.ranged.ItemSimplePistol;
 import com.uberverse.arkcraft.common.item.ranged.ItemSlingshot;
+import com.uberverse.arkcraft.common.item.ranged.ItemWoodenBow;
 
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.item.Item.ToolMaterial;
@@ -43,6 +45,8 @@ public class ARKCraftRangedWeapons
 	public static ItemRangedWeapon shotgun;
 	public static ItemRangedWeapon crossbow;
 	public static ItemSlingshot slingshot;
+	public static ItemArrow stone_arrow, metal_arrow, tranq_arrow;
+	public static ItemWoodenBow wooden_bow; 
 
 	public static ToolMaterial METAL = EnumHelper.addToolMaterial("METAL_MAT", 3, 1500, 6.0F, 0.8F, 8);
 	public static ToolMaterial STONE = EnumHelper.addToolMaterial("STONE_MAT", 2, 500, 3.5F, 0.4F, 13);
@@ -58,7 +62,12 @@ public class ARKCraftRangedWeapons
 		laser = addItemAttachment("laser", AttachmentType.LASER);
 		silencer = addItemAttachment("silencer", AttachmentType.SILENCER);
 
-		slingshot = init.registerItem("slingshot", new ItemSlingshot(), "slingshot", "slingshot_pulled");
+		stone_arrow = addItemArrow("stone_arrow");
+		metal_arrow = addItemArrow("metal_arrow");
+		tranq_arrow = addItemArrow("tranq_arrow");
+		
+		wooden_bow = init.registerItem("wooden_bow", new ItemWoodenBow());
+
 		// addSlingshot("slingshot");
 		EntityHandler.registerModEntity(EntityStone.class, "stone", ARKCraft.instance(), 64, 10, true);
 
@@ -188,5 +197,10 @@ public class ARKCraftRangedWeapons
 	protected static ItemProjectile addItemProjectile(String name)
 	{
 		return InitializationManager.instance().registerItem(name, new ItemProjectile());
+	}
+	
+	protected static ItemArrow addItemArrow(String name)
+	{
+		return InitializationManager.instance().registerItem(name, new ItemArrow());
 	}
 }

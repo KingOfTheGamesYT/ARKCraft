@@ -230,7 +230,7 @@ public interface IBurner extends IInventoryAdder, NBTable
 	public default void playSound()
 	{
 		getWorldIA().playSoundEffect(getPosition().getX(), getPosition().getY(), getPosition().getZ(), getSoundName(),
-				1, 1);
+				0.015F, 1F);
 	}
 
 	public String getSoundName();
