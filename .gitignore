@@ -2,6 +2,7 @@
 !/src
 !/gradle
 !build.gradle
+!gradlew*
 !.gitignore
 !.gitattributes
 !*.md
