@@ -139,6 +139,7 @@ item.compound_bow.name=Compound Bow
 item.crossbow.name=Crossbow
 item.wooden_club.name=Wooden Club
 item.grenade.name=Grenade
+item.wooden_bow.name=Wooden Bow
 
 ##attachments
 item.scope.name=Scope
