@@ -2,22 +2,16 @@ package com.uberverse.arkcraft.client.gui.item;
 
 import java.awt.Color;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.container.item.ContainerInventoryAttachment;
 import com.uberverse.arkcraft.common.inventory.InventoryAttachment;
+
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.ResourceLocation;
 
 public class GUIAttachment extends GuiContainer
 {
@@ -44,6 +38,7 @@ public class GUIAttachment extends GuiContainer
 		this.fontRendererObj.drawString(name, LABEL_XPOS, LABEL_YPOS, Color.darkGray.getRGB());
 	}
 
+	
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int mouseX, int mouseY)
 	{
@@ -52,10 +47,11 @@ public class GUIAttachment extends GuiContainer
 		int k = (width - xSize) / 2;
 		int l = (height - ySize) / 2;
 		drawTexturedModalRect(k, l, 0, 0, xSize, ySize);
-		drawEntityOnScreen(k + 51, l + 75, 30, (float) (k + 51) - this.xSize, (float) (l + 75 - 50) - this.ySize,
-				this.mc.thePlayer);
+	//	drawEntityOnScreen(k + 51, l + 75, 30, (float) (k + 51) - this.xSize, (float) (l + 75 - 50) - this.ySize,
+	//			this.mc.thePlayer);
 	}
 
+	/*
 	public static void drawEntityOnScreen(int p_147046_0_, int p_147046_1_, int p_147046_2_, float p_147046_3_,
 			float p_147046_4_, EntityLivingBase p_147046_5_)
 	{
@@ -95,5 +91,5 @@ public class GUIAttachment extends GuiContainer
 		GlStateManager.setActiveTexture(OpenGlHelper.lightmapTexUnit);
 		GlStateManager.disableTexture2D();
 		GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
-	}
+	}	*/
 }

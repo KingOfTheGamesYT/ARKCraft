@@ -6,6 +6,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import com.jcraft.jorbis.Block;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.easter.Easter;
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
@@ -28,6 +29,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.model.ModelPlayer;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -49,8 +51,10 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
@@ -206,6 +210,8 @@ public class ClientEventHandler
 			else if (evt.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS && (showScopeOverlap
 					|| showSpyglassOverlay)) evt.setCanceled(true);
 		}
+		ItemStack stack = mc.thePlayer.getCurrentEquippedItem();
+		if(evt.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS && (stack != null && stack.getItem() instanceof ItemRangedWeapon)) evt.setCanceled(true);
 		else if (evt.type == RenderGameOverlayEvent.ElementType.CROSSHAIRS && !Minecraft.getMinecraft().isGamePaused())
 		{
 			MovingObjectPosition mop = rayTrace(mc.thePlayer, 8, evt.partialTicks);
@@ -240,7 +246,7 @@ public class ClientEventHandler
 		}
 	}
 
-	private static final int maxTicks = 20;
+	private static final int maxTicks = 70;
 
 	public void showScope()
 	{
@@ -386,4 +392,20 @@ public class ClientEventHandler
 			Easter.handleInteract(event);
 		}
 	}
+	
+
+	//For the animation when useing guns on ground not to happen
+	@SubscribeEvent
+	public void onRightClick(PlayerInteractEvent event){
+		EntityPlayer player = event.entityPlayer;
+		if(event.world.isRemote){
+			if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemRangedWeapon){
+				if(event.action == Action.RIGHT_CLICK_BLOCK || event.action == Action.RIGHT_CLICK_AIR){
+					ObfuscationReflectionHelper.setPrivateValue(ItemRenderer.class, Minecraft.getMinecraft().getItemRenderer(), 1F, "equippedProgress", "field_78454_c");
+				}
+			}
+		}
+	}
+	
+	
 }

@@ -7,6 +7,7 @@ import com.uberverse.arkcraft.common.config.ModuleItemBalance.PLAYER;
 import com.uberverse.arkcraft.common.engram.EngramManager;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.common.entity.EntitySpear;
+import com.uberverse.arkcraft.common.entity.EntityStone;
 import com.uberverse.arkcraft.common.handlers.EntityHandler;
 import com.uberverse.arkcraft.common.item.ARKCraftBook;
 import com.uberverse.arkcraft.common.item.ARKCraftFeces;
@@ -149,7 +150,6 @@ public class ARKCraftItems
 
 		// Weapons
 		spear = init.registerItem("spear", new ItemSpear(WOOD));
-		EntityHandler.registerModEntity(EntitySpear.class, "spear", ARKCraft.instance(), 16, 20, true);
 		pike = init.registerItem("pike", new ItemPike(METAL));
 
 		// Armor

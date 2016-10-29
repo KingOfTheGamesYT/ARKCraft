@@ -1,7 +1,6 @@
 package com.uberverse.arkcraft.common.item.ranged;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.item.ammo.ItemArrow;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
 
 import net.minecraft.enchantment.Enchantment;
@@ -15,9 +14,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
 
-public class ItemWoodenBow extends ItemBow
-{
-	public ItemWoodenBow()
+public class ItemARKBow extends ItemBow
+{	
+	public static ItemStack stack;
+	
+	public ItemARKBow()
 	{
 		setCreativeTab(ARKCraft.tabARK);
 	}
@@ -34,6 +35,12 @@ public class ItemWoodenBow extends ItemBow
 		}
 		else
 		{
+			if(getArrowType(itemStackIn) != null)
+			{
+				playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
+			}
+			
+			/*
 			for (int i = 0; i < playerIn.inventory.getSizeInventory(); i++)
 			{
 				ItemStack stack = playerIn.inventory.getStackInSlot(i);
@@ -54,8 +61,8 @@ public class ItemWoodenBow extends ItemBow
 					}
 					playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
 					break;
-				}
-			}
+				}	 
+			} */
 		}
 		return itemStackIn;
 	}
@@ -68,9 +75,18 @@ public class ItemWoodenBow extends ItemBow
 
 	public static void setArrowType(ItemStack stack, String s)
 	{
-		if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
+		System.out.println(s + " " + stack);
+		
+		//if (!stack.hasTagCompound()) 
+			stack.setTagCompound(new NBTTagCompound());
 		stack.getTagCompound().setString("arrowtype", s);
 	}
+	
+//	public static ItemStack getArrowSelected(ItemStack stack)
+//	{
+//		return ItemArrow.selecetedArrow(stack);
+//	}
+	
 
 	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityPlayer playerIn, int timeLeft)
 	{
@@ -81,11 +97,11 @@ public class ItemWoodenBow extends ItemBow
 		// j = event.charge;
 
 		boolean flag = playerIn.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(
-				Enchantment.infinity.effectId, stack) > 0 || !getArrowType(stack).equals("none");
+				Enchantment.infinity.effectId, stack) > 0;
 
 		if (flag)
 		{
-			System.out.println(getArrowType(stack));
+		//	System.out.println(getArrowType(stack));
 			float f = (float) j / 20.0F;
 			f = (f * f + f * 2.0F) / 3.0F;
 
@@ -128,28 +144,30 @@ public class ItemWoodenBow extends ItemBow
 
 			entityarrow.canBePickedUp = 2;
 
-			if (getArrowType(stack).equals("stone"))
+			}
+			
+			if (getArrowType(stack).equals("stone_arrow"))
 			{
 				System.out.println("remove");
 				playerIn.inventory.consumeInventoryItem(ARKCraftRangedWeapons.stone_arrow);
 			}
-			else if (getArrowType(stack).equals("metal"))
+			else if (getArrowType(stack).equals("metal_arrow"))
 			{
 				playerIn.inventory.consumeInventoryItem(ARKCraftRangedWeapons.metal_arrow);
 			}
-			else if (getArrowType(stack).equals("tranq"))
+			else if (getArrowType(stack).equals("tranq_arrow"))
 			{
 				playerIn.inventory.consumeInventoryItem(ARKCraftRangedWeapons.tranq_arrow);
 			}
-			setArrowType(stack, "");
+			setArrowType(stack, "");			
 
 			playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
 
-			if (!worldIn.isRemote)
-			{
-				System.out.println("shoot");
-				worldIn.spawnEntityInWorld(entityarrow);
-			}
-		}
+		//	if (!worldIn.isRemote)
+		//	{
+		//		System.out.println("shoot");
+		//		worldIn.spawnEntityInWorld(entityarrow);
+		//	}
+		
 	}
 }
