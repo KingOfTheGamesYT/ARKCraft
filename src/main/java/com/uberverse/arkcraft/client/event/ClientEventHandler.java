@@ -6,7 +6,6 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-import com.jcraft.jorbis.Block;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.easter.Easter;
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
