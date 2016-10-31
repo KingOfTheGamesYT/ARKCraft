@@ -47,7 +47,7 @@ public class ARKCraftRangedWeapons
 	public static ItemRangedWeapon crossbow;
 	public static ItemSlingshot slingshot;
 	public static ItemArrow stone_arrow, metal_arrow, tranq_arrow;
-	public static ItemARKBow bow; 
+	public static ItemARKBow bow;
 
 	public static ToolMaterial METAL = EnumHelper.addToolMaterial("METAL_MAT", 3, 1500, 6.0F, 0.8F, 8);
 	public static ToolMaterial STONE = EnumHelper.addToolMaterial("STONE_MAT", 2, 500, 3.5F, 0.4F, 13);
@@ -66,13 +66,13 @@ public class ARKCraftRangedWeapons
 		stone_arrow = addItemArrow("stone_arrow");
 		metal_arrow = addItemArrow("metal_arrow");
 		tranq_arrow = addItemArrow("tranq_arrow");
-		
-		bow = init.registerItem("bow", new ItemARKBow(), "bow", "bow_pulling_0", "bow_pulling_1", "bow_pulling_2");
 
-		// addSlingshot("slingshot");
+		bow = init.registerItem("bow", new ItemARKBow(), "bow", "bow_pulling_0", "bow_pulling_1", "bow_pulling_2");
+		slingshot = init.registerItem("slingshot", new ItemSlingshot(), "slingshot_pulled", "slingshot");
+
 		EntityHandler.registerModEntity(EntityStone.class, "stone", ARKCraft.instance(), 64, 10, true);
 		EntityHandler.registerModEntity(EntitySpear.class, "spear", ARKCraft.instance(), 16, 20, true);
-		
+
 		registerDispenseBehavior();
 		registerWeaponEntities();
 		addRangedWeapons();
@@ -200,7 +200,7 @@ public class ARKCraftRangedWeapons
 	{
 		return InitializationManager.instance().registerItem(name, new ItemProjectile());
 	}
-	
+
 	protected static ItemArrow addItemArrow(String name)
 	{
 		return InitializationManager.instance().registerItem(name, new ItemArrow(name));
