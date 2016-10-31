@@ -11,19 +11,25 @@ import com.uberverse.arkcraft.client.gui.overlay.GUIOverlayReloading;
 import com.uberverse.arkcraft.client.model.ModelDodo;
 import com.uberverse.arkcraft.client.render.creature.RenderDodo;
 import com.uberverse.arkcraft.client.render.projectile.RenderAdvancedBullet;
+import com.uberverse.arkcraft.client.render.projectile.RenderMetalArrow;
 import com.uberverse.arkcraft.client.render.projectile.RenderSimpleBullet;
 import com.uberverse.arkcraft.client.render.projectile.RenderSimpleRifleAmmo;
 import com.uberverse.arkcraft.client.render.projectile.RenderSimpleShotgunAmmo;
 import com.uberverse.arkcraft.client.render.projectile.RenderSpear;
+import com.uberverse.arkcraft.client.render.projectile.RenderStoneArrow;
+import com.uberverse.arkcraft.client.render.projectile.RenderTranqArrow;
 import com.uberverse.arkcraft.client.render.projectile.RenderTranquilizer;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.entity.EntityAdvancedBullet;
 import com.uberverse.arkcraft.common.entity.EntityDodo;
+import com.uberverse.arkcraft.common.entity.EntityMetalArrow;
 import com.uberverse.arkcraft.common.entity.EntitySimpleBullet;
 import com.uberverse.arkcraft.common.entity.EntitySimpleRifleAmmo;
 import com.uberverse.arkcraft.common.entity.EntitySimpleShotgunAmmo;
 import com.uberverse.arkcraft.common.entity.EntitySpear;
 import com.uberverse.arkcraft.common.entity.EntityStone;
+import com.uberverse.arkcraft.common.entity.EntityStoneArrow;
+import com.uberverse.arkcraft.common.entity.EntityTranqArrow;
 import com.uberverse.arkcraft.common.entity.EntityTranquilizer;
 import com.uberverse.arkcraft.common.item.ItemBlueprint;
 import com.uberverse.arkcraft.common.item.ranged.ItemRangedWeapon;
@@ -105,17 +111,20 @@ public class ClientProxy extends CommonProxy
 		registerBlockTexture(ARKCraftBlocks.cropPlot, 1, "crop_plot");
 		registerBlockTexture(ARKCraftBlocks.cropPlot, 2, "crop_plot");
 	}
-	
-	public static void registerBlockRenderer() {
 
-	//	reg(ModBlocks.tutorialTileEntity);
+	public static void registerBlockRenderer()
+	{
 
-	//	ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrystal.class, new TileEntityCrystalRender());
+		// reg(ModBlocks.tutorialTileEntity);
+
+		// ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrystal.class, new TileEntityCrystalRender());
 	}
 
-    public static void reg(Block block) {
-        Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(ARKCraft.MODID + ":" + block.getUnlocalizedName().substring(5), "inventory"));
-    }
+	public static void reg(Block block)
+	{
+		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(block), 0,
+				new ModelResourceLocation(ARKCraft.MODID + ":" + block.getUnlocalizedName().substring(5), "inventory"));
+	}
 
 	private void registerBlockTexture(final Block block, int meta, final String blockName)
 	{
@@ -183,6 +192,10 @@ public class ClientProxy extends CommonProxy
 		{
 			RenderingRegistry.registerEntityRenderingHandler(EntityAdvancedBullet.class, new RenderAdvancedBullet());
 		}
+
+		RenderingRegistry.registerEntityRenderingHandler(EntityStoneArrow.class, new RenderStoneArrow());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMetalArrow.class, new RenderMetalArrow());
+		RenderingRegistry.registerEntityRenderingHandler(EntityTranqArrow.class, new RenderTranqArrow());
 	}
 
 	@Override

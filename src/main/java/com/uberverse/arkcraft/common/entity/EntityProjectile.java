@@ -2,6 +2,9 @@ package com.uberverse.arkcraft.common.entity;
 
 import java.util.List;
 
+import com.uberverse.arkcraft.common.data.WeaponDamageSource;
+import com.uberverse.lib.LogHelper;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -26,9 +29,6 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.uberverse.arkcraft.common.data.WeaponDamageSource;
-import com.uberverse.lib.LogHelper;
 
 public abstract class EntityProjectile extends Entity implements IProjectile
 {
@@ -87,10 +87,7 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 		super(worldIn);
 		this.shootingEntity = shooter;
 
-		if (shooter instanceof EntityPlayer)
-		{
-			this.canBePickedUp = 0;
-		}
+		this.canBePickedUp = 0;
 		this.damage = damage;
 		this.range = range;
 		this.setSize(0.05F, 0.05F);

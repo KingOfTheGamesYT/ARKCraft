@@ -1,10 +1,16 @@
 package com.uberverse.arkcraft.common.item.ranged;
 
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
+import java.util.List;
 
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.entity.EntityMetalArrow;
+import com.uberverse.arkcraft.common.entity.EntityStoneArrow;
+import com.uberverse.arkcraft.common.entity.EntityTranqArrow;
+import com.uberverse.arkcraft.common.item.ammo.ItemArrow;
+import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
+import com.uberverse.arkcraft.util.I18n;
+
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.Item;
@@ -15,93 +21,118 @@ import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
 
 public class ItemARKBow extends ItemBow
-{	
-	public static ItemStack stack;
-	
-	public ItemARKBow()
+{
+	private float power;
+
+	public ItemARKBow(float power)
 	{
+		this.power = power;
 		setCreativeTab(ARKCraft.tabARK);
+	}
+
+	@Override
+	public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int useRemaining)
+	{
+		ModelResourceLocation modelresourcelocation = new ModelResourceLocation(ARKCraft.MODID + ":bow", "inventory");
+
+		if (stack.getItem() == this && player.getItemInUse() != null)
+		{
+			if (useRemaining >= 18)
+			{
+				modelresourcelocation = new ModelResourceLocation(ARKCraft.MODID + ":bow_pulling_2", "inventory");
+			}
+			else if (useRemaining > 13)
+			{
+				modelresourcelocation = new ModelResourceLocation(ARKCraft.MODID + ":bow_pulling_1", "inventory");
+			}
+			else if (useRemaining > 0)
+			{
+				modelresourcelocation = new ModelResourceLocation(ARKCraft.MODID + ":bow_pulling_0", "inventory");
+			}
+		}
+		return modelresourcelocation;
 	}
 
 	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
 	{
-		net.minecraftforge.event.entity.player.ArrowNockEvent event =
-				new net.minecraftforge.event.entity.player.ArrowNockEvent(playerIn, itemStackIn);
-		if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event)) return event.result;
+		if (playerIn.isSneaking())
+		{
+			String currentSelection = getSelectedArrow(itemStackIn);
+			for (int i = 0; i < playerIn.inventory.getSizeInventory(); i++)
+			{
+				ItemStack itemstack = playerIn.inventory.getStackInSlot(i);
+				if (itemstack != null && itemstack.getItem() instanceof ItemArrow)
+				{
+					String newSelection = itemstack.getUnlocalizedName();
+					if (!newSelection.equals(currentSelection)) setSelectedArrow(itemStackIn, itemstack);
+				}
+			}
+			return itemStackIn;
+		}
 
 		if (playerIn.capabilities.isCreativeMode)
 		{
 			playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
+			if (getSelectedArrow(itemStackIn).isEmpty()) setSelectedArrow(itemStackIn, new ItemStack(
+					ARKCraftRangedWeapons.stone_arrow));
 		}
 		else
 		{
-			if(getArrowType(itemStackIn) != null)
+			// if (getArrowType(itemStackIn) != null)
+			if (!getSelectedArrow(itemStackIn).isEmpty())
 			{
-				playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
-			}
-			
-			/*
-			for (int i = 0; i < playerIn.inventory.getSizeInventory(); i++)
-			{
-				ItemStack stack = playerIn.inventory.getStackInSlot(i);
-
-				if (stack != null && stack.getItem() instanceof ItemArrow)
+				String selected = getSelectedArrow(itemStackIn);
+				boolean flag = false;
+				if (selected.equals(ARKCraftRangedWeapons.stone_arrow.getUnlocalizedName()))
 				{
-					if (stack.getItem() == ARKCraftRangedWeapons.stone_arrow)
-					{
-						setArrowType(stack, "stone");
-					}
-					else if (stack.getItem() == ARKCraftRangedWeapons.metal_arrow)
-					{
-						setArrowType(stack, "metal");
-					}
-					else if (stack.getItem() == ARKCraftRangedWeapons.tranq_arrow)
-					{
-						setArrowType(stack, "tranq");
-					}
-					playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
-					break;
-				}	 
-			} */
+					if (playerIn.inventory.hasItem((ARKCraftRangedWeapons.stone_arrow))) flag = true;
+				}
+				// else if (getArrowType(stack).equals("metal_arrow"))
+				else if (selected.equals(ARKCraftRangedWeapons.metal_arrow.getUnlocalizedName()))
+				{
+					if (playerIn.inventory.hasItem((ARKCraftRangedWeapons.metal_arrow))) flag = true;
+				}
+				// else if (getArrowType(stack).equals("tranq_arrow"))
+				else if (selected.equals(ARKCraftRangedWeapons.tranq_arrow.getUnlocalizedName()))
+				{
+					if (playerIn.inventory.hasItem((ARKCraftRangedWeapons.tranq_arrow))) flag = true;
+				}
+				if (flag) playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
+			}
 		}
 		return itemStackIn;
 	}
+	//
+	// public static String getArrowType(ItemStack stack)
+	// {
+	// if (!stack.hasTagCompound()) setArrowType(stack, null);
+	// return stack.getTagCompound().getString("arrowtype");
+	// }
+	//
+	// public static void setArrowType(ItemStack bow, ItemStack arrow)
+	// {
+	// if (!bow.hasTagCompound()) bow.setTagCompound(new NBTTagCompound());
+	// bow.getTagCompound().setString("arrowtype", arrow != null ? arrow.getUnlocalizedName() : "");
+	// }
 
-	public static String getArrowType(ItemStack stack)
+	public static String getSelectedArrow(ItemStack bow)
 	{
-		if (!stack.hasTagCompound()) setArrowType(stack, "none");
-		return stack.getTagCompound().getString("arrowtype");
+		if (!bow.hasTagCompound()) setSelectedArrow(bow, null);
+		return bow.getTagCompound().getString("selectedarrow");
 	}
 
-	public static void setArrowType(ItemStack stack, String s)
+	public static void setSelectedArrow(ItemStack bow, ItemStack arrow)
 	{
-		System.out.println(s + " " + stack);
-		
-		//if (!stack.hasTagCompound()) 
-			stack.setTagCompound(new NBTTagCompound());
-		stack.getTagCompound().setString("arrowtype", s);
+		if (!bow.hasTagCompound()) bow.setTagCompound(new NBTTagCompound());
+		bow.getTagCompound().setString("selectedarrow", arrow != null ? arrow.getUnlocalizedName() : "");
 	}
-	
-//	public static ItemStack getArrowSelected(ItemStack stack)
-//	{
-//		return ItemArrow.selecetedArrow(stack);
-//	}
-	
 
 	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityPlayer playerIn, int timeLeft)
 	{
-		int j = this.getMaxItemUseDuration(stack) - timeLeft;
-		//// net.minecraftforge.event.entity.player.ArrowLooseEvent event =
-		//// new net.minecraftforge.event.entity.player.ArrowLooseEvent(playerIn, stack, j);
-		//// if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event)) return;
-		// j = event.charge;
-
-		boolean flag = playerIn.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(
-				Enchantment.infinity.effectId, stack) > 0;
-
-		if (flag)
+		if (!worldIn.isRemote)
 		{
-		//	System.out.println(getArrowType(stack));
+			int j = this.getMaxItemUseDuration(stack) - timeLeft;
+
 			float f = (float) j / 20.0F;
 			f = (f * f + f * 2.0F) / 3.0F;
 
@@ -112,30 +143,35 @@ public class ItemARKBow extends ItemBow
 				f = 1.0F;
 			}
 
-			EntityArrow entityarrow = new EntityArrow(worldIn, playerIn, f * 2.0F);
+			float speed = f * 2 * 1.5f * power;
+
+			// EntityArrow entityarrow = new EntityArrow(worldIn, playerIn, speed);
+
+			EntityArrow entityarrow = null;
+
+			// if (getArrowType(stack).equals("stone_arrow"))
+			if (getSelectedArrow(stack).equals(ARKCraftRangedWeapons.stone_arrow.getUnlocalizedName()))
+			{
+				if (playerIn.capabilities.isCreativeMode || playerIn.inventory.consumeInventoryItem(
+						ARKCraftRangedWeapons.stone_arrow)) entityarrow = new EntityStoneArrow(worldIn, playerIn,
+								speed);
+			}
+			// else if (getArrowType(stack).equals("metal_arrow"))
+			else if (getSelectedArrow(stack).equals(ARKCraftRangedWeapons.metal_arrow.getUnlocalizedName()))
+			{
+				if (playerIn.inventory.consumeInventoryItem(ARKCraftRangedWeapons.metal_arrow)) entityarrow =
+						new EntityMetalArrow(worldIn, playerIn, speed);
+			}
+			// else if (getArrowType(stack).equals("tranq_arrow"))
+			else if (getSelectedArrow(stack).equals(ARKCraftRangedWeapons.tranq_arrow.getUnlocalizedName()))
+			{
+				if (playerIn.inventory.consumeInventoryItem(ARKCraftRangedWeapons.tranq_arrow)) entityarrow =
+						new EntityTranqArrow(worldIn, playerIn, speed);
+			}
 
 			if (f == 1.0F)
 			{
 				entityarrow.setIsCritical(true);
-			}
-
-			int k = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, stack);
-
-			if (k > 0)
-			{
-				entityarrow.setDamage(entityarrow.getDamage() + (double) k * 0.5D + 0.5D);
-			}
-
-			int l = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, stack);
-
-			if (l > 0)
-			{
-				entityarrow.setKnockbackStrength(l);
-			}
-
-			if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, stack) > 0)
-			{
-				entityarrow.setFire(100);
 			}
 
 			stack.damageItem(1, playerIn);
@@ -144,30 +180,23 @@ public class ItemARKBow extends ItemBow
 
 			entityarrow.canBePickedUp = 2;
 
-			}
-			
-			if (getArrowType(stack).equals("stone_arrow"))
-			{
-				System.out.println("remove");
-				playerIn.inventory.consumeInventoryItem(ARKCraftRangedWeapons.stone_arrow);
-			}
-			else if (getArrowType(stack).equals("metal_arrow"))
-			{
-				playerIn.inventory.consumeInventoryItem(ARKCraftRangedWeapons.metal_arrow);
-			}
-			else if (getArrowType(stack).equals("tranq_arrow"))
-			{
-				playerIn.inventory.consumeInventoryItem(ARKCraftRangedWeapons.tranq_arrow);
-			}
-			setArrowType(stack, "");			
-
 			playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
 
-		//	if (!worldIn.isRemote)
-		//	{
-		//		System.out.println("shoot");
-		//		worldIn.spawnEntityInWorld(entityarrow);
-		//	}
-		
+			worldIn.spawnEntityInWorld(entityarrow);
+		}
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced)
+	{
+		super.addInformation(stack, playerIn, tooltip, advanced);
+		String out = getSelectedArrow(stack);
+		if (!out.isEmpty()) tooltip.add(I18n.format(out + ".name"));
+	}
+
+	@Override
+	public int getItemEnchantability()
+	{
+		return 0;
 	}
 }
