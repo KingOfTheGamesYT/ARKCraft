@@ -44,22 +44,25 @@ public abstract class BlockARKResource extends Block implements IExperienceSourc
 	@Override
 	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player)
 	{
-		grantXP(ARKPlayer.get(player));
-
-		ItemStack stack = player.getHeldItem();
-		if (stack != null && stack.getItem() instanceof ItemToolBase)
+		if (!player.capabilities.isCreativeMode)
 		{
-			ItemToolBase tool = (ItemToolBase) stack.getItem();
+			grantXP(ARKPlayer.get(player));
 
-			Collection<AbstractItemStack> list = getDrops();
-
-			list = tool.applyOutputModifiers(list, stack);
-
-			for (AbstractItemStack ais : list)
+			ItemStack stack = player.getHeldItem();
+			if (stack != null && stack.getItem() instanceof ItemToolBase)
 			{
-				for (ItemStack s : ais.toItemStacks())
+				ItemToolBase tool = (ItemToolBase) stack.getItem();
+
+				Collection<AbstractItemStack> list = getDrops();
+
+				list = tool.applyOutputModifiers(list, stack);
+
+				for (AbstractItemStack ais : list)
 				{
-					worldIn.spawnEntityInWorld(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), s));
+					for (ItemStack s : ais.toItemStacks())
+					{
+						worldIn.spawnEntityInWorld(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), s));
+					}
 				}
 			}
 		}
