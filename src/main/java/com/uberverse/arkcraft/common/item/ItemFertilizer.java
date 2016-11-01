@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 
 public class ItemFertilizer extends ARKCraftItem
 {
@@ -51,5 +52,12 @@ public class ItemFertilizer extends ARKCraftItem
 	{
 		if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
 		stack.getTagCompound().setLong("fertilizer", f);
+	}
+	
+	@Override
+	public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) 
+	{
+		super.onCreated(stack, worldIn, playerIn);
+		setFertilizingValueLeft(stack, fertilizingTime);
 	}
 }

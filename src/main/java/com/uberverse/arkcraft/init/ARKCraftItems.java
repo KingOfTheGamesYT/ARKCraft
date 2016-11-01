@@ -200,10 +200,10 @@ public class ARKCraftItems
 		stimBerrySeed = addSeedItem("stimBerrySeed", CropPlotType.SMALL, BerryColor.STIM);
 
 		// feces
-		small_feces = init.registerItem("small_feces", new ARKCraftFeces(1600, 1600));
-		medium_feces = init.registerItem("medium_feces", new ARKCraftFeces(1600, 1600));
-		large_feces = init.registerItem("large_feces", new ARKCraftFeces(1600, 1600));
-		player_feces = init.registerItem("human_feces", new ARKCraftFeces(1600, 1600));
+		small_feces = init.registerItem("small_feces", new ARKCraftFeces(1600, 50000));
+		medium_feces = init.registerItem("medium_feces", new ARKCraftFeces(1600,  100000));
+		large_feces = init.registerItem("large_feces", new ARKCraftFeces(1600, 200000));
+		player_feces = init.registerItem("human_feces", new ARKCraftFeces(1600, 50000));
 
 		// fertilizer
 		fertilizer = init.registerItem("fertilizer", new ItemFertilizer(54000));
