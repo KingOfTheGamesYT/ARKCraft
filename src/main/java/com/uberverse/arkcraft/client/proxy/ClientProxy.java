@@ -163,6 +163,9 @@ public class ClientProxy extends CommonProxy
 	{
 		RenderingRegistry.registerEntityRenderingHandler(EntityStone.class, new RenderSnowball(Minecraft.getMinecraft()
 				.getRenderManager(), ARKCraftItems.stone, Minecraft.getMinecraft().getRenderItem()));
+		RenderingRegistry.registerEntityRenderingHandler(EntityStoneArrow.class, new RenderStoneArrow());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMetalArrow.class, new RenderMetalArrow());
+		RenderingRegistry.registerEntityRenderingHandler(EntityTranqArrow.class, new RenderTranqArrow());
 
 		// RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class,
 		// new RenderSnowball(Minecraft.getMinecraft().getRenderManager(),
@@ -192,10 +195,6 @@ public class ClientProxy extends CommonProxy
 		{
 			RenderingRegistry.registerEntityRenderingHandler(EntityAdvancedBullet.class, new RenderAdvancedBullet());
 		}
-
-		RenderingRegistry.registerEntityRenderingHandler(EntityStoneArrow.class, new RenderStoneArrow());
-		RenderingRegistry.registerEntityRenderingHandler(EntityMetalArrow.class, new RenderMetalArrow());
-		RenderingRegistry.registerEntityRenderingHandler(EntityTranqArrow.class, new RenderTranqArrow());
 	}
 
 	@Override

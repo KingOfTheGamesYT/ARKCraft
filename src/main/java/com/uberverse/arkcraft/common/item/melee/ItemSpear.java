@@ -44,7 +44,7 @@ public class ItemSpear extends ItemSword
 			world.playSoundAtEntity(entityplayer, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 0.8F));
 			if (!world.isRemote)
 			{
-				EntitySpear entitySpear = new EntitySpear(world, entityplayer, f * (1.0F + (crit ? 0.5F : 0F)));
+				EntitySpear entitySpear = new EntitySpear(world, entityplayer, f * (1.0F + (crit ? 0.5F : 0F)), 1.4F, 12, 200);
 				entitySpear.setIsCritical(crit);
 				world.spawnEntityInWorld(entitySpear);
 			}

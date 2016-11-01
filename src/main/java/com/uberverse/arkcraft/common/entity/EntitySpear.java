@@ -25,7 +25,7 @@ public class EntitySpear extends EntityProjectile
 		setPosition(x, y, z);
 	}
 
-	public EntitySpear(World world, EntityLivingBase entityliving, float speed)
+	public EntitySpear(World world, EntityLivingBase entityliving, float speed, float inaccuracy, double damage, int range)
 	{
 		this(world);
 		shootingEntity = entityliving;

@@ -1,6 +1,9 @@
 package com.uberverse.arkcraft.common.entity;
 
+import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
+
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class EntityStoneArrow extends EntityArkArrow
@@ -17,15 +20,15 @@ public class EntityStoneArrow extends EntityArkArrow
 		this.setDamage(3);
 	}
 
-	public EntityStoneArrow(World worldIn, EntityLivingBase shooter, EntityLivingBase target, float speed, float accuracy)
+	public EntityStoneArrow(World worldIn, EntityLivingBase shooter, float speed, float inaccuracy, double damage, int range)
 	{
-		super(worldIn, shooter, target, speed, accuracy);
+		super(worldIn, shooter, speed, inaccuracy, damage, range);
 		this.setDamage(3);
 	}
-
-	public EntityStoneArrow(World worldIn, EntityLivingBase shooter, float speed)
+	
+	@Override
+	public ItemStack getPickupItem()
 	{
-		super(worldIn, shooter, speed);
-		this.setDamage(3);
+		return new ItemStack(ARKCraftRangedWeapons.stone_arrow, 1);
 	}
 }

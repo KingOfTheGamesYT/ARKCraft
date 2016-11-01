@@ -3,7 +3,6 @@ package com.uberverse.arkcraft.common.item.ammo;
 import com.uberverse.arkcraft.ARKCraft;
 
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 
 public class ItemArrow extends Item
 {

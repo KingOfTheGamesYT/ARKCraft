@@ -1,8 +1,10 @@
 package com.uberverse.arkcraft.common.entity;
 
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
+import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class EntityTranqArrow extends EntityArkArrow implements ITranquilizer
@@ -19,15 +21,9 @@ public class EntityTranqArrow extends EntityArkArrow implements ITranquilizer
 		this.setDamage(1);
 	}
 
-	public EntityTranqArrow(World worldIn, EntityLivingBase shooter, EntityLivingBase p_i1755_3_, float p_i1755_4_, float p_i1755_5_)
+	public EntityTranqArrow(World worldIn, EntityLivingBase shooter, float speed, float inaccuracy, double damage, int range)
 	{
-		super(worldIn, shooter, p_i1755_3_, p_i1755_4_, p_i1755_5_);
-		this.setDamage(1);
-	}
-
-	public EntityTranqArrow(World worldIn, EntityLivingBase shooter, float speed)
-	{
-		super(worldIn, shooter, speed);
+		super(worldIn, shooter, speed, inaccuracy, damage, range);
 		this.setDamage(1);
 	}
 
@@ -35,5 +31,11 @@ public class EntityTranqArrow extends EntityArkArrow implements ITranquilizer
 	public int getTorpor()
 	{
 		return ModuleItemBalance.WEAPONS.TRANQ_ARROW_TORPOR_TIME;
+	}
+	
+	@Override
+	public ItemStack getPickupItem()
+	{
+		return new ItemStack(ARKCraftRangedWeapons.tranq_arrow, 1);
 	}
 }

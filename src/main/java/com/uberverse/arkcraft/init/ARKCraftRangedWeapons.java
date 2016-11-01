@@ -76,8 +76,8 @@ public class ARKCraftRangedWeapons
 		EntityHandler.registerModEntity(EntityStone.class, "stone", ARKCraft.instance(), 64, 10, true);
 		EntityHandler.registerModEntity(EntitySpear.class, "spear", ARKCraft.instance(), 16, 20, true);
 		EntityHandler.registerModEntity(EntityStoneArrow.class, "stone_arrow", ARKCraft.instance(), 64, 10, true);
-		EntityHandler.registerModEntity(EntityMetalArrow.class, "stone_arrow", ARKCraft.instance(), 64, 10, true);
-		EntityHandler.registerModEntity(EntityTranqArrow.class, "stone_arrow", ARKCraft.instance(), 64, 10, true);
+		EntityHandler.registerModEntity(EntityMetalArrow.class, "metal_arrow", ARKCraft.instance(), 64, 10, true);
+		EntityHandler.registerModEntity(EntityTranqArrow.class, "tranq_arrow", ARKCraft.instance(), 64, 10, true);
 
 		registerDispenseBehavior();
 		registerWeaponEntities();
