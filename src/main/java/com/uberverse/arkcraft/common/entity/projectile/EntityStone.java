@@ -1,4 +1,6 @@
-package com.uberverse.arkcraft.common.entity;
+package com.uberverse.arkcraft.common.entity.projectile;
+
+import com.uberverse.arkcraft.common.entity.ITranquilizer;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;

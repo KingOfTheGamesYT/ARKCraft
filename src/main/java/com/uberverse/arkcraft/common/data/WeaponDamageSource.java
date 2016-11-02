@@ -1,10 +1,10 @@
 package com.uberverse.arkcraft.common.data;
 
+import com.uberverse.arkcraft.common.entity.projectile.EntityProjectile;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
-
-import com.uberverse.arkcraft.common.entity.EntityProjectile;
 
 public class WeaponDamageSource extends EntityDamageSourceIndirect
 {

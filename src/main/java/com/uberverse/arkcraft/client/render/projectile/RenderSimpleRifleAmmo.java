@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.entity.EntitySimpleRifleAmmo;
+import com.uberverse.arkcraft.common.entity.projectile.EntitySimpleRifleAmmo;
 
 public class RenderSimpleRifleAmmo extends Render
 {

@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.entity.EntitySimpleBullet;
+import com.uberverse.arkcraft.common.entity.projectile.EntitySimpleBullet;
 
 public class RenderSimpleBullet extends Render
 {

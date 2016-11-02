@@ -1,5 +1,7 @@
 package com.uberverse.arkcraft.common.entity.dispense;
 
+import com.uberverse.arkcraft.common.entity.projectile.EntityRocketPropelledGrenade;
+
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.dispenser.IPosition;
@@ -7,8 +9,6 @@ import net.minecraft.entity.IProjectile;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
-
-import com.uberverse.arkcraft.common.entity.EntityRocketPropelledGrenade;
 
 public class DispenseRocketPropelledGrenade extends DispenseWeaponProjectile
 {

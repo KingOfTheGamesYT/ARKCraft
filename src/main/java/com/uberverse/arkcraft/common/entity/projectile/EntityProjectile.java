@@ -1,8 +1,9 @@
-package com.uberverse.arkcraft.common.entity;
+package com.uberverse.arkcraft.common.entity.projectile;
 
 import java.util.List;
 
 import com.uberverse.arkcraft.common.data.WeaponDamageSource;
+import com.uberverse.arkcraft.common.entity.ITranquilizer;
 import com.uberverse.lib.LogHelper;
 
 import net.minecraft.block.Block;

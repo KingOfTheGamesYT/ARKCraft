@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.entity.EntitySimpleShotgunAmmo;
+import com.uberverse.arkcraft.common.entity.projectile.EntitySimpleShotgunAmmo;
 
 public class RenderSimpleShotgunAmmo extends Render
 {

@@ -3,7 +3,7 @@ package com.uberverse.arkcraft.client.render.projectile;
 import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.entity.EntityMetalArrow;
+import com.uberverse.arkcraft.common.entity.projectile.EntityMetalArrow;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;

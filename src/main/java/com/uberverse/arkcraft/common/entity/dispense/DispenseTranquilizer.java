@@ -9,7 +9,7 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.entity.EntityTranquilizer;
+import com.uberverse.arkcraft.common.entity.projectile.EntityTranquilizer;
 
 public class DispenseTranquilizer extends DispenseWeaponProjectile
 {

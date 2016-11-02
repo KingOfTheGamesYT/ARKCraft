@@ -1,12 +1,12 @@
 package com.uberverse.arkcraft.common.item.explosives;
 
+import com.uberverse.arkcraft.common.entity.projectile.EntityGrenade;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-
-import com.uberverse.arkcraft.common.entity.EntityGrenade;
 
 public class ItemGrenade extends Item
 {

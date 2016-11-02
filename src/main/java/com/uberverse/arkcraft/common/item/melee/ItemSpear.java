@@ -1,7 +1,7 @@
 package com.uberverse.arkcraft.common.item.melee;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.entity.EntitySpear;
+import com.uberverse.arkcraft.common.entity.projectile.EntitySpear;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;

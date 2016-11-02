@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.common.entity;
+package com.uberverse.arkcraft.common.entity.projectile;
 
 public enum ProjectileType
 {

@@ -1,11 +1,10 @@
-package com.uberverse.arkcraft.common.entity;
+package com.uberverse.arkcraft.common.entity.projectile;
 
 import com.uberverse.arkcraft.common.data.WeaponDamageSource;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 

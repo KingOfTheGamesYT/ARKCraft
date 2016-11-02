@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.entity.EntityTranquilizer;
+import com.uberverse.arkcraft.common.entity.projectile.EntityTranquilizer;
 
 public class RenderTranquilizer extends Render
 {

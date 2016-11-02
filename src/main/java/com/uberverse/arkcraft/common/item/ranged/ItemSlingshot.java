@@ -1,7 +1,7 @@
 package com.uberverse.arkcraft.common.item.ranged;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.entity.EntityStone;
+import com.uberverse.arkcraft.common.entity.projectile.EntityStone;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 
 import net.minecraft.client.resources.model.ModelResourceLocation;

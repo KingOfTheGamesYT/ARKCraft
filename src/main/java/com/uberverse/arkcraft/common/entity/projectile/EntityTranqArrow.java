@@ -1,6 +1,7 @@
-package com.uberverse.arkcraft.common.entity;
+package com.uberverse.arkcraft.common.entity.projectile;
 
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
+import com.uberverse.arkcraft.common.entity.ITranquilizer;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
 
 import net.minecraft.entity.EntityLivingBase;

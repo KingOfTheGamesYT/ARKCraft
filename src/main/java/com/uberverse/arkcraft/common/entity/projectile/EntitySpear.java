@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.common.entity;
+package com.uberverse.arkcraft.common.entity.projectile;
 
 import com.uberverse.arkcraft.common.data.WeaponDamageSource;
 import com.uberverse.arkcraft.init.ARKCraftItems;

@@ -3,8 +3,8 @@ package com.uberverse.arkcraft.client.render.projectile;
 import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.entity.EntityStoneArrow;
-import com.uberverse.arkcraft.common.entity.EntityTranqArrow;
+import com.uberverse.arkcraft.common.entity.projectile.EntityStoneArrow;
+import com.uberverse.arkcraft.common.entity.projectile.EntityTranqArrow;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;

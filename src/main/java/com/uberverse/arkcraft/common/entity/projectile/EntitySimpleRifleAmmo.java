@@ -1,24 +1,25 @@
-package com.uberverse.arkcraft.common.entity;
+package com.uberverse.arkcraft.common.entity.projectile;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-public class EntityAdvancedBullet extends EntityProjectile
+public class EntitySimpleRifleAmmo extends EntityProjectile
 {
-	public EntityAdvancedBullet(World world)
+
+	public EntitySimpleRifleAmmo(World world)
 	{
 		super(world);
 	}
 
-	public EntityAdvancedBullet(World world, double d, double d1, double d2)
+	public EntitySimpleRifleAmmo(World world, double x, double y, double z)
 	{
 		this(world);
-		setPosition(d, d1, d2);
+		setPosition(x, y, z);
 	}
 
-	public EntityAdvancedBullet(World worldIn, EntityLivingBase shooter, float speed, float inaccuracy, double damage, int range)
+	public EntitySimpleRifleAmmo(World worldIn, EntityLivingBase shooter, float speed, float inaccuracy, double damage, int range)
 	{
 		super(worldIn, shooter, speed, inaccuracy, damage, range);
 	}
@@ -50,5 +51,4 @@ public class EntityAdvancedBullet extends EntityProjectile
 		breakGlass(movingobjectposition);
 		this.setDead();
 	}
-
 }

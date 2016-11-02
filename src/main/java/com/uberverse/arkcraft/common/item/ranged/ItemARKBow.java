@@ -3,17 +3,16 @@ package com.uberverse.arkcraft.common.item.ranged;
 import java.util.List;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.entity.EntityMetalArrow;
-import com.uberverse.arkcraft.common.entity.EntityProjectile;
-import com.uberverse.arkcraft.common.entity.EntityStoneArrow;
-import com.uberverse.arkcraft.common.entity.EntityTranqArrow;
+import com.uberverse.arkcraft.common.entity.projectile.EntityMetalArrow;
+import com.uberverse.arkcraft.common.entity.projectile.EntityProjectile;
+import com.uberverse.arkcraft.common.entity.projectile.EntityStoneArrow;
+import com.uberverse.arkcraft.common.entity.projectile.EntityTranqArrow;
 import com.uberverse.arkcraft.common.item.ammo.ItemArrow;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
 import com.uberverse.arkcraft.util.I18n;
 
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
@@ -161,15 +160,13 @@ public class ItemARKBow extends ItemBow
 			else if (getSelectedArrow(stack).equals(ARKCraftRangedWeapons.metal_arrow.getUnlocalizedName()))
 			{
 				if (playerIn.inventory.consumeInventoryItem(ARKCraftRangedWeapons.metal_arrow)) entityarrow =
-						new EntityMetalArrow(worldIn, playerIn, 
-								speed);
+						new EntityMetalArrow(worldIn, playerIn, speed);
 			}
 			// else if (getArrowType(stack).equals("tranq_arrow"))
 			else if (getSelectedArrow(stack).equals(ARKCraftRangedWeapons.tranq_arrow.getUnlocalizedName()))
 			{
 				if (playerIn.inventory.consumeInventoryItem(ARKCraftRangedWeapons.tranq_arrow)) entityarrow =
-						new EntityTranqArrow(worldIn, playerIn, 
-								speed);
+						new EntityTranqArrow(worldIn, playerIn, speed);
 			}
 
 			if (f == 1.0F)

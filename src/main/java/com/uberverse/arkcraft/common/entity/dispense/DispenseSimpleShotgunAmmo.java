@@ -11,7 +11,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.entity.EntitySimpleShotgunAmmo;
+import com.uberverse.arkcraft.common.entity.projectile.EntitySimpleShotgunAmmo;
 
 public class DispenseSimpleShotgunAmmo extends BehaviorDefaultDispenseItem
 {

@@ -6,7 +6,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
-import com.uberverse.arkcraft.common.entity.EntityProjectile;
+import com.uberverse.arkcraft.common.entity.projectile.EntityProjectile;
 import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
 
 public class ItemShotgun extends ItemRangedWeapon implements NonSupporting
