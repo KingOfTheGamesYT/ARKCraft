@@ -5,6 +5,7 @@
 !.gitignore
 !.gitattributes
 !*.md
+!versionupdater.jar
 *.db
 *.DS_Store
 /gradle/*
