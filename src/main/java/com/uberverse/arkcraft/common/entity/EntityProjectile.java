@@ -86,7 +86,6 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 	{
 		super(worldIn);
 		this.shootingEntity = shooter;
-
 		this.canBePickedUp = 0;
 		this.damage = damage;
 		this.range = range;
@@ -104,12 +103,33 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 		this.motionY = (double) (-MathHelper.sin(this.rotationPitch / 180.0F * (float) Math.PI));
 		setThrowableHeading(motionX, motionY, motionZ, speed, inaccuracy);
 	}
+	
+	public EntityProjectile(World world, EntityLivingBase entityliving, float speed)
+	{
+		this(world);
+		shootingEntity = entityliving;
+		if (entityliving instanceof EntityPlayer)
+		{
+			this.canBePickedUp = 1;
+		}
+		setLocationAndAngles(entityliving.posX, entityliving.posY + entityliving.getEyeHeight(), entityliving.posZ,
+				entityliving.rotationYaw, entityliving.rotationPitch);
+		posX -= MathHelper.cos((rotationYaw / 180F) * 3.141593F) * 0.16F;
+		posY -= 0.1D;
+		posZ -= MathHelper.sin((rotationYaw / 180F) * 3.141593F) * 0.16F;
+		setPosition(posX, posY, posZ);
+		motionX = -MathHelper.sin((rotationYaw / 180F) * 3.141593F) * MathHelper.cos((rotationPitch / 180F)
+				* 3.141593F);
+		motionY = -MathHelper.sin((rotationPitch / 180F) * 3.141593F);
+		motionZ = MathHelper.cos((rotationYaw / 180F) * 3.141593F) * MathHelper.cos((rotationPitch / 180F) * 3.141593F);
+		setThrowableHeading(motionX, motionY, motionZ, speed * 1.2F, 2.0F);
+	}
 
 	public EntityProjectile(World worldIn, EntityLivingBase shooter, float speed, double damage, int range)
 	{
 		this(worldIn, shooter, speed, 1.0F, damage, range);
 	}
-
+	
 	protected void entityInit()
 	{
 		this.dataWatcher.addObject(16, Byte.valueOf((byte) 0));
@@ -376,12 +396,16 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 			this.doBlockCollisions();
 		}
 
-		worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, posX, posY, posZ, 0.0D, 0.0D, 0.0D);
-		range();
+//		worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, posX, posY, posZ, 0.0D, 0.0D, 0.0D);
+		
+	//	System.out.println(ticksInAir);
+		gunRange();
 	}
 
-	public void range()
+	public void gunRange()
 	{
+		System.out.println(ticksInAir);
+		worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, posX, posY, posZ, 0.0D, 0.0D, 0.0D);
 		if (ticksInAir >= range)
 		{
 			this.setDead();

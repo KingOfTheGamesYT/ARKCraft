@@ -22,27 +22,9 @@ public abstract class EntityArkArrow extends EntityProjectile
 		setPosition(x, y, z);
 	}
 
-	public EntityArkArrow(World worldIn, EntityLivingBase shooter, float speed, float inaccuracy, double damage, int range)
+	public EntityArkArrow(World world, EntityLivingBase entityliving, float speed)
 	{
-		super(worldIn);
-		this.shootingEntity = shooter;
-
-		this.canBePickedUp = 0;
-		this.damage = damage;
-		this.range = range;
-		this.setSize(0.05F, 0.05F);
-		this.setLocationAndAngles(shooter.posX, shooter.posY + (double) shooter.getEyeHeight(), shooter.posZ,
-				shooter.rotationYaw, shooter.rotationPitch);
-		this.posX -= (double) (MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * 0.16F);
-		this.posY -= 0.10000000149011612D;
-		this.posZ -= (double) (MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * 0.16F);
-		this.setPosition(this.posX, this.posY, this.posZ);
-		this.motionX = (double) (-MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(
-				this.rotationPitch / 180.0F * (float) Math.PI));
-		this.motionZ = (double) (MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(
-				this.rotationPitch / 180.0F * (float) Math.PI));
-		this.motionY = (double) (-MathHelper.sin(this.rotationPitch / 180.0F * (float) Math.PI));
-		setThrowableHeading(motionX, motionY, motionZ, speed*1.2f, inaccuracy);
+		super(world, entityliving, speed);
 	}
 
 	@Override
@@ -97,5 +79,10 @@ public abstract class EntityArkArrow extends EntityProjectile
 	public int getMaxArrowShake()
 	{
 		return 4;
+	}
+	
+	@Override
+	public void gunRange()
+	{		
 	}
 }

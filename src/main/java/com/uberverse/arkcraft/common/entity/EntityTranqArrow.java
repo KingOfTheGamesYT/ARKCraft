@@ -21,9 +21,9 @@ public class EntityTranqArrow extends EntityArkArrow implements ITranquilizer
 		this.setDamage(1);
 	}
 
-	public EntityTranqArrow(World worldIn, EntityLivingBase shooter, float speed, float inaccuracy, double damage, int range)
+	public EntityTranqArrow(World worldIn, EntityLivingBase shooter, float speed)
 	{
-		super(worldIn, shooter, speed, inaccuracy, damage, range);
+		super(worldIn, shooter, speed);
 		this.setDamage(1);
 	}
 
