@@ -62,24 +62,25 @@ public abstract class ContainerBurner extends Container implements IBurnerContai
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int sourceSlotIndex)
+	public ItemStack transferStackInSlot(EntityPlayer player, int index)
 	{
-		Slot sourceSlot = (Slot) inventorySlots.get(sourceSlotIndex);
+		if (player.worldObj.isRemote) return null;
+		Slot sourceSlot = (Slot) inventorySlots.get(index);
 		if (sourceSlot == null || !sourceSlot.getHasStack()) return null;
 		ItemStack sourceStack = sourceSlot.getStack();
 		ItemStack copyOfSourceStack = sourceStack.copy();
 
-		if (sourceSlotIndex >= playerSlotStart && sourceSlotIndex < playerSlotStart + 36)
+		if (index >= playerSlotStart && index < playerSlotStart + 36)
 		{
-			if (!mergeItemStack(sourceStack, slotStart, slotEnd + 1, false)) { return null; }
+			if (!mergeItemStack(sourceStack, slotStart, slotEnd, false)) { return null; }
 		}
-		else if (sourceSlotIndex >= slotStart && sourceSlotIndex < slotEnd + 1)
+		else if (index >= slotStart && index < slotEnd + 1)
 		{
 			if (!mergeItemStack(sourceStack, playerSlotStart, playerSlotStart + 36, false)) { return null; }
 		}
 		else
 		{
-			System.err.print("Invalid slotIndex:" + sourceSlotIndex);
+			System.err.print("Invalid slotIndex:" + index);
 			return null;
 		}
 
@@ -91,8 +92,7 @@ public abstract class ContainerBurner extends Container implements IBurnerContai
 		{
 			sourceSlot.onSlotChanged();
 		}
-
-		sourceSlot.onPickupFromSlot(player, sourceStack);
+		// sourceSlot.onPickupFromSlot(player, sourceStack);
 		return copyOfSourceStack;
 	}
 
