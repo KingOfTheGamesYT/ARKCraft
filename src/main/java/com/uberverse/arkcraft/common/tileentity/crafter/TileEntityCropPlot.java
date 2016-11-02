@@ -2,20 +2,6 @@ package com.uberverse.arkcraft.common.tileentity.crafter;
 
 import java.util.List;
 
-import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot;
-import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot.BerryColor;
-import com.uberverse.arkcraft.common.config.ModuleItemBalance.CROP_PLOT;
-import com.uberverse.arkcraft.common.item.ARKCraftSeed;
-import com.uberverse.arkcraft.common.item.ItemBerry;
-import com.uberverse.arkcraft.common.item.ItemFertilizer;
-import com.uberverse.arkcraft.common.item.ItemWaterContainer;
-import com.uberverse.arkcraft.common.tileentity.IDecayer;
-import com.uberverse.arkcraft.common.tileentity.IHoverInfo;
-import com.uberverse.arkcraft.util.I18n;
-import com.uberverse.arkcraft.util.InventoryUtil;
-import com.uberverse.arkcraft.util.Utils;
-import com.uberverse.lib.LogHelper;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -37,11 +23,26 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot;
+import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot.BerryColor;
+import com.uberverse.arkcraft.common.config.ModuleItemBalance.CROP_PLOT;
+import com.uberverse.arkcraft.common.item.ARKCraftSeed;
+import com.uberverse.arkcraft.common.item.ItemBerry;
+import com.uberverse.arkcraft.common.item.ItemFertilizer;
+import com.uberverse.arkcraft.common.item.ItemWaterContainer;
+import com.uberverse.arkcraft.common.tileentity.IDecayer;
+import com.uberverse.arkcraft.common.tileentity.IHoverInfo;
+import com.uberverse.arkcraft.util.I18n;
+import com.uberverse.arkcraft.util.InventoryUtil;
+import com.uberverse.arkcraft.util.Utils;
+import com.uberverse.lib.LogHelper;
+
 public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory, IUpdatePlayerListBox, IHoverInfo,
-		IDecayer
+IDecayer
 {
 	private ItemStack[] stack = new ItemStack[this.getSizeInventory()];
 	private int growthTime = 0;
@@ -245,7 +246,7 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 				{
 					growthTime = CROP_PLOT.SEEDLING_TIME_FOR_BERRY * 20;
 					if (LOG) LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ()
-							+ "]: Started Growing: " + stack[sIndex]);
+					+ "]: Started Growing: " + stack[sIndex]);
 					growing = decrStackSize(sIndex, 1);
 					this.state = CropPlotState.SEEDED;
 				}
@@ -277,7 +278,7 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 							boolean ret = false;
 							if (rand % (worldObj.getDifficulty() == EnumDifficulty.NORMAL ? 40 : (worldObj
 									.getDifficulty() == EnumDifficulty.EASY ? 30 : 20)) == 0 && worldObj
-											.getDifficulty() != EnumDifficulty.HARD)
+									.getDifficulty() != EnumDifficulty.HARD)
 							{
 								ret = TileEntityHopper.func_174918_a(this, growing, null) == null;
 							}
@@ -290,7 +291,7 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 					}
 					if (growthTime < 0)
 					{
-						if (state == CropPlotState.FRUITLING)
+						if (this.state == CropPlotState.FRUITLING)
 						{
 							int d = worldObj.getDifficulty().ordinal();
 							boolean success = d == 0 ? true : worldObj.rand.nextInt(d + 1) == 1;
@@ -314,7 +315,7 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 							this.state = this.state.next();
 							if (LOG) LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos
 									.getZ() + "]: Growing State Updated! Growing: " + growing + ", state: " + this.state
-											.name());
+									.name());
 							if (this.state.getTime() > 0) growthTime = MathHelper.floor_double(this.state.getTime()
 									* (20D * ((worldObj.getDifficulty().ordinal() * 0.5D) + 1)));
 							else growthTime = -1;
@@ -557,9 +558,7 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 	@SideOnly(Side.CLIENT)
 	public void addInformation(List<String> text)
 	{
-		String seedName = growing != null ? growing.getUnlocalizedName() : "arkcraft.empty";
-		String name = I18n.translate(seedName);
-		if (name.equals(seedName)) name = I18n.format(seedName + ".name");
+		String name = I18n.translate(growing != null ? growing.getUnlocalizedName() + ".name" : "arkcraft.empty");
 		text.add(EnumChatFormatting.YELLOW + I18n.translate("tile.crop_plot." + getType().name().toLowerCase()
 				+ ".name"));
 		text.add(I18n.format("arkcraft.growing") + ": " + I18n.format("arkcraft.cropPlotState.head", name, I18n.format(
