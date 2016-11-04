@@ -56,7 +56,7 @@ public abstract class BlockBurner extends BlockARKContainer
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		return this.getDefaultState().withProperty(BURNING, meta == 1 ? true : false);
+		return this.getDefaultState().withProperty(BURNING, meta == 1);
 	}
 
 	@Override
