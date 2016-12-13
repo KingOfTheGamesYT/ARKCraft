@@ -37,6 +37,7 @@ public interface IBurner extends IInventoryAdder, NBTable
 {
 	public default void updateBurner()
 	{
+		int count = 0;
 		updateBurning();
 		World world = getWorldIA();
 		if (!world.isRemote)
@@ -44,7 +45,11 @@ public interface IBurner extends IInventoryAdder, NBTable
 			Collection<BurnerRecipe> possibleRecipes = BurnerManager.instance().getRecipes(getBurnerType());
 			possibleRecipes = CollectionUtil.filter(possibleRecipes, (BurnerRecipe r) -> canCook(r));
 
-			if (this.isBurning() && new Random().nextInt(40) == 0) playSound();
+			if (this.isBurning() && new Random().nextInt(40) == 0) 
+			{
+			//	playOnSound();
+				System.out.println("on");
+			}
 			if (this.isBurning() && possibleRecipes.size() > 0)
 			{
 				Map<BurnerRecipe, Integer> activeRecipes = getActiveRecipes();
@@ -227,14 +232,28 @@ public interface IBurner extends IInventoryAdder, NBTable
 		return false;
 	}
 
-	public default void playSound()
+	public default void playLightSound()
 	{
-		getWorldIA().playSoundEffect(getPosition().getX(), getPosition().getY(), getPosition().getZ(), getSoundName(),
+		getWorldIA().playSoundEffect(getPosition().getX(), getPosition().getY(), getPosition().getZ(), getLightSoundName(),
+				0.015F, 1F);
+	}
+	
+	public default void playOnSound()
+	{
+		getWorldIA().playSoundEffect(getPosition().getX(), getPosition().getY(), getPosition().getZ(), getOnSoundName(),
+				0.015F, 1F);
+	}
+	
+	public default void playOffSound()
+	{
+		getWorldIA().playSoundEffect(getPosition().getX(), getPosition().getY(), getPosition().getZ(), getOffSoundName(),
 				0.015F, 1F);
 	}
 
-	public String getSoundName();
-
+	public String getOnSoundName();
+	public String getOffSoundName();
+	public String getLightSoundName();
+	
 	public void setBurning(boolean burning);
 
 	public int getBurningTicks();

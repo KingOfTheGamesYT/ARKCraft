@@ -3,8 +3,8 @@ package com.uberverse.arkcraft.common.item.ranged;
 import java.util.List;
 
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.entity.projectile.EntityArkArrow;
 import com.uberverse.arkcraft.common.entity.projectile.EntityMetalArrow;
-import com.uberverse.arkcraft.common.entity.projectile.EntityProjectile;
 import com.uberverse.arkcraft.common.entity.projectile.EntityStoneArrow;
 import com.uberverse.arkcraft.common.entity.projectile.EntityTranqArrow;
 import com.uberverse.arkcraft.common.item.ammo.ItemArrow;
@@ -13,6 +13,7 @@ import com.uberverse.arkcraft.util.I18n;
 
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
@@ -147,26 +148,26 @@ public class ItemARKBow extends ItemBow
 
 			// EntityArrow entityarrow = new EntityArrow(worldIn, playerIn, speed);
 
-			EntityProjectile entityarrow = null;
+			EntityArkArrow entityarrow = null;
 
 			// if (getArrowType(stack).equals("stone_arrow"))
 			if (getSelectedArrow(stack).equals(ARKCraftRangedWeapons.stone_arrow.getUnlocalizedName()))
 			{
 				if (playerIn.capabilities.isCreativeMode || playerIn.inventory.consumeInventoryItem(
-						ARKCraftRangedWeapons.stone_arrow)) entityarrow = new EntityStoneArrow(worldIn, playerIn,
-								speed);
+						ARKCraftRangedWeapons.stone_arrow)) entityarrow = new EntityArkArrow(worldIn,
+								playerIn, speed);
 			}
 			// else if (getArrowType(stack).equals("metal_arrow"))
 			else if (getSelectedArrow(stack).equals(ARKCraftRangedWeapons.metal_arrow.getUnlocalizedName()))
 			{
-				if (playerIn.inventory.consumeInventoryItem(ARKCraftRangedWeapons.metal_arrow)) entityarrow =
-						new EntityMetalArrow(worldIn, playerIn, speed);
+			//	if (playerIn.inventory.consumeInventoryItem(ARKCraftRangedWeapons.metal_arrow)) entityarrow =
+			//			new EntityMetalArrow(worldIn, playerIn, speed);
 			}
 			// else if (getArrowType(stack).equals("tranq_arrow"))
 			else if (getSelectedArrow(stack).equals(ARKCraftRangedWeapons.tranq_arrow.getUnlocalizedName()))
 			{
-				if (playerIn.inventory.consumeInventoryItem(ARKCraftRangedWeapons.tranq_arrow)) entityarrow =
-						new EntityTranqArrow(worldIn, playerIn, speed);
+			//	if (playerIn.inventory.consumeInventoryItem(ARKCraftRangedWeapons.tranq_arrow)) entityarrow =
+			//			new EntityTranqArrow(worldIn, playerIn, speed);
 			}
 
 			if (f == 1.0F)

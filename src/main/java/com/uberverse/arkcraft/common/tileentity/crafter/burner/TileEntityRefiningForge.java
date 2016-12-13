@@ -31,8 +31,20 @@ public class TileEntityRefiningForge extends TileEntityBurner
 	}
 	
 	@Override
-	public String getSoundName()
+	public String getOnSoundName()
 	{
-		return "arkcraft:forge_burn";
+		return "arkcraft:on";
+	}
+	
+	@Override
+	public String getOffSoundName()
+	{
+		return "arkcraft:off";
+	}
+	
+	@Override
+	public String getLightSoundName()
+	{
+		return "arkcraft:light";
 	}
 }

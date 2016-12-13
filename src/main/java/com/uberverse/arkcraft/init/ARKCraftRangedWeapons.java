@@ -8,6 +8,7 @@ import com.uberverse.arkcraft.common.entity.dispense.DispenseSimpleRifleAmmo;
 import com.uberverse.arkcraft.common.entity.dispense.DispenseSimpleShotgunAmmo;
 import com.uberverse.arkcraft.common.entity.dispense.DispenseTranquilizer;
 import com.uberverse.arkcraft.common.entity.projectile.EntityAdvancedBullet;
+import com.uberverse.arkcraft.common.entity.projectile.EntityArkArrow;
 import com.uberverse.arkcraft.common.entity.projectile.EntityMetalArrow;
 import com.uberverse.arkcraft.common.entity.projectile.EntityRocketPropelledGrenade;
 import com.uberverse.arkcraft.common.entity.projectile.EntitySimpleBullet;
@@ -78,6 +79,8 @@ public class ARKCraftRangedWeapons
 		EntityHandler.registerModEntity(EntityStoneArrow.class, "stone_arrow", ARKCraft.instance(), 64, 10, true);
 		EntityHandler.registerModEntity(EntityMetalArrow.class, "metal_arrow", ARKCraft.instance(), 64, 10, true);
 		EntityHandler.registerModEntity(EntityTranqArrow.class, "tranq_arrow", ARKCraft.instance(), 64, 10, true);
+		EntityHandler.registerModEntity(EntityArkArrow.class, "ark_arrow", ARKCraft.instance(), 64, 10, true);
+
 
 		registerDispenseBehavior();
 		registerWeaponEntities();

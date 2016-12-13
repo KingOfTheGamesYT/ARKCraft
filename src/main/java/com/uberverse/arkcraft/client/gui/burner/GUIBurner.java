@@ -69,8 +69,19 @@ public abstract class GUIBurner extends GUIArkContainer
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
 	{
+		IBurner b = ((ContainerBurner) inventorySlots).getBurner();
 		if (onFlame(mouseX, mouseY))
 		{
+			if(b.isBurning()!= true) 
+			{
+				b.playLightSound();
+				System.out.println("light");
+			}
+			else if(b.isBurning())
+			{
+				b.playOffSound();
+				System.out.println("off");
+			}
 			mc.playerController.sendEnchantPacket(inventorySlots.windowId, 0);
 			return;
 		}

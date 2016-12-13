@@ -344,6 +344,7 @@ public class ClientEventHandler
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 		if (playerPooping.isPressed())
 		{
+			System.out.println("Pressed z");
 			ARKPlayer.get(player).go();
 		}
 		else if (playerCrafting.isPressed())

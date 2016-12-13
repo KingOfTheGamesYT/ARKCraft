@@ -305,6 +305,33 @@
 			}
 		]
 	},
+	"light": {
+		"category": "block",
+		"sounds": [
+			{
+				"name": "light",
+				"stream": false
+			}
+		]
+	},
+		"on": {
+		"category": "block",
+		"sounds": [
+			{
+				"name": "on",
+				"stream": false
+			}
+		]
+	},
+		"off": {
+		"category": "block",
+		"sounds": [
+			{
+				"name": "off",
+				"stream": false
+			}
+		]
+	},
 	"smithy_hammer": {
 		"category": "block",
 		"sounds": [
