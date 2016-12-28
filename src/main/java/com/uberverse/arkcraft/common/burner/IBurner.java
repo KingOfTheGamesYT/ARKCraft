@@ -234,20 +234,20 @@ public interface IBurner extends IInventoryAdder, NBTable
 
 	public default void playLightSound()
 	{
-	//	getWorldIA().playSoundEffect(getPosition().getX(), getPosition().getY(), getPosition().getZ(), getLightSoundName(),
-		//		0.015F, 1F);
+		getWorldIA().playSoundEffect(getPosition().getX(), getPosition().getY(), getPosition().getZ(), getLightSoundName(),
+				0.015F, 1F);
 	}
 	
 	public default void playOnSound()
 	{
-	//	getWorldIA().playSoundEffect(getPosition().getX(), getPosition().getY(), getPosition().getZ(), getOnSoundName(),
-	//			0.015F, 1F);
+		getWorldIA().playSoundEffect(getPosition().getX(), getPosition().getY(), getPosition().getZ(), getOnSoundName(),
+				0.015F, 1F);
 	}
 	
 	public default void playOffSound()
 	{
-	//	getWorldIA().playSoundEffect(getPosition().getX(), getPosition().getY(), getPosition().getZ(), getOffSoundName(),
-	//			0.015F, 1F);
+		getWorldIA().playSoundEffect(getPosition().getX(), getPosition().getY(), getPosition().getZ(), getOffSoundName(),
+				0.015F, 1F);
 	}
 
 	public String getOnSoundName();

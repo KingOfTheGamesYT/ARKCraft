@@ -4,13 +4,11 @@ import java.util.List;
 
 import com.uberverse.arkcraft.common.data.WeaponDamageSource;
 import com.uberverse.arkcraft.common.entity.ITranquilizer;
-import com.uberverse.arkcraft.common.item.ranged.ItemRangedWeapon;
 import com.uberverse.lib.LogHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -197,7 +195,6 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 	public void onUpdate()
 	{
 		super.onUpdate();
-		gunRange();
 		if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
 		{
 			float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
@@ -399,6 +396,11 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 			this.setPosition(this.posX, this.posY, this.posZ);
 			this.doBlockCollisions();
 		}
+
+//		worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, posX, posY, posZ, 0.0D, 0.0D, 0.0D);
+		
+	//	System.out.println(ticksInAir);
+		gunRange();
 	}
 
 	public void gunRange()
@@ -428,6 +430,8 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 			if (this.worldObj.getBlockState(blockpos1).getBlock().getMaterial().equals(Material.glass))
 			{
 				worldObj.destroyBlock(blockpos1, true);
+				// worldObj.playSoundEffect(xTile, yTile, zTile,
+				// "random.break_glass", 2F, 3F);
 				LogHelper.error("Found block Glass");
 			}
 		}
