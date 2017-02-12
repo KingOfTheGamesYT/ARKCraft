@@ -1,40 +1,29 @@
 {
-	"entries": [
-		{
-			"type": "title",
-			"title": "Preface",
-			"text": "Descending into the magnificent world of ARKCraft: Survival Evolved, this manual shows a variety of different topics to suit your needs.",
-			"image": "textures/gui/logo.png"
-		},
-		{
-			"type": "chapter",
-			"title": "Sections",
-			"sections": [
-				"Materials and Resources",
-				"Crafting and Collection",
-				"Mechanics",
-				"Tool Operation/Maintenance"
-			]
-		},
-		{
-			"type": "chapter",
-			"title": "Sections",
-			"sections": [
-				"Materials and Resources",
-				"Crafting and Collection",
-				"Mechanics",
-				"Tool Operation/Maintenance"
-			]
-		},
-		{
-			"type": "chapter",
-			"title": "Sections",
-			"sections": [
-				"Materials and Resources",
-				"Crafting and Collection",
-				"Mechanics",
-				"Tool Operation/Maintenance"
-			]
-		}
+  "entries": [
+    {
+      "type": "title",
+      "title": "ARKCraft 1.8.10 Compendium",
+      "image": "textures/gui/logo.png",
+      "footnote": "true"
+    },
+    {
+      "type": "text",
+      "text":  "You find yourself in a mystical world with a vast array of different things to find and explore. Hopefully, you like challenge, because this adventure is not going to be easy. Remember, a traveler is really not someone who crosses ground, so much as someone who is always hungry for the next challenge and adventure."
+    },
+    {
+      "type": "chapter",
+      "title": "Sections",
+      "sections": [
+        "Materials and Resources",
+        "Crafting and Mechanisms",
+        "Taming and Engrams",
+        "Tool Operation"
+      ]
+    },
+    {
+      "type": "title",
+      "title": "Materials and Resources",
+      "image": "textures/gui/logo_materials_resources.png"
+    }
 	]
 }

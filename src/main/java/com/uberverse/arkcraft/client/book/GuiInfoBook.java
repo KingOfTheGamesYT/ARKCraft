@@ -71,11 +71,12 @@ public class GuiInfoBook extends GuiScreen
 		LogHelper.info("initGui() is called!");
 		currentPage = 0;
 		maxPages = document.getEntries().length;
+		LogHelper.info("Max Pages of Compendium: " + maxPages);
 		updateContent();
 		int x = (this.width - guiWidth) / 2;
 		int y = (this.height - guiHeight) / 2;
-		this.buttonList.add(this.nButton = new PageButton(1, x + guiWidth + 26, y + guiHeight - 25, true));
-		this.buttonList.add(this.prevButton = new PageButton(2, x - 45, y + guiHeight - 25, false));
+		this.buttonList.add(this.nButton = new PageButton(1, x + guiWidth + 40, y + guiHeight - 25, true));
+		this.buttonList.add(this.prevButton = new PageButton(2, x - 55, y + guiHeight - 25, false));
 
 	}
 
@@ -123,11 +124,6 @@ public class GuiInfoBook extends GuiScreen
 
 		super.drawScreen(mouseX, mouseY, partialTicks);
 
-		LogHelper.info("Current Page: " + currentPage);
-		// LogHelper.info(pageLeft == null ? "pageLeft is null!" : "pageLeft is
-		// not null");
-		// LogHelper.info(pageRight == null ? "pageRight is null!" : "pageRight
-		// is not null");
 		if (pageLeft != null && pageRight != null)
 		{
 			// LogHelper.info("Trying to draw the left page!");
@@ -228,6 +224,6 @@ public class GuiInfoBook extends GuiScreen
 	public void updateScreen()
 	{
 		prevButton.visible = currentPage != 0;
-		nButton.visible = currentPage != maxPages - 1;
+		nButton.visible = currentPage*2 != maxPages;
 	}
 }

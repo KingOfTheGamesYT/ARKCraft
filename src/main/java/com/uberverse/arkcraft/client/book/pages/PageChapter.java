@@ -24,7 +24,7 @@ public class PageChapter extends Page
 				StatCollector.translateToLocal(title);
 			}
 			renderer.drawSplitString(EnumChatFormatting.BOLD + "" + EnumChatFormatting.UNDERLINE + title, guiLeft
-					+ (book.guiWidth - renderer.getStringWidth(title)) / 2, guiTop + 5, 1000, 0, 10);
+					+ (book.guiWidth - renderer.getStringWidth(title)) / 2, guiTop + 5, 1000, 0);
 
 		}
 
@@ -34,7 +34,7 @@ public class PageChapter extends Page
 			{
 				if (canTranslate) StatCollector.translateToLocal(sections[i]);
 				renderer.drawSplitString(sections[i], guiLeft + (book.guiWidth - renderer.getStringWidth(sections[i]))
-						/ 2, guiTop + 25 + i * ((book.guiHeight / sections.length) / 2), 1000, 0, 7);
+						/ 2, guiTop + 50 + i * ((book.guiHeight / sections.length) / 2), 1000, 0);
 			}
 		}
 

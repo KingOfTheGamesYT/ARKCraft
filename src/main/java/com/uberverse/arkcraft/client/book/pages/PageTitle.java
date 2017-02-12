@@ -1,5 +1,7 @@
 package com.uberverse.arkcraft.client.book.pages;
 
+import org.lwjgl.opengl.GL11;
+
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.book.GuiInfoBook;
 import com.uberverse.arkcraft.client.book.lib.Page;
@@ -21,7 +23,8 @@ public class PageTitle extends Page
 	public String title;
 	public String text;
 	public String image;
-
+	public boolean footnote;
+	
 	public void draw(int guiLeft, int guiTop, int mouseX, int mouseY, SmallFontRenderer renderer, boolean canTranslate,
 			GuiInfoBook book)
 	{
@@ -30,8 +33,9 @@ public class PageTitle extends Page
 			ResourceLocation imagePath = new ResourceLocation(ARKCraft.MODID, image);
 			if (imagePath != null)
 			{
+				GL11.glColor4f(1F, 1F, 1F, 1F);
 				Minecraft.getMinecraft().getTextureManager().bindTexture(imagePath);
-				book.drawTexturedModalRect(guiLeft + (book.guiWidth - 64) / 2, guiTop + 75, 0, 0, 64, 64);
+				book.drawTexturedModalRect(guiLeft + (book.guiWidth - 64) / 2, guiTop + 65, 0, 0, 64, 64);
 			}
 
 		}
@@ -42,8 +46,8 @@ public class PageTitle extends Page
 			{
 				StatCollector.translateToLocal(title);
 			}
-			renderer.drawSplitString(EnumChatFormatting.BOLD + "" + EnumChatFormatting.UNDERLINE + title, guiLeft
-					+ (book.guiWidth - renderer.getStringWidth(title)) / 2, guiTop + 5, 1000, 0, 10);
+			renderer.drawSplitString(EnumChatFormatting.BOLD + "" + EnumChatFormatting.UNDERLINE + title, guiLeft - 8
+					+ (book.guiWidth - renderer.getStringWidth(title)) / 2, guiTop + 5, 1000, 0);
 		}
 
 		if (text != null)
@@ -52,13 +56,15 @@ public class PageTitle extends Page
 			{
 				StatCollector.translateToLocal(text);
 			}
-			renderer.drawSplitString(text, guiLeft - 27 + (renderer.splitStringWidth(text, book.guiWidth - 20)), guiTop
-					+ 35, book.guiWidth - 20, 0, 6);
+			renderer.drawSplitString(text, guiLeft - 36 + (renderer.splitStringWidth(text, book.guiWidth)), guiTop
+					+ 40, book.guiWidth - 20, 0);
 		}
-
-		String footnote = "Click the book to curseforge page.";
-		renderer.drawSplitString(EnumChatFormatting.DARK_RED + footnote, 27 + guiLeft - (book.guiWidth - renderer
-				.getStringWidth(footnote)) / 2, guiTop + 165, 1000, 0, 6);
+		
+		if(footnote) {
+			String footnote = "Click ↑ for curseforge page.";
+			renderer.drawSplitString(EnumChatFormatting.DARK_RED + footnote, 50 + guiLeft - (book.guiWidth - renderer
+					.getStringWidth(footnote)) / 2, guiTop + 150, 1000, 0);
+		}
 	}
 
 	public String getTitle()

@@ -15,6 +15,7 @@ import com.uberverse.arkcraft.client.book.lib.SmallFontRenderer;
 import com.uberverse.arkcraft.client.book.lib.deserializers.BlockDeserializer;
 import com.uberverse.arkcraft.client.book.lib.deserializers.PageDeserializer;
 import com.uberverse.arkcraft.client.book.pages.PageChapter;
+import com.uberverse.arkcraft.client.book.pages.PageText;
 import com.uberverse.arkcraft.client.book.pages.PageTitle;
 import com.uberverse.lib.LogHelper;
 
@@ -72,6 +73,7 @@ public class BookClient extends BookCommon
 		LogHelper.info("Regsitering Page Classes.");
 		PageData.addBookPage("title", PageTitle.class);
 		PageData.addBookPage("chapter", PageChapter.class);
+		PageData.addBookPage("text", PageText.class);
 	}
 
 	@Override
