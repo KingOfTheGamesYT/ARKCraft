@@ -35,8 +35,8 @@ public class GuiInfoBook extends GuiScreen
 	private ItemStack item;
 
 	// General
-	public int guiWidth = 156;
-	public int guiHeight = 220;
+	public int guiWidth = 176;
+	public int guiHeight = 248;
 	private BookDocument document;
 
 	// Pages (Count, buttons, font renderer, data)
@@ -95,7 +95,7 @@ public class GuiInfoBook extends GuiScreen
 				}
 				catch (Throwable throwable)
 				{
-					LogHelper.error("Couldn\'t open link");
+					LogHelper.error("Couldn't open link");
 					throwable.printStackTrace();
 				}
 			}

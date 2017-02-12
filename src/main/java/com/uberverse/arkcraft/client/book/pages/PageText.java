@@ -20,7 +20,7 @@ public class PageText extends Page {
 			{
 				StatCollector.translateToLocal(text);
 			}
-			renderer.drawSplitString(text, guiLeft - 40 + renderer.splitStringWidth(text, (book.guiWidth)), guiTop + 20, 95, 0);
+			renderer.drawSplitString(text, guiLeft - 53 + renderer.splitStringWidth(text, (book.guiWidth)), guiTop + 20, book.guiWidth - 30, 0);
 		}
 	}
 	

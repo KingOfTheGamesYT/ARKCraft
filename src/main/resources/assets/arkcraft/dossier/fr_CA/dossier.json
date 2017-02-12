@@ -1,28 +1,28 @@
-{
+﻿{
   "entries": [
     {
       "type": "title",
-      "title": "ARKCraft 1.8.10 Compendium",
-      "image": "textures/gui/logo.png",
-      "footnote": "true"
+      "title": "Compendium d'ARKCraft 1.8.10",
+      "image": "logo.png",
+      "footnote": "Cliquez ↑ pour page de curseforge"
     },
     {
       "type": "text",
-      "text":  "You find yourself in a mystical world with a vast array of different things to find and explore. Hopefully, you like challenge, because this adventure is not going to be easy. Remember, a traveler is really not someone who crosses ground, so much as someone who is always hungry for the next challenge and adventure."
+      "text":  "Vous vous trouvez dans un monde mystique avec une vaste gamme de choses différentes à trouver et à explorer. Espérons que vous aimez le défi, parce que cette aventure ne va pas être facile. Rappelez-vous, un voyageur n'est vraiment pas quelqu'un qui traverse la terre, autant que quelqu'un qui est toujours affamé pour le prochain défi et d'aventure."
     },
     {
       "type": "chapter",
       "title": "Sections",
       "sections": [
-        "Materials and Resources",
-        "Crafting and Mechanisms",
-        "Taming and Engrams",
-        "Tool Operation"
+        "Les substances et ressources",
+        "Le crafting and les mécanismes",
+        "L'apprivoisement et les engrams",
+        "L'opération des outils"
       ]
     },
     {
       "type": "title",
-      "title": "Materials and Resources",
+      "title": "Les substances et ressources",
       "image": "textures/gui/logo_materials_resources.png"
     }
 	]

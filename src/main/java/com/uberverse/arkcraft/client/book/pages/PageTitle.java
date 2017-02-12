@@ -23,7 +23,8 @@ public class PageTitle extends Page
 	public String title;
 	public String text;
 	public String image;
-	public boolean footnote;
+	public String footnote;
+	
 	
 	public void draw(int guiLeft, int guiTop, int mouseX, int mouseY, SmallFontRenderer renderer, boolean canTranslate,
 			GuiInfoBook book)
@@ -46,7 +47,7 @@ public class PageTitle extends Page
 			{
 				StatCollector.translateToLocal(title);
 			}
-			renderer.drawSplitString(EnumChatFormatting.BOLD + "" + EnumChatFormatting.UNDERLINE + title, guiLeft - 8
+			renderer.drawSplitString(EnumChatFormatting.BOLD + "" + EnumChatFormatting.UNDERLINE + title, guiLeft - 16
 					+ (book.guiWidth - renderer.getStringWidth(title)) / 2, guiTop + 5, 1000, 0);
 		}
 
@@ -57,12 +58,11 @@ public class PageTitle extends Page
 				StatCollector.translateToLocal(text);
 			}
 			renderer.drawSplitString(text, guiLeft - 36 + (renderer.splitStringWidth(text, book.guiWidth)), guiTop
-					+ 40, book.guiWidth - 20, 0);
+					+ 40, book.guiWidth - 5, 0);
 		}
 		
-		if(footnote) {
-			String footnote = "Click ↑ for curseforge page.";
-			renderer.drawSplitString(EnumChatFormatting.DARK_RED + footnote, 50 + guiLeft - (book.guiWidth - renderer
+		if(footnote != null) {
+			renderer.drawSplitString(EnumChatFormatting.DARK_RED + footnote, guiLeft + 48 - (book.guiWidth - renderer
 					.getStringWidth(footnote)) / 2, guiTop + 150, 1000, 0);
 		}
 	}

@@ -15,6 +15,7 @@ import com.uberverse.arkcraft.client.book.lib.SmallFontRenderer;
 import com.uberverse.arkcraft.client.book.lib.deserializers.BlockDeserializer;
 import com.uberverse.arkcraft.client.book.lib.deserializers.PageDeserializer;
 import com.uberverse.arkcraft.client.book.pages.PageChapter;
+import com.uberverse.arkcraft.client.book.pages.PageResource;
 import com.uberverse.arkcraft.client.book.pages.PageText;
 import com.uberverse.arkcraft.client.book.pages.PageTitle;
 import com.uberverse.lib.LogHelper;
@@ -31,8 +32,7 @@ public class BookClient extends BookCommon
 	public static BookDocument document;
 	public static BookInfo bookInfo;
 
-	public void init()
-	{
+	public void init() {
 		bookInfo = new BookInfo();
 		mc = Minecraft.getMinecraft();
 		fontRenderer = new SmallFontRenderer(mc.gameSettings, new ResourceLocation("textures/font/ascii.png"),
@@ -45,7 +45,7 @@ public class BookClient extends BookCommon
 		gBuilder.registerTypeAdapter(Block.class, new BlockDeserializer());
 		String language = mc.getLanguageManager().getCurrentLanguage().getLanguageCode();
 		BookDocument document_cl = readManual(gBuilder, "dossier/" + language + "/dossier.json");
-		document = document_cl != null ? document_cl : readManual(gBuilder, "dossier/en_US/dossier.json");
+		document = document_cl != null ? document_cl : readManual(gBuilder, "dossier/" + language + "/dossier.json");
 		if (document != null) bookInfo.bd.document = document;
 	}
 
@@ -74,6 +74,7 @@ public class BookClient extends BookCommon
 		PageData.addBookPage("title", PageTitle.class);
 		PageData.addBookPage("chapter", PageChapter.class);
 		PageData.addBookPage("text", PageText.class);
+		PageData.addBookPage("resource", PageResource.class);
 	}
 
 	@Override
