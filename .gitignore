@@ -6,8 +6,6 @@
 !.gitignore
 !.gitattributes
 !*.md
-!versionupdater.jar
-!version.txt
 !version-check.json
 *.db
 *.DS_Store
