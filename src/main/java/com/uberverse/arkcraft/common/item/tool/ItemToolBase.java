@@ -30,9 +30,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public abstract class ItemToolBase extends ItemQualitable implements IBreakable
@@ -70,7 +70,7 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 	{
 		if (!effectiveBlocks.contains(state.getBlock()) || isBroken(itemstack)) return 0;
 		float base = 1.5f * (float) getBreakSpeed(itemstack);
-		return MathHelper.clamp_float(base * getSpeedDivider(itemstack), 0.1f, base);
+		return MathHelper.clamp(base * getSpeedDivider(itemstack), 0.1f, base);
 	}
 
 	private final float getSpeedDivider(ItemStack stack)
@@ -96,13 +96,13 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 			MovingObjectPosition mop = ItemRangedWeapon.rayTrace(entityLiving, 5, 0);
 			if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
 			{
-				IBlockState bs = entityLiving.worldObj.getBlockState(mop.getBlockPos());
+				IBlockState bs = entityLiving.world.getBlockState(mop.getBlockPos());
 				Block target = effectiveBlocks.contains(bs.getBlock()) ? bs.getBlock() : null;
 				if (target != null)
 				{
-					World w = entityLiving.worldObj;
+					World w = entityLiving.world;
 					BlockPos pos = mop.getBlockPos();
-					int size = bs.getBlock() == Blocks.log || bs.getBlock() == Blocks.log2 ? countTree(w, pos, target)
+					int size = bs.getBlock() == Blocks.LOG || bs.getBlock() == Blocks.LOG2 ? countTree(w, pos, target)
 							: countOre(w, pos, target, (EntityPlayer) entityLiving, stack);
 					setSpeedDivider(stack, (float) 1 / (float) size);
 				}
@@ -140,9 +140,9 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 		return width * width * height;
 	}
 
-	private final int countOre(World world, final BlockPos start, Block target, EntityPlayer player, ItemStack stack)
+	private final int countOre(World world, final BlockPos start, ItemStack stack, boolean b)
 	{
-		return countOre(world, start, target, player, stack, false);
+		return countOre(world, start, entityPlayer, stack, b, false);
 	}
 
 	private final int countOre(World world, final BlockPos start, Block target, EntityPlayer player, ItemStack stack,
@@ -191,7 +191,7 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 
 	int count = 0;
 
-	private void destroyBlocks(World world, BlockPos pos, EntityPlayer player, ItemStack stack,
+	private void destroyBlocks(World world, BlockPos pos, ItemStack stack,
 			Predicate<IBlockState> blockChecker)
 	{
 		int x = pos.getX();
@@ -210,9 +210,9 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 						{
 							count++;
 							world.destroyBlock(p, false);
-							if (damage(stack, player))
+							if (damage(stack))
 							{
-								this.destroyBlocks(world, p, player, stack, blockChecker);
+								this.destroyBlocks(world, p, stack, blockChecker);
 							}
 							else
 							{
@@ -246,29 +246,28 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 	}
 
 	@Override
-	public final boolean onBlockDestroyed(ItemStack stack, World world, Block block, BlockPos pos,
-			EntityLivingBase player)
-	{
-		if (!world.isRemote && effectiveBlocks.contains(block))
+	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos,
+			EntityLivingBase entityLiving) {
+		if (!worldIn.isRemote && effectiveBlocks.contains(block))
 		{
 			if (dropMap.containsKey(block))
 			{
-				destroyBlocks(world, pos, (EntityPlayer) player, stack, (IBlockState ibs) -> ibs.getBlock() == block);
-				Collection<AbstractItemStack> drops = dropMap.get(block);
+				destroyBlocks(worldIn, pos, stack, (IBlockState ibs) -> ibs.getBlock() == block);
+				Collection<AbstractItemStack> drops = dropMap.get();
 				drops = applyOutputModifiers(drops, stack);
 				for (AbstractItemStack ais : drops)
 					ais.setAmount(ais.getAmount() * count);
 
 				for (AbstractItemStack ais : drops)
 					for (ItemStack s : ais.toItemStacks())
-						Block.spawnAsEntity(world, pos, s);
+						Block.spawnAsEntity(worldIn, pos, s);
 				count = 0;
 			}
-			else countOre(world, pos, block, (EntityPlayer) player, stack, true);
+			else countOre(worldIn, pos, stack, true);
 
 			return false;
 		}
-		return super.onBlockDestroyed(stack, world, block, pos, player);
+		return super.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);
 	}
 
 	public final double getAttackDamage(ItemStack stack)
@@ -286,7 +285,7 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 	public final Multimap getAttributeModifiers(ItemStack stack)
 	{
 		Multimap map = super.getAttributeModifiers(stack);
-		map.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(
+		map.put(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName(), new AttributeModifier(
 				itemModifierUUID, "attack_damage", getAttackDamage(stack), 0));
 		return map;
 	}

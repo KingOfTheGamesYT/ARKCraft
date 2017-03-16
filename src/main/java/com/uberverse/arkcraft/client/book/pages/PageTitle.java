@@ -2,15 +2,14 @@ package com.uberverse.arkcraft.client.book.pages;
 
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.book.GuiInfoBook;
 import com.uberverse.arkcraft.client.book.lib.Page;
 import com.uberverse.arkcraft.client.book.lib.SmallFontRenderer;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 
 /**
  * @author Vastatio The title page. It includes 3 strings, a title, text, and an
@@ -47,7 +46,7 @@ public class PageTitle extends Page
 			{
 				StatCollector.translateToLocal(title);
 			}
-			renderer.drawSplitString(EnumChatFormatting.BOLD + "" + EnumChatFormatting.UNDERLINE + title, guiLeft - 16
+			renderer.drawSplitString(ChatFormatting.BOLD + "" + ChatFormatting.UNDERLINE + title, guiLeft - 16
 					+ (book.guiWidth - renderer.getStringWidth(title)) / 2, guiTop + 5, 1000, 0);
 		}
 
@@ -62,7 +61,7 @@ public class PageTitle extends Page
 		}
 		
 		if(footnote != null) {
-			renderer.drawSplitString(EnumChatFormatting.DARK_RED + footnote, guiLeft + 48 - (book.guiWidth - renderer
+			renderer.drawSplitString(ChatFormatting.DARK_RED + footnote, guiLeft + 48 - (book.guiWidth - renderer
 					.getStringWidth(footnote)) / 2, guiTop + 150, 1000, 0);
 		}
 	}

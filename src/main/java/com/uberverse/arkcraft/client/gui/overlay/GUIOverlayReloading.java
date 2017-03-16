@@ -20,9 +20,9 @@ public class GUIOverlayReloading extends Gui
 	@SubscribeEvent
 	public void renderGUIOverlay(RenderGameOverlayEvent.Post e)
 	{
-		EntityPlayer p = mc.thePlayer;
-		ItemStack stack = p.getCurrentEquippedItem();
-		if (e.type.equals(ElementType.HOTBAR))
+		EntityPlayer p = mc.player;
+		ItemStack stack = p.getHeldItemMainhand();
+		if (e.getType().equals(ElementType.HOTBAR))
 		{
 			if (stack != null && stack.getItem() instanceof ItemRangedWeapon)
 			{
@@ -30,14 +30,14 @@ public class GUIOverlayReloading extends Gui
 				boolean rld = weapon.isLoaded(stack, p);
 				GL11.glColor4f(1F, 1F, 1F, 1F);
 				GL11.glDisable(GL11.GL_LIGHTING);
-				int x0 = e.resolution.getScaledWidth() / 2 - 88 + p.inventory.currentItem * 20;
-				int y0 = e.resolution.getScaledHeight() - 3;
+				int x0 = e.getResolution().getScaledWidth() / 2 - 88 + p.inventory.currentItem * 20;
+				int y0 = e.getResolution().getScaledHeight() - 3;
 				float f;
 				int color;
 				if (rld)
 				{
 					f = 1F;
-					if (p.getItemInUse() == stack)
+					if (p.getActiveItemStack() == stack)
 					{
 						color = 0x60C60000;
 					}
@@ -60,7 +60,7 @@ public class GUIOverlayReloading extends Gui
 				drawRect(x0, y0, x0 + 16, y0 - (int) (f * 16), color);
 			}
 		}
-		else if (e.type.equals(ElementType.HELMET))
+		else if (e.getType().equals(ElementType.HELMET))
 		{
 			if (stack != null && stack.getItem() instanceof ItemRangedWeapon)
 			{
@@ -74,7 +74,7 @@ public class GUIOverlayReloading extends Gui
 				{
 					text = '\u221e' + "";
 				}
-				int x = e.resolution.getScaledWidth() - 4 - mc.fontRendererObj.getStringWidth(text);
+				int x = e.getResolution().getScaledWidth() - 4 - mc.fontRendererObj.getStringWidth(text);
 				int y = 20;
 				drawString(mc.fontRendererObj, text, x, y - 16, 0xFFFFFFFF);
 			}

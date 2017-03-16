@@ -7,7 +7,6 @@ import com.uberverse.arkcraft.common.burner.IBurnerContainer;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
@@ -64,7 +63,7 @@ public abstract class ContainerBurner extends Container implements IBurnerContai
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int index)
 	{
-		if (player.worldObj.isRemote) return null;
+		if (player.world.isRemote) return null;
 		Slot sourceSlot = (Slot) inventorySlots.get(index);
 		if (sourceSlot == null || !sourceSlot.getHasStack()) return null;
 		ItemStack sourceStack = sourceSlot.getStack();
@@ -163,7 +162,7 @@ public abstract class ContainerBurner extends Container implements IBurnerContai
 	@Override
 	public boolean canInteractWith(EntityPlayer playerIn)
 	{
-		return burner.getIInventory().isUseableByPlayer(playerIn);
+		return burner.getIInventory().isUsableByPlayer(playerIn);
 	}
 
 	public abstract int getSlotsX();

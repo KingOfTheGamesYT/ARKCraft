@@ -56,7 +56,7 @@ public class WeightsConfig
 		encumberedSpeed = config.getFloat("encumberedSpeed", "Setup", (float) 0.2, 0, 1,
 				"The speed factor the player will be slowed down.");
 
-		List<Item> itemList = ImmutableList.copyOf(Item.itemRegistry);
+		List<Item> itemList = ImmutableList.copyOf(Item.REGISTRY);
 		for (Item item : itemList)
 		{
 			config.getFloat(item.getUnlocalizedName().substring(5), GENERAL, generateWeight(item), 0, 16,
@@ -64,7 +64,7 @@ public class WeightsConfig
 							.length()));
 		}
 
-		List<Block> blockList = ImmutableList.copyOf(Block.blockRegistry);
+		List<Block> blockList = ImmutableList.copyOf(Block.REGISTRY);
 		for (Block block : blockList)
 		{
 			config.getFloat(block.getUnlocalizedName().substring(5, block.getUnlocalizedName().length()), GENERAL,
@@ -90,7 +90,7 @@ public class WeightsConfig
 					return 8;
 				case GOLD:
 					return 6;
-				case EMERALD:
+				case DIAMOND:
 					return 7;
 			}
 		}
@@ -127,17 +127,17 @@ public class WeightsConfig
 	private static float generateWeight(Block block)
 	{
 		Material m = block.getMaterial();
-		if (m == Material.air || m == Material.barrier || m == Material.fire || m == Material.portal) return 0;
-		if (m == Material.cactus || m == Material.grass || m == Material.gourd || m == Material.craftedSnow
-				|| m == Material.leaves || m == Material.plants || m == Material.glass || m == Material.vine
-				|| m == Material.web) return 0.1f;
-		if (m == Material.anvil || m == Material.dragonEgg || m == Material.iron) return 8;
-		if (m == Material.cake || m == Material.carpet || m == Material.tnt || m == Material.cloth
-				|| m == Material.sponge) return 0.5f;
-		if (m == Material.circuits || m == Material.sand || m == Material.redstoneLight) return 1;
-		if (m == Material.coral || m == Material.lava || m == Material.ice || m == Material.packedIce
-				|| m == Material.piston) return 3.5f;
-		if (m == Material.rock) return 5;
+		if (m == Material.AIR || m == Material.BARRIER || m == Material.FIRE || m == Material.PORTAL) return 0;
+		if (m == Material.CACTUS || m == Material.GRASS || m == Material.GOURD || m == Material.CRAFTED_SNOW
+				|| m == Material.LEAVES || m == Material.PLANTS || m == Material.GLASS || m == Material.VINE
+				|| m == Material.WEB) return 0.1f;
+		if (m == Material.ANVIL || m == Material.DRAGON_EGG || m == Material.IRON) return 8;
+		if (m == Material.CAKE || m == Material.CARPET || m == Material.TNT || m == Material.CLOTH
+				|| m == Material.SPONGE) return 0.5f;
+		if (m == Material.CIRCUITS || m == Material.SAND || m == Material.REDSTONE_LIGHT) return 1;
+		if (m == Material.CORAL || m == Material.LAVA || m == Material.ICE || m == Material.PACKED_ICE
+				|| m == Material.PISTON) return 3.5f;
+		if (m == Material.ROCK) return 5;
 		// default
 		return 2;
 	}
@@ -145,7 +145,7 @@ public class WeightsConfig
 	@SubscribeEvent
 	public void onConfigChanged(OnConfigChangedEvent event)
 	{
-		if (event.modID.equals(ARKCraft.MODID))
+		if (event.getModID().equals(ARKCraft.MODID))
 		{
 			syncConfig(config);
 		}

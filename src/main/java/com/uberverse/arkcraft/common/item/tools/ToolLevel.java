@@ -1,8 +1,7 @@
 package com.uberverse.arkcraft.common.item.tools;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.util.MathHelper;
-
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -27,7 +26,7 @@ public enum ToolLevel
 
 	public int getDurrability(int normal)
 	{
-		return MathHelper.ceiling_double_int(normal * durrabilityModifier);
+		return MathHelper.ceil(normal * durrabilityModifier);
 	}
 
 	public String getName()

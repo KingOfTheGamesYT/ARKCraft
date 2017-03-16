@@ -212,12 +212,12 @@ public class ARKCraftItems
 		tabItem = init.registerItem("tabItem", new Item());
 
 		// Effectiveness register
-		ItemToolBase.registerEffectiveBlocks(Blocks.log, Blocks.log2, ARKCraftBlocks.rockResource,
+		ItemToolBase.registerEffectiveBlocks(Blocks.LOG, Blocks.LOG2, ARKCraftBlocks.rockResource,
 				ARKCraftBlocks.oilResource, ARKCraftBlocks.metalResource, ARKCraftBlocks.obsidianResource,
 				ARKCraftBlocks.crystalResource);
-		ItemToolBase.registerBlockDrops(Blocks.log, Lists.newArrayList(new AbstractItemStack[] { new AbstractItemStack(
+		ItemToolBase.registerBlockDrops(Blocks.LOG, Lists.newArrayList(new AbstractItemStack[] { new AbstractItemStack(
 				wood, 2), new AbstractItemStack(thatch, 2) }));
-		ItemToolBase.registerBlockDrops(Blocks.log2, Lists.newArrayList(new AbstractItemStack[] { new AbstractItemStack(
+		ItemToolBase.registerBlockDrops(Blocks.LOG2, Lists.newArrayList(new AbstractItemStack[] { new AbstractItemStack(
 				wood, 2), new AbstractItemStack(thatch, 2) }));
 	}
 

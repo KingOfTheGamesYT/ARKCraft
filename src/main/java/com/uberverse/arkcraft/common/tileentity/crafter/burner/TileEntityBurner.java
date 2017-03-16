@@ -15,11 +15,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 
 /**
@@ -43,8 +42,7 @@ public abstract class TileEntityBurner extends TileEntity implements IInventory,
 	}
 
 	@Override
-	public void update()
-	{
+	public void updateBurner() {
 		IBurner.super.updateBurner();
 	}
 
@@ -82,7 +80,7 @@ public abstract class TileEntityBurner extends TileEntity implements IInventory,
 	@Override
 	public World getWorldIA()
 	{
-		return worldObj;
+		return world;
 	}
 
 	@Override
@@ -100,15 +98,14 @@ public abstract class TileEntityBurner extends TileEntity implements IInventory,
 	}
 
 	@Override
-	public Packet getDescriptionPacket()
-	{
+	public SPacketUpdateTileEntity getUpdatePacket() {
 		NBTTagCompound nbtTagCompound = new NBTTagCompound();
 		writeToNBT(nbtTagCompound);
-		return new S35PacketUpdateTileEntity(this.pos, 0, nbtTagCompound);
+		return new SPacketUpdateTileEntity(this.pos, 0, nbtTagCompound);
 	}
-
+	
 	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
 	{
 		readFromNBT(pkt.getNbtCompound());
 	}
@@ -125,7 +122,7 @@ public abstract class TileEntityBurner extends TileEntity implements IInventory,
 		getStackInSlot(index).stackSize -= count;
 		return new ItemStack(getStackInSlot(index).getItem(), count);
 	}
-
+	
 	@Override
 	public ItemStack getStackInSlotOnClosing(int index)
 	{
@@ -146,7 +143,7 @@ public abstract class TileEntityBurner extends TileEntity implements IInventory,
 
 	// TODO option to do tribe access stuff here
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer player)
+	public boolean isUsableByPlayer(EntityPlayer player)
 	{
 		return true;
 	}
@@ -211,7 +208,7 @@ public abstract class TileEntityBurner extends TileEntity implements IInventory,
 	}
 
 	@Override
-	public IChatComponent getDisplayName()
+	public ITextComponent getDisplayName()
 	{
 		return null;
 	}

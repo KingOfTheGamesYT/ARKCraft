@@ -54,7 +54,7 @@ public class GUIPlayerCrafting extends GUIEngramCrafting
 	{
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		mc.getTextureManager().bindTexture(xpBar);
-		drawTexturedModalRect(guiLeft + barX, guiTop + barY, barU, barV, (int) (barWidth * ARKPlayer.get(mc.thePlayer)
+		drawTexturedModalRect(guiLeft + barX, guiTop + barY, barU, barV, (int) (barWidth * ARKPlayer.get(mc.player)
 				.getRelativeXP()), barHeight);
 	}
 
@@ -68,7 +68,7 @@ public class GUIPlayerCrafting extends GUIEngramCrafting
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
 	{
 		int x = 127, y = 54, width = 49, height = 70;
-		if (mouseButton == 0 && mc.thePlayer.inventory.getItemStack() == null && isPointInRegion(x, y, width, height,
+		if (mouseButton == 0 && mc.player.inventory.getItemStack() == null && isPointInRegion(x, y, width, height,
 				mouseX, mouseY)) dragModel = true;
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 	}
@@ -104,16 +104,16 @@ public class GUIPlayerCrafting extends GUIEngramCrafting
 	{
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
-		renderEntityWithFullXRotation(xPos, yPos, 30, xLook, yLook, this.mc.thePlayer);
+		renderEntityWithFullXRotation(xPos, yPos, 30, xLook, yLook, this.mc.player);
 
-		String level = I18n.format("gui.playercrafting.level", ARKPlayer.get(Minecraft.getMinecraft().thePlayer)
+		String level = I18n.format("gui.playercrafting.level", ARKPlayer.get(Minecraft.getMinecraft().player)
 				.getLevel());
 		this.drawString(mc.fontRendererObj, level, 151 - mc.fontRendererObj.getStringWidth(level) / 2, 40, Color.white
 				.getRGB());
 
 		if (isPointInRegion(barX, barY, barWidth, barHeight, mouseX, mouseY))
 		{
-			ARKPlayer p = ARKPlayer.get(mc.thePlayer);
+			ARKPlayer p = ARKPlayer.get(mc.player);
 			String xp = Math.round(p.getXP() * 100d) / 100d + "/" + Math.round(p.getRequiredXP() * 100d) / 100d;
 			drawHoveringText(Lists.newArrayList(new String[] { xp }), mouseX - guiLeft, mouseY - guiTop,
 					fontRendererObj);

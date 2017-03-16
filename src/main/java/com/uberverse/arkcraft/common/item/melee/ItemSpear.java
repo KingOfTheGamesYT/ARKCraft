@@ -7,6 +7,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
 public class ItemSpear extends ItemSword
@@ -18,11 +20,11 @@ public class ItemSpear extends ItemSword
 		this.setFull3D();
 		this.setCreativeTab(ARKCraft.tabARK);
 	}
-
+	
 	@Override
 	public void onPlayerStoppedUsing(ItemStack itemstack, World world, EntityPlayer entityplayer, int i)
 	{
-		if (!entityplayer.inventory.hasItem(this)) { return; }
+		if (!entityplayer.inventory.hasItemStack(itemstack)) { return; }
 
 		int j = getMaxItemUseDuration(itemstack) - i;
 		float f = j / 20F;
@@ -46,7 +48,7 @@ public class ItemSpear extends ItemSword
 			{
 				EntitySpear entitySpear = new EntitySpear(world, entityplayer, f * (1.0F + (crit ? 0.5F : 0F)));
 				entitySpear.setIsCritical(crit);
-				world.spawnEntityInWorld(entitySpear);
+				world.spawnEntity(entitySpear);
 			}
 		}
 	}
@@ -64,13 +66,12 @@ public class ItemSpear extends ItemSword
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer)
-	{
-		if (entityplayer.inventory.hasItem(this))
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn,
+			EnumHand hand) {
+		if (playerIn.inventory.hasItemStack(itemStackIn))
 		{
-			entityplayer.setItemInUse(itemstack, getMaxItemUseDuration(itemstack));
+			playerIn.setItemInUse(itemStackIn, getMaxItemUseDuration(itemStackIn));
 		}
-		return itemstack;
+		return itemStackIn;
 	}
-
 }

@@ -2,6 +2,7 @@ package com.uberverse.arkcraft.common.item;
 
 import java.util.List;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.book.GuiInfoBook;
 import com.uberverse.arkcraft.client.book.proxy.BookClient;
@@ -10,7 +11,8 @@ import com.uberverse.arkcraft.common.proxy.CommonProxy;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
@@ -28,10 +30,10 @@ public class ARKCraftBook extends Item
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
-	{
-		if (world.isRemote) openBook(stack, world, player);
-		return stack;
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn,
+			EnumHand hand) {
+		if (worldIn.isRemote) openBook(itemStackIn, worldIn, playerIn);
+		return itemStackIn;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -45,7 +47,7 @@ public class ARKCraftBook extends Item
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4)
 	{
-		list.add(EnumChatFormatting.GOLD + "Knowledge is Power");
+		list.add(ChatFormatting.GOLD + "Knowledge is Power");
 	}
 
 }

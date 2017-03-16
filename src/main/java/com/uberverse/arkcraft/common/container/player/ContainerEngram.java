@@ -12,6 +12,7 @@ import com.uberverse.arkcraft.common.proxy.CommonProxy;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -44,7 +45,7 @@ public class ContainerEngram extends ContainerScrollable
 	}
 
 	@Override
-	public ItemStack slotClick(int slotId, int clickedButton, int mode, EntityPlayer playerIn)
+	public ItemStack slotClick(int slotId, int clickedButton, ClickType mode, EntityPlayer playerIn)
 	{
 		if (slotId >= 0)
 		{
@@ -53,7 +54,7 @@ public class ContainerEngram extends ContainerScrollable
 			{
 				s.onPickupFromSlot(playerIn, playerIn.inventory.getCurrentItem());
 				if (mode == 6 && selected != null && ARKPlayer.get(playerIn).canLearnEngram(selected.getId())
-						&& !playerIn.worldObj.isRemote)
+						&& !playerIn.world.isRemote)
 				{
 					enchantItem(playerIn, 1);
 				}
@@ -68,7 +69,7 @@ public class ContainerEngram extends ContainerScrollable
 	{
 		if (id == 0)
 		{
-			playerIn.openGui(ARKCraft.instance(), CommonProxy.GUI.PLAYER.id, playerIn.worldObj, 0, 0, 0);
+			playerIn.openGui(ARKCraft.instance(), CommonProxy.GUI.PLAYER.id, playerIn.world, 0, 0, 0);
 			return true;
 		}
 		else if (id == 1)

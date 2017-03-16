@@ -2,6 +2,7 @@ package com.uberverse.arkcraft.common.tileentity.crafter;
 
 import java.util.List;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
 import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot;
 import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot.BerryColor;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance.CROP_PLOT;
@@ -25,22 +26,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityHopper;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IChatComponent;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory, IUpdatePlayerListBox, IHoverInfo,
+public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory, IHoverInfo,
 IDecayer
 {
 	private ItemStack[] stack = new ItemStack[this.getSizeInventory()];
@@ -64,9 +62,9 @@ IDecayer
 	}
 
 	@Override
-	public IChatComponent getDisplayName()
+	public ITextComponent getDisplayName()
 	{
-		return new ChatComponentText(getName());
+		return new ITextComponent(getName());
 	}
 
 	@Override
@@ -78,14 +76,14 @@ IDecayer
 	@Override
 	public ItemStack getStackInSlot(int index)
 	{
-		TileEntityCropPlot te = (TileEntityCropPlot) worldObj.getTileEntity(part.offset(pos, true));
+		TileEntityCropPlot te = (TileEntityCropPlot) world.getTileEntity(part.offset(pos, true));
 		return te.stack[index];
 	}
 
 	@Override
 	public ItemStack decrStackSize(int slot, int par2)
 	{
-		TileEntityCropPlot te = (TileEntityCropPlot) worldObj.getTileEntity(part.offset(pos, true));
+		TileEntityCropPlot te = (TileEntityCropPlot) world.getTileEntity(part.offset(pos, true));
 		if (te.stack[slot] != null)
 		{
 			ItemStack itemstack;
@@ -125,9 +123,9 @@ IDecayer
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer player)
+	public boolean isUsableByPlayer(EntityPlayer player)
 	{
-		return Utils.isUseable(pos, player, worldObj, this);
+		return Utils.isUseable(pos, player, world, this);
 	}
 
 	@Override
@@ -167,7 +165,7 @@ IDecayer
 	@Override
 	public void clear()
 	{
-		TileEntityCropPlot te = (TileEntityCropPlot) worldObj.getTileEntity(part.offset(pos, true));
+		TileEntityCropPlot te = (TileEntityCropPlot) world.getTileEntity(part.offset(pos, true));
 		te.stack = new ItemStack[this.getSizeInventory()];
 	}
 
@@ -175,19 +173,19 @@ IDecayer
 
 	private final boolean isRaining()
 	{
-		return worldObj.isRaining() && worldObj.canSeeSky(pos);
+		return world.isRaining() && world.canSeeSky(pos);
 	}
-
+	
 	@Override
 	public void update()
 	{
-		IBlockState state = worldObj.getBlockState(pos);
-		if (state.getBlock() == Blocks.air) return;// Fixed crash on chunk unloading, and block breaking.
-		if (!worldObj.isRemote)
+		IBlockState state = world.getBlockState(pos);
+		if (state.getBlock() == Blocks.AIR) return;// Fixed crash on chunk unloading, and block breaking.
+		if (!world.isRemote)
 		{
 			if (isRaining())
 			{
-				int rand = worldObj.rand.nextInt(50);
+				int rand = world.rand.nextInt(50);
 				if (rand % 10 < 2)
 				{
 					if (part == Part.MIDDLE)
@@ -196,8 +194,8 @@ IDecayer
 					}
 					else
 					{
-						TileEntity tile = worldObj.getTileEntity(part.offset(pos, true));
-						if (tile instanceof TileEntityCropPlot && tile.hasWorldObj())
+						TileEntity tile = world.getTileEntity(part.offset(pos, true));
+						if (tile instanceof TileEntityCropPlot && tile.hasWorld())
 						{
 							((TileEntityCropPlot) tile).fillWithRain(false);
 						}
@@ -235,7 +233,7 @@ IDecayer
 							{
 								water += valToAdd;
 								ItemWaterContainer.setWaterValueLeft(stack, itemVal / 240);
-								MathHelper.clamp_int(water, 0, getType().maxWater);
+								MathHelper.clamp(water, 0, getType().maxWater);
 							}
 						}
 					}
@@ -252,13 +250,13 @@ IDecayer
 
 				if (growing != null)
 				{
-					if (growthTime >= 0 && worldObj.getLight(pos) > 7)
+					if (growthTime >= 0 && world.getLight(pos) > 7)
 					{
 						if (fIndex > -1 && water > 0)
 						{
 							// grow!
 							growthTime--;
-							if (!isRaining()) water -= (worldObj.getDifficulty().ordinal() + 1);
+							if (!isRaining()) water -= (world.getDifficulty().ordinal() + 1);
 
 							long val = ItemFertilizer.getFertilizingValueLeft(stack[fIndex]);
 							ItemFertilizer.setFertilizingValueLeft(stack[fIndex], --val);
@@ -272,11 +270,11 @@ IDecayer
 						}
 						else
 						{
-							int rand = worldObj.rand.nextInt(100);// 5% chance
+							int rand = world.rand.nextInt(100);// 5% chance
 							// if plant dies to return the seed
 							boolean ret = false;
-							if (rand % (worldObj.getDifficulty() == EnumDifficulty.NORMAL ? 40 : (worldObj
-									.getDifficulty() == EnumDifficulty.EASY ? 30 : 20)) == 0 && worldObj
+							if (rand % (world.getDifficulty() == EnumDifficulty.NORMAL ? 40 : (world
+									.getDifficulty() == EnumDifficulty.EASY ? 30 : 20)) == 0 && world
 									.getDifficulty() != EnumDifficulty.HARD)
 							{
 								ret = TileEntityHopper.func_174918_a(this, growing, null) == null;
@@ -292,8 +290,8 @@ IDecayer
 					{
 						if (this.state == CropPlotState.FRUITLING)
 						{
-							int d = worldObj.getDifficulty().ordinal();
-							boolean success = d == 0 ? true : worldObj.rand.nextInt(d + 1) == 1;
+							int d = world.getDifficulty().ordinal();
+							boolean success = d == 0 ? true : world.rand.nextInt(d + 1) == 1;
 							if (success)
 							{
 								ItemStack r = ARKCraftSeed.getBerryForSeed(growing);
@@ -306,8 +304,8 @@ IDecayer
 								if (LOG) LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos
 										.getZ() + "]: Growing Failed: " + growing);
 							}
-							growthTime = MathHelper.floor_double(CROP_PLOT.FRUIT_OUTPUT_TIME_FOR_BERRY * (20D
-									* ((worldObj.getDifficulty().ordinal() * 0.5D) + 1)));
+							growthTime = MathHelper.floor(CROP_PLOT.FRUIT_OUTPUT_TIME_FOR_BERRY * (20D
+									* ((world.getDifficulty().ordinal() * 0.5D) + 1)));
 						}
 						else
 						{
@@ -315,8 +313,8 @@ IDecayer
 							if (LOG) LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos
 									.getZ() + "]: Growing State Updated! Growing: " + growing + ", state: " + this.state
 									.name());
-							if (this.state.getTime() > 0) growthTime = MathHelper.floor_double(this.state.getTime()
-									* (20D * ((worldObj.getDifficulty().ordinal() * 0.5D) + 1)));
+							if (this.state.getTime() > 0) growthTime = MathHelper.floor(this.state.getTime()
+									* (20D * ((world.getDifficulty().ordinal() * 0.5D) + 1)));
 							else growthTime = -1;
 						}
 					}
@@ -327,7 +325,7 @@ IDecayer
 					setState(0, state);
 				}
 				markDirty();
-				worldObj.markBlockForUpdate(pos);
+				world.markBlockForUpdate(pos);
 
 				// TODO remove this code -- discuss with @tom5454
 				// canGrow = false;
@@ -467,20 +465,19 @@ IDecayer
 	{
 		if (((Integer) state.getValue(BlockCropPlot.AGE)) != age)
 		{
-			TileEntity tileentity = worldObj.getTileEntity(pos);
-			worldObj.setBlockState(pos, state.withProperty(BlockCropPlot.AGE, age), 3);
+			TileEntity tileentity = world.getTileEntity(pos);
+			world.setBlockState(pos, state.withProperty(BlockCropPlot.AGE, age), 3);
 			if (tileentity != null)
 			{
 				tileentity.validate();
-				worldObj.setTileEntity(pos, tileentity);
+				world.setTileEntity(pos, tileentity);
 			}
-			worldObj.markBlockForUpdate(pos);
+			world.markBlockForUpdate(pos);
 		}
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int index)
-	{
+	public ItemStack removeStackFromSlot(int index) {
 		return null;
 	}
 
@@ -558,14 +555,14 @@ IDecayer
 	public void addInformation(List<String> text)
 	{
 		String name = I18n.translate(growing != null ? growing.getUnlocalizedName() + ".name" : "arkcraft.empty");
-		text.add(EnumChatFormatting.YELLOW + I18n.translate("tile.crop_plot." + getType().name().toLowerCase()
+		text.add(ChatFormatting.YELLOW + I18n.translate("tile.crop_plot." + getType().name().toLowerCase()
 				+ ".name"));
 		text.add(I18n.format("arkcraft.growing") + ": " + I18n.format("arkcraft.cropPlotState.head", name, I18n.format(
 				"arkcraft.cropPlotState." + state.name().toLowerCase())));
-		String water = (this.water == 0 ? EnumChatFormatting.RED : this.water < getType().maxWater / 2
-				? EnumChatFormatting.YELLOW : EnumChatFormatting.GREEN) + "" + (this.water / 20) + "/"
-				+ getType().maxWater / 20 + EnumChatFormatting.BLUE;
-		text.add(EnumChatFormatting.BLUE + I18n.format("arkcraft.water", I18n.format("tile.water.name"), water,
+		String water = (this.water == 0 ? ChatFormatting.RED : this.water < getType().maxWater / 2
+				? ChatFormatting.YELLOW : ChatFormatting.GREEN) + "" + (this.water / 20) + "/"
+				+ getType().maxWater / 20 + ChatFormatting.BLUE;
+		text.add(ChatFormatting.BLUE + I18n.format("arkcraft.water", I18n.format("tile.water.name"), water,
 				getField(0) > 0 ? I18n.format("arkcraft.cropPlotWater.irrigated") : I18n.format(
 						"arkcraft.cropPlotWater.notIrrigated")));
 		long f = 0;
@@ -615,7 +612,7 @@ IDecayer
 
 	public CropPlotType getType()
 	{
-		return (CropPlotType) worldObj.getBlockState(pos).getValue(BlockCropPlot.TYPE);
+		return (CropPlotType) world.getBlockState(pos).getValue(BlockCropPlot.TYPE);
 	}
 
 	public BerryColor getGrowingColor()
@@ -678,7 +675,7 @@ IDecayer
 
 	public void fillWithRain(boolean big)
 	{
-		water = Math.min(water + (big ? 350 + worldObj.rand.nextInt(50) : worldObj.rand.nextInt(20) + 5),
+		water = Math.min(water + (big ? 350 + world.rand.nextInt(50) : world.rand.nextInt(20) + 5),
 				getType().maxWater);
 	}
 
@@ -700,11 +697,11 @@ IDecayer
 	{
 		NBTTagCompound nbt = new NBTTagCompound();
 		writeToNBT(nbt);
-		return new S35PacketUpdateTileEntity(pos, 0, nbt);
+		return new SPacketUpdateTileEntity(pos, 0, nbt);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
 	{
 		super.onDataPacket(net, pkt);
 		readFromNBT(pkt.getNbtCompound());
@@ -755,10 +752,10 @@ IDecayer
 				for (int z = -1; z < 2; z++)
 				{
 					BlockPos pos2 = pos.add(x, 0, z);
-					if (!(x == pos.getX() && z == pos.getZ()) && worldObj.getBlockState(pos2)
+					if (!(x == pos.getX() && z == pos.getZ()) && world.getBlockState(pos2)
 							.getBlock() instanceof BlockCropPlot)
 					{
-						TileEntity t = worldObj.getTileEntity(pos2);
+						TileEntity t = world.getTileEntity(pos2);
 						if (t instanceof TileEntityCropPlot)
 						{
 							TileEntityCropPlot tcp = (TileEntityCropPlot) t;

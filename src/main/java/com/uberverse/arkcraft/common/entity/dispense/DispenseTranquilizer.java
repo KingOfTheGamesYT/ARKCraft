@@ -4,6 +4,7 @@ import net.minecraft.block.BlockDispenser;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.IProjectile;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
@@ -14,7 +15,7 @@ import com.uberverse.arkcraft.common.entity.projectile.EntityTranquilizer;
 public class DispenseTranquilizer extends DispenseWeaponProjectile
 {
 	@Override
-	protected IProjectile getProjectileEntity(World world, IPosition pos)
+	protected IProjectile getProjectileEntity(World world, IPosition pos, ItemStack itemstack)
 	{
 		return new EntityTranquilizer(world, pos.getX(), pos.getY(), pos.getZ());
 	}

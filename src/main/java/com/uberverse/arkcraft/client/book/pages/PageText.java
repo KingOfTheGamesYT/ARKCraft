@@ -4,8 +4,6 @@ import com.uberverse.arkcraft.client.book.GuiInfoBook;
 import com.uberverse.arkcraft.client.book.lib.Page;
 import com.uberverse.arkcraft.client.book.lib.SmallFontRenderer;
 
-import net.minecraft.util.StatCollector;
-
 public class PageText extends Page {
 
 	public String text;

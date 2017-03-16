@@ -1,13 +1,13 @@
 package com.uberverse.arkcraft.common.network.player;
 
+import com.uberverse.arkcraft.init.ARKCraftItems;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
-
-import com.uberverse.arkcraft.init.ARKCraftItems;
 
 /**
  * Used so the player can poop
@@ -53,7 +53,7 @@ public class PlayerPoop implements IMessage
 				return null;
 			}
 			final EntityPlayerMP player = ctx.getServerHandler().playerEntity;
-			player.getServerForPlayer().addScheduledTask(new Runnable()
+			player.getServer().addScheduledTask(new Runnable()
 			{
 				public void run()
 				{

@@ -42,8 +42,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 
@@ -85,7 +85,7 @@ public class GuiHandler implements IGuiHandler
 			TileEntity tileEntity = world.getTileEntity(xyz);
 			if (tileEntity instanceof TileEntityCampfire)
 
-				return new ContainerCampfire((TileEntityCampfire) tileEntity, player);
+				return new ContainerCampfire(tileEntity, player);
 		}
 		else if (id == CommonProxy.GUI.ENGRAMS.id) return new ContainerEngram(ARKPlayer.get(player)
 				.getEngramInventory());
@@ -98,7 +98,7 @@ public class GuiHandler implements IGuiHandler
 		}
 		else if (id == CommonProxy.GUI.PLAYER.id) return new ContainerPlayerCrafting(player);
 		else if (id == CommonProxy.GUI.ATTACHMENTS.id) return new ContainerInventoryAttachment(player, player.inventory,
-				InventoryAttachment.create(player.getHeldItem()));
+				InventoryAttachment.create(player.getHeldItemMainhand()));
 
 		else if (id == CommonProxy.GUI.INV_DODO.id)
 		{
@@ -154,12 +154,12 @@ public class GuiHandler implements IGuiHandler
 		}
 		else if (id == CommonProxy.GUI.BOOK.id)
 		{
-			ItemStack stack = player.getCurrentEquippedItem();
+			ItemStack stack = player.getHeldItemMainhand();
 			return new GuiInfoBook(stack, GuiHandler.getBookDataFromStack(stack));
 		}
 		else if (id == CommonProxy.GUI.PLAYER.id) return new GUIPlayerCrafting(new ContainerPlayerCrafting(player));
 		else if (id == CommonProxy.GUI.ATTACHMENTS.id) return new GUIAttachment(player, player.inventory,
-				InventoryAttachment.create(player.getHeldItem()));
+				InventoryAttachment.create(player.getHeldItemMainhand()));
 		else if (id == CommonProxy.GUI.INV_DODO.id)
 		{
 			Entity entity = getEntityAt(player, x, y, z);
@@ -179,7 +179,7 @@ public class GuiHandler implements IGuiHandler
 	{
 		AxisAlignedBB targetBox = new AxisAlignedBB(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1);
 		@SuppressWarnings("rawtypes")
-		List entities = player.worldObj.getEntitiesWithinAABBExcludingEntity(player, targetBox);
+		List entities = player.world.getEntitiesWithinAABBExcludingEntity(player, targetBox);
 		@SuppressWarnings("rawtypes")
 		Iterator iterator = entities.iterator();
 		while (iterator.hasNext())

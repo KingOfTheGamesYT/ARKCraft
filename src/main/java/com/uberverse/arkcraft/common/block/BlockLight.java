@@ -6,9 +6,8 @@ import net.minecraft.block.BlockAir;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockLight extends BlockAir
@@ -23,10 +22,10 @@ public class BlockLight extends BlockAir
 	}
 
 	@Override
-	public Material getMaterial()
-	{
-		return Material.grass;
+	public Material getMaterial(IBlockState state) {
+		return Material.GRASS;
 	}
+	
 
 	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)

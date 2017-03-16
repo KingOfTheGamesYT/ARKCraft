@@ -121,7 +121,7 @@ public class CoreConfig
 	@SubscribeEvent
 	public void onConfigurationChanged(ConfigChangedEvent.OnConfigChangedEvent e)
 	{
-		if (e.modID.equalsIgnoreCase(ARKCraft.MODID))
+		if (e.getModID().equalsIgnoreCase(ARKCraft.MODID))
 		{
 			// Resync configs
 			LogHelper.info("Configs: Configuration has changed, loading.");

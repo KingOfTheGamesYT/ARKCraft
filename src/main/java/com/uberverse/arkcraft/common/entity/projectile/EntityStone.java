@@ -6,7 +6,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 /**
@@ -25,29 +25,28 @@ public class EntityStone extends EntityThrowable implements ITranquilizer
 	}
 
 	@Override
-	protected void onImpact(MovingObjectPosition mop)
+	public int getTorpor()
 	{
+		return 10;
+	}
+
+	@Override
+	protected void onImpact(RayTraceResult result) {
 		/* Damage on impact */
 		float dmg = 2;
-		if (mop.entityHit != null)
+		if (result.entityHit != null)
 		{
-			mop.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), dmg);
-			applyTorpor(mop.entityHit);
+			result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), dmg);
+			applyTorpor(result.entityHit);
 		}
 
 		for (int i = 0; i < 4; i++)
 		{
-			this.worldObj.spawnParticle(EnumParticleTypes.CRIT, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
+			this.world.spawnParticle(EnumParticleTypes.CRIT, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
 		}
-		if (this.worldObj.isRemote)
+		if (this.world.isRemote)
 		{
 			this.setDead();
 		}
-	}
-
-	@Override
-	public int getTorpor()
-	{
-		return 10;
 	}
 }

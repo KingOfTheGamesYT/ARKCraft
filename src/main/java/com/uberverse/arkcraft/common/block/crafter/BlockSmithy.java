@@ -9,14 +9,12 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -32,7 +30,7 @@ public class BlockSmithy extends BlockARKContainer
 
 	public BlockSmithy()
 	{
-		super(Material.wood);
+		super(Material.WOOD);
 		this.setHardness(0.5F);
 		this.setCreativeTab(ARKCraft.tabARK);
 	}
@@ -64,7 +62,7 @@ public class BlockSmithy extends BlockARKContainer
 	}
 
 	@Override
-	public boolean isOpaqueCube()
+	public boolean isOpaqueCube(IBlockState state)
 	{
 		return false;
 	}
@@ -121,6 +119,8 @@ public class BlockSmithy extends BlockARKContainer
 						break;
 				}
 				break;
+		default:
+			break;
 		}
 	}
 

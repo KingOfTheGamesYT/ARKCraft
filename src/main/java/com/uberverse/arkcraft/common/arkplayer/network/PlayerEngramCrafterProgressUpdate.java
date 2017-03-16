@@ -41,7 +41,7 @@ public class PlayerEngramCrafterProgressUpdate implements IMessage
 		{
 			if (ctx.side.isClient())
 			{
-				ARKPlayer.get(Minecraft.getMinecraft().thePlayer).getEngramCrafter().setProgress(message.progress);
+				ARKPlayer.get(Minecraft.getMinecraft().player).getEngramCrafter().setProgress(message.progress);
 			}
 			return null;
 		}

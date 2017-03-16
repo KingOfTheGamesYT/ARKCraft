@@ -42,7 +42,7 @@ public class ReloadFinished implements IMessage
 		{
 			if (player != null)
 			{
-				ItemStack stack = player.getCurrentEquippedItem();
+				ItemStack stack = player.getHeldItemMainhand();
 				if (stack != null && stack.getItem() instanceof ItemRangedWeapon) ((ItemRangedWeapon) stack.getItem())
 						.setReloading(stack, player, false);
 			}

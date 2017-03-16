@@ -4,16 +4,12 @@ import java.util.List;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.entity.projectile.EntityArkArrow;
-import com.uberverse.arkcraft.common.entity.projectile.EntityMetalArrow;
-import com.uberverse.arkcraft.common.entity.projectile.EntityStoneArrow;
-import com.uberverse.arkcraft.common.entity.projectile.EntityTranqArrow;
 import com.uberverse.arkcraft.common.item.ammo.ItemArrow;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
 import com.uberverse.arkcraft.util.I18n;
 
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
@@ -86,17 +82,17 @@ public class ItemARKBow extends ItemBow
 				boolean flag = false;
 				if (selected.equals(ARKCraftRangedWeapons.stone_arrow.getUnlocalizedName()))
 				{
-					if (playerIn.inventory.hasItem((ARKCraftRangedWeapons.stone_arrow))) flag = true;
+					if (playerIn.inventory.hasItemStack((ARKCraftRangedWeapons.stone_arrow))) flag = true;
 				}
 				// else if (getArrowType(stack).equals("metal_arrow"))
 				else if (selected.equals(ARKCraftRangedWeapons.metal_arrow.getUnlocalizedName()))
 				{
-					if (playerIn.inventory.hasItem((ARKCraftRangedWeapons.metal_arrow))) flag = true;
+					if (playerIn.inventory.hasItemStack((ARKCraftRangedWeapons.metal_arrow))) flag = true;
 				}
 				// else if (getArrowType(stack).equals("tranq_arrow"))
 				else if (selected.equals(ARKCraftRangedWeapons.tranq_arrow.getUnlocalizedName()))
 				{
-					if (playerIn.inventory.hasItem((ARKCraftRangedWeapons.tranq_arrow))) flag = true;
+					if (playerIn.inventory.hasItemStack((ARKCraftRangedWeapons.tranq_arrow))) flag = true;
 				}
 				if (flag) playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
 			}
@@ -181,9 +177,9 @@ public class ItemARKBow extends ItemBow
 
 			entityarrow.canBePickedUp = 2;
 
-			playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+			playerIn.triggerAchievement(StatList.getObjectUseStats[Item.getIdFromItem(this)]);
 
-			worldIn.spawnEntityInWorld(entityarrow);
+			worldIn.spawnEntity(entityarrow);
 		}
 	}
 

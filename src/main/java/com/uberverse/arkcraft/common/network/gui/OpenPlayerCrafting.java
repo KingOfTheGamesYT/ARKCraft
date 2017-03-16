@@ -37,7 +37,7 @@ public class OpenPlayerCrafting implements IMessage
 				return null;
 			}
 			final EntityPlayerMP player = ctx.getServerHandler().playerEntity;
-			player.getServerForPlayer().addScheduledTask(new Runnable()
+			player.getServer().addScheduledTask(new Runnable()
 			{
 				public void run()
 				{
@@ -53,7 +53,7 @@ public class OpenPlayerCrafting implements IMessage
 	{
 		if (player != null)
 		{
-			player.openGui(ARKCraft.instance(), CommonProxy.GUI.PLAYER.id, player.worldObj, 0, 0, 0);
+			player.openGui(ARKCraft.instance(), CommonProxy.GUI.PLAYER.id, player.world, 0, 0, 0);
 		}
 	}
 }

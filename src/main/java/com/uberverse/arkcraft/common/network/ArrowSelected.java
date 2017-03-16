@@ -36,7 +36,7 @@ public class ArrowSelected implements IMessage
 				return null;
 			}
 			final EntityPlayerMP player = ctx.getServerHandler().playerEntity;
-			player.getServerForPlayer().addScheduledTask(new Runnable()
+			player.getServer().addScheduledTask(new Runnable()
 			{
 				public void run()
 				{
@@ -51,7 +51,7 @@ public class ArrowSelected implements IMessage
 	{
 		if (player != null)
 		{
-			ItemStack stack = player.getCurrentEquippedItem();
+			ItemStack stack = player.getHeldItemMainhand();
 			if (stack != null && stack.getItem() instanceof ItemARKBow)
 			{
 				

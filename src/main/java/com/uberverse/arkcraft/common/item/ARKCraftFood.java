@@ -42,7 +42,7 @@ public class ARKCraftFood extends ItemFood implements IDecayable
 		for (int i = 0; i < effects.length; i++)
 			if (!worldIn.isRemote && effects[i] != null && effects[i].getPotionID() > 0) player.addPotionEffect(
 					new PotionEffect(this.effects[i].getPotionID(), this.effects[i].getDuration(), this.effects[i]
-							.getAmplifier(), this.effects[i].getIsAmbient(), this.effects[i].getIsShowParticles()));
+							.getAmplifier(), this.effects[i].getIsAmbient(), this.effects[i].doesShowParticles()));
 	}
 
 	public static ItemStack getSeedForBerry(ItemStack stack)

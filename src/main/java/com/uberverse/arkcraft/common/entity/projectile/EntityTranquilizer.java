@@ -42,13 +42,13 @@ public class EntityTranquilizer extends EntityProjectile implements ITranquilize
 	{
 		super.onUpdate();
 
-		worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, posX, posY, posZ, 0.0D, 0.0D, 0.0D);
+		world.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, posX, posY, posZ, 0.0D, 0.0D, 0.0D);
 	}
 
 	@Override
 	public void playHitSound()
 	{
-		worldObj.playSoundAtEntity(this, "random.bowhit", 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.9F));
+		world.playSoundAtEntity(this, "random.bowhit", 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.9F));
 	}
 
 	@Override

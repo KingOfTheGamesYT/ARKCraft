@@ -1,11 +1,11 @@
 package com.uberverse.arkcraft.common.event;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.util.I18n;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.ForgeVersion.Status;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -27,20 +27,20 @@ public class VersionDetectionHandler
 		{
 			if (ARKCraft.instance().isDebugger())
 			{
-				player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED
+				player.sendMessage(new ITextComponent(ChatFormatting.RED
 						+ "You are running a decompiled version of ARKCraft!"));
 			}
 			else if (ARKCraft.versionCheckResult != null && ARKCraft.versionCheckResult.status == Status.OUTDATED
 					|| ARKCraft.versionCheckResult.status == Status.BETA_OUTDATED)
 			{
-				player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + I18n.translate(
+				player.sendMessage(new ITextComponent(ChatFormatting.RED + I18n.translate(
 						"chat.notification.outdated")));
-				player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + I18n.format(
+				player.sendMessage(new ITextComponent(ChatFormatting.RED + I18n.format(
 						"chat.notification.outdatedversion", ARKCraft.instance().version())));
 			}
 			else if (ARKCraft.versionCheckResult == null)
 			{
-				player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "No Internet access"));
+				player.sendMessage(new ITextComponent(ChatFormatting.RED + "No Internet access"));
 			}
 		}
 

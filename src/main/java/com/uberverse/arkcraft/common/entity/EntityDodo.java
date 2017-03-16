@@ -27,8 +27,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityDodo extends EntityTameable
@@ -110,8 +112,8 @@ public class EntityDodo extends EntityTameable
 	protected void applyEntityAttributes()
 	{
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(4.0D);
-		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
+		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(4.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
 	}
 
 	/**
@@ -126,7 +128,7 @@ public class EntityDodo extends EntityTameable
 		this.field_70888_h = this.field_70886_e;
 		this.field_70884_g = this.destPos;
 		this.destPos = (float) ((double) this.destPos + (double) (this.onGround ? -1 : 4) * 0.3D);
-		this.destPos = MathHelper.clamp_float(this.destPos, 0.0F, 1.0F);
+		this.destPos = MathHelper.clamp(this.destPos, 0.0F, 1.0F);
 		if (!this.onGround && this.field_70889_i < 1.0F)
 		{
 			this.field_70889_i = 1.0F;
@@ -137,7 +139,7 @@ public class EntityDodo extends EntityTameable
 			this.motionY *= 0.6D;
 		}
 		this.field_70886_e += this.field_70889_i * 2.0F;
-		if (!this.worldObj.isRemote && !this.isChild() && --this.timeUntilNextEgg <= 0)
+		if (!this.world.isRemote && !this.isChild() && --this.timeUntilNextEgg <= 0)
 		{
 			this.playSound("mob.chicken.plop", 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
 			// TODO create dodo egg
@@ -145,7 +147,7 @@ public class EntityDodo extends EntityTameable
 			this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
 		}
 		this.field_70886_e += this.field_70889_i * 2.0F;
-		if (!this.worldObj.isRemote && !this.isChild() && --this.timeUntilNextEgg <= 0)
+		if (!this.world.isRemote && !this.isChild() && --this.timeUntilNextEgg <= 0)
 		{
 			this.playSound(ARKCraft.MODID + ":" + "dodo_defficating", 1.0F, (this.rand.nextFloat() - this.rand
 					.nextFloat()) * 0.2F + 1.0F);
@@ -195,7 +197,7 @@ public class EntityDodo extends EntityTameable
 
 	private void dropItemsInChest(Entity entity, IInventory inventory)
 	{
-		if (inventory != null && !this.worldObj.isRemote)
+		if (inventory != null && !this.world.isRemote)
 		{
 			for (int i = 0; i < inventory.getSizeInventory(); ++i)
 			{
@@ -214,15 +216,15 @@ public class EntityDodo extends EntityTameable
 		super.setTamed(tamed);
 		if (tamed)
 		{
-			this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(10.0D);
-			this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.5D);
+			this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
+			this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
 		}
 	}
 
+	
 	@Override
-	public boolean interact(EntityPlayer player)
-	{
-		if (!this.worldObj.isRemote)
+	public boolean processInteract(EntityPlayer player, EnumHand hand, ItemStack stack) {
+		if (!this.world.isRemote)
 		{
 			LogHelper.info("The player right clicked a Dodo.");
 		}
@@ -232,7 +234,7 @@ public class EntityDodo extends EntityTameable
 		{
 			if (this.isOwner(player))
 			{
-				if (!this.worldObj.isRemote)
+				if (!this.world.isRemote)
 				{
 					LogHelper.info("The Dodo is tamed.");
 				}
@@ -240,9 +242,9 @@ public class EntityDodo extends EntityTameable
 				{
 					if (isChested())
 					{
-						if (!this.worldObj.isRemote)
+						if (!this.world.isRemote)
 						{
-							player.openGui(ARKCraft.instance(), GUI.INV_DODO.id, this.worldObj, (int) Math.floor(
+							player.openGui(ARKCraft.instance(), GUI.INV_DODO.id, this.world, (int) Math.floor(
 									this.posX), (int) this.posY, (int) Math.floor(this.posZ));
 							LogHelper.info("EnityDodo: Opening GUI on Dodo at: " + this.posX + "," + this.posY + ","
 									+ this.posZ + " (" + (int) Math.floor(this.posX) + "," + (int) this.posY + ","
@@ -282,7 +284,7 @@ public class EntityDodo extends EntityTameable
 					this.setSitting(!this.isSitting());
 				}
 
-				if (!this.worldObj.isRemote)
+				if (!this.world.isRemote)
 				{
 					if (this.isSitting())
 					{
@@ -296,7 +298,7 @@ public class EntityDodo extends EntityTameable
 			}
 			else
 			{
-				if (!this.worldObj.isRemote)
+				if (!this.world.isRemote)
 				{
 					LogHelper.info("The Dodo is tamed, but not yours.");
 				}
@@ -313,7 +315,7 @@ public class EntityDodo extends EntityTameable
 			{
 				player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack) null);
 			}
-			if (!this.worldObj.isRemote)
+			if (!this.world.isRemote)
 			{
 				if (this.rand.nextInt(2) == 0)
 				{
@@ -323,23 +325,24 @@ public class EntityDodo extends EntityTameable
 					this.setHealth(10.0F);
 					this.setOwnerId(player.getUniqueID().toString());
 					this.playTameEffect(true);
-					this.worldObj.setEntityState(this, (byte) 7);
+					this.world.setEntityState(this, (byte) 7);
 				}
 				else
 				{
 					this.playTameEffect(false);
-					this.worldObj.setEntityState(this, (byte) 6);
+					this.world.setEntityState(this, (byte) 6);
 				}
 			}
 			return true;
 		}
 		return false;
 	}
+	
 
 	@Override
 	public EntityDodo createChild(EntityAgeable ageable)
 	{
-		return new EntityDodo(this.worldObj);
+		return new EntityDodo(this.world);
 	}
 
 	/**
@@ -428,9 +431,9 @@ public class EntityDodo extends EntityTameable
 	public int getGrowingAge()
 	{
 		// Added the null check for the dossier
-		if (this.worldObj != null)
+		if (this.world != null)
 		{
-			return this.worldObj.isRemote ? this.dataWatcher.getWatchableObjectByte(12) : this.field_175504_a;
+			return this.world.isRemote ? this.dataWatcher.getWatchableObjectByte(12) : this.field_175504_a;
 		}
 		else
 		{

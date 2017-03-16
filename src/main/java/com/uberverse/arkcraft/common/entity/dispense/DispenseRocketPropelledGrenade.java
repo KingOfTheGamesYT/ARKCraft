@@ -6,16 +6,16 @@ import net.minecraft.block.BlockDispenser;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.IProjectile;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 
 public class DispenseRocketPropelledGrenade extends DispenseWeaponProjectile
 {
+	
 	@Override
-	protected IProjectile getProjectileEntity(World world, IPosition pos)
-	{
-		// TODO
+	protected IProjectile getProjectileEntity(World world, IPosition pos, ItemStack itemstack) {
 		return new EntityRocketPropelledGrenade(world, pos.getX(), pos.getY(), pos.getZ());
 	}
 

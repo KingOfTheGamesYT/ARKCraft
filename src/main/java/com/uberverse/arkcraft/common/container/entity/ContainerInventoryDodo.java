@@ -85,7 +85,7 @@ public class ContainerInventoryDodo extends Container
 	@Override
 	public boolean canInteractWith(EntityPlayer playerIn)
 	{
-		return this.invDodo.isUseableByPlayer(playerIn) && this.dodo.isEntityAlive() && this.dodo.getDistanceToEntity(
+		return this.invDodo.isUsableByPlayer(playerIn) && this.dodo.isEntityAlive() && this.dodo.getDistanceToEntity(
 				playerIn) < 8.0F;
 	}
 
@@ -136,7 +136,7 @@ public class ContainerInventoryDodo extends Container
 	@Override
 	public void onContainerClosed(EntityPlayer playerIn)
 	{
-		if (playerIn.worldObj.isRemote)
+		if (playerIn.world.isRemote)
 		{
 			LogHelper.info("ContainerInventoryDodo: onContainerClosed called on client.");
 		}

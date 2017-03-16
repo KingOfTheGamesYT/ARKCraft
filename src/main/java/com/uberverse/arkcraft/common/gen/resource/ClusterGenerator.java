@@ -3,7 +3,7 @@ package com.uberverse.arkcraft.common.gen.resource;
 import java.util.Random;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenerator;
@@ -84,7 +84,7 @@ public abstract class ClusterGenerator extends WorldGenerator implements IWorldG
 	protected void set(World world, BlockPos pos)
 	{
 		IBlockState s = world.getBlockState(pos.down());
-		if (s.getBlock().isReplaceable(world, pos.down()) || !s.getBlock().isOpaqueCube()) return;
+		if (s.getBlock().isReplaceable(world, pos.down()) || !s.getBlock().isOpaqueCube(s)) return;
 		world.setBlockState(pos, getGeneratedState());
 	}
 

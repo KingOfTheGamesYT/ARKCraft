@@ -8,7 +8,7 @@ public class TileEntitySmithy extends TileEntityEngramCrafter
 	public void update()
 	{
 		super.update();
-		if (isCrafting() && new Random().nextInt(100) == 0) worldObj.playSound(pos.getX(), pos.getY(), pos.getZ(),
+		if (isCrafting() && new Random().nextInt(100) == 0) world.playSound(pos.getX(), pos.getY(), pos.getZ(),
 				"arkcraft:smithy_hammer", 1, 0, true);
 	}
 

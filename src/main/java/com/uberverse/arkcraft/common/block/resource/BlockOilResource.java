@@ -12,7 +12,7 @@ public class BlockOilResource extends BlockARKResource
 {
 	public BlockOilResource()
 	{
-		super(Material.coral);
+		super(Material.CORAL);
 	}
 
 	@Override

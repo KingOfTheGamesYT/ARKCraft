@@ -38,9 +38,9 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
@@ -75,10 +75,10 @@ public class CommonEventHandler
 	@SubscribeEvent
 	public void onEntityConstructing(EntityEvent.EntityConstructing event)
 	{
-		if (event.entity instanceof EntityPlayer)
+		if (event.getEntity() instanceof EntityPlayer)
 		{
-			ARKPlayer.register((EntityPlayer) event.entity);
-			if (event.entity.worldObj.isRemote) // On client
+			ARKPlayer.register((EntityPlayer) event.getEntity());
+			if (event.getEntity().world.isRemote) // On client
 			{
 				LogHelper.info("ARKPlayerEventHandler: Registered a new ARKPlayer on client.");
 			}
@@ -93,16 +93,16 @@ public class CommonEventHandler
 	public void onClonePlayer(PlayerEvent.Clone event)
 	{
 		LogHelper.info("ARKPlayerEventHandler: Cloning player extended properties");
-		ARKPlayer.get(event.entityPlayer).copy(ARKPlayer.get(event.original));
+		ARKPlayer.get(event.getEntityPlayer()).copy(ARKPlayer.get(event.getOriginal()));
 	}
 
 	@SubscribeEvent
 	public void onLivingUpdateEvent(LivingEvent.LivingUpdateEvent event)
 	{
 		// LogHelper.info("LIVING UPDATE EVENT");
-		if (event.entity instanceof EntityPlayer)
+		if (event.getEntity() instanceof EntityPlayer)
 		{
-			EntityPlayer player = (EntityPlayer) event.entity;
+			EntityPlayer player = (EntityPlayer) event.getEntity();
 			// Enable pooping once every (the value in the config) ticks
 			if (player.ticksExisted % ModuleItemBalance.PLAYER.TICKS_BETWEEN_PLAYER_POOP == 0)
 			{
@@ -112,7 +112,7 @@ public class CommonEventHandler
 	}
 
 	// Immutable Set (Not able to edit the set)
-	private static final Set<Item> INPUTS = ImmutableSet.of(Items.bone, Items.book, Items.wheat);
+	private static final Set<Item> INPUTS = ImmutableSet.of(Items.BONE, Items.BOOK, Items.WHEAT);
 
 	@SuppressWarnings("unchecked")
 	@SubscribeEvent
@@ -137,10 +137,10 @@ public class CommonEventHandler
 						if (entityInWorld instanceof EntityItem)
 						{
 							EntityItem entityItemInWorld = (EntityItem) entityInWorld;
-							if (entityItemInWorld.getEntityItem().getItem() == Items.book)
+							if (entityItemInWorld.getEntityItem().getItem() == Items.BOOK)
 							{
 								LogHelper.info("Found an Entity in the world that is a book!");
-								remainingInputs.remove(Items.book);
+								remainingInputs.remove(Items.BOOK);
 								foundEntityItems.add(entityItemInWorld);
 								AxisAlignedBB areaBound = entityItemInWorld.getEntityBoundingBox().expand(3, 3, 3);
 								List<Entity> entitiesWithinBound = world.getEntitiesWithinAABBExcludingEntity(
@@ -150,17 +150,17 @@ public class CommonEventHandler
 									if (entityWithinBound instanceof EntityItem)
 									{
 										EntityItem entityItemWithinBound = (EntityItem) entityWithinBound;
-										if (entityItemWithinBound.getEntityItem().getItem() == Items.bone)
+										if (entityItemWithinBound.getEntityItem().getItem() == Items.BONE)
 										{
 											LogHelper.info("Found an Entity near the book that is a bone!");
-											remainingInputs.remove(Items.bone);
+											remainingInputs.remove(Items.BONE);
 											if (!remainingInputs.contains(entityItemWithinBound)) foundEntityItems.add(
 													entityItemWithinBound);
 										}
-										else if (entityItemWithinBound.getEntityItem().getItem() == Items.wheat)
+										else if (entityItemWithinBound.getEntityItem().getItem() == Items.WHEAT)
 										{
 											LogHelper.info("Found an Entity near the book that is wheat!");
-											remainingInputs.remove(Items.wheat);
+											remainingInputs.remove(Items.WHEAT);
 											if (!remainingInputs.contains(entityItemWithinBound)) foundEntityItems.add(
 													entityItemWithinBound);
 										}
@@ -197,18 +197,18 @@ public class CommonEventHandler
 						// Spawn particle and item
 						((WorldServer) world).spawnParticle(EnumParticleTypes.SMOKE_LARGE, false, itemToSpawn.posX,
 								itemToSpawn.posY + 0.5D, itemToSpawn.posZ, 5, 0.0D, 0.0D, 0.0D, 0.0D, new int[0]);
-						world.spawnEntityInWorld(itemToSpawn);
+						world.spawnEntity(itemToSpawn);
 					}
 
 				}
 
 				if (event.phase == Phase.START)
 				{
-					TickStorage t = tick.get(event.world.provider.getDimensionId());
+					TickStorage t = tick.get(event.world.provider.getDimension());
 					if (t == null)
 					{
 						t = new TickStorage();
-						tick.put(event.world.provider.getDimensionId(), t);
+						tick.put(event.world.provider.getDimension(), t);
 					}
 					if (t.tick > 20)
 					{
@@ -276,7 +276,7 @@ public class CommonEventHandler
 
 							BlockPos n = new BlockPos(x, y, z);
 							IBlockState blockState = world.getBlockState(new BlockPos(x, y, z));
-							if (blockState.getBlock() == Blocks.log || blockState.getBlock() == Blocks.log2)
+							if (blockState.getBlock() == Blocks.LOG || blockState.getBlock() == Blocks.LOG2)
 							{
 								if (!done.contains(n)) queue.add(n);
 							}
@@ -296,7 +296,7 @@ public class CommonEventHandler
 	public void onPlayerTick(PlayerTickEvent evt)
 	{
 		EntityPlayer p = evt.player;
-		ItemStack stack = p.getCurrentEquippedItem();
+		ItemStack stack = p.getHeldItemMainhand();
 
 		if (stack != null && stack.getItem() instanceof ItemRangedWeapon)
 		{
@@ -305,12 +305,12 @@ public class CommonEventHandler
 			{
 				if (++reloadTicks >= w.getReloadDuration())
 				{
-					if (!p.worldObj.isRemote)
+					if (!p.world.isRemote)
 					{
 						w.setReloading(stack, p, false);
 						reloadTicks = 0;
 						w.hasAmmoAndConsume(stack, p);
-						w.effectReloadDone(stack, p.worldObj, p);
+						w.effectReloadDone(stack, p.world, p);
 						ARKCraft.modChannel.sendTo(new ReloadFinished(), (EntityPlayerMP) p);
 					}
 				}
@@ -321,30 +321,30 @@ public class CommonEventHandler
 	@SubscribeEvent
 	public void onBlockBroken(BlockEvent.HarvestDropsEvent event)
 	{
-		if (event.harvester != null && !event.harvester.getEntityWorld().isRemote && event.harvester
-				.getHeldItem() == null && ARKPlayer.isARKMode(event.harvester) && event.state
+		if (event.getHarvester() != null && !event.getHarvester().getEntityWorld().isRemote && event.getHarvester()
+				.getHeldItemMainhand() == null && ARKPlayer.isARKMode(event.getHarvester()) && event.getState()
 						.getBlock() instanceof BlockLog)
 		{
-			ARKPlayer.get(event.harvester).addXP(0.4);
-			event.drops.clear();
-			if (new Random().nextDouble() < 0.5) event.drops.add(new ItemStack(ARKCraftItems.wood, 1));
+			ARKPlayer.get(event.getHarvester()).addXP(0.4);
+			event.getDrops().clear();
+			if (new Random().nextDouble() < 0.5) event.getDrops().add(new ItemStack(ARKCraftItems.wood, 1));
 			int thatch = (int) (new Random().nextDouble() * 5);
-			event.drops.add(new ItemStack(ARKCraftItems.thatch, thatch));
+			event.getDrops().add(new ItemStack(ARKCraftItems.thatch, thatch));
 		}
 	}
 
 	@SubscribeEvent
 	public void onItemPickup(EntityItemPickupEvent event)
 	{
-		if (!event.entityPlayer.worldObj.isRemote)
+		if (!event.getEntityPlayer().world.isRemote)
 		{
-			ItemStack pickedUp = event.item.getEntityItem();
+			ItemStack pickedUp = event.getItem().getEntityItem();
 			if (pickedUp != null)
 			{
 				Item in = pickedUp.getItem();
 				if (in instanceof IDecayable)
 				{
-					EntityPlayer p = event.entityPlayer;
+					EntityPlayer p = event.getEntityPlayer();
 					for (int i = 0; i < p.inventory.getSizeInventory(); i++)
 					{
 						ItemStack inInv = p.inventory.getStackInSlot(i);
@@ -379,20 +379,20 @@ public class CommonEventHandler
 	public void onEntityKilled(LivingDropsEvent event)
 	{
 		// TODO remove when actual ark creatures are in place and dropping items
-		if (event.entityLiving.worldObj.isRemote) return;
+		if (event.getEntityLiving().world.isRemote) return;
 		Random r = new Random();
 		int x = r.nextInt(3) + 1;
 		ItemStack meat = new ItemStack(ARKCraftItems.meat_raw, x);
-		event.drops.add(new EntityItem(event.entityLiving.worldObj, event.entityLiving.posX, event.entityLiving.posY,
-				event.entityLiving.posZ, IDecayable.setDecayStart(meat, ARKCraft.proxy.getWorldTime())));
-		if (r.nextDouble() < 0.05) event.drops.add(new EntityItem(event.entityLiving.worldObj, event.entityLiving.posX,
-				event.entityLiving.posY, event.entityLiving.posZ, IDecayable.setDecayStart(new ItemStack(
+		event.getDrops().add(new EntityItem(event.getEntityLiving().world, event.getEntityLiving().posX, event.getEntityLiving().posY,
+				event.getEntityLiving().posZ, IDecayable.setDecayStart(meat, ARKCraft.proxy.getWorldTime())));
+		if (r.nextDouble() < 0.05) event.getDrops().add(new EntityItem(event.getEntityLiving().world, event.getEntityLiving().posX,
+				event.getEntityLiving().posY, event.getEntityLiving().posZ, IDecayable.setDecayStart(new ItemStack(
 						ARKCraftItems.primemeat_raw), ARKCraft.proxy.getWorldTime())));
-		if (event.entityLiving instanceof EntitySpider || event.entityLiving instanceof EntitySilverfish
-				|| event.entityLiving instanceof EntityEndermite) event.drops.add(new EntityItem(
-						event.entityLiving.worldObj, event.entityLiving.posX, event.entityLiving.posY,
-						event.entityLiving.posZ, new ItemStack(ARKCraftItems.chitin, r.nextInt(3) + 1)));
-		else event.drops.add(new EntityItem(event.entityLiving.worldObj, event.entityLiving.posX,
-				event.entityLiving.posY, event.entityLiving.posZ, new ItemStack(ARKCraftItems.hide, r.nextInt(3) + 1)));
+		if (event.getEntityLiving() instanceof EntitySpider || event.getEntityLiving() instanceof EntitySilverfish
+				|| event.getEntityLiving() instanceof EntityEndermite) event.getDrops().add(new EntityItem(
+						event.getEntityLiving().world, event.getEntityLiving().posX, event.getEntityLiving().posY,
+						event.getEntityLiving().posZ, new ItemStack(ARKCraftItems.chitin, r.nextInt(3) + 1)));
+		else event.getDrops().add(new EntityItem(event.getEntityLiving().world, event.getEntityLiving().posX,
+				event.getEntityLiving().posY, event.getEntityLiving().posZ, new ItemStack(ARKCraftItems.hide, r.nextInt(3) + 1)));
 	}
 }

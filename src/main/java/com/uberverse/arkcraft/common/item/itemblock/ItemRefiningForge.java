@@ -1,15 +1,17 @@
 package com.uberverse.arkcraft.common.item.itemblock;
 
+import com.uberverse.arkcraft.common.block.crafter.BlockRefiningForge;
+import com.uberverse.arkcraft.init.ARKCraftBlocks;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import com.uberverse.arkcraft.common.block.crafter.BlockRefiningForge;
-import com.uberverse.arkcraft.init.ARKCraftBlocks;
 
 public class ItemRefiningForge extends ItemBlockARK
 {
@@ -20,12 +22,11 @@ public class ItemRefiningForge extends ItemBlockARK
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side,
-			float hitX, float hitY, float hitZ)
-	{
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos,
+			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (worldIn.isRemote)
 		{
-			return true;
+			return EnumActionResult.PASS;
 		}
 		else
 		{
@@ -43,11 +44,11 @@ public class ItemRefiningForge extends ItemBlockARK
 			boolean flag2 = worldIn.isAirBlock(pos) || flag;
 			boolean flag3 = worldIn.isAirBlock(blockpos1) || flag1;
 
-			if (playerIn.canPlayerEdit(pos, side, stack) && playerIn.canPlayerEdit(blockpos1, side, stack))
+			if (playerIn.canPlayerEdit(pos, facing, stack) && playerIn.canPlayerEdit(blockpos1, facing, stack))
 			{
 				if (flag2 && flag3 && World.doesBlockHaveSolidTopSurface(worldIn, pos.down()))
 				{
-					IBlockState iblockstate1 = ARKCraftBlocks.refiningForge.onBlockPlaced(worldIn, blockpos1, side,
+					IBlockState iblockstate1 = ARKCraftBlocks.refiningForge.onBlockPlaced(worldIn, blockpos1, facing,
 							hitX, hitY, hitZ, 0, playerIn).withProperty(BlockRefiningForge.PART,
 									BlockRefiningForge.EnumPart.BOTTOM);
 					if (worldIn.setBlockState(pos, iblockstate1, 3))
@@ -57,16 +58,16 @@ public class ItemRefiningForge extends ItemBlockARK
 						worldIn.setBlockState(blockpos1, iblockstate2, 3);
 					}
 					--stack.stackSize;
-					return true;
+					return EnumActionResult.PASS;
 				}
 				else
 				{
-					return false;
+					return EnumActionResult.FAIL;
 				}
 			}
 			else
 			{
-				return false;
+				return EnumActionResult.FAIL;
 			}
 		}
 	}

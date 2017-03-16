@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.Multimap;
+import com.mojang.realmsclient.gui.ChatFormatting;
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 
@@ -17,9 +18,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -135,19 +134,19 @@ public class ItemTool extends Item
 				return ("" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name"))
 						.trim();
 			case RAMSCHACKLE:
-				return (EnumChatFormatting.GREEN + "" + StatCollector.translateToLocal(this
+				return (ChatFormatting.GREEN + "" + StatCollector.translateToLocal(this
 						.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
 			case APPRENTICE:
-				return (EnumChatFormatting.BLUE + "" + StatCollector.translateToLocal(this
+				return (ChatFormatting.BLUE + "" + StatCollector.translateToLocal(this
 						.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
 			case JOURNEYMAN:
-				return (EnumChatFormatting.DARK_PURPLE + "" + StatCollector.translateToLocal(this
+				return (ChatFormatting.DARK_PURPLE + "" + StatCollector.translateToLocal(this
 						.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
 			case MASTERCRAFT:
-				return (EnumChatFormatting.YELLOW + "" + StatCollector.translateToLocal(this
+				return (ChatFormatting.YELLOW + "" + StatCollector.translateToLocal(this
 						.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
 			case ASCENDANT:
-				return (EnumChatFormatting.RED + "" + StatCollector.translateToLocal(this
+				return (ChatFormatting.RED + "" + StatCollector.translateToLocal(this
 						.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
 			default:
 				break;
@@ -178,7 +177,7 @@ public class ItemTool extends Item
 			{
 				EntityPlayer player = (EntityPlayer) playerIn;
 
-				if (blockState.getBlock() == Blocks.log || blockState.getBlock() == Blocks.log2)
+				if (blockState.getBlock() == Blocks.LOG || blockState.getBlock() == Blocks.LOG2)
 				{
 					this.destroyBlocks(worldIn, pos, player);
 
@@ -208,7 +207,7 @@ public class ItemTool extends Item
 					count = 0;
 				}
 
-				else if (blockState.getBlock() == Blocks.stone)
+				else if (blockState.getBlock() == Blocks.STONE)
 				{
 					if (toolType == "stonePickaxe")
 					{
@@ -238,7 +237,7 @@ public class ItemTool extends Item
 					stack.damageItem(1, player);
 					count = 0;
 				}
-				else if (blockState.getBlock() == Blocks.iron_ore)
+				else if (blockState.getBlock() == Blocks.IRON_ORE)
 				{
 					if (toolType == "stonePickaxe")
 					{
@@ -289,7 +288,7 @@ public class ItemTool extends Item
 			}
 			else
 			{
-				worldIn.spawnEntityInWorld(entityitem);
+				worldIn.spawnEntity(entityitem);
 			}
 		}
 	}
@@ -328,7 +327,7 @@ public class ItemTool extends Item
 	public Multimap getItemAttributeModifiers()
 	{
 		Multimap multimap = super.getItemAttributeModifiers();
-		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(
+		multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName(), new AttributeModifier(
 				itemModifierUUID, "Tool modifier", (double) this.damageVsEntity, 0));
 		return multimap;
 	}
@@ -346,7 +345,7 @@ public class ItemTool extends Item
 				for (int j = y - 1; j <= y + 1; j++)
 				{
 					IBlockState blockState = world.getBlockState(new BlockPos(i, j, k));
-					if (blockState.getBlock() == Blocks.log || blockState.getBlock() == Blocks.log2)
+					if (blockState.getBlock() == Blocks.LOG || blockState.getBlock() == Blocks.LOG2)
 					{
 						world.destroyBlock(new BlockPos(i, j, k), false);
 						++count;

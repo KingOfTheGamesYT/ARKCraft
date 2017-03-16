@@ -9,7 +9,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
@@ -39,7 +39,7 @@ public class DescriptionHandler extends SimpleChannelInboundHandler<FMLProxyPack
 				int x = buf.readInt();
 				int y = buf.readInt();
 				int z = buf.readInt();
-				TileEntity te = ARKCraft.proxy.getPlayer().worldObj.getTileEntity(new BlockPos(x, y, z));
+				TileEntity te = ARKCraft.proxy.getPlayer().world.getTileEntity(new BlockPos(x, y, z));
 				if (te instanceof TileEntityArkCraft)
 				{
 					((TileEntityArkCraft) te).readFromPacket(ByteBufUtils.readTag(buf));

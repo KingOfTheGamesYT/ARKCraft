@@ -1,19 +1,13 @@
 package com.uberverse.arkcraft.common.item;
 
-import java.util.List;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot.BerryColor;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot.CropPlotType;
 import com.uberverse.arkcraft.init.ARKCraftItems;
+
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 public class ARKCraftSeed extends Item
 {

@@ -16,15 +16,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.play.server.S2BPacketChangeGameState;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.network.play.server.SPacketChangeGameState;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -99,7 +98,7 @@ public class EntityArkArrow extends Entity implements IProjectile
      */
     public void setThrowableHeading(double x, double y, double z, float velocity, float inaccuracy)
     {
-        float f2 = MathHelper.sqrt_double(x * x + y * y + z * z);
+        float f2 = MathHelper.sqrt(x * x + y * y + z * z);
         x /= (double)f2;
         y /= (double)f2;
         z /= (double)f2;
@@ -112,7 +111,7 @@ public class EntityArkArrow extends Entity implements IProjectile
         this.motionX = x;
         this.motionY = y;
         this.motionZ = z;
-        float f3 = MathHelper.sqrt_double(x * x + z * z);
+        float f3 = MathHelper.sqrt(x * x + z * z);
         this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(x, z) * 180.0D / Math.PI);
         this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(y, (double)f3) * 180.0D / Math.PI);
         this.ticksInGround = 0;
@@ -137,7 +136,7 @@ public class EntityArkArrow extends Entity implements IProjectile
 
         if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
         {
-            float f = MathHelper.sqrt_double(x * x + z * z);
+            float f = MathHelper.sqrt(x * x + z * z);
             this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(x, z) * 180.0D / Math.PI);
             this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(y, (double)f) * 180.0D / Math.PI);
             this.prevRotationPitch = this.rotationPitch;
@@ -156,21 +155,21 @@ public class EntityArkArrow extends Entity implements IProjectile
 
         if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
         {
-            float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+            float f = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
             this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
             this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(this.motionY, (double)f) * 180.0D / Math.PI);
         }
 
         BlockPos blockpos = new BlockPos(this.xTile, this.yTile, this.zTile);
-        IBlockState iblockstate = this.worldObj.getBlockState(blockpos);
+        IBlockState iblockstate = this.world.getBlockState(blockpos);
         Block block = iblockstate.getBlock();
 
-        if (block.getMaterial() != Material.air)
+        if (block.getMaterial() != Material.AIR)
         {
-            block.setBlockBoundsBasedOnState(this.worldObj, blockpos);
-            AxisAlignedBB axisalignedbb = block.getCollisionBoundingBox(this.worldObj, blockpos, iblockstate);
+            block.setBlockBoundsBasedOnState(this.world, blockpos);
+            AxisAlignedBB axisalignedbb = block.getCollisionBoundingBox(this.world, blockpos, iblockstate);
 
-            if (axisalignedbb != null && axisalignedbb.isVecInside(new Vec3(this.posX, this.posY, this.posZ)))
+            if (axisalignedbb != null && axisalignedbb.isVecInside(new Vec3d(this.posX, this.posY, this.posZ)))
             {
                 this.inGround = true;
             }
@@ -207,19 +206,19 @@ public class EntityArkArrow extends Entity implements IProjectile
         else
         {
             ++this.ticksInAir;
-            Vec3 vec31 = new Vec3(this.posX, this.posY, this.posZ);
-            Vec3 vec3 = new Vec3(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-            MovingObjectPosition movingobjectposition = this.worldObj.rayTraceBlocks(vec31, vec3, false, true, false);
-            vec31 = new Vec3(this.posX, this.posY, this.posZ);
-            vec3 = new Vec3(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+            Vec3d vec31 = new Vec3d(this.posX, this.posY, this.posZ);
+            Vec3d vec3 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+            MovingObjectPosition movingobjectposition = this.world.rayTraceBlocks(vec31, vec3, false, true, false);
+            vec31 = new Vec3d(this.posX, this.posY, this.posZ);
+            vec3 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
 
             if (movingobjectposition != null)
             {
-                vec3 = new Vec3(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
+                vec3 = new Vec3d(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
             }
 
             Entity entity = null;
-            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
+            List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
             double d0 = 0.0D;
             int i;
             float f1;
@@ -270,8 +269,8 @@ public class EntityArkArrow extends Entity implements IProjectile
             {
                 if (movingobjectposition.entityHit != null)
                 {
-                    f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
-                    int k = MathHelper.ceiling_double_int((double)f2 * this.damage);
+                    f2 = MathHelper.sqrt(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
+                    int k = MathHelper.ceil((double)f2 * this.damage);
 
                     if (this.getIsCritical())
                     {
@@ -300,14 +299,14 @@ public class EntityArkArrow extends Entity implements IProjectile
                         {
                             EntityLivingBase entitylivingbase = (EntityLivingBase)movingobjectposition.entityHit;
 
-                            if (!this.worldObj.isRemote)
+                            if (!this.world.isRemote)
                             {
                                 entitylivingbase.setArrowCountInEntity(entitylivingbase.getArrowCountInEntity() + 1);
                             }
 
                             if (this.knockbackStrength > 0)
                             {
-                                f4 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+                                f4 = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
 
                                 if (f4 > 0.0F)
                                 {
@@ -323,7 +322,7 @@ public class EntityArkArrow extends Entity implements IProjectile
 
                             if (this.shootingEntity != null && movingobjectposition.entityHit != this.shootingEntity && movingobjectposition.entityHit instanceof EntityPlayer && this.shootingEntity instanceof EntityPlayerMP)
                             {
-                                ((EntityPlayerMP)this.shootingEntity).playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(6, 0.0F));
+                                ((EntityPlayerMP)this.shootingEntity).playerNetServerHandler.sendPacket(new SPacketChangeGameState(6, 0.0F));
                             }
                         }
 
@@ -350,13 +349,13 @@ public class EntityArkArrow extends Entity implements IProjectile
                     this.xTile = blockpos1.getX();
                     this.yTile = blockpos1.getY();
                     this.zTile = blockpos1.getZ();
-                    iblockstate = this.worldObj.getBlockState(blockpos1);
+                    iblockstate = this.world.getBlockState(blockpos1);
                     this.inTile = iblockstate.getBlock();
                     this.inData = this.inTile.getMetaFromState(iblockstate);
                     this.motionX = (double)((float)(movingobjectposition.hitVec.xCoord - this.posX));
                     this.motionY = (double)((float)(movingobjectposition.hitVec.yCoord - this.posY));
                     this.motionZ = (double)((float)(movingobjectposition.hitVec.zCoord - this.posZ));
-                    f3 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
+                    f3 = MathHelper.sqrt(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
                     this.posX -= this.motionX / (double)f3 * 0.05000000074505806D;
                     this.posY -= this.motionY / (double)f3 * 0.05000000074505806D;
                     this.posZ -= this.motionZ / (double)f3 * 0.05000000074505806D;
@@ -365,9 +364,9 @@ public class EntityArkArrow extends Entity implements IProjectile
                     this.arrowShake = 7;
                     this.setIsCritical(false);
 
-                    if (this.inTile.getMaterial() != Material.air)
+                    if (this.inTile.getMaterial() != Material.AIR)
                     {
-                        this.inTile.onEntityCollidedWithBlock(this.worldObj, blockpos1, iblockstate, this);
+                        this.inTile.onEntityCollidedWithBlock(this.world, blockpos1, iblockstate, this);
                     }
                 }
             }
@@ -376,14 +375,14 @@ public class EntityArkArrow extends Entity implements IProjectile
             {
                 for (i = 0; i < 4; ++i)
                 {
-                    this.worldObj.spawnParticle(EnumParticleTypes.CRIT, this.posX + this.motionX * (double)i / 4.0D, this.posY + this.motionY * (double)i / 4.0D, this.posZ + this.motionZ * (double)i / 4.0D, -this.motionX, -this.motionY + 0.2D, -this.motionZ, new int[0]);
+                    this.world.spawnParticle(EnumParticleTypes.CRIT, this.posX + this.motionX * (double)i / 4.0D, this.posY + this.motionY * (double)i / 4.0D, this.posZ + this.motionZ * (double)i / 4.0D, -this.motionX, -this.motionY + 0.2D, -this.motionZ, new int[0]);
                 }
             }
 
             this.posX += this.motionX;
             this.posY += this.motionY;
             this.posZ += this.motionZ;
-            f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+            f2 = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
             this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
 
             for (this.rotationPitch = (float)(Math.atan2(this.motionY, (double)f2) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
@@ -416,7 +415,7 @@ public class EntityArkArrow extends Entity implements IProjectile
                 for (int l = 0; l < 4; ++l)
                 {
                     f4 = 0.25F;
-                    this.worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX - this.motionX * (double)f4, this.posY - this.motionY * (double)f4, this.posZ - this.motionZ * (double)f4, this.motionX, this.motionY, this.motionZ, new int[0]);
+                    this.world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX - this.motionX * (double)f4, this.posY - this.motionY * (double)f4, this.posZ - this.motionZ * (double)f4, this.motionX, this.motionY, this.motionZ, new int[0]);
                 }
 
                 f3 = 0.6F;
@@ -445,7 +444,7 @@ public class EntityArkArrow extends Entity implements IProjectile
         tagCompound.setShort("yTile", (short)this.yTile);
         tagCompound.setShort("zTile", (short)this.zTile);
         tagCompound.setShort("life", (short)this.ticksInGround);
-        ResourceLocation resourcelocation = (ResourceLocation)Block.blockRegistry.getNameForObject(this.inTile);
+        ResourceLocation resourcelocation = (ResourceLocation)Block.REGISTRY.getNameForObject(this.inTile);
         tagCompound.setString("inTile", resourcelocation == null ? "" : resourcelocation.toString());
         tagCompound.setByte("inData", (byte)this.inData);
         tagCompound.setByte("shake", (byte)this.arrowShake);
@@ -497,7 +496,7 @@ public class EntityArkArrow extends Entity implements IProjectile
      */
     public void onCollideWithPlayer(EntityPlayer entityIn)
     {
-        if (!this.worldObj.isRemote && this.inGround && this.arrowShake <= 0)
+        if (!this.world.isRemote && this.inGround && this.arrowShake <= 0)
         {
             boolean flag = this.canBePickedUp == 1 || this.canBePickedUp == 2 && entityIn.capabilities.isCreativeMode;
 			ItemStack item = getPickupItem();

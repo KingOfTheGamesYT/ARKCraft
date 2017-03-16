@@ -19,14 +19,16 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.S2BPacketChangeGameState;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.network.play.server.SPacketChangeGameState;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -145,7 +147,7 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 	 */
 	public void setThrowableHeading(double motionX, double motionY, double motionZ, float speed, float inaccuracy)
 	{
-		float f2 = MathHelper.sqrt_double(motionX * motionX + motionY * motionY + motionZ * motionZ);
+		float f2 = MathHelper.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ);
 		motionX /= (double) f2;
 		motionY /= (double) f2;
 		motionZ /= (double) f2;
@@ -161,7 +163,7 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 		this.motionX = motionX;
 		this.motionY = motionY;
 		this.motionZ = motionZ;
-		float f3 = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
+		float f3 = MathHelper.sqrt(motionX * motionX + motionZ * motionZ);
 		this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(motionX, motionZ) * 180.0D / Math.PI);
 		this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(motionY, (double) f3) * 180.0D / Math.PI);
 		this.ticksInGround = 0;
@@ -179,7 +181,7 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 
 		if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
 		{
-			float f = MathHelper.sqrt_double(x * x + z * z);
+			float f = MathHelper.sqrt(x * x + z * z);
 			this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(x, z) * 180.0D / Math.PI);
 			this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(y, (double) f) * 180.0D / Math.PI);
 			this.prevRotationPitch = this.rotationPitch;
@@ -197,7 +199,7 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 		super.onUpdate();
 		if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
 		{
-			float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+			float f = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
 			this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D
 					/ Math.PI);
 			this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(this.motionY, (double) f) * 180.0D
@@ -205,13 +207,13 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 		}
 
 		BlockPos blockpos = new BlockPos(this.xTile, this.yTile, this.zTile);
-		IBlockState iblockstate = this.worldObj.getBlockState(blockpos);
+		IBlockState iblockstate = this.world.getBlockState(blockpos);
 		Block block = iblockstate.getBlock();
 
-		if (block.getMaterial() != Material.air)
+		if (block.getMaterial() != Material.AIR)
 		{
-			block.setBlockBoundsBasedOnState(this.worldObj, blockpos);
-			AxisAlignedBB axisalignedbb = block.getCollisionBoundingBox(this.worldObj, blockpos, iblockstate);
+			block.setBlockBoundsBasedOnState(this.world, blockpos);
+			AxisAlignedBB axisalignedbb = block.getCollisionBoundingBox(this.world, blockpos, iblockstate);
 
 			if (axisalignedbb != null && axisalignedbb.isVecInside(new Vec3(this.posX, this.posY, this.posZ)))
 			{
@@ -250,21 +252,21 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 		else
 		{
 			++this.ticksInAir;
-			Vec3 vec31 = new Vec3(this.posX, this.posY, this.posZ);
-			Vec3 vec3 = new Vec3(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-			MovingObjectPosition movingobjectposition = this.worldObj.rayTraceBlocks(vec31, vec3, false, true, false);
-			vec31 = new Vec3(this.posX, this.posY, this.posZ);
-			vec3 = new Vec3(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+			Vec3d vec31 = new Vec3d(this.posX, this.posY, this.posZ);
+			Vec3d vec3 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+			MovingObjectPosition movingobjectposition = this.world.rayTraceBlocks(vec31, vec3, false, true, false);
+			vec31 = new Vec3d(this.posX, this.posY, this.posZ);
+			vec3 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
 
 			if (movingobjectposition != null)
 			{
-				vec3 = new Vec3(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord,
+				vec3 = new Vec3d(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord,
 						movingobjectposition.hitVec.zCoord);
 			}
 
 			Entity entity = null;
 			@SuppressWarnings("rawtypes")
-			List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(
+			List list = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(
 					this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
 			double d0 = 0.0D;
 			int i;
@@ -331,7 +333,7 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 			{
 				for (i = 0; i < 4; ++i)
 				{
-					this.worldObj.spawnParticle(EnumParticleTypes.CRIT, this.posX + this.motionX * (double) i / 4.0D,
+					this.world.spawnParticle(EnumParticleTypes.CRIT, this.posX + this.motionX * (double) i / 4.0D,
 							this.posY + this.motionY * (double) i / 4.0D, this.posZ + this.motionZ * (double) i / 4.0D,
 							-this.motionX, -this.motionY + 0.2D, -this.motionZ, new int[0]);
 				}
@@ -340,7 +342,7 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 			this.posX += this.motionX;
 			this.posY += this.motionY;
 			this.posZ += this.motionZ;
-			f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+			f2 = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
 			this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
 
 			for (this.rotationPitch = (float) (Math.atan2(this.motionY, (double) f2) * 180.0D / Math.PI);
@@ -375,7 +377,7 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 				for (int l = 0; l < 4; ++l)
 				{
 					f4 = 0.25F;
-					this.worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX - this.motionX * (double) f4,
+					this.world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX - this.motionX * (double) f4,
 							this.posY - this.motionY * (double) f4, this.posZ - this.motionZ * (double) f4,
 							this.motionX, this.motionY, this.motionZ, new int[0]);
 
@@ -406,7 +408,7 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 	public void gunRange()
 	{
 		System.out.println(ticksInAir);
-		worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, posX, posY, posZ, 0.0D, 0.0D, 0.0D);
+		world.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, posX, posY, posZ, 0.0D, 0.0D, 0.0D);
 		if (ticksInAir >= range)
 		{
 			this.setDead();
@@ -427,9 +429,9 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 
 		if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
 		{
-			if (this.worldObj.getBlockState(blockpos1).getBlock().getMaterial().equals(Material.glass))
+			if (this.world.getBlockState(blockpos1).getBlock().getMaterial().equals(Material.GLASS))
 			{
-				worldObj.destroyBlock(blockpos1, true);
+				world.destroyBlock(blockpos1, true);
 				// worldObj.playSoundEffect(xTile, yTile, zTile,
 				// "random.break_glass", 2F, 3F);
 				LogHelper.error("Found block Glass");
@@ -444,17 +446,17 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 	public void applyGroundHitEffects(MovingObjectPosition movingobjectposition)
 	{
 		BlockPos blockpos1 = movingobjectposition.getBlockPos();
-		IBlockState iblockstate = this.worldObj.getBlockState(blockpos1);
+		IBlockState iblockstate = this.world.getBlockState(blockpos1);
 		this.xTile = blockpos1.getX();
 		this.yTile = blockpos1.getY();
 		this.zTile = blockpos1.getZ();
-		iblockstate = this.worldObj.getBlockState(blockpos1);
+		iblockstate = this.world.getBlockState(blockpos1);
 		this.inTile = iblockstate.getBlock();
 		this.inData = this.inTile.getMetaFromState(iblockstate);
 		this.motionX = (double) ((float) (movingobjectposition.hitVec.xCoord - this.posX));
 		this.motionY = (double) ((float) (movingobjectposition.hitVec.yCoord - this.posY));
 		this.motionZ = (double) ((float) (movingobjectposition.hitVec.zCoord - this.posZ));
-		float f3 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ
+		float f3 = MathHelper.sqrt(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ
 				* this.motionZ);
 		this.posX -= this.motionX / (double) f3 * 0.05000000074505806D;
 		this.posY -= this.motionY / (double) f3 * 0.05000000074505806D;
@@ -465,9 +467,9 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 		this.arrowShake = getMaxArrowShake();
 		this.setIsCritical(false);
 
-		if (this.inTile.getMaterial() != Material.air)
+		if (this.inTile.getMaterial() != Material.AIR)
 		{
-			this.inTile.onEntityCollidedWithBlock(this.worldObj, blockpos1, iblockstate, this);
+			this.inTile.onEntityCollidedWithBlock(this.world, blockpos1, iblockstate, this);
 		}
 	}
 
@@ -531,7 +533,7 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 			EntityLivingBase entityliving = (EntityLivingBase) entityHit;
 			if (knockbackStrength > 0)
 			{
-				float f = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
+				float f = MathHelper.sqrt(motionX * motionX + motionZ * motionZ);
 				if (f > 0.0F)
 				{
 					entityHit.addVelocity(motionX * knockbackStrength * 0.6D / f, 0.1D, motionZ * knockbackStrength
@@ -546,7 +548,7 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 			if (shootingEntity instanceof EntityPlayerMP && shootingEntity != entityHit
 					&& entityHit instanceof EntityPlayer)
 			{
-				((EntityPlayerMP) shootingEntity).playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(6, 0));
+				((EntityPlayerMP) shootingEntity).playerNetServerHandler.sendPacket(new SPacketChangeGameState(6, 0));
 			}
 		}
 	}
@@ -572,7 +574,7 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 	@Override
 	public void onCollideWithPlayer(EntityPlayer entityIn)
 	{
-		if (!this.worldObj.isRemote && this.inGround && this.arrowShake <= 0)
+		if (!this.world.isRemote && this.inGround && this.arrowShake <= 0)
 		{
 			boolean flag = this.canBePickedUp == 1 || this.canBePickedUp == 2 && entityIn.capabilities.isCreativeMode;
 

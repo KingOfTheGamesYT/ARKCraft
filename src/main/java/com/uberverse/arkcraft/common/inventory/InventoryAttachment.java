@@ -1,10 +1,5 @@
 package com.uberverse.arkcraft.common.inventory;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-
 import com.uberverse.arkcraft.common.item.attachments.AttachmentType;
 import com.uberverse.arkcraft.common.item.attachments.Flashable;
 import com.uberverse.arkcraft.common.item.attachments.HoloScopeable;
@@ -14,6 +9,11 @@ import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
 import com.uberverse.arkcraft.common.item.attachments.Scopeable;
 import com.uberverse.arkcraft.common.item.attachments.Silenceable;
 import com.uberverse.arkcraft.common.item.ranged.ItemRangedWeapon;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 /**
  * @author BubbleTrouble
@@ -108,9 +108,9 @@ public class InventoryAttachment extends AbstractInventory
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer player)
+	public boolean isUsableByPlayer(EntityPlayer player)
 	{
-		return player.getHeldItem() == invStack;
+		return player.getHeldItemMainhand() == invStack;
 	}
 
 	@Override
@@ -147,6 +147,11 @@ public class InventoryAttachment extends AbstractInventory
 	public ItemStack getStackInSlot(int slot)
 	{
 		return inventory[slot];
+	}
+
+	@Override
+	public ItemStack removeStackFromSlot(int index) {
+		return inventory[index];
 	}
 
 }

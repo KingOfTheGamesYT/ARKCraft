@@ -19,7 +19,7 @@ public class BlockCrystalResource extends BlockARKResource
 
 	public BlockCrystalResource()
 	{
-		super(Material.rock);
+		super(Material.ROCK);
 		setLightLevel(5);
 	}
 
@@ -38,7 +38,7 @@ public class BlockCrystalResource extends BlockARKResource
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public boolean isOpaqueCube()
+	public boolean isOpaqueCube(IBlockState state)
 	{
 		return false;
 	}

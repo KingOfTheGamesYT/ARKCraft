@@ -1,14 +1,16 @@
 package com.uberverse.arkcraft.common.block.unused;
 
+import com.uberverse.arkcraft.ARKCraft;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import com.uberverse.arkcraft.ARKCraft;
 
 public class ARKContainerBlock extends Block
 {
@@ -45,19 +47,20 @@ public class ARKContainerBlock extends Block
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos blockPos, IBlockState state, EntityPlayer playerIn,
-			EnumFacing side, float hitX, float hitY, float hitZ)
-	{
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state,
+			EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY,
+			float hitZ) {
 		if (!playerIn.isSneaking())
 		{
 			if (!worldIn.isRemote)
 			{
-				playerIn.openGui(ARKCraft.instance(), ID, worldIn, blockPos.getX(), blockPos.getY(), blockPos.getZ());
+				playerIn.openGui(ARKCraft.instance(), ID, worldIn, side.getFrontOffsetX(), side.getFrontOffsetY(), side.getFrontOffsetZ());
 				return true;
 			}
 		}
 		return false;
 	}
+	
 
 	public void setRenderAsNormalBlock(boolean b)
 	{

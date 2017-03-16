@@ -24,14 +24,12 @@ public class TileEntityCampfire extends TileEntityBurner
 	}
 
 	@Override
-	public BurnerType getBurnerType()
-	{
+	public BurnerType getBurnerType() {
 		return BurnerType.CAMPFIRE;
 	}
-
+	
 	@Override
-	public String getOnSoundName()
-	{
+	public String getOnSoundName() {
 		return "arkcraft:on";
 	}
 	
@@ -45,6 +43,11 @@ public class TileEntityCampfire extends TileEntityBurner
 	public String getLightSoundName()
 	{
 		return "arkcraft:light";
+	}
+
+	@Override
+	public ItemStack removeStackFromSlot(int index) {
+		return null;
 	}
 	
 }

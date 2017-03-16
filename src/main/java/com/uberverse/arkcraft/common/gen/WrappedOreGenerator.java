@@ -6,8 +6,9 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.IWorldGenerator;
@@ -202,7 +203,7 @@ public class WrappedOreGenerator implements IWorldGenerator
 
 	protected Block[] getValidSpawnBlocks()
 	{
-		Block[] validSpawnBlocks = { Blocks.grass, Blocks.gravel, Blocks.sand, Blocks.stone };
+		Block[] validSpawnBlocks = { Blocks.GRASS, Blocks.GRAVEL, Blocks.SAND, Blocks.STONE };
 		return validSpawnBlocks;
 	}
 
@@ -211,7 +212,7 @@ public class WrappedOreGenerator implements IWorldGenerator
 		int distanceToAir = 0;
 		BlockPos pos = new BlockPos(x, y, z);
 		Block check = world.getBlockState(pos).getBlock();
-		while (check != Blocks.air)
+		while (check != Blocks.AIR)
 		{
 			if (distanceToAir > 3) { return false; }
 			distanceToAir++;
@@ -225,23 +226,22 @@ public class WrappedOreGenerator implements IWorldGenerator
 
 		for (Block b : getValidSpawnBlocks())
 		{
-			if (above != Blocks.air) { return false; }
+			if (above != Blocks.AIR) { return false; }
 			if (block == b)
 			{
 				return true;
 			}
-			else if (block == Blocks.snow && below == b) { return true; }
+			else if (block == Blocks.SNOW && below == b) { return true; }
 		}
 		return false;
 	}
 
 	@Override
-	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator,
-			IChunkProvider chunkProvider)
-	{
+	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator,
+			IChunkProvider chunkProvider) {
 		for (Instruction var : this.generations.values())
 		{
-			int var1 = world.provider.getDimensionId();
+			int var1 = world.provider.getDimension();
 			if (var1 == -1)
 			{
 				if (var.nether)
@@ -335,5 +335,4 @@ public class WrappedOreGenerator implements IWorldGenerator
 
 		}
 	}
-
 }

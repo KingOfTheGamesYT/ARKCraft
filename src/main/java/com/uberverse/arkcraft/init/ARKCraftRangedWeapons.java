@@ -184,23 +184,23 @@ public class ARKCraftRangedWeapons
 	{
 		if (simple_bullet != null)
 		{
-			BlockDispenser.dispenseBehaviorRegistry.putObject(simple_bullet, new DispenseSimpleBullet());
+			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(simple_bullet, new DispenseSimpleBullet());
 		}
 		if (simple_shotgun_ammo != null)
 		{
-			BlockDispenser.dispenseBehaviorRegistry.putObject(simple_shotgun_ammo, new DispenseSimpleShotgunAmmo());
+			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(simple_shotgun_ammo, new DispenseSimpleShotgunAmmo());
 		}
 		if (simple_rifle_ammo != null)
 		{
-			BlockDispenser.dispenseBehaviorRegistry.putObject(simple_rifle_ammo, new DispenseSimpleRifleAmmo());
+			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(simple_rifle_ammo, new DispenseSimpleRifleAmmo());
 		}
 		if (tranquilizer != null)
 		{
-			BlockDispenser.dispenseBehaviorRegistry.putObject(tranquilizer, new DispenseTranquilizer());
+			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(tranquilizer, new DispenseTranquilizer());
 		}
 		if (rocket_propelled_grenade != null)
 		{
-			BlockDispenser.dispenseBehaviorRegistry.putObject(rocket_propelled_grenade,
+			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(rocket_propelled_grenade,
 					new DispenseRocketPropelledGrenade());
 		}
 	}

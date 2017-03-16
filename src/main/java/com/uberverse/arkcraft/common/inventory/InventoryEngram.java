@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
 
 /**
  * @author ERBF | Aug 10, 2016
@@ -130,9 +131,9 @@ public class InventoryEngram implements IInventory
 	{}
 
 	@Override
-	public IChatComponent getDisplayName()
+	public ITextComponent getDisplayName()
 	{
-		return new ChatComponentText(name);
+		return new ITextComponent(name);
 	}
 
 }

@@ -30,13 +30,13 @@ public class ItemGrenade extends Item
 			f = 1.0F;
 		}
 
-		if (entityplayer.capabilities.isCreativeMode || entityplayer.inventory.consumeInventoryItem(this))
+		if (entityplayer.capabilities.isCreativeMode || entityplayer.inventory.inventoryItem(this))
 		{
 			world.playSoundAtEntity(entityplayer, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 0.8F));
 			if (!world.isRemote)
 			{
 				EntityGrenade entiyGrenade = new EntityGrenade(world, entityplayer);
-				world.spawnEntityInWorld(entiyGrenade);
+				world.spawnEntity(entiyGrenade);
 			}
 		}
 	}

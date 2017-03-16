@@ -16,7 +16,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -48,7 +48,7 @@ public abstract class BlockARKResource extends Block implements IExperienceSourc
 		{
 			grantXP(ARKPlayer.get(player));
 
-			ItemStack stack = player.getHeldItem();
+			ItemStack stack = player.getHeldItemMainhand();
 			if (stack != null && stack.getItem() instanceof ItemToolBase)
 			{
 				ItemToolBase tool = (ItemToolBase) stack.getItem();
@@ -61,7 +61,7 @@ public abstract class BlockARKResource extends Block implements IExperienceSourc
 				{
 					for (ItemStack s : ais.toItemStacks())
 					{
-						worldIn.spawnEntityInWorld(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), s));
+						worldIn.spawnEntity(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), s));
 					}
 				}
 			}

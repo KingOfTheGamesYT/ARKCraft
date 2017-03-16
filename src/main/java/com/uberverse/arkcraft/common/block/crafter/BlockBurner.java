@@ -5,11 +5,10 @@ import com.uberverse.arkcraft.common.burner.IBurner;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 
 public abstract class BlockBurner extends BlockARKContainer
@@ -27,13 +26,13 @@ public abstract class BlockBurner extends BlockARKContainer
 	{
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
 		if (tileEntity instanceof IBurner)
-		{
+		{	
 			IBurner burner = (IBurner) tileEntity;
 			return state.withProperty(BURNING, burner.isBurning());
 		}
 		return state;
 	}
-
+	
 	@Override
 	public int getLightValue(IBlockAccess world, BlockPos pos)
 	{
@@ -49,7 +48,7 @@ public abstract class BlockBurner extends BlockARKContainer
 		{
 			lightValue = 0;
 		}
-		lightValue = MathHelper.clamp_int(lightValue, 0, 15);
+		lightValue = MathHelper.clamp(lightValue, 0, 15);
 		return lightValue;
 	}
 

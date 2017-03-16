@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.common.network;
+	package com.uberverse.arkcraft.common.network;
 
 import com.uberverse.arkcraft.common.item.ranged.ItemRangedWeapon;
 
@@ -36,7 +36,7 @@ public class ReloadStarted implements IMessage
 				return null;
 			}
 			final EntityPlayerMP player = ctx.getServerHandler().playerEntity;
-			player.getServerForPlayer().addScheduledTask(new Runnable()
+			player.getServer().addScheduledTask(new Runnable()
 			{
 				public void run()
 				{
@@ -51,12 +51,12 @@ public class ReloadStarted implements IMessage
 	{
 		if (player != null)
 		{
-			ItemStack stack = player.getCurrentEquippedItem();
+			ItemStack stack = player.getHeldItemMainhand();
 			if (stack != null && stack.getItem() instanceof ItemRangedWeapon)
 			{
 				ItemRangedWeapon weapon = (ItemRangedWeapon) stack.getItem();
 				weapon.setReloading(stack, player, true);
-				weapon.soundCharge(stack, player.worldObj, player);
+				weapon.soundCharge(stack, player.world, player);
 			}
 		}
 	}

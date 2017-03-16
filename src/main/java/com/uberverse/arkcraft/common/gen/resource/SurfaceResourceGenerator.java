@@ -7,7 +7,7 @@ import com.uberverse.arkcraft.common.block.resource.BlockSmallRockResource;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -48,9 +48,9 @@ public abstract class SurfaceResourceGenerator extends ClusterGenerator
 		IBlockState self = world.getBlockState(pos);
 		IBlockState down = world.getBlockState(pos.down());
 		boolean in = world.getWorldType() != WorldType.FLAT && !BiomeDictionary.isBiomeOfType(world
-				.getBiomeGenForCoords(pos), BiomeDictionary.Type.WATER) && !world.getBlockState(pos.down()).getBlock()
-						.isLeaves(world, pos.down()) && !(down.getBlock() instanceof BlockARKResource) && self
-								.getBlock() != Blocks.water && self.getBlock() != Blocks.lava;
+				.getBiomeForCoordsBody(pos), BiomeDictionary.Type.WATER) && !world.getBlockState(pos.down()).getBlock()
+						.isLeaves(down, world, pos.down()) && !(down.getBlock() instanceof BlockARKResource) && self
+								.getBlock() != Blocks.WATER && self.getBlock() != Blocks.LAVA;
 		if (!in) return in;
 		for (int x = -maxWidth / 2; x < maxWidth / 2; x++)
 			for (int z = -maxWidth / 2; z < maxWidth / 2; z++)

@@ -9,14 +9,12 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -32,12 +30,13 @@ public class BlockCompostBin extends BlockARKContainer
 
 	public BlockCompostBin()
 	{
-		super(Material.wood);
+		super(Material.WOOD);
 		this.setCreativeTab(ARKCraft.tabARK);
 		this.setDefaultState(super.getDefaultState().withProperty(PART, EnumPart.LEFT).withProperty(FACING,
 				EnumFacing.NORTH));
 	}
 
+	
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos blockPos, IBlockState state, EntityPlayer playerIn,
 			EnumFacing side, float hitX, float hitY, float hitZ)
@@ -64,13 +63,13 @@ public class BlockCompostBin extends BlockARKContainer
 	}
 
 	@Override
-	public boolean isOpaqueCube()
+	public boolean isOpaqueCube(IBlockState state)
 	{
 		return false;
 	}
 
 	@Override
-	public boolean isFullCube()
+	public boolean isFullCube(IBlockState state)
 	{
 		return false;
 	}
@@ -149,6 +148,7 @@ public class BlockCompostBin extends BlockARKContainer
 	/**
 	 * Called when a neighboring block changes.
 	 */
+	
 	@Override
 	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
 	{

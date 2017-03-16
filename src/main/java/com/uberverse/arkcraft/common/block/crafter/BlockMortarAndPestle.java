@@ -7,8 +7,8 @@ import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntityMP;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -19,7 +19,7 @@ public class BlockMortarAndPestle extends BlockARKContainer
 {
 	public BlockMortarAndPestle()
 	{
-		super(Material.rock);
+		super(Material.ROCK);
 		this.setHardness(0.5F);
 		this.setCreativeTab(ARKCraft.tabARK);
 		float f = 0.25F;
@@ -45,13 +45,13 @@ public class BlockMortarAndPestle extends BlockARKContainer
 	}
 
 	@Override
-	public boolean isFullCube()
+	public boolean isFullCube(IBlockState state)
 	{
 		return false;
 	}
 
 	@Override
-	public boolean isOpaqueCube()
+	public boolean isOpaqueCube(IBlockState state)
 	{
 		return false;
 	}

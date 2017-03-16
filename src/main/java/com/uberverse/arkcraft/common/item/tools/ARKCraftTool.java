@@ -25,9 +25,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatList;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -44,7 +44,7 @@ public abstract class ARKCraftTool extends ItemTool
 		@Override
 		public boolean apply(IBlockState blockState)
 		{
-			return blockState.getBlock() == Blocks.log || blockState.getBlock() == Blocks.log2;
+			return blockState.getBlock() == Blocks.LOG || blockState.getBlock() == Blocks.LOG2;
 		}
 	};
 	private static final Predicate<IBlockState> IRON_ORE_PREDICATE = new Predicate<IBlockState>()
@@ -53,13 +53,13 @@ public abstract class ARKCraftTool extends ItemTool
 		@Override
 		public boolean apply(IBlockState blockState)
 		{
-			return blockState.getBlock() == Blocks.iron_ore;
+			return blockState.getBlock() == Blocks.IRON_ORE;
 		}
 	};
 
 	public ARKCraftTool(float attackDamage, ToolMaterial material, Set effectiveBlocks, ToolType toolType)
 	{
-		super(attackDamage, material, effectiveBlocks);
+		super(attackDamage, attackDamage, material, effectiveBlocks);
 		this.setCreativeTab(ARKCraft.tabARK);
 		setHasSubtypes(true);
 		this.toolType = toolType;
@@ -100,7 +100,7 @@ public abstract class ARKCraftTool extends ItemTool
 			}
 			else
 			{
-				worldIn.spawnEntityInWorld(entityitem);
+				worldIn.spawnEntity(entityitem);
 			}
 		}
 	}
@@ -144,13 +144,13 @@ public abstract class ARKCraftTool extends ItemTool
 				count = 0;
 
 			}
-			else if (blockState.getBlock() == Blocks.stone)
+			else if (blockState.getBlock() == Blocks.STONE)
 			{
 				damageTool(stack, playerIn);
 				int multiplier = 0;
 				{
 					IBlockState blockState2 = worldIn.getBlockState(pos.up());
-					if (blockState2.getBlock() == Blocks.stone)
+					if (blockState2.getBlock() == Blocks.STONE)
 					{
 						multiplier++;
 						worldIn.destroyBlock(pos.up(), false);
@@ -158,7 +158,7 @@ public abstract class ARKCraftTool extends ItemTool
 				}
 				{
 					IBlockState blockState2 = worldIn.getBlockState(pos);
-					if (blockState2.getBlock() == Blocks.stone)
+					if (blockState2.getBlock() == Blocks.STONE)
 					{
 						multiplier++;
 						worldIn.destroyBlock(pos, false);
@@ -166,7 +166,7 @@ public abstract class ARKCraftTool extends ItemTool
 				}
 				{
 					IBlockState blockState2 = worldIn.getBlockState(pos.down());
-					if (blockState2.getBlock() == Blocks.stone)
+					if (blockState2.getBlock() == Blocks.STONE)
 					{
 						multiplier++;
 						worldIn.destroyBlock(pos.down(), false);
@@ -177,7 +177,7 @@ public abstract class ARKCraftTool extends ItemTool
 					BlockPos pos2 = pos.offset(f.rotateY());
 					{
 						IBlockState blockState2 = worldIn.getBlockState(pos2.up());
-						if (blockState2.getBlock() == Blocks.stone)
+						if (blockState2.getBlock() == Blocks.STONE)
 						{
 							multiplier++;
 							worldIn.destroyBlock(pos2.up(), false);
@@ -185,7 +185,7 @@ public abstract class ARKCraftTool extends ItemTool
 					}
 					{
 						IBlockState blockState2 = worldIn.getBlockState(pos2);
-						if (blockState2.getBlock() == Blocks.stone)
+						if (blockState2.getBlock() == Blocks.STONE)
 						{
 							multiplier++;
 							worldIn.destroyBlock(pos2, false);
@@ -193,7 +193,7 @@ public abstract class ARKCraftTool extends ItemTool
 					}
 					{
 						IBlockState blockState2 = worldIn.getBlockState(pos2.down());
-						if (blockState2.getBlock() == Blocks.stone)
+						if (blockState2.getBlock() == Blocks.STONE)
 						{
 							multiplier++;
 							worldIn.destroyBlock(pos2.down(), false);
@@ -204,7 +204,7 @@ public abstract class ARKCraftTool extends ItemTool
 					BlockPos pos2 = pos.offset(f.rotateYCCW());
 					{
 						IBlockState blockState2 = worldIn.getBlockState(pos2.up());
-						if (blockState2.getBlock() == Blocks.stone)
+						if (blockState2.getBlock() == Blocks.STONE)
 						{
 							multiplier++;
 							worldIn.destroyBlock(pos2.up(), false);
@@ -212,7 +212,7 @@ public abstract class ARKCraftTool extends ItemTool
 					}
 					{
 						IBlockState blockState2 = worldIn.getBlockState(pos2);
-						if (blockState2.getBlock() == Blocks.stone)
+						if (blockState2.getBlock() == Blocks.STONE)
 						{
 							multiplier++;
 							worldIn.destroyBlock(pos2, false);
@@ -220,7 +220,7 @@ public abstract class ARKCraftTool extends ItemTool
 					}
 					{
 						IBlockState blockState2 = worldIn.getBlockState(pos2.down());
-						if (blockState2.getBlock() == Blocks.stone)
+						if (blockState2.getBlock() == Blocks.STONE)
 						{
 							multiplier++;
 							worldIn.destroyBlock(pos2.down(), false);
@@ -321,7 +321,7 @@ public abstract class ARKCraftTool extends ItemTool
 			r *= toolModifier;
 			ret += r;
 		}
-		return MathHelper.floor_double(ret);
+		return MathHelper.floor(ret);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

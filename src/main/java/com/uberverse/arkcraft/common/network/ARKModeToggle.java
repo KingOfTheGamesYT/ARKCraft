@@ -34,7 +34,7 @@ public class ARKModeToggle implements IMessage
 				return null;
 			}
 			final EntityPlayerMP player = ctx.getServerHandler().playerEntity;
-			player.getServerForPlayer().addScheduledTask(new Runnable()
+			player.getServer().addScheduledTask(new Runnable()
 			{
 				public void run()
 				{

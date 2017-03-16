@@ -11,8 +11,8 @@ import com.uberverse.arkcraft.common.container.scrollable.IContainerScrollable;
 import com.uberverse.arkcraft.common.network.ScrollGui;
 
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 
 public abstract class GUIScrollable extends GUIArkContainer implements IGuiScrollable
 {
@@ -78,7 +78,7 @@ public abstract class GUIScrollable extends GUIArkContainer implements IGuiScrol
 	{
 		if (mouseButton == 0)
 		{
-			if (canScroll() && mc.thePlayer.inventory.getCurrentItem() == null)
+			if (canScroll() && mc.player.inventory.getCurrentItem() == null)
 			{
 				if (isPointInRegion(getScrollBarStartX(), (int) (getScrollBarStartY() + getActualScrollPosition()),
 						getScrollButtonWidth(), getScrollButtonHeight(), mouseX, mouseY))
@@ -124,7 +124,7 @@ public abstract class GUIScrollable extends GUIArkContainer implements IGuiScrol
 		int bot = guiTop + getScrollBarEndY();
 
 		this.scrollPosition = ((float) (mouseY - top) - 7.5F) / ((float) (bot - top) - 15.0F);
-		this.scrollPosition = MathHelper.clamp_float(this.scrollPosition, 0.0F, 1.0F);
+		this.scrollPosition = MathHelper.clamp(this.scrollPosition, 0.0F, 1.0F);
 		scroll(scrollPosition);
 	}
 

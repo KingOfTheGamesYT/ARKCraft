@@ -81,7 +81,7 @@ public class InitializationManager
 			boolean standardRender, String... variants)
 	{
 		item.setUnlocalizedName(name);
-		GameRegistry.registerItem(item, name, ARKCraft.instance().modid());
+		GameRegistry.registerItem(item, name);
 		registry.addEntry(new RegistryEntry<E>(name, item, modelLocationPrefix, standardRender).addVariants(variants)
 				.addMetas(CollectionUtil.convert(metas)));
 		return item;

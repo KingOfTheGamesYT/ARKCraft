@@ -4,7 +4,6 @@ import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCompostBin;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -43,7 +42,7 @@ public class ContainerCompostBin extends Container
 	@Override
 	public boolean canInteractWith(EntityPlayer playerIn)
 	{
-		return inventory.isUseableByPlayer(playerIn);
+		return inventory.isUsableByPlayer(playerIn);
 	}
 
 	@Override

@@ -45,6 +45,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.fml.relauncher.Side;
@@ -54,7 +55,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @author Lewis_McReu
  *         Based on earlier concepts by wildbill22 and ERBF
  */
-public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable, IWeighable, ITranquilizable
+public class ARKPlayer implements IArkLevelable, IWeighable, ITranquilizable
 {
 	public static final String propKey = "arkplayer";
 
@@ -895,7 +896,7 @@ public class ARKPlayer implements IExtendedEntityProperties, IArkLevelable, IWei
 		}
 
 		@Override
-		public IChatComponent getDisplayName()
+		public ITextComponent getDisplayName()
 		{
 			return null;
 		}

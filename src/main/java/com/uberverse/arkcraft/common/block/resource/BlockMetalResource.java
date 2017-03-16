@@ -12,7 +12,7 @@ public class BlockMetalResource extends BlockARKResource
 {
 	public BlockMetalResource()
 	{
-		super(Material.rock);
+		super(Material.ROCK);
 	}
 
 	@Override

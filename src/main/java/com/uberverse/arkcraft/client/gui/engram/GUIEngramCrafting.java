@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.gui.component.GuiTexturedButton;
 import com.uberverse.arkcraft.client.gui.scrollable.GUIScrollable;
@@ -26,9 +27,8 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 
 public abstract class GUIEngramCrafting extends GUIScrollable
 {
@@ -89,10 +89,10 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 					{
 						double fraction = ec.getRelativeProgress();
 						if (Double.isNaN(fraction)) fraction = 1;
-						fraction = MathHelper.clamp_double(fraction, 0, 1);
+						fraction = MathHelper.clamp(fraction, 0, 1);
 						if (fraction == 0) { return; }
-						int x = e.xDisplayPosition;
-						int y = e.yDisplayPosition + 16;
+						int x = e.xPos;
+						int y = e.yPos + 16;
 
 						int red = (int) (255 * (1 - fraction));
 						int green = (int) (255 * fraction);
@@ -131,8 +131,8 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 
 	private void drawSelection(Slot s)
 	{
-		int x = s.xDisplayPosition;
-		int y = s.yDisplayPosition;
+		int x = s.xPos;
+		int y = s.yPos;
 		drawRect(x - 1, y - 1, x + 17, y + 17, new Color(0, 128, 255, 255).getRGB());
 		GlStateManager.color(1, 1, 1, 1);
 	}
@@ -189,7 +189,7 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 
 				for (AbstractItemStack i : er.getItems())
 				{
-					textLines.add(EnumChatFormatting.GOLD + I18n.format("gui.engramcrafting.engram.tooltip.ingredient",
+					textLines.add(ChatFormatting.GOLD + I18n.format("gui.engramcrafting.engram.tooltip.ingredient",
 							I18n.translate(i.item.getUnlocalizedName() + ".name"), (int) (i.getAmount() * multiplier)));
 				}
 			}

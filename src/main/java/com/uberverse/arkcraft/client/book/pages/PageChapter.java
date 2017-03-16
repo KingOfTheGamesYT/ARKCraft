@@ -1,11 +1,9 @@
 package com.uberverse.arkcraft.client.book.pages;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
 import com.uberverse.arkcraft.client.book.GuiInfoBook;
 import com.uberverse.arkcraft.client.book.lib.Page;
 import com.uberverse.arkcraft.client.book.lib.SmallFontRenderer;
-
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.StatCollector;
 
 public class PageChapter extends Page
 {
@@ -23,7 +21,7 @@ public class PageChapter extends Page
 			{
 				StatCollector.translateToLocal(title);
 			}
-			renderer.drawSplitString(EnumChatFormatting.BOLD + "" + EnumChatFormatting.UNDERLINE + title, guiLeft
+			renderer.drawSplitString(ChatFormatting.BOLD + "" + ChatFormatting.UNDERLINE + title, guiLeft
 					+ (book.guiWidth - renderer.getStringWidth(title)) / 2, guiTop + 5, 1000, 0);
 
 		}

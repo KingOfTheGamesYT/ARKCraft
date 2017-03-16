@@ -43,7 +43,7 @@ public class EntitySpear extends EntityProjectile
 		}
 		if (entity.attackEntityFrom(damagesource, damage))
 		{
-			if (entity instanceof EntityLivingBase && worldObj.isRemote)
+			if (entity instanceof EntityLivingBase && world.isRemote)
 			{
 				((EntityLivingBase) entity).setArrowCountInEntity(((EntityLivingBase) entity).getArrowCountInEntity()
 						+ 1);
@@ -67,7 +67,7 @@ public class EntitySpear extends EntityProjectile
 	@Override
 	public void playHitSound()
 	{
-		worldObj.playSoundAtEntity(this, "random.bowhit", 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.9F));
+		world.playSoundAtEntity(this, "random.bowhit", 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.9F));
 	}
 
 	@Override

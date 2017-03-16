@@ -29,7 +29,7 @@ public class EntityHandler
 		EntityRegistry.registerGlobalEntityID(eClass, name, eggID);
 		EntityRegistry.addSpawn(eClass, 25, 2, 4, EnumCreatureType.CREATURE, biomes);
 		EntityRegistry.registerModEntity(eClass, name, ++entityID, ARKCraft.instance(), 64, 3, true);
-		EntityList.entityEggs.put(Integer.valueOf(eggID), new EntityList.EntityEggInfo(++entityID, mainColor,
+		EntityList.ENTITY_EGGS.put(Integer.valueOf(eggID), new EntityList.EntityEggInfo(++entityID, mainColor,
 				secondColor));
 	}
 
@@ -44,7 +44,7 @@ public class EntityHandler
 		EntityRegistry.addSpawn(eClass, 25, 2, 4, EnumCreatureType.CREATURE, BiomeGenBase.beach, BiomeGenBase.desert,
 				BiomeGenBase.forest, BiomeGenBase.birchForest, BiomeGenBase.extremeHills);
 		EntityRegistry.registerModEntity(eClass, name, entityID, ARKCraft.instance(), 64, 1, true);
-		EntityList.entityEggs.put(Integer.valueOf(eggID), new EntityList.EntityEggInfo(entityID, mainColor,
+		EntityList.ENTITY_EGGS.put(Integer.valueOf(eggID), new EntityList.EntityEggInfo(entityID, mainColor,
 				secondColor));
 	}
 
@@ -60,15 +60,15 @@ public class EntityHandler
 		// EntityRegistry.registerModEntity(eClass, name, id,
 		// ARKCraft.instance(), 64, 4, true);
 		EntityRegistry.addSpawn(eClass, 5, 2, 4, EnumCreatureType.CREATURE, biomes);
-		EntityList.idToClassMapping.put(id, eClass);
-		EntityList.entityEggs.put(Integer.valueOf(id), new EntityList.EntityEggInfo(id, mainColor, secondColor));
+		EntityList.ID_TO_CLASS.put(id, eClass);
+		EntityList.ENTITY_EGGS.put(Integer.valueOf(id), new EntityList.EntityEggInfo(id, mainColor, secondColor));
 	}
 
 	public static void registerEntity(Class<? extends Entity> entity, int primaryColor, int secondaryColor)
 	{
 		int id = getUniqueEntityId();
-		EntityList.idToClassMapping.put(id, entity);
-		EntityList.entityEggs.put(id, new EntityEggInfo(id, primaryColor, secondaryColor));
+		EntityList.ID_TO_CLASS.put(id, entity);
+		EntityList.ENTITY_EGGS.put(id, new EntityEggInfo(id, primaryColor, secondaryColor));
 	}
 
 	public static int getUniqueEntityId()

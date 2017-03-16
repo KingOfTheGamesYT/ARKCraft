@@ -5,7 +5,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.NBT;
 
@@ -50,7 +50,7 @@ public class InventoryUtil
 
 	public static void addOrDrop(ItemStack stack, IInventory inventory, BlockPos pos, World world)
 	{
-		if (!add(stack, inventory)) world.spawnEntityInWorld(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(),
+		if (!add(stack, inventory)) world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(),
 				stack));
 	}
 

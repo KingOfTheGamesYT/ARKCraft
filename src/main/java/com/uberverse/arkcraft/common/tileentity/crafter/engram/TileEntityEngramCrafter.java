@@ -16,18 +16,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 
 /**
  * @author Lewis_McReu
  */
-public abstract class TileEntityEngramCrafter extends TileEntity implements IInventory, IUpdatePlayerListBox,
+public abstract class TileEntityEngramCrafter extends TileEntity implements IInventory,
 		IEngramCrafter
 {
 	private ItemStack[] inventory;
@@ -63,15 +61,14 @@ public abstract class TileEntityEngramCrafter extends TileEntity implements IInv
 	}
 
 	@Override
-	public Packet getDescriptionPacket()
-	{
+	public SPacketUpdateTileEntity getUpdatePacket() {
 		NBTTagCompound nbtTagCompound = new NBTTagCompound();
 		writeToNBT(nbtTagCompound);
-		return new S35PacketUpdateTileEntity(this.pos, 0, nbtTagCompound);
+		return new SPacketUpdateTileEntity(this.pos, 0, nbtTagCompound);
 	}
-
+	
 	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
 	{
 		readFromNBT(pkt.getNbtCompound());
 	}
@@ -100,9 +97,9 @@ public abstract class TileEntityEngramCrafter extends TileEntity implements IInv
 	}
 
 	@Override
-	public IChatComponent getDisplayName()
+	public ITextComponent getDisplayName()
 	{
-		return new ChatComponentText(name);
+		return new ITextComponent(name);
 	}
 
 	@Override
@@ -124,8 +121,7 @@ public abstract class TileEntityEngramCrafter extends TileEntity implements IInv
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int index)
-	{
+	public ItemStack removeStackFromSlot(int index) {
 		return inventory[index];
 	}
 
@@ -142,7 +138,7 @@ public abstract class TileEntityEngramCrafter extends TileEntity implements IInv
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer player)
+	public boolean isUsableByPlayer(EntityPlayer player)
 	{
 		return true;
 	}
@@ -169,14 +165,14 @@ public abstract class TileEntityEngramCrafter extends TileEntity implements IInv
 	@Override
 	public void syncProgress()
 	{
-		worldObj.addBlockEvent(pos, blockType, 0, progress);
+		world.addBlockEvent(pos, blockType, 0, progress);
 		markDirty();
 	}
 
 	@Override
 	public void sync()
 	{
-		worldObj.markBlockForUpdate(pos);
+		world.markBlockForUpdate(pos);
 		markDirty();
 	}
 
@@ -292,14 +288,14 @@ public abstract class TileEntityEngramCrafter extends TileEntity implements IInv
 		int lasthordiff = -1;
 		int lastverdiff = -1;
 
-		Collection<EntityPlayer> ps = worldObj.playerEntities;
+		Collection<EntityPlayer> ps = world.playerEntities;
 
 		for (EntityPlayer p : ps)
 		{
-			if (p != null && p.playerLocation != null)
+			if (p != null && p.bedLocation != null)
 			{
-				int hordiff = hor.compare(pos, p.playerLocation);
-				int verdiff = ver.compare(pos, p.playerLocation);
+				int hordiff = hor.compare(pos, p.bedLocation);
+				int verdiff = ver.compare(pos, p.bedLocation);
 				if (closest != null && (hordiff > lasthordiff || (hordiff == lasthordiff && verdiff > lastverdiff)))
 					continue;
 				lasthordiff = hordiff;

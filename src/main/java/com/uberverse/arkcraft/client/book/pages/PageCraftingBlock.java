@@ -5,7 +5,6 @@ import com.uberverse.arkcraft.client.book.lib.Page;
 import com.uberverse.arkcraft.client.book.lib.SmallFontRenderer;
 
 import net.minecraft.block.Block;
-import net.minecraft.util.StatCollector;
 
 /**
  * @author Archiving This page is for crafting recipes that also have a block

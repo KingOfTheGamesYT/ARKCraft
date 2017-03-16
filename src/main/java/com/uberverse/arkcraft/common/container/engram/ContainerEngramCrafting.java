@@ -19,11 +19,11 @@ import com.uberverse.arkcraft.common.item.Qualitable.ItemQuality;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.inventory.ICrafting;
+import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
 
 public abstract class ContainerEngramCrafting extends ContainerScrollable
 {
@@ -68,7 +68,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 				Slot slot = new Slot(getIInventory(), index, getInventorySlotsX() + col * getSlotSize(),
 						getInventorySlotsY() + row * getSlotSize());
 				if (getPlayerInventory() == getBlueprintInventory()) slot = new BlueprintSlot(slot.inventory, slot
-						.getSlotIndex(), slot.xDisplayPosition, slot.yDisplayPosition);
+						.getSlotIndex(), slot.xPos, slot.yPos);
 				this.addSlotToContainer(slot);
 				counter++;
 			}
@@ -101,7 +101,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 				Slot slot = new Slot(getPlayerInventory(), slotIndex, getPlayerInventorySlotsX() + col * getSlotSize(),
 						getPlayerInventorySlotsY() + row * getSlotSize());
 				if (getPlayerInventory() == getBlueprintInventory()) slot = new BlueprintSlot(slot.inventory, slot
-						.getSlotIndex(), slot.xDisplayPosition, slot.yDisplayPosition);
+						.getSlotIndex(), slot.xPos, slot.yPos);
 				addSlotToContainer(slot);
 				counter++;
 			}
@@ -112,7 +112,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 			Slot slot = new Slot(player.inventory, col, getPlayerHotbarSlotsX() + col * getSlotSize(),
 					getPlayerHotbarSlotsY());
 			if (this instanceof ContainerPlayerCrafting) slot = new BlueprintSlot(slot.inventory, slot.getSlotIndex(),
-					slot.xDisplayPosition, slot.yDisplayPosition);
+					slot.xPos, slot.yPos);
 			addSlotToContainer(slot);
 			counter++;
 		}
@@ -283,7 +283,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 	}
 
 	@Override
-	public ItemStack slotClick(int slotId, int clickedButton, int mode, EntityPlayer playerIn)
+	public ItemStack slotClick(int slotId, int clickedButton, ClickType mode, EntityPlayer playerIn)
 	{
 		if (slotId >= 0)
 		{
@@ -544,7 +544,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		}
 
 		@Override
-		public IChatComponent getDisplayName()
+		public ITextComponent getDisplayName()
 		{
 			return null;
 		}
@@ -571,12 +571,6 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		}
 
 		@Override
-		public ItemStack getStackInSlotOnClosing(int index)
-		{
-			return null;
-		}
-
-		@Override
 		public void setInventorySlotContents(int index, ItemStack stack)
 		{}
 
@@ -591,7 +585,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		{}
 
 		@Override
-		public boolean isUseableByPlayer(EntityPlayer player)
+		public boolean isUsableByPlayer(EntityPlayer player)
 		{
 			return false;
 		}
@@ -629,6 +623,11 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		@Override
 		public void clear()
 		{}
+
+		@Override
+		public ItemStack removeStackFromSlot(int index) {
+			return null;
+		}
 	}
 
 	public class QueueInventory implements IInventory
@@ -653,7 +652,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		}
 
 		@Override
-		public IChatComponent getDisplayName()
+		public ITextComponent getDisplayName()
 		{
 			return null;
 		}
@@ -696,12 +695,6 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		}
 
 		@Override
-		public ItemStack getStackInSlotOnClosing(int index)
-		{
-			return null;
-		}
-
-		@Override
 		public void setInventorySlotContents(int index, ItemStack stack)
 		{}
 
@@ -716,7 +709,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		{}
 
 		@Override
-		public boolean isUseableByPlayer(EntityPlayer player)
+		public boolean isUsableByPlayer(EntityPlayer player)
 		{
 			return false;
 		}
@@ -754,5 +747,10 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
 		@Override
 		public void clear()
 		{}
+
+		@Override
+		public ItemStack removeStackFromSlot(int index) {
+			return null;
+		}
 	}
 }

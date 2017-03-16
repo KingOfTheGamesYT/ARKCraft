@@ -1,16 +1,14 @@
 package com.uberverse.arkcraft.client.gui.block;
 
+import com.uberverse.arkcraft.common.container.block.ContainerCropPlot;
+import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
-
-import com.uberverse.arkcraft.common.container.block.ContainerCropPlot;
-import com.uberverse.arkcraft.common.item.ARKCraftFeces;
-import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot;
 
 public class GuiCropPlotNew extends GuiContainer
 {

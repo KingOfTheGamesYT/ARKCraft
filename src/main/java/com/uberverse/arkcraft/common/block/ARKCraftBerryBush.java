@@ -11,20 +11,17 @@ import com.uberverse.arkcraft.common.entity.IArkLevelable;
 import com.uberverse.arkcraft.common.item.IDecayable;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumWorldBlockLayer;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ColorizerGrass;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -40,7 +37,7 @@ public class ARKCraftBerryBush extends BlockBush implements IExperienceSource
 	{
 		super();
 		this.setDefaultState(this.blockState.getBaseState().withProperty(HARVEST_COUNT, 0));
-		this.setStepSound(Block.soundTypeGrass);
+		this.setSoundType(SoundType.GROUND);
 		this.setTickRandomly(true);
 		this.setHardness(hardness);
 		this.setCreativeTab(ARKCraft.tabARK);
@@ -49,8 +46,7 @@ public class ARKCraftBerryBush extends BlockBush implements IExperienceSource
 	}
 
 	@Override
-	public boolean isReplaceable(World worldIn, BlockPos pos)
-	{
+	public boolean isReplaceable(IBlockAccess worldIn, BlockPos pos) {
 		return true;
 	}
 
@@ -80,7 +76,7 @@ public class ARKCraftBerryBush extends BlockBush implements IExperienceSource
 
 	public Item getHarvestItem(Random rand, EntityPlayer player)
 	{
-		ItemStack heldStack = player.getCurrentEquippedItem();
+		ItemStack heldStack = player.getHeldItemMainhand();
 
 		if (heldStack != null && heldStack.getItem() == ARKCraftItems.metal_sickle)
 		{
@@ -199,7 +195,7 @@ public class ARKCraftBerryBush extends BlockBush implements IExperienceSource
 			}
 			else
 			{
-				worldIn.spawnEntityInWorld(entityitem);
+				worldIn.spawnEntity(entityitem);
 			}
 		}
 	}
@@ -231,7 +227,7 @@ public class ARKCraftBerryBush extends BlockBush implements IExperienceSource
 	 * BlockPos pos, Entity entityIn, Vec3 motion) { return motion; }
 	 */
 	@Override
-	public boolean isOpaqueCube()
+	public boolean isOpaqueCube(IBlockState state)
 	{
 		return false;
 	}
@@ -255,13 +251,7 @@ public class ARKCraftBerryBush extends BlockBush implements IExperienceSource
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
-	{
-		return null;
-	}
-
-	@Override
-	public boolean isFullCube()
+	public boolean isFullCube(IBlockState state)
 	{
 		return false;
 	}

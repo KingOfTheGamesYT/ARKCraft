@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
 import com.uberverse.arkcraft.client.gui.GUIArkContainer;
 import com.uberverse.arkcraft.common.burner.IBurner;
 import com.uberverse.arkcraft.common.container.burner.ContainerBurner;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 public abstract class GUIBurner extends GUIArkContainer
@@ -51,11 +51,11 @@ public abstract class GUIBurner extends GUIArkContainer
 			{
 				hoveringText.add("Fuel Time:");
 				hoveringText.add(b.getBurningTicks() / 20 + "s");
-				hoveringText.add(EnumChatFormatting.RED + "Press to douse");
+				hoveringText.add(ChatFormatting.RED + "Press to douse");
 			}
 			else
 			{
-				hoveringText.add(EnumChatFormatting.RED + "Press to ignite");
+				hoveringText.add(ChatFormatting.RED + "Press to ignite");
 			}
 			drawHoveringText(hoveringText, mouseX - guiLeft, mouseY - guiTop + 25, fontRendererObj);
 		}

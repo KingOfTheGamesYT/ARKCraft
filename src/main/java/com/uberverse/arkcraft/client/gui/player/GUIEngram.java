@@ -80,7 +80,7 @@ public class GUIEngram extends GUIScrollable
 				EngramSlot slot = (EngramSlot) o;
 				if (!ARKPlayer.get(player).hasLearnedEngram((short) slot.getSlotIndex()))
 				{
-					int x = guiLeft + slot.xDisplayPosition, y = guiTop + slot.yDisplayPosition, size = 18;
+					int x = guiLeft + slot.xPos, y = guiTop + slot.yPos, size = 18;
 					Color base = Color.black;
 					int opacity = 255 / 2; // value from 0 - 255 ; O is
 											// completely invisible, 255 is
@@ -97,7 +97,7 @@ public class GUIEngram extends GUIScrollable
 	{
 		Engram e = ((ContainerEngram) inventorySlots).getSelectedEngram();
 		short s = e != null ? e.getId() : -1;
-		learn.enabled = ARKPlayer.get(Minecraft.getMinecraft().thePlayer).canLearnEngram(s);
+		learn.enabled = ARKPlayer.get(Minecraft.getMinecraft().player).canLearnEngram(s);
 		super.updateScreen();
 	}
 

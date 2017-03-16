@@ -6,6 +6,7 @@ import net.minecraft.block.BlockDispenser;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.IProjectile;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
@@ -13,7 +14,7 @@ import net.minecraft.world.World;
 public class DispenseSimpleRifleAmmo extends DispenseWeaponProjectile
 {
 	@Override
-	protected IProjectile getProjectileEntity(World world, IPosition pos)
+	protected IProjectile getProjectileEntity(World world, IPosition pos, ItemStack itemstack)
 	{
 		return new EntitySimpleRifleAmmo(world, pos.getX(), pos.getY(), pos.getZ());
 	}

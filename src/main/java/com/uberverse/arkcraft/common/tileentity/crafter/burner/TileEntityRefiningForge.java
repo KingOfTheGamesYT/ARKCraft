@@ -47,4 +47,9 @@ public class TileEntityRefiningForge extends TileEntityBurner
 	{
 		return "arkcraft:light";
 	}
+
+	@Override
+	public ItemStack removeStackFromSlot(int index) {
+		return null;
+	}
 }

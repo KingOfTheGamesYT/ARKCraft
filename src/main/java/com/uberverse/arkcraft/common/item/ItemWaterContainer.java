@@ -11,10 +11,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.event.ForgeEventFactory;
 
 public class ItemWaterContainer extends ARKCraftItem
 {
@@ -52,8 +55,8 @@ public class ItemWaterContainer extends ARKCraftItem
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
-	{
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn,
+			EnumHand hand) {
 		MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(worldIn, playerIn, true);
 
 		if (movingobjectposition == null)
@@ -64,7 +67,7 @@ public class ItemWaterContainer extends ARKCraftItem
 		{
 			if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
 			{
-				ItemStack ret = net.minecraftforge.event.ForgeEventFactory.onBucketUse(playerIn, worldIn, itemStackIn,
+				ItemStack ret = ForgeEventFactory.onBucketUse(playerIn, worldIn, itemStackIn,
 						movingobjectposition);
 				if (ret != null) return ret;
 
@@ -72,7 +75,7 @@ public class ItemWaterContainer extends ARKCraftItem
 				IBlockState blockState = worldIn.getBlockState(blockpos);
 				Material material = blockState.getBlock().getMaterial();
 
-				if (material == Material.water && ((Integer) blockState.getValue(BlockLiquid.LEVEL)).intValue() == 0)
+				if (material == Material.WATER && ((Integer) blockState.getValue(BlockLiquid.LEVEL)).intValue() == 0)
 					setWaterValueLeft(itemStackIn, maxWaterValue);
 			}
 		}
@@ -85,7 +88,7 @@ public class ItemWaterContainer extends ARKCraftItem
 		if (worldIn.isRemote) return;
 
 		if (isRaining((EntityPlayer) entityIn, worldIn) && worldIn.getTotalWorldTime() % 20 == 0) setWaterValueLeft(
-				stack, MathHelper.clamp_int(getWaterValueLeft(stack) + 1, 0, maxWaterValue));
+				stack, MathHelper.clamp(getWaterValueLeft(stack) + 1, 0, maxWaterValue));
 	}
 
 	@Override

@@ -17,7 +17,7 @@ import com.uberverse.arkcraft.common.inventory.InventoryAttachment;
 import com.uberverse.arkcraft.common.item.ammo.ItemProjectile;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -30,12 +30,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -209,7 +209,7 @@ public abstract class ItemRangedWeapon extends ItemBow
 
 	private void updateLaser(Entity entityIn)
 	{
-		World w = entityIn.worldObj;
+		World w = entityIn.world;
 		MovingObjectPosition mop = rayTrace(entityIn, 35, 1.0F);
 		if (mop.typeOfHit == MovingObjectType.BLOCK)
 		{
@@ -232,7 +232,7 @@ public abstract class ItemRangedWeapon extends ItemBow
 		MovingObjectPosition mop = rayTrace(entityIn, 20, 1.0F);
 		if (mop != null && mop.typeOfHit != MovingObjectPosition.MovingObjectType.MISS)
 		{
-			World world = entityIn.worldObj;
+			World world = entityIn.world;
 			BlockPos pos;
 
 			if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY)
@@ -253,11 +253,11 @@ public abstract class ItemRangedWeapon extends ItemBow
 		}
 	}
 
-	public static Vec3 getPositionEyes(Entity player, float partialTick)
+	public static Vec3d getPositionEyes(Entity player, float partialTick)
 	{
 		if (partialTick == 1.0F)
 		{
-			return new Vec3(player.posX, player.posY + (double) player.getEyeHeight(), player.posZ);
+			return new Vec3d(player.posX, player.posY + (double) player.getEyeHeight(), player.posZ);
 		}
 		else
 		{
@@ -265,39 +265,40 @@ public abstract class ItemRangedWeapon extends ItemBow
 			double d1 = player.prevPosY + (player.posY - player.prevPosY) * (double) partialTick + (double) player
 					.getEyeHeight();
 			double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * (double) partialTick;
-			return new Vec3(d0, d1, d2);
+			return new Vec3d(d0, d1, d2);
 		}
 	}
 
 	public static MovingObjectPosition rayTrace(Entity player, double distance, float partialTick)
 	{
-		Vec3 vec3 = getPositionEyes(player, partialTick);
-		Vec3 vec31 = player.getLook(partialTick);
-		Vec3 vec32 = vec3.addVector(vec31.xCoord * distance, vec31.yCoord * distance, vec31.zCoord * distance);
-		return player.worldObj.rayTraceBlocks(vec3, vec32, false, false, true);
+		Vec3d vec3 = getPositionEyes(player, partialTick);
+		Vec3d vec31 = player.getLook(partialTick);
+		Vec3d vec32 = vec3.addVector(vec31.xCoord * distance, vec31.yCoord * distance, vec31.zCoord * distance);
+		return player.world.rayTraceBlocks(vec3, vec32, false, false, true);
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
-	{
-		if (stack.stackSize <= 0 || player.isUsingItem()) { return stack; }
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn,
+			EnumHand hand) {
+		if (itemStackIn.stackSize <= 0 || playerIn.isUsingItem()) { return itemStackIn; }
 
-		if (canFire(stack, player))
+		if (canFire(itemStackIn, playerIn))
 		{
 			if (this.nextShotMillis < System.currentTimeMillis())
 				// Start aiming weapon to fire
-				player.setItemInUse(stack, getMaxItemUseDuration(stack));
+				playerIn.setItemInUse(itemStackIn, getMaxItemUseDuration(itemStackIn));
 		}
 		else
 		{
 			// Can't reload; no ammo
-			if (!this.isReloading(stack))
+			if (!this.isReloading(itemStackIn))
 			{
-				soundEmpty(stack, world, player);
+				soundEmpty(itemStackIn, worldIn, playerIn);
 			}
 		}
-		return stack;
+		return itemStackIn;
 	}
+	
 
 	@Override
 	public EnumAction getItemUseAction(ItemStack stack)
@@ -436,19 +437,19 @@ public abstract class ItemRangedWeapon extends ItemBow
 
 	public void applyProjectileEnchantments(EntityProjectile entity, ItemStack itemstack)
 	{
-		int damage = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, itemstack);
+		int damage = EnchantmentHelper.getEnchantmentLevel(Enchantment.getEnchantmentByID(49), itemstack);
 		if (damage > 0)
 		{
 			entity.setDamage(damage);
 		}
 
-		int knockback = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, itemstack);
+		int knockback = EnchantmentHelper.getEnchantmentLevel(Enchantment.getEnchantmentByID(48), itemstack);
 		if (knockback > 0)
 		{
 			entity.setKnockbackStrength(knockback);
 		}
 
-		if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, itemstack) > 0)
+		if (EnchantmentHelper.getEnchantmentLevel(Enchantment.getEnchantmentByID(50), itemstack) > 0)
 		{
 			entity.setFire(100);
 		}
@@ -490,7 +491,7 @@ public abstract class ItemRangedWeapon extends ItemBow
 			{
 				EntityProjectile p = createProjectile(stack, world, player);
 				applyProjectileEnchantments(p, stack);
-				if (p != null) world.spawnEntityInWorld(p);
+				if (p != null) world.spawnEntity(p);
 			}
 		}
 		afterFire(stack, world, player);

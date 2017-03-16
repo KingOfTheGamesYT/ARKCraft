@@ -2,7 +2,7 @@ package com.uberverse.arkcraft.common.entity.projectile;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityGrenade extends EntityProjectile
@@ -50,7 +50,7 @@ public class EntityGrenade extends EntityProjectile
 	{
 		super.onUpdate();
 
-		if (!worldObj.isRemote)
+		if (!world.isRemote)
 		{
 			if (ticksExisted == fuse)
 			{
@@ -66,7 +66,7 @@ public class EntityGrenade extends EntityProjectile
 			prevPosX = posX;
 			prevPosY = posY;
 			prevPosZ = posZ;
-			moveEntity(motionX, motionY, motionZ);
+			move(motionX, motionX, motionX);
 			boolean collided = false;
 			if (this.motionX != prevVelX)
 			{
@@ -108,7 +108,7 @@ public class EntityGrenade extends EntityProjectile
 
 	private void explode()
 	{
-		this.worldObj.createExplosion(this, posX, posY, posZ, 4F, true);
+		this.world.createExplosion(this, posX, posY, posZ, 4F, true);
 		this.setDead();
 	}
 

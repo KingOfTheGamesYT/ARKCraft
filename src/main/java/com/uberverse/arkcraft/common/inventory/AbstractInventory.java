@@ -5,9 +5,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
 
 /**
  * Class aiming to minimize amount of code needed for an inventory. MarkDirty()
@@ -53,14 +51,6 @@ public abstract class AbstractInventory implements IInventory
 			}
 		}
 
-		return stack;
-	}
-
-	@Override
-	public ItemStack getStackInSlotOnClosing(int slot)
-	{
-		ItemStack stack = getStackInSlot(slot);
-		setInventorySlotContents(slot, null);
 		return stack;
 	}
 
@@ -129,9 +119,9 @@ public abstract class AbstractInventory implements IInventory
 	}
 
 	@Override
-	public IChatComponent getDisplayName()
+	public ITextComponent getDisplayName()
 	{
-		return (IChatComponent) (hasCustomName() ? new ChatComponentText(getName()) : new ChatComponentTranslation(
+		return (ITextComponent) (hasCustomName() ? new ChatComponentText(getName()) : new ChatComponentTranslation(
 				getName()));
 	}
 

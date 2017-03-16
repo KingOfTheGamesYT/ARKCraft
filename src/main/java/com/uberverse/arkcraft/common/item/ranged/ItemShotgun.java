@@ -1,13 +1,13 @@
 package com.uberverse.arkcraft.common.item.ranged;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
-
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.entity.projectile.EntityProjectile;
 import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 
 public class ItemShotgun extends ItemRangedWeapon implements NonSupporting
 {
@@ -59,7 +59,7 @@ public class ItemShotgun extends ItemRangedWeapon implements NonSupporting
 				if (projectile != null)
 				{
 					applyProjectileEnchantments(projectile, stack);
-					world.spawnEntityInWorld(projectile);
+					world.spawnEntity(projectile);
 				}
 			}
 		}

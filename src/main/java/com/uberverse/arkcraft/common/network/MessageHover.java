@@ -8,7 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -44,7 +44,7 @@ public class MessageHover implements IMessage, IMessageHandler<MessageHover, IMe
 				{
 					if (message.pos != null)
 					{
-						TileEntity tile = Minecraft.getMinecraft().theWorld.getTileEntity(message.pos);
+						TileEntity tile = Minecraft.getMinecraft().world.getTileEntity(message.pos);
 						if (tile instanceof IHoverInfo)
 						{
 							// ((IHoverInfo) tile).readFromNBTPacket(message.tag);
@@ -97,7 +97,7 @@ public class MessageHover implements IMessage, IMessageHandler<MessageHover, IMe
 					{
 						if (message.pos != null)
 						{
-							TileEntity tile = ctx.getServerHandler().playerEntity.worldObj.getTileEntity(message.pos);
+							TileEntity tile = ctx.getServerHandler().playerEntity.world.getTileEntity(message.pos);
 							if (tile instanceof IHoverInfo)
 							{
 								NBTTagCompound tag = new NBTTagCompound();

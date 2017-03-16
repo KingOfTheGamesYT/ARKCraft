@@ -20,7 +20,7 @@ public class BlockCampfire extends BlockBurner
 {
 	public BlockCampfire()
 	{
-		super(Material.wood);
+		super(Material.WOOD);
 		setHardness(1.5f);
 		this.setCreativeTab(ARKCraft.tabARK);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(BURNING, false));
@@ -70,13 +70,12 @@ public class BlockCampfire extends BlockBurner
 	}
 
 	@Override
-	public boolean isOpaqueCube()
-	{
+	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	public boolean isFullCube()
+	public boolean isFullCube(IBlockState state)
 	{
 		return false;
 	}

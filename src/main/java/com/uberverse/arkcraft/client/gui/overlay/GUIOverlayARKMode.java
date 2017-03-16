@@ -15,9 +15,9 @@ public class GUIOverlayARKMode extends Gui
 	@SubscribeEvent
 	public void renderGUIOverlay(RenderGameOverlayEvent.Post e)
 	{
-		if (ARKPlayer.isARKMode(mc.thePlayer))
+		if (ARKPlayer.isARKMode(mc.player))
 		{
-			if (e.type.equals(ElementType.HELMET))
+			if (e.getType().equals(ElementType.HELMET))
 			{
 				String text = "ARK Enabled";
 

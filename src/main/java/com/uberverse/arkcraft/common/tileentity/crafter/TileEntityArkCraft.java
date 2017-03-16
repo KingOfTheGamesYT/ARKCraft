@@ -3,6 +3,7 @@ package com.uberverse.arkcraft.common.tileentity.crafter;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
 import net.minecraftforge.fml.common.network.ByteBufUtils;
@@ -15,9 +16,9 @@ import io.netty.buffer.Unpooled;
 
 public class TileEntityArkCraft extends TileEntity
 {
+	
 	@Override
-	public Packet getDescriptionPacket()
-	{
+	public SPacketUpdateTileEntity getUpdatePacket() {
 		ByteBuf buf = Unpooled.buffer();
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());

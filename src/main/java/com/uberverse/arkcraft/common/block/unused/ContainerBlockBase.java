@@ -1,15 +1,17 @@
 package com.uberverse.arkcraft.common.block.unused;
 
+import com.uberverse.arkcraft.ARKCraft;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-
-import com.uberverse.arkcraft.ARKCraft;
 
 public class ContainerBlockBase extends Block
 {
@@ -26,11 +28,13 @@ public class ContainerBlockBase extends Block
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState state, EntityPlayer player,
-			EnumFacing side, float hitX, float hitY, float hitZ)
-	{
-		if (player.isSneaking()) { return false; }
-		player.openGui(ARKCraft.instance(), guiID, world, blockPos.getX(), blockPos.getY(), blockPos.getZ());
-		return true;
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state,
+			EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY,
+			float hitZ) {
+		if (playerIn.isSneaking()) { return false; }
+		playerIn.openGui(ARKCraft.instance(), guiID, worldIn, side.getFrontOffsetX(), side.getFrontOffsetY(), side.getFrontOffsetZ());
+		return true;	
 	}
+	
+	
 }

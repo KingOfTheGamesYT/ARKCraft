@@ -1,16 +1,16 @@
 package com.uberverse.arkcraft.common.item.itemblock;
 
+import com.uberverse.arkcraft.common.block.crafter.BlockSmithy;
+import com.uberverse.arkcraft.init.ARKCraftBlocks;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-
-import com.uberverse.arkcraft.common.block.crafter.BlockSmithy;
-import com.uberverse.arkcraft.init.ARKCraftBlocks;
 
 public class ItemSmithy extends ItemBlockARK
 {
@@ -48,7 +48,7 @@ public class ItemSmithy extends ItemBlockARK
 			{
 				pos = pos.up();
 			}
-			int i = MathHelper.floor_double((double) (playerIn.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+			int i = MathHelper.floor((double) (playerIn.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 			EnumFacing enumfacing1 = EnumFacing.getHorizontal(i);
 			// BlockPos blockpos1 = pos.offset(enumfacing1); // like a bed,
 			// placed vertically

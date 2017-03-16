@@ -2,6 +2,7 @@ package com.uberverse.arkcraft.common.container.item;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -109,11 +110,11 @@ public class ContainerInventoryAttachment extends Container
 	}
 
 	@Override
-	public ItemStack slotClick(int slot, int button, int flag, EntityPlayer player)
+	public ItemStack slotClick(int slot, int button, ClickType flag, EntityPlayer player)
 	{
 		// this will prevent the player from interacting with the item that
 		// opened the inventory:
-		if (slot >= 0 && getSlot(slot) != null && getSlot(slot).getStack() == player.getHeldItem()) { return null; }
+		if (slot >= 0 && getSlot(slot) != null && getSlot(slot).getStack() == player.getHeldItemMainhand()) { return null; }
 		return super.slotClick(slot, button, flag, player);
 	}
 
