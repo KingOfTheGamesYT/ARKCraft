@@ -31,16 +31,6 @@ minecraft {
     makeObfSourceJar = true
 }
 
-repositories {
-    maven {
-        url "https://maven.ilexiconn.net/"
-	}
-}
-
-dependencies {
-    compile "net.ilexiconn:llibrary:1.7.4-1.10.2:dev"
-}
-
 processResources
 {
     inputs.property "version", project.version

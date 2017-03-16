@@ -7,41 +7,36 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
 //TODO rework with ItemQualitable implementation
 public class ItemMetalSickle extends ARKCraftPickaxe
 {
-	private static final Set<Block> EFFECTIVE_ON = Sets.newHashSet(Blocks.activator_rail, Blocks.coal_ore,
-			Blocks.cobblestone, Blocks.detector_rail, Blocks.diamond_block, Blocks.diamond_ore,
-			Blocks.double_stone_slab, Blocks.golden_rail, Blocks.gold_block, Blocks.gold_ore, Blocks.ice,
-			Blocks.iron_block, Blocks.iron_ore, Blocks.lapis_block, Blocks.lapis_ore, Blocks.lit_redstone_ore,
-			Blocks.mossy_cobblestone, Blocks.netherrack, Blocks.packed_ice, Blocks.rail, Blocks.redstone_ore,
-			Blocks.sandstone, Blocks.red_sandstone, Blocks.stone, Blocks.stone_slab);
+    private static final Set<Block> EFFECTIVE_ON = Sets.newHashSet(Blocks.ACTIVATOR_RAIL, Blocks.COAL_ORE, Blocks.COBBLESTONE, Blocks.DETECTOR_RAIL, Blocks.DIAMOND_BLOCK, Blocks.DIAMOND_ORE, Blocks.DOUBLE_STONE_SLAB, Blocks.GOLDEN_RAIL, Blocks.GOLD_BLOCK, Blocks.GOLD_ORE, Blocks.ICE, Blocks.IRON_BLOCK, Blocks.IRON_ORE, Blocks.LAPIS_BLOCK, Blocks.LAPIS_ORE, Blocks.LIT_REDSTONE_ORE, Blocks.MOSSY_COBBLESTONE, Blocks.NETHERRACK, Blocks.PACKED_ICE, Blocks.RAIL, Blocks.REDSTONE_ORE, Blocks.SANDSTONE, Blocks.RED_SANDSTONE, Blocks.STONE, Blocks.STONE_SLAB);
 
-	public ItemMetalSickle(ToolMaterial material)
-	{
-		super(5, material, EFFECTIVE_ON);
-	}
+    public ItemMetalSickle(ToolMaterial material)
+    {
+        super(5, material, EFFECTIVE_ON);
+    }
 
-	@Override
-	public Set<String> getToolClasses(ItemStack stack)
-	{
-		return ImmutableSet.of("pickaxe", "axe");
-	}
+    @Override
+    public Set<String> getToolClasses(ItemStack stack)
+    {
+        return ImmutableSet.of("pickaxe", "axe");
+    }
 
-	@Override
-	public float getStrVsBlock(ItemStack stack, Block block)
-	{
+    @Override
+    public float getStrVsBlock(ItemStack stack, IBlockState state)
+    {
+        Block block = state.getBlock();
+        Material m = block.getMaterial(state);
+        return m != Material.IRON && m != Material.ANVIL && m != Material.ROCK ? super.getStrVsBlock(stack, state) : this.efficiencyOnProperMaterial;
+    }
 
-		return block.getMaterial() != Material.iron && block.getMaterial() != Material.anvil && block
-				.getMaterial() != Material.rock ? super.getStrVsBlock(stack, block) : this.efficiencyOnProperMaterial;
-
-	}
-
-	public boolean isArkTool()
-	{
-		return true;
-	}
+    public boolean isArkTool()
+    {
+        return true;
+    }
 }
