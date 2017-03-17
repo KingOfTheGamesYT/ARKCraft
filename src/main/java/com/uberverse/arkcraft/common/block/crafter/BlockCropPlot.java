@@ -345,11 +345,12 @@ public class BlockCropPlot extends BlockContainer implements Identifiable
         else {
             bb = new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 0.35F, pos.getZ() + 1);
         }
-        setBlockBounds((float) bb.minX - pos.getX(), (float) bb.minY - pos.getY(), (float) bb.minZ - pos.getZ(), (float) bb.maxX - pos.getX(), (float) bb.maxY - pos.getY(), (float) bb.maxZ - pos.getZ());
+
+        return bb.offset(-pos.getX(), -pos.getY(), -pos.getZ());
     }
 
     @Override
-    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState state, World worldIn, BlockPos pos)
     {
         CropPlotType t = (CropPlotType) state.getValue(TYPE);
         TileEntity tile = worldIn.getTileEntity(pos);
@@ -367,7 +368,7 @@ public class BlockCropPlot extends BlockContainer implements Identifiable
         else {
             return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 0.35F, pos.getZ() + 1);
         }
-        return super.getCollisionBoundingBox(worldIn, pos, state);
+        return super.getCollisionBoundingBox(state, worldIn, pos);
     }
 
     public static enum BerryColor implements IStringSerializable

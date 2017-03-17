@@ -4,22 +4,23 @@ import com.uberverse.arkcraft.client.book.GuiInfoBook;
 import com.uberverse.arkcraft.client.book.lib.Page;
 import com.uberverse.arkcraft.client.book.lib.SmallFontRenderer;
 
-public class PageText extends Page {
+import net.minecraft.client.resources.I18n;
 
-	public String text;
+public class PageText extends Page
+{
 
-	@Override
-	public void draw(int guiLeft, int guiTop, int mouseX, int mouseY, SmallFontRenderer renderer, boolean canTranslate,
-			GuiInfoBook book) {
-		
-		if (text != null)
-		{
-			if (canTranslate)
-			{
-				StatCollector.translateToLocal(text);
-			}
-			renderer.drawSplitString(text, guiLeft - 53 + renderer.splitStringWidth(text, (book.guiWidth)), guiTop + 20, book.guiWidth - 30, 0);
-		}
-	}
-	
+    public String text;
+
+    @Override
+    public void draw(int guiLeft, int guiTop, int mouseX, int mouseY, SmallFontRenderer renderer, boolean canTranslate, GuiInfoBook book)
+    {
+
+        if (text != null) {
+            if (canTranslate) {
+                text = I18n.format(text);
+            }
+            renderer.drawSplitString(text, guiLeft - 53 + renderer.splitStringWidth(text, (book.guiWidth)), guiTop + 20, book.guiWidth - 30, 0);
+        }
+    }
+
 }
