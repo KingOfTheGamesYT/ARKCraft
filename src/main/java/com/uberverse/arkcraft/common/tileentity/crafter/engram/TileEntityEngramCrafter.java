@@ -99,7 +99,7 @@ public abstract class TileEntityEngramCrafter extends TileEntity implements IInv
 	@Override
 	public ITextComponent getDisplayName()
 	{
-		return new ITextComponent(name);
+		return new TextComponentString(name);
 	}
 
 	@Override

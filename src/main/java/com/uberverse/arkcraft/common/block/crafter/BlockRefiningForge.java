@@ -10,6 +10,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,168 +27,166 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockRefiningForge extends BlockBurner
 {
-	public BlockRefiningForge()
-	{
-		super(Material.ROCK);
-		setHardness(2.0f);
-		this.setCreativeTab(ARKCraft.tabARK);
-		this.setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.NORTH).withProperty(PART,
-				EnumPart.BOTTOM));
-	}
+    public BlockRefiningForge()
+    {
+        super(Material.ROCK);
+        setHardness(2.0f);
+        this.setCreativeTab(ARKCraft.tabARK);
+        this.setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.NORTH).withProperty(PART, EnumPart.BOTTOM));
+    }
 
-	@Override
-	public int getId()
-	{
-		return CommonProxy.GUI.REFINING_FORGE.id;
-	}
+    @Override
+    public int getId()
+    {
+        return CommonProxy.GUI.REFINING_FORGE.id;
+    }
 
-	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta)
-	{
-		IBlockState state = getStateFromMeta(meta);
-		if (state.getValue(PART).equals(EnumPart.BOTTOM)) return new TileEntityRefiningForge();
-		return null;
-	}
+    @Override
+    public TileEntity createNewTileEntity(World worldIn, int meta)
+    {
+        IBlockState state = getStateFromMeta(meta);
+        if (state.getValue(PART).equals(EnumPart.BOTTOM))
+            return new TileEntityRefiningForge();
+        return null;
+    }
 
-	@Override
-	public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player)
-	{
-		if (state.getValue(PART) == EnumPart.BOTTOM)
-		{
-			BlockPos blockpos1 = pos.up();
-			if (worldIn.getBlockState(blockpos1).getBlock() == this)
-			{
-				worldIn.setBlockToAir(blockpos1);
-			}
-		}
-		else if (state.getValue(PART) == EnumPart.TOP)
-		{
-			BlockPos blockpos1 = pos.down();
-			if (worldIn.getBlockState(blockpos1).getBlock() == this)
-			{
-				worldIn.setBlockToAir(blockpos1);
-			}
-		}
-	}
+    @Override
+    public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player)
+    {
+        if (state.getValue(PART) == EnumPart.BOTTOM) {
+            BlockPos blockpos1 = pos.up();
+            if (worldIn.getBlockState(blockpos1).getBlock() == this) {
+                worldIn.setBlockToAir(blockpos1);
+            }
+        }
+        else if (state.getValue(PART) == EnumPart.TOP) {
+            BlockPos blockpos1 = pos.down();
+            if (worldIn.getBlockState(blockpos1).getBlock() == this) {
+                worldIn.setBlockToAir(blockpos1);
+            }
+        }
+    }
 
-	@Override
-	public Item getItemDropped(IBlockState state, Random rand, int fortune)
-	{
-		if (state.getValue(PART) == EnumPart.BOTTOM) return super.getItemDropped(state, rand, fortune);
-		else return null;
-	}
+    @Override
+    public Item getItemDropped(IBlockState state, Random rand, int fortune)
+    {
+        if (state.getValue(PART) == EnumPart.BOTTOM)
+            return super.getItemDropped(state, rand, fortune);
+        else
+            return null;
+    }
 
-	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
-	{
-		if (state.getValue(PART) == EnumPart.TOP) pos = pos.down();
-		return super.getActualState(state, worldIn, pos);
-	}
+    @Override
+    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
+    {
+        if (state.getValue(PART) == EnumPart.TOP)
+            pos = pos.down();
+        return super.getActualState(state, worldIn, pos);
+    }
 
-	@Override
-	public String getHarvestTool(IBlockState state)
-	{
-		return "pick";
-	}
+    @Override
+    public String getHarvestTool(IBlockState state)
+    {
+        return "pick";
+    }
 
-	@Override
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ,
-			int meta, EntityLivingBase placer)
-	{
-		return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
-	}
+    @Override
+    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+    {
+        return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
+    }
 
-	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-			EnumFacing side, float hitX, float hitY, float hitZ)
-	{
-		if (worldIn.isRemote) return true;
-		if (state.getValue(PART).equals(EnumPart.TOP)) pos = pos.down();
-		playerIn.openGui(ARKCraft.instance(), getId(), worldIn, pos.getX(), pos.getY(), pos.getZ());
-		return true;
-	}
+    @Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
+    {
+        if (worldIn.isRemote)
+            return true;
+        if (state.getValue(PART).equals(EnumPart.TOP))
+            pos = pos.down();
+        playerIn.openGui(ARKCraft.instance(), getId(), worldIn, pos.getX(), pos.getY(), pos.getZ());
+        return true;
+    }
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
-	{
-		double x = (double) pos.getX();
-		double y = (double) pos.getY();
-		double z = (double) pos.getZ();
-		EnumFacing f = (EnumFacing) state.getValue(FACING);
-		double xOffset = f == EnumFacing.WEST ? 0.75d : f == EnumFacing.EAST ? 0.25d : 0.5d;
-		double yOffset = 1.9d;
-		double zOffset = f == EnumFacing.NORTH ? 0.75d : f == EnumFacing.SOUTH ? 0.25d : 0.5d;
-		IBlockState blockState = getActualState(getDefaultState(), worldIn, pos);
-		boolean burning = (Boolean) blockState.getValue(BURNING);
-		if (burning)
-		{
-			worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE, x + xOffset, y + yOffset, z + zOffset, 0, 0.05, 0);
-			for (int i = 0; i < 5; i++)
-				if (rand.nextBoolean()) worldIn.spawnParticle(EnumParticleTypes.FLAME, x + xOffset + ((double) rand
-						.nextInt(2) - 1) / 10, y + yOffset, z + zOffset + ((double) rand.nextInt(2) - 1) / 10, 0, 0.05,
-						0);
-		}
-	}
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
+    {
+        double x = (double) pos.getX();
+        double y = (double) pos.getY();
+        double z = (double) pos.getZ();
+        EnumFacing f = (EnumFacing) state.getValue(FACING);
+        double xOffset = f == EnumFacing.WEST ? 0.75d : f == EnumFacing.EAST ? 0.25d : 0.5d;
+        double yOffset = 1.9d;
+        double zOffset = f == EnumFacing.NORTH ? 0.75d : f == EnumFacing.SOUTH ? 0.25d : 0.5d;
+        IBlockState blockState = getActualState(getDefaultState(), worldIn, pos);
+        boolean burning = (Boolean) blockState.getValue(BURNING);
+        if (burning) {
+            worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE, x + xOffset, y + yOffset, z + zOffset, 0, 0.05, 0);
+            for (int i = 0; i < 5; i++)
+                if (rand.nextBoolean())
+                    worldIn.spawnParticle(EnumParticleTypes.FLAME, x + xOffset + ((double) rand.nextInt(2) - 1) / 10, y + yOffset, z + zOffset + ((double) rand.nextInt(2) - 1) / 10, 0, 0.05, 0);
+        }
+    }
 
-	@Override
-	public IBlockState getStateFromMeta(int meta)
-	{
-		EnumFacing enumfacing = EnumFacing.getHorizontal(meta);
-		int metaOld = meta;
-		EnumPart part = (metaOld & 8) > 0 ? EnumPart.TOP : EnumPart.BOTTOM;
-		return this.getDefaultState().withProperty(FACING, enumfacing).withProperty(PART, part);
-	}
+    @Override
+    public IBlockState getStateFromMeta(int meta)
+    {
+        EnumFacing enumfacing = EnumFacing.getHorizontal(meta);
+        int metaOld = meta;
+        EnumPart part = (metaOld & 8) > 0 ? EnumPart.TOP : EnumPart.BOTTOM;
+        return this.getDefaultState().withProperty(FACING, enumfacing).withProperty(PART, part);
+    }
 
-	@Override
-	public int getMetaFromState(IBlockState state)
-	{
-		byte b0 = 0;
-		int i = b0 | ((EnumFacing) state.getValue(FACING)).getHorizontalIndex();
-		if (state.getValue(PART).equals(EnumPart.TOP)) i |= 8;
-		return i;
-	}
+    @Override
+    public int getMetaFromState(IBlockState state)
+    {
+        byte b0 = 0;
+        int i = b0 | ((EnumFacing) state.getValue(FACING)).getHorizontalIndex();
+        if (state.getValue(PART).equals(EnumPart.TOP))
+            i |= 8;
+        return i;
+    }
 
-	@Override
-	protected BlockState createBlockState()
-	{
-		return new BlockState(this, new IProperty[] { BURNING, FACING, PART });
-	}
+    @Override
+    protected BlockStateContainer createBlockState()
+    {
+        return new BlockStateContainer(this, BURNING, FACING, PART);
+    }
 
-	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-	public static final PropertyEnum PART = PropertyEnum.create("part", EnumPart.class);
+    public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+    public static final PropertyEnum PART = PropertyEnum.create("part", EnumPart.class);
 
-	public static enum EnumPart implements IStringSerializable
-	{
-		TOP, BOTTOM;
+    public static enum EnumPart implements IStringSerializable
+    {
+        TOP, BOTTOM;
 
-		public String toString()
-		{
-			return getName();
-		}
+        public String toString()
+        {
+            return getName();
+        }
 
-		public String getName()
-		{
-			return name().toLowerCase();
-		}
-	}
+        public String getName()
+        {
+            return name().toLowerCase();
+        }
+    }
 
-	@Override
-	public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side)
-	{
-		IBlockState state = worldIn.getBlockState(pos);
-		return state.getValue(PART) != EnumPart.TOP;
-	}
+    @Override
+    public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side)
+    {
+        IBlockState state = worldIn.getBlockState(pos);
+        return state.getValue(PART) != EnumPart.TOP;
+    }
 
-	@Override
-	public boolean isOpaqueCube(IBlockState state)
-	{
-		return false;
-	}
+    @Override
+    public boolean isOpaqueCube(IBlockState state)
+    {
+        return false;
+    }
 
-	@Override
-	public boolean isFullCube(IBlockState state)
-	{
-		return false;
-	}
+    @Override
+    public boolean isFullCube(IBlockState state)
+    {
+        return false;
+    }
 }

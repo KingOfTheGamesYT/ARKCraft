@@ -13,36 +13,28 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 public class VersionDetectionHandler
 {
-	public static void init()
-	{
-		VersionDetectionHandler handler = new VersionDetectionHandler();
-		FMLCommonHandler.instance().bus().register(handler);
-	}
+    public static void init()
+    {
+        VersionDetectionHandler handler = new VersionDetectionHandler();
+        FMLCommonHandler.instance().bus().register(handler);
+    }
 
-	@SubscribeEvent
-	public void onPlayerLoggedIn(PlayerLoggedInEvent event)
-	{
-		EntityPlayer player = event.player;
-		if (player != null)
-		{
-			if (ARKCraft.instance().isDebugger())
-			{
-				player.sendMessage(new ITextComponent(ChatFormatting.RED
-						+ "You are running a decompiled version of ARKCraft!"));
-			}
-			else if (ARKCraft.versionCheckResult != null && ARKCraft.versionCheckResult.status == Status.OUTDATED
-					|| ARKCraft.versionCheckResult.status == Status.BETA_OUTDATED)
-			{
-				player.sendMessage(new ITextComponent(ChatFormatting.RED + I18n.translate(
-						"chat.notification.outdated")));
-				player.sendMessage(new ITextComponent(ChatFormatting.RED + I18n.format(
-						"chat.notification.outdatedversion", ARKCraft.instance().version())));
-			}
-			else if (ARKCraft.versionCheckResult == null)
-			{
-				player.sendMessage(new ITextComponent(ChatFormatting.RED + "No Internet access"));
-			}
-		}
+    @SubscribeEvent
+    public void onPlayerLoggedIn(PlayerLoggedInEvent event)
+    {
+        EntityPlayer player = event.player;
+        if (player != null) {
+            if (ARKCraft.instance().isDebugger()) {
+                player.sendMessage(new TextComponentString(ChatFormatting.RED + "You are running a decompiled version of ARKCraft!"));
+            }
+            else if (ARKCraft.versionCheckResult != null && ARKCraft.versionCheckResult.status == Status.OUTDATED || ARKCraft.versionCheckResult.status == Status.BETA_OUTDATED) {
+                player.sendMessage(new TextComponentString(ChatFormatting.RED + I18n.translate("chat.notification.outdated")));
+                player.sendMessage(new TextComponentString(ChatFormatting.RED + I18n.format("chat.notification.outdatedversion", ARKCraft.instance().version())));
+            }
+            else if (ARKCraft.versionCheckResult == null) {
+                player.sendMessage(new TextComponentString(ChatFormatting.RED + "No Internet access"));
+            }
+        }
 
-	}
+    }
 }
