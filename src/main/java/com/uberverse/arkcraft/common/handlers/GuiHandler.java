@@ -49,149 +49,137 @@ import net.minecraftforge.fml.common.network.IGuiHandler;
 
 public class GuiHandler implements IGuiHandler
 {
-	@Override
-	public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z)
-	{
-		if (id == CommonProxy.GUI.SMITHY.id)
-		{
-			BlockPos xyz = new BlockPos(x, y, z);
-			TileEntity tileEntity = world.getTileEntity(xyz);
-			if (tileEntity instanceof TileEntitySmithy) return new ContainerSmithy(player,
-					(TileEntitySmithy) tileEntity);
-		}
-		else if (id == CommonProxy.GUI.MORTAR_AND_PESTLE.id)
-		{
-			BlockPos xyz = new BlockPos(x, y, z);
-			TileEntity tileEntity = world.getTileEntity(xyz);
-			if (tileEntity instanceof TileEntityMP) return new ContainerMP(player, (TileEntityMP) tileEntity);
-		}
-		else if (id == CommonProxy.GUI.COMPOST_BIN.id)
-		{
-			BlockPos xyz = new BlockPos(x, y, z);
-			TileEntity tileEntity = world.getTileEntity(xyz);
-			if (tileEntity instanceof TileEntityCompostBin) return new ContainerCompostBin(player,
-					(TileEntityCompostBin) tileEntity);
-		}
-		else if (id == CommonProxy.GUI.REFINING_FORGE.id)
-		{
-			BlockPos xyz = new BlockPos(x, y, z);
-			TileEntity tileEntity = world.getTileEntity(xyz);
-			if (tileEntity instanceof TileEntityRefiningForge) return new ContainerRefiningForge(
-					(TileEntityRefiningForge) tileEntity, player);
-		}
-		else if (id == CommonProxy.GUI.CAMPFIRE.id)
-		{
-			BlockPos xyz = new BlockPos(x, y, z);
-			TileEntity tileEntity = world.getTileEntity(xyz);
-			if (tileEntity instanceof TileEntityCampfire)
+    @Override
+    public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z)
+    {
+        if (id == CommonProxy.GUI.SMITHY.id) {
+            BlockPos xyz = new BlockPos(x, y, z);
+            TileEntity tileEntity = world.getTileEntity(xyz);
+            if (tileEntity instanceof TileEntitySmithy)
+                return new ContainerSmithy(player, (TileEntitySmithy) tileEntity);
+        }
+        else if (id == CommonProxy.GUI.MORTAR_AND_PESTLE.id) {
+            BlockPos xyz = new BlockPos(x, y, z);
+            TileEntity tileEntity = world.getTileEntity(xyz);
+            if (tileEntity instanceof TileEntityMP)
+                return new ContainerMP(player, (TileEntityMP) tileEntity);
+        }
+        else if (id == CommonProxy.GUI.COMPOST_BIN.id) {
+            BlockPos xyz = new BlockPos(x, y, z);
+            TileEntity tileEntity = world.getTileEntity(xyz);
+            if (tileEntity instanceof TileEntityCompostBin)
+                return new ContainerCompostBin(player, (TileEntityCompostBin) tileEntity);
+        }
+        else if (id == CommonProxy.GUI.REFINING_FORGE.id) {
+            BlockPos xyz = new BlockPos(x, y, z);
+            TileEntity tileEntity = world.getTileEntity(xyz);
+            if (tileEntity instanceof TileEntityRefiningForge)
+                return new ContainerRefiningForge((TileEntityRefiningForge) tileEntity, player);
+        }
+        else if (id == CommonProxy.GUI.CAMPFIRE.id) {
+            BlockPos xyz = new BlockPos(x, y, z);
+            TileEntity tileEntity = world.getTileEntity(xyz);
+            if (tileEntity instanceof TileEntityCampfire)
+                return new ContainerCampfire((TileEntityCampfire) tileEntity, player);
+        }
+        else if (id == CommonProxy.GUI.ENGRAMS.id)
+            return new ContainerEngram(ARKPlayer.get(player).getEngramInventory());
+        else if (id == CommonProxy.GUI.CROP_PLOT.id) {
+            BlockPos xyz = new BlockPos(x, y, z);
+            TileEntity tileEntity = world.getTileEntity(xyz);
+            if (tileEntity instanceof TileEntityCropPlot)
+                return new ContainerCropPlot(player.inventory, (TileEntityCropPlot) tileEntity);
+        }
+        else if (id == CommonProxy.GUI.PLAYER.id)
+            return new ContainerPlayerCrafting(player);
+        else if (id == CommonProxy.GUI.ATTACHMENTS.id)
+            return new ContainerInventoryAttachment(player, player.inventory, InventoryAttachment.create(player.getHeldItemMainhand()));
 
-				return new ContainerCampfire(tileEntity, player);
-		}
-		else if (id == CommonProxy.GUI.ENGRAMS.id) return new ContainerEngram(ARKPlayer.get(player)
-				.getEngramInventory());
-		else if (id == CommonProxy.GUI.CROP_PLOT.id)
-		{
-			BlockPos xyz = new BlockPos(x, y, z);
-			TileEntity tileEntity = world.getTileEntity(xyz);
-			if (tileEntity instanceof TileEntityCropPlot) return new ContainerCropPlot(player.inventory,
-					(TileEntityCropPlot) tileEntity);
-		}
-		else if (id == CommonProxy.GUI.PLAYER.id) return new ContainerPlayerCrafting(player);
-		else if (id == CommonProxy.GUI.ATTACHMENTS.id) return new ContainerInventoryAttachment(player, player.inventory,
-				InventoryAttachment.create(player.getHeldItemMainhand()));
+        else if (id == CommonProxy.GUI.INV_DODO.id) {
+            Entity entity = getEntityAt(player, x, y, z);
+            if (entity != null && entity instanceof EntityDodo)
+                return new ContainerInventoryDodo(player.inventory, ((EntityDodo) entity).invDodo, (EntityDodo) entity);
+        }
+        return null;
+    }
 
-		else if (id == CommonProxy.GUI.INV_DODO.id)
-		{
-			Entity entity = getEntityAt(player, x, y, z);
-			if (entity != null && entity instanceof EntityDodo) return new ContainerInventoryDodo(player.inventory,
-					((EntityDodo) entity).invDodo, (EntityDodo) entity);
-		}
-		return null;
-	}
+    @Override
+    public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z)
+    {
+        if (id == CommonProxy.GUI.SMITHY.id) {
+            BlockPos xyz = new BlockPos(x, y, z);
+            TileEntity tileEntity = world.getTileEntity(xyz);
+            if (tileEntity instanceof TileEntitySmithy)
+                return new GUISmithy(player, (TileEntitySmithy) tileEntity);
+        }
+        else if (id == CommonProxy.GUI.MORTAR_AND_PESTLE.id) {
+            BlockPos xyz = new BlockPos(x, y, z);
+            TileEntity tileEntity = world.getTileEntity(xyz);
+            if (tileEntity instanceof TileEntityMP)
+                return new GUIMortarPestle(player, (TileEntityMP) tileEntity);
+        }
+        else if (id == CommonProxy.GUI.CAMPFIRE.id) {
+            BlockPos xyz = new BlockPos(x, y, z);
+            TileEntity tileEntity = world.getTileEntity(xyz);
+            if (tileEntity instanceof TileEntityCampfire)
+                return new GUICampfire((ContainerCampfire) getServerGuiElement(id, player, world, x, y, z));
+        }
+        else if (id == CommonProxy.GUI.CROP_PLOT.id) {
+            BlockPos xyz = new BlockPos(x, y, z);
+            TileEntity tileEntity = world.getTileEntity(xyz);
+            if (tileEntity instanceof TileEntityCropPlot)
+                return new GuiCropPlotNew(player.inventory, (TileEntityCropPlot) tileEntity);
+        }
+        else if (id == CommonProxy.GUI.REFINING_FORGE.id) {
+            BlockPos xyz = new BlockPos(x, y, z);
+            TileEntity tileEntity = world.getTileEntity(xyz);
+            if (tileEntity instanceof TileEntityRefiningForge)
+                return new GUIRefiningForge(new ContainerRefiningForge((TileEntityRefiningForge) tileEntity, player));
+        }
+        else if (id == CommonProxy.GUI.ENGRAMS.id)
+            return new GUIEngram(player);
+        else if (id == CommonProxy.GUI.COMPOST_BIN.id) {
+            TileEntity tileEntity = world.getTileEntity(new BlockPos(x, y, z));
+            if (tileEntity instanceof TileEntityCompostBin)
+                return new GUICompostBin(player, (TileEntityCompostBin) tileEntity);
+        }
+        else if (id == CommonProxy.GUI.BOOK.id) {
+            ItemStack stack = player.getHeldItemMainhand();
+            return new GuiInfoBook(stack, GuiHandler.getBookDataFromStack(stack));
+        }
+        else if (id == CommonProxy.GUI.PLAYER.id)
+            return new GUIPlayerCrafting(new ContainerPlayerCrafting(player));
+        else if (id == CommonProxy.GUI.ATTACHMENTS.id)
+            return new GUIAttachment(player, player.inventory, InventoryAttachment.create(player.getHeldItemMainhand()));
+        else if (id == CommonProxy.GUI.INV_DODO.id) {
+            Entity entity = getEntityAt(player, x, y, z);
+            if (entity != null && entity instanceof EntityDodo)
+                return new GuiInventoryDodo(player.inventory, ((EntityDodo) entity).invDodo, (EntityDodo) entity);
+        }
+        return null;
 
-	@Override
-	public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z)
-	{
-		if (id == CommonProxy.GUI.SMITHY.id)
-		{
-			BlockPos xyz = new BlockPos(x, y, z);
-			TileEntity tileEntity = world.getTileEntity(xyz);
-			if (tileEntity instanceof TileEntitySmithy) return new GUISmithy(player, (TileEntitySmithy) tileEntity);
-		}
-		else if (id == CommonProxy.GUI.MORTAR_AND_PESTLE.id)
-		{
-			BlockPos xyz = new BlockPos(x, y, z);
-			TileEntity tileEntity = world.getTileEntity(xyz);
-			if (tileEntity instanceof TileEntityMP) return new GUIMortarPestle(player, (TileEntityMP) tileEntity);
-		}
-		else if (id == CommonProxy.GUI.CAMPFIRE.id)
-		{
-			BlockPos xyz = new BlockPos(x, y, z);
-			TileEntity tileEntity = world.getTileEntity(xyz);
-			if (tileEntity instanceof TileEntityCampfire) return new GUICampfire(
-					(ContainerCampfire) getServerGuiElement(id, player, world, x, y, z));
-		}
-		else if (id == CommonProxy.GUI.CROP_PLOT.id)
-		{
-			BlockPos xyz = new BlockPos(x, y, z);
-			TileEntity tileEntity = world.getTileEntity(xyz);
-			if (tileEntity instanceof TileEntityCropPlot) return new GuiCropPlotNew(player.inventory,
-					(TileEntityCropPlot) tileEntity);
-		}
-		else if (id == CommonProxy.GUI.REFINING_FORGE.id)
-		{
-			BlockPos xyz = new BlockPos(x, y, z);
-			TileEntity tileEntity = world.getTileEntity(xyz);
-			if (tileEntity instanceof TileEntityRefiningForge) return new GUIRefiningForge(new ContainerRefiningForge(
-					(TileEntityRefiningForge) tileEntity, player));
-		}
-		else if (id == CommonProxy.GUI.ENGRAMS.id) return new GUIEngram(player);
-		else if (id == CommonProxy.GUI.COMPOST_BIN.id)
-		{
-			TileEntity tileEntity = world.getTileEntity(new BlockPos(x, y, z));
-			if (tileEntity instanceof TileEntityCompostBin) return new GUICompostBin(player,
-					(TileEntityCompostBin) tileEntity);
-		}
-		else if (id == CommonProxy.GUI.BOOK.id)
-		{
-			ItemStack stack = player.getHeldItemMainhand();
-			return new GuiInfoBook(stack, GuiHandler.getBookDataFromStack(stack));
-		}
-		else if (id == CommonProxy.GUI.PLAYER.id) return new GUIPlayerCrafting(new ContainerPlayerCrafting(player));
-		else if (id == CommonProxy.GUI.ATTACHMENTS.id) return new GUIAttachment(player, player.inventory,
-				InventoryAttachment.create(player.getHeldItemMainhand()));
-		else if (id == CommonProxy.GUI.INV_DODO.id)
-		{
-			Entity entity = getEntityAt(player, x, y, z);
-			if (entity != null && entity instanceof EntityDodo) return new GuiInventoryDodo(player.inventory,
-					((EntityDodo) entity).invDodo, (EntityDodo) entity);
-		}
-		return null;
+    }
 
-	}
+    private static BookData getBookDataFromStack(ItemStack stack)
+    {
+        return BookDataStore.getBookDataFromName(stack.getUnlocalizedName());
+    }
 
-	private static BookData getBookDataFromStack(ItemStack stack)
-	{
-		return BookDataStore.getBookDataFromName(stack.getUnlocalizedName());
-	}
-
-	private Entity getEntityAt(EntityPlayer player, int x, int y, int z)
-	{
-		AxisAlignedBB targetBox = new AxisAlignedBB(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1);
-		@SuppressWarnings("rawtypes")
-		List entities = player.world.getEntitiesWithinAABBExcludingEntity(player, targetBox);
-		@SuppressWarnings("rawtypes")
-		Iterator iterator = entities.iterator();
-		while (iterator.hasNext())
-		{
-			Entity entity = (Entity) iterator.next();
-			// TODO change to umbrella all the entities
-			if (entity instanceof EntityDodo)
-			{
-				LogHelper.info("GuiHandler: Found entity!");
-				return entity;
-			}
-		}
-		return null;
-	}
+    private Entity getEntityAt(EntityPlayer player, int x, int y, int z)
+    {
+        AxisAlignedBB targetBox = new AxisAlignedBB(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1);
+        @SuppressWarnings("rawtypes")
+        List entities = player.world.getEntitiesWithinAABBExcludingEntity(player, targetBox);
+        @SuppressWarnings("rawtypes")
+        Iterator iterator = entities.iterator();
+        while (iterator.hasNext()) {
+            Entity entity = (Entity) iterator.next();
+            // TODO change to umbrella all the entities
+            if (entity instanceof EntityDodo) {
+                LogHelper.info("GuiHandler: Found entity!");
+                return entity;
+            }
+        }
+        return null;
+    }
 }

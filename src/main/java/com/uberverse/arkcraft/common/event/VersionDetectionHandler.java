@@ -5,7 +5,7 @@ import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.util.I18n;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.ForgeVersion.Status;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
