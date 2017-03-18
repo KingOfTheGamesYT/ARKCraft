@@ -563,7 +563,7 @@ public class ARKPlayer implements IArkLevelable, IWeighable, ITranquilizable
     {
         Multimap<String, AttributeModifier> mods = HashMultimap.create();
 
-        mods.put(SharedMonsterAttributes.maxHealth.getAttributeUnlocalizedName(), new AttributeModifier(player.getUniqueID(), ARKCraft.MODID + "_max_health", getMaxHealth(), 0));
+        mods.put(SharedMonsterAttributes.MAX_HEALTH.getName(), new AttributeModifier(player.getUniqueID(), ARKCraft.MODID + "_max_health", getMaxHealth(), 0));
 
         player.getAttributeMap().removeAttributeModifiers(mods);
         player.getAttributeMap().applyAttributeModifiers(mods);
