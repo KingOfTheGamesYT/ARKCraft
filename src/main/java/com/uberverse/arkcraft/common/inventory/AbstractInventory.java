@@ -6,6 +6,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 
 /**
  * Class aiming to minimize amount of code needed for an inventory. MarkDirty()
@@ -121,7 +123,7 @@ public abstract class AbstractInventory implements IInventory
 	@Override
 	public ITextComponent getDisplayName()
 	{
-		return (ITextComponent) (hasCustomName() ? new ChatComponentText(getName()) : new ChatComponentTranslation(
+		return (ITextComponent) (hasCustomName() ? new TextComponentString(getName()) : new TextComponentTranslation(
 				getName()));
 	}
 

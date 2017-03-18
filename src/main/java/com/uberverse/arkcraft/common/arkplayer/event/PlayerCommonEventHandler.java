@@ -4,6 +4,7 @@ import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.common.config.WeightsConfig;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
@@ -45,7 +46,8 @@ public class PlayerCommonEventHandler
 					&& ARKPlayer.get(p).isEncumbered())
 			{
 				p.motionY *= 0;
-				if (p.world.isRemote) p.addChatComponentMessage(new ChatComponentTranslation("ark.splash.noJump"));
+				if (p.world.isRemote) p.sendMessage(new TextComponentTranslation("ark.splash.noJump"));
+				
 			}
 		}
 	}

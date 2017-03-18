@@ -7,6 +7,7 @@ import com.uberverse.arkcraft.common.burner.IBurnerContainer;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
@@ -140,9 +141,9 @@ public abstract class ContainerBurner extends Container implements IBurnerContai
 			}
 		}
 
-		for (int i = 0; i < this.crafters.size(); ++i)
+		for (int i = 0; i < this.listeners.size(); ++i)
 		{
-			ICrafting icrafting = (ICrafting) this.crafters.get(i);
+			IContainerListener icrafting = (IContainerListener) this.listeners.get(i);
 			for (int fieldID = 0; fieldID < burner.getIInventory().getFieldCount(); ++fieldID)
 			{
 				if (fieldHasChanged[fieldID])
