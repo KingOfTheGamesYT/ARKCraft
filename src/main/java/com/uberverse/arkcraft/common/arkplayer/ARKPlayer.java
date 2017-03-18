@@ -44,6 +44,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -195,7 +196,7 @@ public class ARKPlayer implements IArkLevelable, IWeighable, ITranquilizable
             relief();
         }
         else {
-            player.addChatMessage(new ChatComponentTranslation("chat.canNotPoop"));
+            player.addChatMessage(new TextComponentTranslation("chat.canNotPoop"));
         }
     }
 
@@ -562,7 +563,7 @@ public class ARKPlayer implements IArkLevelable, IWeighable, ITranquilizable
     {
         Multimap<String, AttributeModifier> mods = HashMultimap.create();
 
-        mods.put(SharedMonsterAttributes.maxHealth.getAttributeUnlocalizedName(), new AttributeModifier(player.getUniqueID(), ARKCraft.MODID + "_max_health", getMaxHealth(), 0));
+        mods.put(SharedMonsterAttributes.MAX_HEALTH.getName(), new AttributeModifier(player.getUniqueID(), ARKCraft.MODID + "_max_health", getMaxHealth(), 0));
 
         player.getAttributeMap().removeAttributeModifiers(mods);
         player.getAttributeMap().applyAttributeModifiers(mods);

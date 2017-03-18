@@ -18,17 +18,17 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 
 /**
  * @author Lewis_McReu
  * @author wildbill22
  */
-public class TileEntityCompostBin extends TileEntity implements IInventory, IUpdatePlayerListBox, IInventoryAdder, IDecayer
+public class TileEntityCompostBin extends TileEntity implements IInventory, ITickable, IInventoryAdder, IDecayer
 {
     private final ItemStack[] inventory;
     private int progress;
@@ -52,7 +52,7 @@ public class TileEntityCompostBin extends TileEntity implements IInventory, IUpd
     }
 
     @Override
-    public IChatComponent getDisplayName()
+    public ITextComponent getDisplayName()
     {
         return null;
     }

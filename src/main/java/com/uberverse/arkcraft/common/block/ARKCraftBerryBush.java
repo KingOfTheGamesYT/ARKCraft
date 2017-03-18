@@ -20,7 +20,10 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.ColorizerGrass;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -40,8 +43,13 @@ public class ARKCraftBerryBush extends BlockBush implements IExperienceSource
         this.setTickRandomly(true);
         this.setHardness(hardness);
         this.setCreativeTab(ARKCraft.tabARK);
-        this.setBlockBounds(0f, 0f, 0f, 1f, 1f, 1f);
         this.setBlockUnbreakable();
+    }
+
+    @Override
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+    {
+        return FULL_BLOCK_AABB;
     }
 
     @Override
@@ -102,7 +110,7 @@ public class ARKCraftBerryBush extends BlockBush implements IExperienceSource
     }
 
     @Override
-    public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos, EntityPlayer player)
+    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
     {
         return new ItemStack(this, 1, 0);
     }
@@ -171,7 +179,7 @@ public class ARKCraftBerryBush extends BlockBush implements IExperienceSource
     {
         if (itemStackIn.stackSize != 0 && itemStackIn.getItem() != null) {
             Float offset = worldIn.rand.nextFloat();
-            EntityItem entityitem = new EntityItem(worldIn, pos.getX() + offset, pos.getY() + this.maxY, pos.getZ() + offset, itemStackIn);
+            EntityItem entityitem = new EntityItem(worldIn, pos.getX() + offset, pos.getY() + 1, pos.getZ() + offset, itemStackIn);
             entityitem.setDefaultPickupDelay();
             if (playerIn.captureDrops) {
                 playerIn.capturedDrops.add(entityitem);
@@ -215,9 +223,9 @@ public class ARKCraftBerryBush extends BlockBush implements IExperienceSource
     }
 
     @Override
-    public EnumWorldBlockLayer getBlockLayer()
+    public BlockRenderLayer getBlockLayer()
     {
-        return EnumWorldBlockLayer.CUTOUT;
+        return BlockRenderLayer.CUTOUT;
     }
 
     @Override
