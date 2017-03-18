@@ -153,22 +153,22 @@ public abstract class AbstractInventory implements IInventory
     }
 
     /**
-     * Loads this inventory from NBT; must be called manually Fails silently if
-     * {@link #getNbtKey} returns null or an empty string
-     */
-    public void readFromNBT(NBTTagCompound compound)
-    {
-        String key = getNbtKey();
-        if (key == null || key.equals("")) {
-            return;
-        }
-        NBTTagList items = compound.getTagList(key, compound.getId());
-        for (int i = 0; i < items.tagCount(); ++i) {
-            NBTTagCompound item = items.getCompoundTagAt(i);
-            byte slot = item.getByte("Slot");
-            if (slot >= 0 && slot < getSizeInventory()) {
-                inventory[slot] = ItemStack.loadItemStackFromNBT(item);
-            }
-        }
-    }
+	 * Loads this inventory from NBT; must be called manually Fails silently if
+	 * {@link #getNbtKey} returns null or an empty string
+	 */
+	public void readFromNBT(NBTTagCompound compound)
+	{
+		String key = getNbtKey();
+		if (key == null || key.equals("")) { return; }
+		NBTTagList items = compound.getTagList(key, compound.getId());
+		for (int i = 0; i < items.tagCount(); ++i)
+		{
+			NBTTagCompound item = items.getCompoundTagAt(i);
+			byte slot = item.getByte("Slot");
+			if (slot >= 0 && slot < getSizeInventory())
+			{
+				inventory[slot] = ItemStack.loadItemStackFromNBT(item);
+			}
+		}
+	}>>>>>>>origin/master
 }

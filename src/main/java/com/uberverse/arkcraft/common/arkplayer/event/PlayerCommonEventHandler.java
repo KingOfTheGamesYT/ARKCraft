@@ -44,6 +44,7 @@ public class PlayerCommonEventHandler
                 p.motionY *= 0;
                 if (p.world.isRemote)
                     p.sendMessage(new TextComponentTranslation("ark.splash.noJump"));
+
             }
         }
     }

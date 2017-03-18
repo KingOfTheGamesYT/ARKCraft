@@ -196,7 +196,7 @@ public class ARKPlayer implements IArkLevelable, IWeighable, ITranquilizable
             relief();
         }
         else {
-            player.addChatMessage(new TextComponentTranslation("chat.canNotPoop"));
+            player.sendMessage(new TextComponentTranslation("chat.canNotPoop"));
         }
     }
 
