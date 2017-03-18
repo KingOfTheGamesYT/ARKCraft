@@ -2,7 +2,7 @@ package com.uberverse.arkcraft.common.entity.projectile;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntitySimpleRifleAmmo extends EntityProjectile
@@ -45,7 +45,7 @@ public class EntitySimpleRifleAmmo extends EntityProjectile
 	}
 
 	@Override
-	public void onGroundHit(MovingObjectPosition movingobjectposition)
+	public void onGroundHit(RayTraceResult movingobjectposition)
 	{
 		world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX, posY, posZ, 0.0D, 0.0D, 0.0D);
 		breakGlass(movingobjectposition);

@@ -1,7 +1,5 @@
 package com.uberverse.arkcraft.util;
 
-import net.minecraftforge.fml.common.registry.LanguageRegistry;
-
 public class I18n
 {
 	public static String format(String key, Object... args)

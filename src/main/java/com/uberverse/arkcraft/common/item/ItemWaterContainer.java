@@ -13,9 +13,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
 
@@ -57,7 +57,7 @@ public class ItemWaterContainer extends ARKCraftItem
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn,
 			EnumHand hand) {
-		MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(worldIn, playerIn, true);
+		RayTraceResult movingobjectposition = this.getMovingObjectPositionFromPlayer(worldIn, playerIn, true);
 
 		if (movingobjectposition == null)
 		{
@@ -65,7 +65,7 @@ public class ItemWaterContainer extends ARKCraftItem
 		}
 		else
 		{
-			if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
+			if (movingobjectposition.typeOfHit == RayTraceResult.MovingObjectType.BLOCK)
 			{
 				ItemStack ret = ForgeEventFactory.onBucketUse(playerIn, worldIn, itemStackIn,
 						movingobjectposition);

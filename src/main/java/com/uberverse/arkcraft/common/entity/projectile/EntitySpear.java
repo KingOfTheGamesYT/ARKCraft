@@ -7,7 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntitySpear extends EntityProjectile
@@ -59,7 +59,7 @@ public class EntitySpear extends EntityProjectile
 	}
 
 	@Override
-	public void onGroundHit(MovingObjectPosition movingobjectposition)
+	public void onGroundHit(RayTraceResult movingobjectposition)
 	{
 		applyGroundHitEffects(movingobjectposition);
 	}

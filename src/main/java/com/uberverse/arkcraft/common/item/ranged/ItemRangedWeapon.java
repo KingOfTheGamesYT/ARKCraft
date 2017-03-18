@@ -200,8 +200,8 @@ public abstract class ItemRangedWeapon extends ItemBow
     private void updateLaser(Entity entityIn)
     {
         World w = entityIn.world;
-        MovingObjectPosition mop = rayTrace(entityIn, 35, 1.0F);
-        if (mop.typeOfHit == MovingObjectType.BLOCK) {
+        RayTraceResult mop = rayTrace(entityIn, 35, 1.0F);
+        if (mop.typeOfHit == RayTraceResult.Type.BLOCK) {
             double x = mop.hitVec.xCoord;
             double y = mop.hitVec.yCoord;
             double z = mop.hitVec.zCoord;
@@ -218,12 +218,12 @@ public abstract class ItemRangedWeapon extends ItemBow
 
     private void updateFlashlight(Entity entityIn)
     {
-        MovingObjectPosition mop = rayTrace(entityIn, 20, 1.0F);
-        if (mop != null && mop.typeOfHit != MovingObjectPosition.MovingObjectType.MISS) {
+    	RayTraceResult mop = rayTrace(entityIn, 20, 1.0F);
+        if (mop != null && mop.typeOfHit != RayTraceResult.Type.MISS) {
             World world = entityIn.world;
             BlockPos pos;
 
-            if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
+            if (mop.typeOfHit == RayTraceResult.Type.ENTITY) {
                 pos = mop.entityHit.getPosition();
             }
             else {

@@ -3,7 +3,7 @@ package com.uberverse.arkcraft.common.entity.projectile;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntityRocketPropelledGrenade extends EntityProjectile
@@ -57,7 +57,7 @@ public class EntityRocketPropelledGrenade extends EntityProjectile
 	}
 
 	@Override
-	public void onGroundHit(MovingObjectPosition movingobjectposition)
+	public void onGroundHit(RayTraceResult movingobjectposition)
 	{
 		explode();
 	}
