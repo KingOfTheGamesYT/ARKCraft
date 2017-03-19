@@ -6,7 +6,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class EntityMetalArrow extends EntityArkArrow
+public class EntityMetalArrow extends EntityProjectile1
 {
 	public EntityMetalArrow(World worldIn)
 	{
@@ -25,10 +25,9 @@ public class EntityMetalArrow extends EntityArkArrow
 		super(worldIn, shooter, speed);
 		this.setDamage(5);
 	}
-	
+
 	@Override
-	public ItemStack getPickupItem()
-	{
+	protected ItemStack getArrowStack() {
 		return new ItemStack(ARKCraftRangedWeapons.metal_arrow, 1);
 	}
 }

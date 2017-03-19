@@ -2,11 +2,12 @@ package com.uberverse.arkcraft.common.entity.projectile;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class EntityRocketPropelledGrenade extends EntityProjectile
+public class EntityRocketPropelledGrenade extends EntityProjectile1
 {
 	public float explosionRadius = 4F;
 
@@ -68,5 +69,11 @@ public class EntityRocketPropelledGrenade extends EntityProjectile
 		this.world.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, posX, posY, posZ, 0.0D, 0.0D, 0.0D);
 		this.world.createExplosion(this, this.posX, this.posY, this.posZ, this.explosionRadius, true);
 		this.setDead();
+	}
+
+	@Override
+	protected ItemStack getArrowStack()
+	{
+		return null;
 	}
 }

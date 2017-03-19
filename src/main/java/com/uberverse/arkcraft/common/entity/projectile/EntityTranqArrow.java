@@ -8,7 +8,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class EntityTranqArrow extends EntityArkArrow implements ITranquilizer
+public class EntityTranqArrow extends EntityProjectile1 implements ITranquilizer
 {
 	public EntityTranqArrow(World worldIn)
 	{
@@ -35,8 +35,7 @@ public class EntityTranqArrow extends EntityArkArrow implements ITranquilizer
 	}
 	
 	@Override
-	public ItemStack getPickupItem()
-	{
+	protected ItemStack getArrowStack() {
 		return new ItemStack(ARKCraftRangedWeapons.tranq_arrow, 1);
 	}
 }

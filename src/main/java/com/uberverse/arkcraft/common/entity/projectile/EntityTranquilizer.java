@@ -4,10 +4,11 @@ import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.entity.ITranquilizer;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 
-public class EntityTranquilizer extends EntityProjectile implements ITranquilizer
+public class EntityTranquilizer extends EntityProjectile1 implements ITranquilizer
 {
 	public EntityTranquilizer(World world)
 	{
@@ -46,14 +47,13 @@ public class EntityTranquilizer extends EntityProjectile implements ITranquilize
 	}
 
 	@Override
-	public void playHitSound()
-	{
-		world.playSoundAtEntity(this, "random.bowhit", 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.9F));
-	}
-
-	@Override
 	public int getTorpor()
 	{
 		return ModuleItemBalance.WEAPONS.TRANQ_AMMO_TORPOR_TIME;
+	}
+
+	@Override
+	protected ItemStack getArrowStack() {
+		return null;
 	}
 }

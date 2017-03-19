@@ -1,11 +1,12 @@
 package com.uberverse.arkcraft.common.entity.projectile;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class EntityGrenade extends EntityProjectile
+public class EntityGrenade extends EntityProjectile1
 {
 	double bounceFactor1;
 	double bounceFactor = 0.8;
@@ -122,6 +123,12 @@ public class EntityGrenade extends EntityProjectile
 	public void readEntityFromNBT(NBTTagCompound nbttagcompound)
 	{
 		fuse = nbttagcompound.getByte("Fuse");
+	}
+
+	@Override
+	protected ItemStack getArrowStack() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

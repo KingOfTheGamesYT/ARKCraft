@@ -1,11 +1,12 @@
 package com.uberverse.arkcraft.common.entity.projectile;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class EntitySimpleShotgunAmmo extends EntityProjectile
+public class EntitySimpleShotgunAmmo extends EntityProjectile1
 {
 	public EntitySimpleShotgunAmmo(World world)
 	{
@@ -46,7 +47,7 @@ public class EntitySimpleShotgunAmmo extends EntityProjectile
 	@Override
 	public void setKnockbackStrength(int knockBack)
 	{
-		this.knockbackStrength = 10;
+		knockBack = 10;
 	}
 
 	@Override
@@ -66,5 +67,11 @@ public class EntitySimpleShotgunAmmo extends EntityProjectile
 			entityShotgunShot.setThrowableHeading(i, j, k, 3F, 10.0F);
 			world.spawnEntity(entityShotgunShot);
 		}
+	}
+
+	@Override
+	protected ItemStack getArrowStack() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

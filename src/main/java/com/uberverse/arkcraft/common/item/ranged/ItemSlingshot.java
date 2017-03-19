@@ -24,7 +24,7 @@ public class ItemSlingshot extends Item
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn,
 			EnumHand hand) {
-		if (playerIn.capabilities.isCreativeMode || playerIn.inventory.consumeInventoryItem(ARKCraftItems.stone))
+		if (playerIn.capabilities.isCreativeMode || playerIn.inventory.(ARKCraftItems.stone))
 		{
 			setLastUseTime(itemStackIn, worldIn.getTotalWorldTime());
 			worldIn.playSoundAtEntity(playerIn, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));

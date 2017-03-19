@@ -5,12 +5,13 @@ import com.uberverse.arkcraft.init.ARKCraftItems;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class EntitySpear extends EntityProjectile
+public class EntitySpear extends EntityProjectile1
 {
 	public EntitySpear(World world)
 	{
@@ -65,12 +66,6 @@ public class EntitySpear extends EntityProjectile
 	}
 
 	@Override
-	public void playHitSound()
-	{
-		world.playSoundAtEntity(this, "random.bowhit", 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 0.9F));
-	}
-
-	@Override
 	public float getGravity()
 	{
 		return 0.03F;
@@ -81,15 +76,15 @@ public class EntitySpear extends EntityProjectile
 	{
 		return 4;
 	}
-
-	@Override
-	public ItemStack getPickupItem()
-	{
-		return new ItemStack(ARKCraftItems.spear, 1);
-	}
 	
 	@Override
 	public void gunRange()
 	{		
+	}
+
+	@Override
+	protected ItemStack getArrowStack() {
+		return new ItemStack(ARKCraftItems.spear, 1);
+
 	}
 }
