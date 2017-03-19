@@ -25,6 +25,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBow;
@@ -33,6 +34,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
@@ -405,13 +407,15 @@ public abstract class ItemRangedWeapon extends ItemBow
 
     public void soundEmpty(ItemStack itemstack, World world, EntityPlayer entityplayer)
     {
-        world.playSoundAtEntity(entityplayer, "random.click", 1.0F, 1.0F / 0.8F);
+   //     world.playSoundAtEntity(entityplayer, "random.click", 1.0F, 1.0F / 0.8F);
+        world.playSound(entityplayer, entityplayer.getPosition(), SoundEvents.UI_BUTTON_CLICK, SoundCategory.PLAYERS, 1.0F, 1.0F / 0.8F);
     }
 
     public void soundCharge(ItemStack stack, World world, EntityPlayer player)
     {
-        String name = ARKCraft.MODID + ":" + this.getUnlocalizedName() + "_reload";
-        world.playSoundAtEntity(player, name, 0.7F, 0.9F / (getItemRand().nextFloat() * 0.2F + 0.0F));
+    	//TODO Add Custom Sounds
+     //   String name = ARKCraft.MODID + ":" + this.getUnlocalizedName() + "_reload";
+        world.playSound(player, player.getPosition(), SoundEvents.ENTITY_ARROW_HIT,  SoundCategory.PLAYERS, 0.7F, 0.9F / (getItemRand().nextFloat() * 0.2F + 0.0F));
     }
 
     public abstract int getReloadDuration();

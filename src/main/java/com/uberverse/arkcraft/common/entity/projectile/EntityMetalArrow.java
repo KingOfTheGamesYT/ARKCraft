@@ -6,7 +6,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class EntityMetalArrow extends EntityProjectile1
+public class EntityMetalArrow extends EntityProjectile
 {
 	public EntityMetalArrow(World worldIn)
 	{

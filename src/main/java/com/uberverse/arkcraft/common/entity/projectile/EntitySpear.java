@@ -11,7 +11,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class EntitySpear extends EntityProjectile1
+public class EntitySpear extends EntityProjectile
 {
 	public EntitySpear(World world)
 	{

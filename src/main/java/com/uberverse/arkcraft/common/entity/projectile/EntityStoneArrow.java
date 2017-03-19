@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class EntityStoneArrow extends EntityProjectile1
+public class EntityStoneArrow extends EntityProjectile
 {
 	public EntityStoneArrow(World worldIn) 
 	{

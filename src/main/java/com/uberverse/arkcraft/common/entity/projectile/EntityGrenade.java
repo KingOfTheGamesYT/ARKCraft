@@ -6,7 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class EntityGrenade extends EntityProjectile1
+public class EntityGrenade extends EntityProjectile
 {
 	double bounceFactor1;
 	double bounceFactor = 0.8;

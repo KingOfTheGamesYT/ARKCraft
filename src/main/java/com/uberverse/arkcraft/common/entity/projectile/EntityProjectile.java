@@ -42,7 +42,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class EntityProjectile1 extends Entity implements IProjectile
+public abstract class EntityProjectile extends Entity implements IProjectile
 {
     @SuppressWarnings("unchecked")
 	private static final Predicate<Entity> ARROW_TARGETS = Predicates.and(new Predicate[] {EntitySelectors.NOT_SPECTATING, EntitySelectors.IS_ALIVE, new Predicate<Entity>()
@@ -53,7 +53,7 @@ public abstract class EntityProjectile1 extends Entity implements IProjectile
         }
     }
                                                                                            });
-    private static final DataParameter<Byte> CRITICAL = EntityDataManager.<Byte>createKey(EntityProjectile1.class, DataSerializers.BYTE);
+    private static final DataParameter<Byte> CRITICAL = EntityDataManager.<Byte>createKey(EntityProjectile.class, DataSerializers.BYTE);
     private int xTile;
     private int yTile;
     private int zTile;
@@ -62,7 +62,7 @@ public abstract class EntityProjectile1 extends Entity implements IProjectile
     protected boolean inGround;
     protected int timeInGround;
     /** 1 if the player can pick up the arrow */
-    public EntityProjectile1.PickupStatus pickupStatus;
+    public EntityProjectile.PickupStatus pickupStatus;
     /** Seems to be some sort of timer for animating an arrow. */
     public int arrowShake;
     /** The owner of this arrow. */
@@ -74,39 +74,39 @@ public abstract class EntityProjectile1 extends Entity implements IProjectile
     private int knockbackStrength;
     public int range;
 
-    public EntityProjectile1(World worldIn)
+    public EntityProjectile(World worldIn)
     {
         super(worldIn);
         this.xTile = -1;
         this.yTile = -1;
         this.zTile = -1;
-        this.pickupStatus = EntityProjectile1.PickupStatus.DISALLOWED;
+        this.pickupStatus = EntityProjectile.PickupStatus.DISALLOWED;
         this.damage = 2.0D;
         this.setSize(0.1F, 0.1F);
     }
 
-    public EntityProjectile1(World worldIn, double x, double y, double z)
+    public EntityProjectile(World worldIn, double x, double y, double z)
     {
         this(worldIn);      
         this.setPosition(x, y, z);
     }
 
-    public EntityProjectile1(World worldIn, EntityLivingBase shooter)
+    public EntityProjectile(World worldIn, EntityLivingBase shooter)
     {
         this(worldIn, shooter.posX, shooter.posY + (double)shooter.getEyeHeight() - 0.10000000149011612D, shooter.posZ);
         this.shootingEntity = shooter;
 
         if (shooter instanceof EntityPlayer)
         {
-            this.pickupStatus = EntityProjectile1.PickupStatus.ALLOWED;
+            this.pickupStatus = EntityProjectile.PickupStatus.ALLOWED;
         }
     }
     
-    public EntityProjectile1(World worldIn, EntityLivingBase shooter, float speed, float inaccuracy, double damage, int range)
+    public EntityProjectile(World worldIn, EntityLivingBase shooter, float speed, float inaccuracy, double damage, int range)
     {
         super(worldIn);
         this.shootingEntity = shooter;
-        this.pickupStatus = EntityProjectile1.PickupStatus.DISALLOWED;
+        this.pickupStatus = EntityProjectile.PickupStatus.DISALLOWED;
         this.damage = damage;
         this.range = range;
         this.setSize(0.05F, 0.05F);
@@ -121,12 +121,12 @@ public abstract class EntityProjectile1 extends Entity implements IProjectile
         setThrowableHeading(motionX, motionY, motionZ, speed, inaccuracy);
     }
 
-    public EntityProjectile1(World world, EntityLivingBase entityliving, float speed)
+    public EntityProjectile(World world, EntityLivingBase entityliving, float speed)
     {
         this(world);
         shootingEntity = entityliving;
         if (entityliving instanceof EntityPlayer) {
-            this.pickupStatus = EntityProjectile1.PickupStatus.ALLOWED;
+            this.pickupStatus = EntityProjectile.PickupStatus.ALLOWED;
         }
         setLocationAndAngles(entityliving.posX, entityliving.posY + entityliving.getEyeHeight(), entityliving.posZ, entityliving.rotationYaw, entityliving.rotationPitch);
         posX -= MathHelper.cos((rotationYaw / 180F) * 3.141593F) * 0.16F;
@@ -139,7 +139,7 @@ public abstract class EntityProjectile1 extends Entity implements IProjectile
         setThrowableHeading(motionX, motionY, motionZ, speed * 1.2F, 2.0F);
     }
 
-    public EntityProjectile1(World worldIn, EntityLivingBase shooter, float speed, double damage, int range)
+    public EntityProjectile(World worldIn, EntityLivingBase shooter, float speed, double damage, int range)
     {
         this(worldIn, shooter, speed, 1.0F, damage, range);
     }
@@ -664,11 +664,11 @@ public abstract class EntityProjectile1 extends Entity implements IProjectile
 
         if (compound.hasKey("pickup", 99))
         {
-            this.pickupStatus = EntityProjectile1.PickupStatus.getByOrdinal(compound.getByte("pickup"));
+            this.pickupStatus = EntityProjectile.PickupStatus.getByOrdinal(compound.getByte("pickup"));
         }
         else if (compound.hasKey("player", 99))
         {
-            this.pickupStatus = compound.getBoolean("player") ? EntityProjectile1.PickupStatus.ALLOWED : EntityProjectile1.PickupStatus.DISALLOWED;
+            this.pickupStatus = compound.getBoolean("player") ? EntityProjectile.PickupStatus.ALLOWED : EntityProjectile.PickupStatus.DISALLOWED;
         }
     }
 
@@ -679,9 +679,9 @@ public abstract class EntityProjectile1 extends Entity implements IProjectile
     {
         if (!this.world.isRemote && this.inGround && this.arrowShake <= 0)
         {
-            boolean flag = this.pickupStatus == EntityProjectile1.PickupStatus.ALLOWED || this.pickupStatus == EntityProjectile1.PickupStatus.CREATIVE_ONLY && entityIn.capabilities.isCreativeMode;
+            boolean flag = this.pickupStatus == EntityProjectile.PickupStatus.ALLOWED || this.pickupStatus == EntityProjectile.PickupStatus.CREATIVE_ONLY && entityIn.capabilities.isCreativeMode;
 
-            if (this.pickupStatus == EntityProjectile1.PickupStatus.ALLOWED && !entityIn.inventory.addItemStackToInventory(this.getArrowStack()))
+            if (this.pickupStatus == EntityProjectile.PickupStatus.ALLOWED && !entityIn.inventory.addItemStackToInventory(this.getArrowStack()))
             {
                 flag = false;
             }
@@ -775,7 +775,7 @@ public abstract class EntityProjectile1 extends Entity implements IProjectile
         ALLOWED,
         CREATIVE_ONLY;
 
-        public static EntityProjectile1.PickupStatus getByOrdinal(int ordinal)
+        public static EntityProjectile.PickupStatus getByOrdinal(int ordinal)
         {
             if (ordinal < 0 || ordinal > values().length)
             {

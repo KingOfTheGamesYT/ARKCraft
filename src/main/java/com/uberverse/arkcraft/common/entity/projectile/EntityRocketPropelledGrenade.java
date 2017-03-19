@@ -7,7 +7,7 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class EntityRocketPropelledGrenade extends EntityProjectile1
+public class EntityRocketPropelledGrenade extends EntityProjectile
 {
 	public float explosionRadius = 4F;
 

@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 
-public class EntityTranquilizer extends EntityProjectile1 implements ITranquilizer
+public class EntityTranquilizer extends EntityProjectile implements ITranquilizer
 {
 	public EntityTranquilizer(World world)
 	{

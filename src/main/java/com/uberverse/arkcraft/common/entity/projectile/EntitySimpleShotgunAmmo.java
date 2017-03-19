@@ -6,7 +6,7 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class EntitySimpleShotgunAmmo extends EntityProjectile1
+public class EntitySimpleShotgunAmmo extends EntityProjectile
 {
 	public EntitySimpleShotgunAmmo(World world)
 	{

@@ -8,7 +8,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class EntityTranqArrow extends EntityProjectile1 implements ITranquilizer
+public class EntityTranqArrow extends EntityProjectile implements ITranquilizer
 {
 	public EntityTranqArrow(World worldIn)
 	{

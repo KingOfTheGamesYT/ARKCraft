@@ -6,7 +6,7 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class EntityAdvancedBullet extends EntityProjectile1
+public class EntityAdvancedBullet extends EntityProjectile
 {
 	public EntityAdvancedBullet(World world)
 	{
