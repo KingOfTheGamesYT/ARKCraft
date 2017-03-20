@@ -342,6 +342,7 @@ public abstract class ItemRangedWeapon extends ItemBow
 		return findAvailableAmmo(player) != null;
 	}
 
+	/*
 	public ItemProjectile findAvailableAmmo(EntityPlayer player)
 	{
 		for (ItemProjectile projectile : projectiles) {
@@ -349,7 +350,29 @@ public abstract class ItemRangedWeapon extends ItemBow
 				return projectile;
 		}
 		return null;
+	}*/
+	
+	//On top is the old Method
+	public ItemProjectile findAvailableAmmo(EntityPlayer player)
+	{
+		for (ItemProjectile projectile : projectiles) 
+		{
+			for(int i = 0; i < player.inventory.getSizeInventory(); i++)
+			{
+				ItemStack stack = player.inventory.getStackInSlot(i);
+				if(this.isProjectile(stack))
+				{
+					return projectile;
+				}
+			}
+		}
+		return null;
 	}
+	
+    protected boolean isProjectile(ItemStack stack)
+    {
+        return stack != null && stack.getItem() instanceof ItemProjectile;
+    }
 
 	public int getAmmoQuantityInInventory(ItemStack stack, EntityPlayer player)
 	{
@@ -455,7 +478,8 @@ public abstract class ItemRangedWeapon extends ItemBow
 		InventoryAttachment att = InventoryAttachment.create(stack);
 		if (att != null && att.isSilencerPresent())
 			soundPath = soundPath + "_silenced";
-		world.playSoundEffect(x, y, z, soundPath, 1.5F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F));
+		//TODO New Sound Effect
+	//	world.playSoundEffect(x, y, z, soundPath, 1.5F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F));
 
 		float particleX = -MathHelper.sin(((yaw + 23) / 180F) * 3.141593F) * MathHelper.cos((pitch / 180F) * 3.141593F);
 		float particleY = -MathHelper.sin((pitch / 180F) * 3.141593F) - 0.1F;

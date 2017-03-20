@@ -12,11 +12,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
@@ -233,22 +238,29 @@ public interface IBurner extends IInventoryAdder, NBTable
 		return false;
 	}
 
+	//TODO Play correct sounds
 	public default void playLightSound()
 	{
-		getWorldIA().playSoundEffect(getPosition().getX(), getPosition().getY(), getPosition().getZ(), getLightSoundName(),
-				0.015F, 1F);
+		EntityPlayer player = Minecraft.getMinecraft().player;
+		getWorldIA().playSound(player, getPosition(), SoundEvents.BLOCK_ANVIL_USE, SoundCategory.BLOCKS, 0.015F, 1F);
+		//getWorldIA().playSoundEffect(getPosition().getX(), getPosition().getY(), getPosition().getZ(), getLightSoundName(),
+		//		0.015F, 1F);
 	}
 
 	public default void playOnSound()
 	{
-		getWorldIA().playSoundEffect(getPosition().getX(), getPosition().getY(), getPosition().getZ(), getOnSoundName(),
-				0.015F, 1F);
+		EntityPlayer player = Minecraft.getMinecraft().player;
+		getWorldIA().playSound(player, getPosition(), SoundEvents.BLOCK_ANVIL_USE, SoundCategory.BLOCKS, 0.015F, 1F);	
+		//getWorldIA().playSoundEffect(getPosition().getX(), getPosition().getY(), getPosition().getZ(), getOnSoundName(),
+		//		0.015F, 1F);
 	}
 
 	public default void playOffSound()
 	{
-		getWorldIA().playSoundEffect(getPosition().getX(), getPosition().getY(), getPosition().getZ(), getOffSoundName(),
-				0.015F, 1F);
+		EntityPlayer player = Minecraft.getMinecraft().player;
+		getWorldIA().playSound(player, getPosition(), SoundEvents.BLOCK_ANVIL_USE, SoundCategory.BLOCKS, 0.015F, 1F);
+	//	getWorldIA().playSoundEffect(getPosition().getX(), getPosition().getY(), getPosition().getZ(), getOffSoundName(),
+	//			0.015F, 1F);
 	}
 
 	public String getOnSoundName();

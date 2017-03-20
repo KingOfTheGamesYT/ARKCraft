@@ -2,13 +2,7 @@ package com.uberverse.arkcraft.init;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
-import com.uberverse.arkcraft.common.entity.dispense.DispenseRocketPropelledGrenade;
-import com.uberverse.arkcraft.common.entity.dispense.DispenseSimpleBullet;
-import com.uberverse.arkcraft.common.entity.dispense.DispenseSimpleRifleAmmo;
-import com.uberverse.arkcraft.common.entity.dispense.DispenseSimpleShotgunAmmo;
-import com.uberverse.arkcraft.common.entity.dispense.DispenseTranquilizer;
 import com.uberverse.arkcraft.common.entity.projectile.EntityAdvancedBullet;
-import com.uberverse.arkcraft.common.entity.projectile.EntityArkArrow;
 import com.uberverse.arkcraft.common.entity.projectile.EntityMetalArrow;
 import com.uberverse.arkcraft.common.entity.projectile.EntityRocketPropelledGrenade;
 import com.uberverse.arkcraft.common.entity.projectile.EntitySimpleBullet;
@@ -67,11 +61,11 @@ public class ARKCraftRangedWeapons
 		laser = addItemAttachment("laser", AttachmentType.LASER);
 		silencer = addItemAttachment("silencer", AttachmentType.SILENCER);
 
-		stone_arrow = addItemArrow("stone_arrow", 3); // TODO tweak!
-		metal_arrow = addItemArrow("metal_arrow", 6);
-		tranq_arrow = addItemArrow("tranq_arrow", 1);
+	//	stone_arrow = addItemArrow("stone_arrow", 3); // TODO tweak!
+	//	metal_arrow = addItemArrow("metal_arrow", 6);
+	//	tranq_arrow = addItemArrow("tranq_arrow", 1);
 
-		bow = init.registerItem("bow", new ItemARKBow(1), "bow", "bow_pulling_0", "bow_pulling_1", "bow_pulling_2");
+	//	bow = init.registerItem("bow", new ItemARKBow(1), "bow", "bow_pulling_0", "bow_pulling_1", "bow_pulling_2");
 		slingshot = init.registerItem("slingshot", new ItemSlingshot(), "slingshot_pulled", "slingshot");
 
 		EntityHandler.registerModEntity(EntityStone.class, "stone", ARKCraft.instance(), 64, 10, true);
@@ -80,7 +74,6 @@ public class ARKCraftRangedWeapons
 		EntityHandler.registerModEntity(EntityMetalArrow.class, "metal_arrow", ARKCraft.instance(), 64, 10, true);
 		EntityHandler.registerModEntity(EntityTranqArrow.class, "tranq_arrow", ARKCraft.instance(), 64, 10, true);
 
-		registerDispenseBehavior();
 		registerWeaponEntities();
 		addRangedWeapons();
 	}
@@ -178,38 +171,13 @@ public class ARKCraftRangedWeapons
 		}
 	}
 
-	public static void registerDispenseBehavior()
-	{
-		if (simple_bullet != null)
-		{
-			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(simple_bullet, new DispenseSimpleBullet());
-		}
-		if (simple_shotgun_ammo != null)
-		{
-			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(simple_shotgun_ammo, new DispenseSimpleShotgunAmmo());
-		}
-		if (simple_rifle_ammo != null)
-		{
-			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(simple_rifle_ammo, new DispenseSimpleRifleAmmo());
-		}
-		if (tranquilizer != null)
-		{
-			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(tranquilizer, new DispenseTranquilizer());
-		}
-		if (rocket_propelled_grenade != null)
-		{
-			BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(rocket_propelled_grenade,
-					new DispenseRocketPropelledGrenade());
-		}
-	}
-
 	protected static ItemProjectile addItemProjectile(String name)
 	{
 		return InitializationManager.instance().registerItem(name, new ItemProjectile());
 	}
 
-	protected static ItemArrow addItemArrow(String name, double damage)
-	{
-		return InitializationManager.instance().registerItem(name, new ItemArrow(name, damage));
-	}
+//	protected static ItemArrow addItemArrow(String name, double damage)
+//	{
+//		return InitializationManager.instance().registerItem(name, new ItemArrow(name, damage));
+//	}
 }

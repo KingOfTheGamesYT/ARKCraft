@@ -21,6 +21,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.ColorizerGrass;
@@ -42,8 +43,13 @@ public class ARKCraftBerryBush extends BlockBush implements IExperienceSource
         this.setTickRandomly(true);
         this.setHardness(hardness);
         this.setCreativeTab(ARKCraft.tabARK);
-        this.setBlockBounds(0f, 0f, 0f, 1f, 1f, 1f);
         this.setBlockUnbreakable();
+    }
+    
+    @Override
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess soruce, BlockPos pos)
+    {
+    	return new AxisAlignedBB(0f, 0f, 0f, 1f, 1f, 1f);
     }
 
     @Override
@@ -173,7 +179,8 @@ public class ARKCraftBerryBush extends BlockBush implements IExperienceSource
     {
         if (itemStackIn.stackSize != 0 && itemStackIn.getItem() != null) {
             Float offset = worldIn.rand.nextFloat();
-            EntityItem entityitem = new EntityItem(worldIn, pos.getX() + offset, pos.getY() + this.maxY, pos.getZ() + offset, itemStackIn);
+            //TODO Droping may be little inccorect now not sure though
+            EntityItem entityitem = new EntityItem(worldIn, pos.getX() + offset, pos.getY() + playerIn.getPosition().getY(), pos.getZ() + offset, itemStackIn);
             entityitem.setDefaultPickupDelay();
             if (playerIn.captureDrops) {
                 playerIn.capturedDrops.add(entityitem);
@@ -240,6 +247,8 @@ public class ARKCraftBerryBush extends BlockBush implements IExperienceSource
         return false;
     }
 
+    //TODO 
+    /*
     @Override
     @SideOnly(Side.CLIENT)
     public int getBlockColor()
@@ -259,7 +268,7 @@ public class ARKCraftBerryBush extends BlockBush implements IExperienceSource
     public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass)
     {
         return BiomeColorHelper.getGrassColorAtPos(worldIn, pos);
-    }
+    } */
 
     @Override
     public void grantXP(IArkLevelable leveling)

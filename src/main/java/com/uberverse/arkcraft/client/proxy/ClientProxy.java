@@ -11,25 +11,21 @@ import com.uberverse.arkcraft.client.gui.overlay.GUIOverlayReloading;
 import com.uberverse.arkcraft.client.model.ModelDodo;
 import com.uberverse.arkcraft.client.render.creature.RenderDodo;
 import com.uberverse.arkcraft.client.render.projectile.RenderAdvancedBullet;
-import com.uberverse.arkcraft.client.render.projectile.RenderMetalArrow;
 import com.uberverse.arkcraft.client.render.projectile.RenderSimpleBullet;
 import com.uberverse.arkcraft.client.render.projectile.RenderSimpleRifleAmmo;
 import com.uberverse.arkcraft.client.render.projectile.RenderSimpleShotgunAmmo;
 import com.uberverse.arkcraft.client.render.projectile.RenderSpear;
 import com.uberverse.arkcraft.client.render.projectile.RenderStoneArrow;
-import com.uberverse.arkcraft.client.render.projectile.RenderTranqArrow;
 import com.uberverse.arkcraft.client.render.projectile.RenderTranquilizer;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.entity.EntityDodo;
 import com.uberverse.arkcraft.common.entity.projectile.EntityAdvancedBullet;
-import com.uberverse.arkcraft.common.entity.projectile.EntityMetalArrow;
 import com.uberverse.arkcraft.common.entity.projectile.EntitySimpleBullet;
 import com.uberverse.arkcraft.common.entity.projectile.EntitySimpleRifleAmmo;
 import com.uberverse.arkcraft.common.entity.projectile.EntitySimpleShotgunAmmo;
 import com.uberverse.arkcraft.common.entity.projectile.EntitySpear;
 import com.uberverse.arkcraft.common.entity.projectile.EntityStone;
 import com.uberverse.arkcraft.common.entity.projectile.EntityStoneArrow;
-import com.uberverse.arkcraft.common.entity.projectile.EntityTranqArrow;
 import com.uberverse.arkcraft.common.entity.projectile.EntityTranquilizer;
 import com.uberverse.arkcraft.common.item.ItemBlueprint;
 import com.uberverse.arkcraft.common.item.ranged.ItemRangedWeapon;
@@ -158,8 +154,6 @@ public class ClientProxy extends CommonProxy
     {
         RenderingRegistry.registerEntityRenderingHandler(EntityStone.class, new RenderSnowball(Minecraft.getMinecraft().getRenderManager(), ARKCraftItems.stone, Minecraft.getMinecraft().getRenderItem()));
         RenderingRegistry.registerEntityRenderingHandler(EntityStoneArrow.class, new RenderStoneArrow());
-        RenderingRegistry.registerEntityRenderingHandler(EntityMetalArrow.class, new RenderMetalArrow());
-        RenderingRegistry.registerEntityRenderingHandler(EntityTranqArrow.class, new RenderTranqArrow());
 
         // RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class,
         // new RenderSnowball(Minecraft.getMinecraft().getRenderManager(),
