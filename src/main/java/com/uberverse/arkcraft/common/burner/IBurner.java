@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.uberverse.arkcraft.common.burner;
 
@@ -12,6 +12,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.world.EnumSkyBlock;
+import net.minecraft.world.World;
+
+import net.minecraftforge.common.util.Constants.NBT;
+
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.burner.BurnerManager.BurnerFuel;
 import com.uberverse.arkcraft.common.burner.BurnerManager.BurnerRecipe;
@@ -20,15 +30,6 @@ import com.uberverse.arkcraft.common.item.IDecayable;
 import com.uberverse.arkcraft.util.CollectionUtil;
 import com.uberverse.arkcraft.util.IInventoryAdder;
 import com.uberverse.arkcraft.util.NBTable;
-
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.world.EnumSkyBlock;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.Constants.NBT;
 
 /**
  * @author Lewis_McReu
@@ -45,9 +46,9 @@ public interface IBurner extends IInventoryAdder, NBTable
 			Collection<BurnerRecipe> possibleRecipes = BurnerManager.instance().getRecipes(getBurnerType());
 			possibleRecipes = CollectionUtil.filter(possibleRecipes, (BurnerRecipe r) -> canCook(r));
 
-			if (this.isBurning() && new Random().nextInt(40) == 0) 
+			if (this.isBurning() && new Random().nextInt(40) == 0)
 			{
-			//	playOnSound();
+				//	playOnSound();
 				System.out.println("on");
 			}
 			if (this.isBurning() && possibleRecipes.size() > 0)
@@ -237,13 +238,13 @@ public interface IBurner extends IInventoryAdder, NBTable
 		getWorldIA().playSoundEffect(getPosition().getX(), getPosition().getY(), getPosition().getZ(), getLightSoundName(),
 				0.015F, 1F);
 	}
-	
+
 	public default void playOnSound()
 	{
 		getWorldIA().playSoundEffect(getPosition().getX(), getPosition().getY(), getPosition().getZ(), getOnSoundName(),
 				0.015F, 1F);
 	}
-	
+
 	public default void playOffSound()
 	{
 		getWorldIA().playSoundEffect(getPosition().getX(), getPosition().getY(), getPosition().getZ(), getOffSoundName(),
@@ -253,7 +254,7 @@ public interface IBurner extends IInventoryAdder, NBTable
 	public String getOnSoundName();
 	public String getOffSoundName();
 	public String getLightSoundName();
-	
+
 	public void setBurning(boolean burning);
 
 	public int getBurningTicks();
@@ -292,7 +293,7 @@ public interface IBurner extends IInventoryAdder, NBTable
 	}
 
 	@Override
-	public default void writeToNBT(NBTTagCompound compound)
+	public default NBTTagCompound writeToNBT(NBTTagCompound compound)
 	{
 		compound.setInteger("burningTicks", getBurningTicks());
 		compound.setBoolean("burning", isBurning());
@@ -312,6 +313,7 @@ public interface IBurner extends IInventoryAdder, NBTable
 			inventory.appendTag(nbt);
 
 		compound.setTag("inventory", inventory);
+		return compound;
 	}
 
 	public ItemStack[] getInventory();

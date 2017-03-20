@@ -1,12 +1,12 @@
 package com.uberverse.arkcraft.common.item.armor;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
-import com.uberverse.arkcraft.ARKCraft;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+
+import com.mojang.realmsclient.gui.ChatFormatting;
+import com.uberverse.arkcraft.ARKCraft;
 
 public class ItemARKArmor extends ItemArmor
 {
@@ -23,10 +23,10 @@ public class ItemARKArmor extends ItemArmor
 	}
 
 	@Override
-	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
-		return ARKCraft.MODID + ":textures/armor/" + this.texName + "_" + (this.armorType == 2 ? "2" : "1") + ".png";
+	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {//TODO: check
+		return ARKCraft.MODID + ":textures/armor/" + this.texName + "_" + (this.armorType == EntityEquipmentSlot.FEET ? "2" : "1") + ".png";
 	}
-	
+
 	@Override
 	public String getItemStackDisplayName(ItemStack stack)
 	{

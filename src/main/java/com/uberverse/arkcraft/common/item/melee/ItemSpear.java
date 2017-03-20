@@ -1,8 +1,6 @@
 package com.uberverse.arkcraft.common.item.melee;
 
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.entity.projectile.EntitySpear;
-
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
@@ -10,6 +8,9 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
+
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.entity.projectile.EntitySpear;
 
 public class ItemSpear extends ItemSword
 {
@@ -20,13 +21,13 @@ public class ItemSpear extends ItemSword
 		this.setFull3D();
 		this.setCreativeTab(ARKCraft.tabARK);
 	}
-	
 	@Override
-	public void onPlayerStoppedUsing(ItemStack itemstack, World world, EntityPlayer entityplayer, int i)
-	{
-		if (!entityplayer.inventory.hasItemStack(itemstack)) { return; }
+	public void onPlayerStoppedUsing(ItemStack stack, World world, EntityLivingBase entityLiving, int timeLeft) {
+		if(!(entityLiving instanceof EntityPlayer))return;
+		EntityPlayer entityplayer = (EntityPlayer) entityLiving;
+		if (!entityplayer.inventory.hasItemStack(stack)) { return; }
 
-		int j = getMaxItemUseDuration(itemstack) - i;
+		int j = getMaxItemUseDuration(stack) - timeLeft;
 		float f = j / 20F;
 		f = (f * f + f * 2.0F) / 3F;
 		if (f < 0.1F) { return; }

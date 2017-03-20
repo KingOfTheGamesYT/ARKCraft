@@ -8,6 +8,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -27,24 +28,20 @@ public class BlockSpikes extends Block
 	{
 		entityIn.attackEntityFrom(DamageSource.cactus, 4.0F);
 	}
-
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
-	{
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
 		float f = 0.0625F;
-		return new AxisAlignedBB((double) ((float) pos.getX() + f), (double) pos.getY(), (double) ((float) pos.getZ()
-				+ f), (double) ((float) (pos.getX() + 1) - f), (double) ((float) (pos.getY() + 1) - f),
-				(double) ((float) (pos.getZ() + 1) - f));
+		return new AxisAlignedBB(pos.getX() + f, pos.getY(), pos.getZ()
+				+ f, pos.getX() + 1 - f, pos.getY() + 1 - f,
+				pos.getZ() + 1 - f);
 	}
-
 	@Override
 	@SideOnly(Side.CLIENT)
-	public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos)
-	{
+	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
 		float f = 0.0F;
-		return new AxisAlignedBB((double) ((float) pos.getX() + f), (double) pos.getY(), (double) ((float) pos.getZ()
-				+ f), (double) ((float) (pos.getX() + 1) - f), (double) (pos.getY() + 1), (double) ((float) (pos.getZ()
-						+ 1) - f));
+		return new AxisAlignedBB(pos.getX() + f, pos.getY(), pos.getZ()
+				+ f, pos.getX() + 1 - f, pos.getY() + 1, pos.getZ()
+				+ 1 - f);
 	}
 
 	@Override

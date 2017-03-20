@@ -1,8 +1,5 @@
 package com.uberverse.arkcraft.common.item.itemblock;
 
-import com.uberverse.arkcraft.common.block.crafter.BlockCompostBin;
-import com.uberverse.arkcraft.init.ARKCraftBlocks;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,6 +8,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+
+import com.uberverse.arkcraft.common.block.crafter.BlockCompostBin;
+import com.uberverse.arkcraft.init.ARKCraftBlocks;
 
 public class ItemCompostBin extends ItemBlockARK
 {
@@ -48,7 +48,7 @@ public class ItemCompostBin extends ItemBlockARK
 			{
 				pos = pos.up();
 			}
-			int i = MathHelper.floor((double) (playerIn.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+			int i = MathHelper.floor(playerIn.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 			EnumFacing enumfacing1 = EnumFacing.getHorizontal(i);
 			// BlockPos blockpos1 = pos.offset(enumfacing1); // like a bed,
 			// placed vertically
@@ -59,8 +59,7 @@ public class ItemCompostBin extends ItemBlockARK
 
 			if (playerIn.canPlayerEdit(pos, side, stack) && playerIn.canPlayerEdit(blockpos1, side, stack))
 			{
-				if (flag2 && flag3 && World.doesBlockHaveSolidTopSurface(worldIn, pos.down()) && World
-						.doesBlockHaveSolidTopSurface(worldIn, blockpos1.down()))
+				if (flag2 && flag3 && worldIn.isSideSolid(pos.down(), EnumFacing.UP) && worldIn.isSideSolid(blockpos1.down(), EnumFacing.UP))
 				{
 					IBlockState iblockstate1 = ARKCraftBlocks.compostBin.getDefaultState().withProperty(
 							BlockCompostBin.FACING, enumfacing1).withProperty(BlockCompostBin.PART,

@@ -2,21 +2,23 @@ package com.uberverse.arkcraft.common.item;
 
 import java.util.List;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.world.World;
+
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import com.mojang.realmsclient.gui.ChatFormatting;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.book.GuiInfoBook;
 import com.uberverse.arkcraft.client.book.proxy.BookClient;
 import com.uberverse.arkcraft.common.proxy.CommonProxy;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ARKCraftBook extends Item
 {
@@ -33,7 +35,7 @@ public class ARKCraftBook extends Item
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn,
 			EnumHand hand) {
 		if (worldIn.isRemote) openBook(itemStackIn, worldIn, playerIn);
-		return itemStackIn;
+		return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
 	}
 
 	@SideOnly(Side.CLIENT)

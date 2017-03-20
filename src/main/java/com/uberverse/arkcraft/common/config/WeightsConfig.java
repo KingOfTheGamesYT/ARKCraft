@@ -1,14 +1,10 @@
 /**
- * 
+ *
  */
 package com.uberverse.arkcraft.common.config;
 
 import java.io.File;
 import java.util.List;
-
-import com.google.common.collect.ImmutableList;
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.item.tool.ItemToolBase;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -16,9 +12,15 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemTool;
+
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.item.tool.ItemToolBase;
+
+import com.google.common.collect.ImmutableList;
 
 /**
  * @author ERBF
@@ -69,7 +71,7 @@ public class WeightsConfig
 		{
 			config.getFloat(block.getUnlocalizedName().substring(5, block.getUnlocalizedName().length()), GENERAL,
 					generateWeight(block), 0, 16, "Sets the carry weight of block " + block.getUnlocalizedName()
-							.substring(5, block.getUnlocalizedName().length()));
+					.substring(5, block.getUnlocalizedName().length()));
 		}
 
 		config.save();
@@ -82,26 +84,26 @@ public class WeightsConfig
 		{
 			switch (((ItemTool) item).getToolMaterial())
 			{
-				case WOOD:
-					return 2;
-				case STONE:
-					return 5;
-				case IRON:
-					return 8;
-				case GOLD:
-					return 6;
-				case DIAMOND:
-					return 7;
+			case WOOD:
+				return 2;
+			case STONE:
+				return 5;
+			case IRON:
+				return 8;
+			case GOLD:
+				return 6;
+			case DIAMOND:
+				return 7;
 			}
 		}
 		if (item instanceof ItemToolBase)
 		{
 			switch (((ItemToolBase) item).material)
 			{
-				case STONE:
-					return 6;
-				case METAL:
-					return 9;
+			case STONE:
+				return 6;
+			case METAL:
+				return 9;
 			}
 		}
 		if (item instanceof ItemBlock) return generateWeight(((ItemBlock) item).block);
@@ -109,16 +111,16 @@ public class WeightsConfig
 		{
 			switch (((ItemArmor) item).getArmorMaterial())
 			{
-				case LEATHER:
-					return 3;
-				case CHAIN:
-					return 5;
-				case DIAMOND:
-					return 7;
-				case GOLD:
-					return 5;
-				case IRON:
-					return 8;
+			case LEATHER:
+				return 3;
+			case CHAIN:
+				return 5;
+			case DIAMOND:
+				return 7;
+			case GOLD:
+				return 5;
+			case IRON:
+				return 8;
 			}
 		}
 		return 2;
@@ -126,7 +128,7 @@ public class WeightsConfig
 
 	private static float generateWeight(Block block)
 	{
-		Material m = block.getMaterial();
+		Material m = block.getMaterial(block.getDefaultState());
 		if (m == Material.AIR || m == Material.BARRIER || m == Material.FIRE || m == Material.PORTAL) return 0;
 		if (m == Material.CACTUS || m == Material.GRASS || m == Material.GOURD || m == Material.CRAFTED_SNOW
 				|| m == Material.LEAVES || m == Material.PLANTS || m == Material.GLASS || m == Material.VINE

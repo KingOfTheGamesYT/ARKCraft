@@ -1,5 +1,12 @@
 package com.uberverse.arkcraft.common.container.player;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.inventory.ClickType;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
+
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.common.container.scrollable.ContainerScrollable;
@@ -9,13 +16,6 @@ import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
 import com.uberverse.arkcraft.common.inventory.InventoryEngram;
 import com.uberverse.arkcraft.common.network.UpdateEngrams;
 import com.uberverse.arkcraft.common.proxy.CommonProxy;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.inventory.ClickType;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
 
 /**
  * @author ERBF
@@ -40,7 +40,7 @@ public class ContainerEngram extends ContainerScrollable
 		{
 			this.addSlotToContainer(new EngramSlot((InventoryEngram) getScrollableInventory(), i, getScrollableSlotsX()
 					+ i % getScrollableSlotsWidth() * getSlotSize(), getScrollableSlotsY() + i
-							/ getScrollableSlotsWidth() * getSlotSize(), this));
+					/ getScrollableSlotsWidth() * getSlotSize(), this));
 		}
 	}
 
@@ -53,7 +53,8 @@ public class ContainerEngram extends ContainerScrollable
 			if (s instanceof EngramSlot && clickedButton == 0)
 			{
 				s.onPickupFromSlot(playerIn, playerIn.inventory.getCurrentItem());
-				if (mode == 6 && selected != null && ARKPlayer.get(playerIn).canLearnEngram(selected.getId())
+				//TODO: check
+				if (mode == ClickType.PICKUP_ALL && selected != null && ARKPlayer.get(playerIn).canLearnEngram(selected.getId())
 						&& !playerIn.world.isRemote)
 				{
 					enchantItem(playerIn, 1);

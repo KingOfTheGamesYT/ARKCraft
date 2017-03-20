@@ -1,8 +1,5 @@
 package com.uberverse.arkcraft.common.item.itemblock;
 
-import com.uberverse.arkcraft.common.block.crafter.BlockRefiningForge;
-import com.uberverse.arkcraft.init.ARKCraftBlocks;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,6 +9,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import com.uberverse.arkcraft.common.block.crafter.BlockRefiningForge;
+import com.uberverse.arkcraft.init.ARKCraftBlocks;
 
 public class ItemRefiningForge extends ItemBlockARK
 {
@@ -46,10 +46,10 @@ public class ItemRefiningForge extends ItemBlockARK
 
 			if (playerIn.canPlayerEdit(pos, facing, stack) && playerIn.canPlayerEdit(blockpos1, facing, stack))
 			{
-				if (flag2 && flag3 && World.doesBlockHaveSolidTopSurface(worldIn, pos.down()))
+				if (flag2 && flag3 && worldIn.isSideSolid(pos.down(), EnumFacing.UP))
 				{
-					IBlockState iblockstate1 = ARKCraftBlocks.refiningForge.onBlockPlaced(worldIn, blockpos1, facing,
-							hitX, hitY, hitZ, 0, playerIn).withProperty(BlockRefiningForge.PART,
+					IBlockState iblockstate1 = ARKCraftBlocks.refiningForge.getStateForPlacement(worldIn, blockpos1, facing,
+							hitX, hitY, hitZ, 0, playerIn, playerIn.getHeldItem(hand)).withProperty(BlockRefiningForge.PART,
 									BlockRefiningForge.EnumPart.BOTTOM);
 					if (worldIn.setBlockState(pos, iblockstate1, 3))
 					{
