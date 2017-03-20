@@ -4,6 +4,14 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Queue;
 
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.math.BlockPos;
+
+import net.minecraftforge.common.util.Constants.NBT;
+
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.IExperienceSource;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
@@ -12,13 +20,6 @@ import com.uberverse.arkcraft.common.item.Qualitable.ItemQuality;
 import com.uberverse.arkcraft.util.AbstractItemStack;
 import com.uberverse.arkcraft.util.IInventoryAdder;
 import com.uberverse.arkcraft.util.NBTable;
-
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.common.util.Constants.NBT;
 
 /**
  * @author Lewis_McReu
@@ -138,7 +139,7 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder, IExperienceSou
 	}
 
 	@Override
-	public default void writeToNBT(NBTTagCompound compound)
+	public default NBTTagCompound writeToNBT(NBTTagCompound compound)
 	{
 		compound.setInteger("progress", getProgress());
 
@@ -182,6 +183,7 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder, IExperienceSou
 		queue.setByteArray("qualities", qualities);
 
 		compound.setTag("queue", queue);
+		return compound;
 	}
 
 	default boolean startCraft(Engram engram, int amount, ItemQuality quality)
@@ -332,10 +334,10 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder, IExperienceSou
 	{
 		switch (id)
 		{
-			case 0:
-				return getProgress();
-			default:
-				return 0;
+		case 0:
+			return getProgress();
+		default:
+			return 0;
 		}
 	}
 
@@ -343,9 +345,9 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder, IExperienceSou
 	{
 		switch (id)
 		{
-			case 0:
-				setProgress(value);
-				break;
+		case 0:
+			setProgress(value);
+			break;
 		}
 	}
 
@@ -358,6 +360,7 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder, IExperienceSou
 
 	public void sync();
 
+	@Override
 	public IInventory getIInventory();
 
 	public ItemStack[] getInventory();
@@ -372,6 +375,7 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder, IExperienceSou
 		else return getCraftingQueue().peek().getCraftingDuration();
 	}
 
+	@Override
 	public BlockPos getPosition();
 
 	public Queue<CraftingOrder> getCraftingQueue();

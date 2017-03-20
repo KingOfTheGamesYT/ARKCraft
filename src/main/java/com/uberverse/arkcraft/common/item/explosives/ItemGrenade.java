@@ -1,12 +1,15 @@
 package com.uberverse.arkcraft.common.item.explosives;
 
-import com.uberverse.arkcraft.common.entity.projectile.EntityGrenade;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
+
+import com.uberverse.arkcraft.common.entity.projectile.EntityGrenade;
 
 public class ItemGrenade extends Item
 {
@@ -52,15 +55,14 @@ public class ItemGrenade extends Item
 	{
 		return 0x11940;
 	}
-
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer)
-	{
-		if (entityplayer.inventory.hasItem(this))
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemstack, World worldIn, EntityPlayer playerIn,
+			EnumHand hand) {
+		if (playerIn.inventory.hasItem(this))
 		{
-			entityplayer.setItemInUse(itemstack, getMaxItemUseDuration(itemstack));
+			playerIn.setItemInUse(itemstack, getMaxItemUseDuration(itemstack));
 		}
-		return itemstack;
+		return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
 	}
 
 }

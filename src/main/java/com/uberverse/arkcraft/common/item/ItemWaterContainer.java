@@ -12,11 +12,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+
 import net.minecraftforge.event.ForgeEventFactory;
 
 public class ItemWaterContainer extends ARKCraftItem
@@ -61,25 +63,25 @@ public class ItemWaterContainer extends ARKCraftItem
 
 		if (movingobjectposition == null)
 		{
-			return itemStackIn;
+			return new ActionResult<>(EnumActionResult.FAIL, itemStackIn);
 		}
 		else
 		{
-			if (movingobjectposition.typeOfHit == RayTraceResult.MovingObjectType.BLOCK)
+			if (movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK)
 			{
-				ItemStack ret = ForgeEventFactory.onBucketUse(playerIn, worldIn, itemStackIn,
+				ActionResult<ItemStack> ret = ForgeEventFactory.onBucketUse(playerIn, worldIn, itemStackIn,
 						movingobjectposition);
 				if (ret != null) return ret;
 
 				BlockPos blockpos = movingobjectposition.getBlockPos();
 				IBlockState blockState = worldIn.getBlockState(blockpos);
-				Material material = blockState.getBlock().getMaterial();
+				Material material = blockState.getBlock().getMaterial(blockState);
 
-				if (material == Material.WATER && ((Integer) blockState.getValue(BlockLiquid.LEVEL)).intValue() == 0)
+				if (material == Material.WATER && blockState.getValue(BlockLiquid.LEVEL).intValue() == 0)
 					setWaterValueLeft(itemStackIn, maxWaterValue);
 			}
 		}
-		return itemStackIn;
+		return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
 	}
 
 	@Override

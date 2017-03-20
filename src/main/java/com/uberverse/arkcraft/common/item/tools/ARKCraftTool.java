@@ -5,13 +5,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import com.google.common.base.Predicate;
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.client.proxy.ClientProxy;
-import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
-import com.uberverse.arkcraft.init.ARKCraftItems;
-import com.uberverse.arkcraft.util.Utils;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
@@ -29,8 +22,17 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.client.proxy.ClientProxy;
+import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
+import com.uberverse.arkcraft.init.ARKCraftItems;
+import com.uberverse.arkcraft.util.Utils;
+
+import com.google.common.base.Predicate;
 
 public abstract class ARKCraftTool extends ItemTool
 {
@@ -104,14 +106,15 @@ public abstract class ARKCraftTool extends ItemTool
 			}
 		}
 	}
-
 	@Override
-	public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos,
-			EntityLivingBase playerIn)
-	{
-		if (playerIn instanceof EntityPlayer && ARKPlayer.isARKMode((EntityPlayer) playerIn))
+	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos,
+			EntityLivingBase entityLiving) {
+		if(!(entityLiving instanceof EntityPlayer))return false;
+		EntityPlayer playerIn = (EntityPlayer) entityLiving;
+		Block blockIn = state.getBlock();
+		if (playerIn instanceof EntityPlayer && ARKPlayer.isARKMode(playerIn))
 		{
-			EntityPlayer player = (EntityPlayer) playerIn;
+			EntityPlayer player = playerIn;
 			IBlockState blockState = worldIn.getBlockState(pos);
 			if (WOOD_PREDICATE.apply(blockState))
 			{
@@ -120,13 +123,13 @@ public abstract class ARKCraftTool extends ItemTool
 				int wood = calcOutput(count, toolType.getPickaxeModifier(), 1);
 				int thatch = calcOutput(count, toolType.getPickaxeModifier(), 1);
 				entityDropItem(worldIn, pos, blockIn, player, new ItemStack(ARKCraftItems.wood, wood));// (int)
-																										// (10
-																										// +
-																										// itemRand.nextInt(100)/20.0*count*toolType.getHatchetModifier())
+				// (10
+				// +
+				// itemRand.nextInt(100)/20.0*count*toolType.getHatchetModifier())
 				entityDropItem(worldIn, pos, blockIn, player, new ItemStack(ARKCraftItems.thatch, thatch));// (int)
-																											// (10
-																											// +
-																											// itemRand.nextInt(100)/20.0*count*toolType.getPickaxeModifier())
+				// (10
+				// +
+				// itemRand.nextInt(100)/20.0*count*toolType.getPickaxeModifier())
 
 				// thatch);
 				count = 0;
@@ -232,17 +235,17 @@ public abstract class ARKCraftTool extends ItemTool
 				int flint = calcOutput(multiplier, toolType.getHatchetModifier(), 1);
 				int metal = calcOutput(multiplier, toolType.getPickaxeModifier(), 0.1D);
 				entityDropItem(worldIn, pos, blockIn, player, new ItemStack(ARKCraftItems.stone, stone));// (int)
-																											// (10
-																											// +
-																											// itemRand.nextInt(100)/20.0*multiplier*toolType.getPickaxeModifier())
+				// (10
+				// +
+				// itemRand.nextInt(100)/20.0*multiplier*toolType.getPickaxeModifier())
 				entityDropItem(worldIn, pos, blockIn, player, new ItemStack(ARKCraftItems.flint, flint));// (int)
-																											// (10
-																											// +
-																											// itemRand.nextInt(100)/20.0*multiplier*toolType.getHatchetModifier())
+				// (10
+				// +
+				// itemRand.nextInt(100)/20.0*multiplier*toolType.getHatchetModifier())
 				entityDropItem(worldIn, pos, blockIn, player, new ItemStack(ARKCraftItems.metal, metal));// (int)
-																											// (1
-																											// +
-																											// itemRand.nextInt(100)/20.0*multiplier*toolType.getPickaxeModifier())
+				// (1
+				// +
+				// itemRand.nextInt(100)/20.0*multiplier*toolType.getPickaxeModifier())
 			}
 			else if (IRON_ORE_PREDICATE.apply(blockState))
 			{
@@ -250,13 +253,13 @@ public abstract class ARKCraftTool extends ItemTool
 				int stone = calcOutput(count, toolType.getPickaxeModifier(), 0.8D);
 				int metal = calcOutput(count, toolType.getPickaxeModifier(), 1);
 				entityDropItem(worldIn, pos, blockIn, player, new ItemStack(ARKCraftItems.metal, metal));// (int)
-																											// (10
-																											// +
-																											// itemRand.nextInt(100)/20.0*count*toolType.getPickaxeModifier())
+				// (10
+				// +
+				// itemRand.nextInt(100)/20.0*count*toolType.getPickaxeModifier())
 				entityDropItem(worldIn, pos, blockIn, player, new ItemStack(ARKCraftItems.stone, stone));// (int)
-																											// (10
-																											// +
-																											// itemRand.nextInt(100)/20.0*count*toolType.getHatchetModifier())
+				// (10
+				// +
+				// itemRand.nextInt(100)/20.0*count*toolType.getHatchetModifier())
 
 				// thatch);
 				count = 0;
@@ -338,7 +341,7 @@ public abstract class ARKCraftTool extends ItemTool
 	{
 		// TODO: Call this from the Client proxy for each tool item.
 		ClientProxy p = ((ClientProxy) ARKCraft.proxy);
-		List<ItemStack> list = new ArrayList<ItemStack>();
+		List<ItemStack> list = new ArrayList<>();
 		getSubItems(this, getCreativeTab(), list);
 		for (int i = 0; i < list.size(); i++)
 		{
@@ -354,7 +357,7 @@ public abstract class ARKCraftTool extends ItemTool
 	{
 		super.addInformation(stack, playerIn, tooltip, advanced);
 		tooltip.add(I18n.format("arkcraft.tooltip.toolLevel", ToolLevel.VALUES[stack.getMetadata()
-				% ToolLevel.VALUES.length].getTranslatedName()));
+		                                                                       % ToolLevel.VALUES.length].getTranslatedName()));
 		if (advanced)
 		{
 			int max = ToolLevel.VALUES[stack.getMetadata() % ToolLevel.VALUES.length].getDurrability(toolMaterial

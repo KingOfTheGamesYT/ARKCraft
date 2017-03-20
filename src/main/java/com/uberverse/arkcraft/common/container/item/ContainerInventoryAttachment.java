@@ -58,14 +58,14 @@ public class ContainerInventoryAttachment extends Container
 	@Override
 	public boolean canInteractWith(EntityPlayer player)
 	{
-		return tileInventoryAttachment.isUseableByPlayer(player);
+		return tileInventoryAttachment.isUsableByPlayer(player);
 	}
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int index)
 	{
 		ItemStack itemstack = null;
-		Slot slot = (Slot) this.inventorySlots.get(index);
+		Slot slot = this.inventorySlots.get(index);
 
 		if (slot != null && slot.getHasStack())
 		{
@@ -138,7 +138,7 @@ public class ContainerInventoryAttachment extends Container
 		{
 			while (stack.stackSize > 0 && (!backwards && k < end || backwards && k >= start))
 			{
-				slot = (Slot) inventorySlots.get(k);
+				slot = inventorySlots.get(k);
 				itemstack1 = slot.getStack();
 
 				if (!slot.isItemValid(stack))
@@ -179,7 +179,7 @@ public class ContainerInventoryAttachment extends Container
 
 			while (!backwards && k < end || backwards && k >= start)
 			{
-				slot = (Slot) inventorySlots.get(k);
+				slot = inventorySlots.get(k);
 				itemstack1 = slot.getStack();
 
 				if (!slot.isItemValid(stack))

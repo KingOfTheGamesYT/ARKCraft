@@ -2,14 +2,15 @@ package com.uberverse.arkcraft.client.render.projectile;
 
 import org.lwjgl.opengl.GL11;
 
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.entity.projectile.EntityAdvancedBullet;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.entity.projectile.EntityAdvancedBullet;
 
 public class RenderAdvancedBullet extends Render
 {
@@ -27,7 +28,7 @@ public class RenderAdvancedBullet extends Render
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) d, (float) d1, (float) d2);
 		Tessellator tessellator = Tessellator.getInstance();
-		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+		VertexBuffer worldrenderer = tessellator.getBuffer();
 		float f2 = 0.0F;
 		float f3 = 5F / 16F;
 		float f10 = 0.05625F;

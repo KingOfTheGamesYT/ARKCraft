@@ -4,29 +4,29 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Queue;
 
-import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
-import com.uberverse.arkcraft.common.engram.CraftingOrder;
-import com.uberverse.arkcraft.common.engram.IEngramCrafter;
-import com.uberverse.arkcraft.common.entity.IArkLevelable;
-import com.uberverse.arkcraft.util.FixedSizeQueue;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+
+import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
+import com.uberverse.arkcraft.common.engram.CraftingOrder;
+import com.uberverse.arkcraft.common.engram.IEngramCrafter;
+import com.uberverse.arkcraft.common.entity.IArkLevelable;
+import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityArkCraft;
+import com.uberverse.arkcraft.util.FixedSizeQueue;
 
 /**
  * @author Lewis_McReu
  */
-public abstract class TileEntityEngramCrafter extends TileEntity implements IInventory,
-		IEngramCrafter
+public abstract class TileEntityEngramCrafter extends TileEntityArkCraft implements IInventory,
+IEngramCrafter
 {
 	private ItemStack[] inventory;
 
@@ -54,10 +54,11 @@ public abstract class TileEntityEngramCrafter extends TileEntity implements IInv
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound compound)
+	public NBTTagCompound writeToNBT(NBTTagCompound compound)
 	{
 		super.writeToNBT(compound);
 		IEngramCrafter.super.writeToNBT(compound);
+		return compound;
 	}
 
 	@Override
@@ -66,7 +67,7 @@ public abstract class TileEntityEngramCrafter extends TileEntity implements IInv
 		writeToNBT(nbtTagCompound);
 		return new SPacketUpdateTileEntity(this.pos, 0, nbtTagCompound);
 	}
-	
+
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
 	{
@@ -172,7 +173,8 @@ public abstract class TileEntityEngramCrafter extends TileEntity implements IInv
 	@Override
 	public void sync()
 	{
-		world.markBlockForUpdate(pos);
+
+		markBlockForUpdate(pos);
 		markDirty();
 	}
 

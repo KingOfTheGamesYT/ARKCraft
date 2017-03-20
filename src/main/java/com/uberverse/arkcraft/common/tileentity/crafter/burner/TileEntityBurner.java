@@ -3,28 +3,28 @@ package com.uberverse.arkcraft.common.tileentity.crafter.burner;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.uberverse.arkcraft.common.burner.BurnerManager.BurnerFuel;
-import com.uberverse.arkcraft.common.burner.BurnerManager.BurnerRecipe;
-import com.uberverse.arkcraft.common.burner.IBurner;
-import com.uberverse.arkcraft.common.item.ItemFuel;
-import com.uberverse.arkcraft.common.tileentity.IDecayer;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 
+import com.uberverse.arkcraft.common.burner.BurnerManager.BurnerFuel;
+import com.uberverse.arkcraft.common.burner.BurnerManager.BurnerRecipe;
+import com.uberverse.arkcraft.common.burner.IBurner;
+import com.uberverse.arkcraft.common.item.ItemFuel;
+import com.uberverse.arkcraft.common.tileentity.IDecayer;
+import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityArkCraft;
+
 /**
  * @author Lewis_McReu
  */
-public abstract class TileEntityBurner extends TileEntity implements IInventory, IUpdatePlayerListBox, IBurner, IDecayer
+public abstract class TileEntityBurner extends TileEntityArkCraft implements IInventory, ITickable, IBurner, IDecayer
 {
 	private ItemStack[] inventory;
 	/** the currently active recipes */
@@ -46,35 +46,41 @@ public abstract class TileEntityBurner extends TileEntity implements IInventory,
 		IBurner.super.updateBurner();
 	}
 
+	@Override
 	public void setBurning(boolean burning)
 	{
 		this.burning = burning;
 	}
 
+	@Override
 	public int getBurningTicks()
 	{
 		return burningTicks;
 	}
 
+	@Override
 	public void setBurningTicks(int burningTicks)
 	{
 		this.burningTicks = burningTicks;
 	}
 
+	@Override
 	public boolean isBurning()
 	{
 		return burning;
 	}
 
+	@Override
 	public Map<BurnerRecipe, Integer> getActiveRecipes()
 	{
 		return activeRecipes;
 	}
 
+	@Override
 	public void sync()
 	{
 		markDirty();
-		getWorld().markBlockForUpdate(pos);
+		markBlockForUpdate(getWorld(), pos);
 	}
 
 	@Override
@@ -84,10 +90,11 @@ public abstract class TileEntityBurner extends TileEntity implements IInventory,
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound compound)
+	public NBTTagCompound writeToNBT(NBTTagCompound compound)
 	{
 		super.writeToNBT(compound);
 		IBurner.super.writeToNBT(compound);
+		return compound;
 	}
 
 	@Override
@@ -103,7 +110,7 @@ public abstract class TileEntityBurner extends TileEntity implements IInventory,
 		writeToNBT(nbtTagCompound);
 		return new SPacketUpdateTileEntity(this.pos, 0, nbtTagCompound);
 	}
-	
+
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
 	{
@@ -122,12 +129,12 @@ public abstract class TileEntityBurner extends TileEntity implements IInventory,
 		getStackInSlot(index).stackSize -= count;
 		return new ItemStack(getStackInSlot(index).getItem(), count);
 	}
-	
-	@Override
+
+	/*@Override
 	public ItemStack getStackInSlotOnClosing(int index)
 	{
 		return getStackInSlot(index);
-	}
+	}*/
 
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack)
@@ -173,12 +180,12 @@ public abstract class TileEntityBurner extends TileEntity implements IInventory,
 	{
 		switch (id)
 		{
-			case 0:
-				burningTicks = value;
-				break;
-			case 1:
-				burning = value == 0 ? false : true;
-				break;
+		case 0:
+			burningTicks = value;
+			break;
+		case 1:
+			burning = value == 0 ? false : true;
+			break;
 		}
 	}
 
@@ -241,5 +248,9 @@ public abstract class TileEntityBurner extends TileEntity implements IInventory,
 	public ItemStack[] getInventory()
 	{
 		return inventory;
+	}
+	@Override
+	public void update() {
+		//TODO: Called on server update
 	}
 }

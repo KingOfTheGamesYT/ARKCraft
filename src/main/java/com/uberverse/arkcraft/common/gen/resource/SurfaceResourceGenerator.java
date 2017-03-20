@@ -2,16 +2,17 @@ package com.uberverse.arkcraft.common.gen.resource;
 
 import java.util.Random;
 
-import com.uberverse.arkcraft.common.block.resource.BlockARKResource;
-import com.uberverse.arkcraft.common.block.resource.BlockSmallRockResource;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.chunk.IChunkProvider;
+
 import net.minecraftforge.common.BiomeDictionary;
+
+import com.uberverse.arkcraft.common.block.resource.BlockARKResource;
+import com.uberverse.arkcraft.common.block.resource.BlockSmallRockResource;
 
 public abstract class SurfaceResourceGenerator extends ClusterGenerator
 {
@@ -49,8 +50,8 @@ public abstract class SurfaceResourceGenerator extends ClusterGenerator
 		IBlockState down = world.getBlockState(pos.down());
 		boolean in = world.getWorldType() != WorldType.FLAT && !BiomeDictionary.isBiomeOfType(world
 				.getBiomeForCoordsBody(pos), BiomeDictionary.Type.WATER) && !world.getBlockState(pos.down()).getBlock()
-						.isLeaves(down, world, pos.down()) && !(down.getBlock() instanceof BlockARKResource) && self
-								.getBlock() != Blocks.WATER && self.getBlock() != Blocks.LAVA;
+				.isLeaves(down, world, pos.down()) && !(down.getBlock() instanceof BlockARKResource) && self
+				.getBlock() != Blocks.WATER && self.getBlock() != Blocks.LAVA;
 		if (!in) return in;
 		for (int x = -maxWidth / 2; x < maxWidth / 2; x++)
 			for (int z = -maxWidth / 2; z < maxWidth / 2; z++)
@@ -72,10 +73,10 @@ public abstract class SurfaceResourceGenerator extends ClusterGenerator
 			check = true;
 		}
 		if (!check) while (world.getBlockState(pos.down()).getBlock().isReplaceable(world, pos.down()) || !world
-				.getBlockState(pos.down()).getBlock().isOpaqueCube())
+				.getBlockState(pos.down()).getBlock().isOpaqueCube(world.getBlockState(pos.down())))
 			pos = pos.down();
 		if (check) if (!world.getBlockState(pos).getBlock().isReplaceable(world, pos) && world.getBlockState(pos)
-				.getBlock().isOpaqueCube()) pos = pos.up();
+				.getBlock().isOpaqueCube(world.getBlockState(pos))) pos = pos.up();
 		return pos;
 	}
 }
