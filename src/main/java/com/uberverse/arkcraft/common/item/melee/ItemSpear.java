@@ -46,7 +46,7 @@ public class ItemSpear extends ItemSword
 			crit = true;
 		}
 
-		if (entityplayer.capabilities.isCreativeMode || entityplayer.inventory.consumeInventoryItem(this))
+		if (entityplayer.capabilities.isCreativeMode || decreasStack(stack, entityplayer))
 		{
 			world.playSound(entityplayer, entityplayer.getPosition(), SoundEvent.REGISTRY.getObject(new ResourceLocation("random.bow")), SoundCategory.PLAYERS, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 0.8F));
 			if (!world.isRemote)
@@ -56,6 +56,17 @@ public class ItemSpear extends ItemSword
 				world.spawnEntity(entitySpear);
 			}
 		}
+	}
+	
+	private boolean decreasStack(ItemStack stack, EntityPlayer player)
+	{
+        --stack.stackSize;
+
+        if (stack.stackSize == 0)
+        {
+        	player.inventory.deleteStack(stack);
+        }
+		return true;
 	}
 
 	@Override

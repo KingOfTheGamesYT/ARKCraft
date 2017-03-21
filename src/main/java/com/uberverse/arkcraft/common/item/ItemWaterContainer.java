@@ -59,7 +59,7 @@ public class ItemWaterContainer extends ARKCraftItem
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn,
 			EnumHand hand) {
-		RayTraceResult movingobjectposition = this.getMovingObjectPositionFromPlayer(worldIn, playerIn, true);
+		RayTraceResult movingobjectposition = this.rayTrace(worldIn, playerIn, true);
 
 		if (movingobjectposition == null)
 		{

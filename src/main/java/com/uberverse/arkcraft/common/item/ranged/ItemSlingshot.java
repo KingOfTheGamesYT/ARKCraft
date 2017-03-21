@@ -27,7 +27,7 @@ public class ItemSlingshot extends Item
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn,
 			EnumHand hand) {
-		if (playerIn.capabilities.isCreativeMode || playerIn.inventory.(ARKCraftItems.stone))
+		if (playerIn.capabilities.isCreativeMode || decreasStack(itemStackIn, playerIn))
 		{
 			setLastUseTime(itemStackIn, worldIn.getTotalWorldTime());
 			worldIn.playSound(playerIn, playerIn.getPosition(), SoundEvent.REGISTRY.getObject(new ResourceLocation("random.bow")), SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
@@ -45,6 +45,17 @@ public class ItemSlingshot extends Item
 		 */
 
 		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
+	}
+	
+	private boolean decreasStack(ItemStack stack, EntityPlayer player)
+	{
+        --stack.stackSize;
+
+        if (stack.stackSize == 0)
+        {
+        	player.inventory.deleteStack(stack);
+        }
+		return true;
 	}
 
 	@Override

@@ -27,7 +27,7 @@ public class ItemGrenade extends Item
 	public void onPlayerStoppedUsing(ItemStack itemstack, World world, EntityLivingBase entityLiving, int timeLeft) {
 		if(!(entityLiving instanceof EntityPlayer))return;
 		EntityPlayer entityplayer = (EntityPlayer) entityLiving;
-		if (!entityplayer.inventory.hasItem(this)) { return; }
+		if (!entityplayer.inventory.hasItemStack(itemstack)) { return; }
 
 		int j = getMaxItemUseDuration(itemstack) - timeLeft;
 		float f = j / 20F;
@@ -38,7 +38,7 @@ public class ItemGrenade extends Item
 			f = 1.0F;
 		}
 
-		if (entityplayer.capabilities.isCreativeMode || entityplayer.inventory.inventoryItem(this))
+		if (entityplayer.capabilities.isCreativeMode || entityplayer.inventory.hasItemStack(itemstack))
 		{
 			world.playSound(entityplayer, entityplayer.getPosition(), SoundEvent.REGISTRY.getObject(new ResourceLocation("random.bow")), SoundCategory.PLAYERS, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 0.8F));
 			if (!world.isRemote)

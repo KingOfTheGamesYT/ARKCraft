@@ -107,7 +107,7 @@ public class EntityDodo extends EntityTameable
 		// Replace Idle task with one that blinks eyes
 		this.tasks.addTask(++p, new EntityDodoAILookIdle(this));
 
-		this.riddenByEntity = null;
+//		this.riddenByEntity = null;
 	}
 
 	@Override
