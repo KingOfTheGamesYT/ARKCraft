@@ -1,8 +1,21 @@
 package com.uberverse.arkcraft.common.proxy;
 
+import net.minecraft.entity.player.EntityPlayer;
+
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.relauncher.Side;
+
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.achievement.ARKCraftAchievements;
 import com.uberverse.arkcraft.client.book.proxy.BookCommon;
+import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.common.arkplayer.event.PlayerCommonEventHandler;
 import com.uberverse.arkcraft.common.arkplayer.network.ARKPlayerUpdate;
 import com.uberverse.arkcraft.common.arkplayer.network.ARKPlayerUpdateRequest;
@@ -32,17 +45,6 @@ import com.uberverse.arkcraft.init.ARKCraftEntities;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
 import com.uberverse.arkcraft.init.ARKCraftWorldGen;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.relauncher.Side;
 
 public abstract class CommonProxy
 {
@@ -109,6 +111,7 @@ public abstract class CommonProxy
 	public void init(FMLInitializationEvent event)
 	{
 		ARKCraftEntities.init();
+		ARKPlayer.init();
 	}
 
 	public void postInit(FMLPostInitializationEvent event)
@@ -124,9 +127,9 @@ public abstract class CommonProxy
 	private final void initializeConfiguration(FMLPreInitializationEvent event)
 	{
 		CoreConfig.init(event.getModConfigurationDirectory());
-		FMLCommonHandler.instance().bus().register(new CoreConfig());
+		MinecraftForge.EVENT_BUS.register(new CoreConfig());
 		ModuleItemConfig.init(event.getModConfigurationDirectory());
-		FMLCommonHandler.instance().bus().register(new ModuleItemConfig());
+		MinecraftForge.EVENT_BUS.register(new ModuleItemConfig());
 	}
 
 	private final void setupNetwork(FMLPreInitializationEvent event)

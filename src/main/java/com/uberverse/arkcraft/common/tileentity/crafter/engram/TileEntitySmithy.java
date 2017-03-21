@@ -2,6 +2,10 @@ package com.uberverse.arkcraft.common.tileentity.crafter.engram;
 
 import java.util.Random;
 
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+
 public class TileEntitySmithy extends TileEntityEngramCrafter
 {
 	@Override
@@ -9,7 +13,7 @@ public class TileEntitySmithy extends TileEntityEngramCrafter
 	{
 		super.update();
 		if (isCrafting() && new Random().nextInt(100) == 0) world.playSound(pos.getX(), pos.getY(), pos.getZ(),
-				"arkcraft:smithy_hammer", 1, 0, true);
+				SoundEvent.REGISTRY.getObject(new ResourceLocation("arkcraft:smithy_hammer")), SoundCategory.BLOCKS, 1, 0, true);
 	}
 
 	public TileEntitySmithy()

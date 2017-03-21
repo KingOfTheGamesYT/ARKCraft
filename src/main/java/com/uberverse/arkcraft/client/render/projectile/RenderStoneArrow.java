@@ -2,21 +2,23 @@ package com.uberverse.arkcraft.client.render.projectile;
 
 import org.lwjgl.opengl.GL11;
 
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.entity.projectile.EntityStoneArrow;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.entity.Entity;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.entity.projectile.EntityStoneArrow;
+
 @SideOnly(Side.CLIENT)
-public class RenderStoneArrow extends Render
+public class RenderStoneArrow extends Render<EntityStoneArrow>
 {
 	private static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID,
 			"textures/entity/stoneArrow.png");
@@ -26,6 +28,7 @@ public class RenderStoneArrow extends Render
 		super(Minecraft.getMinecraft().getRenderManager());
 	}
 
+	@Override
 	public void doRender(EntityStoneArrow p_180551_1_, double p_180551_2_, double p_180551_4_, double p_180551_6_,
 			float p_180551_8_, float p_180551_9_)
 	{
@@ -38,19 +41,19 @@ public class RenderStoneArrow extends Render
 		GlStateManager.rotate(p_180551_1_.prevRotationPitch + (p_180551_1_.rotationPitch
 				- p_180551_1_.prevRotationPitch) * p_180551_9_, 0.0F, 0.0F, 1.0F);
 		Tessellator tessellator = Tessellator.getInstance();
-		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+		VertexBuffer worldrenderer = tessellator.getBuffer();
 		byte b0 = 0;
 		float f2 = 0.0F;
 		float f3 = 0.5F;
-		float f4 = (float) (0 + b0 * 10) / 32.0F;
-		float f5 = (float) (5 + b0 * 10) / 32.0F;
+		float f4 = (0 + b0 * 10) / 32.0F;
+		float f5 = (5 + b0 * 10) / 32.0F;
 		float f6 = 0.0F;
 		float f7 = 0.15625F;
-		float f8 = (float) (5 + b0 * 10) / 32.0F;
-		float f9 = (float) (10 + b0 * 10) / 32.0F;
+		float f8 = (5 + b0 * 10) / 32.0F;
+		float f9 = (10 + b0 * 10) / 32.0F;
 		float f10 = 0.05625F;
 		GlStateManager.enableRescaleNormal();
-		float f11 = (float) p_180551_1_.arrowShake - p_180551_9_;
+		float f11 = p_180551_1_.arrowShake - p_180551_9_;
 
 		if (f11 > 0.0F)
 		{
@@ -62,29 +65,29 @@ public class RenderStoneArrow extends Render
 		GlStateManager.scale(f10, f10, f10);
 		GlStateManager.translate(-4.0F, 0.0F, 0.0F);
 		GL11.glNormal3f(f10, 0.0F, 0.0F);
-		worldrenderer.startDrawingQuads();
-		worldrenderer.addVertexWithUV(-7.0D, -2.0D, -2.0D, (double) f6, (double) f8);
-		worldrenderer.addVertexWithUV(-7.0D, -2.0D, 2.0D, (double) f7, (double) f8);
-		worldrenderer.addVertexWithUV(-7.0D, 2.0D, 2.0D, (double) f7, (double) f9);
-		worldrenderer.addVertexWithUV(-7.0D, 2.0D, -2.0D, (double) f6, (double) f9);
+		worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+		worldrenderer.pos(-7.0D, -2.0D, -2.0D).tex(f6, f8).endVertex();
+		worldrenderer.pos(-7.0D, -2.0D, 2.0D).tex(f7, f8).endVertex();
+		worldrenderer.pos(-7.0D, 2.0D, 2.0D).tex(f7, f9).endVertex();
+		worldrenderer.pos(-7.0D, 2.0D, -2.0D).tex(f6, f9).endVertex();
 		tessellator.draw();
 		GL11.glNormal3f(-f10, 0.0F, 0.0F);
-		worldrenderer.startDrawingQuads();
-		worldrenderer.addVertexWithUV(-7.0D, 2.0D, -2.0D, (double) f6, (double) f8);
-		worldrenderer.addVertexWithUV(-7.0D, 2.0D, 2.0D, (double) f7, (double) f8);
-		worldrenderer.addVertexWithUV(-7.0D, -2.0D, 2.0D, (double) f7, (double) f9);
-		worldrenderer.addVertexWithUV(-7.0D, -2.0D, -2.0D, (double) f6, (double) f9);
+		worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+		worldrenderer.pos(-7.0D, 2.0D, -2.0D).tex(f6, f8).endVertex();
+		worldrenderer.pos(-7.0D, 2.0D, 2.0D).tex(f7, f8).endVertex();
+		worldrenderer.pos(-7.0D, -2.0D, 2.0D).tex(f7, f9).endVertex();
+		worldrenderer.pos(-7.0D, -2.0D, -2.0D).tex(f6, f9).endVertex();
 		tessellator.draw();
 
 		for (int i = 0; i < 4; ++i)
 		{
 			GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glNormal3f(0.0F, 0.0F, f10);
-			worldrenderer.startDrawingQuads();
-			worldrenderer.addVertexWithUV(-8.0D, -2.0D, 0.0D, (double) f2, (double) f4);
-			worldrenderer.addVertexWithUV(8.0D, -2.0D, 0.0D, (double) f3, (double) f4);
-			worldrenderer.addVertexWithUV(8.0D, 2.0D, 0.0D, (double) f3, (double) f5);
-			worldrenderer.addVertexWithUV(-8.0D, 2.0D, 0.0D, (double) f2, (double) f5);
+			worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+			worldrenderer.pos(-8.0D, -2.0D, 0.0D).tex(f2, f4).endVertex();
+			worldrenderer.pos(8.0D, -2.0D, 0.0D).tex(f3, f4).endVertex();
+			worldrenderer.pos(8.0D, 2.0D, 0.0D).tex(f3, f5).endVertex();
+			worldrenderer.pos(-8.0D, 2.0D, 0.0D).tex(f2, f5).endVertex();
 			tessellator.draw();
 		}
 
@@ -94,13 +97,7 @@ public class RenderStoneArrow extends Render
 	}
 
 	@Override
-	public void doRender(Entity entity, double d, double d1, double d2, float f, float f1)
-	{
-		doRender((EntityStoneArrow) entity, d, d1, d2, f, f1);
-	}
-
-	@Override
-	protected ResourceLocation getEntityTexture(Entity entity)
+	protected ResourceLocation getEntityTexture(EntityStoneArrow entity)
 	{
 
 		return texture;

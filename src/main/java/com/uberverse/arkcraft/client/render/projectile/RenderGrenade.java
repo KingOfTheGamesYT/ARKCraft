@@ -1,16 +1,15 @@
 package com.uberverse.arkcraft.client.render.projectile;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.entity.projectile.EntityGrenade;
 
-public class RenderGrenade extends Render
+public class RenderGrenade extends Render<EntityGrenade>
 {
 	private static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID,
 			"textures/entity/MetalArrow.png");
@@ -43,13 +42,7 @@ public class RenderGrenade extends Render
 	}
 
 	@Override
-	public void doRender(Entity entity, double d, double d1, double d2, float f, float f1)
-	{
-		render((EntityGrenade) entity, d, d1, d2, f, f1);
-	}
-
-	@Override
-	protected ResourceLocation getEntityTexture(Entity entity)
+	protected ResourceLocation getEntityTexture(EntityGrenade entity)
 	{
 		return texture;
 	}

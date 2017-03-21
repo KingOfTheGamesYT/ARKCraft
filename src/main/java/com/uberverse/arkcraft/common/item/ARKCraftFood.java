@@ -2,9 +2,6 @@ package com.uberverse.arkcraft.common.item;
 
 import java.util.List;
 
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.init.ARKCraftItems;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,8 +10,12 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.init.ARKCraftItems;
 
 /**
  * @author Vastatio
@@ -40,8 +41,8 @@ public class ARKCraftFood extends ItemFood implements IDecayable
 	{
 		super.onFoodEaten(stack, worldIn, player);
 		for (int i = 0; i < effects.length; i++)
-			if (!worldIn.isRemote && effects[i] != null && effects[i].getPotionID() > 0) player.addPotionEffect(
-					new PotionEffect(this.effects[i].getPotionID(), this.effects[i].getDuration(), this.effects[i]
+			if (!worldIn.isRemote && effects[i] != null && effects[i].getPotion() != null) player.addPotionEffect(
+					new PotionEffect(this.effects[i].getPotion(), this.effects[i].getDuration(), this.effects[i]
 							.getAmplifier(), this.effects[i].getIsAmbient(), this.effects[i].doesShowParticles()));
 	}
 
@@ -100,6 +101,7 @@ public class ARKCraftFood extends ItemFood implements IDecayable
 		subItems.add(s);
 	}
 
+	@Override
 	public long getDecayTime(ItemStack stack)
 	{
 		return decayTime;

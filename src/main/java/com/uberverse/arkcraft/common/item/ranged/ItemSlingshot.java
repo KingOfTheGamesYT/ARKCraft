@@ -11,6 +11,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagLong;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
 public class ItemSlingshot extends Item
@@ -27,7 +30,7 @@ public class ItemSlingshot extends Item
 		if (playerIn.capabilities.isCreativeMode || playerIn.inventory.(ARKCraftItems.stone))
 		{
 			setLastUseTime(itemStackIn, worldIn.getTotalWorldTime());
-			worldIn.playSoundAtEntity(playerIn, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+			worldIn.playSound(playerIn, playerIn.getPosition(), SoundEvent.REGISTRY.getObject(new ResourceLocation("random.bow")), SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 			if (!worldIn.isRemote)
 			{
 				worldIn.spawnEntity(new EntityStone(worldIn, playerIn));
@@ -43,7 +46,7 @@ public class ItemSlingshot extends Item
 
 		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
 	}
-	
+
 	@Override
 	public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int useRemaining)
 	{

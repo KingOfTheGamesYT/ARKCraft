@@ -13,17 +13,6 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 
-import com.google.common.collect.ImmutableSet;
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
-import com.uberverse.arkcraft.common.config.ModuleItemBalance;
-import com.uberverse.arkcraft.common.item.IDecayable;
-import com.uberverse.arkcraft.common.item.ranged.ItemRangedWeapon;
-import com.uberverse.arkcraft.common.network.ReloadFinished;
-import com.uberverse.arkcraft.init.ARKCraftItems;
-import com.uberverse.arkcraft.util.Utils;
-import com.uberverse.lib.LogHelper;
-
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -43,18 +32,29 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
+
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
+import com.uberverse.arkcraft.common.config.ModuleItemBalance;
+import com.uberverse.arkcraft.common.item.IDecayable;
+import com.uberverse.arkcraft.common.item.ranged.ItemRangedWeapon;
+import com.uberverse.arkcraft.common.network.ReloadFinished;
+import com.uberverse.arkcraft.init.ARKCraftItems;
+import com.uberverse.arkcraft.util.Utils;
+import com.uberverse.lib.LogHelper;
+
+import com.google.common.collect.ImmutableSet;
 
 public class CommonEventHandler
 {
@@ -68,11 +68,10 @@ public class CommonEventHandler
 	public static void init()
 	{
 		CommonEventHandler handler = new CommonEventHandler();
-		FMLCommonHandler.instance().bus().register(handler);
 		MinecraftForge.EVENT_BUS.register(handler);
 	}
 
-	@SubscribeEvent
+	/*@SubscribeEvent
 	public void onEntityConstructing(EntityEvent.EntityConstructing event)
 	{
 		if (event.getEntity() instanceof EntityPlayer)
@@ -87,7 +86,7 @@ public class CommonEventHandler
 				LogHelper.info("ARKPlayerEventHandler: Registered a new ARKPlayer on server.");
 			}
 		}
-	}
+	}*///Replaced by PlayerCommonEventHandler.attachCapability
 
 	@SubscribeEvent
 	public void onClonePlayer(PlayerEvent.Clone event)
@@ -132,8 +131,8 @@ public class CommonEventHandler
 					for (Entity entityInWorld : entitiesInWorld)
 					{
 						// Make the set mutable each for loop.
-						final Set<Item> remainingInputs = new HashSet<Item>(INPUTS); // Create
-						ArrayList<EntityItem> foundEntityItems = new ArrayList<EntityItem>();
+						final Set<Item> remainingInputs = new HashSet<>(INPUTS); // Create
+						ArrayList<EntityItem> foundEntityItems = new ArrayList<>();
 						if (entityInWorld instanceof EntityItem)
 						{
 							EntityItem entityItemInWorld = (EntityItem) entityInWorld;
@@ -234,7 +233,7 @@ public class CommonEventHandler
 		}
 	}
 
-	private Map<Integer, TickStorage> tick = new HashMap<Integer, TickStorage>();
+	private Map<Integer, TickStorage> tick = new HashMap<>();
 
 	public static class TickStorage
 	{
@@ -323,7 +322,7 @@ public class CommonEventHandler
 	{
 		if (event.getHarvester() != null && !event.getHarvester().getEntityWorld().isRemote && event.getHarvester()
 				.getHeldItemMainhand() == null && ARKPlayer.isARKMode(event.getHarvester()) && event.getState()
-						.getBlock() instanceof BlockLog)
+				.getBlock() instanceof BlockLog)
 		{
 			ARKPlayer.get(event.getHarvester()).addXP(0.4);
 			event.getDrops().clear();

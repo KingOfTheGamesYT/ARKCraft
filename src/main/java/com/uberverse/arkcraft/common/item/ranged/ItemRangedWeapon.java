@@ -22,6 +22,7 @@ import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
@@ -268,13 +269,14 @@ public abstract class ItemRangedWeapon extends ItemBow
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
 	{
 		if (itemStackIn.stackSize <= 0 || playerIn.isUsingItem()) {
-			return itemStackIn;
+			return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
 		}
 
 		if (canFire(itemStackIn, playerIn)) {
 			if (this.nextShotMillis < System.currentTimeMillis())
 				// Start aiming weapon to fire
-				playerIn.setItemInUse(itemStackIn, getMaxItemUseDuration(itemStackIn));
+				//playerIn.setItemInUse(itemStackIn, getMaxItemUseDuration(itemStackIn));
+				playerIn.setActiveHand(hand);
 		}
 		else {
 			// Can't reload; no ammo
@@ -282,7 +284,7 @@ public abstract class ItemRangedWeapon extends ItemBow
 				soundEmpty(itemStackIn, worldIn, playerIn);
 			}
 		}
-		return itemStackIn;
+		return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
 	}
 
 	@Override
@@ -351,11 +353,11 @@ public abstract class ItemRangedWeapon extends ItemBow
 		}
 		return null;
 	}*/
-	
+
 	//On top is the old Method
 	public ItemProjectile findAvailableAmmo(EntityPlayer player)
 	{
-		for (ItemProjectile projectile : projectiles) 
+		for (ItemProjectile projectile : projectiles)
 		{
 			for(int i = 0; i < player.inventory.getSizeInventory(); i++)
 			{
@@ -368,11 +370,11 @@ public abstract class ItemRangedWeapon extends ItemBow
 		}
 		return null;
 	}
-	
-    protected boolean isProjectile(ItemStack stack)
-    {
-        return stack != null && stack.getItem() instanceof ItemProjectile;
-    }
+
+	protected boolean isProjectile(ItemStack stack)
+	{
+		return stack != null && stack.getItem() instanceof ItemProjectile;
+	}
 
 	public int getAmmoQuantityInInventory(ItemStack stack, EntityPlayer player)
 	{
@@ -479,7 +481,7 @@ public abstract class ItemRangedWeapon extends ItemBow
 		if (att != null && att.isSilencerPresent())
 			soundPath = soundPath + "_silenced";
 		//TODO New Sound Effect
-	//	world.playSoundEffect(x, y, z, soundPath, 1.5F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F));
+		//	world.playSoundEffect(x, y, z, soundPath, 1.5F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F));
 
 		float particleX = -MathHelper.sin(((yaw + 23) / 180F) * 3.141593F) * MathHelper.cos((pitch / 180F) * 3.141593F);
 		float particleY = -MathHelper.sin((pitch / 180F) * 3.141593F) - 0.1F;

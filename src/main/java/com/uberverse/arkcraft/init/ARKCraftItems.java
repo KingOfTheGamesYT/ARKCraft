@@ -1,14 +1,19 @@
 package com.uberverse.arkcraft.init;
 
-import com.google.common.collect.Lists;
-import com.uberverse.arkcraft.ARKCraft;
+import net.minecraft.init.Blocks;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
+import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+
+import net.minecraftforge.common.util.EnumHelper;
+
 import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot.BerryColor;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance.PLAYER;
 import com.uberverse.arkcraft.common.engram.EngramManager;
 import com.uberverse.arkcraft.common.engram.EngramManager.Engram;
-import com.uberverse.arkcraft.common.entity.projectile.EntitySpear;
-import com.uberverse.arkcraft.common.entity.projectile.EntityStone;
-import com.uberverse.arkcraft.common.handlers.EntityHandler;
 import com.uberverse.arkcraft.common.item.ARKCraftBook;
 import com.uberverse.arkcraft.common.item.ARKCraftFeces;
 import com.uberverse.arkcraft.common.item.ARKCraftFood;
@@ -33,11 +38,7 @@ import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot.CropP
 import com.uberverse.arkcraft.util.AbstractItemStack;
 import com.uberverse.arkcraft.util.CollectionUtil;
 
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraftforge.common.util.EnumHelper;
+import com.google.common.collect.Lists;
 
 public class ARKCraftItems
 {
@@ -58,16 +59,16 @@ public class ARKCraftItems
 
 	// Food
 	public static ARKCraftFood tintoBerry, amarBerry, azulBerry, mejoBerry, narcoBerry, stimBerry, meat_raw,
-			meat_cooked, primemeat_raw, primemeat_cooked, spoiled_meat;
+	meat_cooked, primemeat_raw, primemeat_cooked, spoiled_meat;
 	public static ARKCraftSeed tintoBerrySeed, amarBerrySeed, azulBerrySeed, mejoBerrySeed, narcoBerrySeed,
-			stimBerrySeed;
+	stimBerrySeed;
 	public static ItemWaterContainer water_skin, water_jar;
 
 	// Misc
 	public static ARKCraftItem stone, fiber, thatch, wood, flint, metal, spark_powder, hide, charcoal, metal_ingot,
-			cementing_paste, crystal, spy_glass, narcotics, gunpowder, chitin, keratin, pelt, obsidian, oil, gasoline,
-			stimulant, silica_pearls, polymer, organic_polymer, sap, electronics, blood_pack, absorbent_substrate,
-			angler_gel, black_pearl, leech_blood, rare_flower, rare_mushroom, refertilizer, woolly_rhino_horn;
+	cementing_paste, crystal, spy_glass, narcotics, gunpowder, chitin, keratin, pelt, obsidian, oil, gasoline,
+	stimulant, silica_pearls, polymer, organic_polymer, sap, electronics, blood_pack, absorbent_substrate,
+	angler_gel, black_pearl, leech_blood, rare_flower, rare_mushroom, refertilizer, woolly_rhino_horn;
 
 	public static ARKCraftFeces small_feces, medium_feces, large_feces, player_feces;
 	public static ItemFertilizer fertilizer;
@@ -81,15 +82,15 @@ public class ARKCraftItems
 
 	// Armor MAT
 	public static ArmorMaterial CLOTH = EnumHelper.addArmorMaterial("CLOTH_MAT", "CLOTH_MAT", 4, new int[] { 1, 2, 1,
-			1 }, 15);
+			1 }, 15, SoundEvent.REGISTRY.getObject(new ResourceLocation("item.armor.equip_leather")), 0);
 	public static ArmorMaterial CHITIN = EnumHelper.addArmorMaterial("CHITIN_MAT", "CHITIN_MAT", 16, new int[] { 3, 7,
-			6, 3 }, 10);
+			6, 3 }, 10, SoundEvent.REGISTRY.getObject(new ResourceLocation("item.armor.equip_leather")), 0);
 	public static ArmorMaterial HIDE = EnumHelper.addArmorMaterial("HIDE_MAT", "HIDE_MAT", 40, new int[] { 3, 8, 6, 3 },
-			30);
+			30, SoundEvent.REGISTRY.getObject(new ResourceLocation("item.armor.equip_leather")), 0);
 	public static ArmorMaterial FUR = EnumHelper.addArmorMaterial("FUR_MAT", "HIDE_MAT", 40, new int[] { 3, 8, 6, 3 },
-			30);
+			30, SoundEvent.REGISTRY.getObject(new ResourceLocation("item.armor.equip_leather")), 0);
 	public static ArmorMaterial FLAK = EnumHelper.addArmorMaterial("FLAK_MAT", "FLAK_MAT", 60, new int[] { 12, 40, 30,
-			15 }, 30);
+			15 }, 30, SoundEvent.REGISTRY.getObject(new ResourceLocation("item.armor.equip_leather")), 0);//TODO: replace toughness values
 
 	// Tool MAT
 	public static ToolMaterial METAL = EnumHelper.addToolMaterial("METAL_MAT", 3, 1500, 6.0F, 2.5F, 8);
@@ -153,30 +154,30 @@ public class ARKCraftItems
 		pike = init.registerItem("pike", new ItemPike(METAL));
 
 		// Armor
-		chitin_helm = addArmorItem("chitin_helm", CHITIN, "chitinArmor", 0, false);
-		chitin_chest = addArmorItem("chitin_chest", CHITIN, "chitinArmor", 1, false);
-		chitin_legs = addArmorItem("chitin_legs", CHITIN, "chitinArmor", 2, false);
-		chitin_boots = addArmorItem("chitin_boots", CHITIN, "chitinArmor", 3, false);
+		chitin_helm = addArmorItem("chitin_helm", CHITIN, "chitinArmor", EntityEquipmentSlot.HEAD, false);
+		chitin_chest = addArmorItem("chitin_chest", CHITIN, "chitinArmor", EntityEquipmentSlot.CHEST, false);
+		chitin_legs = addArmorItem("chitin_legs", CHITIN, "chitinArmor", EntityEquipmentSlot.LEGS, false);
+		chitin_boots = addArmorItem("chitin_boots", CHITIN, "chitinArmor", EntityEquipmentSlot.FEET, false);
 
-		cloth_helm = addArmorItem("cloth_helm", CLOTH, "clothArmor", 0, false);
-		cloth_chest = addArmorItem("cloth_chest", CLOTH, "clothArmor", 1, false);
-		cloth_legs = addArmorItem("cloth_legs", CLOTH, "clothArmor", 2, false);
-		cloth_boots = addArmorItem("cloth_boots", CLOTH, "clothArmor", 3, false);
+		cloth_helm = addArmorItem("cloth_helm", CLOTH, "clothArmor", EntityEquipmentSlot.HEAD, false);
+		cloth_chest = addArmorItem("cloth_chest", CLOTH, "clothArmor", EntityEquipmentSlot.CHEST, false);
+		cloth_legs = addArmorItem("cloth_legs", CLOTH, "clothArmor", EntityEquipmentSlot.LEGS, false);
+		cloth_boots = addArmorItem("cloth_boots", CLOTH, "clothArmor", EntityEquipmentSlot.FEET, false);
 
-		hide_helm = addArmorItem("hide_helm", HIDE, "hideArmor", 0, false);
-		hide_chest = addArmorItem("hide_chest", HIDE, "hideArmor", 1, false);
-		hide_legs = addArmorItem("hide_legs", HIDE, "hideArmor", 2, false);
-		hide_boots = addArmorItem("hide_boots", HIDE, "hideArmor", 3, false);
+		hide_helm = addArmorItem("hide_helm", HIDE, "hideArmor", EntityEquipmentSlot.HEAD, false);
+		hide_chest = addArmorItem("hide_chest", HIDE, "hideArmor", EntityEquipmentSlot.CHEST, false);
+		hide_legs = addArmorItem("hide_legs", HIDE, "hideArmor", EntityEquipmentSlot.LEGS, false);
+		hide_boots = addArmorItem("hide_boots", HIDE, "hideArmor", EntityEquipmentSlot.FEET, false);
 
-		fur_helm = addArmorItem("fur_helm", FUR, "furArmor", 0, false);
-		fur_chest = addArmorItem("fur_chest", FUR, "furArmor", 1, false);
-		fur_legs = addArmorItem("fur_legs", FUR, "furArmor", 2, false);
-		fur_boots = addArmorItem("fur_boots", FUR, "furArmor", 3, false);
+		fur_helm = addArmorItem("fur_helm", FUR, "furArmor", EntityEquipmentSlot.HEAD, false);
+		fur_chest = addArmorItem("fur_chest", FUR, "furArmor", EntityEquipmentSlot.CHEST, false);
+		fur_legs = addArmorItem("fur_legs", FUR, "furArmor", EntityEquipmentSlot.LEGS, false);
+		fur_boots = addArmorItem("fur_boots", FUR, "furArmor", EntityEquipmentSlot.FEET, false);
 
-		flak_helm = addArmorItem("flak_helm", FLAK, "flakArmor", 0, false);
-		flak_chest = addArmorItem("flak_chest", FLAK, "flakArmor", 1, false);
-		flak_legs = addArmorItem("flak_legs", FLAK, "flakArmor", 2, false);
-		flak_boots = addArmorItem("flak_boots", FLAK, "flakArmor", 3, false);
+		flak_helm = addArmorItem("flak_helm", FLAK, "flakArmor", EntityEquipmentSlot.HEAD, false);
+		flak_chest = addArmorItem("flak_chest", FLAK, "flakArmor", EntityEquipmentSlot.CHEST, false);
+		flak_legs = addArmorItem("flak_legs", FLAK, "flakArmor", EntityEquipmentSlot.LEGS, false);
+		flak_boots = addArmorItem("flak_boots", FLAK, "flakArmor", EntityEquipmentSlot.FEET, false);
 
 		// Food
 		tintoBerry = addBerry("tinto", 1, 0.1F, false, true);
@@ -230,7 +231,7 @@ public class ARKCraftItems
 	{
 		blueprint = InitializationManager.instance().registerItem("blueprint", "blueprint/", new ItemBlueprint(), false,
 				CollectionUtil.convert(EngramManager.instance().getBlueprintEngrams(), (Engram e) -> e.getName())
-						.toArray(new String[0]));
+				.toArray(new String[0]));
 	}
 
 	public static ARKCraftItem addItem(String name)
@@ -255,7 +256,7 @@ public class ARKCraftItems
 		return InitializationManager.instance().registerItem(name, new ARKCraftSeed(type, color));
 	}
 
-	public static ItemARKArmor addArmorItem(String name, ArmorMaterial mat, String armorTexName, int type,
+	public static ItemARKArmor addArmorItem(String name, ArmorMaterial mat, String armorTexName, EntityEquipmentSlot type,
 			boolean golden)
 	{
 		return InitializationManager.instance().registerItem(name, new ItemARKArmor(mat, armorTexName, type, golden));

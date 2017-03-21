@@ -2,17 +2,18 @@ package com.uberverse.arkcraft.client.render.projectile;
 
 import org.lwjgl.opengl.GL11;
 
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.entity.projectile.EntitySpear;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.entity.Entity;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
-public class RenderSpear extends Render
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.entity.projectile.EntitySpear;
+
+public class RenderSpear extends Render<EntitySpear>
 {
 	private static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID, "textures/entity/spear.png");
 
@@ -21,6 +22,7 @@ public class RenderSpear extends Render
 		super(Minecraft.getMinecraft().getRenderManager());
 	}
 
+	@Override
 	public void doRender(EntitySpear entityarrow, double d, double d1, double d2, float f, float f1)
 	{
 		bindEntityTexture(entityarrow);
@@ -31,7 +33,7 @@ public class RenderSpear extends Render
 		GL11.glRotatef(entityarrow.prevRotationPitch + (entityarrow.rotationPitch - entityarrow.prevRotationPitch) * f1,
 				0.0F, 0.0F, 1.0F);
 		Tessellator tess = Tessellator.getInstance();
-		WorldRenderer worldrenderer = tess.getWorldRenderer();
+		VertexBuffer worldrenderer = tess.getBuffer();
 		int i = 0;
 		float f2 = 0.0F;
 		float f3 = 1.0F;
@@ -56,31 +58,31 @@ public class RenderSpear extends Render
 		GL11.glScalef(f10, f10, f10);
 		GL11.glTranslatef(-4F, 0.0F, 0.0F);
 		GL11.glNormal3f(f10, 0.0F, 0.0F);
-		worldrenderer.startDrawingQuads();
-		worldrenderer.addVertexWithUV(-length, -2D, -2D, f6, f8);
-		worldrenderer.addVertexWithUV(-length, -2D, 2D, f7, f8);
-		worldrenderer.addVertexWithUV(-length, 2D, 2D, f7, f9);
-		worldrenderer.addVertexWithUV(-length, 2D, -2D, f6, f9);
+		worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+		worldrenderer.pos(-length, -2D, -2F).tex(f6, f8).endVertex();
+		worldrenderer.pos(-length, -2D, 2F).tex(f7, f8).endVertex();
+		worldrenderer.pos(-length, 2D, 2F).tex(f7, f9).endVertex();
+		worldrenderer.pos(-length, 2D, -2F).tex(f6, f9).endVertex();
 		tess.draw();
 
 		GL11.glNormal3f(-f10, 0F, 0F);
-		worldrenderer.startDrawingQuads();
-		worldrenderer.addVertexWithUV(-length, 2D, -2D, f6, f8);
-		worldrenderer.addVertexWithUV(-length, 2D, 2D, f7, f8);
-		worldrenderer.addVertexWithUV(-length, -2D, 2D, f7, f9);
-		worldrenderer.addVertexWithUV(-length, -2D, -2D, f6, f9);
+		worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+		worldrenderer.pos(-length, 2D, -2F).tex(f6, f8).endVertex();
+		worldrenderer.pos(-length, 2D, 2F).tex(f7, f8).endVertex();
+		worldrenderer.pos(-length, -2D, 2F).tex(f7, f9).endVertex();
+		worldrenderer.pos(-length, -2D, -2F).tex(f6, f9).endVertex();
 		tess.draw();
 
 		for (int j = 0; j < 4; j++)
 		{
 			GL11.glRotatef(90F, 1.0F, 0.0F, 0.0F);
 			GL11.glNormal3f(0.0F, 0.0F, f10);
-			worldrenderer.startDrawingQuads();
-			worldrenderer.setColorOpaque_F(1F, 1F, 1F);
-			worldrenderer.addVertexWithUV(-length, -2D, 0.0D, f2, f4);
-			worldrenderer.addVertexWithUV(length, -2D, 0.0D, f3, f4);
-			worldrenderer.addVertexWithUV(length, 2D, 0.0D, f3, f5);
-			worldrenderer.addVertexWithUV(-length, 2D, 0.0D, f2, f5);
+			worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
+			//worldrenderer.setColorOpaque_F(1F, 1F, 1F);
+			worldrenderer.pos(-length, -2D, 0.0F).color(1F, 1F, 1F, 1F).tex(f2, f4).endVertex();
+			worldrenderer.pos(length, -2D, 0.0F).color(1F, 1F, 1F, 1F).tex(f3, f4).endVertex();
+			worldrenderer.pos(length, 2D, 0.0F).color(1F, 1F, 1F, 1F).tex(f3, f5).endVertex();
+			worldrenderer.pos(-length, 2D, 0.0F).color(1F, 1F, 1F, 1F).tex(f2, f5).endVertex();
 			tess.draw();
 		}
 
@@ -89,13 +91,7 @@ public class RenderSpear extends Render
 	}
 
 	@Override
-	public void doRender(Entity entity, double d, double d1, double d2, float f, float f1)
-	{
-		doRender((EntitySpear) entity, d, d1, d2, f, f1);
-	}
-
-	@Override
-	protected ResourceLocation getEntityTexture(Entity entity)
+	protected ResourceLocation getEntityTexture(EntitySpear entity)
 	{
 
 		return texture;

@@ -6,13 +6,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.entity.Entity;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.entity.projectile.EntityAdvancedBullet;
 
-public class RenderAdvancedBullet extends Render
+public class RenderAdvancedBullet extends Render<EntityAdvancedBullet>
 {
 	private static final ResourceLocation texture = new ResourceLocation(ARKCraft.MODID
 			+ ":textures/entity/bullet.png");
@@ -22,6 +22,7 @@ public class RenderAdvancedBullet extends Render
 		super(Minecraft.getMinecraft().getRenderManager());
 	}
 
+	@Override
 	public void doRender(EntityAdvancedBullet entity, double d, double d1, double d2, float f, float f1)
 	{
 		bindEntityTexture(entity);
@@ -35,28 +36,28 @@ public class RenderAdvancedBullet extends Render
 		GL11.glEnable(32826 /* GL_RESCALE_NORMAL_EXT */);
 		GL11.glScalef(0.07F, 0.07F, 0.07F);
 		GL11.glNormal3f(f10, 0.0F, 0.0F);
-		worldrenderer.startDrawingQuads();
-		worldrenderer.addVertexWithUV(0D, -0.5D, -0.5D, f2, f2);
-		worldrenderer.addVertexWithUV(0D, -0.5D, 0.5D, f3, f2);
-		worldrenderer.addVertexWithUV(0D, 0.5D, 0.5D, f3, f3);
-		worldrenderer.addVertexWithUV(0D, 0.5D, -0.5D, f2, f3);
+		worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+		worldrenderer.pos(0D, -0.5D, -0.5D).tex(f2, f2).endVertex();
+		worldrenderer.pos(0D, -0.5D, 0.5D).tex(f3, f2).endVertex();
+		worldrenderer.pos(0D, 0.5D, 0.5D).tex(f3, f3).endVertex();
+		worldrenderer.pos(0D, 0.5D, -0.5D).tex(f2, f3).endVertex();
 		tessellator.draw();
 		GL11.glNormal3f(-f10, 0.0F, 0.0F);
-		worldrenderer.startDrawingQuads();
-		worldrenderer.addVertexWithUV(0D, 0.5D, -0.5D, f2, f2);
-		worldrenderer.addVertexWithUV(0D, 0.5D, 0.5D, f3, f2);
-		worldrenderer.addVertexWithUV(0D, -0.5D, 0.5D, f3, f3);
-		worldrenderer.addVertexWithUV(0D, -0.5D, -0.5D, f2, f3);
+		worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+		worldrenderer.pos(0D, 0.5D, -0.5D).tex(f2, f2).endVertex();
+		worldrenderer.pos(0D, 0.5D, 0.5D).tex(f3, f2).endVertex();
+		worldrenderer.pos(0D, -0.5D, 0.5D).tex(f3, f3).endVertex();
+		worldrenderer.pos(0D, -0.5D, -0.5D).tex(f2, f3).endVertex();
 		tessellator.draw();
 		for (int j = 0; j < 4; j++)
 		{
 			GL11.glRotatef(90F, 1.0F, 0.0F, 0.0F);
 			GL11.glNormal3f(0.0F, 0.0F, f10);
-			worldrenderer.startDrawingQuads();
-			worldrenderer.addVertexWithUV(-0.5D, -0.5D, 0.0D, f2, f2);
-			worldrenderer.addVertexWithUV(0.5D, -0.5D, 0.0D, f3, f2);
-			worldrenderer.addVertexWithUV(0.5D, 0.5D, 0.0D, f3, f3);
-			worldrenderer.addVertexWithUV(-0.5D, 0.5D, 0.0D, f2, f3);
+			worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+			worldrenderer.pos(-0.5D, -0.5D, 0.0D).tex(f2, f2).endVertex();
+			worldrenderer.pos(0.5D, -0.5D, 0.0D).tex(f3, f2).endVertex();
+			worldrenderer.pos(0.5D, 0.5D, 0.0D).tex(f3, f3).endVertex();
+			worldrenderer.pos(-0.5D, 0.5D, 0.0D).tex(f2, f3).endVertex();
 			tessellator.draw();
 		}
 
@@ -65,13 +66,7 @@ public class RenderAdvancedBullet extends Render
 	}
 
 	@Override
-	public void doRender(Entity entity, double d, double d1, double d2, float f, float f1)
-	{
-		doRender((EntityAdvancedBullet) entity, d, d1, d2, f, f1);
-	}
-
-	@Override
-	protected ResourceLocation getEntityTexture(Entity entity)
+	protected ResourceLocation getEntityTexture(EntityAdvancedBullet entity)
 	{
 		return texture;
 	}

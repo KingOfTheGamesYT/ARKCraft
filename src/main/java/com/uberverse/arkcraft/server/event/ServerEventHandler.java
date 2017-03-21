@@ -1,6 +1,6 @@
 package com.uberverse.arkcraft.server.event;
 
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -10,7 +10,7 @@ public class ServerEventHandler
 	public static void init()
 	{
 		ServerEventHandler s = new ServerEventHandler();
-		FMLCommonHandler.instance().bus().register(s);
+		MinecraftForge.EVENT_BUS.register(s);
 	}
 
 	// // TODO remove when release

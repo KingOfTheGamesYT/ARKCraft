@@ -1,14 +1,17 @@
 package com.uberverse.arkcraft.common.item.explosives;
 
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.config.ModuleItemBalance;
-import com.uberverse.arkcraft.common.item.ranged.ItemRangedWeapon;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.config.ModuleItemBalance;
+import com.uberverse.arkcraft.common.item.ranged.ItemRangedWeapon;
 
 public class ItemRocketLauncher extends ItemRangedWeapon
 {
@@ -20,7 +23,7 @@ public class ItemRocketLauncher extends ItemRangedWeapon
 	@Override
 	public void soundCharge(ItemStack stack, World world, EntityPlayer player)
 	{
-		world.playSoundAtEntity(player, ARKCraft.MODID + ":" + "rocket_launcher_reload", 0.7F, 0.9F / (getItemRand()
+		world.playSound(player, player.getPosition(), SoundEvent.REGISTRY.getObject(new ResourceLocation(ARKCraft.MODID + ":" + "rocket_launcher_reload")), SoundCategory.PLAYERS, 0.7F, 0.9F / (getItemRand()
 				.nextFloat() * 0.2F + 0.0F));
 	}
 
@@ -45,8 +48,8 @@ public class ItemRocketLauncher extends ItemRangedWeapon
 	@Override
 	public void effectShoot(ItemStack stack, World world, double x, double y, double z, float yaw, float pitch)
 	{
-		world.playSoundEffect(x, y, z, "random.explode", 3F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F));
-		world.playSoundEffect(x, y, z, "ambient.weather.thunder", 3F, 1F / (this.getItemRand().nextFloat() * 0.4F
+		world.playSound(null, x, y, z, SoundEvent.REGISTRY.getObject(new ResourceLocation("random.explode")), SoundCategory.PLAYERS, 3F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F));
+		world.playSound(null, x, y, z, SoundEvent.REGISTRY.getObject(new ResourceLocation("ambient.weather.thunder")), SoundCategory.PLAYERS, 3F, 1F / (this.getItemRand().nextFloat() * 0.4F
 				+ 0.4F));
 
 		float particleX = -MathHelper.sin(((yaw + 23) / 180F) * 3.141593F) * MathHelper.cos((pitch / 180F) * 3.141593F);
@@ -64,7 +67,7 @@ public class ItemRocketLauncher extends ItemRangedWeapon
 	@Override
 	public void effectReloadDone(ItemStack stack, World world, EntityPlayer player)
 	{
-		world.playSoundAtEntity(player, "random.door_close", 1.2F, 1.0F / (this.getItemRand().nextFloat() * 0.2F
+		world.playSound(player, player.getPosition(), SoundEvent.REGISTRY.getObject(new ResourceLocation("random.door_close")), SoundCategory.PLAYERS, 1.2F, 1.0F / (this.getItemRand().nextFloat() * 0.2F
 				+ 0.0F));
 	}
 }

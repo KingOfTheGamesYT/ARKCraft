@@ -6,7 +6,11 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
 import com.uberverse.arkcraft.ARKCraft;
@@ -44,7 +48,7 @@ public class ItemSpear extends ItemSword
 
 		if (entityplayer.capabilities.isCreativeMode || entityplayer.inventory.consumeInventoryItem(this))
 		{
-			world.playSoundAtEntity(entityplayer, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 0.8F));
+			world.playSound(entityplayer, entityplayer.getPosition(), SoundEvent.REGISTRY.getObject(new ResourceLocation("random.bow")), SoundCategory.PLAYERS, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 0.8F));
 			if (!world.isRemote)
 			{
 				EntitySpear entitySpear = new EntitySpear(world, entityplayer, f * (1.0F + (crit ? 0.5F : 0F)));
@@ -69,10 +73,10 @@ public class ItemSpear extends ItemSword
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn,
 			EnumHand hand) {
-		if (playerIn.inventory.hasItemStack(itemStackIn))
-		{
-			playerIn.setItemInUse(itemStackIn, getMaxItemUseDuration(itemStackIn));
-		}
-		return itemStackIn;
+		//if (playerIn.inventory.hasItemStack(itemStackIn)){
+		playerIn.setActiveHand(hand);
+		//playerIn.setItemInUse(itemStackIn, getMaxItemUseDuration(itemStackIn));
+		//}
+		return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
 	}
 }

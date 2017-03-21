@@ -1,13 +1,5 @@
 package com.uberverse.arkcraft.common.entity;
 
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.client.gui.entity.InventoryDino;
-import com.uberverse.arkcraft.common.ai.EntityDodoAILookIdle;
-import com.uberverse.arkcraft.common.item.ARKCraftFood;
-import com.uberverse.arkcraft.common.proxy.CommonProxy.GUI;
-import com.uberverse.arkcraft.init.ARKCraftItems;
-import com.uberverse.lib.LogHelper;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
@@ -27,11 +19,23 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.client.gui.entity.InventoryDino;
+import com.uberverse.arkcraft.common.ai.EntityDodoAILookIdle;
+import com.uberverse.arkcraft.common.item.ARKCraftFood;
+import com.uberverse.arkcraft.common.proxy.CommonProxy.GUI;
+import com.uberverse.arkcraft.init.ARKCraftItems;
+import com.uberverse.lib.LogHelper;
 
 public class EntityDodo extends EntityTameable
 {
@@ -49,24 +53,25 @@ public class EntityDodo extends EntityTameable
 	 */
 	public int timeUntilNextEgg;
 
-	private int DODO_EYE_WATCHER = 21;
+	//private int DODO_EYE_WATCHER = 21;
+	private DataParameter<Byte> DODO_EYE_WATCHER = EntityDataManager.<Byte>createKey(EntityDodo.class, DataSerializers.BYTE);
+	private DataParameter<Byte> DODO_CHEST_WATCHER = EntityDataManager.<Byte>createKey(EntityDodo.class, DataSerializers.BYTE);
 
 	public boolean isEyesOpen()
 	{
-		return (this.dataWatcher.getWatchableObjectByte(DODO_EYE_WATCHER) & 1) != 0;
+		return (this.dataManager.get(DODO_EYE_WATCHER) & 1) != 0;
 	}
 
 	public void setEyesOpen(boolean eyesOpen)
 	{
 		byte b0 = (byte) (eyesOpen ? 1 : 0);
-		this.dataWatcher.updateObject(DODO_EYE_WATCHER, Byte.valueOf(b0));
+		//this.dataWatcher.updateObject(DODO_EYE_WATCHER, Byte.valueOf(b0));
+		this.dataManager.set(DODO_EYE_WATCHER, Byte.valueOf(b0));
 	}
-
-	private int DODO_CHEST_WATCHER = 22;
 
 	public boolean isChested()
 	{
-		isChested = (this.dataWatcher.getWatchableObjectByte(DODO_CHEST_WATCHER) & 1) != 0;
+		isChested = (this.dataManager.get(DODO_CHEST_WATCHER) & 1) != 0;
 		return isChested;
 	}
 
@@ -76,7 +81,7 @@ public class EntityDodo extends EntityTameable
 		{
 			isChested = chested;
 			byte b0 = (byte) (chested ? 1 : 0);
-			this.dataWatcher.updateObject(DODO_CHEST_WATCHER, Byte.valueOf(b0));
+			this.dataManager.set(DODO_CHEST_WATCHER, Byte.valueOf(b0));
 		}
 	}
 
@@ -85,9 +90,6 @@ public class EntityDodo extends EntityTameable
 		super(worldIn);
 		this.setSize(0.4F, 0.7F);
 		this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
-
-		this.getDataWatcher().addObject(DODO_EYE_WATCHER, Byte.valueOf((byte) 1));
-		this.getDataWatcher().addObject(DODO_CHEST_WATCHER, Byte.valueOf((byte) 0));
 
 		this.invDodo = new InventoryDino("Items", true, 9);
 
@@ -127,13 +129,13 @@ public class EntityDodo extends EntityTameable
 		super.onLivingUpdate();
 		this.field_70888_h = this.field_70886_e;
 		this.field_70884_g = this.destPos;
-		this.destPos = (float) ((double) this.destPos + (double) (this.onGround ? -1 : 4) * 0.3D);
+		this.destPos = (float) (this.destPos + (this.onGround ? -1 : 4) * 0.3D);
 		this.destPos = MathHelper.clamp(this.destPos, 0.0F, 1.0F);
 		if (!this.onGround && this.field_70889_i < 1.0F)
 		{
 			this.field_70889_i = 1.0F;
 		}
-		this.field_70889_i = (float) ((double) this.field_70889_i * 0.9D);
+		this.field_70889_i = (float) (this.field_70889_i * 0.9D);
 		if (!this.onGround && this.motionY < 0.0D)
 		{
 			this.motionY *= 0.6D;
@@ -141,7 +143,7 @@ public class EntityDodo extends EntityTameable
 		this.field_70886_e += this.field_70889_i * 2.0F;
 		if (!this.world.isRemote && !this.isChild() && --this.timeUntilNextEgg <= 0)
 		{
-			this.playSound("mob.chicken.plop", 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+			this.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("mob.chicken.plop")), 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
 			// TODO create dodo egg
 			this.dropItem(ARKCraftItems.amarBerry, 1);
 			this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
@@ -149,7 +151,7 @@ public class EntityDodo extends EntityTameable
 		this.field_70886_e += this.field_70889_i * 2.0F;
 		if (!this.world.isRemote && !this.isChild() && --this.timeUntilNextEgg <= 0)
 		{
-			this.playSound(ARKCraft.MODID + ":" + "dodo_defficating", 1.0F, (this.rand.nextFloat() - this.rand
+			this.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation(ARKCraft.MODID + ":" + "dodo_defficating")), 1.0F, (this.rand.nextFloat() - this.rand
 					.nextFloat()) * 0.2F + 1.0F);
 			this.dropItem(ARKCraftItems.small_feces, 1);
 			this.timeUntilNextEgg = this.rand.nextInt(3000) + 3000;
@@ -221,7 +223,7 @@ public class EntityDodo extends EntityTameable
 		}
 	}
 
-	
+
 	@Override
 	public boolean processInteract(EntityPlayer player, EnumHand hand, ItemStack stack) {
 		if (!this.world.isRemote)
@@ -323,7 +325,7 @@ public class EntityDodo extends EntityTameable
 					this.navigator.clearPathEntity();
 					this.aiSit.setSitting(true);
 					this.setHealth(10.0F);
-					this.setOwnerId(player.getUniqueID().toString());
+					this.setOwnerId(player.getUniqueID());
 					this.playTameEffect(true);
 					this.world.setEntityState(this, (byte) 7);
 				}
@@ -337,7 +339,7 @@ public class EntityDodo extends EntityTameable
 		}
 		return false;
 	}
-	
+
 
 	@Override
 	public EntityDodo createChild(EntityAgeable ageable)
@@ -396,29 +398,29 @@ public class EntityDodo extends EntityTameable
 	}
 
 	@Override
-	protected String getLivingSound()
+	protected SoundEvent getLivingSound()
 	{
 		int idle = this.rand.nextInt(3) + 1;
-		return ARKCraft.MODID + ":" + "dodo_idle_" + idle;
+		return SoundEvent.REGISTRY.getObject(new ResourceLocation(ARKCraft.MODID + ":" + "dodo_idle_" + idle));
 	}
 
 	@Override
-	protected String getHurtSound()
+	protected SoundEvent getHurtSound()
 	{
 		int hurt = this.rand.nextInt(3) + 1;
-		return ARKCraft.MODID + ":" + "dodo_hurt_" + hurt;
+		return SoundEvent.REGISTRY.getObject(new ResourceLocation(ARKCraft.MODID + ":" + "dodo_hurt_" + hurt));
 	}
 
 	@Override
-	protected String getDeathSound()
+	protected SoundEvent getDeathSound()
 	{
-		return ARKCraft.MODID + ":" + "dodo_death";
+		return SoundEvent.REGISTRY.getObject(new ResourceLocation(ARKCraft.MODID + ":" + "dodo_death"));
 	}
 
 	@Override
 	protected void playStepSound(BlockPos p_180429_1_, Block p_180429_2_)
 	{
-		this.playSound("mob.chicken.step", 0.15F, 1.0F);
+		this.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("mob.chicken.step")), 0.15F, 1.0F);
 	}
 
 	/**
@@ -433,11 +435,11 @@ public class EntityDodo extends EntityTameable
 		// Added the null check for the dossier
 		if (this.world != null)
 		{
-			return this.world.isRemote ? this.dataWatcher.getWatchableObjectByte(12) : this.field_175504_a;
+			return this.world.isRemote ? this.dataManager.get(12) : this.growingAge;
 		}
 		else
 		{
-			return this.field_175504_a;
+			return this.growingAge;
 		}
 	}
 
@@ -445,7 +447,13 @@ public class EntityDodo extends EntityTameable
 	{
 		if (itemstack.getItem() instanceof ARKCraftFood && (itemstack.getItem() == ARKCraftItems.amarBerry || itemstack
 				.getItem() == ARKCraftItems.azulBerry || itemstack.getItem() == ARKCraftItems.mejoBerry || itemstack
-						.getItem() == ARKCraftItems.tintoBerry)) { return true; }
+				.getItem() == ARKCraftItems.tintoBerry)) { return true; }
 		return false;
+	}
+	@Override
+	protected void entityInit() {
+		super.entityInit();
+		this.dataManager.register(DODO_CHEST_WATCHER, Byte.valueOf((byte)0));
+		this.dataManager.register(DODO_EYE_WATCHER, Byte.valueOf((byte)0));
 	}
 }

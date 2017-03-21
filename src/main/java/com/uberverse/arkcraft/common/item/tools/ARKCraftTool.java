@@ -1,7 +1,6 @@
 package com.uberverse.arkcraft.common.item.tools;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -19,6 +18,7 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -59,7 +59,7 @@ public abstract class ARKCraftTool extends ItemTool
 		}
 	};
 
-	public ARKCraftTool(float attackDamage, ToolMaterial material, Set effectiveBlocks, ToolType toolType)
+	public ARKCraftTool(float attackDamage, ToolMaterial material, Set<Block> effectiveBlocks, ToolType toolType)
 	{
 		super(attackDamage, attackDamage, material, effectiveBlocks);
 		this.setCreativeTab(ARKCraft.tabARK);
@@ -68,7 +68,7 @@ public abstract class ARKCraftTool extends ItemTool
 		initToolClasses();
 	}
 
-	public ARKCraftTool(String name, float attackDamage, ToolMaterial material, Set effectiveBlocks, ToolType toolType)
+	public ARKCraftTool(String name, float attackDamage, ToolMaterial material, Set<Block> effectiveBlocks, ToolType toolType)
 	{
 		this(attackDamage, material, effectiveBlocks, toolType);
 		this.setCreativeTab(ARKCraft.tabARK);
@@ -77,12 +77,12 @@ public abstract class ARKCraftTool extends ItemTool
 
 	private void initToolClasses()
 	{
-		Collection c = getToolClasses(new ItemStack(this));
-		for (Object o : c)
+		Set<String> c = getToolClasses(new ItemStack(this));
+		for (String o : c)
 		{
 			if (o != null)
 			{
-				setHarvestLevel(o.toString(), toolMaterial.getHarvestLevel());
+				setHarvestLevel(o, toolMaterial.getHarvestLevel());
 			}
 		}
 	}
@@ -93,8 +93,7 @@ public abstract class ARKCraftTool extends ItemTool
 		if (itemStackIn.stackSize != 0 && itemStackIn.getItem() != null)
 		{
 			Float offset = worldIn.rand.nextFloat();
-			EntityItem entityitem = new EntityItem(worldIn, pos.getX() + offset, pos.getY() + block
-					.getBlockBoundsMaxY(), pos.getZ() + offset, itemStackIn);
+			EntityItem entityitem = new EntityItem(worldIn, pos.getX() + offset, pos.getY() + 0.5, pos.getZ() + offset, itemStackIn);
 			entityitem.setDefaultPickupDelay();
 			if (playerIn.captureDrops)
 			{
@@ -119,7 +118,7 @@ public abstract class ARKCraftTool extends ItemTool
 			if (WOOD_PREDICATE.apply(blockState))
 			{
 
-				this.destroyBlocks(worldIn, pos, player, stack, WOOD_PREDICATE);
+				this.destroyBlocks(worldIn, pos, player, stack, WOOD_PREDICATE, EnumHand.MAIN_HAND);
 				int wood = calcOutput(count, toolType.getPickaxeModifier(), 1);
 				int thatch = calcOutput(count, toolType.getPickaxeModifier(), 1);
 				entityDropItem(worldIn, pos, blockIn, player, new ItemStack(ARKCraftItems.wood, wood));// (int)
@@ -149,7 +148,7 @@ public abstract class ARKCraftTool extends ItemTool
 			}
 			else if (blockState.getBlock() == Blocks.STONE)
 			{
-				damageTool(stack, playerIn);
+				damageTool(stack, playerIn, EnumHand.MAIN_HAND);
 				int multiplier = 0;
 				{
 					IBlockState blockState2 = worldIn.getBlockState(pos.up());
@@ -249,7 +248,7 @@ public abstract class ARKCraftTool extends ItemTool
 			}
 			else if (IRON_ORE_PREDICATE.apply(blockState))
 			{
-				this.destroyBlocks(worldIn, pos, player, stack, IRON_ORE_PREDICATE);
+				this.destroyBlocks(worldIn, pos, player, stack, IRON_ORE_PREDICATE, EnumHand.MAIN_HAND);
 				int stone = calcOutput(count, toolType.getPickaxeModifier(), 0.8D);
 				int metal = calcOutput(count, toolType.getPickaxeModifier(), 1);
 				entityDropItem(worldIn, pos, blockIn, player, new ItemStack(ARKCraftItems.metal, metal));// (int)
@@ -277,13 +276,13 @@ public abstract class ARKCraftTool extends ItemTool
 		}
 		else
 		{
-			damageTool(stack, playerIn);
+			damageTool(stack, playerIn, EnumHand.MAIN_HAND);
 		}
 		return true;
 	}
 
 	public void destroyBlocks(World world, BlockPos pos, EntityPlayer player, ItemStack stack,
-			Predicate<IBlockState> blockChecker)
+			Predicate<IBlockState> blockChecker, EnumHand hand)
 	{
 		int x = pos.getX();
 		int y = pos.getY();
@@ -300,9 +299,9 @@ public abstract class ARKCraftTool extends ItemTool
 					{
 						world.destroyBlock(new BlockPos(i, j, k), false);
 						++count;
-						if (damageTool(stack, player))
+						if (damageTool(stack, player, hand))
 						{
-							this.destroyBlocks(world, new BlockPos(i, j, k), player, stack, blockChecker);
+							this.destroyBlocks(world, new BlockPos(i, j, k), player, stack, blockChecker, hand);
 						}
 						else
 						{
@@ -384,7 +383,7 @@ public abstract class ARKCraftTool extends ItemTool
 		stack.getTagCompound().setInteger(DAMAGE_NBT_NAME, newValue);
 	}
 
-	public boolean damageTool(ItemStack toolStack, EntityLivingBase entityIn)
+	public boolean damageTool(ItemStack toolStack, EntityLivingBase entityIn, EnumHand hand)
 	{
 		int newValue = getToolDamage(toolStack) + 1;
 		setToolDamage(toolStack, newValue);
@@ -396,10 +395,10 @@ public abstract class ARKCraftTool extends ItemTool
 			if (entityIn instanceof EntityPlayer)
 			{
 				EntityPlayer entityplayer = (EntityPlayer) entityIn;
-				entityplayer.triggerAchievement(StatList.objectBreakStats[Item.getIdFromItem(toolStack.getItem())]);
+				entityplayer.addStat(StatList.getObjectBreakStats(toolStack.getItem()));
 				if (toolStack.stackSize < 1)
 				{
-					entityplayer.destroyCurrentEquippedItem();
+					entityplayer.setHeldItem(hand, null);
 				}
 			}
 			return false;
@@ -422,8 +421,8 @@ public abstract class ARKCraftTool extends ItemTool
 	@Override
 	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
 	{
-		damageTool(stack, target);
-		damageTool(stack, target);
+		damageTool(stack, target, EnumHand.MAIN_HAND);
+		damageTool(stack, target, EnumHand.MAIN_HAND);
 		return true;
 	}
 

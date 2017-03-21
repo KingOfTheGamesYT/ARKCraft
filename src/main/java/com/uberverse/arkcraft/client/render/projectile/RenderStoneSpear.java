@@ -3,13 +3,15 @@ package com.uberverse.arkcraft.client.render.projectile;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import com.uberverse.arkcraft.ARKCraft;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+
+import com.uberverse.arkcraft.ARKCraft;
 
 public class RenderStoneSpear extends Render
 {
@@ -22,6 +24,7 @@ public class RenderStoneSpear extends Render
 		super(Minecraft.getMinecraft().getRenderManager());
 	}
 
+	@Override
 	public void doRender(Entity p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_,
 			float p_76986_9_)
 	{
@@ -37,7 +40,7 @@ public class RenderStoneSpear extends Render
 		GL11.glScalef(3F, 3F, 3F);
 
 		Tessellator tessellator = Tessellator.getInstance();
-		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+		VertexBuffer worldrenderer = tessellator.getBuffer();
 
 		float su1 = 0;
 		float sv1 = 2F / 32F;
@@ -55,11 +58,11 @@ public class RenderStoneSpear extends Render
 		{
 			GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glNormal3f(0.0F, 0.0F, f10);
-			worldrenderer.startDrawingQuads();
-			worldrenderer.addVertexWithUV(-10.0D, -2.0D, 0.0D, su1, sv1);
-			worldrenderer.addVertexWithUV(10.0D, -2.0D, 0.0D, su2, sv1);
-			worldrenderer.addVertexWithUV(10.0D, 2.0D, 0.0D, su2, sv2);
-			worldrenderer.addVertexWithUV(-10.0D, 2.0D, 0.0D, su1, sv2);
+			worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+			worldrenderer.pos(-10.0D, -2.0D, 0.0D).tex(su1, sv1).endVertex();
+			worldrenderer.pos(10.0D, -2.0D, 0.0D).tex(su2, sv1).endVertex();
+			worldrenderer.pos(10.0D, 2.0D, 0.0D).tex(su2, sv2).endVertex();
+			worldrenderer.pos(-10.0D, 2.0D, 0.0D).tex(su1, sv2).endVertex();
 			tessellator.draw();
 		}
 
