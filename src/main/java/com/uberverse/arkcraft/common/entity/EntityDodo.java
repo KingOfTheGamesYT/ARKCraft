@@ -280,7 +280,7 @@ public class EntityDodo extends EntityTameable
 						else
 						{
 							// Breeding stuff
-							return super.interact(player);
+							return super.processInteract(player, hand, stack);
 						}
 					}
 					this.setSitting(!this.isSitting());
@@ -396,12 +396,11 @@ public class EntityDodo extends EntityTameable
 	{
 		return !this.isTamed() && this.ticksExisted > 2400;
 	}
-
 	@Override
-	protected SoundEvent getLivingSound()
+	public void playLivingSound() 
 	{
 		int idle = this.rand.nextInt(3) + 1;
-		return SoundEvent.REGISTRY.getObject(new ResourceLocation(ARKCraft.MODID + ":" + "dodo_idle_" + idle));
+		SoundEvent.REGISTRY.getObject(new ResourceLocation(ARKCraft.MODID + ":" + "dodo_idle_" + idle));	
 	}
 
 	@Override
@@ -429,19 +428,20 @@ public class EntityDodo extends EntityTameable
 	 * each tick. Don't confuse this with EntityLiving.getAge. With a negative
 	 * value the Entity is considered a child.
 	 */
+	/*
 	@Override
 	public int getGrowingAge()
 	{
 		// Added the null check for the dossier
 		if (this.world != null)
 		{
-			return this.world.isRemote ? this.dataManager.get(12) : this.growingAge;
+	        return this.world.isRemote ? (((Boolean)this.dataManager.get(BABY)).booleanValue() ? -1 : 1) : this.growingAge;
 		}
 		else
 		{
 			return this.growingAge;
 		}
-	}
+	}	*/
 
 	public boolean isFavoriteFood(ItemStack itemstack)
 	{

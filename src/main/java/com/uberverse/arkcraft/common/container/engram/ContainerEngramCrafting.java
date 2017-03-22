@@ -52,6 +52,7 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
         initQueue();
         initScrollableSlots();
         if (player instanceof EntityPlayerMP) {
+        	//TODO Not sure if the queInventory is correct with getInventoryStacks
             ((EntityPlayerMP) player).updateCraftingInventory(this, engramInventory.getInventoryStacks());
             ((EntityPlayerMP) player).updateCraftingInventory(this, queueInventory.getInventoryStacks());
         }
@@ -624,6 +625,16 @@ public abstract class ContainerEngramCrafting extends ContainerScrollable
         public QueueInventory(Queue<CraftingOrder> queue)
         {
             this.queue = queue;
+        }
+        
+        public List<ItemStack> getInventoryStacks()
+        {
+            List<ItemStack> stacks = Lists.newArrayList();
+
+            for (int i = 0; i < getSizeInventory(); i++)
+                stacks.add(getStackInSlot(i));
+
+            return stacks;
         }
 
         @Override

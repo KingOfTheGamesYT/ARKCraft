@@ -385,7 +385,7 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 		String type = getAmmoType(stack);
 		Item item = GameRegistry.findItem(ARKCraft.MODID, type);
 		int out = 0;
-		if (type != null && inventory.hasItem(item)) {
+		if (type != null) { // && inventory.hasItemStack(item)
 			for (ItemStack s : inventory.mainInventory) {
 				if (s != null && s.getItem().equals(item)) {
 					out += s.stackSize;
