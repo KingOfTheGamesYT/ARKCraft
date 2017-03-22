@@ -28,6 +28,7 @@ import com.uberverse.arkcraft.common.engram.EngramManager;
 import com.uberverse.arkcraft.common.event.CommonEventHandler;
 import com.uberverse.arkcraft.common.event.VersionDetectionHandler;
 import com.uberverse.arkcraft.common.handlers.GuiHandler;
+import com.uberverse.arkcraft.common.item.IMeshedItem;
 import com.uberverse.arkcraft.common.network.ARKModeToggle;
 import com.uberverse.arkcraft.common.network.BurnerToggle;
 import com.uberverse.arkcraft.common.network.DescriptionHandler;
@@ -171,4 +172,6 @@ public abstract class CommonProxy
 	public abstract long getTime();
 
 	public abstract long getWorldTime();
+
+	public void registerModelMeshDef(IMeshedItem i){}
 }

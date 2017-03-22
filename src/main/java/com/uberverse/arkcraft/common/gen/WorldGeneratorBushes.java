@@ -2,14 +2,15 @@ package com.uberverse.arkcraft.common.gen;
 
 import java.util.Random;
 
-import com.uberverse.arkcraft.init.ARKCraftBlocks;
-
 import net.minecraft.block.BlockTallGrass;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
+
 import net.minecraftforge.fml.common.IWorldGenerator;
+
+import com.uberverse.arkcraft.init.ARKCraftBlocks;
 
 public class WorldGeneratorBushes implements IWorldGenerator
 {
@@ -21,7 +22,7 @@ public class WorldGeneratorBushes implements IWorldGenerator
 			int x = chunkX * 16 + random.nextInt(16);
 			int z = chunkZ * 16 + random.nextInt(16);
 
-			BlockPos pos = world.getHorizon();
+			BlockPos pos = world.getHeight(new BlockPos(x, 0, z));
 
 			if (world.getBlockState(pos).getBlock() instanceof BlockTallGrass)
 			{

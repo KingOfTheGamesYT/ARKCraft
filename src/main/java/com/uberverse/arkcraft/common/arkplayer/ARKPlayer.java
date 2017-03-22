@@ -1105,8 +1105,9 @@ public class ARKPlayer implements IArkLevelable, IWeighable, ITranquilizable, IC
 		return capability == ARK_PLAYER_CAPABILITY;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-		return null;
+		return capability == ARK_PLAYER_CAPABILITY ? (T) this : null;
 	}
 }

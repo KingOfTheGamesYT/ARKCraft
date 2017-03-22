@@ -43,6 +43,7 @@ import com.uberverse.arkcraft.common.data.WeaponModAttributes;
 import com.uberverse.arkcraft.common.entity.projectile.EntityProjectile;
 import com.uberverse.arkcraft.common.entity.projectile.ProjectileType;
 import com.uberverse.arkcraft.common.inventory.InventoryAttachment;
+import com.uberverse.arkcraft.common.item.IMeshedItem;
 import com.uberverse.arkcraft.common.item.ammo.ItemProjectile;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 
@@ -53,7 +54,7 @@ import com.google.common.collect.Multimap;
  * @author Lewis_McReu
  * @author BubbleTrouble
  */
-public abstract class ItemRangedWeapon extends ItemBow
+public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 {
 	protected static final int MAX_DELAY = 72000;
 
@@ -84,6 +85,7 @@ public abstract class ItemRangedWeapon extends ItemBow
 		this.setUnlocalizedName(name);
 		this.damage = damage;
 		this.range = range;
+		ARKCraft.proxy.registerModelMeshDef(this);
 	}
 
 	@Override
@@ -119,7 +121,8 @@ public abstract class ItemRangedWeapon extends ItemBow
 	}
 
 	@Override
-	public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int useRemaining)
+	@SideOnly(Side.CLIENT)
+	public ModelResourceLocation getModel(ItemStack stack)
 	{
 		String jsonPath = ARKCraft.MODID + ":weapons/" + this.getUnlocalizedName();
 		InventoryAttachment att = InventoryAttachment.create(stack);
@@ -268,7 +271,7 @@ public abstract class ItemRangedWeapon extends ItemBow
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
 	{
-		if (itemStackIn.stackSize <= 0 || playerIn.isUsingItem()) {
+		if (itemStackIn.stackSize <= 0 || playerIn.getActiveHand() == hand) {
 			return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
 		}
 

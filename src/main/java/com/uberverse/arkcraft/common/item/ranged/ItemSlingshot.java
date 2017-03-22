@@ -1,9 +1,6 @@
 package com.uberverse.arkcraft.common.item.ranged;
 
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.entity.projectile.EntityStone;
-import com.uberverse.arkcraft.init.ARKCraftItems;
-
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -16,12 +13,20 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
-public class ItemSlingshot extends Item
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.entity.projectile.EntityStone;
+import com.uberverse.arkcraft.common.item.IMeshedItem;
+
+public class ItemSlingshot extends Item implements IMeshedItem
 {
 
 	public ItemSlingshot()
 	{
 		super();
+		ARKCraft.proxy.registerModelMeshDef(this);
 	}
 
 	@Override
@@ -46,30 +51,16 @@ public class ItemSlingshot extends Item
 
 		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
 	}
-	
+
 	private boolean decreasStack(ItemStack stack, EntityPlayer player)
 	{
-        --stack.stackSize;
+		--stack.stackSize;
 
-        if (stack.stackSize == 0)
-        {
-        	player.inventory.deleteStack(stack);
-        }
+		if (stack.stackSize == 0)
+		{
+			player.inventory.deleteStack(stack);
+		}
 		return true;
-	}
-
-	@Override
-	public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int useRemaining)
-	{
-		long ticksSinceLastUse = player.world.getTotalWorldTime() - getLastUseTime(stack);
-		if (ticksSinceLastUse < 5)
-		{
-			return new ModelResourceLocation(ARKCraft.MODID + ":slingshot_pulled", "inventory");
-		}
-		else
-		{
-			return null;
-		}
 	}
 
 	@Override
@@ -86,6 +77,20 @@ public class ItemSlingshot extends Item
 	private long getLastUseTime(ItemStack stack)
 	{
 		return stack.hasTagCompound() ? stack.getTagCompound().getLong("LastUse") : 0;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public ModelResourceLocation getModel(ItemStack stack) {
+		long ticksSinceLastUse = Minecraft.getMinecraft().world.getTotalWorldTime() - getLastUseTime(stack);
+		if (ticksSinceLastUse < 5)
+		{
+			return new ModelResourceLocation(ARKCraft.MODID + ":slingshot_pulled", "inventory");
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 }

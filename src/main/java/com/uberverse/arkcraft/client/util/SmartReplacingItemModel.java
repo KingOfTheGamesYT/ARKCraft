@@ -1,25 +1,12 @@
 package com.uberverse.arkcraft.client.util;
 
-import java.util.List;
-
-import javax.vecmath.Vector3f;
-
-import com.uberverse.arkcraft.common.item.ranged.ItemShotgun;
-
-import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.block.model.ItemTransformVec3f;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SuppressWarnings("deprecation")
 @SideOnly(Side.CLIENT)
-public abstract class SmartReplacingItemModel implements ISmartItemModel
-{
+public abstract class SmartReplacingItemModel/* implements ISmartItemModel*/
+{/*
 	private IBakedModel bakedModel;
 	protected Item toRender;
 
@@ -92,5 +79,5 @@ public abstract class SmartReplacingItemModel implements ISmartItemModel
 		return this;
 	}
 
-	public abstract IBakedModel getStackModel(ItemStack stack);
+	public abstract IBakedModel getStackModel(ItemStack stack);*/
 }
