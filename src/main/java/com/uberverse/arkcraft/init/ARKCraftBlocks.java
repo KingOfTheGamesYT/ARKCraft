@@ -1,5 +1,7 @@
 package com.uberverse.arkcraft.init;
 
+import net.minecraftforge.fml.common.registry.GameRegistry;
+
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.ARKCraftBerryBush;
 import com.uberverse.arkcraft.common.block.BlockGreenScreen;
@@ -29,8 +31,6 @@ import com.uberverse.arkcraft.common.tileentity.crafter.burner.TileEntityCampfir
 import com.uberverse.arkcraft.common.tileentity.crafter.burner.TileEntityRefiningForge;
 import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntityMP;
 import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntitySmithy;
-
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ARKCraftBlocks
 {
@@ -66,13 +66,18 @@ public class ARKCraftBlocks
 		greenScreen = init.registerBlock("green_screen", new BlockGreenScreen());
 
 		// Containers
-		smithy = init.registerBlock("smithy", new BlockSmithy(), ItemSmithy.class);
-		mortarAndPestle = init.registerBlock("mortar_and_pestle", new BlockMortarAndPestle(),
-				ItemMortarAndPestle.class);
-		cropPlot = init.registerBlock("crop_plot", new BlockCropPlot(), ItemCropPlot.class);
-		compostBin = init.registerBlock("compost_bin", new BlockCompostBin(), ItemCompostBin.class);
-		refiningForge = init.registerBlock("refining_forge", new BlockRefiningForge(), ItemRefiningForge.class);
-		campfire = init.registerBlock("campfire", new BlockCampfire(), ItemCampfire.class);
+		smithy = new BlockSmithy();
+		init.registerBlock("smithy", smithy, new ItemSmithy(smithy));
+		mortarAndPestle = new BlockMortarAndPestle();
+		init.registerBlock("mortar_and_pestle", mortarAndPestle, new ItemMortarAndPestle(mortarAndPestle));
+		cropPlot = new BlockCropPlot();
+		init.registerBlock("crop_plot", cropPlot, new ItemCropPlot(cropPlot));
+		compostBin = new BlockCompostBin();
+		init.registerBlock("compost_bin", compostBin, new ItemCompostBin(compostBin));
+		refiningForge = new BlockRefiningForge();
+		init.registerBlock("refining_forge", refiningForge, new ItemRefiningForge(refiningForge));
+		campfire = new BlockCampfire();
+		init.registerBlock("campfire", campfire, new ItemCampfire(campfire));
 
 		rockResource = init.registerBlock("rock_resource", new BlockRockResource());
 		metalResource = init.registerBlock("metal_resource", new BlockMetalResource());

@@ -359,16 +359,16 @@ public class BlockCropPlot extends BlockContainer implements Identifiable
 			BlockPos p = new BlockPos(0, 0, 0);
 			p = te.part.offset(p, true);
 			if (t == CropPlotType.SMALL)
-				return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 0.35F, pos.getZ() + 1);
+				return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 0.35F, pos.getZ() + 1).offset(-pos.getX(), -pos.getY(), -pos.getZ());
 			else if (t == CropPlotType.MEDIUM)
-				return new AxisAlignedBB(pos.getX() - 0.5F + p.getX(), pos.getY(), pos.getZ() - 0.5F + p.getZ(), pos.getX() + 1.5F + p.getX(), pos.getY() + 0.35F, pos.getZ() + 1.5F + p.getZ());
+				return new AxisAlignedBB(pos.getX() - 0.5F + p.getX(), pos.getY(), pos.getZ() - 0.5F + p.getZ(), pos.getX() + 1.5F + p.getX(), pos.getY() + 0.35F, pos.getZ() + 1.5F + p.getZ()).offset(-pos.getX(), -pos.getY(), -pos.getZ());
 			else if (t == CropPlotType.LARGE)
-				return new AxisAlignedBB(pos.getX() - 1 + p.getX(), pos.getY(), pos.getZ() - 1 + p.getZ(), pos.getX() + 2 + p.getX(), pos.getY() + 0.35F, pos.getZ() + 2 + p.getZ());
+				return new AxisAlignedBB(pos.getX() - 1 + p.getX(), pos.getY(), pos.getZ() - 1 + p.getZ(), pos.getX() + 2 + p.getX(), pos.getY() + 0.35F, pos.getZ() + 2 + p.getZ()).offset(-pos.getX(), -pos.getY(), -pos.getZ());;
 		}
 		else {
-			return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 0.35F, pos.getZ() + 1);
+			return FULL_BLOCK_AABB;
 		}
-		return super.getCollisionBoundingBox(state, worldIn, pos);
+		return FULL_BLOCK_AABB;
 	}
 
 	public static enum BerryColor implements IStringSerializable

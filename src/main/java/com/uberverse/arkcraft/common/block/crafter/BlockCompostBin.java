@@ -91,39 +91,40 @@ public class BlockCompostBin extends BlockARKContainer
 	}
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-		EnumFacing f = worldIn.getBlockState(pos).getValue(FACING);
-		EnumPart p = worldIn.getBlockState(pos).getValue(PART);
+		if(state.getBlock() != this)return FULL_BLOCK_AABB;
+		EnumFacing f = state.getValue(FACING);
+		EnumPart p = state.getValue(PART);
 		switch (f) {
 		case NORTH:
 			switch (p) {
 			case LEFT:
-				return new AxisAlignedBB(0, 0, 0, 2, 1, 1).offset(pos);
+				return new AxisAlignedBB(0, 0, 0, 2, 1, 1);
 			case RIGHT:
-				return new AxisAlignedBB(-1, 0, 0, 1, 1, 1).offset(pos);
+				return new AxisAlignedBB(-1, 0, 0, 1, 1, 1);
 			}
 			break;
 		case EAST:
 			switch (p) {
 			case LEFT:
-				return new AxisAlignedBB(0, 0, 0, 1, 1, 2).offset(pos);
+				return new AxisAlignedBB(0, 0, 0, 1, 1, 2);
 			case RIGHT:
-				return new AxisAlignedBB(0, 0, -1, 1, 1, 1).offset(pos);
+				return new AxisAlignedBB(0, 0, -1, 1, 1, 1);
 			}
 			break;
 		case SOUTH:
 			switch (p) {
 			case LEFT:
-				return new AxisAlignedBB(-1, 0, 0, 1, 1, 1).offset(pos);
+				return new AxisAlignedBB(-1, 0, 0, 1, 1, 1);
 			case RIGHT:
-				return new AxisAlignedBB(0, 0, 0, 2, 1, 1).offset(pos);
+				return new AxisAlignedBB(0, 0, 0, 2, 1, 1);
 			}
 			break;
 		case WEST:
 			switch (p) {
 			case LEFT:
-				return new AxisAlignedBB(0, 0, -1, 1, 1, 1).offset(pos);
+				return new AxisAlignedBB(0, 0, -1, 1, 1, 1);
 			case RIGHT:
-				return new AxisAlignedBB(0, 0, 0, 1, 1, 2).offset(pos);
+				return new AxisAlignedBB(0, 0, 0, 1, 1, 2);
 			}
 			break;
 		default:

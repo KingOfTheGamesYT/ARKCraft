@@ -69,6 +69,6 @@ public class BlockMortarAndPestle extends BlockARKContainer
 	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
-		return BB.offset(pos);
+		return BB;
 	}
 }

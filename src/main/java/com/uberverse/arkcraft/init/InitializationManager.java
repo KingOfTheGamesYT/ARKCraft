@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.uberverse.arkcraft.init;
 
@@ -7,14 +7,16 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.function.Consumer;
 
-import com.google.common.collect.Lists;
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.util.CollectionUtil;
-
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+
 import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.util.CollectionUtil;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author Lewis_McReu
@@ -81,8 +83,9 @@ public class InitializationManager
 			boolean standardRender, String... variants)
 	{
 		item.setUnlocalizedName(name);
-		GameRegistry.registerItem(item, name);
-		registry.addEntry(new RegistryEntry<E>(name, item, modelLocationPrefix, standardRender).addVariants(variants)
+		item.setRegistryName(name);
+		GameRegistry.register(item);
+		registry.addEntry(new RegistryEntry<>(name, item, modelLocationPrefix, standardRender).addVariants(variants)
 				.addMetas(CollectionUtil.convert(metas)));
 		return item;
 	}
@@ -106,39 +109,38 @@ public class InitializationManager
 	public <E extends Block> E registerBlock(String name, E block, String modelLocationPrefix, int[] metas,
 			String... variants)
 	{
-		block.setUnlocalizedName(name);
-		GameRegistry.registerBlock(block, name);
-		registry.addEntry(new RegistryEntry<Item>(name, get(block), modelLocationPrefix).addMetas(CollectionUtil
-				.convert(metas)).addVariants(variants));
-		return block;
+		return registerBlock(name, block, new ItemBlock(block), modelLocationPrefix, metas, variants);
 	}
 
-	public <E extends Block> E registerBlock(String name, E block, Class<? extends ItemBlock> itemClass)
+	public <E extends Block> E registerBlock(String name, E block, ItemBlock itemClass)
 	{
 		return this.registerBlock(name, block, itemClass, defaultMeta);
 	}
 
-	public <E extends Block> E registerBlock(String name, E block, Class<? extends ItemBlock> itemClass,
+	public <E extends Block> E registerBlock(String name, E block, ItemBlock itemClass,
 			String modelLocationPrefix)
 	{
 		return this.registerBlock(name, block, itemClass, modelLocationPrefix, defaultMeta);
 	}
 
-	public <E extends Block> E registerBlock(String name, E block, Class<? extends ItemBlock> itemClass, int[] metas)
+	public <E extends Block> E registerBlock(String name, E block, ItemBlock itemClass, int[] metas)
 	{
 		return this.registerBlock(name, block, itemClass, "", metas);
 	}
 
-	public <E extends Block> E registerBlock(String name, E block, Class<? extends ItemBlock> itemClass,
+	public <E extends Block> E registerBlock(String name, E block, ItemBlock itemBlock,
 			String modelLocationPrefix, int[] metas, String... variants)
 	{
 		block.setUnlocalizedName(name);
-		GameRegistry.registerBlock(block, itemClass, name);
-		registry.addEntry(new RegistryEntry<Item>(name, get(block), modelLocationPrefix).addMetas(CollectionUtil
+		block.setRegistryName(name);
+		itemBlock.setRegistryName(name);
+		GameRegistry.register(block);
+		GameRegistry.register(itemBlock);
+		registry.addEntry(new RegistryEntry<>(name, itemBlock, modelLocationPrefix).addMetas(CollectionUtil
 				.convert(metas)).addVariants(variants));
 		return block;
 	}
-
+	/* No Longer needed in 1.10
 	public <E extends Block> E registerBlock(String name, E block, Class<? extends ItemBlock> itemClass,
 			Object[] itemCtorArgs)
 	{
@@ -164,12 +166,7 @@ public class InitializationManager
 		GameRegistry.registerBlock(block, itemClass, name, itemCtorArgs);
 		this.registerItem(name, get(block), modelLocationPrefix, metas, variants);
 		return block;
-	}
-
-	private Item get(Block block)
-	{
-		return Item.getItemFromBlock(block);
-	}
+	}*/
 
 	public class Registry
 	{

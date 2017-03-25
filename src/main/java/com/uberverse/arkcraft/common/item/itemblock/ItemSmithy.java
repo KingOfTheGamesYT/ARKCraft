@@ -4,7 +4,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -19,25 +21,15 @@ public class ItemSmithy extends ItemBlockARK
 		super(block);
 		this.setMaxStackSize(1);
 	}
-
-	/**
-	 * Called when a Block is right-clicked with this Item
-	 *
-	 * @param pos
-	 *            The block being right-clicked
-	 * @param side
-	 *            The side being right-clicked
-	 */
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side,
-			float hitX, float hitY, float hitZ)
-	{
+	@Override
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (worldIn.isRemote)
 		{
-			return true;
+			return EnumActionResult.SUCCESS;
 		}
 		else if (side != EnumFacing.UP)
 		{
-			return false;
+			return EnumActionResult.SUCCESS;
 		}
 		else
 		{
@@ -70,16 +62,16 @@ public class ItemSmithy extends ItemBlockARK
 						worldIn.setBlockState(blockpos1, iblockstate2, 3);
 					}
 					--stack.stackSize;
-					return true;
+					return EnumActionResult.SUCCESS;
 				}
 				else
 				{
-					return false;
+					return EnumActionResult.FAIL;
 				}
 			}
 			else
 			{
-				return false;
+				return EnumActionResult.FAIL;
 			}
 		}
 	}

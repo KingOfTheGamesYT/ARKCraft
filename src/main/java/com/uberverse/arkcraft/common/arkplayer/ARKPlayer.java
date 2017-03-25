@@ -70,7 +70,7 @@ public class ARKPlayer implements IArkLevelable, IWeighable, ITranquilizable, IC
 
 	public static ARKPlayer get(EntityPlayer p)
 	{
-		return /*(ARKPlayer) p.getExtendedProperties(propKey)*/p.getCapability(ARK_PLAYER_CAPABILITY, null);
+		return /*(ARKPlayer) p.getExtendedProperties(propKey)*/p != null ? p.getCapability(ARK_PLAYER_CAPABILITY, null) : getDefault();
 	}
 
 	/*public static void register(EntityPlayer p)

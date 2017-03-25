@@ -66,6 +66,6 @@ public class BlockSmallRockResource extends Block implements IExperienceSource
 	}
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		return BB.offset(pos);
+		return BB;
 	}
 }
