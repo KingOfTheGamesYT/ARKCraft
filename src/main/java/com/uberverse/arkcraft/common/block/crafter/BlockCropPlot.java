@@ -206,8 +206,7 @@ public class BlockCropPlot extends BlockContainer implements Identifiable
 	}
 
 	@Override
-	public BlockStateContainer getBlockState()
-	{
+	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, AGE, TYPE, BERRY, TRANSPARENT);
 	}
 
