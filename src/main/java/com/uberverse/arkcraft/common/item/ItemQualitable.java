@@ -22,7 +22,8 @@ public abstract class ItemQualitable extends Item implements Qualitable
 	@Override
 	public String getItemStackDisplayName(ItemStack stack)
 	{
-		return Qualitable.get(stack).toFormattedString() + " " + super.getItemStackDisplayName(stack);
+		ItemQuality q = Qualitable.get(stack);
+		return (q != null ? q.toFormattedString() : "") + " " + super.getItemStackDisplayName(stack);
 	}
 
 	@Override

@@ -1,10 +1,10 @@
 package com.uberverse.arkcraft.common.item;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
-import com.uberverse.arkcraft.util.I18n;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+
+import com.mojang.realmsclient.gui.ChatFormatting;
+import com.uberverse.arkcraft.util.I18n;
 
 public interface Qualitable
 {
@@ -12,7 +12,7 @@ public interface Qualitable
 
 	public static ItemQuality get(ItemStack stack)
 	{
-		if (stack.getTagCompound().hasKey(qualityKey)) return ItemQuality.get(stack.getTagCompound().getByte(
+		if (stack.getTagCompound() != null && stack.getTagCompound().hasKey(qualityKey)) return ItemQuality.get(stack.getTagCompound().getByte(
 				qualityKey));
 		return null;
 	}
