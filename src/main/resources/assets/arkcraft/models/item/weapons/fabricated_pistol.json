@@ -1,6 +1,13 @@
 {
 	"__comment": "Designed by Creativeone with BDcraft Cubik PRO 0.95 Beta - http://bdcraft.net",
 	"textures": {
+	    "particle": "arkcraft:items/weapons/fabricated_pistol",
+	    "texture": "arkcraft:items/weapons/fabricated_pistol",
+		"scope": "arkcraft:items/attachments/no_attachment",
+		"silencer": "arkcraft:items/attachments/no_attachment",
+		"laser": "arkcraft:items/attachments/no_attachment",
+		"flashlight": "arkcraft:items/attachments/no_attachment",
+		"holo_scope": "arkcraft:items/attachments/no_attachment"
 	},
 	"elements": [
 		{
