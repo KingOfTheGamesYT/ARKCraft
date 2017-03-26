@@ -271,15 +271,16 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
 	{
-		if (itemStackIn.stackSize <= 0 || playerIn.getActiveHand() == hand) {
-			return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
+		if (itemStackIn.stackSize <= 0 || playerIn.isHandActive()) { //== hand
+			return new ActionResult<>(EnumActionResult.PASS, itemStackIn);
 		}
-
+		
 		if (canFire(itemStackIn, playerIn)) {
 			if (this.nextShotMillis < System.currentTimeMillis())
 				// Start aiming weapon to fire
+			playerIn.setActiveHand(hand);
+			return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
 				//playerIn.setItemInUse(itemStackIn, getMaxItemUseDuration(itemStackIn));
-				playerIn.setActiveHand(hand);
 		}
 		else {
 			// Can't reload; no ammo
@@ -539,7 +540,7 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 		try {
 			String type = this.getAmmoType(stack);
 
-			Class<?> c = Class.forName("com.uberverse.arkcraft.common.entity." + ProjectileType.valueOf(type.toUpperCase()).getEntity());
+			Class<?> c = Class.forName("com.uberverse.arkcraft.common.entity.projectile." + ProjectileType.valueOf(type.toUpperCase()).getEntity());
 			Constructor<?> con = c.getConstructor(World.class, EntityLivingBase.class, float.class, float.class, double.class, int.class);
 			return (EntityProjectile) con.newInstance(world, player, this.speed, this.inaccuracy, this.damage, this.range);
 		}
