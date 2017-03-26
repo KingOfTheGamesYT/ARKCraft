@@ -486,13 +486,13 @@
 		},
 		"ground": {
 			"rotation":  [ -24, 0, 0 ],
-			"translation":  [ 0, 11.13, 0 ],
-			"scale":  [ 1.5, 1.5, 1.5 ]
+			"translation":  [ 0, 6.956, 0 ],
+			"scale":  [ 0.6, 0.6, 0.6 ]
 		},
 		"fixed": {
-			"rotation":  [ -30, 90, 0 ],
-			"translation":  [ -1.2, 3.1, 0 ],
-			"scale":  [ 2.29, 2.29, 2.29 ]
+			"rotation":  [ -30, 91, 33 ],
+			"translation":  [ 0.2, 3.52, 0 ],
+			"scale":  [ 1.2, 1.2, 1.2 ]
 		}
 	}
 }

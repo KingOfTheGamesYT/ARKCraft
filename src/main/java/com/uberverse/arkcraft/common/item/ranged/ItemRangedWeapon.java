@@ -25,7 +25,9 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
@@ -448,7 +450,7 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 	{
 		//TODO Add Custom Sounds
 		//   String name = ARKCraft.MODID + ":" + this.getUnlocalizedName() + "_reload";
-		world.playSound(player, player.getPosition(), SoundEvents.ENTITY_ARROW_HIT,  SoundCategory.PLAYERS, 0.7F, 0.9F / (getItemRand().nextFloat() * 0.2F + 0.0F));
+		world.playSound(player, player.getPosition(), SoundEvent.REGISTRY.getObject(new ResourceLocation(ARKCraft.MODID + ":" + this.getUnlocalizedName() + "_reload")),  SoundCategory.PLAYERS, 0.7F, 0.9F / (getItemRand().nextFloat() * 0.2F + 0.0F));
 	}
 
 	public abstract int getReloadDuration();
@@ -485,8 +487,10 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 		if (att != null && att.isSilencerPresent())
 			soundPath = soundPath + "_silenced";
 		//TODO New Sound Effect
-		//	world.playSoundEffect(x, y, z, soundPath, 1.5F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F));
-
+	//	world.playSoundEffect(x, y, z, SoundEvent.REGISTRY.getObject(new ResourceLocation(soundPath), 1.5F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F));
+		//world.playSound(entityplayer, entityplayer.getPosition(), SoundEvent.REGISTRY.getObject(new ResourceLocation(soundPath), SoundCategory.PLAYERS, 1.5F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F));
+		world.playSound(null, x, y, z, SoundEvent.REGISTRY.getObject(new ResourceLocation(soundPath)), SoundCategory.PLAYERS, 1.5F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F));
+		
 		float particleX = -MathHelper.sin(((yaw + 23) / 180F) * 3.141593F) * MathHelper.cos((pitch / 180F) * 3.141593F);
 		float particleY = -MathHelper.sin((pitch / 180F) * 3.141593F) - 0.1F;
 		float particleZ = MathHelper.cos(((yaw + 23) / 180F) * 3.141593F) * MathHelper.cos((pitch / 180F) * 3.141593F);
