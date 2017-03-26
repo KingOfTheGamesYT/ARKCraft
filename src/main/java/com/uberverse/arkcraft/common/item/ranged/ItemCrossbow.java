@@ -29,9 +29,9 @@ public class ItemCrossbow extends ItemRangedWeapon
 	}
 
 	@Override
-	public void effectShoot(ItemStack stack, World world, double x, double y, double z, float yaw, float pitch)
+	public void effectShoot(EntityPlayer player, ItemStack stack, World world, double x, double y, double z, float yaw, float pitch)
 	{
-		world.playSound(null, x, y, z, SoundEvent.REGISTRY.getObject(new ResourceLocation("random.bow")), SoundCategory.PLAYERS, 1.0F, 1.0F / (this.getItemRand().nextFloat() * 0.4F + 0.8F));
+		world.playSound(player, x, y, z, SoundEvent.REGISTRY.getObject(new ResourceLocation("random.bow")), SoundCategory.PLAYERS, 1.0F, 1.0F / (this.getItemRand().nextFloat() * 0.4F + 0.8F));
 	}
 
 	@Override

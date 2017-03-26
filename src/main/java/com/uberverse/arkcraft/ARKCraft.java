@@ -2,11 +2,10 @@ package com.uberverse.arkcraft;
 
 import org.apache.logging.log4j.Logger;
 
-import com.uberverse.arkcraft.common.creativetabs.ARKBlueprintTab;
-import com.uberverse.arkcraft.common.creativetabs.ARKCreativeTab;
-import com.uberverse.arkcraft.common.proxy.CommonProxy;
-
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+
 import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.common.ForgeVersion.CheckResult;
 import net.minecraftforge.common.ForgeVersion.Status;
@@ -21,6 +20,11 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventBus;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import com.uberverse.arkcraft.common.creativetabs.ARKBlueprintTab;
+import com.uberverse.arkcraft.common.creativetabs.ARKCreativeTab;
+import com.uberverse.arkcraft.common.proxy.CommonProxy;
 
 @Mod(modid = ARKCraft.MODID, updateJSON = ARKCraft.UPDATE_JSON, useMetadata = true)
 public class ARKCraft
@@ -55,6 +59,13 @@ public class ARKCraft
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
+		//TODO: rewrite to all sounds
+		//TEST BLOCK
+		ResourceLocation l = new ResourceLocation("arkcraft:fabricated_pistol_shoot");
+		SoundEvent e = new SoundEvent(l);
+		e.setRegistryName(l);
+		GameRegistry.register(e);
+		//END OF TEST BLOCK
 		proxy.init(event);
 		updateCheckResult();
 	}

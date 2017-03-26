@@ -46,10 +46,10 @@ public class ItemRocketLauncher extends ItemRangedWeapon
 	}
 
 	@Override
-	public void effectShoot(ItemStack stack, World world, double x, double y, double z, float yaw, float pitch)
+	public void effectShoot(EntityPlayer player, ItemStack stack, World world, double x, double y, double z, float yaw, float pitch)
 	{
-		world.playSound(null, x, y, z, SoundEvent.REGISTRY.getObject(new ResourceLocation("random.explode")), SoundCategory.PLAYERS, 3F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F));
-		world.playSound(null, x, y, z, SoundEvent.REGISTRY.getObject(new ResourceLocation("ambient.weather.thunder")), SoundCategory.PLAYERS, 3F, 1F / (this.getItemRand().nextFloat() * 0.4F
+		world.playSound(player, x, y, z, SoundEvent.REGISTRY.getObject(new ResourceLocation("random.explode")), SoundCategory.PLAYERS, 3F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F));
+		world.playSound(player, x, y, z, SoundEvent.REGISTRY.getObject(new ResourceLocation("ambient.weather.thunder")), SoundCategory.PLAYERS, 3F, 1F / (this.getItemRand().nextFloat() * 0.4F
 				+ 0.4F));
 
 		float particleX = -MathHelper.sin(((yaw + 23) / 180F) * 3.141593F) * MathHelper.cos((pitch / 180F) * 3.141593F);

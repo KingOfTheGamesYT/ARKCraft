@@ -48,6 +48,7 @@ import com.uberverse.arkcraft.common.inventory.InventoryAttachment;
 import com.uberverse.arkcraft.common.item.IMeshedItem;
 import com.uberverse.arkcraft.common.item.ammo.ItemProjectile;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
+import com.uberverse.arkcraft.util.SoundUtil;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -276,13 +277,13 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 		if (itemStackIn.stackSize <= 0 || playerIn.isHandActive()) { //== hand
 			return new ActionResult<>(EnumActionResult.PASS, itemStackIn);
 		}
-		
+
 		if (canFire(itemStackIn, playerIn)) {
 			if (this.nextShotMillis < System.currentTimeMillis())
 				// Start aiming weapon to fire
-			playerIn.setActiveHand(hand);
+				playerIn.setActiveHand(hand);
 			return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
-				//playerIn.setItemInUse(itemStackIn, getMaxItemUseDuration(itemStackIn));
+			//playerIn.setItemInUse(itemStackIn, getMaxItemUseDuration(itemStackIn));
 		}
 		else {
 			// Can't reload; no ammo
@@ -475,22 +476,22 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 	public final void postShootingEffects(ItemStack itemstack, EntityPlayer entityplayer, World world)
 	{
 		effectPlayer(itemstack, entityplayer, world);
-		effectShoot(itemstack, world, entityplayer.posX, entityplayer.posY, entityplayer.posZ, entityplayer.rotationYaw, entityplayer.rotationPitch);
+		effectShoot(entityplayer, itemstack, world, entityplayer.posX, entityplayer.posY, entityplayer.posZ, entityplayer.rotationYaw, entityplayer.rotationPitch);
 	}
 
 	public abstract void effectPlayer(ItemStack itemstack, EntityPlayer entityplayer, World world);
 
-	public void effectShoot(ItemStack stack, World world, double x, double y, double z, float yaw, float pitch)
+	public void effectShoot(EntityPlayer p, ItemStack stack, World world, double x, double y, double z, float yaw, float pitch)
 	{
 		String soundPath = ARKCraft.MODID + ":" + this.getUnlocalizedName() + "_shoot";
 		InventoryAttachment att = InventoryAttachment.create(stack);
 		if (att != null && att.isSilencerPresent())
 			soundPath = soundPath + "_silenced";
 		//TODO New Sound Effect
-	//	world.playSoundEffect(x, y, z, SoundEvent.REGISTRY.getObject(new ResourceLocation(soundPath), 1.5F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F));
+		//	world.playSoundEffect(x, y, z, SoundEvent.REGISTRY.getObject(new ResourceLocation(soundPath), 1.5F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F));
 		//world.playSound(entityplayer, entityplayer.getPosition(), SoundEvent.REGISTRY.getObject(new ResourceLocation(soundPath), SoundCategory.PLAYERS, 1.5F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F));
-		world.playSound(null, x, y, z, SoundEvent.REGISTRY.getObject(new ResourceLocation(soundPath)), SoundCategory.PLAYERS, 1.5F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F));
-		
+		SoundUtil.playSound(world, x, y, z, new ResourceLocation(soundPath), SoundCategory.PLAYERS, 1.5F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F), false);
+
 		float particleX = -MathHelper.sin(((yaw + 23) / 180F) * 3.141593F) * MathHelper.cos((pitch / 180F) * 3.141593F);
 		float particleY = -MathHelper.sin((pitch / 180F) * 3.141593F) - 0.1F;
 		float particleZ = MathHelper.cos(((yaw + 23) / 180F) * 3.141593F) * MathHelper.cos((pitch / 180F) * 3.141593F);
