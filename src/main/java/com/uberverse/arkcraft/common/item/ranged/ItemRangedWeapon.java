@@ -71,6 +71,7 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 	private long nextShotMillis = 0;
 	private double damage;
 	private int range;
+	private boolean fired;
 
 	public ItemRangedWeapon(String name, int durability, int maxAmmo, String defaultAmmoType, int ammoConsumption, double shotInterval, float speed, float inaccuracy, double damage, int range)
 	{
@@ -538,6 +539,16 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 		this.nextShotMillis = System.currentTimeMillis() + this.shotInterval;
 		stack.damageItem(damage, player);
 		postShootingEffects(stack, player, world);
+		setfired(true);
+	}
+	public boolean wasfired()
+	{
+		return fired;
+	}
+	
+	public void setfired(boolean i)
+	{
+		fired = i;
 	}
 
 	protected EntityProjectile createProjectile(ItemStack stack, World world, EntityPlayer player)
