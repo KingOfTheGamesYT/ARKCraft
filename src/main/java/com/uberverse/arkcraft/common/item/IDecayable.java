@@ -2,16 +2,18 @@ package com.uberverse.arkcraft.common.item;
 
 import java.util.List;
 
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.util.I18n;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.util.I18n;
+import com.uberverse.arkcraft.util.Utils;
 
 /**
  * @author Lewis_McReu
@@ -58,34 +60,8 @@ public interface IDecayable
 	public default void addInformation(ItemStack itemStack, EntityPlayer playerIn, List tooltip, boolean advanced)
 	{
 		String toAdd = I18n.translate("arkcraft.decayable.tooltip");
-		long seconds = (long) Math.ceil((double) getDecayTimeLeft(itemStack, getDecayModifier(itemStack)) / 20d);
-		if (seconds > 0)
-		{
-			if (seconds > 59)
-			{
-				long minutes = seconds / 60;
-				seconds = seconds % 60;
-				if (minutes > 59)
-				{
-					long hours = minutes / 60;
-					minutes = minutes % 60;
-					if (hours > 23)
-					{
-						long days = hours / 24;
-						hours = hours % 24;
-						toAdd += " " + (days == 1 ? I18n.format("arkcraft.day", days) : I18n.format("arkcraft.days",
-								days));
-					}
-					toAdd += " " + (hours == 1 ? I18n.format("arkcraft.hour", hours) : I18n.format("arkcraft.hours",
-							hours));
-				}
-				toAdd += " " + (minutes == 1 ? I18n.format("arkcraft.minute", minutes) : I18n.format("arkcraft.minutes",
-						minutes));
-			}
-			toAdd += " " + (seconds == 1 ? I18n.format("arkcraft.second", seconds) : I18n.format("arkcraft.seconds",
-					seconds));
-			tooltip.add(toAdd);
-		}
+		String ret = Utils.formatTime(getDecayTimeLeft(itemStack, getDecayModifier(itemStack)));
+		if(!ret.isEmpty())tooltip.add(toAdd + ret);
 	}
 
 	public static double getDecayModifier(ItemStack stack)

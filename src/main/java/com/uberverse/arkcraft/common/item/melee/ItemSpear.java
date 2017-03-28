@@ -10,11 +10,11 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.entity.projectile.EntitySpear;
+import com.uberverse.arkcraft.util.SoundUtil;
 
 public class ItemSpear extends ItemSword
 {
@@ -48,7 +48,7 @@ public class ItemSpear extends ItemSword
 
 		if (entityplayer.capabilities.isCreativeMode || decreasStack(stack, entityplayer))
 		{
-			world.playSound(entityplayer, entityplayer.getPosition(), SoundEvent.REGISTRY.getObject(new ResourceLocation("random.bow")), SoundCategory.PLAYERS, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 0.8F));
+			SoundUtil.playSound(world, entityplayer.getPosition(), new ResourceLocation("random.bow"), SoundCategory.PLAYERS, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 0.8F), false);
 			if (!world.isRemote)
 			{
 				EntitySpear entitySpear = new EntitySpear(world, entityplayer, f * (1.0F + (crit ? 0.5F : 0F)));
@@ -57,15 +57,15 @@ public class ItemSpear extends ItemSword
 			}
 		}
 	}
-	
+
 	private boolean decreasStack(ItemStack stack, EntityPlayer player)
 	{
-        --stack.stackSize;
+		--stack.stackSize;
 
-        if (stack.stackSize == 0)
-        {
-        	player.inventory.deleteStack(stack);
-        }
+		if (stack.stackSize == 0)
+		{
+			player.inventory.deleteStack(stack);
+		}
 		return true;
 	}
 

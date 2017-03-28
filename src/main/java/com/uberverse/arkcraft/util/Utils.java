@@ -108,4 +108,35 @@ public class Utils
 		//if(r.success)playerIn.setHeldItem(hand, r.result);//1.11
 		return r;
 	}
+	public static String formatTime(long ticks){
+		long seconds = (long) Math.ceil(ticks / 20d);
+		String toAdd = "";
+		if (seconds > 0)
+		{
+			if (seconds > 59)
+			{
+				long minutes = seconds / 60;
+				seconds = seconds % 60;
+				if (minutes > 59)
+				{
+					long hours = minutes / 60;
+					minutes = minutes % 60;
+					if (hours > 23)
+					{
+						long days = hours / 24;
+						hours = hours % 24;
+						toAdd += " " + (days == 1 ? I18n.format("arkcraft.day", days) : I18n.format("arkcraft.days",
+								days));
+					}
+					toAdd += " " + (hours == 1 ? I18n.format("arkcraft.hour", hours) : I18n.format("arkcraft.hours",
+							hours));
+				}
+				toAdd += " " + (minutes == 1 ? I18n.format("arkcraft.minute", minutes) : I18n.format("arkcraft.minutes",
+						minutes));
+			}
+			toAdd += " " + (seconds == 1 ? I18n.format("arkcraft.second", seconds) : I18n.format("arkcraft.seconds",
+					seconds));
+		}
+		return toAdd;
+	}
 }

@@ -2,14 +2,14 @@ package com.uberverse.arkcraft.common.item;
 
 import java.util.List;
 
-import com.uberverse.arkcraft.util.I18n;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+
+import com.uberverse.arkcraft.util.I18n;
 
 public class ItemFertilizer extends ARKCraftItem
 {
@@ -28,7 +28,7 @@ public class ItemFertilizer extends ARKCraftItem
 	}
 
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab, List subItems)
+	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems)
 	{
 		ItemStack s = new ItemStack(this);
 		setFertilizingValueLeft(s, fertilizingTime);
@@ -36,7 +36,7 @@ public class ItemFertilizer extends ARKCraftItem
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced)
+	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced)
 	{
 		super.addInformation(stack, playerIn, tooltip, advanced);
 		long value = getFertilizingValueLeft(stack) / 20;
@@ -53,9 +53,9 @@ public class ItemFertilizer extends ARKCraftItem
 		if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
 		stack.getTagCompound().setLong("fertilizer", f);
 	}
-	
+
 	@Override
-	public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) 
+	public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn)
 	{
 		super.onCreated(stack, worldIn, playerIn);
 		setFertilizingValueLeft(stack, fertilizingTime);

@@ -415,8 +415,8 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 			}
 		}
 		String toAdd = "" + f / 20;
-		text.add("#8B4513" + I18n.format("arkcraft.gui.fertilizer", " " + toAdd));
-		text.add("" + growthTime / 20);
+		text.add("#8B4513" + I18n.format("arkcraft.gui.fertilizer", toAdd));
+		if(growthTime > 0)text.add(TextFormatting.GRAY + I18n.format("arkcraft.cropPlotGrowth", Utils.formatTime(growthTime).substring(1)));
 	}
 
 	public ItemStack[] getStack()

@@ -3,6 +3,7 @@ package com.uberverse.arkcraft.util;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /**
@@ -25,5 +26,10 @@ public class SoundUtil {
 			System.err.println("Missing sound: " + soundIn.toString());
 			//}
 		}
+	}
+
+	public static void playSound(World world, BlockPos p, ResourceLocation soundIn, SoundCategory category, float volume,
+			float pitch, boolean distanceDelay) {
+		playSound(world, p.getX(), p.getY(), p.getZ(), soundIn, category, volume, pitch, distanceDelay);
 	}
 }
