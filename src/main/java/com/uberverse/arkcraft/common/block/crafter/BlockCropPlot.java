@@ -14,7 +14,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
@@ -31,7 +30,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -42,6 +40,7 @@ import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot.CropPlotType;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot.Part;
 import com.uberverse.arkcraft.util.Identifiable;
+import com.uberverse.arkcraft.util.Utils;
 
 /**
  * @author wildbill22
@@ -121,30 +120,12 @@ public class BlockCropPlot extends BlockContainer implements Identifiable
 					}
 				}
 				// }
-				if (playerIn.getHeldItem(hand) != null && playerIn.getHeldItem(hand).getItem() == Items.WATER_BUCKET) {
-					ItemStack container = playerIn.getHeldItem(hand);
-					if (FluidContainerRegistry.isFilledContainer(container)) {
-						TileEntity entity = worldIn.getTileEntity(pos);
-						if (entity instanceof TileEntityCropPlot && entity != null) {
-							TileEntityCropPlot target = (TileEntityCropPlot) entity;
-							int water = TileEntityCropPlot.getItemWaterValue(container) + target.getField(0);
-							// The currentWater + addedWater needs to be smaller
-							// or
-							// equal to the max water.
-							if (water <= target.getType().maxWater) {
-								target.setField(0, water);
-								ItemStack drainedContainer = FluidContainerRegistry.drainFluidContainer(container);
-								if (drainedContainer != null) {
-									if (!playerIn.capabilities.isCreativeMode)
-										container.setItem(drainedContainer.getItem());
-								}
-							}
-						}
+				TileEntity entity = worldIn.getTileEntity(pos);
+				if (entity instanceof TileEntityCropPlot && entity != null) {
+					TileEntityCropPlot target = (TileEntityCropPlot) entity;
+					if(!Utils.interactWithFluidHandler(target.getWater(), playerIn, hand)){
+						playerIn.openGui(ARKCraft.instance(), getId(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 					}
-				}
-
-				else {
-					playerIn.openGui(ARKCraft.instance(), getId(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 				}
 			}
 			return true;

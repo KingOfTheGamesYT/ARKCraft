@@ -20,12 +20,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.EnumDifficulty;
 
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
 import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot;
 import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot.BerryColor;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance.CROP_PLOT;
@@ -45,7 +48,7 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 	private ItemStack[] stack = new ItemStack[this.getSizeInventory()];
 	private int growthTime = 0;
 	private CropPlotState state = CropPlotState.EMPTY;
-	private int water = 0;
+	private FluidTank water = new FluidTank(1600);
 	private ItemStack growing;
 	public Part part = Part.MIDDLE;
 	private static boolean LOG = false;
@@ -143,14 +146,14 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 	@Override
 	public int getField(int id)
 	{
-		return id == 0 ? water : id == 1 ? fertilized ? 1 : 0 : 0;
+		return id == 0 ? water.getFluidAmount() : id == 1 ? fertilized ? 1 : 0 : 0;
 	}
 
 	@Override
 	public void setField(int id, int value)
 	{
 		if (id == 0)
-			water = value;
+			water.setFluid(new FluidStack(FluidRegistry.WATER, value));
 		else if (id == 1)
 			fertilized = 1 == value;
 	}
@@ -179,6 +182,8 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 	public void update()
 	{
 		IBlockState state = world.getBlockState(pos);
+		CropPlotType type = state.getValue(BlockCropPlot.TYPE);
+		water.setCapacity(type.maxWater);
 		if (state.getBlock() == Blocks.AIR)
 			return;// Fixed crash on chunk unloading, and block breaking.
 		if (!world.isRemote) {
@@ -213,21 +218,21 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 						}
 						else if (item instanceof ItemWaterContainer) {
 							int itemVal = getItemWaterValue(stack);
-							int maxValAdded = getType().maxWater - water;
+							int maxValAdded = type.maxWater - water.getFluidAmount();
 							int valToAdd = itemVal > maxValAdded ? maxValAdded : itemVal;
 
 							itemVal -= valToAdd;
 
 							if (valToAdd > 0) {
-								water += valToAdd;
+								water.fillInternal(new FluidStack(FluidRegistry.WATER, valToAdd), true);
 								ItemWaterContainer.setWaterValueLeft(stack, itemVal / 240);
-								MathHelper.clamp(water, 0, getType().maxWater);
+								//MathHelper.clamp(water, 0, getType().maxWater);
 							}
 						}
 					}
 				}
 
-				if (growing == null && fIndex > -1 && sIndex > -1 && water > 0) {
+				if (growing == null && fIndex > -1 && sIndex > -1 && water.getFluidAmount() > 0) {
 					growthTime = CROP_PLOT.SEEDLING_TIME_FOR_BERRY * 20;
 					if (LOG)
 						LogHelper.info("[Crop Plot at " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + "]: Started Growing: " + stack[sIndex]);
@@ -237,11 +242,11 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 
 				if (growing != null) {
 					if (growthTime >= 0 && world.getLight(pos) > 7) {
-						if (fIndex > -1 && water > 0) {
+						if (fIndex > -1 && water.getFluidAmount() > 0) {
 							// grow!
 							growthTime--;
 							if (!isRaining())
-								water -= (world.getDifficulty().ordinal() + 1);
+								water.drain(world.getDifficulty().ordinal() + 1, true);
 
 							long val = ItemFertilizer.getFertilizingValueLeft(stack[fIndex]);
 							ItemFertilizer.setFertilizingValueLeft(stack[fIndex], --val);
@@ -297,147 +302,7 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 					setState(0, state);
 				}
 				markDirty();
-				// world.markBlockForUpdate(pos);
-
-				// TODO remove this code -- discuss with @tom5454
-				// canGrow = false;
-				// for (int i = 0; i < 10; i++)
-				// {
-				// if (stack[i] != null)
-				// {
-				// Item item = stack[i].getItem();
-				// if (item instanceof ItemFertilizer)
-				// {
-				// fertilized = false;
-				// if (canGrow)
-				// {
-				// long val = ItemFertilizer.getFertilizingValueLeft(stack[i]);
-				// ItemFertilizer.setFertilizingValueLeft(stack[i], val--);
-				// fertilized = true;
-				// if (val <= 0)
-				// {
-				// ItemFertilizer.setFertilizingValueLeft(stack[i], i);
-				// decrStackSize(i, 1);
-				// }
-				// }
-				// }
-				// else if (item instanceof ARKCraftSeed)
-				// {
-				// if (growing == null && ((ARKCraftSeed)
-				// item).getType().ordinal() <= getType().ordinal())
-				// {
-				// if (canGrow)
-				// {
-				// growthTime = CROP_PLOT.SEEDLING_TIME_FOR_BERRY * 20;
-				// if (LOG) LogHelper.info("[Crop Plot at " + pos.getX() + ", "
-				// + pos.getY() + ", "
-				// + pos.getZ() + "]: Started Growing: " + stack[i]);
-				// growing = decrStackSize(i, 1);
-				// this.state = CropPlotState.SEEDED;
-				// }
-				// }
-				// }
-				// else
-				// {
-				// int itemWater = getItemWaterValue(stack[i]);
-				// if (itemWater > 0)
-				// {
-				// if (water + itemWater <= getType().getMaxWater())
-				// {
-				// stack[i] = getContainerItem(stack[i]);
-				// water += itemWater;
-				// }
-				// }
-				// }
-				// }
-				// }
-				// if (growing != null)
-				// {
-				// if (growthTime >= 0 && worldObj.getLight(pos) > 7)
-				// {
-				// if (canGrow)
-				// {
-				// growthTime--;
-				// water -= (worldObj.getDifficulty().ordinal() + 1);
-				// }
-				// else
-				// {
-				// int rand = worldObj.rand.nextInt(100);// 5% chance
-				// // if plant
-				// // dies to
-				// // return
-				// // the seed
-				// boolean ret = false;
-				// if (rand % (worldObj.getDifficulty() == EnumDifficulty.NORMAL
-				// ? 40 : (worldObj
-				// .getDifficulty() == EnumDifficulty.EASY ? 30 : 20)) == 0 &&
-				// worldObj
-				// .getDifficulty() != EnumDifficulty.HARD)
-				// {
-				// ret = TileEntityHopper.func_174918_a(this, growing, null) ==
-				// null;
-				// }
-				// if (LOG) LogHelper.info("[Crop Plot at " + pos.getX() + ", "
-				// + pos.getY() + ", " + pos
-				// .getZ() + "]: Crop died: " + growing + "Seed return: " +
-				// ret);
-				// growing = null;
-				// this.state = CropPlotState.EMPTY;
-				// setState(0, state);
-				// }
-				// }
-				// if (growthTime < 0)
-				// {
-				// if (state == CropPlotState.FRUITLING)
-				// {
-				// int d = worldObj.getDifficulty().ordinal();
-				// boolean success = d == 0 ? true : worldObj.rand.nextInt(d +
-				// 1) == 1;
-				// if (success)
-				// {
-				// ItemStack r = ARKCraftSeed.getBerryForSeed(growing);
-				// if (LOG) LogHelper.info("[Crop Plot at " + pos.getX() + ", "
-				// + pos.getY() + ", " + pos
-				// .getZ() + "]: Growing Successful: " + growing + ", output: "
-				// + r);
-				// TileEntityHopper.func_174918_a(this, r, null);
-				// }
-				// else
-				// {
-				// if (LOG) LogHelper.info("[Crop Plot at " + pos.getX() + ", "
-				// + pos.getY() + ", " + pos
-				// .getZ() + "]: Growing Failed: " + growing);
-				// }
-				// growthTime =
-				// MathHelper.floor_double(CROP_PLOT.FRUIT_OUTPUT_TIME_FOR_BERRY
-				// * (20D
-				// * ((worldObj.getDifficulty().ordinal() * 0.5D) + 1)));
-				// }
-				// else
-				// {
-				// this.state = this.state.next();
-				// if (LOG) LogHelper.info("[Crop Plot at " + pos.getX() + ", "
-				// + pos.getY() + ", " + pos
-				// .getZ() + "]: Growing State Updated! Growing: " + growing +
-				// ", state: " + this.state
-				// .name());
-				// if (this.state.getTime() > 0) growthTime =
-				// MathHelper.floor_double(this.state.getTime()
-				// * (20D * ((worldObj.getDifficulty().ordinal() * 0.5D) + 1)));
-				// else growthTime = -1;
-				// }
-				// }
-				// setState(this.state.age, state);
-				// // if(growthTime % 50 == 0)LogHelper.info("[Crop Plot at " +
-				// // pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + "]:
-				// // Growing: "+growing + ", growth remaining: " + growthTime
-				// // + ", water: " + water + ", fertilizer: " + fertilizer +
-				// // ".");
-				// }
-				// else
-				// {
-				// setState(0, state);
-				// }
+				markBlockForUpdate();
 			}
 		}
 	}
@@ -537,10 +402,10 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 	public void addInformation(List<String> text)
 	{
 		String name = I18n.translate(growing != null ? growing.getUnlocalizedName() + ".name" : "arkcraft.empty");
-		text.add(ChatFormatting.YELLOW + I18n.translate("tile.crop_plot." + getType().name().toLowerCase() + ".name"));
+		text.add(TextFormatting.YELLOW + I18n.translate("tile.crop_plot." + getType().name().toLowerCase() + ".name"));
 		text.add(I18n.format("arkcraft.growing") + ": " + I18n.format("arkcraft.cropPlotState.head", name, I18n.format("arkcraft.cropPlotState." + state.name().toLowerCase())));
-		String water = (this.water == 0 ? ChatFormatting.RED : this.water < getType().maxWater / 2 ? ChatFormatting.YELLOW : ChatFormatting.GREEN) + "" + (this.water / 20) + "/" + getType().maxWater / 20 + ChatFormatting.BLUE;
-		text.add(ChatFormatting.BLUE + I18n.format("arkcraft.water", I18n.format("tile.water.name"), water, getField(0) > 0 ? I18n.format("arkcraft.cropPlotWater.irrigated") : I18n.format("arkcraft.cropPlotWater.notIrrigated")));
+		String water = (this.water.getFluidAmount() == 0 ? TextFormatting.RED : this.water.getFluidAmount() < getType().maxWater / 2 ? TextFormatting.YELLOW : TextFormatting.GREEN) + "" + (this.water.getFluidAmount() / 20) + "/" + getType().maxWater / 20 + TextFormatting.BLUE;
+		text.add(TextFormatting.BLUE + I18n.format("arkcraft.water", I18n.format("tile.water.name"), water, getField(0) > 0 ? I18n.format("arkcraft.cropPlotWater.irrigated") : I18n.format("arkcraft.cropPlotWater.notIrrigated")));
 		long f = 0;
 		for (int i = 0; i < 10; i++) {
 			if (stack[i] != null) {
@@ -641,7 +506,7 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 
 	public void fillWithRain(boolean big)
 	{
-		water = Math.min(water + (big ? 350 + world.rand.nextInt(50) : world.rand.nextInt(20) + 5), getType().maxWater);
+		water.fill(new FluidStack(FluidRegistry.WATER, big ? 350 + world.rand.nextInt(50) : world.rand.nextInt(20) + 5), true);
 	}
 
 	@Override
@@ -687,12 +552,10 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 		if (!isTransparent()) {
 			InventoryUtil.readFromNBT(compound, this);
 			growthTime = compound.getInteger("growth");
-			water = compound.getInteger("water");
+			water.readFromNBT(compound.getCompoundTag("waterTank"));
 			fertilized = compound.getBoolean("fertilized");
 			state = CropPlotState.VALUES[compound.getInteger("cropState")];
 			growing = ItemStack.loadItemStackFromNBT(compound.getCompoundTag("growing"));
-			// transparent = compound.getBoolean("transparent");
-			// getType() = CropPlotType.VALUES[compound.getInteger("plotType")];
 		}
 	}
 
@@ -702,16 +565,14 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 		super.writeToNBT(compound);
 		InventoryUtil.writeToNBT(compound, this);
 		compound.setInteger("growth", growthTime);
-		compound.setInteger("water", water);
+		compound.setTag("waterTank", water.writeToNBT(new NBTTagCompound()));
 		compound.setBoolean("fertilized", fertilized);
 		compound.setInteger("cropState", state.ordinal());
 		NBTTagCompound g = new NBTTagCompound();
 		if (growing != null)
 			growing.writeToNBT(g);
 		compound.setTag("growing", g);
-		// compound.setBoolean("transparent", transparent);
 		compound.setInteger("part", part.ordinal());
-		// compound.setInteger("plotType", getType().ordinal());
 		return compound;
 	}
 
@@ -736,71 +597,7 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 
 		return null;
 	}
-
-	// @Override
-	// public void writeToNBTPacket(NBTTagCompound tag)
-	// {
-	// TileEntity tile = worldObj.getTileEntity(part.offset(pos, true));
-	// if (tile instanceof TileEntityCropPlot)
-	// {
-	// ((TileEntityCropPlot) tile).writeToNBTPacket_p(tag);
-	// }
-	// }
-	//
-	// private void writeToNBTPacket_p(NBTTagCompound tag)
-	// {
-	// tag.setInteger("w", water);
-	// tag.setString("n", growing != null ? growing.getUnlocalizedName() :
-	// "arkcraft.empty");
-	// tag.setInteger("s", state.ordinal());
-	// long f = 0;
-	// for (int i = 0; i < 10; i++)
-	// {
-	// if (stack[i] != null)
-	// {
-	// Item item = stack[i].getItem();
-	// if (item instanceof ItemFertilizer)
-	// {
-	// f += ItemFertilizer.getFertilizingValueLeft(stack[i]) *
-	// stack[i].stackSize;
-	// }
-	// }
-	// }
-	// tag.setLong("f", (f / 40)); // TODO why 40? @tom5454 ; also why integer
-	// before?
-	// tag.setInteger("t", getType().ordinal());
-	// tag.setInteger("d", worldObj.getDifficulty().ordinal());
-	// }
-	//
-	// @Override
-	// public void readFromNBTPacket(NBTTagCompound tag)
-	// {
-	// water = tag.getInteger("w");
-	// seedName = tag.getString("n");
-	// stateName = "arkcraft.cropPlotState." +
-	// CropPlotState.VALUES[tag.getInteger("s")].name().toLowerCase();
-	// fertilizerClient = tag.getLong("f");
-	// // type = CropPlotType.VALUES[tag.getInteger("t")];
-	// stringType = "tile.crop_plot." +
-	// CropPlotType.VALUES[tag.getInteger("t")].name().toLowerCase() + ".name";
-	// difficultyClient = tag.getInteger("d");
-	// }
-	//
-	// @Override
-	// public void writeToPacket(NBTTagCompound tag)
-	// {
-	// tag.setInteger("c", getGrowingColor().ordinal());
-	// // tag.setBoolean("t", transparent);
-	// tag.setInteger("p", part.ordinal());
-	// tag.setInteger("d", worldObj.getDifficulty().ordinal());
-	// }
-	//
-	// @Override
-	// public void readFromPacket(NBTTagCompound tag)
-	// {
-	// colorClient = BerryColor.VALUES[tag.getInteger("c")];
-	// // transparent = tag.getBoolean("t");
-	// part = Part.VALUES[tag.getInteger("p")];
-	// difficultyClient = tag.getInteger("d");
-	// }
+	public FluidTank getWater() {
+		return water;
+	}
 }
