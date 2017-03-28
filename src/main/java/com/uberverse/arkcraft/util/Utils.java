@@ -2,9 +2,6 @@ package com.uberverse.arkcraft.util;
 
 import java.lang.reflect.Field;
 
-import com.uberverse.arkcraft.common.item.IDecayable;
-import com.uberverse.arkcraft.common.tileentity.IDecayer;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.entity.EntityLivingBase;
@@ -13,8 +10,15 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+
+import com.uberverse.arkcraft.common.item.IDecayable;
+import com.uberverse.arkcraft.common.tileentity.IDecayer;
 
 public class Utils
 {
@@ -99,5 +103,9 @@ public class Utils
 	{
 		return Math.sqrt(Math.pow(Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(z1 - z2, 2)), 2) + Math.pow(y1 - y2, 2));
 	}
-
+	public static boolean interactWithFluidHandler(IFluidHandler tankOnSide, EntityPlayer playerIn, EnumHand hand) {
+		boolean r = FluidUtil.interactWithFluidHandler(playerIn.getHeldItem(hand), tankOnSide, playerIn);
+		//if(r.success)playerIn.setHeldItem(hand, r.result);//1.11
+		return r;
+	}
 }
