@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.item.ranged.ItemRangedWeapon;
+import com.uberverse.arkcraft.util.SoundUtil;
 
 public class ItemRocketLauncher extends ItemRangedWeapon
 {
@@ -48,9 +49,9 @@ public class ItemRocketLauncher extends ItemRangedWeapon
 	@Override
 	public void effectShoot(EntityPlayer player, ItemStack stack, World world, double x, double y, double z, float yaw, float pitch)
 	{
-		world.playSound(player, x, y, z, SoundEvent.REGISTRY.getObject(new ResourceLocation("random.explode")), SoundCategory.PLAYERS, 3F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F));
-		world.playSound(player, x, y, z, SoundEvent.REGISTRY.getObject(new ResourceLocation("ambient.weather.thunder")), SoundCategory.PLAYERS, 3F, 1F / (this.getItemRand().nextFloat() * 0.4F
-				+ 0.4F));
+		SoundUtil.playSound(world, x, y, z, new ResourceLocation("random.explode"), SoundCategory.PLAYERS, 3F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F), false);
+		SoundUtil.playSound(world, x, y, z, new ResourceLocation("ambient.weather.thunder"), SoundCategory.PLAYERS, 3F, 1F / (this.getItemRand().nextFloat() * 0.4F
+				+ 0.4F), false);
 
 		float particleX = -MathHelper.sin(((yaw + 23) / 180F) * 3.141593F) * MathHelper.cos((pitch / 180F) * 3.141593F);
 		float particleY = -MathHelper.sin((pitch / 180F) * 3.141593F) - 0.1F;
