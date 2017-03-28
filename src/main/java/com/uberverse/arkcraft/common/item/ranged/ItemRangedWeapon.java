@@ -72,8 +72,12 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 	private double damage;
 	private int range;
 	private boolean fired;
-
-	public ItemRangedWeapon(String name, int durability, int maxAmmo, String defaultAmmoType, int ammoConsumption, double shotInterval, float speed, float inaccuracy, double damage, int range)
+	private static int ticks;
+	private final float recoilSneaking;
+	private final float recoil;
+	private final boolean shouldRecoil;
+	
+	public ItemRangedWeapon(String name, int durability, int maxAmmo, String defaultAmmoType, int ammoConsumption, double shotInterval, float speed, float inaccuracy, double damage, int range, float recoil, float recoilSneaking, boolean shouldRecoil)
 	{
 		super();
 		this.speed = speed;
@@ -89,6 +93,9 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 		this.setUnlocalizedName(name);
 		this.damage = damage;
 		this.range = range;
+		this.recoilSneaking = recoilSneaking;
+		this.recoil = recoil;
+		this.shouldRecoil = shouldRecoil;
 		ARKCraft.proxy.registerModelMeshDef(this);
 	}
 
@@ -184,6 +191,17 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 	{
 		stack.getTagCompound().setInteger("reloadTicks", reloadTicks);
 	}
+	
+	public boolean fired(ItemStack stack)
+	{
+		checkNBT(stack);
+		return stack.getTagCompound().getBoolean("fired");
+	}
+
+	private void setFired(ItemStack stack, EntityPlayer player, boolean fired)
+	{
+		stack.getTagCompound().setBoolean("fired", fired);
+	}
 
 	private void checkNBT(ItemStack stack)
 	{
@@ -204,10 +222,45 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 					updateLaser(entityIn);
 				}
 			}
+			else if(fired(stack))
+			{
+				ticks++;
+				System.out.println(ticks + " After Firing");
+				if(ticks >= recoilDelay())
+				{
+					float f = entityIn.isSneaking() ? -0.01F : -0.02F;
+					double d = -MathHelper.sin((entityIn.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((0 / 180F)
+							* 3.141593F) * f;
+					double d1 = MathHelper.cos((entityIn.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((0 / 180F)
+							* 3.141593F) * f;
+					recoilDown(entityIn, recoil, recoilSneaking, shouldRecoil);
+					entityIn.addVelocity(d, 0, d1);
+					ticks = 0;
+					setFired(stack, (EntityPlayer) entityIn, false);
+				}
+			}
 			else if (isReloading(stack)) {
 				resetReload(stack, (EntityPlayer) entityIn);
 			}
 		}
+	}
+	
+	public void recoilDown(Entity entityIn, float recoil, float recoilSneaking, boolean shouldRecoil)
+	{
+		float i = recoil == 0F ? 0F : recoil - 0.5F;
+		float j = recoilSneaking == 0F ? 0F : recoilSneaking - 0.5F;
+		if(shouldRecoil)entityIn.rotationPitch += entityIn.isSneaking() ? j : i;
+	}
+	
+	public void recoilUp(Entity entityIn, float recoil, float recoilSneaking,  boolean shouldRecoil)
+	{
+		if(shouldRecoil)entityIn.rotationPitch -= entityIn.isSneaking() ? recoilSneaking : recoil;
+		System.out.println(recoil + "  recoil" +  "\t" + recoilSneaking + " recoil when Sneaking");
+	}
+
+	public int recoilDelay() 
+	{
+		return 6;
 	}
 
 	private void updateLaser(Entity entityIn)
@@ -480,7 +533,16 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 		effectShoot(entityplayer, itemstack, world, entityplayer.posX, entityplayer.posY, entityplayer.posZ, entityplayer.rotationYaw, entityplayer.rotationPitch);
 	}
 
-	public abstract void effectPlayer(ItemStack itemstack, EntityPlayer entityplayer, World world);
+	public void effectPlayer(ItemStack itemstack, EntityPlayer entityplayer, World world)
+	{
+		float f = entityplayer.isSneaking() ? -0.01F : -0.02F;
+		double d = -MathHelper.sin((entityplayer.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((0 / 180F)
+				* 3.141593F) * f;
+		double d1 = MathHelper.cos((entityplayer.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((0 / 180F)
+				* 3.141593F) * f;
+		recoilUp(entityplayer, recoil, recoilSneaking, shouldRecoil);
+		entityplayer.addVelocity(d, 0, d1);
+	}
 
 	public void effectShoot(EntityPlayer p, ItemStack stack, World world, double x, double y, double z, float yaw, float pitch)
 	{
@@ -538,17 +600,8 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 		}
 		this.nextShotMillis = System.currentTimeMillis() + this.shotInterval;
 		stack.damageItem(damage, player);
+		setFired(stack, player, true);
 		postShootingEffects(stack, player, world);
-		setfired(true);
-	}
-	public boolean wasfired()
-	{
-		return fired;
-	}
-	
-	public void setfired(boolean i)
-	{
-		fired = i;
 	}
 
 	protected EntityProjectile createProjectile(ItemStack stack, World world, EntityPlayer player)

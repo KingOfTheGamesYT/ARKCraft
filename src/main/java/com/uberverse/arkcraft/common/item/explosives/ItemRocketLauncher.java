@@ -17,7 +17,7 @@ public class ItemRocketLauncher extends ItemRangedWeapon
 {
 	public ItemRocketLauncher()
 	{
-		super("rocket_launcher", 250, 1, "rocket_propelled_grenade", 1, 4, 5F, 3F, 30, 300);
+		super("rocket_launcher", 250, 1, "rocket_propelled_grenade", 1, 4, 5F, 3F, 30, 300, 2.5F, 5F, true);
 	}
 
 	@Override
@@ -31,18 +31,6 @@ public class ItemRocketLauncher extends ItemRangedWeapon
 	public int getReloadDuration()
 	{
 		return (int) (ModuleItemBalance.WEAPONS.ROCKET_LAUNCHER_RELOAD * 20.0);
-	}
-
-	@Override
-	public void effectPlayer(ItemStack itemstack, EntityPlayer entityplayer, World world)
-	{
-		float f = entityplayer.isSneaking() ? -0.01F : -0.02F;
-		double d = -MathHelper.sin((entityplayer.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((0 / 180F)
-				* 3.141593F) * f;
-		double d1 = MathHelper.cos((entityplayer.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((0 / 180F)
-				* 3.141593F) * f;
-		entityplayer.rotationPitch -= entityplayer.isSneaking() ? 2.5F : 5F;
-		entityplayer.addVelocity(d, 0, d1);
 	}
 
 	@Override

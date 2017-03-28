@@ -15,7 +15,7 @@ public class ItemSimplePistol extends ItemRangedWeapon implements Scopeable, Las
 {
 	public ItemSimplePistol()
 	{
-		super("simple_pistol", 150, 6, "simple_bullet", 1, 1 / 2.1, 5F, 2.5F, 6, 20);
+		super("simple_pistol", 150, 6, "simple_bullet", 1, 1 / 2.1, 5F, 2.5F, 6, 20, 2.5F, 5F, true);
 	}
 
 	/*
@@ -29,17 +29,5 @@ public class ItemSimplePistol extends ItemRangedWeapon implements Scopeable, Las
 	public int getReloadDuration()
 	{
 		return (int) (ModuleItemBalance.WEAPONS.SIMPLE_PISTOL_RELOAD * 20.0);
-	}
-
-	@Override
-	public void effectPlayer(ItemStack itemstack, EntityPlayer entityplayer, World world)
-	{
-		float f = entityplayer.isSneaking() ? -0.01F : -0.02F;
-		double d = -MathHelper.sin((entityplayer.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((0 / 180F)
-				* 3.141593F) * f;
-		double d1 = MathHelper.cos((entityplayer.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((0 / 180F)
-				* 3.141593F) * f;
-		entityplayer.rotationPitch -= entityplayer.isSneaking() ? 2.5F : 5F;
-		entityplayer.addVelocity(d, 0, d1);
 	}
 }

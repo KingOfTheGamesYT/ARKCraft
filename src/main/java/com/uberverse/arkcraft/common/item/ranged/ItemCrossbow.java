@@ -13,19 +13,13 @@ public class ItemCrossbow extends ItemRangedWeapon
 {
 	public ItemCrossbow()
 	{
-		super("crossbow", 250, 1, "stone_arrow", 1, 2, 1.5F, 2F, 4, 10);
+		super("crossbow", 250, 1, "stone_arrow", 1, 2, 1.5F, 2F, 4, 10, 2.5F, 5F, true);
 	}
 
 	@Override
 	public int getReloadDuration()
 	{
 		return (int) (ModuleItemBalance.WEAPONS.CROSSBOW_RELOAD * 20.0);
-	}
-
-	@Override
-	public void effectPlayer(ItemStack itemstack, EntityPlayer entityplayer, World world)
-	{
-		entityplayer.rotationPitch -= entityplayer.isSneaking() ? 4F : 8F;
 	}
 
 	@Override

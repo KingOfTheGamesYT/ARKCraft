@@ -497,7 +497,6 @@ public abstract class EntityProjectile extends Entity implements IProjectile
 	
     public void gunRange()
     {
-        System.out.println(ticksInAir);
         world.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, posX, posY, posZ, 0.0D, 0.0D, 0.0D);
         if (ticksInAir >= range) {
             this.setDead();
