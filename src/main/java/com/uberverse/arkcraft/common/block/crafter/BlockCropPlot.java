@@ -53,8 +53,6 @@ public class BlockCropPlot extends BlockContainer implements Identifiable
 	public static final PropertyEnum<BerryColor> BERRY = PropertyEnum.create("berry", BerryColor.class);
 	public static final PropertyBool TRANSPARENT = PropertyBool.create("transparent");
 	private EnumBlockRenderType renderType = EnumBlockRenderType.MODEL; // default
-	// value
-	private boolean isOpaque = false;
 
 	public BlockCropPlot()
 	{
@@ -63,7 +61,8 @@ public class BlockCropPlot extends BlockContainer implements Identifiable
 		// this.setTickRandomly(true);
 		this.setCreativeTab(ARKCraft.tabARK);
 		this.setHardness(0.5F);
-
+		translucent = true;
+		lightOpacity = 0;
 		this.disableStats();
 	}
 
@@ -144,15 +143,10 @@ public class BlockCropPlot extends BlockContainer implements Identifiable
 		return renderType;
 	}
 
-	public void setOpaque(boolean opaque)
-	{
-		opaque = isOpaque;
-	}
-
 	@Override
 	public boolean isOpaqueCube(IBlockState state)
 	{
-		return isOpaque;
+		return false;
 	}
 
 	@Override
@@ -398,5 +392,21 @@ public class BlockCropPlot extends BlockContainer implements Identifiable
 	public int getId()
 	{
 		return CommonProxy.GUI.CROP_PLOT.id;
+	}
+	@Override
+	public boolean isFullBlock(IBlockState s) {
+		return false;
+	}
+	@Override
+	public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos) {
+		return false;
+	}
+	@Override
+	public boolean isFullyOpaque(IBlockState state) {
+		return false;
+	}
+	@Override
+	public float getAmbientOcclusionLightValue(IBlockState state) {
+		return 10;
 	}
 }

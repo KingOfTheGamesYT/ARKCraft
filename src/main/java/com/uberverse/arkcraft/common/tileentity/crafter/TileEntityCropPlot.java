@@ -226,7 +226,6 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 							if (valToAdd > 0) {
 								water.fillInternal(new FluidStack(FluidRegistry.WATER, valToAdd), true);
 								ItemWaterContainer.setWaterValueLeft(stack, itemVal / 240);
-								//MathHelper.clamp(water, 0, getType().maxWater);
 							}
 						}
 					}
@@ -417,6 +416,7 @@ public class TileEntityCropPlot extends TileEntityArkCraft implements IInventory
 		}
 		String toAdd = "" + f / 20;
 		text.add("#8B4513" + I18n.format("arkcraft.gui.fertilizer", " " + toAdd));
+		text.add("" + growthTime / 20);
 	}
 
 	public ItemStack[] getStack()
