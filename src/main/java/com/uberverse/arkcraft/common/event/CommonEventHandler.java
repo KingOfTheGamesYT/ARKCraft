@@ -13,6 +13,17 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 
+import com.google.common.collect.ImmutableSet;
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
+import com.uberverse.arkcraft.common.config.ModuleItemBalance;
+import com.uberverse.arkcraft.common.item.IDecayable;
+import com.uberverse.arkcraft.common.item.ranged.ItemRangedWeapon;
+import com.uberverse.arkcraft.common.network.ReloadFinished;
+import com.uberverse.arkcraft.init.ARKCraftItems;
+import com.uberverse.arkcraft.util.Utils;
+import com.uberverse.lib.LogHelper;
+
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -30,9 +41,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -43,18 +54,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
-
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
-import com.uberverse.arkcraft.common.config.ModuleItemBalance;
-import com.uberverse.arkcraft.common.item.IDecayable;
-import com.uberverse.arkcraft.common.item.ranged.ItemRangedWeapon;
-import com.uberverse.arkcraft.common.network.ReloadFinished;
-import com.uberverse.arkcraft.init.ARKCraftItems;
-import com.uberverse.arkcraft.util.Utils;
-import com.uberverse.lib.LogHelper;
-
-import com.google.common.collect.ImmutableSet;
 
 public class CommonEventHandler
 {
@@ -290,6 +289,7 @@ public class CommonEventHandler
 	public static int reloadTicks = 0;
 	public static int ticksExsisted = 0;
 	public static int ticksSwing = 0;
+	public static int ticks = 0;
 
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent evt)
@@ -311,6 +311,29 @@ public class CommonEventHandler
 						w.hasAmmoAndConsume(stack, p);
 						w.effectReloadDone(stack, p.world, p);
 						ARKCraft.modChannel.sendTo(new ReloadFinished(), (EntityPlayerMP) p);
+					}
+				}
+			}
+			else if(w.fired(stack))
+			{
+				if (++ticks >= w.recoilDelay() +40)
+				{
+					System.out.println(ticks);
+					if (!p.world.isRemote)
+					{
+						System.out.println("recoil Down");
+						float f = p.isSneaking() ? -0.01F : -0.02F;
+						double d = -MathHelper.sin((p.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((0 / 180F)
+								* 3.141593F) * f;
+						double d1 = MathHelper.cos((p.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((0 / 180F)
+								* 3.141593F) * f;
+					//	p.rotationPitch+=
+						p.rotationPitch = 5F;
+						p.addVelocity(d, 0, d1);
+					//	w.recoilDown(p, w.getRecoil(), w.getRecoilSneaking(), w.getShouldRecoil());
+					//	p.addVelocity(d, 0, d1);
+						ticks=0;
+						w.setFired(stack, p, false);
 					}
 				}
 			}

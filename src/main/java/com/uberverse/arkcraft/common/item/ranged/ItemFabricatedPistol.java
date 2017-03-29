@@ -1,11 +1,5 @@
 package com.uberverse.arkcraft.common.item.ranged;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
-
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.item.attachments.Flashable;
 import com.uberverse.arkcraft.common.item.attachments.HoloScopeable;
@@ -27,7 +21,8 @@ Flashable
 	{
 		return (int) (ModuleItemBalance.WEAPONS.FABRICATED_PISTOL_RELOAD * 20.0);
 	}
-	
+
+	/*
 	@Override
 	public void effectPlayer(ItemStack itemstack, EntityPlayer entityplayer, World world)
 	{
@@ -43,7 +38,7 @@ Flashable
 	}
 	static int i = 0;
 
-	/*
+	
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);

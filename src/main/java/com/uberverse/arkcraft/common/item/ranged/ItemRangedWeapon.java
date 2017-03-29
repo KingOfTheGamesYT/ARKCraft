@@ -198,7 +198,7 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 		return stack.getTagCompound().getBoolean("fired");
 	}
 
-	private void setFired(ItemStack stack, EntityPlayer player, boolean fired)
+	public void setFired(ItemStack stack, EntityPlayer player, boolean fired)
 	{
 		stack.getTagCompound().setBoolean("fired", fired);
 	}
@@ -222,6 +222,7 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 					updateLaser(entityIn);
 				}
 			}
+			/*
 			else if(fired(stack))
 			{
 				ticks++;
@@ -238,7 +239,7 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 					ticks = 0;
 					setFired(stack, (EntityPlayer) entityIn, false);
 				}
-			}
+			}	*/
 			else if (isReloading(stack)) {
 				resetReload(stack, (EntityPlayer) entityIn);
 			}
@@ -247,9 +248,24 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 	
 	public void recoilDown(Entity entityIn, float recoil, float recoilSneaking, boolean shouldRecoil)
 	{
-		float i = recoil == 0F ? 0F : recoil - 0.5F;
-		float j = recoilSneaking == 0F ? 0F : recoilSneaking - 0.5F;
-		if(shouldRecoil)entityIn.rotationPitch += entityIn.isSneaking() ? j : i;
+		//float i = recoil == 0F ? 0F : recoil - 0.5F;
+		//float j = recoilSneaking == 0F ? 0F : recoilSneaking - 0.5F;
+		if(shouldRecoil)entityIn.rotationPitch += entityIn.isSneaking() ? recoilSneaking : recoil;
+	}
+	
+	public float getRecoil()
+	{
+		return recoil;
+	}
+	
+	public float getRecoilSneaking()
+	{
+		return recoilSneaking;
+	}
+	
+	public boolean getShouldRecoil()
+	{
+		return shouldRecoil;
 	}
 	
 	public void recoilUp(Entity entityIn, float recoil, float recoilSneaking,  boolean shouldRecoil)
