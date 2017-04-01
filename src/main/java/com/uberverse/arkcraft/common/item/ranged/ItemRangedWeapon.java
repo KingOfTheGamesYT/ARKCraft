@@ -1,5 +1,6 @@
 package com.uberverse.arkcraft.common.item.ranged;
 
+import java.awt.TextComponent;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
@@ -32,6 +33,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -222,11 +224,9 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 					updateLaser(entityIn);
 				}
 			}
-			/*
-			else if(fired(stack))
+			if(fired(stack) && entityIn instanceof EntityPlayer)
 			{
 				ticks++;
-				System.out.println(ticks + " After Firing");
 				if(ticks >= recoilDelay())
 				{
 					float f = entityIn.isSneaking() ? -0.01F : -0.02F;
@@ -234,23 +234,23 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 							* 3.141593F) * f;
 					double d1 = MathHelper.cos((entityIn.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((0 / 180F)
 							* 3.141593F) * f;
-					recoilDown(entityIn, recoil, recoilSneaking, shouldRecoil);
+					recoilDown((EntityPlayer)entityIn, recoil, recoilSneaking, shouldRecoil);
 					entityIn.addVelocity(d, 0, d1);
 					ticks = 0;
 					setFired(stack, (EntityPlayer) entityIn, false);
 				}
-			}	*/
+			}	
 			else if (isReloading(stack)) {
 				resetReload(stack, (EntityPlayer) entityIn);
 			}
 		}
 	}
 	
-	public void recoilDown(Entity entityIn, float recoil, float recoilSneaking, boolean shouldRecoil)
+	public void recoilDown(EntityPlayer entityIn, float recoil, float recoilSneaking, boolean shouldRecoil)
 	{
-		//float i = recoil == 0F ? 0F : recoil - 0.5F;
-		//float j = recoilSneaking == 0F ? 0F : recoilSneaking - 0.5F;
-		if(shouldRecoil)entityIn.rotationPitch += entityIn.isSneaking() ? recoilSneaking : recoil;
+		float i = recoil == 0F ? 0F : recoil - 0.5F;
+		float j = recoilSneaking == 0F ? 0F : recoilSneaking - 0.5F;
+		if(shouldRecoil)entityIn.rotationPitch += entityIn.isSneaking() ? i : j;
 	}
 	
 	public float getRecoil()
@@ -268,15 +268,15 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 		return shouldRecoil;
 	}
 	
-	public void recoilUp(Entity entityIn, float recoil, float recoilSneaking,  boolean shouldRecoil)
+	public void recoilUp(EntityPlayer entityIn, float recoil, float recoilSneaking,  boolean shouldRecoil)
 	{
-		if(shouldRecoil)entityIn.rotationPitch -= entityIn.isSneaking() ? recoilSneaking : recoil;
-		System.out.println(recoil + "  recoil" +  "\t" + recoilSneaking + " recoil when Sneaking");
+		if(shouldRecoil)entityIn.rotationPitch -= entityIn.isSneaking() ? recoil : recoilSneaking;
+		//System.out.println(recoil + "  recoil" +  "\t" + recoilSneaking + " recoil when Sneaking");
 	}
 
 	public int recoilDelay() 
 	{
-		return 6;
+		return 4;
 	}
 
 	private void updateLaser(Entity entityIn)

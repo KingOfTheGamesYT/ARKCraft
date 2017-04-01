@@ -313,30 +313,33 @@ public class CommonEventHandler
 						ARKCraft.modChannel.sendTo(new ReloadFinished(), (EntityPlayerMP) p);
 					}
 				}
-			}
+			}	
+			/*
 			else if(w.fired(stack))
 			{
-				if (++ticks >= w.recoilDelay() +40)
+				System.out.println(ticks);
+				//p.rotationPitch += 4f;
+				if (ticks++ == 20)
 				{
-					System.out.println(ticks);
-					if (!p.world.isRemote)
-					{
-						System.out.println("recoil Down");
+					p.rotationPitch += 4f;
+				//	if (!p.world.isRemote)
+					
+				//	{					
 						float f = p.isSneaking() ? -0.01F : -0.02F;
 						double d = -MathHelper.sin((p.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((0 / 180F)
 								* 3.141593F) * f;
 						double d1 = MathHelper.cos((p.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((0 / 180F)
 								* 3.141593F) * f;
 					//	p.rotationPitch+=
-						p.rotationPitch = 5F;
+					//	p.rotationPitch -= 5F;
 						p.addVelocity(d, 0, d1);
-					//	w.recoilDown(p, w.getRecoil(), w.getRecoilSneaking(), w.getShouldRecoil());
+						w.recoilDown(p, w.getRecoil(), w.getRecoilSneaking(), w.getShouldRecoil());
 					//	p.addVelocity(d, 0, d1);
 						ticks=0;
 						w.setFired(stack, p, false);
-					}
-				}
-			}
+					//}
+				} 
+			} */
 		}
 	}
 
