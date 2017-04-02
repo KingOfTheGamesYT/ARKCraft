@@ -22,6 +22,7 @@ import com.uberverse.arkcraft.client.gui.block.GUIMortarPestle;
 import com.uberverse.arkcraft.client.gui.block.GUIRefiningForge;
 import com.uberverse.arkcraft.client.gui.block.GUISmithy;
 import com.uberverse.arkcraft.client.gui.block.GuiCropPlotNew;
+import com.uberverse.arkcraft.client.gui.block.GuiFabricator;
 import com.uberverse.arkcraft.client.gui.entity.GuiInventoryDodo;
 import com.uberverse.arkcraft.client.gui.item.GUIAttachment;
 import com.uberverse.arkcraft.client.gui.player.GUIEngram;
@@ -30,6 +31,7 @@ import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.common.container.block.ContainerCampfire;
 import com.uberverse.arkcraft.common.container.block.ContainerCompostBin;
 import com.uberverse.arkcraft.common.container.block.ContainerCropPlot;
+import com.uberverse.arkcraft.common.container.block.ContainerFabricator;
 import com.uberverse.arkcraft.common.container.block.ContainerMP;
 import com.uberverse.arkcraft.common.container.block.ContainerRefiningForge;
 import com.uberverse.arkcraft.common.container.block.ContainerSmithy;
@@ -44,6 +46,7 @@ import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCompostBin;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot;
 import com.uberverse.arkcraft.common.tileentity.crafter.burner.TileEntityCampfire;
 import com.uberverse.arkcraft.common.tileentity.crafter.burner.TileEntityRefiningForge;
+import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntityFabricator;
 import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntityMP;
 import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntitySmithy;
 import com.uberverse.lib.LogHelper;
@@ -101,7 +104,10 @@ public class GuiHandler implements IGuiHandler
 			if (entity != null && entity instanceof EntityDodo)
 				return new ContainerInventoryDodo(player.inventory, ((EntityDodo) entity).invDodo, (EntityDodo) entity);
 		}else if(id == CommonProxy.GUI.FABRICATOR.id){
-			//TODO
+			BlockPos xyz = new BlockPos(x, y, z);
+			TileEntity tileEntity = world.getTileEntity(xyz);
+			if (tileEntity instanceof TileEntityFabricator)
+				return new ContainerFabricator(player, (TileEntityFabricator) tileEntity);
 		}
 		return null;
 	}
@@ -159,7 +165,10 @@ public class GuiHandler implements IGuiHandler
 			if (entity != null && entity instanceof EntityDodo)
 				return new GuiInventoryDodo(player.inventory, ((EntityDodo) entity).invDodo, (EntityDodo) entity);
 		}else if(id == CommonProxy.GUI.FABRICATOR.id){
-			//TODO
+			BlockPos xyz = new BlockPos(x, y, z);
+			TileEntity tileEntity = world.getTileEntity(xyz);
+			if (tileEntity instanceof TileEntityFabricator)
+				return new GuiFabricator(player, (TileEntityFabricator) tileEntity);
 		}
 		return null;
 

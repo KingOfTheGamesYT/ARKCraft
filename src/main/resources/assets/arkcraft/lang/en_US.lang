@@ -17,6 +17,7 @@ tile.rock_resource.name=Big Rock Block
 tile.small_rock_resource.name=Small Rock Block
 tile.oil_resource.name=Oil Block
 tile.obsidian_resource.name=Obsidian Block
+tile.fabricator.name=Fabricator
 
 #Creative Tabs
 itemGroup.tabARKCraft=ARKCraft

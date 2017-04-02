@@ -22,6 +22,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.proxy.CommonProxy;
+import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntityFabricator;
 
 public class BlockFabricator  extends BlockARKContainer
 {
@@ -38,7 +39,7 @@ public class BlockFabricator  extends BlockARKContainer
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{
-		return null;
+		return new TileEntityFabricator();
 	}
 
 	@Override

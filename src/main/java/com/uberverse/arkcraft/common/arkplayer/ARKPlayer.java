@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Queue;
+import java.util.stream.Collectors;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -110,7 +111,7 @@ public class ARKPlayer implements IArkLevelable, IWeighable, ITranquilizable, IC
 	public void update()
 	{
 		if (!player.world.isRemote) {
-			engramCrafter.update();
+			engramCrafter.updateEC();
 			sendSynchronization(false);
 		}
 		else {
@@ -848,12 +849,6 @@ public class ARKPlayer implements IArkLevelable, IWeighable, ITranquilizable, IC
 		}
 
 		@Override
-		public ItemStack[] getInventory()
-		{
-			return player.inventory.mainInventory;
-		}
-
-		@Override
 		public BlockPos getPosition()
 		{
 			return new BlockPos(player.posX, player.posY, player.posZ);
@@ -886,7 +881,7 @@ public class ARKPlayer implements IArkLevelable, IWeighable, ITranquilizable, IC
 		@Override
 		public String getName()
 		{
-			return null;
+			return "";
 		}
 
 		@Override
@@ -898,7 +893,7 @@ public class ARKPlayer implements IArkLevelable, IWeighable, ITranquilizable, IC
 		@Override
 		public ITextComponent getDisplayName()
 		{
-			return null;
+			return new TextComponentString(getName());
 		}
 
 		@Override
@@ -918,12 +913,6 @@ public class ARKPlayer implements IArkLevelable, IWeighable, ITranquilizable, IC
 		{
 			return null;
 		}
-
-		/*@Override
-		public ItemStack getStackInSlotOnClosing(int index)
-		{
-			return null;
-		}*/
 
 		@Override
 		public void setInventorySlotContents(int index, ItemStack stack)
@@ -966,7 +955,6 @@ public class ARKPlayer implements IArkLevelable, IWeighable, ITranquilizable, IC
 		@Override
 		public void clear()
 		{
-
 		}
 
 		@Override
@@ -1001,7 +989,6 @@ public class ARKPlayer implements IArkLevelable, IWeighable, ITranquilizable, IC
 
 		@Override
 		public ItemStack removeStackFromSlot(int index) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 	}
@@ -1013,7 +1000,7 @@ public class ARKPlayer implements IArkLevelable, IWeighable, ITranquilizable, IC
 
 	public ImmutableList<Short> getUnlockedEngrams()
 	{
-		return ImmutableList.copyOf(unlockedEngrams);
+		return player.capabilities.isCreativeMode ? ImmutableList.copyOf(EngramManager.instance().getEngrams().stream().map(Engram::getId).collect(Collectors.toList())) : ImmutableList.copyOf(unlockedEngrams);
 	}
 
 	public void updateUnlockedEngrams(Collection<Short> engrams, int points)
@@ -1045,7 +1032,7 @@ public class ARKPlayer implements IArkLevelable, IWeighable, ITranquilizable, IC
 
 	public boolean hasLearnedEngram(short id)
 	{
-		return unlockedEngrams.contains(id);
+		return player.capabilities.isCreativeMode ? true : unlockedEngrams.contains(id);
 	}
 
 	/**

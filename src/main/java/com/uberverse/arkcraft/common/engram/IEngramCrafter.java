@@ -26,7 +26,7 @@ import com.uberverse.arkcraft.util.NBTable;
  */
 public interface IEngramCrafter extends NBTable, IInventoryAdder, IExperienceSource
 {
-	public default void update()
+	public default void updateEC()
 	{
 		if (!getWorldIA().isRemote)
 		{
@@ -144,8 +144,9 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder, IExperienceSou
 		compound.setInteger("progress", getProgress());
 
 		NBTTagList inventory = new NBTTagList();
-		for (ItemStack s : getInventory())
+		for (int i = 0;i<getIInventory().getSizeInventory();i++)
 		{
+			ItemStack s = getIInventory().getStackInSlot(i);
 			NBTTagCompound n = new NBTTagCompound();
 			n.setBoolean("null", true);
 			if (s != null)
@@ -362,8 +363,6 @@ public interface IEngramCrafter extends NBTable, IInventoryAdder, IExperienceSou
 
 	@Override
 	public IInventory getIInventory();
-
-	public ItemStack[] getInventory();
 
 	public int getProgress();
 

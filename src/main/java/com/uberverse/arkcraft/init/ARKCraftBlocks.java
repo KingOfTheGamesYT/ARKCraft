@@ -31,6 +31,7 @@ import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCompostBin;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot;
 import com.uberverse.arkcraft.common.tileentity.crafter.burner.TileEntityCampfire;
 import com.uberverse.arkcraft.common.tileentity.crafter.burner.TileEntityRefiningForge;
+import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntityFabricator;
 import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntityMP;
 import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntitySmithy;
 
@@ -99,5 +100,6 @@ public class ARKCraftBlocks
 		GameRegistry.registerTileEntity(TileEntityRefiningForge.class, ARKCraft.MODID + "te_refiningforge");
 		GameRegistry.registerTileEntity(TileEntityCampfire.class, ARKCraft.MODID + "te_campfire");
 		GameRegistry.registerTileEntity(TileEntityCrystal.class, ARKCraft.MODID + "te_crystal");
+		GameRegistry.registerTileEntity(TileEntityFabricator.class, ARKCraft.MODID + "te_fabricator");
 	}
 }

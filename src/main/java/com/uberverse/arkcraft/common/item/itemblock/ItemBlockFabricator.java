@@ -11,7 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-import com.uberverse.arkcraft.common.block.crafter.BlockSmithy;
+import com.uberverse.arkcraft.common.block.crafter.BlockFabricator;
 import com.uberverse.arkcraft.common.block.crafter.EnumPart;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 
@@ -54,11 +54,11 @@ public class ItemBlockFabricator  extends ItemBlockARK
 			{
 				if (flag2 && flag3 && worldIn.isSideSolid(pos.down(), EnumFacing.UP) && worldIn.isSideSolid(blockpos1.down(), EnumFacing.UP))
 				{
-					IBlockState iblockstate1 = ARKCraftBlocks.fabricator.getDefaultState().withProperty(BlockSmithy.FACING,
-							enumfacing1).withProperty(BlockSmithy.PART, EnumPart.RIGHT);
+					IBlockState iblockstate1 = ARKCraftBlocks.fabricator.getDefaultState().withProperty(BlockFabricator.FACING,
+							enumfacing1).withProperty(BlockFabricator.PART, EnumPart.RIGHT);
 					if (worldIn.setBlockState(pos, iblockstate1, 3))
 					{
-						IBlockState iblockstate2 = iblockstate1.withProperty(BlockSmithy.PART,
+						IBlockState iblockstate2 = iblockstate1.withProperty(BlockFabricator.PART,
 								EnumPart.LEFT);
 						worldIn.setBlockState(blockpos1, iblockstate2, 3);
 					}

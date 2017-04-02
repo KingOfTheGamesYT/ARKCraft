@@ -6,10 +6,12 @@ import java.util.Queue;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
@@ -26,9 +28,9 @@ import com.uberverse.arkcraft.util.FixedSizeQueue;
  * @author Lewis_McReu
  */
 public abstract class TileEntityEngramCrafter extends TileEntityArkCraft implements IInventory,
-IEngramCrafter
+IEngramCrafter, ITickable
 {
-	private ItemStack[] inventory;
+	private InventoryBasic inventory;
 
 	private Queue<CraftingOrder> craftingQueue;
 
@@ -40,7 +42,7 @@ IEngramCrafter
 
 	public TileEntityEngramCrafter(int size, String name)
 	{
-		inventory = new ItemStack[size];
+		inventory = new InventoryBasic(name, false, size);
 		this.progress = 0;
 		this.name = name;
 		craftingQueue = new FixedSizeQueue<>(5);
@@ -104,35 +106,6 @@ IEngramCrafter
 	}
 
 	@Override
-	public int getSizeInventory()
-	{
-		return inventory.length;
-	}
-
-	@Override
-	public ItemStack getStackInSlot(int index)
-	{
-		return inventory[index];
-	}
-
-	@Override
-	public ItemStack decrStackSize(int index, int count)
-	{
-		return inventory[index].splitStack(count);
-	}
-
-	@Override
-	public ItemStack removeStackFromSlot(int index) {
-		return inventory[index];
-	}
-
-	@Override
-	public void setInventorySlotContents(int index, ItemStack stack)
-	{
-		inventory[index] = stack;
-	}
-
-	@Override
 	public int getInventoryStackLimit()
 	{
 		return Integer.MAX_VALUE;
@@ -151,16 +124,9 @@ IEngramCrafter
 	}
 
 	@Override
-	public void clear()
-	{
-		for (int i = 0; i < inventory.length; i++)
-			inventory[i] = null;
-	}
-
-	@Override
 	public void update()
 	{
-		IEngramCrafter.super.update();
+		IEngramCrafter.super.updateEC();
 	}
 
 	@Override
@@ -179,19 +145,13 @@ IEngramCrafter
 	}
 
 	@Override
-	public IInventory getIInventory()
-	{
-		return this;
-	}
-
-	@Override
 	public IInventory getConsumedInventory()
 	{
 		return this;
 	}
 
 	@Override
-	public ItemStack[] getInventory()
+	public IInventory getIInventory()
 	{
 		return inventory;
 	}
@@ -308,4 +268,35 @@ IEngramCrafter
 		if (closest == null) return null;
 		return ARKPlayer.get(closest);
 	}
+
+	@Override
+	public ItemStack getStackInSlot(int index) {
+		return inventory.getStackInSlot(index);
+	}
+
+	@Override
+	public ItemStack decrStackSize(int index, int count) {
+		return inventory.decrStackSize(index, count);
+	}
+
+	@Override
+	public ItemStack removeStackFromSlot(int index) {
+		return inventory.removeStackFromSlot(index);
+	}
+
+	@Override
+	public void setInventorySlotContents(int index, ItemStack stack) {
+		inventory.setInventorySlotContents(index, stack);
+	}
+
+	@Override
+	public int getSizeInventory() {
+		return inventory.getSizeInventory();
+	}
+
+	@Override
+	public void clear() {
+		inventory.clear();
+	}
+
 }
