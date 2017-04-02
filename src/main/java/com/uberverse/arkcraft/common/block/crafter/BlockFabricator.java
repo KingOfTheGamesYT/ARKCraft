@@ -22,19 +22,15 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.proxy.CommonProxy;
-import com.uberverse.arkcraft.common.tileentity.crafter.engram.TileEntitySmithy;
 
-/**
- * @author wildbill22
- */
-public class BlockSmithy extends BlockARKContainer
+public class BlockFabricator  extends BlockARKContainer
 {
 	public static final PropertyEnum<EnumPart> PART = PropertyEnum.create("part", EnumPart.class);
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
-	public BlockSmithy()
+	public BlockFabricator()
 	{
-		super(Material.WOOD);
+		super(Material.IRON);
 		this.setHardness(0.5F);
 		this.setCreativeTab(ARKCraft.tabARK);
 	}
@@ -42,7 +38,7 @@ public class BlockSmithy extends BlockARKContainer
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{
-		return new TileEntitySmithy();
+		return null;
 	}
 
 	@Override
@@ -166,6 +162,6 @@ public class BlockSmithy extends BlockARKContainer
 	@Override
 	public int getId()
 	{
-		return CommonProxy.GUI.SMITHY.id;
+		return CommonProxy.GUI.FABRICATOR.id;
 	}
 }

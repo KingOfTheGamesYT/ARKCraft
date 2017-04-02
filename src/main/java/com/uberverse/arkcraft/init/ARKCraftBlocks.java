@@ -9,6 +9,7 @@ import com.uberverse.arkcraft.common.block.BlockLight;
 import com.uberverse.arkcraft.common.block.crafter.BlockCampfire;
 import com.uberverse.arkcraft.common.block.crafter.BlockCompostBin;
 import com.uberverse.arkcraft.common.block.crafter.BlockCropPlot;
+import com.uberverse.arkcraft.common.block.crafter.BlockFabricator;
 import com.uberverse.arkcraft.common.block.crafter.BlockMortarAndPestle;
 import com.uberverse.arkcraft.common.block.crafter.BlockRefiningForge;
 import com.uberverse.arkcraft.common.block.crafter.BlockSmithy;
@@ -18,6 +19,7 @@ import com.uberverse.arkcraft.common.block.resource.BlockObsidianResource;
 import com.uberverse.arkcraft.common.block.resource.BlockOilResource;
 import com.uberverse.arkcraft.common.block.resource.BlockRockResource;
 import com.uberverse.arkcraft.common.block.resource.BlockSmallRockResource;
+import com.uberverse.arkcraft.common.item.itemblock.ItemBlockFabricator;
 import com.uberverse.arkcraft.common.item.itemblock.ItemCampfire;
 import com.uberverse.arkcraft.common.item.itemblock.ItemCompostBin;
 import com.uberverse.arkcraft.common.item.itemblock.ItemCropPlot;
@@ -43,6 +45,7 @@ public class ARKCraftBlocks
 	public static BlockRefiningForge refiningForge;
 	public static BlockCampfire campfire;
 	public static BlockGreenScreen greenScreen;
+	public static BlockFabricator fabricator;
 
 	public static BlockRockResource rockResource;
 	public static BlockMetalResource metalResource;
@@ -78,6 +81,8 @@ public class ARKCraftBlocks
 		init.registerBlock("refining_forge", refiningForge, new ItemRefiningForge(refiningForge));
 		campfire = new BlockCampfire();
 		init.registerBlock("campfire", campfire, new ItemCampfire(campfire));
+		fabricator = new BlockFabricator();
+		init.registerBlock("fabricator", fabricator, new ItemBlockFabricator(fabricator));
 
 		rockResource = init.registerBlock("rock_resource", new BlockRockResource());
 		metalResource = init.registerBlock("metal_resource", new BlockMetalResource());

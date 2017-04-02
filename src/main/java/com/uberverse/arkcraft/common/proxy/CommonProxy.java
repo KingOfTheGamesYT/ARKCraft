@@ -63,7 +63,8 @@ public abstract class CommonProxy
 		ATTACHMENTS,
 		ENGRAMS,
 		CAMPFIRE,
-		INV_DODO;
+		INV_DODO,
+		FABRICATOR;
 
 		public final int id;
 

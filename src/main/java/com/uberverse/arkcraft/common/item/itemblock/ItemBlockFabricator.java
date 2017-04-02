@@ -15,9 +15,9 @@ import com.uberverse.arkcraft.common.block.crafter.BlockSmithy;
 import com.uberverse.arkcraft.common.block.crafter.EnumPart;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 
-public class ItemSmithy extends ItemBlockARK
+public class ItemBlockFabricator  extends ItemBlockARK
 {
-	public ItemSmithy(Block block)
+	public ItemBlockFabricator(Block block)
 	{
 		super(block);
 		this.setMaxStackSize(1);
@@ -54,7 +54,7 @@ public class ItemSmithy extends ItemBlockARK
 			{
 				if (flag2 && flag3 && worldIn.isSideSolid(pos.down(), EnumFacing.UP) && worldIn.isSideSolid(blockpos1.down(), EnumFacing.UP))
 				{
-					IBlockState iblockstate1 = ARKCraftBlocks.smithy.getDefaultState().withProperty(BlockSmithy.FACING,
+					IBlockState iblockstate1 = ARKCraftBlocks.fabricator.getDefaultState().withProperty(BlockSmithy.FACING,
 							enumfacing1).withProperty(BlockSmithy.PART, EnumPart.RIGHT);
 					if (worldIn.setBlockState(pos, iblockstate1, 3))
 					{
