@@ -271,7 +271,6 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 	public void recoilUp(EntityPlayer entityIn, float recoil, float recoilSneaking,  boolean shouldRecoil)
 	{
 		if(shouldRecoil)entityIn.rotationPitch -= entityIn.isSneaking() ? recoil : recoilSneaking;
-		//System.out.println(recoil + "  recoil" +  "\t" + recoilSneaking + " recoil when Sneaking");
 	}
 
 	public int recoilDelay() 

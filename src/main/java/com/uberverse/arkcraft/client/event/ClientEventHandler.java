@@ -145,10 +145,38 @@ public class ClientEventHandler
 		EntityPlayer thePlayer = mc.player;
 
 		if (evt.getButton() == 0) {
-			ItemStack stack = thePlayer.getActiveItemStack();
-			InventoryAttachment att = InventoryAttachment.create(stack);
+			ItemStack rightHand = thePlayer.getHeldItemMainhand();
+			ItemStack leftHand = thePlayer.getHeldItemOffhand();
+			if(leftHand != null)
+			{
+				if(leftHand.getItem() instanceof ItemRangedWeapon)
+				{
+					ItemRangedWeapon w = (ItemRangedWeapon) leftHand.getItem();
+					w.fire(leftHand, mc.world, thePlayer, 0);
+				}
+			}
+			else
+			{
+				
+			}
+			
+			if(rightHand != null || leftHand != null)
+			{
+				if(rightHand.getItem() instanceof ItemRangedWeapon && leftHand.getItem() instanceof ItemRangedWeapon)
+				{
+					
+				}
+				else if(rightHand.getItem() instanceof ItemRangedWeapon)
+				{
+					
+				}
+				
+			}
+			InventoryAttachment att = InventoryAttachment.create(rightHand);
+			/*
 			if (stack != null) {
 				if (att != null && att.isScopePresent()) {
+					System.out.println("scope");
 					showScopeOverlap = evt.isButtonstate();
 					selected = stack;
 					if (showScopeOverlap)
@@ -160,7 +188,7 @@ public class ClientEventHandler
 					if (showSpyglassOverlay)
 						evt.setCanceled(true);
 				}
-			}
+			} */
 		}
 	}
 
