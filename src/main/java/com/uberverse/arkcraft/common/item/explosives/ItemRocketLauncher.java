@@ -37,8 +37,8 @@ public class ItemRocketLauncher extends ItemRangedWeapon
 	@Override
 	public void effectShoot(EntityPlayer player, ItemStack stack, World world, double x, double y, double z, float yaw, float pitch)
 	{
-		SoundUtil.playSound(world, x, y, z, new ResourceLocation("random.explode"), SoundCategory.PLAYERS, 3F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F), false);
-		SoundUtil.playSound(world, x, y, z, new ResourceLocation("ambient.weather.thunder"), SoundCategory.PLAYERS, 3F, 1F / (this.getItemRand().nextFloat() * 0.4F
+		SoundUtil.playSound(world, x, y, z, new ResourceLocation("entity.generic.explode"), SoundCategory.PLAYERS, 3F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F), false);
+		SoundUtil.playSound(world, x, y, z, new ResourceLocation("entity.lightning.thunder"), SoundCategory.PLAYERS, 3F, 1F / (this.getItemRand().nextFloat() * 0.4F
 				+ 0.4F), false);
 
 		float particleX = -MathHelper.sin(((yaw + 23) / 180F) * 3.141593F) * MathHelper.cos((pitch / 180F) * 3.141593F);
@@ -56,7 +56,7 @@ public class ItemRocketLauncher extends ItemRangedWeapon
 	@Override
 	public void effectReloadDone(ItemStack stack, World world, EntityPlayer player)
 	{
-		world.playSound(player, player.getPosition(), SoundEvent.REGISTRY.getObject(new ResourceLocation("random.door_close")), SoundCategory.PLAYERS, 1.2F, 1.0F / (this.getItemRand().nextFloat() * 0.2F
-				+ 0.0F));
+		SoundUtil.playSound(world, player.getPosition(), new ResourceLocation("block.wooden_door.close"), SoundCategory.PLAYERS, 1.2F, 1.0F / (this.getItemRand().nextFloat() * 0.2F
+				+ 0.0F), false);
 	}
 }

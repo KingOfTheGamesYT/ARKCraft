@@ -259,6 +259,7 @@ item.saddle_large.tooltip=%oA Dino Rider's Dream
 arkcraft.decayable.tooltip=Decomposes in
 arkcraft.tooltip.toolLevel=Tool Level: %d
 arkcraft.tooltip.fertilizer=Fertilizing value left: %f
+arkcraft.gui.fertilizer=Fertilizer: %s remaining
 arkcraft.cropPlotState.head=%s (%s)
 arkcraft.growing=Crop
 arkcraft.empty=Empty

@@ -80,7 +80,7 @@ public class Utils
 			ItemStack stack = inventory.getStackInSlot(i);
 			if (stack != null && stack.getItem() instanceof IDecayable)
 			{
-				System.out.println("tick");
+				//System.out.println("tick");
 				IDecayable decayable = (IDecayable) stack.getItem();
 				decayable.decayTick(inventory, i, 1, stack);
 			}
