@@ -1027,7 +1027,7 @@ public class ARKPlayer implements IArkLevelable, IWeighable, ITranquilizable, IC
 
 	public boolean canLearnEngram(short id)
 	{
-		return EngramManager.instance().canPlayerLearn(player, id);
+		return player.capabilities.isCreativeMode ? true : EngramManager.instance().canPlayerLearn(player, id);
 	}
 
 	public boolean hasLearnedEngram(short id)

@@ -13,17 +13,6 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 
-import com.google.common.collect.ImmutableSet;
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
-import com.uberverse.arkcraft.common.config.ModuleItemBalance;
-import com.uberverse.arkcraft.common.item.IDecayable;
-import com.uberverse.arkcraft.common.item.ranged.ItemRangedWeapon;
-import com.uberverse.arkcraft.common.network.ReloadFinished;
-import com.uberverse.arkcraft.init.ARKCraftItems;
-import com.uberverse.arkcraft.util.Utils;
-import com.uberverse.lib.LogHelper;
-
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -35,14 +24,17 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -53,6 +45,18 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
+
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
+import com.uberverse.arkcraft.common.config.ModuleItemBalance;
+import com.uberverse.arkcraft.common.item.IDecayable;
+import com.uberverse.arkcraft.common.item.ranged.ItemRangedWeapon;
+import com.uberverse.arkcraft.common.network.ReloadFinished;
+import com.uberverse.arkcraft.init.ARKCraftItems;
+import com.uberverse.arkcraft.util.Utils;
+import com.uberverse.lib.LogHelper;
+
+import com.google.common.collect.ImmutableSet;
 
 public class CommonEventHandler
 {
@@ -312,7 +316,7 @@ public class CommonEventHandler
 						ARKCraft.modChannel.sendTo(new ReloadFinished(), (EntityPlayerMP) p);
 					}
 				}
-			}	
+			}
 			/*
 			else if(w.fired(stack))
 			{
@@ -322,13 +326,13 @@ public class CommonEventHandler
 				{
 					p.rotationPitch += 4f;
 				//	if (!p.world.isRemote)
-					
-				//	{					
+
+				//	{
 						float f = p.isSneaking() ? -0.01F : -0.02F;
 						double d = -MathHelper.sin((p.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((0 / 180F)
-								* 3.141593F) * f;
+			 * 3.141593F) * f;
 						double d1 = MathHelper.cos((p.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((0 / 180F)
-								* 3.141593F) * f;
+			 * 3.141593F) * f;
 					//	p.rotationPitch+=
 					//	p.rotationPitch -= 5F;
 						p.addVelocity(d, 0, d1);
@@ -337,7 +341,7 @@ public class CommonEventHandler
 						ticks=0;
 						w.setFired(stack, p, false);
 					//}
-				} 
+				}
 			} */
 		}
 	}
@@ -390,6 +394,7 @@ public class CommonEventHandler
 							pickedUp.stackSize -= pickSize;
 							inInv.stackSize += pickSize;
 							IDecayable.setDecayStart(inInv, avg);
+							event.getEntityPlayer().world.playSound(null, event.getEntityPlayer().posX, event.getEntityPlayer().posY, event.getEntityPlayer().posZ, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, ((event.getEntityPlayer().getRNG().nextFloat() - event.getEntityPlayer().getRNG().nextFloat()) * 0.7F + 1.0F) * 2.0F);
 
 							break;
 						}

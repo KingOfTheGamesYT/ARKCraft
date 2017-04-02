@@ -259,17 +259,6 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 	{
 		return Qualitable.get(stack).harvestMultiplier * baseBreakSpeed;
 	}
-
-	//private static UUID attUUID = UUID.fromString("attack_damage");
-
-	/*@SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    public final Multimap getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack)
-    {
-        Multimap map = super.getAttributeModifiers(slot, stack);
-        map.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(attUUID, "attack_damage", getAttackDamage(stack), 0));
-        return map;
-    }*/
 	@Override
 	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot equipmentSlot, ItemStack stack)
 	{
@@ -278,7 +267,7 @@ public abstract class ItemToolBase extends ItemQualitable implements IBreakable
 		if (equipmentSlot == EntityEquipmentSlot.MAINHAND)
 		{
 			multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Tool modifier", getAttackDamage(stack), 0));
-			multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Tool modifier", -3.5D, 0));
+			multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Tool modifier", -2D, 0));
 		}
 
 		return multimap;

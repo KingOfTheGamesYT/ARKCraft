@@ -14,7 +14,7 @@ public interface Qualitable
 	{
 		if (stack.getTagCompound() != null && stack.getTagCompound().hasKey(qualityKey)) return ItemQuality.get(stack.getTagCompound().getByte(
 				qualityKey));
-		return null;
+		return ItemQuality.PRIMITIVE;
 	}
 
 	public static ItemStack set(ItemStack stack, ItemQuality q)

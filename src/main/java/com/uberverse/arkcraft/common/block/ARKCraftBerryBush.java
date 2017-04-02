@@ -184,7 +184,7 @@ public class ARKCraftBerryBush extends BlockBush implements IExperienceSource
 		if (itemStackIn.stackSize != 0 && itemStackIn.getItem() != null) {
 			Float offset = worldIn.rand.nextFloat();
 			//TODO Droping may be little inccorect now not sure though
-			EntityItem entityitem = new EntityItem(worldIn, pos.getX() + offset, pos.getY() + playerIn.getPosition().getY(), pos.getZ() + offset, itemStackIn);
+			EntityItem entityitem = new EntityItem(worldIn, pos.getX() + offset, pos.getY() + 0.5, pos.getZ() + offset, itemStackIn);
 			entityitem.setDefaultPickupDelay();
 			if (playerIn.captureDrops) {
 				playerIn.capturedDrops.add(entityitem);
