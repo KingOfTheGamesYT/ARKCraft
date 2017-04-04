@@ -31,8 +31,10 @@ import com.uberverse.arkcraft.common.handlers.GuiHandler;
 import com.uberverse.arkcraft.common.item.IMeshedItem;
 import com.uberverse.arkcraft.common.network.ARKModeToggle;
 import com.uberverse.arkcraft.common.network.BurnerToggle;
+import com.uberverse.arkcraft.common.network.GunFired;
 import com.uberverse.arkcraft.common.network.MessageHover;
 import com.uberverse.arkcraft.common.network.MessageHover.MessageHoverReq;
+import com.uberverse.arkcraft.common.network.RecoilDown;
 import com.uberverse.arkcraft.common.network.ReloadFinished;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.common.network.ScrollGui;
@@ -158,6 +160,8 @@ public abstract class CommonProxy
 				Side.CLIENT);
 		modChannel.registerMessage(ScrollGui.Handler.class, ScrollGui.class, id++, Side.SERVER);
 		modChannel.registerMessage(ARKModeToggle.Handler.class, ARKModeToggle.class, id++, Side.SERVER);
+		modChannel.registerMessage(GunFired.Handler.class, GunFired.class, id++, Side.SERVER);
+		modChannel.registerMessage(RecoilDown.Handler.class, RecoilDown.class, id++, Side.CLIENT);
 	}
 
 	public EntityPlayer getPlayer()

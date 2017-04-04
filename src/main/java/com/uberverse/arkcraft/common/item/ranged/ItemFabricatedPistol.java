@@ -13,7 +13,7 @@ Flashable
 
 	public ItemFabricatedPistol()
 	{
-		super("fabricated_pistol", 350, 13, "advanced_bullet", 1, 0.2, 6F, 1.4F, 12, 80, 2.5F, 5F, true);
+		super("fabricated_pistol", 350, 13, "advanced_bullet", 1, 0.3, 6F, 1.4F, 12, 80, 2.5F, 5F, true);
 	}
 
 	@Override

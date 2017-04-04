@@ -1,12 +1,28 @@
 package com.uberverse.arkcraft.common.item.ranged;
 
-import java.awt.TextComponent;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.client.event.ClientEventHandler;
+import com.uberverse.arkcraft.common.data.WeaponModAttributes;
+import com.uberverse.arkcraft.common.entity.projectile.EntityProjectile;
+import com.uberverse.arkcraft.common.entity.projectile.ProjectileType;
+import com.uberverse.arkcraft.common.inventory.InventoryAttachment;
+import com.uberverse.arkcraft.common.item.IMeshedItem;
+import com.uberverse.arkcraft.common.item.ammo.ItemProjectile;
+import com.uberverse.arkcraft.common.network.GunFired;
+import com.uberverse.arkcraft.common.network.RecoilDown;
+import com.uberverse.arkcraft.init.ARKCraftBlocks;
+
+import org.lwjgl.input.Mouse;
+
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -33,27 +49,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
-
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.client.event.ClientEventHandler;
-import com.uberverse.arkcraft.common.data.WeaponModAttributes;
-import com.uberverse.arkcraft.common.entity.projectile.EntityProjectile;
-import com.uberverse.arkcraft.common.entity.projectile.ProjectileType;
-import com.uberverse.arkcraft.common.inventory.InventoryAttachment;
-import com.uberverse.arkcraft.common.item.IMeshedItem;
-import com.uberverse.arkcraft.common.item.ammo.ItemProjectile;
-import com.uberverse.arkcraft.init.ARKCraftBlocks;
-import com.uberverse.arkcraft.util.SoundUtil;
-
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 
 /**
  * @author Lewis_McReu
@@ -62,6 +62,8 @@ import com.google.common.collect.Multimap;
 public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 {
 	protected static final int MAX_DELAY = 72000;
+	
+	static boolean notClickedYet = true;
 
 	private Set<ItemProjectile> projectiles;
 	private final int maxAmmo;
@@ -70,7 +72,7 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 	private final long shotInterval;
 	private final float speed;
 	private final float inaccuracy;
-	private long nextShotMillis = 0;
+	public long nextShotMillis = 0;
 	private double damage;
 	private int range;
 	private boolean fired;
@@ -210,10 +212,90 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
 	}
-
+	
 	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected)
 	{
+		if(isSelected)
+		{
+			if(world.isRemote)
+			{
+				updateClient(stack, world, (EntityPlayer) entity, itemSlot, isSelected);
+			} else updateServer(stack, world, (EntityPlayer) entity, itemSlot, isSelected);
+		}
+	}
+
+	public void updateServer(ItemStack stack, World world, EntityPlayer entity, int itemSlot, boolean isSelected) 
+	{
+
+	}
+
+	public void updateClient(ItemStack stack, World world, EntityPlayer entity, int itemSlot, boolean isSelected) 
+	{
+	    InventoryAttachment inv = InventoryAttachment.create(stack);
+
+	    if (Mouse.getEventButtonState()) {
+	        if (Mouse.getEventButton() == 0) {
+	            notClickedYet = true;
+	        }
+	    }
+	    else 
+		    {
+			if (notClickedYet) 
+			{
+				if (Mouse.getEventButton() == 0)
+				{
+					notClickedYet = false;
+					if(Minecraft.getMinecraft().currentScreen == null)
+					{
+						if(canFire(stack, entity))
+						{
+							System.out.println("Cant fire, shot");
+							if(this.nextShotMillis < System.currentTimeMillis())
+							{
+								ARKCraft.modChannel.sendToServer(new GunFired());
+								setFired(stack, entity, true);
+							}
+						}
+						else
+						{
+							System.out.println("Cant fire, reload");
+							if (!this.isReloading(stack))
+							{
+								soundEmpty(stack, world, entity);
+							}
+						
+						}
+					}
+				}
+			}
+			else
+			{
+				
+			}
+		}
+		if (inv != null && inv.isFlashPresent())
+		{
+			updateFlashlight(entity);
+		}
+		else if (inv != null && inv.isLaserPresent())
+		{
+			updateLaser(entity);
+		}
+		if(fired(stack))
+		{
+			System.out.println(ticks);
+			++ticks;
+			if(ticks >= recoilDelay() + 1)
+			{
+				entity.rotationPitch += entity.isSneaking() ? 4 : 3;
+				ticks = 0;
+				setFired(stack, entity, false);
+			}
+		}
+	}
+
+		/*
 		if (entityIn instanceof EntityPlayer) {
 			if (isSelected) {
 				InventoryAttachment inv = InventoryAttachment.create(stack);
@@ -226,6 +308,8 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 			}
 			if(fired(stack) && entityIn instanceof EntityPlayer)
 			{
+				System.out.println(ticks);
+				afterFire(stack, worldIn, (EntityPlayer) entityIn);
 				ticks++;
 				if(ticks >= recoilDelay())
 				{
@@ -239,12 +323,35 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 					ticks = 0;
 					setFired(stack, (EntityPlayer) entityIn, false);
 				}
+				}
 			}	
 			else if (isReloading(stack)) {
 				resetReload(stack, (EntityPlayer) entityIn);
 			}
+			if(Mouse.getEventButton() == 0 && Mouse.getEventButtonState() && !Minecraft.getMinecraft().isGamePaused())
+			{
+				if(!worldIn.isRemote){
+				if(stack.getItem() instanceof ItemRangedWeapon)
+				{
+					if (canFire(stack, (EntityPlayer) entityIn))
+					{
+						if (this.nextShotMillis < System.currentTimeMillis())
+							System.out.println("Fire");
+						ARKCraft.modChannel.sendToServer(new GunFired());
+						//	fire(stack, worldIn, (EntityPlayer) entityIn, 0);
+							new ActionResult<>(EnumActionResult.SUCCESS, stack);
+				//		((EntityPlayer) entityIn).setItemInUse(stack, getMaxItemUseDuration(stack));
+					}
+					else {
+						// Can't reload; no ammo
+						if (!this.isReloading(stack)) {
+							soundEmpty(stack, worldIn, (EntityPlayer) entityIn);
+						}
+					}
+				}			
+			}			
 		}
-	}
+	} */
 	
 	public void recoilDown(EntityPlayer entityIn, float recoil, float recoilSneaking, boolean shouldRecoil)
 	{
@@ -343,12 +450,15 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
 	{
+		return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn); 		
+		/*
 		if (itemStackIn.stackSize <= 0 || playerIn.isHandActive()) { //== hand
 			return new ActionResult<>(EnumActionResult.PASS, itemStackIn);
 		}
 
 		if (canFire(itemStackIn, playerIn)) {
 			if (this.nextShotMillis < System.currentTimeMillis())
+				System.out.println("Fire");
 				// Start aiming weapon to fire
 				playerIn.setActiveHand(hand);
 			return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
@@ -360,7 +470,8 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 				soundEmpty(itemStackIn, worldIn, playerIn);
 			}
 		}
-		return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
+		return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn); */
+		
 	}
 
 	@Override
@@ -568,7 +679,7 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 		//TODO New Sound Effect
 		//	world.playSoundEffect(x, y, z, SoundEvent.REGISTRY.getObject(new ResourceLocation(soundPath), 1.5F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F));
 		//world.playSound(entityplayer, entityplayer.getPosition(), SoundEvent.REGISTRY.getObject(new ResourceLocation(soundPath), SoundCategory.PLAYERS, 1.5F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F));
-		SoundUtil.playSound(world, x, y, z, new ResourceLocation(soundPath), SoundCategory.PLAYERS, 1.5F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F), false);
+		//SoundUtil.playSound(world, x, y, z, new ResourceLocation(soundPath), SoundCategory.PLAYERS, 1.5F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F), false);
 
 		float particleX = -MathHelper.sin(((yaw + 23) / 180F) * 3.141593F) * MathHelper.cos((pitch / 180F) * 3.141593F);
 		float particleY = -MathHelper.sin((pitch / 180F) * 3.141593F) - 0.1F;
@@ -578,6 +689,7 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 			world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x + particleX, y + particleY, z + particleZ, 0.0D, 0.0D, 0.0D);
 		}
 		world.spawnParticle(EnumParticleTypes.FLAME, x + particleX, y + particleY, z + particleZ, 0.0D, 0.0D, 0.0D);
+		System.out.println("effectshoot");
 	}
 
 	public void fire(ItemStack stack, World world, EntityPlayer player, int timeLeft)
@@ -591,9 +703,25 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 			}
 		}
 		afterFire(stack, world, player);
+	//	afterFire(stack, world, player);
+	}
+	
+	public void fireNew(ItemStack stack, World world, EntityPlayer player)
+	{
+		if (canFire(stack, player)) {
+		if (!world.isRemote) {
+			for (int i = 0; i < getAmmoConsumption(); i++) {
+				EntityProjectile p = createProjectile(stack, world, player);
+				applyProjectileEnchantments(p, stack);
+				if (p != null)
+					world.spawnEntity(p);
+			//	setFired(stack, player, true);
+			}
+			}
+		}
 	}
 
-	protected void afterFire(ItemStack stack, World world, EntityPlayer player)
+	public void afterFire(ItemStack stack, World world, EntityPlayer player)
 	{
 		if (!player.capabilities.isCreativeMode)
 			this.setAmmoQuantity(stack, this.getAmmoQuantity(stack) - ammoConsumption);
@@ -615,8 +743,8 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 		}
 		this.nextShotMillis = System.currentTimeMillis() + this.shotInterval;
 		stack.damageItem(damage, player);
-		setFired(stack, player, true);
 		postShootingEffects(stack, player, world);
+	//	setFired(stack, player, true);
 	}
 
 	protected EntityProjectile createProjectile(ItemStack stack, World world, EntityPlayer player)
