@@ -17,7 +17,6 @@ import com.uberverse.arkcraft.common.inventory.InventoryAttachment;
 import com.uberverse.arkcraft.common.item.IMeshedItem;
 import com.uberverse.arkcraft.common.item.ammo.ItemProjectile;
 import com.uberverse.arkcraft.common.network.GunFired;
-import com.uberverse.arkcraft.common.network.RecoilDown;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 
 import org.lwjgl.input.Mouse;
@@ -250,7 +249,6 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 					{
 						if(canFire(stack, entity))
 						{
-							System.out.println("Cant fire, shot");
 							if(this.nextShotMillis < System.currentTimeMillis())
 							{
 								ARKCraft.modChannel.sendToServer(new GunFired());
@@ -259,7 +257,6 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 						}
 						else
 						{
-							System.out.println("Cant fire, reload");
 							if (!this.isReloading(stack))
 							{
 								soundEmpty(stack, world, entity);
@@ -284,11 +281,10 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 		}
 		if(fired(stack))
 		{
-			System.out.println(ticks);
 			++ticks;
 			if(ticks >= recoilDelay() + 1)
 			{
-				entity.rotationPitch += entity.isSneaking() ? 4 : 3;
+				recoilDown(entity, getRecoil(), getRecoilSneaking(), isSelected);
 				ticks = 0;
 				setFired(stack, entity, false);
 			}
@@ -689,8 +685,7 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 		for (int i = 0; i < 3; i++) {
 			world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x + particleX, y + particleY, z + particleZ, 0.0D, 0.0D, 0.0D);
 		}
-		world.spawnParticle(EnumParticleTypes.FLAME, x + particleX, y + particleY, z + particleZ, 0.0D, 0.0D, 0.0D);
-		System.out.println("effectshoot");
+		world.spawnParticle(EnumParticleTypes.FLAME, x + particleX , y + particleY , z + particleZ , 0.0D, 0.0D, 0.0D);
 	}
 
 	public void fire(ItemStack stack, World world, EntityPlayer player, int timeLeft)
