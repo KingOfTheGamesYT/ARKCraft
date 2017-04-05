@@ -450,6 +450,7 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
 	{
+		
 		return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn); 		
 		/*
 		if (itemStackIn.stackSize <= 0 || playerIn.isHandActive()) { //== hand

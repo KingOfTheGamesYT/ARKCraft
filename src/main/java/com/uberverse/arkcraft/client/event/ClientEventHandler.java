@@ -37,6 +37,7 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelBiped.ArmPose;
 import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.model.ModelSlime;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -44,6 +45,7 @@ import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.RenderGuardian;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.RenderSlime;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -177,7 +179,6 @@ public class ClientEventHandler
 				evt.setCanceled(true);
 				if (att != null && att.isScopePresent()) {
 					showScopeOverlap = evt.isButtonstate();
-					System.out.println(showScopeOverlap);
 					selected = rightHandStack;
 				//	if (showScopeOverlap)
 				}
@@ -279,6 +280,7 @@ public class ClientEventHandler
 		p.rotationPitch += pitchSway;
 		p.rotationYaw += yawSway;
 
+		/*
 		GL11.glPushMatrix();
 		mc.entityRenderer.setupOverlayRendering();
 		GL11.glEnable(GL11.GL_BLEND);
@@ -304,7 +306,38 @@ public class ClientEventHandler
 		tessellator.draw();
 		// END TODO
 
+		*/
+		GL11.glPushMatrix();
+
+		RenderScope();
+		
 		GL11.glPopMatrix();
+	}
+	
+	public void RenderScope()
+	{
+		ScaledResolution res = new ScaledResolution(mc);
+		double width = res.getScaledWidth_double();
+		double height = res.getScaledHeight_double();
+		
+        GlStateManager.disableDepth();
+        GlStateManager.depthMask(false);
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.disableAlpha();
+        this.mc.getTextureManager().bindTexture(SCOPE_OVERLAY);
+        Tessellator tessellator = Tessellator.getInstance();
+        VertexBuffer vertexbuffer = tessellator.getBuffer();
+        vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
+        vertexbuffer.pos(0.0D, (double)height, -90.0D).tex(0.0D, 1.0D).endVertex();
+        vertexbuffer.pos((double)width, (double)height, -90.0D).tex(1.0D, 1.0D).endVertex();
+        vertexbuffer.pos((double)width, 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
+        vertexbuffer.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
+        tessellator.draw();
+        GlStateManager.depthMask(true);
+        GlStateManager.enableDepth();
+        GlStateManager.enableAlpha();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 
 	public void showSpyglass()
