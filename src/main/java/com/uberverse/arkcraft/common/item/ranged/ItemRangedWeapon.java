@@ -835,10 +835,11 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 	{
 	//	tooltip.add("Reload time " + getre + "s")	; //TODO Reload time
 		tooltip.add("Damage " + this.getDamage());
-		tooltip.add("Range " + this.getRange() + " blocks");
+		tooltip.add("Range " + this.getRange() + " blockss");
 		tooltip.add("Recoil " + this.getRecoil());
 		tooltip.add("Has recoil : " + getShouldRecoil());
 	}
+	
 	
 	@Override
 	@SideOnly(Side.CLIENT)
