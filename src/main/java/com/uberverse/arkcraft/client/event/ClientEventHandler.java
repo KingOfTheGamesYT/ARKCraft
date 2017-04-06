@@ -1,27 +1,19 @@
 package com.uberverse.arkcraft.client.event;
 
-import java.awt.event.MouseListener;
 import java.util.Random;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.client.easter.Easter;
-import com.uberverse.arkcraft.client.model.ModelDodo;
-import com.uberverse.arkcraft.client.render.creature.RenderDodo;
 import com.uberverse.arkcraft.common.arkplayer.ARKPlayer;
 import com.uberverse.arkcraft.common.arkplayer.PlayerWeightCalculator;
-import com.uberverse.arkcraft.common.block.crafter.BlockRefiningForge;
 import com.uberverse.arkcraft.common.config.WeightsConfig;
-import com.uberverse.arkcraft.common.entity.EntityDodo;
 import com.uberverse.arkcraft.common.inventory.InventoryAttachment;
 import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
 import com.uberverse.arkcraft.common.item.ranged.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.network.ARKModeToggle;
-import com.uberverse.arkcraft.common.network.GunFired;
 import com.uberverse.arkcraft.common.network.ReloadStarted;
 import com.uberverse.arkcraft.common.network.gui.OpenAttachmentInventory;
 import com.uberverse.arkcraft.common.network.gui.OpenPlayerCrafting;
@@ -30,21 +22,14 @@ import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot;
 import com.uberverse.arkcraft.util.ClientUtils;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelBiped.ArmPose;
 import net.minecraft.client.model.ModelPlayer;
-import net.minecraft.client.model.ModelSlime;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
-import net.minecraft.client.renderer.entity.RenderGuardian;
-import net.minecraft.client.renderer.entity.RenderPlayer;
-import net.minecraft.client.renderer.entity.RenderSlime;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
@@ -59,24 +44,14 @@ import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.client.event.RenderSpecificHandEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent.MouseInputEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -166,16 +141,36 @@ public class ClientEventHandler
 		Minecraft mc = Minecraft.getMinecraft();
 		EntityPlayer thePlayer = mc.player;
 		ItemStack rightHandStack = thePlayer.getHeldItemMainhand();
+		ItemStack leftHandStack = thePlayer.getHeldItemMainhand();
 		InventoryAttachment att = InventoryAttachment.create(rightHandStack);
 
-		if (rightHandStack != null && rightHandStack.getItem() instanceof ItemRangedWeapon) 
+		
+		if(rightHandStack != null && rightHandStack.getItem() instanceof ItemRangedWeapon && leftHandStack != null && leftHandStack.getItem() instanceof ItemRangedWeapon)
 		{
+			ItemRangedWeapon rightHandGun = (ItemRangedWeapon) rightHandStack.getItem();
+			ItemRangedWeapon leftHandGun = (ItemRangedWeapon) leftHandStack.getItem();
+			if(!rightHandGun.IsTwoHanded() && !leftHandGun.IsTwoHanded())
+			{
+				System.out.println("duel Wielding");
+			}
+			else
+			{
+				//Fire the main hand gun
+			}
+		}
+		
+		
+		else if (rightHandStack != null && rightHandStack.getItem() instanceof ItemRangedWeapon) 
+		{
+			if(leftHandStack != null && leftHandStack.getItem() instanceof ItemRangedWeapon)
+			System.out.println(leftHandStack.getItem());
 			if(evt.getButton() == 0)
 			{
 				evt.setCanceled(true);
 			}
 			if(evt.getButton() == 1)
 			{
+			//	if()
 				evt.setCanceled(true);
 				if (att != null && att.isScopePresent()) {
 					showScopeOverlap = evt.isButtonstate();
@@ -183,8 +178,7 @@ public class ClientEventHandler
 				//	if (showScopeOverlap)
 				}
 			}
-		}
-		
+		}	
 	}
 
 	private boolean showSpyglassOverlay;

@@ -3,14 +3,14 @@ package com.uberverse.arkcraft.common.item.ranged;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
+import org.lwjgl.input.Mouse;
+
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.client.event.ClientEventHandler;
-import com.uberverse.arkcraft.common.data.WeaponModAttributes;
 import com.uberverse.arkcraft.common.entity.projectile.EntityProjectile;
 import com.uberverse.arkcraft.common.entity.projectile.ProjectileType;
 import com.uberverse.arkcraft.common.inventory.InventoryAttachment;
@@ -19,15 +19,12 @@ import com.uberverse.arkcraft.common.item.ammo.ItemProjectile;
 import com.uberverse.arkcraft.common.network.GunFired;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 
-import org.lwjgl.input.Mouse;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.SoundEvents;
@@ -79,8 +76,9 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 	private final float recoilSneaking;
 	private final float recoil;
 	private final boolean shouldRecoil;
+	private final boolean twoHanded;
 	
-	public ItemRangedWeapon(String name, int durability, int maxAmmo, String defaultAmmoType, int ammoConsumption, double shotInterval, float speed, float inaccuracy, double damage, int range, float recoil, float recoilSneaking, boolean shouldRecoil)
+	public ItemRangedWeapon(String name, int durability, int maxAmmo, String defaultAmmoType, int ammoConsumption, double shotInterval, float speed, float inaccuracy, double damage, int range, float recoil, float recoilSneaking, boolean shouldRecoil, boolean twoHanded)
 	{
 		super();
 		this.speed = speed;
@@ -99,6 +97,7 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 		this.recoilSneaking = recoilSneaking;
 		this.recoil = recoil;
 		this.shouldRecoil = shouldRecoil;
+		this.twoHanded = twoHanded;
 		ARKCraft.proxy.registerModelMeshDef(this);
 	}
 
@@ -107,6 +106,11 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 	{
 		String s = super.getUnlocalizedName();
 		return s.substring(s.indexOf('.') + 1);
+	}
+	
+	public boolean IsTwoHanded()
+	{
+		return twoHanded;
 	}
 
 	public int getMaxAmmo()
@@ -212,6 +216,17 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 			stack.setTagCompound(new NBTTagCompound());
 	}
 	
+	private void setActiveHand(ItemStack stack, String activeHand)
+	{
+		stack.getTagCompound().setString("activeHand", activeHand);
+	}
+	
+	private String getActiveHand(ItemStack stack)
+	{
+		checkNBT(stack);
+		return stack.getTagCompound().getString("activeHand");
+	}
+	
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected)
 	{
@@ -288,7 +303,19 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 				ticks = 0;
 				setFired(stack, entity, false);
 			}
+		}		
+	//	if(entity.getItemStackFromSlot(106))
+		System.out.println(entity.getItemStackFromSlot(EntityEquipmentSlot.OFFHAND));
+		if(entity.getActiveHand() == EnumHand.MAIN_HAND)
+		{
+	//		setActiveHand(stack, "right_hand");
+		//	System.out.println("right_hand");
 		}
+		else
+		{
+		//	setActiveHand(stack, "left_hand");
+		//	System.out.println("left_hand");
+		}	 
 	}
 
 		/*
@@ -775,11 +802,22 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 		}
 		return null;
 	}
+	
+	public int getRange()
+	{
+		return range;
+	}
+	
+	public double getDamage()
+	{
+		return damage;
+	}
 
 	public void effectReloadDone(ItemStack stack, World world, EntityPlayer player)
 	{
 		// player.swingItem();
 	}
+	/*
 	@Override
 	public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot equipmentSlot) {
 		Multimap<String, AttributeModifier> multimap = HashMultimap.create();
@@ -790,8 +828,18 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 	public void addItemAttributeModifiers(Multimap<String, AttributeModifier> multimap)
 	{
 		multimap.put(WeaponModAttributes.RELOAD_TIME.getName(), new AttributeModifier("Weapon reloadtime modifier", this.getReloadDuration(), 0));
+	} */
+	
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) 
+	{
+	//	tooltip.add("Reload time " + getre + "s")	; //TODO Reload time
+		tooltip.add("Damage " + this.getDamage());
+		tooltip.add("Range " + this.getRange() + " blocks");
+		tooltip.add("Recoil " + this.getRecoil());
+		tooltip.add("Has recoil : " + getShouldRecoil());
 	}
-
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean isFull3D()

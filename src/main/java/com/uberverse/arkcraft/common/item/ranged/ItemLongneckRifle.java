@@ -15,7 +15,7 @@ public class ItemLongneckRifle extends ItemRangedWeapon implements Scopeable, Si
 {
 	public ItemLongneckRifle()
 	{
-		super("longneck_rifle", 350, 1, "simple_rifle_ammo", 1, 1, 7F, 0F, 16, 200, 2.5F, 5F, true);
+		super("longneck_rifle", 350, 1, "simple_rifle_ammo", 1, 1, 7F, 0F, 16, 200, 2.5F, 5F, true, true);
 	}
 
 	@Override
