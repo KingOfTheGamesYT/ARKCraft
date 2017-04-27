@@ -4,6 +4,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.block.ARKCraftBerryBush;
+import com.uberverse.arkcraft.common.block.BlockCable;
 import com.uberverse.arkcraft.common.block.BlockGreenScreen;
 import com.uberverse.arkcraft.common.block.BlockLight;
 import com.uberverse.arkcraft.common.block.crafter.BlockCampfire;
@@ -19,6 +20,7 @@ import com.uberverse.arkcraft.common.block.resource.BlockObsidianResource;
 import com.uberverse.arkcraft.common.block.resource.BlockOilResource;
 import com.uberverse.arkcraft.common.block.resource.BlockRockResource;
 import com.uberverse.arkcraft.common.block.resource.BlockSmallRockResource;
+import com.uberverse.arkcraft.common.item.itemblock.ItemBlockCable;
 import com.uberverse.arkcraft.common.item.itemblock.ItemBlockFabricator;
 import com.uberverse.arkcraft.common.item.itemblock.ItemCampfire;
 import com.uberverse.arkcraft.common.item.itemblock.ItemCompostBin;
@@ -26,6 +28,7 @@ import com.uberverse.arkcraft.common.item.itemblock.ItemCropPlot;
 import com.uberverse.arkcraft.common.item.itemblock.ItemMortarAndPestle;
 import com.uberverse.arkcraft.common.item.itemblock.ItemRefiningForge;
 import com.uberverse.arkcraft.common.item.itemblock.ItemSmithy;
+import com.uberverse.arkcraft.common.tileentity.TileEntityCable;
 import com.uberverse.arkcraft.common.tileentity.TileEntityCrystal;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCompostBin;
 import com.uberverse.arkcraft.common.tileentity.crafter.TileEntityCropPlot;
@@ -54,6 +57,7 @@ public class ARKCraftBlocks
 	public static BlockCrystalResource crystalResource;
 	public static BlockOilResource oilResource;
 	public static BlockSmallRockResource smallRockResource;
+	public static BlockCable cable;
 
 	public static ARKCraftBlocks getInstance()
 	{
@@ -84,6 +88,8 @@ public class ARKCraftBlocks
 		init.registerBlock("campfire", campfire, new ItemCampfire(campfire));
 		fabricator = new BlockFabricator();
 		init.registerBlock("fabricator", fabricator, new ItemBlockFabricator(fabricator));
+		cable = new BlockCable();
+		init.registerBlock("cable", cable, new ItemBlockCable(cable));
 
 		rockResource = init.registerBlock("rock_resource", new BlockRockResource());
 		metalResource = init.registerBlock("metal_resource", new BlockMetalResource());
@@ -101,5 +107,6 @@ public class ARKCraftBlocks
 		GameRegistry.registerTileEntity(TileEntityCampfire.class, ARKCraft.MODID + "te_campfire");
 		GameRegistry.registerTileEntity(TileEntityCrystal.class, ARKCraft.MODID + "te_crystal");
 		GameRegistry.registerTileEntity(TileEntityFabricator.class, ARKCraft.MODID + "te_fabricator");
+		GameRegistry.registerTileEntity(TileEntityCable.class, ARKCraft.MODID + "te_cable");
 	}
 }

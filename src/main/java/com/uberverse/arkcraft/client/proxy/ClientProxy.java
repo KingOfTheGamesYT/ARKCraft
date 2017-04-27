@@ -30,9 +30,11 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.client.ARKCustomModelLoader;
 import com.uberverse.arkcraft.client.event.ClientEventHandler;
 import com.uberverse.arkcraft.client.gui.overlay.GUIOverlayARKMode;
 import com.uberverse.arkcraft.client.gui.overlay.GUIOverlayReloading;
+import com.uberverse.arkcraft.client.model.ModelCable;
 import com.uberverse.arkcraft.client.model.ModelDodo;
 import com.uberverse.arkcraft.client.render.creature.RenderDodo;
 import com.uberverse.arkcraft.client.render.projectile.RenderAdvancedBullet;
@@ -124,6 +126,8 @@ public class ClientProxy extends CommonProxy
 				return worldIn != null && pos != null ? BiomeColorHelper.getGrassColorAtPos(worldIn, pos) : (ColorizerGrass.getGrassColor(0.5D, 1.0D));
 			}
 		}, new Block[] {ARKCraftBlocks.berryBush});
+		ARKCustomModelLoader.init();
+		ARKCustomModelLoader.instance.modelMap.put(new ResourceLocation("arkcraft:cable"), new ModelCable());
 	}
 
 	public static void registerBlockRenderer()
