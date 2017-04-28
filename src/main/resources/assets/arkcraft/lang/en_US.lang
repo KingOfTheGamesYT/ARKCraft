@@ -18,6 +18,8 @@ tile.small_rock_resource.name=Small Rock Block
 tile.oil_resource.name=Oil Block
 tile.obsidian_resource.name=Obsidian Block
 tile.fabricator.name=Fabricator
+tile.cable.normal.name=Cable
+tile.cable.vertical.name=Vertical Cable
 
 #Creative Tabs
 itemGroup.tabARKCraft=ARKCraft

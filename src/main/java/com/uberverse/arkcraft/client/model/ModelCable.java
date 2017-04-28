@@ -5,11 +5,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import javax.vecmath.Matrix4f;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ItemOverrideList;
+import net.minecraft.client.renderer.block.model.ModelRotation;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.util.EnumFacing;
@@ -53,22 +56,36 @@ public class ModelCable implements IModel {
 		ResourceLocation center = new ResourceLocation("arkcraft:block/cable_base");
 		ResourceLocation connection = new ResourceLocation("arkcraft:block/cable_c");
 		ResourceLocation vertical = new ResourceLocation("arkcraft:block/cable_v");
-		return new BakedCableModel(getAndBakeModel(noc, state, format, bakedTextureGetter),
-				getAndBakeModel(center, state, format, bakedTextureGetter),
-				getAndBakeModel(connection, state, format, bakedTextureGetter),
-				getAndBakeModel(vertical, state, format, bakedTextureGetter));
+		IBakedModel[] connections = new IBakedModel[4];
+		IModel modelConnection = getModel(connection);
+		for(EnumFacing f : EnumFacing.HORIZONTALS){
+			connections[f.ordinal() - 2] = modelConnection.bake(new TRSRTransformation(getMatrix(f)), format, bakedTextureGetter);
+		}
+		return new BakedCableModel(getModel(noc).bake(state, format, bakedTextureGetter),
+				getModel(center).bake(state, format, bakedTextureGetter),
+				connections,
+				getModel(vertical).bake(state, format, bakedTextureGetter));
 	}
-	private static IBakedModel getAndBakeModel(ResourceLocation loc, IModelState state, VertexFormat format,
-			Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
-		return ModelProcessingHelper.uvlock(ModelLoaderRegistry.getModelOrLogError(loc, "Couldn't load " + loc.toString() + " for arkcraft:cable"), true).bake(state, format, bakedTextureGetter);
+	private static IModel getModel(ResourceLocation loc) {
+		return ModelProcessingHelper.uvlock(ModelLoaderRegistry.getModelOrLogError(loc, "Couldn't load " + loc.toString() + " for arkcraft:cable"), true);
 	}
 	@Override
 	public IModelState getDefaultState() {
 		return TRSRTransformation.identity();
 	}
+	private static Matrix4f getMatrix(EnumFacing facing){
+		switch(facing){
+		case NORTH: return ModelRotation.X0_Y0.getMatrix();
+		case SOUTH: return ModelRotation.X0_Y180.getMatrix();
+		case WEST: return ModelRotation.X0_Y270.getMatrix();
+		case EAST: return ModelRotation.X0_Y90.getMatrix();
+		default: return new Matrix4f();
+		}
+	}
 	public static class BakedCableModel implements IBakedModel {
-		private IBakedModel noc, center, connect, vert;
-		public BakedCableModel(IBakedModel noc, IBakedModel center, IBakedModel connect, IBakedModel vert) {
+		private IBakedModel noc, center, vert;
+		private IBakedModel[] connect;
+		public BakedCableModel(IBakedModel noc, IBakedModel center, IBakedModel[] connect, IBakedModel vert) {
 			this.noc = noc;
 			this.center = center;
 			this.connect = connect;
@@ -81,6 +98,18 @@ public class ModelCable implements IModel {
 			if(state instanceof IExtendedBlockState && side == null){
 				TileEntityCable te = ((IExtendedBlockState)state).getValue(BlockCable.DATA);
 				List<BakedQuad> quads = new ArrayList<>();
+				if(te.hasVertical){
+					if(te.connects(EnumFacing.UP))quads.addAll(vert.getQuads(state, side, rand));
+					else quads.addAll(center.getQuads(state, side, rand));
+				}
+				if(te.hasBase)
+					if(te.connections == 0)quads.addAll(noc.getQuads(state, side, rand));
+					else quads.addAll(center.getQuads(state, side, rand));
+				for(EnumFacing f : EnumFacing.HORIZONTALS){
+					if(te.connects(f)){
+						quads.addAll(connect[f.ordinal() - 2].getQuads(state, side, rand));
+					}
+				}
 				return quads;
 			}else{
 				return Collections.emptyList();
