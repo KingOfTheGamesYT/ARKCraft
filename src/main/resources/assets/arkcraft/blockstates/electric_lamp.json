@@ -1,0 +1,6 @@
+{
+	"variants": {
+		"powered=false": {"model": "arkcraft:elamp"},
+		"powered=true":  {"model": "arkcraft:elamp_powered"}
+	}
+}

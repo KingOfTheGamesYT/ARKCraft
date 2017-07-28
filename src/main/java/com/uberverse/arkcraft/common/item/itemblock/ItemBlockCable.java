@@ -22,7 +22,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.uberverse.arkcraft.common.tileentity.TileEntityCable;
+import com.uberverse.arkcraft.common.tileentity.energy.TileEntityCable;
+import com.uberverse.arkcraft.common.tileentity.energy.TileEntityCable.CableType;
 
 public class ItemBlockCable extends ItemBlock {
 
@@ -41,17 +42,16 @@ public class ItemBlockCable extends ItemBlock {
 	{
 		IBlockState iblockstate = worldIn.getBlockState(pos);
 		Block block = iblockstate.getBlock();
-
+		//TileEntity te = worldIn.getTileEntity(pos);
 		if (!block.isReplaceable(worldIn, pos))
 		{
 			pos = pos.offset(facing);
 		}
-		TileEntity te = worldIn.getTileEntity(pos);
 
 		if (stack.stackSize != 0 && playerIn.canPlayerEdit(pos, facing, stack))
 		{
 			int meta = stack.getMetadata();
-			if(te != null && te instanceof TileEntityCable){
+			/*if(te != null && te instanceof TileEntityCable){
 				TileEntityCable c = (TileEntityCable) te;
 				if(meta == 0){
 					if(!c.hasBase){
@@ -68,7 +68,7 @@ public class ItemBlockCable extends ItemBlock {
 						--stack.stackSize;
 					}
 				}
-			}else if(worldIn.canBlockBePlaced(this.block, pos, false, facing, (Entity)null, stack)){
+			}else */if(worldIn.canBlockBePlaced(this.block, pos, false, facing, (Entity)null, stack)){
 				int i = this.getMetadata(stack.getMetadata());
 				IBlockState iblockstate1 = this.block.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, i, playerIn, stack);
 
@@ -77,14 +77,10 @@ public class ItemBlockCable extends ItemBlock {
 					SoundType soundtype = worldIn.getBlockState(pos).getBlock().getSoundType(worldIn.getBlockState(pos), worldIn, pos, playerIn);
 					worldIn.playSound(playerIn, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
 					--stack.stackSize;
-					te = worldIn.getTileEntity(pos);
+					TileEntity te = worldIn.getTileEntity(pos);
 					if(te != null && te instanceof TileEntityCable){
 						TileEntityCable c = (TileEntityCable) te;
-						if(meta == 0){
-							c.hasBase = true;
-						}else{
-							c.hasVertical = true;
-						}
+						c.type = CableType.VALUES[meta % CableType.VALUES.length];
 					}
 				}
 			}

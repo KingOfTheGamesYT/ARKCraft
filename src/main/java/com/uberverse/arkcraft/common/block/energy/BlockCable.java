@@ -1,4 +1,4 @@
-package com.uberverse.arkcraft.common.block;
+package com.uberverse.arkcraft.common.block.energy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.tileentity.TileEntityCable;
+import com.uberverse.arkcraft.common.tileentity.energy.TileEntityCable;
+import com.uberverse.arkcraft.common.tileentity.energy.TileEntityCable.CableType;
 
 import com.google.common.collect.Lists;
 
@@ -108,7 +109,7 @@ public class BlockCable extends BlockContainer {
 		TileEntity te = worldIn.getTileEntity(pos);
 		if(te instanceof TileEntityCable){
 			TileEntityCable c = (TileEntityCable) te;
-			if(c.hasVertical && c.connects(EnumFacing.UP)){
+			if(c.type == CableType.VERTICAL && c.connects(EnumFacing.UP)){
 				return VERTICAL;
 			}
 		}
@@ -190,18 +191,28 @@ public class BlockCable extends BlockContainer {
 		TileEntity te = world.getTileEntity(pos);
 		if(te instanceof TileEntityCable){
 			TileEntityCable c = (TileEntityCable) te;
-			if(c.hasVertical){
-				if(c.connects(EnumFacing.UP))boxes.add(VERTICAL.offset(pos));
-				else boxes.add(CENTER.offset(pos));
-			}
-			if(c.hasBase)
+			switch(c.type){
+			case NORMAL:
 				if(c.connections == 0)boxes.add(NO_CONNECTION.offset(pos));
 				else boxes.add(CENTER.offset(pos));
+				break;
+			case VERTICAL:
+				if(c.connects(EnumFacing.UP))boxes.add(VERTICAL.offset(pos));
+				else boxes.add(CENTER.offset(pos));
+				break;
+			default:
+				break;
+			}
 			for(EnumFacing f : EnumFacing.HORIZONTALS){
 				if(c.connects(f)){
 					boxes.add(CONNECT[f.ordinal() - 2].offset(pos));
 				}
 			}
 		}
+	}
+	@Override
+	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
+		TileEntity te = world.getTileEntity(pos);
+		if(te instanceof TileEntityCable)((TileEntityCable)te).invalidateGrid2();
 	}
 }

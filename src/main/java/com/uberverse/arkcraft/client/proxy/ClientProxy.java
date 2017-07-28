@@ -25,6 +25,7 @@ import net.minecraft.world.biome.BiomeColorHelper;
 
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -44,6 +45,7 @@ import com.uberverse.arkcraft.client.render.projectile.RenderSimpleShotgunAmmo;
 import com.uberverse.arkcraft.client.render.projectile.RenderSpear;
 import com.uberverse.arkcraft.client.render.projectile.RenderStoneArrow;
 import com.uberverse.arkcraft.client.render.projectile.RenderTranquilizer;
+import com.uberverse.arkcraft.client.tesr.TileEntityElectricOutletSpecialRenderer;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.entity.EntityDodo;
 import com.uberverse.arkcraft.common.entity.projectile.EntityAdvancedBullet;
@@ -58,6 +60,7 @@ import com.uberverse.arkcraft.common.item.IMeshedItem;
 import com.uberverse.arkcraft.common.item.ItemBlueprint;
 import com.uberverse.arkcraft.common.item.ranged.ItemRangedWeapon;
 import com.uberverse.arkcraft.common.proxy.CommonProxy;
+import com.uberverse.arkcraft.common.tileentity.energy.TileEntityElectricOutlet;
 import com.uberverse.arkcraft.init.ARKCraftBlocks;
 import com.uberverse.arkcraft.init.ARKCraftItems;
 import com.uberverse.arkcraft.init.InitializationManager;
@@ -115,6 +118,7 @@ public class ClientProxy extends CommonProxy
 
 		registerBlockTexture(ARKCraftBlocks.cropPlot, 1, "crop_plot");
 		registerBlockTexture(ARKCraftBlocks.cropPlot, 2, "crop_plot");
+		registerBlockTexture(ARKCraftBlocks.cable, 1, "cable_vert");
 
 		meshedItems.forEach(i -> Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register((Item) i, i::getModel));
 
@@ -128,6 +132,7 @@ public class ClientProxy extends CommonProxy
 		}, new Block[] {ARKCraftBlocks.berryBush});
 		ARKCustomModelLoader.init();
 		ARKCustomModelLoader.instance.modelMap.put(new ResourceLocation("arkcraft:cable"), new ModelCable());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityElectricOutlet.class, new TileEntityElectricOutletSpecialRenderer());
 	}
 
 	public static void registerBlockRenderer()

@@ -26,8 +26,8 @@ import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.common.property.IExtendedBlockState;
 
 import com.uberverse.arkcraft.ARKCraft;
-import com.uberverse.arkcraft.common.block.BlockCable;
-import com.uberverse.arkcraft.common.tileentity.TileEntityCable;
+import com.uberverse.arkcraft.common.block.energy.BlockCable;
+import com.uberverse.arkcraft.common.tileentity.energy.TileEntityCable;
 
 import com.google.common.base.Function;
 
@@ -37,6 +37,8 @@ public class ModelCable implements IModel {
 		textures = new ArrayList<>();
 		textures.add(new ResourceLocation("arkcraft:blocks/cable_top"));
 		textures.add(new ResourceLocation("arkcraft:blocks/cable_side"));
+		textures.add(new ResourceLocation("arkcraft:blocks/cable_top_powered"));
+		textures.add(new ResourceLocation("arkcraft:blocks/cable_side_powered"));
 	}
 	@Override
 	public Collection<ResourceLocation> getDependencies() {
@@ -56,15 +58,21 @@ public class ModelCable implements IModel {
 		ResourceLocation center = new ResourceLocation("arkcraft:block/cable_base");
 		ResourceLocation connection = new ResourceLocation("arkcraft:block/cable_c");
 		ResourceLocation vertical = new ResourceLocation("arkcraft:block/cable_v");
+		ResourceLocation centerP = new ResourceLocation("arkcraft:block/cable_base_powered");
+		ResourceLocation connectionP = new ResourceLocation("arkcraft:block/cable_c_powered");
+		ResourceLocation verticalP = new ResourceLocation("arkcraft:block/cable_v_powered");
 		IBakedModel[] connections = new IBakedModel[4];
+		IBakedModel[] connectionsP = new IBakedModel[4];
 		IModel modelConnection = getModel(connection);
+		IModel modelConnectionP = getModel(connectionP);
 		for(EnumFacing f : EnumFacing.HORIZONTALS){
 			connections[f.ordinal() - 2] = modelConnection.bake(new TRSRTransformation(getMatrix(f)), format, bakedTextureGetter);
+			connectionsP[f.ordinal() - 2] = modelConnectionP.bake(new TRSRTransformation(getMatrix(f)), format, bakedTextureGetter);
 		}
 		return new BakedCableModel(getModel(noc).bake(state, format, bakedTextureGetter),
-				getModel(center).bake(state, format, bakedTextureGetter),
-				connections,
-				getModel(vertical).bake(state, format, bakedTextureGetter));
+				new IBakedModel[]{getModel(center).bake(state, format, bakedTextureGetter), getModel(centerP).bake(state, format, bakedTextureGetter)},
+				new IBakedModel[][]{connections, connectionsP},
+				new IBakedModel[]{getModel(vertical).bake(state, format, bakedTextureGetter), getModel(verticalP).bake(state, format, bakedTextureGetter)});
 	}
 	private static IModel getModel(ResourceLocation loc) {
 		return ModelProcessingHelper.uvlock(ModelLoaderRegistry.getModelOrLogError(loc, "Couldn't load " + loc.toString() + " for arkcraft:cable"), true);
@@ -83,9 +91,10 @@ public class ModelCable implements IModel {
 		}
 	}
 	public static class BakedCableModel implements IBakedModel {
-		private IBakedModel noc, center, vert;
-		private IBakedModel[] connect;
-		public BakedCableModel(IBakedModel noc, IBakedModel center, IBakedModel[] connect, IBakedModel vert) {
+		private IBakedModel noc;
+		private IBakedModel[] center, vert;
+		private IBakedModel[][] connect;
+		public BakedCableModel(IBakedModel noc, IBakedModel[] center, IBakedModel[][] connect, IBakedModel[] vert) {
 			this.noc = noc;
 			this.center = center;
 			this.connect = connect;
@@ -98,16 +107,23 @@ public class ModelCable implements IModel {
 			if(state instanceof IExtendedBlockState && side == null){
 				TileEntityCable te = ((IExtendedBlockState)state).getValue(BlockCable.DATA);
 				List<BakedQuad> quads = new ArrayList<>();
-				if(te.hasVertical){
-					if(te.connects(EnumFacing.UP))quads.addAll(vert.getQuads(state, side, rand));
-					else quads.addAll(center.getQuads(state, side, rand));
-				}
-				if(te.hasBase)
+				int t = te.isPowered() ? 1 : 0;
+				switch(te.type){
+				case NORMAL:
 					if(te.connections == 0)quads.addAll(noc.getQuads(state, side, rand));
-					else quads.addAll(center.getQuads(state, side, rand));
+					else quads.addAll(center[t].getQuads(state, side, rand));
+					break;
+				case VERTICAL:
+					if(te.connects(EnumFacing.UP))quads.addAll(vert[t].getQuads(state, side, rand));
+					else quads.addAll(center[t].getQuads(state, side, rand));
+					break;
+				default:
+					break;
+
+				}
 				for(EnumFacing f : EnumFacing.HORIZONTALS){
 					if(te.connects(f)){
-						quads.addAll(connect[f.ordinal() - 2].getQuads(state, side, rand));
+						quads.addAll(connect[t][f.ordinal() - 2].getQuads(state, side, rand));
 					}
 				}
 				return quads;

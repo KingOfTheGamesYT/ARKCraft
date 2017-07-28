@@ -43,9 +43,10 @@ public abstract class BlockARKContainer extends BlockContainer implements Identi
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
 			EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if (!playerIn.isSneaking())
+		int id = getId();
+		if (!playerIn.isSneaking() && id != -1)
 		{
-			playerIn.openGui(ARKCraft.instance(), getId(), worldIn, pos.getX(), pos.getY(), pos.getZ());
+			playerIn.openGui(ARKCraft.instance(), id, worldIn, pos.getX(), pos.getY(), pos.getZ());
 			return true;
 		}
 		return false;
