@@ -7,7 +7,7 @@ import net.minecraft.util.SoundEvent;
 
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-import com.uberverse.arkcraft.ARKCraft;
+import com.arkcraft.ARKCraft;
 
 /**Auto-generated class*/
 public class ARKSoundRegistry {

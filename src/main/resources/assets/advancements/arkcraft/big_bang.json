@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {
+      "item": "arkcraft:rocket_propelled_grenade"
+    },
+    "title": {
+      "translate": "arkcraft.advancement.big_bang.title"
+    },
+    "description": {
+      "translate": "arkcraft.advancement.big_bang.description"
+    },
+    "hidden": true
+  },
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

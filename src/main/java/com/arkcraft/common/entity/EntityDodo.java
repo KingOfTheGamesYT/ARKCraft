@@ -1,0 +1,389 @@
+package com.arkcraft.common.entity;
+
+import com.arkcraft.ARKCraft;
+import com.arkcraft.client.gui.entity.InventoryDino;
+import com.arkcraft.common.ai.EntityDodoAILookIdle;
+import com.arkcraft.common.item.ARKCraftFood;
+import com.arkcraft.common.proxy.CommonProxy;
+import com.arkcraft.init.ARKCraftItems;
+import com.arkcraft.lib.LogHelper;
+import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.*;
+import net.minecraft.entity.passive.EntityTameable;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
+
+public class EntityDodo extends EntityTameable {
+	public InventoryDino invDodo;
+	// Stuff from chicken:
+	public float field_70886_e;
+	public float destPos;
+	public float field_70884_g;
+	public float field_70888_h;
+	public float field_70889_i = 1.0F;
+	/**
+	 * The time until the next egg is spawned.
+	 */
+	public int timeUntilNextEgg;
+	private boolean isChested = false;
+	//private int DODO_EYE_WATCHER = 21;
+	private DataParameter<Byte> DODO_EYE_WATCHER = EntityDataManager.<Byte>createKey(EntityDodo.class, DataSerializers.BYTE);
+	private DataParameter<Byte> DODO_CHEST_WATCHER = EntityDataManager.<Byte>createKey(EntityDodo.class, DataSerializers.BYTE);
+
+	public EntityDodo(World worldIn) {
+		super(worldIn);
+		this.setSize(0.4F, 0.7F);
+		this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
+
+		this.invDodo = new InventoryDino("Items", true, 9);
+
+		this.tasks.taskEntries.clear();
+		int p = 0;
+		this.tasks.addTask(++p, new EntityAISwimming(this));
+		this.tasks.addTask(++p, this.aiSit);
+		this.tasks.addTask(++p, new EntityAIPanic(this, 1.4D));
+		this.tasks.addTask(++p, new EntityAIMate(this, 1.0D));
+		this.tasks.addTask(++p, new EntityAITempt(this, 1.0D, ARKCraftItems.narcoBerry, false));
+		this.tasks.addTask(++p, new EntityAIFollowParent(this, 1.1D));
+		this.tasks.addTask(++p, new EntityAIWander(this, 1.0D));
+		this.tasks.addTask(++p, new EntityAIFollowOwner(this, 1.0D, 8.0F, 5.0F));
+		this.tasks.addTask(++p, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+		// Replace Idle task with one that blinks eyes
+		this.tasks.addTask(++p, new EntityDodoAILookIdle(this));
+
+//		this.riddenByEntity = null;
+	}
+
+	public boolean isEyesOpen() {
+		return (this.dataManager.get(DODO_EYE_WATCHER) & 1) != 0;
+	}
+
+	public void setEyesOpen(boolean eyesOpen) {
+		byte b0 = (byte) (eyesOpen ? 1 : 0);
+		//this.dataWatcher.updateObject(DODO_EYE_WATCHER, Byte.valueOf(b0));
+		this.dataManager.set(DODO_EYE_WATCHER, Byte.valueOf(b0));
+	}
+
+	public boolean isChested() {
+		isChested = (this.dataManager.get(DODO_CHEST_WATCHER) & 1) != 0;
+		return isChested;
+	}
+
+	public void setChested(boolean chested) {
+		if (!this.isChild() && this.isTamed()) {
+			isChested = chested;
+			byte b0 = (byte) (chested ? 1 : 0);
+			this.dataManager.set(DODO_CHEST_WATCHER, Byte.valueOf(b0));
+		}
+	}
+
+	@Override
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
+		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(4.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
+	}
+
+	/**
+	 * Called frequently so the entity can update its state every tick as
+	 * required. For example, zombies and skeletons use this to react to
+	 * sunlight and start to burn.
+	 */
+	@Override
+	public void onLivingUpdate() {
+		super.onLivingUpdate();
+		this.field_70888_h = this.field_70886_e;
+		this.field_70884_g = this.destPos;
+		this.destPos = (float) (this.destPos + (this.onGround ? -1 : 4) * 0.3D);
+		this.destPos = MathHelper.clamp(this.destPos, 0.0F, 1.0F);
+		if (!this.onGround && this.field_70889_i < 1.0F) {
+			this.field_70889_i = 1.0F;
+		}
+		this.field_70889_i = (float) (this.field_70889_i * 0.9D);
+		if (!this.onGround && this.motionY < 0.0D) {
+			this.motionY *= 0.6D;
+		}
+		this.field_70886_e += this.field_70889_i * 2.0F;
+		if (!this.world.isRemote && !this.isChild() && --this.timeUntilNextEgg <= 0) {
+			this.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("mob.chicken.plop")), 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+			// TODO create dodo egg
+			this.dropItem(ARKCraftItems.amarBerry, 1);
+			this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
+		}
+		this.field_70886_e += this.field_70889_i * 2.0F;
+		if (!this.world.isRemote && !this.isChild() && --this.timeUntilNextEgg <= 0) {
+			this.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation(ARKCraft.MODID + ":" + "dodo_defficating")), 1.0F, (this.rand.nextFloat() - this.rand
+					.nextFloat()) * 0.2F + 1.0F);
+			this.dropItem(ARKCraftItems.small_feces, 1);
+			this.timeUntilNextEgg = this.rand.nextInt(3000) + 3000;
+		}
+	}
+
+	// No fall damage
+	@Override
+	public void fall(float distance, float damageMultiplier) {
+	}
+
+	// TODO
+	@Override
+	protected Item getDropItem() {
+		return ARKCraftItems.amarBerry;
+	}
+
+	/**
+	 * Drop 0-2 items of this living's type
+	 */
+	// TODO add bag and egg
+	@Override
+	protected void dropFewItems(boolean p_70628_1_, int p_70628_2_) {
+		int j = this.rand.nextInt(3) + this.rand.nextInt(1 + p_70628_2_);
+		for (int k = 0; k < j; ++k) {
+			this.dropItem(ARKCraftItems.amarBerry, 1);
+		}
+		if (this.isBurning()) {
+			this.dropItem(ARKCraftItems.meat_cooked, 1);
+		} else {
+			this.dropItem(ARKCraftItems.meat_raw, 1);
+		}
+		if (this.isChested()) {
+			this.dropItem(ARKCraftItems.amarBerry, 1);
+			this.dropItemsInChest(this, this.invDodo);
+		}
+	}
+
+	private void dropItemsInChest(Entity entity, IInventory inventory) {
+		if (inventory != null && !this.world.isRemote) {
+			for (int i = 0; i < inventory.getSizeInventory(); ++i) {
+				ItemStack itemstack = inventory.getStackInSlot(i);
+				if (itemstack != null) {
+					this.entityDropItem(itemstack, 0.0F);
+				}
+			}
+		}
+	}
+
+	@Override
+	public void setTamed(boolean tamed) {
+		super.setTamed(tamed);
+		if (tamed) {
+			this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
+			this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
+		}
+	}
+
+
+	@Override
+	public boolean processInteract(EntityPlayer player, EnumHand hand) {
+		if (!this.world.isRemote) {
+			LogHelper.info("The player right clicked a Dodo.");
+		}
+		ItemStack itemStack = player.getHeldItem(hand);
+
+		if (isTamed()) {
+			if (this.isOwner(player)) {
+				if (!this.world.isRemote) {
+					LogHelper.info("The Dodo is tamed.");
+				}
+				if (player.isSneaking()) {
+					if (isChested()) {
+						if (!this.world.isRemote) {
+							player.openGui(ARKCraft.instance(), CommonProxy.GUI.INV_DODO.id, this.world, (int) Math.floor(
+									this.posX), (int) this.posY, (int) Math.floor(this.posZ));
+							LogHelper.info("EnityDodo: Opening GUI on Dodo at: " + this.posX + "," + this.posY + ","
+									+ this.posZ + " (" + (int) Math.floor(this.posX) + "," + (int) this.posY + ","
+									+ (int) Math.floor(this.posZ) + ")");
+							this.aiSit.setSitting(this.isSitting());
+							LogHelper.info("Dodo is sitting");
+							this.isJumping = false;
+							this.navigator.clearPath();
+						}
+						return true;
+					}
+				} // not sneaking
+				else {
+					if (itemStack != null) {
+						if (itemStack.getItem() == ARKCraftItems.amarBerry) {
+							// Put Dodo Bag on Dodo
+							if (!player.capabilities.isCreativeMode) {
+								itemStack.setCount(itemStack.getCount() - 1);
+								if (itemStack.getCount() == 0) {
+									player.inventory.mainInventory.set(player.inventory.currentItem, null);
+								}
+							}
+							setChested(true);
+							return true;
+						} else {
+							// Breeding stuff
+							return super.processInteract(player, hand);
+						}
+					}
+					this.setSitting(!this.isSitting());
+				}
+
+				if (!this.world.isRemote) {
+					if (this.isSitting()) {
+						LogHelper.info("Dodo is sitting");
+					} else {
+						LogHelper.info("Dodo is not sitting");
+					}
+				}
+			} else {
+				if (!this.world.isRemote) {
+					LogHelper.info("The Dodo is tamed, but not yours.");
+				}
+			}
+		}
+		// Tame the Dodo with meat
+		else if (itemStack != null && isFavoriteFood(itemStack)) {
+			if (!player.capabilities.isCreativeMode) {
+				itemStack.setCount(itemStack.getCount() - 1);
+			}
+			if (itemStack.getCount() <= 0) {
+				player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+			}
+			if (!this.world.isRemote) {
+				if (this.rand.nextInt(2) == 0) {
+					this.setTamed(true);
+					this.navigator.clearPath();
+					this.aiSit.setSitting(true);
+					this.setHealth(10.0F);
+					this.setOwnerId(player.getUniqueID());
+					this.playTameEffect(true);
+					this.world.setEntityState(this, (byte) 7);
+				} else {
+					this.playTameEffect(false);
+					this.world.setEntityState(this, (byte) 6);
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
+
+	@Override
+	public EntityDodo createChild(EntityAgeable ageable) {
+		return new EntityDodo(this.world);
+	}
+
+	/**
+	 * Checks if the parameter is an item which this animal can be fed to breed
+	 * it (wheat, carrots or seeds depending on the animal type)
+	 */
+	@Override
+	public boolean isBreedingItem(ItemStack stack) {
+		return stack != null ? stack.getItem() instanceof ARKCraftFood : false;
+	}
+
+	@Override
+	public void writeEntityToNBT(NBTTagCompound nbt) {
+		super.writeEntityToNBT(nbt);
+		nbt.setInteger("EggLayTime", this.timeUntilNextEgg);
+		nbt.setBoolean("IsChested", isChested);
+		if (this.isChested()) {
+			this.invDodo.saveInventoryToNBT(nbt);
+			// LogHelper.info("EntityDodo - writeEntityToNBT: Saved chest
+			// inventory.");
+		}
+	}
+
+	@Override
+	public void readEntityFromNBT(NBTTagCompound nbt) {
+		super.readEntityFromNBT(nbt);
+		if (nbt.hasKey("EggLayTime")) {
+			this.timeUntilNextEgg = nbt.getInteger("EggLayTime");
+		}
+		if (nbt.hasKey("IsChested")) {
+			this.setChested(nbt.getBoolean("IsChested"));
+		}
+		final byte NBT_TYPE_COMPOUND = 10;
+		NBTTagList dataForAllSlots = nbt.getTagList("Items", NBT_TYPE_COMPOUND);
+		this.invDodo.loadInventoryFromNBT(dataForAllSlots);
+	}
+
+	/**
+	 * Determines if an entity can despawn, used on idle far away entities
+	 */
+	@Override
+	protected boolean canDespawn() {
+		return !this.isTamed() && this.ticksExisted > 2400;
+	}
+
+	@Override
+	public void playLivingSound() {
+		int idle = this.rand.nextInt(3) + 1;
+		SoundEvent.REGISTRY.getObject(new ResourceLocation(ARKCraft.MODID + ":" + "dodo_idle_" + idle));
+	}
+
+	@Nullable
+	@Override
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+		int hurt = this.rand.nextInt(3) + 1;
+		return SoundEvent.REGISTRY.getObject(new ResourceLocation(ARKCraft.MODID + ":" + "dodo_hurt_" + hurt));
+	}
+
+	@Override
+	protected SoundEvent getDeathSound() {
+		return SoundEvent.REGISTRY.getObject(new ResourceLocation(ARKCraft.MODID + ":" + "dodo_death"));
+	}
+
+	@Override
+	protected void playStepSound(BlockPos p_180429_1_, Block p_180429_2_) {
+		this.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("mob.chicken.step")), 0.15F, 1.0F);
+	}
+
+	/**
+	 * The age value may be negative or positive or zero. If it's negative, it
+	 * get's incremented on each tick, if it's positive, it get's decremented
+	 * each tick. Don't confuse this with EntityLiving.getAge. With a negative
+	 * value the Entity is considered a child.
+	 */
+	/*
+	@Override
+	public int getGrowingAge()
+	{
+		// Added the null check for the dossier
+		if (this.world != null)
+		{
+	        return this.world.isRemote ? (((Boolean)this.dataManager.get(BABY)).booleanValue() ? -1 : 1) : this.growingAge;
+		}
+		else
+		{
+			return this.growingAge;
+		}
+	}	*/
+	public boolean isFavoriteFood(ItemStack itemstack) {
+		if (itemstack.getItem() instanceof ARKCraftFood && (itemstack.getItem() == ARKCraftItems.amarBerry || itemstack
+				.getItem() == ARKCraftItems.azulBerry || itemstack.getItem() == ARKCraftItems.mejoBerry || itemstack
+				.getItem() == ARKCraftItems.tintoBerry)) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	protected void entityInit() {
+		super.entityInit();
+		this.dataManager.register(DODO_CHEST_WATCHER, Byte.valueOf((byte) 0));
+		this.dataManager.register(DODO_EYE_WATCHER, Byte.valueOf((byte) 0));
+	}
+}

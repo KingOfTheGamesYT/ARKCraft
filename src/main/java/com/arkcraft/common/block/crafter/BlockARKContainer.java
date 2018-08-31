@@ -1,0 +1,50 @@
+package com.arkcraft.common.block.crafter;
+
+import com.arkcraft.ARKCraft;
+import com.arkcraft.util.Identifiable;
+import net.minecraft.block.BlockContainer;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+
+public abstract class BlockARKContainer extends BlockContainer implements Identifiable {
+	protected BlockARKContainer(Material materialIn) {
+		super(materialIn);
+		setCreativeTab(ARKCraft.tabARK);
+	}
+
+	@Override
+	public EnumBlockRenderType getRenderType(IBlockState state) {
+		return EnumBlockRenderType.MODEL;
+	}
+
+	@Override
+	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+		TileEntity tileEntity = worldIn.getTileEntity(pos);
+		if (tileEntity instanceof IInventory) {
+			InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) tileEntity);
+		}
+		super.breakBlock(worldIn, pos, state);
+	}
+
+	@Override
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		int id = getId();
+		if (!playerIn.isSneaking() && id != -1) {
+			playerIn.openGui(ARKCraft.instance(), id, worldIn, pos.getX(), pos.getY(), pos.getZ());
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public abstract TileEntity createNewTileEntity(World worldIn, int meta);
+}

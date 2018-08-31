@@ -32,7 +32,7 @@ public class SoundRegistryGenerator {
 			w.println();
 			w.println("import net.minecraftforge.fml.common.registry.GameRegistry;");
 			w.println();
-			w.println("import com.uberverse.arkcraft.ARKCraft;");
+			w.println("import ARKCraft;");
 			w.println();
 			w.println("/**Auto-generated class*/");
 			w.println("public class ARKSoundRegistry {");

@@ -1,34 +1,30 @@
 buildscript {
     repositories {
         jcenter()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
+        maven { url = "http://files.minecraftforge.net/maven" }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
-
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 
 version = "2.0.0-alpha"
-group= "com.uberverse.arkcraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group= "com.arkcraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "arkcraft"
 
-sourceCompatibility = targetCompatibility = "1.8" // Need this here so eclipse task generates correctly.
+sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 compileJava {
-    sourceCompatibility = targetCompatibility = "1.8"
+    sourceCompatibility = targetCompatibility = '1.8'
 }
 
 minecraft {
-    version = "1.10.2-12.18.3.2185"
+    version = "1.12.2-14.23.4.2705"
     runDir = "run"
     
-    mappings = "stable_29"
-    makeObfSourceJar = true
+    mappings = "stable_39"
+    makeObfSourceJar = false
 }
 
 processResources

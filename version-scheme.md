@@ -3,8 +3,10 @@
 #####Based on Semantic Versioning (semver.org)
 
 
-######MAJOR.MINOR.PATCH-META-[META]-METANUMBER
+######MC-MAJOR.MINOR.PATCH-META-[META]-METANUMBER
 
+######MC
+Denotes targeted Minecraft version of the mod
 
 #######MAJOR
 Denotes major versions that added big features but broke backwards compatibility (for our purpose, I'd use this for releases)

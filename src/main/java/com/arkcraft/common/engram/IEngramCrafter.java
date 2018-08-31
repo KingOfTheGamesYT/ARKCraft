@@ -1,0 +1,318 @@
+package com.arkcraft.common.engram;
+
+import com.arkcraft.ARKCraft;
+import com.arkcraft.common.block.IExperienceSource;
+import com.arkcraft.common.engram.EngramManager.Engram;
+import com.arkcraft.common.entity.IArkLevelable;
+import com.arkcraft.common.item.Qualitable;
+import com.arkcraft.util.AbstractItemStack;
+import com.arkcraft.util.IInventoryAdder;
+import com.arkcraft.util.NBTable;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.util.Constants.NBT;
+
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Queue;
+
+/**
+ * @author Lewis_McReu
+ */
+public interface IEngramCrafter extends NBTable, IInventoryAdder, IExperienceSource {
+	public default void updateEC() {
+		if (!getWorldIA().isRemote) {
+			Queue<CraftingOrder> craftingQueue = getCraftingQueue();
+			if (isCrafting()) {
+				decreaseProgress();
+				if (getProgress() == 0) {
+					CraftingOrder c = craftingQueue.peek();
+					c.decreaseCount(1);
+					ItemStack out = c.getEngram().getOutputAsItemStack(c.getItemQuality());
+					addOrDrop(out);
+					grantXP(getLevelable());
+					if (c.getCount() <= 0) {
+						craftingQueue.remove();
+					}
+					sync();
+				}
+			}
+			selectNextCraftingOrder();
+		}
+	}
+
+	public IArkLevelable getLevelable();
+
+	@Override
+	default void grantXP(IArkLevelable leveling) {
+		if (leveling != null) getCraftingQueue().peek().grantXP(leveling);
+	}
+
+	public int getTimeOffset();
+
+	public void setTimeOffset(int offset);
+
+	public default void selectNextCraftingOrder() {
+		if (!isCrafting() && !getCraftingQueue().isEmpty()) {
+			CraftingOrder c = getCraftingQueue().peek();
+			while (c != null) {
+				if (!c.canCraft(getConsumedInventory())) {
+					getCraftingQueue().poll();
+					c = getCraftingQueue().peek();
+				} else break;
+			}
+			if (c != null) {
+				setProgress(c.getEngram().getCraftingTime());
+				setTimeOffset((int) (getWorldIA().getTotalWorldTime() % 20));
+				c.getEngram().consume(getConsumedInventory(), c.getItemQuality());
+				sync();
+			}
+		}
+	}
+
+	public default double getRelativeProgress() {
+		if (getCraftingDuration() == 0) return 0;
+		return (double) (getCraftingDuration() - getProgress()) / (double) (getCraftingDuration());
+	}
+
+	public default void decreaseProgress() {
+		setProgress(getProgress() - 1);
+	}
+
+	@Override
+	public default void readFromNBT(NBTTagCompound compound) {
+		setProgress(compound.getInteger("progress"));
+
+		Queue<CraftingOrder> craftingQueue = getCraftingQueue();
+
+		craftingQueue.clear();
+
+		NBTTagCompound queue = compound.getCompoundTag("queue");
+
+		int[] engrams = queue.getIntArray("engrams");
+		int[] counts = queue.getIntArray("counts");
+		byte[] qualities = queue.getByteArray("qualities");
+
+		if (engrams.length == counts.length && engrams.length == qualities.length) {
+			for (int i = 0; i < engrams.length; i++) {
+				Engram e = EngramManager.instance().getEngram((short) engrams[i]);
+				int count = counts[i];
+				if (e.isQualitable()) {
+					craftingQueue.add(new CraftingOrder(e, count, Qualitable.ItemQuality.get(qualities[i])));
+				} else craftingQueue.add(new CraftingOrder(e, count));
+			}
+		} else ARKCraft.logger.warn("NBT CraftingQueue was inconsistent in length and could not be loaded.");
+
+		NBTTagList inventory = compound.getTagList("inventory", NBT.TAG_COMPOUND);
+		for (int i = 0; i < inventory.tagCount(); i++) {
+			NBTTagCompound n = inventory.getCompoundTagAt(i);
+			this.getIInventory().setInventorySlotContents(i, n.getBoolean("null") ? null : new ItemStack(n));
+		}
+	}
+
+	@Override
+	public default NBTTagCompound writeToNBT(NBTTagCompound compound) {
+		compound.setInteger("progress", getProgress());
+
+		NBTTagList inventory = new NBTTagList();
+		for (int i = 0; i < getIInventory().getSizeInventory(); i++) {
+			ItemStack s = getIInventory().getStackInSlot(i);
+			NBTTagCompound n = new NBTTagCompound();
+			n.setBoolean("null", true);
+			if (s != null) {
+				s.writeToNBT(n);
+				n.setBoolean("null", false);
+				inventory.appendTag(n);
+				continue;
+			}
+			inventory.appendTag(n);
+		}
+		compound.setTag("inventory", inventory);
+
+		NBTTagCompound queue = new NBTTagCompound();
+
+		Queue<CraftingOrder> craftingQueue = getCraftingQueue();
+
+		int size = craftingQueue.size();
+
+		int[] engrams = new int[size], counts = new int[size];
+		byte[] qualities = new byte[size];
+
+		int i = 0;
+
+		for (CraftingOrder c : craftingQueue) {
+			engrams[i] = c.getEngram().getId();
+			counts[i] = c.getCount();
+			if (c.isQualitable()) qualities[i] = c.getItemQuality().id;
+			i++;
+		}
+
+		queue.setIntArray("engrams", engrams);
+		queue.setIntArray("counts", counts);
+		queue.setByteArray("qualities", qualities);
+
+		compound.setTag("queue", queue);
+		return compound;
+	}
+
+	default boolean startCraft(Engram engram, int amount, Qualitable.ItemQuality quality) {
+		Queue<CraftingOrder> craftingQueue = getCraftingQueue();
+		if (amount > 0) {
+			if (canCraft(engram, quality, amount)) {
+				Iterator<CraftingOrder> it = craftingQueue.iterator();
+				boolean add = false;
+				while (it.hasNext()) {
+					CraftingOrder c = it.next();
+					if (c.matches(engram, quality)) {
+						c.increaseCount(amount);
+						add = true;
+					}
+				}
+				if (!add) {
+					add = craftingQueue.add(new CraftingOrder(engram, amount, quality));
+				}
+				if (add && !getWorldIA().isRemote) {
+					selectNextCraftingOrder();
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	default boolean startCraft(Engram engram) {
+		Qualitable.ItemQuality i = engram.isQualitable() ? Qualitable.ItemQuality.PRIMITIVE : null;
+		return startCraft(engram, 1, i);
+	}
+
+	default boolean startCraft(Engram engram, Qualitable.ItemQuality quality) {
+		return startCraft(engram, 1, quality);
+	}
+
+	default boolean startCraftAll(Engram engram) {
+		Qualitable.ItemQuality i = engram.isQualitable() ? Qualitable.ItemQuality.PRIMITIVE : null;
+		return startCraftAll(engram, i);
+	}
+
+	default boolean startCraftAll(Engram engram, Qualitable.ItemQuality quality) {
+		return startCraft(engram, getCraftableAmount(engram, quality), quality);
+	}
+
+	public default void cancelCraftOne(Engram engram) {
+		cancelCraftOne(engram, engram.isQualitable() ? Qualitable.ItemQuality.PRIMITIVE : null);
+	}
+
+	public default void cancelCraftAll(Engram engram) {
+		cancelCraftAll(engram, engram.isQualitable() ? Qualitable.ItemQuality.PRIMITIVE : null);
+	}
+
+	public default void cancelCraftOne(Engram engram, Qualitable.ItemQuality itemQuality) {
+		CraftingOrder c = getCraftingQueue().peek();
+		if (c != null && c.matches(engram, itemQuality)) {
+			if (c.getCount() > 1) c.decreaseCount(1);
+			return;
+		}
+
+		Iterator<CraftingOrder> it = getCraftingQueue().iterator();
+
+		while (it.hasNext()) {
+			CraftingOrder co = it.next();
+			if (co.matches(engram, itemQuality)) {
+				co.decreaseCount(1);
+				if (co.getCount() == 0) it.remove();
+				return;
+			}
+		}
+	}
+
+	public default void cancelCraftAll(Engram engram, Qualitable.ItemQuality itemQuality) {
+		CraftingOrder c = getCraftingQueue().peek();
+		if (c != null && c.matches(engram, itemQuality)) {
+			c.decreaseCount(c.getCount() - 1);
+			return;
+		}
+
+		Iterator<CraftingOrder> it = getCraftingQueue().iterator();
+		while (it.hasNext()) {
+			if (it.next().matches(engram, itemQuality)) {
+				it.remove();
+			}
+		}
+	}
+
+	public default boolean canCraft(Engram engram, Qualitable.ItemQuality itemQuality, int amount) {
+		return getCraftableAmount(engram, itemQuality) >= amount;
+	}
+
+	public IInventory getConsumedInventory();
+
+	default int getCraftingAmount(Engram engram, Qualitable.ItemQuality itemQuality) {
+		for (CraftingOrder c : getCraftingQueue()) {
+			if (c.matches(engram, itemQuality)) return c.getCount();
+		}
+		return 0;
+	}
+
+	public default int getCraftableAmount(Engram engram, Qualitable.ItemQuality itemQuality) {
+		Collection<AbstractItemStack> is = EngramManager.Engram.convertIInventoryToAbstractInventory(
+				getConsumedInventory());
+		for (CraftingOrder c : getCraftingQueue()) {
+			int i = c.getCount();
+			while (i > 0) {
+				c.getEngram().consume(is, c.getItemQuality());
+				i--;
+			}
+		}
+
+		return engram.getCraftableAmount(is, itemQuality) - getCraftingAmount(engram, itemQuality);
+	}
+
+	public default boolean isCrafting() {
+		return !getCraftingQueue().isEmpty() && getProgress() > 0;
+	}
+
+	public default int getField(int id) {
+		switch (id) {
+			case 0:
+				return getProgress();
+			default:
+				return 0;
+		}
+	}
+
+	public default void setField(int id, int value) {
+		switch (id) {
+			case 0:
+				setProgress(value);
+				break;
+		}
+	}
+
+	public default int getFieldCount() {
+		return 1;
+	}
+
+	public void syncProgress();
+
+	public void sync();
+
+	@Override
+	public IInventory getIInventory();
+
+	public int getProgress();
+
+	public void setProgress(int progress);
+
+	public default int getCraftingDuration() {
+		if (getCraftingQueue().isEmpty()) return 0;
+		else return getCraftingQueue().peek().getCraftingDuration();
+	}
+
+	@Override
+	public BlockPos getPosition();
+
+	public Queue<CraftingOrder> getCraftingQueue();
+}

@@ -1,12 +1,23 @@
-/*
-!/src
-!/gradle
-!build.gradle
-!gradlew*
-!.gitignore
-!.gitattributes
-!*.md
-!version-check.json
-*.db
-*.DS_Store
-/gradle/*
+
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# idea
+out
+*.ipr
+*.iws
+*.iml
+.idea
+
+# gradle
+build
+.gradle
+
+# other
+eclipse
+run
