@@ -89,11 +89,11 @@ public class MessageHover implements IMessage, IMessageHandler<MessageHover, IMe
             if (ctx.side == Side.SERVER) {
                 FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(() -> {
                     if (message.pos != null) {
-                        TileEntity tile = ctx.getServerHandler().playerEntity.world.getTileEntity(message.pos);
+                        TileEntity tile = ctx.getServerHandler().player.world.getTileEntity(message.pos);
                         if (tile instanceof IHoverInfo) {
                             NBTTagCompound tag = new NBTTagCompound();
                             // ((IHoverInfo) tile).writeToNBTPacket(tag);
-                            ARKCraft.modChannel.sendTo(new MessageHover(message.pos, tag), ctx.getServerHandler().playerEntity);
+                            ARKCraft.modChannel.sendTo(new MessageHover(message.pos, tag), ctx.getServerHandler().player);
                         }
                     }
                 });

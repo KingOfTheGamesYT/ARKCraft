@@ -108,7 +108,7 @@ public class GUIPlayerCrafting extends GUIEngramCrafting
 
 		String level = I18n.format("gui.playercrafting.level", ARKPlayer.get(Minecraft.getMinecraft().player)
 				.getLevel());
-		this.drawString(mc.fontRendererObj, level, 151 - mc.fontRendererObj.getStringWidth(level) / 2, 40, Color.white
+		this.drawString(mc.fontRenderer, level, 151 - mc.fontRenderer.getStringWidth(level) / 2, 40, Color.white
 				.getRGB());
 
 		if (isPointInRegion(barX, barY, barWidth, barHeight, mouseX, mouseY))
@@ -116,7 +116,7 @@ public class GUIPlayerCrafting extends GUIEngramCrafting
 			ARKPlayer p = ARKPlayer.get(mc.player);
 			String xp = Math.round(p.getXP() * 100d) / 100d + "/" + Math.round(p.getRequiredXP() * 100d) / 100d;
 			drawHoveringText(Lists.newArrayList(new String[] { xp }), mouseX - guiLeft, mouseY - guiTop,
-					fontRendererObj);
+					fontRenderer);
 		}
 	}
 

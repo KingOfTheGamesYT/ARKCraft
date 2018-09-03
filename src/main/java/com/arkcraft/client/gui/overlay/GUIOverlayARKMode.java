@@ -23,7 +23,7 @@ public class GUIOverlayARKMode extends Gui
 
 				int x = 2;
 				int y = 2;
-				drawString(mc.fontRendererObj, text, x, y, 0xFFFFFFFF);
+				drawString(mc.fontRenderer, text, x, y, 0xFFFFFFFF);
 			}
 		}
 	}

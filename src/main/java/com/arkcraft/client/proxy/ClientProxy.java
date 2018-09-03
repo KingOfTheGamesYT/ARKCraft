@@ -145,7 +145,7 @@ public class ClientProxy extends CommonProxy
 
 	public static void reg(Block block)
 	{
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(ARKCraft.MODID + ":" + block.getUnlocalizedName().substring(5), "inventory"));
+		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(ARKCraft.MODID + ":" + block.getTranslationKey().substring(5), "inventory"));
 	}
 
 	private void registerBlockTexture(final Block block, int meta, final String blockName)

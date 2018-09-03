@@ -35,7 +35,7 @@ public class BookData
 		return this.document;
 	}
 
-	public String getUnlocalizedName()
+	public String getTranslationKey()
 	{
 		return unlocalizedName;
 	}

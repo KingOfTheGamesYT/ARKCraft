@@ -39,7 +39,7 @@ public class ARKPlayerUpdateRequest implements IMessage
 		{
 			if (ctx.side.isServer())
 			{
-				EntityPlayerMP p = ctx.getServerHandler().playerEntity;
+				EntityPlayerMP p = ctx.getServerHandler().player;
 				return new ARKPlayerUpdate(ARKPlayer.get(p), message.all);
 			}
 			return null;

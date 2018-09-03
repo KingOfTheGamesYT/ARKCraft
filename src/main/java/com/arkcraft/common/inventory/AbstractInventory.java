@@ -18,33 +18,30 @@ import net.minecraft.util.text.TextComponentTranslation;
  * them here would make them easy to overlook, though you may choose to do so
  * (good default return values are 'true' and '64', respectively).
  */
-public abstract class AbstractInventory implements IInventory
-{
-	/** The inventory slots need to be initialized during construction */
+public abstract class AbstractInventory implements IInventory {
+	/**
+	 * The inventory slots need to be initialized during construction
+	 */
 	protected ItemStack[] inventory;
 
 	@Override
-	public int getSizeInventory()
-	{
+	public int getSizeInventory() {
 		return inventory.length;
 	}
 
 	@Override
-	public ItemStack getStackInSlot(int slot)
-	{
+	public ItemStack getStackInSlot(int slot) {
 		return inventory[slot];
 	}
 
 	@Override
-	public ItemStack decrStackSize(int slot, int amount)
-	{
+	public ItemStack decrStackSize(int slot, int amount) {
 		ItemStack stack = getStackInSlot(slot);
 		if (stack != null) {
-			if (stack.stackSize > amount) {
+			if (stack.getCount() > amount) {
 				stack = stack.splitStack(amount);
 				markDirty();
-			}
-			else {
+			} else {
 				setInventorySlotContents(slot, null);
 			}
 		}
@@ -53,50 +50,42 @@ public abstract class AbstractInventory implements IInventory
 	}
 
 	@Override
-	public void setInventorySlotContents(int slot, ItemStack itemstack)
-	{
+	public void setInventorySlotContents(int slot, ItemStack itemstack) {
 		inventory[slot] = itemstack;
-		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()) {
-			itemstack.stackSize = getInventoryStackLimit();
+		if (itemstack != null && itemstack.getCount() > getInventoryStackLimit()) {
+			itemstack.setCount(getInventoryStackLimit());
 		}
 		markDirty();
 	}
 
 	@Override
-	public void markDirty()
-	{
+	public void markDirty() {
 	} // usually only TileEntities implement this method
 
 	@Override
-	public void openInventory(EntityPlayer player)
-	{
+	public void openInventory(EntityPlayer player) {
 	}
 
 	@Override
-	public void closeInventory(EntityPlayer player)
-	{
+	public void closeInventory(EntityPlayer player) {
 	}
 
 	@Override
-	public int getField(int id)
-	{
+	public int getField(int id) {
 		return 0;
 	}
 
 	@Override
-	public void setField(int id, int value)
-	{
+	public void setField(int id, int value) {
 	}
 
 	@Override
-	public int getFieldCount()
-	{
+	public int getFieldCount() {
 		return 0;
 	}
 
 	@Override
-	public void clear()
-	{
+	public void clear() {
 		for (int i = 0; i < inventory.length; ++i) {
 			inventory[i] = null;
 		}
@@ -107,20 +96,17 @@ public abstract class AbstractInventory implements IInventory
 	 * hasCustomName()
 	 */
 	@Override
-	public String getName()
-	{
+	public String getName() {
 		return "";
 	}
 
 	@Override
-	public boolean hasCustomName()
-	{
+	public boolean hasCustomName() {
 		return true;
 	}
 
 	@Override
-	public ITextComponent getDisplayName()
-	{
+	public ITextComponent getDisplayName() {
 		return hasCustomName() ? new TextComponentString(getName()) : new TextComponentTranslation(getName());
 	}
 
@@ -134,8 +120,7 @@ public abstract class AbstractInventory implements IInventory
 	 * Writes this inventory to NBT; must be called manually Fails silently if
 	 * {@link #getNbtKey} returns null or an empty string
 	 */
-	public void writeToNBT(NBTTagCompound compound)
-	{
+	public void writeToNBT(NBTTagCompound compound) {
 		String key = getNbtKey();
 		if (key == null || key.equals("")) {
 			return;
@@ -156,18 +141,17 @@ public abstract class AbstractInventory implements IInventory
 	 * Loads this inventory from NBT; must be called manually Fails silently if
 	 * {@link #getNbtKey} returns null or an empty string
 	 */
-	public void readFromNBT(NBTTagCompound compound)
-	{
+	public void readFromNBT(NBTTagCompound compound) {
 		String key = getNbtKey();
-		if (key == null || key.equals("")) { return; }
+		if (key == null || key.equals("")) {
+			return;
+		}
 		NBTTagList items = compound.getTagList(key, compound.getId());
-		for (int i = 0; i < items.tagCount(); ++i)
-		{
+		for (int i = 0; i < items.tagCount(); ++i) {
 			NBTTagCompound item = items.getCompoundTagAt(i);
 			byte slot = item.getByte("Slot");
-			if (slot >= 0 && slot < getSizeInventory())
-			{
-				inventory[slot] = ItemStack.loadItemStackFromNBT(item);
+			if (slot >= 0 && slot < getSizeInventory()) {
+				inventory[slot] = new ItemStack(item);
 			}
 		}
 	}

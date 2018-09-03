@@ -35,7 +35,7 @@ public class GUICompostBin extends GUIArkContainer
 		String name = I18n.translate("tile.compost_bin.name");
 		final int LABEL_YPOS = 7;
 		final int LABEL_XPOS = (xSize / 2) - (name.length() * 5 / 2);
-		this.fontRendererObj.drawString(name, LABEL_XPOS, LABEL_YPOS, Color.darkGray.getRGB());
+		this.fontRenderer.drawString(name, LABEL_XPOS, LABEL_YPOS, Color.darkGray.getRGB());
 	}
 
 	@Override

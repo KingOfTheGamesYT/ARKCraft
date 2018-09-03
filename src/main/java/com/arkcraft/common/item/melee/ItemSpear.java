@@ -53,7 +53,7 @@ public class ItemSpear extends ItemSword {
 	}
 
 	private boolean decreasStack(ItemStack stack, EntityPlayer player) {
-		stack.setCount(stack.getCount() - 1);
+		stack.shrink(1);
 
 		if (stack.getCount() == 0) {
 			player.inventory.deleteStack(stack);

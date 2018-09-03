@@ -108,7 +108,7 @@ public class GUIEngram extends GUIScrollable
 		// draw text
 
 		String s = I18n.format("gui.engram.text.engrampoints", ARKPlayer.get(player).getEngramPoints());
-		fontRendererObj.drawString(s, getCenteredStringOffset(s, fontRendererObj, 80), -10, Color.gray.getRGB());
+		fontRenderer.drawString(s, getCenteredStringOffset(s, fontRenderer, 80), -10, Color.gray.getRGB());
 
 		if (getEngram() != null)
 		{
@@ -117,11 +117,11 @@ public class GUIEngram extends GUIScrollable
 			String description = getEngram().getDescription();
 			String points = "Cost: " + getEngram().getPoints(); // TODO localization
 			String level = "Level: " + getEngram().getLevel(); // TODO localization
-			fontRendererObj.drawString(title, getCenteredStringOffset(title, fontRendererObj, 80), 5, descColor);
-			fontRendererObj.drawString(description, getCenteredStringOffset(description, fontRendererObj, 80), 17,
+			fontRenderer.drawString(title, getCenteredStringOffset(title, fontRenderer, 80), 5, descColor);
+			fontRenderer.drawString(description, getCenteredStringOffset(description, fontRenderer, 80), 17,
 					descColor);
-			fontRendererObj.drawString(points, getCenteredStringOffset(points, fontRendererObj, 80), 29, descColor);
-			fontRendererObj.drawString(level, getCenteredStringOffset(level, fontRendererObj, 80), 41, descColor);
+			fontRenderer.drawString(points, getCenteredStringOffset(points, fontRenderer, 80), 29, descColor);
+			fontRenderer.drawString(level, getCenteredStringOffset(level, fontRenderer, 80), 41, descColor);
 			// 4210752 original value
 		}
 	}

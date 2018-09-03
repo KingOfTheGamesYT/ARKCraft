@@ -14,8 +14,8 @@ public class BookDataStore
 
 	public static void addBookData(BookData bd)
 	{
-		LogHelper.info("Adding a new BookData instance with the name: " + bd.getUnlocalizedName());
-		data.put(bd.getUnlocalizedName(), bd);
+		LogHelper.info("Adding a new BookData instance with the name: " + bd.getTranslationKey());
+		data.put(bd.getTranslationKey(), bd);
 	}
 
 	public static BookData getBookDataFromName(String unlocalizedName)

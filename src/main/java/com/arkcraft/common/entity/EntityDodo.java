@@ -224,7 +224,7 @@ public class EntityDodo extends EntityTameable {
 						if (itemStack.getItem() == ARKCraftItems.amarBerry) {
 							// Put Dodo Bag on Dodo
 							if (!player.capabilities.isCreativeMode) {
-								itemStack.setCount(itemStack.getCount() - 1);
+								itemStack.shrink(1);
 								if (itemStack.getCount() == 0) {
 									player.inventory.mainInventory.set(player.inventory.currentItem, null);
 								}
@@ -255,7 +255,7 @@ public class EntityDodo extends EntityTameable {
 		// Tame the Dodo with meat
 		else if (itemStack != null && isFavoriteFood(itemStack)) {
 			if (!player.capabilities.isCreativeMode) {
-				itemStack.setCount(itemStack.getCount() - 1);
+				itemStack.shrink(1);
 			}
 			if (itemStack.getCount() <= 0) {
 				player.inventory.setInventorySlotContents(player.inventory.currentItem, null);

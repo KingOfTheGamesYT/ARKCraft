@@ -45,7 +45,7 @@ public interface IDecayable {
 		if (getDecayStart(stack) < 0) setDecayStart(stack, ARKCraft.proxy.getWorldTime());
 		setDecayModifier(stack, decayModifier);
 		if (shouldRemove(stack, decayModifier)) {
-			stack.setCount(stack.getCount() - 1);
+			stack.shrink(1);
 			setDecayStart(stack, ARKCraft.proxy.getWorldTime());
 			if (stack.getCount() <= 0) inventory.setInventorySlotContents(slotId, null);
 		}

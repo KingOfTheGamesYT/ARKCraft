@@ -902,6 +902,11 @@ public class ARKPlayer implements IArkLevelable, IWeighable, ITranquilizable, IC
 		}
 
 		@Override
+		public boolean isEmpty() {
+			return false;
+		}
+
+		@Override
 		public ItemStack getStackInSlot(int index)
 		{
 			return null;

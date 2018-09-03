@@ -1,33 +1,30 @@
 package com.arkcraft.common.entity.projectile;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.MoverType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class EntityGrenade extends EntityProjectile
-{
+public class EntityGrenade extends EntityProjectile {
 	double bounceFactor1;
 	double bounceFactor = 0.8;
 	int fuse = 120;
 	boolean stopped = false;
 
-	public EntityGrenade(World world)
-	{
+	public EntityGrenade(World world) {
 		super(world);
 		setSize(0.5F, 0.5F);
 		bounceFactor = 0.75;
 	}
 
-	public EntityGrenade(World w, double x, double y, double z)
-	{
+	public EntityGrenade(World w, double x, double y, double z) {
 		super(w);
 		setPosition(x, y, z);
 	}
 
-	public EntityGrenade(World world, EntityLivingBase entity)
-	{
+	public EntityGrenade(World world, EntityLivingBase entity) {
 		super(world);
 
 		setRotation(entity.rotationYaw, 0);
@@ -47,49 +44,39 @@ public class EntityGrenade extends EntityProjectile
 	}
 
 	@Override
-	public void onUpdate()
-	{
+	public void onUpdate() {
 		super.onUpdate();
 
-		if (!world.isRemote)
-		{
-			if (ticksExisted == fuse)
-			{
+		if (!world.isRemote) {
+			if (ticksExisted == fuse) {
 				explode();
 			}
 		}
 
-		if (!this.stopped)
-		{
+		if (!this.stopped) {
 			double prevVelX = this.motionX;
 			double prevVelY = this.motionY;
 			double prevVelZ = this.motionZ;
 			prevPosX = posX;
 			prevPosY = posY;
 			prevPosZ = posZ;
-			move(motionX, motionX, motionX);
+			move(MoverType.SELF, motionX, motionX, motionX);
 			boolean collided = false;
-			if (this.motionX != prevVelX)
-			{
+			if (this.motionX != prevVelX) {
 				this.motionX = -prevVelX;
 				collided = true;
 			}
-			if (this.motionZ != prevVelZ)
-			{
+			if (this.motionZ != prevVelZ) {
 				this.motionZ = -prevVelZ;
 				collided = true;
 			}
-			if (this.motionY != prevVelY)
-			{
+			if (this.motionY != prevVelY) {
 				this.motionY = -prevVelY;
 				collided = true;
-			}
-			else
-			{
+			} else {
 				this.motionY -= 0.04;
 			}
-			if (collided)
-			{
+			if (collided) {
 				this.motionX *= this.bounceFactor;
 				this.motionY *= this.bounceFactor;
 				this.motionZ *= this.bounceFactor;
@@ -97,8 +84,7 @@ public class EntityGrenade extends EntityProjectile
 			this.motionX *= 1.0;
 			this.motionY *= 0.99;
 			this.motionZ *= 1.0;
-			if (Math.abs(this.motionX) + Math.abs(this.motionY) + Math.abs(this.motionZ) < 0.2)
-			{
+			if (Math.abs(this.motionX) + Math.abs(this.motionY) + Math.abs(this.motionZ) < 0.2) {
 				this.stopped = true;
 				this.motionX = 0.0;
 				this.motionY = 0.0;
@@ -107,21 +93,18 @@ public class EntityGrenade extends EntityProjectile
 		}
 	}
 
-	private void explode()
-	{
+	private void explode() {
 		this.world.createExplosion(this, posX, posY, posZ, 4F, true);
 		this.setDead();
 	}
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound nbttagcompound)
-	{
+	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
 		nbttagcompound.setByte("Fuse", (byte) fuse);
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound nbttagcompound)
-	{
+	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
 		fuse = nbttagcompound.getByte("Fuse");
 	}
 

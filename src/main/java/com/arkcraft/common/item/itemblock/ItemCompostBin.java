@@ -57,7 +57,7 @@ public class ItemCompostBin extends ItemBlockARK {
 								BlockCompostBin.EnumPart.LEFT);
 						worldIn.setBlockState(blockpos1, iblockstate2, 3);
 					}
-					stack.setCount(stack.getCount() - 1);
+					stack.shrink(1);
 					return true;
 				} else {
 					return false;
@@ -101,7 +101,7 @@ public class ItemCompostBin extends ItemBlockARK {
 								BlockCompostBin.EnumPart.LEFT);
 						worldIn.setBlockState(blockpos1, iblockstate2, 3);
 					}
-					stack.setCount(stack.getCount() - 1);
+					stack.shrink(1);
 					return EnumActionResult.SUCCESS;
 				} else {
 					return EnumActionResult.FAIL;

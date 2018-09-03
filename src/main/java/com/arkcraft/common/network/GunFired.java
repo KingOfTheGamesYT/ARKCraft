@@ -61,7 +61,7 @@ public class GunFired implements IMessage
 			if (stack != null && stack.getItem() instanceof ItemRangedWeapon)
 			{
 				ItemRangedWeapon weapon = (ItemRangedWeapon) stack.getItem();
-				String soundPath = ARKCraft.MODID + ":" + weapon.getUnlocalizedName() + "_shoot";
+				String soundPath = ARKCraft.MODID + ":" + weapon.getTranslationKey() + "_shoot";
 				weapon.fire(stack, player.world, player, 0);
 				player.setActiveHand(player.getActiveHand());
 				InventoryAttachment att = InventoryAttachment.create(stack);

@@ -1,12 +1,10 @@
 package com.arkcraft.client.gui.entity;
 
-import com.google.common.collect.Lists;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-
-import java.util.List;
+import net.minecraft.util.NonNullList;
 
 public class InventoryDino extends InventoryBasic {
 
@@ -43,11 +41,12 @@ public class InventoryDino extends InventoryBasic {
 		nbt.setTag("Items", nbttaglist);
 	}
 
-	public List<ItemStack> getInventoryStacks() {
-		List<ItemStack> stacks = Lists.newArrayList();
+	public NonNullList<ItemStack> getInventoryStacks() {
+		NonNullList<ItemStack> stacks = NonNullList.create();
 
-		for (int i = 0; i < getSizeInventory(); i++)
+		for (int i = 0; i < getSizeInventory(); i++) {
 			stacks.add(getStackInSlot(i));
+		}
 
 		return stacks;
 	}

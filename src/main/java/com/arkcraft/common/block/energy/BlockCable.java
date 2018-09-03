@@ -58,7 +58,7 @@ public class BlockCable extends BlockContainer {
 		return EnumBlockRenderType.MODEL;
 	}
 	@Override
-	public BlockRenderLayer getBlockLayer() {
+	public BlockRenderLayer getRenderLayer() {
 		return BlockRenderLayer.CUTOUT;
 	}
 	@Override

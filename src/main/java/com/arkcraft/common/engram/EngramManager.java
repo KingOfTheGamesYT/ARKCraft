@@ -543,7 +543,7 @@ public class EngramManager {
 							if (!consumed[j]) {
 								int stillRequired = required[j] - yetFound[j];
 								if (s.getCount() > stillRequired) {
-									s.setCount(s.getCount() - stillRequired);
+									s.shrink(s.getCount() - stillRequired);
 									required[j] = 0;
 								} else {
 									required[j] -= s.getCount();

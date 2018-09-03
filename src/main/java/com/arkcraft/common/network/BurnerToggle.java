@@ -25,7 +25,7 @@ public class BurnerToggle implements IMessage
 		{
 			if (ctx.side.isServer())
 			{
-				Container c = ctx.getServerHandler().playerEntity.openContainer;
+				Container c = ctx.getServerHandler().player.openContainer;
 				if (c instanceof IBurnerContainer) ((IBurnerContainer) c).toggleBurning();
 			}
 			return null;

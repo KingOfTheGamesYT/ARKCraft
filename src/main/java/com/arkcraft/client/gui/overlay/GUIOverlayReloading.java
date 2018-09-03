@@ -73,9 +73,9 @@ public class GUIOverlayReloading extends Gui
 				{
 					text = '\u221e' + "";
 				}
-				int x = e.getResolution().getScaledWidth() - 4 - mc.fontRendererObj.getStringWidth(text);
+				int x = e.getResolution().getScaledWidth() - 4 - mc.fontRenderer.getStringWidth(text);
 				int y = 20;
-				drawString(mc.fontRendererObj, text, x, y - 16, 0xFFFFFFFF);
+				drawString(mc.fontRenderer, text, x, y - 16, 0xFFFFFFFF);
 			}
 		}
 	}

@@ -17,7 +17,7 @@ public class BookInfo
     public BookInfo()
     {
         Side side = FMLCommonHandler.instance().getEffectiveSide();
-        bd = createBook(bd, ARKCraftItems.info_book.getUnlocalizedName(), ChatFormatting.GOLD + "Knowledge is Power", side == Side.CLIENT ? BookClient.document : null, "textures/items/info_book.png");
+        bd = createBook(bd, ARKCraftItems.info_book.getTranslationKey(), ChatFormatting.GOLD + "Knowledge is Power", side == Side.CLIENT ? BookClient.document : null, "textures/items/info_book.png");
     }
 
     public BookData createBook(BookData data, String unlocalizedName, String tooltip, BookDocument document, String itemImage)

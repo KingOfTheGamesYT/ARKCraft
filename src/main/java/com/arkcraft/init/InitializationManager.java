@@ -82,7 +82,7 @@ public class InitializationManager
 	public <E extends Item> E registerItem(String name, E item, String modelLocationPrefix, int[] metas,
 			boolean standardRender, String... variants)
 	{
-		item.setUnlocalizedName(name);
+		item.setTranslationKey(name);
 		item.setRegistryName(name);
 		GameRegistry.register(item);
 		registry.addEntry(new RegistryEntry<>(name, item, modelLocationPrefix, standardRender).addVariants(variants)
@@ -131,7 +131,7 @@ public class InitializationManager
 	public <E extends Block> E registerBlock(String name, E block, ItemBlock itemBlock,
 			String modelLocationPrefix, int[] metas, String... variants)
 	{
-		block.setUnlocalizedName(name);
+		block.setTranslationKey(name);
 		block.setRegistryName(name);
 		itemBlock.setRegistryName(name);
 		GameRegistry.register(block);
@@ -162,7 +162,7 @@ public class InitializationManager
 	public <E extends Block> E registerBlock(String name, E block, Class<? extends ItemBlock> itemClass,
 			Object[] itemCtorArgs, String modelLocationPrefix, int[] metas, String... variants)
 	{
-		block.setUnlocalizedName(name);
+		block.setTranslationKey(name);
 		GameRegistry.registerBlock(block, itemClass, name, itemCtorArgs);
 		this.registerItem(name, get(block), modelLocationPrefix, metas, variants);
 		return block;

@@ -231,7 +231,7 @@ public class ARKCraftBerryBush extends BlockBush implements IExperienceSource
 	}
 
 	@Override
-	public BlockRenderLayer getBlockLayer()
+	public BlockRenderLayer getRenderLayer()
 	{
 		return BlockRenderLayer.CUTOUT;
 	}

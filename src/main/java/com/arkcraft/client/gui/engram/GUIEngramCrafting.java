@@ -123,7 +123,7 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 		// GlStateManager.scale(0.5, 0.5, 0.5);
 		// ItemStack itemstack = new ItemStack(ARKCraftItems.amarBerry);
 		// this.itemRender.renderItemAndEffectIntoGUI(itemstack, 100,100);
-		// this.itemRender.renderItemOverlayIntoGUI(this.fontRendererObj,
+		// this.itemRender.renderItemOverlayIntoGUI(this.fontRenderer,
 		// itemstack, 100, 100, "64");
 		// GlStateManager.scale(2, 2, 2);
 	}
@@ -144,7 +144,7 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void drawHoveringText(@SuppressWarnings("rawtypes") List textLines, int x, int y,
-			FontRenderer fontRendererObj)
+			FontRenderer fontRenderer)
 	{
 		Slot slot = getSlotUnderMouse();
 		if (slot instanceof EngramCraftingSlot)
@@ -189,13 +189,13 @@ public abstract class GUIEngramCrafting extends GUIScrollable
 				for (AbstractItemStack i : er.getItems())
 				{
 					textLines.add(ChatFormatting.GOLD + I18n.format("gui.engramcrafting.engram.tooltip.ingredient",
-							I18n.translate(i.item.getUnlocalizedName() + ".name"), (int) (i.getAmount() * multiplier)));
+							I18n.translate(i.item.getTranslationKey() + ".name"), (int) (i.getAmount() * multiplier)));
 				}
 			}
 		}
 		// TODO queue slot stuff
 
-		super.drawHoveringText(textLines, x, y, fontRendererObj);
+		super.drawHoveringText(textLines, x, y, fontRenderer);
 	}
 
 	public abstract int getC1ButtonX();

@@ -74,9 +74,9 @@ public class ItemCropPlot extends ItemBlockARK
 	
 
 	@Override
-	public String getUnlocalizedName(ItemStack stack)
+	public String getTranslationKey(ItemStack stack)
 	{
-		return super.getUnlocalizedName(stack) + "." + CropPlotType.VALUES[stack.getMetadata()
+		return super.getTranslationKey(stack) + "." + CropPlotType.VALUES[stack.getMetadata()
 				% CropPlotType.VALUES.length].name().toLowerCase();
 	}
 }

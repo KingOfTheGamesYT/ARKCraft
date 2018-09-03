@@ -50,7 +50,7 @@ public class ItemSmithy extends ItemBlockARK {
 								EnumPart.LEFT);
 						worldIn.setBlockState(blockpos1, iblockstate2, 3);
 					}
-					itemStack.setCount(itemStack.getCount() - 1);
+					itemStack.shrink(1);
 					return EnumActionResult.SUCCESS;
 				} else {
 					return EnumActionResult.FAIL;

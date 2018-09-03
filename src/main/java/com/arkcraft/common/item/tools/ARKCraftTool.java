@@ -335,7 +335,7 @@ public abstract class ARKCraftTool extends ItemTool {
 		setToolDamage(toolStack, newValue);
 		if (newValue >= getDurability(toolStack)) {
 			entityIn.renderBrokenItemStack(toolStack);
-			toolStack.setCount(toolStack.getCount() - 1);
+			toolStack.shrink(1);
 
 			if (entityIn instanceof EntityPlayer) {
 				EntityPlayer entityplayer = (EntityPlayer) entityIn;

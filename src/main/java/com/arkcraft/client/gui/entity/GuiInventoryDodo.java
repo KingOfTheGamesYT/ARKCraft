@@ -53,6 +53,6 @@ public class GuiInventoryDodo extends GuiContainer
     {
         final int LABEL_XPOS = 5;
         final int LABEL_YPOS = 5;
-        fontRendererObj.drawString(invDodo.getDisplayName().getUnformattedText(), LABEL_XPOS, LABEL_YPOS, Color.darkGray.getRGB());
+        fontRenderer.drawString(invDodo.getDisplayName().getUnformattedText(), LABEL_XPOS, LABEL_YPOS, Color.darkGray.getRGB());
     }
 }
