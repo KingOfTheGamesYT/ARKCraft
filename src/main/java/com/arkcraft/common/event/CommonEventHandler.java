@@ -31,12 +31,12 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
@@ -46,6 +46,7 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.util.*;
 
+@Mod.EventBusSubscriber(modid = ARKCraft.MODID)
 public class CommonEventHandler {
 	// Immutable Set (Not able to edit the set)
 	private static final Set<Item> INPUTS = ImmutableSet.of(Items.BONE, Items.BOOK, Items.WHEAT);
@@ -78,11 +79,6 @@ public class CommonEventHandler {
 	public boolean destroyBlocks;
 	public boolean startSwing;
 	private Map<Integer, TickStorage> tick = new HashMap<>();
-
-	public static void init() {
-		CommonEventHandler handler = new CommonEventHandler();
-		MinecraftForge.EVENT_BUS.register(handler);
-	}
 
 	// for (int x = -checkSize; x <= checkSize; x++) {
 	// for (int z = -checkSize; z <= checkSize; z++) {
@@ -340,11 +336,11 @@ public class CommonEventHandler {
 		int x = r.nextInt(3) + 1;
 		ItemStack meat = new ItemStack(ARKCraftItems.meat_raw, x);
 		event.getDrops().add(new EntityItem(event.getEntityLiving().world, event.getEntityLiving().posX, event.getEntityLiving().posY,
-				event.getEntityLiving().posZ, IDecayable.setDecayStart(meat, ARKCraft.proxy.getWorldTime())));
+				event.getEntityLiving().posZ, IDecayable.setDecayStart(meat, ARKCraft.proxy().getWorldTime())));
 		if (r.nextDouble() < 0.05)
 			event.getDrops().add(new EntityItem(event.getEntityLiving().world, event.getEntityLiving().posX,
 					event.getEntityLiving().posY, event.getEntityLiving().posZ, IDecayable.setDecayStart(new ItemStack(
-					ARKCraftItems.primemeat_raw), ARKCraft.proxy.getWorldTime())));
+					ARKCraftItems.primemeat_raw), ARKCraft.proxy().getWorldTime())));
 		if (event.getEntityLiving() instanceof EntitySpider || event.getEntityLiving() instanceof EntitySilverfish
 				|| event.getEntityLiving() instanceof EntityEndermite) event.getDrops().add(new EntityItem(
 				event.getEntityLiving().world, event.getEntityLiving().posX, event.getEntityLiving().posY,

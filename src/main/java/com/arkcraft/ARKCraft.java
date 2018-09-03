@@ -18,24 +18,21 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.EventBus;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
 @Mod(modid = ARKCraft.MODID, updateJSON = ARKCraft.UPDATE_JSON, useMetadata = true)
 public class ARKCraft {
 	public static final String MODID = "arkcraft";
-	public final static EventBus EVENT_BUS = new EventBus();
 	protected static final String UPDATE_JSON =
 			"https://raw.githubusercontent.com/BubbleTrouble14/ARKCraft/master/version-check.json";
-	@SidedProxy(clientSide = "ClientProxy",
-			serverSide = "ServerProxy")
-	public static CommonProxy proxy;
-
 	public static CreativeTabs tabARK = new ARKCreativeTab();
 	public static CreativeTabs tabARKBlueprints = new ARKBlueprintTab();
 	public static SimpleNetworkWrapper modChannel;
 	public static Logger logger;
 	public static CheckResult versionCheckResult;
+	@SidedProxy(clientSide = "com.arkcraft.client.ClientProxy",
+			serverSide = "com.arkcraft.server.proxy.ServerProxy")
+	private static CommonProxy proxy;
 	@Instance(ARKCraft.MODID)
 	private static ARKCraft instance;
 	private static ModContainer modContainer = Loader.instance().activeModContainer();
@@ -47,6 +44,22 @@ public class ARKCraft {
 
 	public static ARKCraft instance() {
 		return instance;
+	}
+
+	public static CommonProxy proxy() {
+		return proxy;
+	}
+
+	public static String version() {
+		return modContainer.getVersion();
+	}
+
+	public static String modid() {
+		return MODID;
+	}
+
+	public static String name() {
+		return modContainer.getName();
 	}
 
 	@EventHandler
@@ -67,21 +80,5 @@ public class ARKCraft {
 		modContainer.setEnabledState(false);
 		proxy.postInit(event);
 		updateCheckResult();
-	}
-
-	public boolean isDebugger() {
-		return "${version}".equals(version());
-	}
-
-	public String version() {
-		return modContainer.getVersion();
-	}
-
-	public String modid() {
-		return modContainer.getModId();
-	}
-
-	public String name() {
-		return modContainer.getName();
 	}
 }

@@ -42,18 +42,18 @@ public interface IDecayable {
 	}
 
 	default void decayTick(IInventory inventory, int slotId, double decayModifier, ItemStack stack) {
-		if (getDecayStart(stack) < 0) setDecayStart(stack, ARKCraft.proxy.getWorldTime());
+		if (getDecayStart(stack) < 0) setDecayStart(stack, ARKCraft.proxy().getWorldTime());
 		setDecayModifier(stack, decayModifier);
 		if (shouldRemove(stack, decayModifier)) {
 			stack.shrink(1);
-			setDecayStart(stack, ARKCraft.proxy.getWorldTime());
+			setDecayStart(stack, ARKCraft.proxy().getWorldTime());
 			if (stack.getCount() <= 0) inventory.setInventorySlotContents(slotId, null);
 		}
 	}
 
 	public default boolean shouldRemove(ItemStack stack, double decayModifier) {
 		long decayStart = getDecayStart(stack);
-		return decayStart >= 0 && getRemovalTime(stack, decayModifier) <= ARKCraft.proxy.getWorldTime();
+		return decayStart >= 0 && getRemovalTime(stack, decayModifier) <= ARKCraft.proxy().getWorldTime();
 	}
 
 	public default long getRemovalTime(ItemStack stack, double decayModifier) {
@@ -68,7 +68,7 @@ public interface IDecayable {
 	}
 
 	public default long getDecayTimeLeft(ItemStack stack, double decayModifier) {
-		return getDecayStart(stack) > -1 ? getRemovalTime(stack, decayModifier) - ARKCraft.proxy.getWorldTime() : 0;
+		return getDecayStart(stack) > -1 ? getRemovalTime(stack, decayModifier) - ARKCraft.proxy().getWorldTime() : 0;
 	}
 
 	public long getDecayTime(ItemStack stack);

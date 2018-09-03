@@ -18,7 +18,7 @@ public class ItemSlingshot extends Item implements IMeshedItem {
 
 	public ItemSlingshot() {
 		super();
-		ARKCraft.proxy.registerModelMeshDef(this);
+		ARKCraft.proxy().registerModelMeshDef(this);
 	}
 
 	@Override

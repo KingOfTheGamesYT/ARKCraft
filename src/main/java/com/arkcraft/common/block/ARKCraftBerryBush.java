@@ -117,7 +117,7 @@ public class ARKCraftBerryBush extends BlockBush implements IExperienceSource {
 						this.entityDropItem(worldIn, pos, playerIn, new ItemStack(seed, 1, 0));
 					ItemStack out = new ItemStack(itemPicked, 1, 0);
 					if (itemPicked instanceof IDecayable)
-						IDecayable.setDecayStart(out, ARKCraft.proxy.getWorldTime());
+						IDecayable.setDecayStart(out, ARKCraft.proxy().getWorldTime());
 					this.entityDropItem(worldIn, pos, playerIn, out);
 				}
 				worldIn.setBlockState(pos, state.withProperty(HARVEST_COUNT, harvestCount - 1));

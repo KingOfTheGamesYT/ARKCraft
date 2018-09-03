@@ -101,7 +101,7 @@ public class ARKCraftFood extends ItemFood implements IDecayable {
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
 		ItemStack s = new ItemStack(this);
-		IDecayable.setDecayStart(s, ARKCraft.proxy.getWorldTime());
+		IDecayable.setDecayStart(s, ARKCraft.proxy().getWorldTime());
 		items.add(s);
 	}
 

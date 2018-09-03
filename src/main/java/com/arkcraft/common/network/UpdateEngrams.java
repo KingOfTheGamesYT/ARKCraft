@@ -59,7 +59,7 @@ public class UpdateEngrams implements IMessage
 		{
 			if (ctx.side.isClient())
 			{
-				ARKPlayer p = ARKPlayer.get(ARKCraft.proxy.getPlayerFromContext(ctx));
+				ARKPlayer p = ARKPlayer.get(ARKCraft.proxy().getPlayerFromContext(ctx));
 				p.updateUnlockedEngrams(message.engrams, message.points);
 			}
 			return null;

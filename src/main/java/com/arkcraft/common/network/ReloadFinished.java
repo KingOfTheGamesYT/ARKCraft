@@ -34,7 +34,7 @@ public class ReloadFinished implements IMessage
 				System.err.println("ReloadFinished received on wrong side:" + ctx.side);
 				return null;
 			}
-			processMessage(message, ARKCraft.proxy.getPlayerFromContext(ctx));
+			processMessage(message, ARKCraft.proxy().getPlayerFromContext(ctx));
 			return null;
 		}
 

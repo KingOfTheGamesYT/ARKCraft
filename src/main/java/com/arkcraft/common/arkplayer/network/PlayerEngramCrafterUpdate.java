@@ -45,7 +45,7 @@ public class PlayerEngramCrafterUpdate implements IMessage
 		{
 			if (ctx.side.isClient())
 			{
-				ARKPlayer.get(ARKCraft.proxy.getPlayerFromContext(ctx)).getEngramCrafter().readFromNBT(message.nbt);
+				ARKPlayer.get(ARKCraft.proxy().getPlayerFromContext(ctx)).getEngramCrafter().readFromNBT(message.nbt);
 			}
 			return null;
 		}

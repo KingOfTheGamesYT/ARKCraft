@@ -1,12 +1,12 @@
 package com.arkcraft.common.arkplayer.event;
 
+import com.arkcraft.ARKCraft;
 import com.arkcraft.common.arkplayer.ARKPlayer;
 import com.arkcraft.common.config.WeightsConfig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
@@ -14,18 +14,15 @@ import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 
+@Mod.EventBusSubscriber(modid = ARKCraft.MODID)
 public class PlayerCommonEventHandler {
 	public static final ResourceLocation CAP = new ResourceLocation("arkcraft:arkplayer");
-
-	public static void init() {
-		PlayerCommonEventHandler p = new PlayerCommonEventHandler();
-		MinecraftForge.EVENT_BUS.register(p);
-	}
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onPlayerTickEvent(TickEvent.PlayerTickEvent event) {

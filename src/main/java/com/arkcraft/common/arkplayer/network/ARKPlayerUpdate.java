@@ -78,7 +78,7 @@ public class ARKPlayerUpdate implements IMessage
 		{
 			if (ctx.side.isClient())
 			{
-				message.store(ARKPlayer.get(ARKCraft.proxy.getPlayerFromContext(ctx)));
+				message.store(ARKPlayer.get(ARKCraft.proxy().getPlayerFromContext(ctx)));
 			}
 			return null;
 		}

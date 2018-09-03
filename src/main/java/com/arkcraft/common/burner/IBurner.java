@@ -99,7 +99,7 @@ public interface IBurner extends IInventoryAdder, NBTable {
 					consume(new ItemStack(i.getKey(), i.getValue()));
 				}
 				ItemStack s = new ItemStack(e.getKey().getItem(), e.getKey().getAmount());
-				if (s.getItem() instanceof IDecayable) IDecayable.setDecayStart(s, ARKCraft.proxy.getWorldTime());
+				if (s.getItem() instanceof IDecayable) IDecayable.setDecayStart(s, ARKCraft.proxy().getWorldTime());
 				addOrDrop(s);
 				it.remove();
 			}

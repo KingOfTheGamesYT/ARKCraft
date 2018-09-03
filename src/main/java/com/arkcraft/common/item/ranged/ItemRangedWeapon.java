@@ -1,7 +1,6 @@
 package com.arkcraft.common.item.ranged;
 
 import com.arkcraft.ARKCraft;
-import com.arkcraft.client.event.ClientEventHandler;
 import com.arkcraft.common.entity.projectile.EntityProjectile;
 import com.arkcraft.common.entity.projectile.ProjectileType;
 import com.arkcraft.common.inventory.InventoryAttachment;
@@ -88,7 +87,7 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem {
 		this.recoil = recoil;
 		this.shouldRecoil = shouldRecoil;
 		this.twoHanded = twoHanded;
-		ARKCraft.proxy.registerModelMeshDef(this);
+		ARKCraft.proxy().registerModelMeshDef(this);
 	}
 
 	public static Vec3d getPositionEyes(Entity player, float partialTick) {
@@ -659,7 +658,8 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem {
 			player.inventory.addItemStackToInventory(s);
 		} else if (ammo < 1) {
 			if (hasAmmoInInventory(player) && FMLCommonHandler.instance().getSide().isClient()) {
-				ClientEventHandler.doReload();
+//TODO replace with sided handler
+// ClientEventHandler.doReload();
 			} else {
 				this.setAmmoType(stack, "");
 			}

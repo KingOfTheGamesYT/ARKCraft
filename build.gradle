@@ -11,7 +11,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 
 version = "2.0.0-alpha"
-group= "com.arkcraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group = "com.arkcraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "arkcraft"
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
@@ -22,22 +22,21 @@ compileJava {
 minecraft {
     version = "1.12.2-14.23.4.2705"
     runDir = "run"
-    
+
     mappings = "stable_39"
     makeObfSourceJar = false
 }
 
-processResources
-{
+processResources {
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-                
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+
+        expand 'version': project.version, 'mcversion': project.minecraft.version
     }
-        
+
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }

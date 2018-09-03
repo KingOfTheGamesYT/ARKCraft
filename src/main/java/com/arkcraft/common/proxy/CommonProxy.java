@@ -1,11 +1,9 @@
 package com.arkcraft.common.proxy;
 
-import com.arkcraft.common.advancement.ARKCraftAdvancementTriggers;
-import com.arkcraft.common.item.IMeshedItem;
 import com.arkcraft.ARKCraft;
 import com.arkcraft.client.book.proxy.BookCommon;
+import com.arkcraft.common.advancement.ARKCraftAdvancementTriggers;
 import com.arkcraft.common.arkplayer.ARKPlayer;
-import com.arkcraft.common.arkplayer.event.PlayerCommonEventHandler;
 import com.arkcraft.common.arkplayer.network.ARKPlayerUpdate;
 import com.arkcraft.common.arkplayer.network.ARKPlayerUpdateRequest;
 import com.arkcraft.common.arkplayer.network.PlayerEngramCrafterUpdate;
@@ -14,27 +12,14 @@ import com.arkcraft.common.config.CoreConfig;
 import com.arkcraft.common.config.ModuleItemConfig;
 import com.arkcraft.common.config.WeightsConfig;
 import com.arkcraft.common.engram.EngramManager;
-import com.arkcraft.common.event.CommonEventHandler;
-import com.arkcraft.common.event.VersionDetectionHandler;
 import com.arkcraft.common.handlers.GuiHandler;
-import com.arkcraft.common.network.ARKModeToggle;
-import com.arkcraft.common.network.BurnerToggle;
-import com.arkcraft.common.network.GunFired;
-import com.arkcraft.common.network.MessageHover;
+import com.arkcraft.common.item.IMeshedItem;
+import com.arkcraft.common.network.*;
 import com.arkcraft.common.network.MessageHover.MessageHoverReq;
-import com.arkcraft.common.network.ReloadFinished;
-import com.arkcraft.common.network.ReloadStarted;
-import com.arkcraft.common.network.ScrollGui;
-import com.arkcraft.common.network.UpdateEngrams;
 import com.arkcraft.common.network.gui.OpenAttachmentInventory;
 import com.arkcraft.common.network.gui.OpenPlayerCrafting;
 import com.arkcraft.common.network.player.PlayerPoop;
-import com.arkcraft.init.ARKCraftBlocks;
-import com.arkcraft.init.ARKCraftEntities;
-import com.arkcraft.init.ARKCraftItems;
-import com.arkcraft.init.ARKCraftRangedWeapons;
-import com.arkcraft.init.ARKCraftWorldGen;
-
+import com.arkcraft.init.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -46,52 +31,16 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
-public abstract class CommonProxy
-{
-	public enum GUI
-	{
-		SMITHY,
-		MORTAR_AND_PESTLE,
-		BOOK,
-		CROP_PLOT,
-		TAMING,
-		COMPOST_BIN,
-		SCOPE,
-		PLAYER,
-		TAMED_DINO,
-		REFINING_FORGE,
-		ATTACHMENTS,
-		ENGRAMS,
-		CAMPFIRE,
-		INV_DODO,
-		FABRICATOR;
-
-		public final int id;
-
-		GUI()
-		{
-			this.id = getNextId();
-		}
-
-		static int idCounter = 0;
-
-		private static int getNextId()
-		{
-			return idCounter++;
-		}
-	}
-
-	@SidedProxy(clientSide = "BookClient",
-			serverSide = "BookCommon")
+public abstract class CommonProxy {
+	@SidedProxy(clientSide = "com.arkcraft.client.book.proxy.BookClient",
+			serverSide = "com.arkcraft.client.book.proxy.BookCommon")
 	public static BookCommon dossierProxy;
 
-	public CommonProxy()
-	{}
+	public CommonProxy() {
+	}
 
-	public void preInit(FMLPreInitializationEvent event)
-	{
+	public void preInit(FMLPreInitializationEvent event) {
 		setupNetwork(event);
-		registerEventHandlers();
 		initializeConfiguration(event);
 		ARKCraftWorldGen.init();
 
@@ -109,32 +58,22 @@ public abstract class CommonProxy
 		BurnerManager.init();
 	}
 
-	public void init(FMLInitializationEvent event)
-	{
+	public void init(FMLInitializationEvent event) {
 		ARKCraftEntities.init();
 		ARKPlayer.init();
 	}
 
-	public void postInit(FMLPostInitializationEvent event)
-	{}
-
-	protected void registerEventHandlers()
-	{
-		CommonEventHandler.init();
-		PlayerCommonEventHandler.init();
-		VersionDetectionHandler.init();
+	public void postInit(FMLPostInitializationEvent event) {
 	}
 
-	private final void initializeConfiguration(FMLPreInitializationEvent event)
-	{
+	private final void initializeConfiguration(FMLPreInitializationEvent event) {
 		CoreConfig.init(event.getModConfigurationDirectory());
 		MinecraftForge.EVENT_BUS.register(new CoreConfig());
 		ModuleItemConfig.init(event.getModConfigurationDirectory());
 		MinecraftForge.EVENT_BUS.register(new ModuleItemConfig());
 	}
 
-	private final void setupNetwork(FMLPreInitializationEvent event)
-	{
+	private final void setupNetwork(FMLPreInitializationEvent event) {
 		SimpleNetworkWrapper modChannel = NetworkRegistry.INSTANCE.newSimpleChannel(ARKCraft.MODID);
 		ARKCraft.modChannel = modChannel;
 
@@ -161,8 +100,7 @@ public abstract class CommonProxy
 		modChannel.registerMessage(GunFired.Handler.class, GunFired.class, id++, Side.SERVER);
 	}
 
-	public EntityPlayer getPlayer()
-	{
+	public EntityPlayer getPlayer() {
 		return null;
 	}
 
@@ -172,5 +110,35 @@ public abstract class CommonProxy
 
 	public abstract long getWorldTime();
 
-	public void registerModelMeshDef(IMeshedItem i){}
+	public void registerModelMeshDef(IMeshedItem i) {
+	}
+
+	public enum GUI {
+		SMITHY,
+		MORTAR_AND_PESTLE,
+		BOOK,
+		CROP_PLOT,
+		TAMING,
+		COMPOST_BIN,
+		SCOPE,
+		PLAYER,
+		TAMED_DINO,
+		REFINING_FORGE,
+		ATTACHMENTS,
+		ENGRAMS,
+		CAMPFIRE,
+		INV_DODO,
+		FABRICATOR;
+
+		static int idCounter = 0;
+		public final int id;
+
+		GUI() {
+			this.id = getNextId();
+		}
+
+		private static int getNextId() {
+			return idCounter++;
+		}
+	}
 }

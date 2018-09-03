@@ -16,7 +16,6 @@ import com.arkcraft.common.tileentity.crafter.TileEntityCropPlot;
 import com.arkcraft.util.ClientUtils;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.model.ModelBiped.ArmPose;
 import net.minecraft.client.model.ModelPlayer;
@@ -34,11 +33,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.*;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
@@ -50,12 +48,11 @@ import org.lwjgl.opengl.GL11;
 import java.util.Random;
 
 @SideOnly(Side.CLIENT)
-@EventBusSubscriber
+@Mod.EventBusSubscriber(modid = ARKCraft.MODID, value = Side.CLIENT)
 public class ClientEventHandler {
 	private static final ResourceLocation SCOPE_OVERLAY = new ResourceLocation(ARKCraft.MODID, "textures/gui/scope.png");
 	private static final ResourceLocation SPYGLASS_OVERLAY = new ResourceLocation(ARKCraft.MODID, "textures/gui/spyglass.png");
 	private static final int maxTicks = 70;
-	public static int disabledEquippItemAnimationTime = 0;
 	private static KeyBinding reload, attachment, playerPooping, arkmode, playerCrafting;
 	private static Minecraft mc = Minecraft.getMinecraft();
 	private static Random random = new Random();
@@ -63,7 +60,6 @@ public class ClientEventHandler {
 	private static float yawSway;
 	private static float pitchSway;
 	public boolean showScopeOverlap = false;
-	boolean mouseclicked = false;
 	private ItemStack selected;
 	private boolean showSpyglassOverlay;
 
@@ -82,13 +78,10 @@ public class ClientEventHandler {
 
 		arkmode = new KeyBinding("key.harvestOverlay", Keyboard.KEY_P, ARKCraft.instance().name());
 		ClientRegistry.registerKeyBinding(arkmode);
-
-		ClientEventHandler h = new ClientEventHandler();
-		MinecraftForge.EVENT_BUS.register(h);
 	}
 
 	public static void doReload() {
-		EntityPlayerSP player = Minecraft.getMinecraft().player;
+		EntityPlayer player = Minecraft.getMinecraft().player;
 		ItemStack stack = player.getHeldItem(EnumHand.MAIN_HAND);
 		if (stack != null && stack.getItem() instanceof ItemRangedWeapon) {
 			ItemRangedWeapon weapon = (ItemRangedWeapon) stack.getItem();
@@ -182,10 +175,6 @@ public class ClientEventHandler {
 	@SubscribeEvent(priority = EventPriority.NORMAL)
 	public void onRender(RenderGameOverlayEvent evt) {
 		Minecraft mc = Minecraft.getMinecraft();
-		//	if ((showScopeOverlap || showSpyglassOverlay) && (mc.player.getActiveItemStack() != selected || !Mouse.isButtonDown(0))) {
-		//		showScopeOverlap = false;
-		//		showSpyglassOverlay = false;
-		//	}
 		if (showScopeOverlap || showSpyglassOverlay) {
 			// Render scope
 			if (evt.getType() == RenderGameOverlayEvent.ElementType.HELMET) {
@@ -347,7 +336,7 @@ public class ClientEventHandler {
 
 	@SubscribeEvent
 	public void onPlayerKeypressed(InputEvent.KeyInputEvent event) {
-		EntityPlayerSP player = Minecraft.getMinecraft().player;
+		EntityPlayer player = Minecraft.getMinecraft().player;
 		if (playerPooping.isPressed()) {
 			System.out.println("Pressed z");
 			ARKPlayer.get(player).go();
@@ -356,7 +345,7 @@ public class ClientEventHandler {
 		} else if (reload.isPressed()) {
 			doReload();
 		} else if (attachment.isKeyDown()) {
-			if (player.getHeldItem(EnumHand.MAIN_HAND) != null && player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemRangedWeapon && !(player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof NonSupporting)) {
+			if (player.getHeldItem(EnumHand.MAIN_HAND).isEmpty() && player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemRangedWeapon && !(player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof NonSupporting)) {
 				ARKCraft.modChannel.sendToServer(new OpenAttachmentInventory());
 			}
 		} else if (arkmode.isPressed()) {
