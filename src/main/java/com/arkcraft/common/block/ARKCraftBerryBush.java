@@ -1,9 +1,12 @@
 package com.arkcraft.common.block;
 
-import java.util.List;
-import java.util.Random;
-
+import com.arkcraft.ARKCraft;
+import com.arkcraft.common.arkplayer.ARKPlayer;
+import com.arkcraft.common.config.ModuleItemBalance;
+import com.arkcraft.common.entity.IArkLevelable;
 import com.arkcraft.common.item.IDecayable;
+import com.arkcraft.init.ARKCraftItems;
+import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.SoundType;
@@ -20,24 +23,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.arkcraft.ARKCraft;
-import com.arkcraft.common.arkplayer.ARKPlayer;
-import com.arkcraft.common.config.ModuleItemBalance;
-import com.arkcraft.common.entity.IArkLevelable;
-import com.arkcraft.init.ARKCraftItems;
+import java.util.List;
+import java.util.Random;
 
-import com.google.common.collect.Lists;
-
-public class ARKCraftBerryBush extends BlockBush implements IExperienceSource
-{
+public class ARKCraftBerryBush extends BlockBush implements IExperienceSource {
 	public static final PropertyInteger HARVEST_COUNT = PropertyInteger.create("harvest", 0, 3);
 
-	public ARKCraftBerryBush(float hardness)
-	{
+	public ARKCraftBerryBush(float hardness) {
 		super();
 		this.setDefaultState(this.blockState.getBaseState().withProperty(HARVEST_COUNT, 0));
 		this.setSoundType(SoundType.GROUND);
@@ -48,20 +43,17 @@ public class ARKCraftBerryBush extends BlockBush implements IExperienceSource
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess soruce, BlockPos pos)
-	{
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess soruce, BlockPos pos) {
 		return new AxisAlignedBB(0f, 0f, 0f, 1f, 1f, 1f);
 	}
 
 	@Override
-	public boolean isReplaceable(IBlockAccess worldIn, BlockPos pos)
-	{
+	public boolean isReplaceable(IBlockAccess worldIn, BlockPos pos) {
 		return true;
 	}
 
 	@Override
-	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
-	{
+	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
 		if (rand.nextBoolean()) {
 			int harvestCount = getMetaFromState(state);
 
@@ -72,40 +64,32 @@ public class ARKCraftBerryBush extends BlockBush implements IExperienceSource
 	}
 
 	@Override
-	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
-	{
+	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
 		worldIn.setBlockState(pos, state.withProperty(HARVEST_COUNT, 3));
 	}
 
 	@Override
-	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
-	{
+	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
 		return Lists.newArrayList();
 	}
 
-	public Item getHarvestItem(Random rand, EntityPlayer player)
-	{
+	public Item getHarvestItem(Random rand, EntityPlayer player) {
 		ItemStack heldStack = player.getHeldItemMainhand();
 
 		if (heldStack != null && heldStack.getItem() == ARKCraftItems.metal_sickle) {
 			if (rand.nextInt(30) <= 15) {
 				return ARKCraftItems.fiber;
 			}
-		}
-		else {
+		} else {
 			if (rand.nextInt(10) <= 3) {
 				return ARKCraftItems.fiber;
-			}
-			else if (rand.nextInt(10) <= 4) {
+			} else if (rand.nextInt(10) <= 4) {
 				return rand.nextInt(10) <= 5 ? ARKCraftItems.amarBerry : ARKCraftItems.narcoBerry;
-			}
-			else if (rand.nextInt(15) <= 4) {
+			} else if (rand.nextInt(15) <= 4) {
 				return ARKCraftItems.stimBerry;
-			}
-			else if (rand.nextInt(10) >= 4 && rand.nextInt(10) <= 8) {
+			} else if (rand.nextInt(10) >= 4 && rand.nextInt(10) <= 8) {
 				return rand.nextInt(10) <= 5 ? ARKCraftItems.mejoBerry : ARKCraftItems.tintoBerry;
-			}
-			else {
+			} else {
 				return ARKCraftItems.azulBerry;
 			}
 		}
@@ -113,19 +97,16 @@ public class ARKCraftBerryBush extends BlockBush implements IExperienceSource
 	}
 
 	@Override
-	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
-	{
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
 		return new ItemStack(this, 1, 0);
 	}
 
 	@Override
-	public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn)
-	{
+	public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
 		onLeftClicked(worldIn, pos, worldIn.getBlockState(pos), playerIn);
 	}
 
-	public void onLeftClicked(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn)
-	{
+	public void onLeftClicked(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn) {
 		if (!worldIn.isRemote) {
 			int harvestCount = getMetaFromState(state);
 			if (harvestCount > 0) {
@@ -148,29 +129,28 @@ public class ARKCraftBerryBush extends BlockBush implements IExperienceSource
 		}
 	}
 
-	private Item getSeedDrop(Random rand)
-	{
+	private Item getSeedDrop(Random rand) {
 		if (rand.nextInt(30) == 0) {
 			if (rand.nextInt(5) == 4) {
 				int r = rand.nextInt(6);
 				switch (r) {
-				// TODO when new seeds are done!
+					// TODO when new seeds are done!
 				}
 			}
 			int r = rand.nextInt(6);
 			switch (r) {
-			case 0:
-				return ARKCraftItems.amarBerrySeed;
-			case 1:
-				return ARKCraftItems.azulBerrySeed;
-			case 2:
-				return ARKCraftItems.mejoBerrySeed;
-			case 3:
-				return ARKCraftItems.narcoBerrySeed;
-			case 4:
-				return ARKCraftItems.stimBerrySeed;
-			case 5:
-				return ARKCraftItems.tintoBerrySeed;
+				case 0:
+					return ARKCraftItems.amarBerrySeed;
+				case 1:
+					return ARKCraftItems.azulBerrySeed;
+				case 2:
+					return ARKCraftItems.mejoBerrySeed;
+				case 3:
+					return ARKCraftItems.narcoBerrySeed;
+				case 4:
+					return ARKCraftItems.stimBerrySeed;
+				case 5:
+					return ARKCraftItems.tintoBerrySeed;
 			}
 		}
 		return null;
@@ -179,43 +159,37 @@ public class ARKCraftBerryBush extends BlockBush implements IExperienceSource
 	/**
 	 * Drops an item at the position of the bush.
 	 */
-	private void entityDropItem(World worldIn, BlockPos pos, EntityPlayer playerIn, ItemStack itemStackIn)
-	{
-		if (itemStackIn.stackSize != 0 && itemStackIn.getItem() != null) {
+	private void entityDropItem(World worldIn, BlockPos pos, EntityPlayer playerIn, ItemStack itemStackIn) {
+		if (!itemStackIn.isEmpty() && itemStackIn.getItem() != null) {
 			Float offset = worldIn.rand.nextFloat();
-			//TODO Droping may be little inccorect now not sure though
+			//TODO Dropping may be little incorrect now not sure though
 			EntityItem entityitem = new EntityItem(worldIn, pos.getX() + offset, pos.getY() + 0.5, pos.getZ() + offset, itemStackIn);
 			entityitem.setDefaultPickupDelay();
 			if (playerIn.captureDrops) {
 				playerIn.capturedDrops.add(entityitem);
-			}
-			else {
+			} else {
 				worldIn.spawnEntity(entityitem);
 			}
 		}
 	}
 
 	@Override
-	public int damageDropped(IBlockState state)
-	{
+	public int damageDropped(IBlockState state) {
 		return 3;
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta)
-	{
+	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(HARVEST_COUNT, meta);
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state)
-	{
+	public int getMetaFromState(IBlockState state) {
 		return state.getValue(HARVEST_COUNT).intValue();
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState()
-	{
+	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, HARVEST_COUNT);
 	}
 
@@ -225,32 +199,27 @@ public class ARKCraftBerryBush extends BlockBush implements IExperienceSource
 	 * BlockPos pos, Entity entityIn, Vec3 motion) { return motion; }
 	 */
 	@Override
-	public boolean isOpaqueCube(IBlockState state)
-	{
+	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	public BlockRenderLayer getRenderLayer()
-	{
+	public BlockRenderLayer getRenderLayer() {
 		return BlockRenderLayer.CUTOUT;
 	}
 
 	@Override
-	public int quantityDropped(Random random)
-	{
+	public int quantityDropped(Random random) {
 		return random.nextInt(10) <= 5 ? 1 : 2;
 	}
 
 	@Override
-	public boolean isPassable(IBlockAccess worldIn, BlockPos pos)
-	{
+	public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
 		return true;
 	}
 
 	@Override
-	public boolean isFullCube(IBlockState state)
-	{
+	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 
@@ -278,17 +247,16 @@ public class ARKCraftBerryBush extends BlockBush implements IExperienceSource
     } */
 
 	@Override
-	public void grantXP(IArkLevelable leveling)
-	{
+	public void grantXP(IArkLevelable leveling) {
 		leveling.addXP(0.4);
 	}
+
 	/**
 	 * Get the OffsetType for this Block. Determines if the model is rendered slightly offset.
 	 */
 	@Override
 	@SideOnly(Side.CLIENT)
-	public Block.EnumOffsetType getOffsetType()
-	{
+	public Block.EnumOffsetType getOffsetType() {
 		return Block.EnumOffsetType.XYZ;
 	}
 }

@@ -3,139 +3,116 @@
  */
 package com.arkcraft.init;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.function.Consumer;
-
 import com.arkcraft.ARKCraft;
+import com.arkcraft.util.CollectionUtil;
+import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 
-import net.minecraftforge.fml.common.registry.GameRegistry;
-
-import com.arkcraft.util.CollectionUtil;
-
-import com.google.common.collect.Lists;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.function.Consumer;
 
 /**
  * @author Lewis_McReu
  */
-public class InitializationManager
-{
+public class InitializationManager {
 	private static final InitializationManager instance = new InitializationManager();
+	private static final int[] defaultMeta = new int[]{0};
+	private static final String defaultPrefix = "";
+	private static final boolean defaultRender = true;
+	private final Registry registry = new Registry();
 
-	public static InitializationManager instance()
-	{
+	public static InitializationManager instance() {
 		return instance;
 	}
 
-	private final Registry registry = new Registry();
-
-	public Registry getRegistry()
-	{
+	public Registry getRegistry() {
 		return registry;
 	}
 
-	private static final int[] defaultMeta = new int[] { 0 };
-	private static final String defaultPrefix = "";
-	private static final boolean defaultRender = true;
-
 	// Item register methods
-	public <E extends Item> E registerItem(String name, E item, String... variants)
-	{
+	public <E extends Item> E registerItem(String name, E item, String... variants) {
 		return this.registerItem(name, item, defaultPrefix, defaultMeta, variants);
 	}
 
-	public <E extends Item> E registerItem(String name, String modelLocationPrefix, E item, String... variants)
-	{
+	public <E extends Item> E registerItem(String name, String modelLocationPrefix, E item, String... variants) {
 		return this.registerItem(name, item, modelLocationPrefix, defaultMeta, variants);
 	}
 
-	public <E extends Item> E registerItem(String name, E item, int[] metas, String... variants)
-	{
+	public <E extends Item> E registerItem(String name, E item, int[] metas, String... variants) {
 		return this.registerItem(name, item, defaultPrefix, metas, variants);
 	}
 
 	public <E extends Item> E registerItem(String name, E item, String modelLocationPrefix, int[] metas,
-			String... variants)
-	{
+										   String... variants) {
 		return registerItem(name, item, modelLocationPrefix, metas, defaultRender, variants);
 	}
 
-	public <E extends Item> E registerItem(String name, E item, boolean standardRender, String... variants)
-	{
+	public <E extends Item> E registerItem(String name, E item, boolean standardRender, String... variants) {
 		return this.registerItem(name, item, defaultPrefix, defaultMeta, standardRender, variants);
 	}
 
 	public <E extends Item> E registerItem(String name, String modelLocationPrefix, E item, boolean standardRender,
-			String... variants)
-	{
+										   String... variants) {
 		return this.registerItem(name, item, modelLocationPrefix, defaultMeta, standardRender, variants);
 	}
 
-	public <E extends Item> E registerItem(String name, E item, int[] metas, boolean standardRender, String... variants)
-	{
+	public <E extends Item> E registerItem(String name, E item, int[] metas, boolean standardRender, String... variants) {
 		return this.registerItem(name, item, defaultPrefix, metas, standardRender, variants);
 	}
 
 	public <E extends Item> E registerItem(String name, E item, String modelLocationPrefix, int[] metas,
-			boolean standardRender, String... variants)
-	{
+										   boolean standardRender, String... variants) {
 		item.setTranslationKey(name);
 		item.setRegistryName(name);
-		GameRegistry.register(item);
+		//TODO replace with event
+		//		GameRegistry.register(item);
 		registry.addEntry(new RegistryEntry<>(name, item, modelLocationPrefix, standardRender).addVariants(variants)
 				.addMetas(CollectionUtil.convert(metas)));
 		return item;
 	}
 
 	// Block register methods
-	public <E extends Block> E registerBlock(String name, E block, String... variants)
-	{
+	public <E extends Block> E registerBlock(String name, E block, String... variants) {
 		return this.registerBlock(name, block, defaultPrefix, defaultMeta, variants);
 	}
 
-	public <E extends Block> E registerBlock(String name, String modelLocationPrefix, E block, String... variants)
-	{
+	public <E extends Block> E registerBlock(String name, String modelLocationPrefix, E block, String... variants) {
 		return this.registerBlock(name, block, modelLocationPrefix, defaultMeta, variants);
 	}
 
-	public <E extends Block> E registerBlock(String name, E block, int[] metas, String... variants)
-	{
+	public <E extends Block> E registerBlock(String name, E block, int[] metas, String... variants) {
 		return this.registerBlock(name, block, defaultPrefix, metas, variants);
 	}
 
 	public <E extends Block> E registerBlock(String name, E block, String modelLocationPrefix, int[] metas,
-			String... variants)
-	{
+											 String... variants) {
 		return registerBlock(name, block, new ItemBlock(block), modelLocationPrefix, metas, variants);
 	}
 
-	public <E extends Block> E registerBlock(String name, E block, ItemBlock itemClass)
-	{
+	public <E extends Block> E registerBlock(String name, E block, ItemBlock itemClass) {
 		return this.registerBlock(name, block, itemClass, defaultMeta);
 	}
 
 	public <E extends Block> E registerBlock(String name, E block, ItemBlock itemClass,
-			String modelLocationPrefix)
-	{
+											 String modelLocationPrefix) {
 		return this.registerBlock(name, block, itemClass, modelLocationPrefix, defaultMeta);
 	}
 
-	public <E extends Block> E registerBlock(String name, E block, ItemBlock itemClass, int[] metas)
-	{
+	public <E extends Block> E registerBlock(String name, E block, ItemBlock itemClass, int[] metas) {
 		return this.registerBlock(name, block, itemClass, "", metas);
 	}
 
 	public <E extends Block> E registerBlock(String name, E block, ItemBlock itemBlock,
-			String modelLocationPrefix, int[] metas, String... variants)
-	{
+											 String modelLocationPrefix, int[] metas, String... variants) {
 		block.setTranslationKey(name);
 		block.setRegistryName(name);
 		itemBlock.setRegistryName(name);
-		GameRegistry.register(block);
-		GameRegistry.register(itemBlock);
+		//TODO replace with events
+//		GameRegistry.register(block);
+//		GameRegistry.register(itemBlock);
 		registry.addEntry(new RegistryEntry<>(name, itemBlock, modelLocationPrefix).addMetas(CollectionUtil
 				.convert(metas)).addVariants(variants));
 		return block;
@@ -168,28 +145,23 @@ public class InitializationManager
 		return block;
 	}*/
 
-	public class Registry
-	{
+	public class Registry {
 		private final Collection<RegistryEntry<?>> entries;
 
-		private Registry()
-		{
+		private Registry() {
 			entries = Lists.newArrayList();
 		}
 
-		private void addEntry(RegistryEntry<?> entry)
-		{
+		private void addEntry(RegistryEntry<?> entry) {
 			entries.add(entry);
 		}
 
-		public void forEachEntry(Consumer<RegistryEntry<?>> consumer)
-		{
+		public void forEachEntry(Consumer<RegistryEntry<?>> consumer) {
 			entries.forEach(consumer);
 		}
 	}
 
-	public class RegistryEntry<E extends Item>
-	{
+	public class RegistryEntry<E extends Item> {
 		public final String name;
 		public final Item content;
 		public final String modelLocationPrefix;
@@ -197,8 +169,7 @@ public class InitializationManager
 		public final Collection<String> variants;
 		public final boolean standardRender;
 
-		private RegistryEntry(String name, E content, String modelLocationPrefix, boolean standardRender)
-		{
+		private RegistryEntry(String name, E content, String modelLocationPrefix, boolean standardRender) {
 			super();
 			this.name = name;
 			this.content = content;
@@ -209,32 +180,27 @@ public class InitializationManager
 		}
 
 		// TODO remove + fix with blocks
-		private RegistryEntry(String name, E content, String modelLocationPrefix)
-		{
+		private RegistryEntry(String name, E content, String modelLocationPrefix) {
 			this(name, content, modelLocationPrefix, true);
 		}
 
-		private RegistryEntry<E> addMetas(Integer... metas)
-		{
+		private RegistryEntry<E> addMetas(Integer... metas) {
 			Collections.addAll(this.metas, metas);
 			return this;
 		}
 
-		private RegistryEntry<E> addVariants(String... variants)
-		{
+		private RegistryEntry<E> addVariants(String... variants) {
 			Collections.addAll(this.variants, variants);
 			return this;
 		}
 
-		public String[] getVariants()
-		{
+		public String[] getVariants() {
 			return CollectionUtil.adapt(variants, (String v) -> {
 				return ARKCraft.instance().modid() + ":" + modelLocationPrefix + v;
 			}).toArray(new String[0]);
 		}
 
-		public void forEachMeta(Consumer<Integer> con)
-		{
+		public void forEachMeta(Consumer<Integer> con) {
 			for (int i : metas)
 				con.accept(i);
 		}

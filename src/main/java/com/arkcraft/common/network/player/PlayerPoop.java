@@ -1,7 +1,6 @@
 package com.arkcraft.common.network.player;
 
 import com.arkcraft.init.ARKCraftItems;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -14,61 +13,46 @@ import net.minecraftforge.fml.relauncher.Side;
  *
  * @author William
  */
-public class PlayerPoop implements IMessage
-{
+public class PlayerPoop implements IMessage {
 	boolean doIt; // Not used yet
 	// TODO error here -> check
 
 	/**
 	 * Don't use
 	 */
-	public PlayerPoop()
-	{}
+	public PlayerPoop() {
+	}
 
-	public PlayerPoop(boolean doIt)
-	{
+	public PlayerPoop(boolean doIt) {
 		this.doIt = doIt;
 	}
 
+	static void processMessage(PlayerPoop message, EntityPlayerMP player) {
+		if (player != null) {
+			player.dropItem(ARKCraftItems.player_feces, 1);
+		}
+	}
+
 	@Override
-	public void fromBytes(ByteBuf buf)
-	{
+	public void fromBytes(ByteBuf buf) {
 		this.doIt = buf.readBoolean();
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
+	public void toBytes(ByteBuf buf) {
 		buf.writeBoolean(this.doIt);
 	}
 
-	public static class Handler implements IMessageHandler<PlayerPoop, IMessage>
-	{
+	public static class Handler implements IMessageHandler<PlayerPoop, IMessage> {
 		@Override
-		public IMessage onMessage(final PlayerPoop message, MessageContext ctx)
-		{
-			if (ctx.side != Side.SERVER)
-			{
+		public IMessage onMessage(final PlayerPoop message, MessageContext ctx) {
+			if (ctx.side != Side.SERVER) {
 				System.err.println("MPUpdateDoCraft received on wrong side:" + ctx.side);
 				return null;
 			}
-			final EntityPlayerMP player = ctx.getServerHandler().playerEntity;
-			player.getServer().addScheduledTask(new Runnable()
-			{
-				public void run()
-				{
-					processMessage(message, player);
-				}
-			});
+			final EntityPlayerMP player = ctx.getServerHandler().player;
+			player.getServer().addScheduledTask(() -> processMessage(message, player));
 			return null;
-		}
-	}
-
-	static void processMessage(PlayerPoop message, EntityPlayerMP player)
-	{
-		if (player != null)
-		{
-			player.dropItem(ARKCraftItems.player_feces, 1);
 		}
 	}
 }

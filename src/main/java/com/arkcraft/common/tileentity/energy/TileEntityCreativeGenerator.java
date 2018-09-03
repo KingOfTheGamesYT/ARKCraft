@@ -4,6 +4,7 @@ import net.minecraft.util.EnumFacing;
 
 public class TileEntityCreativeGenerator extends TileEntityGenerator {
 	public boolean active;
+
 	@Override
 	public boolean canConnect(EnumFacing face) {
 		return true;
@@ -16,10 +17,10 @@ public class TileEntityCreativeGenerator extends TileEntityGenerator {
 
 	@Override
 	public void updateI() {
-		if(!world.isRemote){
+		if (!world.isRemote) {
 			boolean a = active;
-			active = world.isBlockIndirectlyGettingPowered(pos) > 0;
-			if(a != active){
+			active = world.isBlockPowered(pos);
+			if (a != active) {
 				grid.markNetDirty();
 			}
 		}

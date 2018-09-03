@@ -1,13 +1,6 @@
 package com.arkcraft.common.network;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.EnumMap;
-import java.util.LinkedList;
-import java.util.List;
-
 import com.arkcraft.ARKCraft;
-
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
@@ -27,6 +20,8 @@ import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.*;
+
 /**
  * Packet pipeline class. Directs all registered packet data to be handled by
  * the packets themselves.
@@ -34,8 +29,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @author sirgingalot some code from: cpw
  */
 @ChannelHandler.Sharable
-public class ARKMessagePipeline extends MessageToMessageCodec<FMLProxyPacket, ARKMessage>
-{
+public class ARKMessagePipeline extends MessageToMessageCodec<FMLProxyPacket, ARKMessage> {
 	private EnumMap<Side, FMLEmbeddedChannel> channels;
 	private LinkedList<Class<? extends ARKMessage>> packets = new LinkedList<Class<? extends ARKMessage>>();
 	private boolean isPostInitialized = false;
@@ -44,28 +38,23 @@ public class ARKMessagePipeline extends MessageToMessageCodec<FMLProxyPacket, AR
 	 * Register your packet with the pipeline. Discriminators are automatically
 	 * set.
 	 *
-	 * @param class0
-	 *            the class to register
+	 * @param class0 the class to register
 	 * @return whether registration was successful. Failure may occur if 256
-	 *         packets have been registered or if the registry already contains
-	 *         this packet
+	 * packets have been registered or if the registry already contains
+	 * this packet
 	 */
-	public boolean registerPacket(Class<? extends ARKMessage> class0)
-	{
-		if (packets.size() > 256)
-		{
+	public boolean registerPacket(Class<? extends ARKMessage> class0) {
+		if (packets.size() > 256) {
 			ARKCraft.logger.error("More than 256 packets registered");
 			return false;
 		}
 
-		if (packets.contains(class0))
-		{
+		if (packets.contains(class0)) {
 			ARKCraft.logger.warn("Packet already registered");
 			return false;
 		}
 
-		if (isPostInitialized)
-		{
+		if (isPostInitialized) {
 			ARKCraft.logger.error("Already post-initialized");
 			return false;
 		}
@@ -75,12 +64,13 @@ public class ARKMessagePipeline extends MessageToMessageCodec<FMLProxyPacket, AR
 	}
 
 	@Override
-	protected void encode(ChannelHandlerContext ctx, ARKMessage msg, List<Object> out) throws Exception
-	{
+	protected void encode(ChannelHandlerContext ctx, ARKMessage msg, List<Object> out) throws Exception {
 		ByteBuf buffer = Unpooled.buffer();
 		Class<? extends ARKMessage> clazz = msg.getClass();
-		if (!packets.contains(msg.getClass())) { throw new NullPointerException("No Packet Registered for: " + msg
-				.getClass().getCanonicalName()); }
+		if (!packets.contains(msg.getClass())) {
+			throw new NullPointerException("No Packet Registered for: " + msg
+					.getClass().getCanonicalName());
+		}
 
 		byte discriminator = (byte) packets.indexOf(clazz);
 		buffer.writeByte(discriminator);
@@ -91,20 +81,20 @@ public class ARKMessagePipeline extends MessageToMessageCodec<FMLProxyPacket, AR
 	}
 
 	@Override
-	protected void decode(ChannelHandlerContext ctx, FMLProxyPacket msg, List<Object> out) throws Exception
-	{
+	protected void decode(ChannelHandlerContext ctx, FMLProxyPacket msg, List<Object> out) throws Exception {
 		ByteBuf payload = msg.payload();
 		byte discriminator = payload.readByte();
 		Class<? extends ARKMessage> clazz = packets.get(discriminator);
-		if (clazz == null) { throw new NullPointerException("No packet registered for discriminator: "
-				+ discriminator); }
+		if (clazz == null) {
+			throw new NullPointerException("No packet registered for discriminator: "
+					+ discriminator);
+		}
 
 		ARKMessage pkt = clazz.newInstance();
 		pkt.decodeInto(ctx, payload.slice());
 
 		EntityPlayer player;
-		switch (FMLCommonHandler.instance().getEffectiveSide())
-		{
+		switch (FMLCommonHandler.instance().getEffectiveSide()) {
 			case CLIENT:
 				player = getClientPlayer();
 				pkt.handleClientSide(player);
@@ -112,7 +102,7 @@ public class ARKMessagePipeline extends MessageToMessageCodec<FMLProxyPacket, AR
 
 			case SERVER:
 				INetHandler netHandler = ctx.channel().attr(NetworkRegistry.NET_HANDLER).get();
-				player = ((NetHandlerPlayServer) netHandler).playerEntity;
+				player = ((NetHandlerPlayServer) netHandler).player;
 				pkt.handleServerSide(player);
 				break;
 
@@ -122,25 +112,22 @@ public class ARKMessagePipeline extends MessageToMessageCodec<FMLProxyPacket, AR
 		out.add(pkt);
 	}
 
-	public void initialize()
-	{
+	public void initialize() {
 		channels = NetworkRegistry.INSTANCE.newChannel("ARKCraft", this);
 	}
 
-	public void postInitialize()
-	{
-		if (isPostInitialized) { return; }
+	public void postInitialize() {
+		if (isPostInitialized) {
+			return;
+		}
 
 		isPostInitialized = true;
-		Collections.sort(packets, new Comparator<Class<? extends ARKMessage>>()
-		{
+		Collections.sort(packets, new Comparator<Class<? extends ARKMessage>>() {
 
 			@Override
-			public int compare(Class<? extends ARKMessage> clazz1, Class<? extends ARKMessage> clazz2)
-			{
+			public int compare(Class<? extends ARKMessage> clazz1, Class<? extends ARKMessage> clazz2) {
 				int com = String.CASE_INSENSITIVE_ORDER.compare(clazz1.getCanonicalName(), clazz2.getCanonicalName());
-				if (com == 0)
-				{
+				if (com == 0) {
 					com = clazz1.getCanonicalName().compareTo(clazz2.getCanonicalName());
 				}
 
@@ -150,8 +137,7 @@ public class ARKMessagePipeline extends MessageToMessageCodec<FMLProxyPacket, AR
 	}
 
 	@SideOnly(Side.CLIENT)
-	private EntityPlayer getClientPlayer()
-	{
+	private EntityPlayer getClientPlayer() {
 		return Minecraft.getMinecraft().player;
 	}
 
@@ -161,11 +147,9 @@ public class ARKMessagePipeline extends MessageToMessageCodec<FMLProxyPacket, AR
 	 * Adapted from CPW's code in
 	 * cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper
 	 *
-	 * @param message
-	 *            The message to send
+	 * @param message The message to send
 	 */
-	public void sendToAll(ARKMessage message)
-	{
+	public void sendToAll(ARKMessage message) {
 		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALL);
 		channels.get(Side.SERVER).writeAndFlush(message);
 	}
@@ -176,13 +160,10 @@ public class ARKMessagePipeline extends MessageToMessageCodec<FMLProxyPacket, AR
 	 * Adapted from CPW's code in
 	 * cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper
 	 *
-	 * @param message
-	 *            The message to send
-	 * @param player
-	 *            The player to send it to
+	 * @param message The message to send
+	 * @param player  The player to send it to
 	 */
-	public void sendTo(ARKMessage message, EntityPlayerMP player)
-	{
+	public void sendTo(ARKMessage message, EntityPlayerMP player) {
 		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(
 				FMLOutboundHandler.OutboundTarget.PLAYER);
 		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(player);
@@ -195,15 +176,12 @@ public class ARKMessagePipeline extends MessageToMessageCodec<FMLProxyPacket, AR
 	 * Adapted from CPW's code in
 	 * cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper
 	 *
-	 * @param message
-	 *            The message to send
-	 * @param point
-	 *            The
-	 *            {@link cpw.mods.fml.common.network.NetworkRegistry.TargetPoint}
-	 *            around which to send
+	 * @param message The message to send
+	 * @param point   The
+	 *                {@link cpw.mods.fml.common.network.NetworkRegistry.TargetPoint}
+	 *                around which to send
 	 */
-	public void sendToAllAround(ARKMessage message, NetworkRegistry.TargetPoint point)
-	{
+	public void sendToAllAround(ARKMessage message, NetworkRegistry.TargetPoint point) {
 		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(
 				FMLOutboundHandler.OutboundTarget.ALLAROUNDPOINT);
 		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(point);
@@ -216,13 +194,10 @@ public class ARKMessagePipeline extends MessageToMessageCodec<FMLProxyPacket, AR
 	 * Adapted from CPW's code in
 	 * cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper
 	 *
-	 * @param message
-	 *            The message to send
-	 * @param dimensionId
-	 *            The dimension id to target
+	 * @param message     The message to send
+	 * @param dimensionId The dimension id to target
 	 */
-	public void sendToDimension(ARKMessage message, int dimensionId)
-	{
+	public void sendToDimension(ARKMessage message, int dimensionId) {
 		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(
 				FMLOutboundHandler.OutboundTarget.DIMENSION);
 		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(dimensionId);
@@ -235,11 +210,9 @@ public class ARKMessagePipeline extends MessageToMessageCodec<FMLProxyPacket, AR
 	 * Adapted from CPW's code in
 	 * cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper
 	 *
-	 * @param message
-	 *            The message to send
+	 * @param message The message to send
 	 */
-	public void sendToServer(ARKMessage message)
-	{
+	public void sendToServer(ARKMessage message) {
 		channels.get(Side.CLIENT).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(
 				FMLOutboundHandler.OutboundTarget.TOSERVER);
 		channels.get(Side.CLIENT).writeAndFlush(message);

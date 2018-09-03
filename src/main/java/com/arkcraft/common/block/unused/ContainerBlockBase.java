@@ -10,7 +10,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-
+//TODO remove if not used
 public class ContainerBlockBase extends Block {
 	private int guiID;
 
@@ -20,7 +20,6 @@ public class ContainerBlockBase extends Block {
 		this.setCreativeTab(ARKCraft.tabARK);
 		this.setHardness(hardness);
 		this.setTranslationKey(name);
-		GameRegistry.registerBlock(this, name);
 	}
 
 	@Override

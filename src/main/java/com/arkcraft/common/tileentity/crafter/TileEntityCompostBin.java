@@ -1,13 +1,11 @@
 package com.arkcraft.common.tileentity.crafter;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 import com.arkcraft.common.item.ARKCraftFeces;
 import com.arkcraft.common.tileentity.IDecayer;
 import com.arkcraft.init.ARKCraftItems;
 import com.arkcraft.util.IInventoryAdder;
 import com.arkcraft.util.InventoryUtil;
+import com.google.common.collect.Lists;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -20,44 +18,39 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 
-import com.google.common.collect.Lists;
+import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * @author Lewis_McReu
  * @author wildbill22
  */
-public class TileEntityCompostBin extends TileEntityArkCraft implements IInventory, ITickable, IInventoryAdder, IDecayer
-{
+public class TileEntityCompostBin extends TileEntityArkCraft implements IInventory, ITickable, IInventoryAdder, IDecayer {
 	private final ItemStack[] inventory;
 	private int progress;
 
-	public TileEntityCompostBin()
-	{
+	public TileEntityCompostBin() {
 		inventory = new ItemStack[8];
 		progress = -1;
 	}
 
 	@Override
-	public String getName()
-	{
+	public String getName() {
 		return null;
 	}
 
 	@Override
-	public boolean hasCustomName()
-	{
+	public boolean hasCustomName() {
 		return false;
 	}
 
 	@Override
-	public ITextComponent getDisplayName()
-	{
+	public ITextComponent getDisplayName() {
 		return null;
 	}
 
 	@Override
-	public void update()
-	{
+	public void update() {
 		if (!world.isRemote) {
 			// if no process active
 			int oldProgress = progress;
@@ -76,8 +69,7 @@ public class TileEntityCompostBin extends TileEntityArkCraft implements IInvento
 		}
 	}
 
-	private boolean consume()
-	{
+	private boolean consume() {
 		if (canCompost()) {
 			// consume thatch
 			int thatchLeft = 50;
@@ -85,14 +77,13 @@ public class TileEntityCompostBin extends TileEntityArkCraft implements IInvento
 				ItemStack i = inventory[s];
 				if (i != null) {
 					if (i.getItem() == ARKCraftItems.thatch) {
-						if (i.stackSize > thatchLeft) {
-							i.stackSize -= thatchLeft;
+						if (i.getCount() > thatchLeft) {
+							i.shrink(thatchLeft);
 							thatchLeft = 0;
 							break;
-						}
-						else {
+						} else {
 							inventory[s] = null;
-							thatchLeft -= i.stackSize;
+							thatchLeft -= i.getCount();
 							if (thatchLeft == 0)
 								break;
 						}
@@ -103,7 +94,8 @@ public class TileEntityCompostBin extends TileEntityArkCraft implements IInvento
 			// consume feces
 			Collection<Item> fecesFound = Lists.newArrayList();
 			Collection<Integer> indices = Lists.newArrayList();
-			outer: for (int i = 0; i < inventory.length; i++) {
+			outer:
+			for (int i = 0; i < inventory.length; i++) {
 				ItemStack s = inventory[i];
 				if (s != null) {
 					// TODO massive feces
@@ -140,15 +132,13 @@ public class TileEntityCompostBin extends TileEntityArkCraft implements IInvento
 		return false;
 	}
 
-	private void findProcess()
-	{
+	private void findProcess() {
 		progress = -1;
 		if (canCompost())
 			progress = 0;
 	}
 
-	private boolean canCompost()
-	{
+	private boolean canCompost() {
 		if (countThatch() < 50)
 			return false;
 
@@ -175,43 +165,43 @@ public class TileEntityCompostBin extends TileEntityArkCraft implements IInvento
 		return false;
 	}
 
-	private int countThatch()
-	{
+	private int countThatch() {
 		int thatch = 0;
 		for (ItemStack s : inventory)
 			if (s != null && s.getItem() == ARKCraftItems.thatch)
-				thatch += s.stackSize;
+				thatch += s.getCount();
 		return thatch;
 	}
 
 	@Override
-	public int getSizeInventory()
-	{
+	public int getSizeInventory() {
 		return inventory.length;
 	}
 
 	@Override
-	public ItemStack getStackInSlot(int index)
-	{
+	public boolean isEmpty() {
+		return false;
+	}
+
+	@Override
+	public ItemStack getStackInSlot(int index) {
 		return inventory[index];
 	}
 
 	@Override
-	public ItemStack decrStackSize(int slotIndex, int count)
-	{
+	public ItemStack decrStackSize(int slotIndex, int count) {
 		ItemStack itemStackInSlot = getStackInSlot(slotIndex);
 		if (itemStackInSlot == null) {
 			return null;
 		}
 
 		ItemStack itemStackRemoved;
-		if (itemStackInSlot.stackSize <= count) {
+		if (itemStackInSlot.getCount() <= count) {
 			itemStackRemoved = itemStackInSlot;
 			setInventorySlotContents(slotIndex, null);
-		}
-		else {
+		} else {
 			itemStackRemoved = itemStackInSlot.splitStack(count);
-			if (itemStackInSlot.stackSize == 0) {
+			if (itemStackInSlot.getCount() == 0) {
 				setInventorySlotContents(slotIndex, null);
 			}
 		}
@@ -226,21 +216,18 @@ public class TileEntityCompostBin extends TileEntityArkCraft implements IInvento
     }*/
 
 	@Override
-	public void setInventorySlotContents(int index, ItemStack stack)
-	{
+	public void setInventorySlotContents(int index, ItemStack stack) {
 		if (index < getSizeInventory())
 			inventory[index] = stack;
 	}
 
 	@Override
-	public int getInventoryStackLimit()
-	{
+	public int getInventoryStackLimit() {
 		return 64;
 	}
 
 	@Override
-	public boolean isUsableByPlayer(EntityPlayer player)
-	{
+	public boolean isUsableByPlayer(EntityPlayer player) {
 		if (this.world.getTileEntity(this.pos) != this) {
 			return false;
 		}
@@ -252,48 +239,40 @@ public class TileEntityCompostBin extends TileEntityArkCraft implements IInvento
 	}
 
 	@Override
-	public void openInventory(EntityPlayer player)
-	{
+	public void openInventory(EntityPlayer player) {
 	}
 
 	@Override
-	public void closeInventory(EntityPlayer player)
-	{
+	public void closeInventory(EntityPlayer player) {
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int index, ItemStack stack)
-	{
+	public boolean isItemValidForSlot(int index, ItemStack stack) {
 		return stack != null && (stack.getItem() instanceof ARKCraftFeces || stack.getItem() == ARKCraftItems.thatch);
 	}
 
 	@Override
-	public int getField(int id)
-	{
+	public int getField(int id) {
 		return progress;
 	}
 
 	@Override
-	public void setField(int id, int value)
-	{
+	public void setField(int id, int value) {
 		progress = value;
 	}
 
 	@Override
-	public int getFieldCount()
-	{
+	public int getFieldCount() {
 		return 1;
 	}
 
 	@Override
-	public void clear()
-	{
+	public void clear() {
 		Arrays.fill(inventory, null);
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound)
-	{
+	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		InventoryUtil.writeToNBT(compound, this);
 		compound.setInteger("progress", progress);
@@ -301,48 +280,41 @@ public class TileEntityCompostBin extends TileEntityArkCraft implements IInvento
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound compound)
-	{
+	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 		InventoryUtil.readFromNBT(compound, this);
 		progress = compound.getInteger("progress");
 	}
 
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
-	{
+	public SPacketUpdateTileEntity getUpdatePacket() {
 		NBTTagCompound nbt = new NBTTagCompound();
 		writeToNBT(nbt);
 		return new SPacketUpdateTileEntity(getPos(), 0, nbt);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
-	{
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
 		readFromNBT(pkt.getNbtCompound());
 	}
 
 	@Override
-	public IInventory getIInventory()
-	{
+	public IInventory getIInventory() {
 		return this;
 	}
 
 	@Override
-	public BlockPos getPosition()
-	{
+	public BlockPos getPosition() {
 		return getPos();
 	}
 
 	@Override
-	public World getWorldIA()
-	{
+	public World getWorldIA() {
 		return getWorld();
 	}
 
 	@Override
-	public double getDecayModifier(ItemStack stack)
-	{
+	public double getDecayModifier(ItemStack stack) {
 		return 10;
 	}
 

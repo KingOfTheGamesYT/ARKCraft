@@ -522,7 +522,7 @@ public abstract class EntityProjectile extends Entity implements IProjectile {
 			Entity entity1 = (Entity) list.get(i);
 
 			if (entity1 != this.shootingEntity || this.ticksInAir >= 5) {
-				AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand(0.30000001192092896, 0.30000001192092896, 0.30000001192092896);
+				AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().grow(0.30000001192092896);
 				RayTraceResult raytraceresult = axisalignedbb.calculateIntercept(start, end);
 
 				if (raytraceresult != null) {

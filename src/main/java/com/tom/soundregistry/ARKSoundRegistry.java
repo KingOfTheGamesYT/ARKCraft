@@ -2,25 +2,25 @@
 //Use SoundRegistryGenerator
 package com.tom.soundregistry;
 
+import com.arkcraft.ARKCraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 
-import net.minecraftforge.fml.common.registry.GameRegistry;
-
-import com.arkcraft.ARKCraft;
-
-/**Auto-generated class*/
+/**
+ * Auto-generated class
+ */
 public class ARKSoundRegistry {
 
-	private static void register(String s){
+	private static void register(String s) {
 		ResourceLocation r = new ResourceLocation("arkcraft", s);
 		SoundEvent e = new SoundEvent(r);
 		e.setRegistryName(r);
-		GameRegistry.register(e);
+		//TODO through registry
+//		GameRegistry.register(e);
 	}
 
-	public static void init(){
-		ARKCraft.logger.info("Initing SoundRegistry");
+	public static void init() {
+		ARKCraft.logger.info("Initializing SoundRegistry");
 		register("Raptor_Angry_1");
 		register("Raptor_Angry_2");
 		register("Raptor_Angry_3");
@@ -59,6 +59,6 @@ public class ARKSoundRegistry {
 		register("on");
 		register("off");
 		register("smithy_hammer");
-		ARKCraft.logger.info("SoundRegistry Init Done");
+		ARKCraft.logger.info("SoundRegistry Initialization Done");
 	}
 }

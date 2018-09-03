@@ -7,34 +7,36 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockSpikes extends Block
-{
+import javax.annotation.Nullable;
+
+public class BlockSpikes extends Block {
 
 	private int renderType = 3; // default value
 
-	public BlockSpikes(Material m, float hardness)
-	{
+	public BlockSpikes(Material m, float hardness) {
 		super(m);
 		this.setHardness(hardness);
 	}
 
 	@Override
-	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
-	{
-		entityIn.attackEntityFrom(DamageSource.cactus, 4.0F);
+	public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+		entityIn.attackEntityFrom(DamageSource.CACTUS, 4.0F);
 	}
+
+	@Nullable
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
 		float f = 0.0625F;
 		return new AxisAlignedBB(pos.getX() + f, pos.getY(), pos.getZ()
 				+ f, pos.getX() + 1 - f, pos.getY() + 1 - f,
 				pos.getZ() + 1 - f);
 	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
@@ -45,25 +47,21 @@ public class BlockSpikes extends Block
 	}
 
 	@Override
-	public boolean isFullCube(IBlockState state)
-	{
+	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	public boolean isOpaqueCube(IBlockState state)
-	{
+	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
-	public void setRenderType(int renderType)
-	{
-		this.renderType = renderType;
+	public int getRenderType() {
+		return renderType;
 	}
 
-	public int getRenderType()
-	{
-		return renderType;
+	public void setRenderType(int renderType) {
+		this.renderType = renderType;
 	}
 
 }

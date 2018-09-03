@@ -33,14 +33,8 @@ public class ARKModeToggle implements IMessage
 				System.err.println("MPUpdateDoReloadStarted received on wrong side:" + ctx.side);
 				return null;
 			}
-			final EntityPlayerMP player = ctx.getServerHandler().playerEntity;
-			player.getServer().addScheduledTask(new Runnable()
-			{
-				public void run()
-				{
-					ARKPlayer.get(player).toggleARKMode();
-				}
-			});
+			final EntityPlayerMP player = ctx.getServerHandler().player;
+			player.getServer().addScheduledTask(() -> ARKPlayer.get(player).toggleARKMode());
 			return null;
 		}
 	}
