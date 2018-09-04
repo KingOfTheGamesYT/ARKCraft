@@ -4,33 +4,13 @@ import com.arkcraft.ARKCraft;
 import com.arkcraft.common.block.BlockBerryBush;
 import com.arkcraft.common.block.BlockGreenScreen;
 import com.arkcraft.common.block.BlockLight;
+import com.arkcraft.common.block.crafter.*;
 import com.arkcraft.common.block.energy.BlockCable;
 import com.arkcraft.common.block.energy.BlockCreativeGenerator;
 import com.arkcraft.common.block.energy.BlockElectricLamp;
 import com.arkcraft.common.block.energy.BlockElectricOutlet;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-
-import com.arkcraft.common.block.crafter.BlockCampfire;
-import com.arkcraft.common.block.crafter.BlockCompostBin;
-import com.arkcraft.common.block.crafter.BlockCropPlot;
-import com.arkcraft.common.block.crafter.BlockFabricator;
-import com.arkcraft.common.block.crafter.BlockMortarAndPestle;
-import com.arkcraft.common.block.crafter.BlockRefiningForge;
-import com.arkcraft.common.block.crafter.BlockSmithy;
-import com.arkcraft.common.block.resource.BlockCrystalResource;
-import com.arkcraft.common.block.resource.BlockMetalResource;
-import com.arkcraft.common.block.resource.BlockObsidianResource;
-import com.arkcraft.common.block.resource.BlockOilResource;
-import com.arkcraft.common.block.resource.BlockRockResource;
-import com.arkcraft.common.block.resource.BlockSmallRockResource;
-import com.arkcraft.common.item.itemblock.ItemBlockCable;
-import com.arkcraft.common.item.itemblock.ItemBlockFabricator;
-import com.arkcraft.common.item.itemblock.ItemCampfire;
-import com.arkcraft.common.item.itemblock.ItemCompostBin;
-import com.arkcraft.common.item.itemblock.ItemCropPlot;
-import com.arkcraft.common.item.itemblock.ItemMortarAndPestle;
-import com.arkcraft.common.item.itemblock.ItemRefiningForge;
-import com.arkcraft.common.item.itemblock.ItemSmithy;
+import com.arkcraft.common.block.resource.*;
+import com.arkcraft.common.item.itemblock.*;
 import com.arkcraft.common.tileentity.TileEntityCrystal;
 import com.arkcraft.common.tileentity.crafter.TileEntityCompostBin;
 import com.arkcraft.common.tileentity.crafter.TileEntityCropPlot;
@@ -43,9 +23,10 @@ import com.arkcraft.common.tileentity.energy.TileEntityCable;
 import com.arkcraft.common.tileentity.energy.TileEntityCreativeGenerator;
 import com.arkcraft.common.tileentity.energy.TileEntityElectricLamp;
 import com.arkcraft.common.tileentity.energy.TileEntityElectricOutlet;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class ARKCraftBlocks
-{
+public class ARKCraftBlocks {
 	public static BlockLight blockLight;
 	public static BlockBerryBush berryBush;
 	public static BlockCompostBin compostBin;
@@ -68,13 +49,11 @@ public class ARKCraftBlocks
 	public static BlockElectricOutlet electricOutlet;
 	public static BlockElectricLamp electricLamp;
 
-	public static ARKCraftBlocks getInstance()
-	{
+	public static ARKCraftBlocks getInstance() {
 		return new ARKCraftBlocks();
 	}
 
-	public static void init()
-	{
+	public static void init() {
 		InitializationManager init = InitializationManager.instance();
 
 		// Misc
@@ -114,17 +93,18 @@ public class ARKCraftBlocks
 		smallRockResource = init.registerBlock("small_rock_resource", new BlockSmallRockResource());
 
 		// Tile Entities
-		GameRegistry.registerTileEntity(TileEntityCropPlot.class, ARKCraft.MODID + "te_cropplot");
-		GameRegistry.registerTileEntity(TileEntityMP.class, ARKCraft.MODID + "te_mortarandpestle");
-		GameRegistry.registerTileEntity(TileEntityCompostBin.class, ARKCraft.MODID + "te_compostbin");
-		GameRegistry.registerTileEntity(TileEntitySmithy.class, ARKCraft.MODID + "te_smithy");
-		GameRegistry.registerTileEntity(TileEntityRefiningForge.class, ARKCraft.MODID + "te_refiningforge");
-		GameRegistry.registerTileEntity(TileEntityCampfire.class, ARKCraft.MODID + "te_campfire");
-		GameRegistry.registerTileEntity(TileEntityCrystal.class, ARKCraft.MODID + "te_crystal");
-		GameRegistry.registerTileEntity(TileEntityFabricator.class, ARKCraft.MODID + "te_fabricator");
-		GameRegistry.registerTileEntity(TileEntityCable.class, ARKCraft.MODID + "te_cable");
-		GameRegistry.registerTileEntity(TileEntityCreativeGenerator.class, ARKCraft.MODID + "te_creative_gen");
-		GameRegistry.registerTileEntity(TileEntityElectricOutlet.class, ARKCraft.MODID + "te_electric_outlet");
-		GameRegistry.registerTileEntity(TileEntityElectricLamp.class, ARKCraft.MODID + "te_electric_lamp");
+		GameRegistry.registerTileEntity(TileEntityCropPlot.class, new ResourceLocation(ARKCraft.MODID, "te_crop_plot"));
+		GameRegistry.registerTileEntity(TileEntityMP.class, new ResourceLocation(ARKCraft.MODID, "te_mortar_and_pestle"));
+		GameRegistry.registerTileEntity(TileEntityCompostBin.class, new ResourceLocation(ARKCraft.MODID, "te_compost_bin"));
+		GameRegistry.registerTileEntity(TileEntitySmithy.class, new ResourceLocation(ARKCraft.MODID, "te_smithy"));
+		GameRegistry.registerTileEntity(TileEntityRefiningForge.class, new ResourceLocation(ARKCraft.MODID, "te_refining_forge"));
+		GameRegistry.registerTileEntity(TileEntityCampfire.class, new ResourceLocation(ARKCraft.MODID, "te_campfire"));
+		//TODO check use of crystal tileentity without any function
+		GameRegistry.registerTileEntity(TileEntityCrystal.class, new ResourceLocation(ARKCraft.MODID, "te_crystal"));
+		GameRegistry.registerTileEntity(TileEntityFabricator.class, new ResourceLocation(ARKCraft.MODID, "te_fabricator"));
+		GameRegistry.registerTileEntity(TileEntityCable.class, new ResourceLocation(ARKCraft.MODID, "te_cable"));
+		GameRegistry.registerTileEntity(TileEntityCreativeGenerator.class, new ResourceLocation(ARKCraft.MODID, "te_creative_generator"));
+		GameRegistry.registerTileEntity(TileEntityElectricOutlet.class, new ResourceLocation(ARKCraft.MODID, "te_electric_outlet"));
+		GameRegistry.registerTileEntity(TileEntityElectricLamp.class, new ResourceLocation(ARKCraft.MODID, "te_electric_lamp"));
 	}
 }
