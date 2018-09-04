@@ -196,7 +196,7 @@ public class InitializationManager {
 
 		public String[] getVariants() {
 			return CollectionUtil.adapt(variants, (String v) -> {
-				return ARKCraft.instance().modid() + ":" + modelLocationPrefix + v;
+				return ARKCraft.MODID + ":" + modelLocationPrefix + v;
 			}).toArray(new String[0]);
 		}
 

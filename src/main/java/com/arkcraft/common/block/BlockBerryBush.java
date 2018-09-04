@@ -29,10 +29,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.List;
 import java.util.Random;
 
-public class ARKCraftBerryBush extends BlockBush implements IExperienceSource {
+public class BlockBerryBush extends BlockBush implements IExperienceSource {
 	public static final PropertyInteger HARVEST_COUNT = PropertyInteger.create("harvest", 0, 3);
 
-	public ARKCraftBerryBush(float hardness) {
+	public BlockBerryBush(float hardness) {
 		super();
 		this.setDefaultState(this.blockState.getBaseState().withProperty(HARVEST_COUNT, 0));
 		this.setSoundType(SoundType.GROUND);

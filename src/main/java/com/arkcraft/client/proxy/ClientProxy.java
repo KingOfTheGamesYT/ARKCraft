@@ -120,7 +120,7 @@ public class ClientProxy extends CommonProxy {
 		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(ARKCraftItems.blueprint, new ItemMeshDefinition() {
 			@Override
 			public ModelResourceLocation getModelLocation(ItemStack stack) {
-				return new ModelResourceLocation(ARKCraft.instance().modid() + ":blueprint/" + ItemBlueprint.getEngram(stack).getName(), "inventory");
+				return new ModelResourceLocation(ARKCraft.MODID + ":blueprint/" + ItemBlueprint.getEngram(stack).getName(), "inventory");
 			}
 		});
 

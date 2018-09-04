@@ -54,10 +54,6 @@ public class ARKCraft {
 		return modContainer.getVersion();
 	}
 
-	public static String modid() {
-		return MODID;
-	}
-
 	public static String name() {
 		return modContainer.getName();
 	}

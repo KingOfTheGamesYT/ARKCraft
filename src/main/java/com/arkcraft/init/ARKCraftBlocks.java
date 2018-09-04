@@ -1,7 +1,7 @@
 package com.arkcraft.init;
 
 import com.arkcraft.ARKCraft;
-import com.arkcraft.common.block.ARKCraftBerryBush;
+import com.arkcraft.common.block.BlockBerryBush;
 import com.arkcraft.common.block.BlockGreenScreen;
 import com.arkcraft.common.block.BlockLight;
 import com.arkcraft.common.block.energy.BlockCable;
@@ -47,7 +47,7 @@ import com.arkcraft.common.tileentity.energy.TileEntityElectricOutlet;
 public class ARKCraftBlocks
 {
 	public static BlockLight blockLight;
-	public static ARKCraftBerryBush berryBush;
+	public static BlockBerryBush berryBush;
 	public static BlockCompostBin compostBin;
 	public static BlockSmithy smithy;
 	public static BlockMortarAndPestle mortarAndPestle;
@@ -78,8 +78,8 @@ public class ARKCraftBlocks
 		InitializationManager init = InitializationManager.instance();
 
 		// Misc
-		blockLight = init.registerBlock("block_light", new BlockLight());
-		berryBush = init.registerBlock("berry_bush", new ARKCraftBerryBush(0.4F));
+		blockLight = init.registerBlock("light", new BlockLight());
+		berryBush = init.registerBlock("berry_bush", new BlockBerryBush(0.4F));
 		greenScreen = init.registerBlock("green_screen", new BlockGreenScreen());
 
 		// Containers
