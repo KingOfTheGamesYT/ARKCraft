@@ -32,12 +32,12 @@ import java.util.Random;
 public class BlockBerryBush extends BlockBush implements IExperienceSource {
 	public static final PropertyInteger HARVEST_COUNT = PropertyInteger.create("harvest", 0, 3);
 
-	public BlockBerryBush(float hardness) {
+	public BlockBerryBush() {
 		super();
 		this.setDefaultState(this.blockState.getBaseState().withProperty(HARVEST_COUNT, 0));
 		this.setSoundType(SoundType.GROUND);
 		this.setTickRandomly(true);
-		this.setHardness(hardness);
+		this.setHardness(0.4F);
 		this.setCreativeTab(ARKCraft.tabARK);
 		this.setBlockUnbreakable();
 	}

@@ -58,7 +58,7 @@ public class ARKCraftBlocks {
 
 		// Misc
 		blockLight = init.registerBlock("light", new BlockLight());
-		berryBush = init.registerBlock("berry_bush", new BlockBerryBush(0.4F));
+		berryBush = init.registerBlock("berry_bush", new BlockBerryBush());
 		greenScreen = init.registerBlock("green_screen", new BlockGreenScreen());
 
 		// Containers

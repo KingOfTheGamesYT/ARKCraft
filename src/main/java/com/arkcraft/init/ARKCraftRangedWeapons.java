@@ -1,32 +1,15 @@
 package com.arkcraft.init;
 
+import com.arkcraft.ARKCraft;
 import com.arkcraft.common.config.ModuleItemBalance;
+import com.arkcraft.common.entity.projectile.*;
+import com.arkcraft.common.handlers.EntityHandler;
 import com.arkcraft.common.item.ammo.ItemArrow;
 import com.arkcraft.common.item.ammo.ItemProjectile;
 import com.arkcraft.common.item.attachments.AttachmentType;
 import com.arkcraft.common.item.attachments.ItemAttachment;
 import com.arkcraft.common.item.explosives.ItemRocketLauncher;
-import com.arkcraft.ARKCraft;
-import com.arkcraft.common.entity.projectile.EntityAdvancedBullet;
-import com.arkcraft.common.entity.projectile.EntityMetalArrow;
-import com.arkcraft.common.entity.projectile.EntityRocketPropelledGrenade;
-import com.arkcraft.common.entity.projectile.EntitySimpleBullet;
-import com.arkcraft.common.entity.projectile.EntitySimpleRifleAmmo;
-import com.arkcraft.common.entity.projectile.EntitySimpleShotgunAmmo;
-import com.arkcraft.common.entity.projectile.EntitySpear;
-import com.arkcraft.common.entity.projectile.EntityStone;
-import com.arkcraft.common.entity.projectile.EntityStoneArrow;
-import com.arkcraft.common.entity.projectile.EntityTranqArrow;
-import com.arkcraft.common.entity.projectile.EntityTranquilizer;
-import com.arkcraft.common.handlers.EntityHandler;
-import com.arkcraft.common.item.ranged.ItemARKBow;
-import com.arkcraft.common.item.ranged.ItemFabricatedPistol;
-import com.arkcraft.common.item.ranged.ItemLongneckRifle;
-import com.arkcraft.common.item.ranged.ItemRangedWeapon;
-import com.arkcraft.common.item.ranged.ItemShotgun;
-import com.arkcraft.common.item.ranged.ItemSimplePistol;
-import com.arkcraft.common.item.ranged.ItemSlingshot;
-
+import com.arkcraft.common.item.ranged.*;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraftforge.common.util.EnumHelper;
 
@@ -79,7 +62,7 @@ public class ARKCraftRangedWeapons
 
 	private static ItemAttachment addItemAttachment(String name, AttachmentType type)
 	{
-		return InitializationManager.instance().registerItem(name, new ItemAttachment(name, type));
+		return InitializationManager.instance().registerItem(name, new ItemAttachment(type));
 	}
 
 	private static void registerWeaponEntities()

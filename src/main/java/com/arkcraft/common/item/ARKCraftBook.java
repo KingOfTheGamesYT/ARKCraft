@@ -22,9 +22,8 @@ import java.util.List;
 
 public class ARKCraftBook extends Item {
 
-	public ARKCraftBook(String name) {
+	public ARKCraftBook() {
 		super();
-		this.setTranslationKey(name);
 		this.setCreativeTab(ARKCraft.tabARK);
 		this.maxStackSize = 1;
 	}

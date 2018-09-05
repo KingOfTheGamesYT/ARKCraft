@@ -5,18 +5,15 @@ import com.arkcraft.common.item.ARKCraftItem;
 /**
  * @author Lewis_McReu
  */
-public class ItemAttachment extends ARKCraftItem
-{
+public class ItemAttachment extends ARKCraftItem {
 	private final AttachmentType type;
 
-	public ItemAttachment(String name, AttachmentType type)
-	{
-		super(name);
+	public ItemAttachment(AttachmentType type) {
+		super();
 		this.type = type;
 	}
 
-	public AttachmentType getType()
-	{
+	public AttachmentType getType() {
 		return this.type;
 	}
 }

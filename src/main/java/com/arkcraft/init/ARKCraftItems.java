@@ -3,10 +3,16 @@ package com.arkcraft.init;
 import com.arkcraft.common.block.crafter.BlockCropPlot;
 import com.arkcraft.common.config.ModuleItemBalance;
 import com.arkcraft.common.engram.EngramManager;
+import com.arkcraft.common.item.*;
 import com.arkcraft.common.item.armor.ItemARKArmor;
 import com.arkcraft.common.item.melee.ItemPike;
 import com.arkcraft.common.item.melee.ItemSpear;
+import com.arkcraft.common.item.tool.*;
 import com.arkcraft.common.item.tools.ItemMetalSickle;
+import com.arkcraft.common.tileentity.crafter.TileEntityCropPlot.CropPlotType;
+import com.arkcraft.util.AbstractItemStack;
+import com.arkcraft.util.CollectionUtil;
+import com.google.common.collect.Lists;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -14,30 +20,7 @@ import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-
 import net.minecraftforge.common.util.EnumHelper;
-
-import com.arkcraft.common.item.ARKCraftBook;
-import com.arkcraft.common.item.ARKCraftFeces;
-import com.arkcraft.common.item.ARKCraftFood;
-import com.arkcraft.common.item.ARKCraftItem;
-import com.arkcraft.common.item.ARKCraftSeed;
-import com.arkcraft.common.item.ItemBerry;
-import com.arkcraft.common.item.ItemBlueprint;
-import com.arkcraft.common.item.ItemFertilizer;
-import com.arkcraft.common.item.ItemFuel;
-import com.arkcraft.common.item.ItemLeakingWaterContainer;
-import com.arkcraft.common.item.ItemWaterContainer;
-import com.arkcraft.common.item.tool.ItemHatchetMetal;
-import com.arkcraft.common.item.tool.ItemHatchetStone;
-import com.arkcraft.common.item.tool.ItemPickMetal;
-import com.arkcraft.common.item.tool.ItemPickStone;
-import com.arkcraft.common.item.tool.ItemToolBase;
-import com.arkcraft.common.tileentity.crafter.TileEntityCropPlot.CropPlotType;
-import com.arkcraft.util.AbstractItemStack;
-import com.arkcraft.util.CollectionUtil;
-
-import com.google.common.collect.Lists;
 
 public class ARKCraftItems
 {
@@ -208,22 +191,22 @@ public class ARKCraftItems
 		// fertilizer
 		fertilizer = init.registerItem("fertilizer", new ItemFertilizer(54000));
 
-		info_book = init.registerItem("info_book", new ARKCraftBook("info_book"));
+		info_book = init.registerItem("info_book", new ARKCraftBook());
 		tabItem = init.registerItem("tabItem", new Item());
 
 		// Effectiveness register
 		ItemToolBase.registerEffectiveBlocks(Blocks.LOG, Blocks.LOG2, ARKCraftBlocks.rockResource,
 				ARKCraftBlocks.oilResource, ARKCraftBlocks.metalResource, ARKCraftBlocks.obsidianResource,
 				ARKCraftBlocks.crystalResource);
-		ItemToolBase.registerBlockDrops(Blocks.LOG, Lists.newArrayList(new AbstractItemStack[] { new AbstractItemStack(
-				wood, 2), new AbstractItemStack(thatch, 2) }));
-		ItemToolBase.registerBlockDrops(Blocks.LOG2, Lists.newArrayList(new AbstractItemStack[] { new AbstractItemStack(
-				wood, 2), new AbstractItemStack(thatch, 2) }));
+		ItemToolBase.registerBlockDrops(Blocks.LOG, Lists.newArrayList(new AbstractItemStack(
+				wood, 2), new AbstractItemStack(thatch, 2)));
+		ItemToolBase.registerBlockDrops(Blocks.LOG2, Lists.newArrayList(new AbstractItemStack(
+				wood, 2), new AbstractItemStack(thatch, 2)));
 	}
 
 	private static ItemFuel addFuel(String name)
 	{
-		return InitializationManager.instance().registerItem(name, new ItemFuel(name));
+		return InitializationManager.instance().registerItem(name, new ItemFuel());
 	}
 
 	public static void initBlueprints()
