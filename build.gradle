@@ -1,5 +1,5 @@
 
-/*
+
 // For those who want the bleeding edge
 buildscript {
     repositories {
@@ -10,16 +10,15 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.0-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
-*/
 
 // for people who want stable
-plugins {
-    id "net.minecraftforge.gradle.forge" version "2.0.2"
-}
+//plugins {
+//    id "net.minecraftforge.gradle.forge" version "2.0.2"
+//}
 
 apply plugin: 'java'
 
