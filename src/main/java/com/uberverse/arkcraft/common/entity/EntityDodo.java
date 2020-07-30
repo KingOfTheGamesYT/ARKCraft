@@ -31,7 +31,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class EntityDodo extends EntityTameable
+public abstract class EntityDodo extends EntityTameable
 {
 	public InventoryDino invDodo;
 	private boolean isChested = false;
@@ -336,11 +336,7 @@ public class EntityDodo extends EntityTameable
 		return false;
 	}
 
-	@Override
-	public EntityDodo createChild(EntityAgeable ageable)
-	{
-		return new EntityDodo(this.worldObj);
-	}
+
 
 	/**
 	 * Checks if the parameter is an item which this animal can be fed to breed
