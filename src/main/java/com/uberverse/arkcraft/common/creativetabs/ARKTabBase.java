@@ -8,7 +8,7 @@ public abstract class ARKTabBase extends CreativeTabs
 	public ARKTabBase(String label)
 	{
 		super(label);
-		setBackgroundImageName("arkcraft.png");
+		setBackgroundImageName("arkcraft_logo.png");
 	}
 
 	@Override
