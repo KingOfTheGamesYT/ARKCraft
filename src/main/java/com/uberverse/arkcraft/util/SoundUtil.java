@@ -18,13 +18,13 @@ public class SoundUtil {
 		if(s != null){
 			world.playSound(x, y, z, s, category, volume, pitch, distanceDelay);
 		}else{
-			/*ResourceLocation newL = new ResourceLocation(soundIn.getResourceDomain(), "sounds/" + soundIn.getResourcePath() + ".ogg");
+			ResourceLocation newL = new ResourceLocation(soundIn.getResourceDomain(), "sounds/" + soundIn.getResourcePath() + ".ogg");
 			s = SoundEvent.REGISTRY.getObject(newL);
 			if(s != null){
 				world.playSound(x, y, z, s, category, volume, pitch, distanceDelay);
-			}else{*/
+			}else{
 			System.err.println("Missing sound: " + soundIn.toString());
-			//}
+			}
 		}
 	}
 

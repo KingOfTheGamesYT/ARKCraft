@@ -220,11 +220,11 @@ public class TileEntityCompostBin extends TileEntityArkCraft implements IInvento
 		return itemStackRemoved;
 	}
 
-	/* @Override
+
     public ItemStack getStackInSlotOnClosing(int index)
     {
         return getStackInSlot(index);
-    }*/
+    }
 
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack)

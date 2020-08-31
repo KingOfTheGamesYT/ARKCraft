@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.uberverse.arkcraft.ARKCraft;
+import com.uberverse.arkcraft.common.network.MessageHover;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
@@ -34,7 +36,7 @@ public class ClientUtils
 		ticks++;
 		if (ticks > 30) {
 			ticks = 0;
-			// ARKCraft.modChannel.sendToServer(new MessageHoverReq(target));
+			 ARKCraft.modChannel.sendToServer(new MessageHover.MessageHoverReq(target));
 		}
 		List<String> list = new ArrayList<>();
 		info.addInformation(list);

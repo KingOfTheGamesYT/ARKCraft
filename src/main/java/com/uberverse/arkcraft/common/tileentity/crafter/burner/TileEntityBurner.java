@@ -130,11 +130,11 @@ public abstract class TileEntityBurner extends TileEntityArkCraft implements IIn
 		return new ItemStack(getStackInSlot(index).getItem(), count);
 	}
 
-	/*@Override
+
 	public ItemStack getStackInSlotOnClosing(int index)
 	{
 		return getStackInSlot(index);
-	}*/
+	}
 
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack)
