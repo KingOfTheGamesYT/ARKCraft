@@ -84,10 +84,10 @@ public class ItemSpear extends ItemSword
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn,
 			EnumHand hand) {
-		//if (playerIn.inventory.hasItemStack(itemStackIn)){
+		if (playerIn.inventory.hasItemStack(itemStackIn)){
 		playerIn.setActiveHand(hand);
-		//playerIn.setItemInUse(itemStackIn, getMaxItemUseDuration(itemStackIn));
-		//}
+		playerIn.setItemInUse(itemStackIn, getMaxItemUseDuration(itemStackIn));
+		}
 		return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
 	}
 }

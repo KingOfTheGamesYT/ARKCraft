@@ -51,7 +51,7 @@ public class ItemBlockCable extends ItemBlock {
 		if (stack.stackSize != 0 && playerIn.canPlayerEdit(pos, facing, stack))
 		{
 			int meta = stack.getMetadata();
-			/*if(te != null && te instanceof TileEntityCable){
+			if(te != null && te instanceof TileEntityCable){
 				TileEntityCable c = (TileEntityCable) te;
 				if(meta == 0){
 					if(!c.hasBase){
@@ -68,7 +68,7 @@ public class ItemBlockCable extends ItemBlock {
 						--stack.stackSize;
 					}
 				}
-			}else */if(worldIn.canBlockBePlaced(this.block, pos, false, facing, (Entity)null, stack)){
+			}else if(worldIn.canBlockBePlaced(this.block, pos, false, facing, (Entity)null, stack)){
 				int i = this.getMetadata(stack.getMetadata());
 				IBlockState iblockstate1 = this.block.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, i, playerIn, stack);
 

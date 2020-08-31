@@ -1,5 +1,6 @@
 package com.uberverse.arkcraft.common.item.ranged;
 
+import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.config.ModuleItemBalance;
 import com.uberverse.arkcraft.common.entity.projectile.EntityProjectile;
 import com.uberverse.arkcraft.common.item.attachments.NonSupporting;
@@ -22,18 +23,18 @@ public class ItemShotgun extends ItemRangedWeapon implements NonSupporting
 		return (int) (ModuleItemBalance.WEAPONS.SHOTGUN_RELOAD * 20.0);
 	}
 
-	/*
-	 * @Override public void effectReloadDone(ItemStack stack, World world,
-	 * EntityPlayer player) { world.playSoundAtEntity(player,
-	 * "random.door_close", 0.8F, 1.0F / (this.getItemRand() .nextFloat() * 0.2F
-	 * + 0.0F)); }
-	 */
-	/*
-	 * @Override public void soundCharge(ItemStack stack, World world,
-	 * EntityPlayer player) { world.playSoundAtEntity(player, ARKCraft.MODID +
-	 * ":" + "shotgun_reload", 0.7F, 0.9F / (getItemRand().nextFloat() * 0.2F +
-	 * 0.0F)); }
-	 */
+
+	  @Override public void effectReloadDone(ItemStack stack, World world,
+	 EntityPlayer player) { world.playSoundAtEntity(player,
+	  "random.door_close", 0.8F, 1.0F / (this.getItemRand() .nextFloat() * 0.2F
+	  + 0.0F)); }
+
+
+	 @Override public void soundCharge(ItemStack stack, World world,
+	  EntityPlayer player) { world.playSoundAtEntity(player, ARKCraft.MODID +
+	  ":" + "shotgun_reload", 0.7F, 0.9F / (getItemRand().nextFloat() * 0.2F +
+	  0.0F)); }
+
 
 	@Override
 	public void fire(ItemStack stack, World world, EntityPlayer player, int timeLeft)

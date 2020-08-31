@@ -6,6 +6,11 @@ import com.uberverse.arkcraft.common.item.attachments.HoloScopeable;
 import com.uberverse.arkcraft.common.item.attachments.Laserable;
 import com.uberverse.arkcraft.common.item.attachments.Scopeable;
 import com.uberverse.arkcraft.common.item.attachments.Silenceable;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 
 public class ItemFabricatedPistol extends ItemRangedWeapon implements Silenceable, Laserable, Scopeable, HoloScopeable,
 Flashable
@@ -22,7 +27,7 @@ Flashable
 		return (int) (ModuleItemBalance.WEAPONS.FABRICATED_PISTOL_RELOAD * 20.0);
 	}
 
-	/*
+	*
 	@Override
 	public void effectPlayer(ItemStack itemstack, EntityPlayer entityplayer, World world)
 	{
@@ -33,7 +38,7 @@ Flashable
 				* 3.141593F) * f;
 		entityplayer.rotationPitch -= entityplayer.isSneaking() ? 2.5F : 5F;
 		entityplayer.addVelocity(d, 0, d1);
-		//	long i = entityplayer.getServer().getCurrentTimeMillis();
+			long i = entityplayer.getServer().getCurrentTimeMillis();
 
 	}
 	static int i = 0;
@@ -42,7 +47,7 @@ Flashable
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
-		//System.out.println(i);
+		System.out.println(i);
 		if (entityIn instanceof EntityPlayer)
 		{
 			if(wasfired())
@@ -62,5 +67,5 @@ Flashable
 				}
 			}
 		} 
-	}*/
+	}
 }
