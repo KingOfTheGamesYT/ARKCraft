@@ -52,8 +52,8 @@ public class ItemCompostBin extends ItemBlockARK
 			}
 			int i = MathHelper.floor(playerIn.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 			EnumFacing enumfacing1 = EnumFacing.getHorizontal(i);
-			// BlockPos blockpos1 = pos.offset(enumfacing1); // like a bed,
-			// placed vertically
+			 
+			 // like a bed,placed vertically
 			BlockPos blockpos1 = pos.offset(enumfacing1.rotateYCCW());
 			boolean flag1 = block.isReplaceable(worldIn, blockpos1);
 			boolean flag2 = worldIn.isAirBlock(pos) || flag;

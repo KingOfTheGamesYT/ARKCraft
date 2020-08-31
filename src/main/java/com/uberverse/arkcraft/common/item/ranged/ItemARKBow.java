@@ -1,6 +1,6 @@
 package com.uberverse.arkcraft.common.item.ranged;
 
-import java.util.List;
+
 
 import javax.annotation.Nullable;
 
@@ -8,21 +8,21 @@ import com.uberverse.arkcraft.ARKCraft;
 import com.uberverse.arkcraft.common.entity.projectile.EntityArkArrow;
 import com.uberverse.arkcraft.common.item.ammo.ItemArrow;
 import com.uberverse.arkcraft.init.ARKCraftRangedWeapons;
-import com.uberverse.arkcraft.util.I18n;
 
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
+
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+
 import net.minecraft.stats.StatList;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;

@@ -6,10 +6,7 @@ import com.uberverse.arkcraft.common.item.attachments.Laserable;
 import com.uberverse.arkcraft.common.item.attachments.Scopeable;
 import com.uberverse.arkcraft.common.item.attachments.Silenceable;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+
 
 public class ItemLongneckRifle extends ItemRangedWeapon implements Scopeable, Silenceable, Laserable, Flashable
 {
