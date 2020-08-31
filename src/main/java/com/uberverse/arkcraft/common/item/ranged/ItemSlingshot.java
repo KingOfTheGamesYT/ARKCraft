@@ -1,5 +1,6 @@
 package com.uberverse.arkcraft.common.item.ranged;
 
+import com.uberverse.arkcraft.init.ARKCraftItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
@@ -41,13 +42,13 @@ public class ItemSlingshot extends Item implements IMeshedItem
 				worldIn.spawnEntity(new EntityStone(worldIn, playerIn));
 			}
 		}
-		/*
-		 * else if(p.capabilities.isCreativeMode ||
-		 * p.inventory.consumeInventoryItem(ARKCraftItems.explosive_ball)) {
-		 * setLastUseTime(stack, w.getTotalWorldTime()); w.playSoundAtEntity(p,
-		 * "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-		 * if(!w.isRemote) w.spawnEntityInWorld(new EntityExplosive(w,p)); }
-		 */
+		// TODO ADD EXPLOSIVE BALL
+		 // else if(p.capabilities.isCreativeMode ||
+		 // p.inventory.consumeInventoryItem(ARKCraftItems.explosive_ball)) {
+		 // setLastUseTime(stack, w.getTotalWorldTime()); w.playSoundAtEntity(p,
+		//  "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+		// if(!w.isRemote) w.spawnEntityInWorld(new EntityExplosive(w,p)); }
+
 
 		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
 	}
