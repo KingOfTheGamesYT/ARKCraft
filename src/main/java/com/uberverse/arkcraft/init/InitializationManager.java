@@ -140,33 +140,7 @@ public class InitializationManager
 				.convert(metas)).addVariants(variants));
 		return block;
 	}
-	/* No Longer needed in 1.10
-	public <E extends Block> E registerBlock(String name, E block, Class<? extends ItemBlock> itemClass,
-			Object[] itemCtorArgs)
-	{
-		return this.registerBlock(name, block, itemClass, itemCtorArgs, defaultMeta);
-	}
 
-	public <E extends Block> E registerBlock(String name, E block, Class<? extends ItemBlock> itemClass,
-			Object[] itemCtorArgs, String modelLocationPrefix)
-	{
-		return this.registerBlock(name, block, itemClass, itemCtorArgs, modelLocationPrefix, defaultMeta);
-	}
-
-	public <E extends Block> E registerBlock(String name, E block, Class<? extends ItemBlock> itemClass,
-			Object[] itemCtorArgs, int[] metas)
-	{
-		return this.registerBlock(name, block, itemClass, itemCtorArgs, "", metas);
-	}
-
-	public <E extends Block> E registerBlock(String name, E block, Class<? extends ItemBlock> itemClass,
-			Object[] itemCtorArgs, String modelLocationPrefix, int[] metas, String... variants)
-	{
-		block.setUnlocalizedName(name);
-		GameRegistry.registerBlock(block, itemClass, name, itemCtorArgs);
-		this.registerItem(name, get(block), modelLocationPrefix, metas, variants);
-		return block;
-	}*/
 
 	public class Registry
 	{

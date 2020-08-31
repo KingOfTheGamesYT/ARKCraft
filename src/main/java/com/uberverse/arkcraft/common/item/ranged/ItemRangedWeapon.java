@@ -7,6 +7,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+import com.uberverse.arkcraft.common.data.WeaponModAttributes;
+import com.uberverse.arkcraft.util.SoundUtil;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import org.lwjgl.input.Mouse;
 
 import com.uberverse.arkcraft.ARKCraft;
@@ -304,77 +309,21 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 				setFired(stack, entity, false);
 			}
 		}		
-	//	if(entity.getItemStackFromSlot(106))
+		if(entity.getItemStackFromSlot(106))
 		System.out.println(entity.getItemStackFromSlot(EntityEquipmentSlot.OFFHAND));
 		if(entity.getActiveHand() == EnumHand.MAIN_HAND)
 		{
-	//		setActiveHand(stack, "right_hand");
-		//	System.out.println("right_hand");
+			setActiveHand(stack, "right_hand");
+			System.out.println("right_hand");
 		}
 		else
 		{
-		//	setActiveHand(stack, "left_hand");
-		//	System.out.println("left_hand");
+			setActiveHand(stack, "left_hand");
+			System.out.println("left_hand");
 		}	 
 	}
 
-		/*
-		if (entityIn instanceof EntityPlayer) {
-			if (isSelected) {
-				InventoryAttachment inv = InventoryAttachment.create(stack);
-				if (inv != null && inv.isFlashPresent()) {
-					updateFlashlight(entityIn);
-				}
-				else if (inv != null && inv.isLaserPresent()) {
-					updateLaser(entityIn);
-				}
-			}
-			if(fired(stack) && entityIn instanceof EntityPlayer)
-			{
-				System.out.println(ticks);
-				afterFire(stack, worldIn, (EntityPlayer) entityIn);
-				ticks++;
-				if(ticks >= recoilDelay())
-				{
-					float f = entityIn.isSneaking() ? -0.01F : -0.02F;
-					double d = -MathHelper.sin((entityIn.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((0 / 180F)
-							* 3.141593F) * f;
-					double d1 = MathHelper.cos((entityIn.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((0 / 180F)
-							* 3.141593F) * f;
-					recoilDown((EntityPlayer)entityIn, recoil, recoilSneaking, shouldRecoil);
-					entityIn.addVelocity(d, 0, d1);
-					ticks = 0;
-					setFired(stack, (EntityPlayer) entityIn, false);
-				}
-				}
-			}	
-			else if (isReloading(stack)) {
-				resetReload(stack, (EntityPlayer) entityIn);
-			}
-			if(Mouse.getEventButton() == 0 && Mouse.getEventButtonState() && !Minecraft.getMinecraft().isGamePaused())
-			{
-				if(!worldIn.isRemote){
-				if(stack.getItem() instanceof ItemRangedWeapon)
-				{
-					if (canFire(stack, (EntityPlayer) entityIn))
-					{
-						if (this.nextShotMillis < System.currentTimeMillis())
-							System.out.println("Fire");
-						ARKCraft.modChannel.sendToServer(new GunFired());
-						//	fire(stack, worldIn, (EntityPlayer) entityIn, 0);
-							new ActionResult<>(EnumActionResult.SUCCESS, stack);
-				//		((EntityPlayer) entityIn).setItemInUse(stack, getMaxItemUseDuration(stack));
-					}
-					else {
-						// Can't reload; no ammo
-						if (!this.isReloading(stack)) {
-							soundEmpty(stack, worldIn, (EntityPlayer) entityIn);
-						}
-					}
-				}			
-			}			
-		}
-	} */
+
 	
 	public void recoilDown(EntityPlayer entityIn, float recoil, float recoilSneaking, boolean shouldRecoil)
 	{
@@ -475,7 +424,7 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 	{
 		
 		return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn); 		
-		/*
+
 		if (itemStackIn.stackSize <= 0 || playerIn.isHandActive()) { //== hand
 			return new ActionResult<>(EnumActionResult.PASS, itemStackIn);
 		}
@@ -486,7 +435,7 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 				// Start aiming weapon to fire
 				playerIn.setActiveHand(hand);
 			return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
-			//playerIn.setItemInUse(itemStackIn, getMaxItemUseDuration(itemStackIn));
+			playerIn.setItemInUse(itemStackIn, getMaxItemUseDuration(itemStackIn));
 		}
 		else {
 			// Can't reload; no ammo
@@ -494,7 +443,7 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 				soundEmpty(itemStackIn, worldIn, playerIn);
 			}
 		}
-		return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn); */
+		return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
 		
 	}
 
@@ -555,17 +504,7 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 		return findAvailableAmmo(player) != null;
 	}
 
-	/*
-	public ItemProjectile findAvailableAmmo(EntityPlayer player)
-	{
-		for (ItemProjectile projectile : projectiles) {
-			if (player.inventory.hasItem(projectile))
-				return projectile;
-		}
-		return null;
-	}*/
 
-	//On top is the old Method
 	public ItemProjectile findAvailableAmmo(EntityPlayer player)
 	{
 		for (ItemProjectile projectile : projectiles)
@@ -593,7 +532,7 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 		String type = getAmmoType(stack);
 		Item item = GameRegistry.findItem(ARKCraft.MODID, type);
 		int out = 0;
-		if (type != null) { // && inventory.hasItemStack(item)
+		if (type != null) {
 			for (ItemStack s : inventory.mainInventory) {
 				if (s != null && s.getItem().equals(item)) {
 					out += s.stackSize;
@@ -647,7 +586,7 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 
 	public void soundEmpty(ItemStack itemstack, World world, EntityPlayer entityplayer)
 	{
-		//     world.playSoundAtEntity(entityplayer, "random.click", 1.0F, 1.0F / 0.8F);
+
 		world.playSound(entityplayer, entityplayer.getPosition(), SoundEvents.UI_BUTTON_CLICK, SoundCategory.PLAYERS, 1.0F, 1.0F / 0.8F);
 	}
 
@@ -701,9 +640,8 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 		if (att != null && att.isSilencerPresent())
 			soundPath = soundPath + "_silenced";
 		//TODO New Sound Effect
-		//	world.playSoundEffect(x, y, z, SoundEvent.REGISTRY.getObject(new ResourceLocation(soundPath), 1.5F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F));
-		//world.playSound(entityplayer, entityplayer.getPosition(), SoundEvent.REGISTRY.getObject(new ResourceLocation(soundPath), SoundCategory.PLAYERS, 1.5F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F));
-		//SoundUtil.playSound(world, x, y, z, new ResourceLocation(soundPath), SoundCategory.PLAYERS, 1.5F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F), false);
+			world.playSound(x, y, z, SoundEvent.REGISTRY.getObject(new ResourceLocation(soundPath), 1.5F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F)));
+		SoundUtil.playSound(world, x, y, z, new ResourceLocation(soundPath), SoundCategory.PLAYERS, 1.5F, 1F / (this.getItemRand().nextFloat() * 0.4F + 0.7F), false);
 
 		float particleX = -MathHelper.sin(((yaw + 23) / 180F) * 3.141593F) * MathHelper.cos((pitch / 180F) * 3.141593F);
 		float particleY = -MathHelper.sin((pitch / 180F) * 3.141593F) - 0.1F;
@@ -726,7 +664,7 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 			}
 		}
 		afterFire(stack, world, player);
-	//	afterFire(stack, world, player);
+		afterFire(stack, world, player);
 	}
 	
 	public void fireNew(ItemStack stack, World world, EntityPlayer player)
@@ -738,7 +676,7 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 				applyProjectileEnchantments(p, stack);
 				if (p != null)
 					world.spawnEntity(p);
-			//	setFired(stack, player, true);
+				setFired(stack, player, true);
 			}
 			}
 		}
@@ -767,7 +705,7 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 		this.nextShotMillis = System.currentTimeMillis() + this.shotInterval;
 		stack.damageItem(damage, player);
 		postShootingEffects(stack, player, world);
-	//	setFired(stack, player, true);
+		setFired(stack, player, true);
 	}
 
 	protected EntityProjectile createProjectile(ItemStack stack, World world, EntityPlayer player)
@@ -815,9 +753,9 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 
 	public void effectReloadDone(ItemStack stack, World world, EntityPlayer player)
 	{
-		// player.swingItem();
+		 player.swingingHand();
 	}
-	/*
+
 	@Override
 	public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot equipmentSlot) {
 		Multimap<String, AttributeModifier> multimap = HashMultimap.create();
@@ -828,12 +766,12 @@ public abstract class ItemRangedWeapon extends ItemBow implements IMeshedItem
 	public void addItemAttributeModifiers(Multimap<String, AttributeModifier> multimap)
 	{
 		multimap.put(WeaponModAttributes.RELOAD_TIME.getName(), new AttributeModifier("Weapon reloadtime modifier", this.getReloadDuration(), 0));
-	} */
+	}
 	
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) 
 	{
-	//	tooltip.add("Reload time " + getre + "s")	; //TODO Reload time
+		tooltip.add("Reload time " + getReloadDuration() + "s")	; //TODO Reload time
 		tooltip.add("Damage " + this.getDamage());
 		tooltip.add("Range " + this.getRange() + " blockss");
 		tooltip.add("Recoil " + this.getRecoil());

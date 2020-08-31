@@ -13,16 +13,4 @@ public class ServerEventHandler
 		MinecraftForge.EVENT_BUS.register(s);
 	}
 
-	// // TODO remove when release
-	// @SubscribeEvent
-	// public void onClientConnected(ServerConnectionFromClientEvent event)
-	// {
-	// if (!ARKCraft.instance().isDebugger() && !event.isLocal
-	// && MinecraftServer.getServer().isDedicatedServer())
-	// {
-	// MinecraftServer.getServer().stopServer();
-	// event.handler.onDisconnect(new ChatComponentText(
-	// "Nazi Spock does not approve of your shenanigans."));
-	// }
-	// }
 }

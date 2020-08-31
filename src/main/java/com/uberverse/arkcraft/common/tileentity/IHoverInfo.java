@@ -15,8 +15,5 @@ public interface IHoverInfo
 {
 	@SideOnly(Side.CLIENT)
 	void addInformation(List<String> text);
-
-	// void writeToNBTPacket(NBTTagCompound tag);
-	//
-	// void readFromNBTPacket(NBTTagCompound tag);
+	
 }
