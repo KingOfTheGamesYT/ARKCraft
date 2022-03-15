@@ -3,8 +3,7 @@
 
 
 ARKCraft Survival Evolved is a mod that adds the features from ARK: Survival Evolved into minecraft.
-![Image of Logo](https://trello-attachments.s3.amazonaws.com/56a37420e3a0040bb7c24990/5bcd1557aeae9d88ac84aa4a/45539bcc62d0302a5efe633779f7f42e/UberArkCraft_Logo_Borderless.png)
-
+<img src="https://trello-attachments.s3.amazonaws.com/56a37420e3a0040bb7c24990/5bcd1557aeae9d88ac84aa4a/45539bcc62d0302a5efe633779f7f42e/UberArkCraft_Logo_Borderless.png" alt="LOGO" width="1000">
 
 
 
